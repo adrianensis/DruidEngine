@@ -1,0 +1,178 @@
+#ifndef VECTOR3_H_
+#define VECTOR3_H_
+
+#include <ostream>
+#include <cassert>
+#include "Aligned16.h"
+#include "MathUtils.h"
+
+namespace DE {
+
+class Vector3 : public Aligned16 {
+
+public:
+
+	//-------------------------------------------------------------------
+	// MEMBERS
+	//-------------------------------------------------------------------
+
+	float x, y, z;
+
+	//-------------------------------------------------------------------
+	// CONSTRUCTORS/DESTRUCTOR
+	//-------------------------------------------------------------------
+
+	Vector3();
+	Vector3(float x, float y, float z);
+	Vector3(const Vector3& other);
+	~Vector3();
+
+	//-------------------------------------------------------------------
+	// METHODS
+	//-------------------------------------------------------------------
+
+	Vector3& set(const Vector3& rhs);
+	Vector3& set(float x, float y, float z);
+	Vector3& add(const Vector3& rhs);
+	Vector3& sub(const Vector3& rhs);
+	Vector3& mul(const Vector3& rhs);
+	Vector3& div(const Vector3& rhs);
+	Vector3& add(const float rhs);
+	Vector3& sub(const float rhs);
+	Vector3& mul(const float rhs);
+	Vector3& div(const float rhs);
+
+	float len() const;
+	float sqrlen() const;
+	float max() const;
+	float min() const;
+	float dot(const Vector3& v) const;
+	Vector3& nor();
+	float dst(const Vector3& v) const;
+	float sqrdst(const Vector3& v) const;
+	bool eq(const Vector3& v, float e) const; // epsilon equal
+	bool eq(const Vector3& v) const; // equal
+	Vector3& cross(const Vector3& v); // only defined for 3D space
+	Vector3& lerp(const Vector3& target, float t);
+	Vector3& nlerp(const Vector3& target, float t);
+	Vector3& slerp(const Vector3& target, float t); // TODO: implement
+	float angle(const Vector3& v, const Vector3& n) const;
+	float angle(const Vector3& v) const;
+	Vector3& clamp(float maxLength);
+
+	//-------------------------------------------------------------------
+	// OPERATORS
+	//-------------------------------------------------------------------
+
+	/*
+	 * & -> it's a reference, not a full copy.
+	 * const Vector3& -> it's a constant reference.
+	 * operator=(...) const -> the method promises not to change *this. Non-member
+	 * functions can not have constant qualification.
+	 */
+
+	Vector3& operator=(const Vector3& rhs) {
+		// if (this == &rhs) return *this; // handle self assignment
+		//assignment operator
+		return this->set(rhs);
+	}
+
+	Vector3& operator+=(const Vector3& rhs) {
+		// can be parallelized with sse auto-vectorization
+		return this->add(rhs);
+	}
+
+	Vector3& operator-=(const Vector3& rhs) {
+		return this->sub(rhs);
+	}
+
+	Vector3& operator*=(const Vector3& rhs) {
+		return this->mul(rhs);
+	}
+
+	Vector3& operator/=(const Vector3& rhs) {
+		return this->div(rhs);
+	}
+
+	Vector3& operator+=(const float rhs) {
+		return this->add(rhs);
+	}
+
+	Vector3& operator-=(const float rhs) {
+		return this->sub(rhs);
+	}
+
+	Vector3& operator*=(const float rhs) {
+		return this->mul(rhs);
+	}
+
+	Vector3& operator/=(const float rhs) {
+		return this->div(rhs);
+	}
+
+	bool operator==(const Vector3& rhs) const {
+		return this->eq(rhs);
+	}
+
+	bool operator!=(const Vector3& rhs) {
+		return !((*this) == rhs);
+	}
+
+	Vector3 operator+(const Vector3& rhs) const {
+		return Vector3(*this) += rhs;
+	}
+
+	Vector3 operator-(const Vector3& rhs) const {
+		return Vector3(*this) -= rhs;
+	}
+
+	Vector3 operator-() const {
+		return Vector3(*this) *= -1;
+	}
+
+	Vector3 operator*(const Vector3& rhs) const {
+		return Vector3(*this) *= rhs;
+	}
+
+	Vector3 operator/(const Vector3& rhs) const {
+		return Vector3(*this) /= rhs;
+	}
+
+	Vector3 operator+(const float rhs) const {
+		return Vector3(*this) += rhs;
+	}
+
+	Vector3 operator-(const float rhs) const {
+		return Vector3(*this) -= rhs;
+	}
+
+	Vector3 operator*(const float rhs) const {
+		return Vector3(*this) *= rhs;
+	}
+
+	Vector3 operator/(const float rhs) const {
+		return Vector3(*this) /= rhs;
+	}
+
+	// can be used for assignment
+	float& operator[](const size_t i) {
+		assert(i >= 0 && i < 3);
+
+		return *(&x+i);
+	}
+
+	// read only
+	float operator[](const size_t i) const {
+		assert(i >= 0 && i < 3);
+		return *(&x+i);
+	}
+
+	friend std::ostream& operator<<(std::ostream& out, const Vector3& v) {
+		out << "(" << v.x << ", " << v.y << ", " << v.z  << ")";
+		return out;
+	}
+};
+
+} /* namespace DE */
+
+#endif /* VECTOR3_H_ */
