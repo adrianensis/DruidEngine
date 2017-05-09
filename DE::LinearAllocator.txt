@@ -1,0 +1,27 @@
+
+
+
+===========    DE::LinearAllocator    ===========
+
+i = 0x21880c0
+
+*i = 500
+
+[ OK ]	sizeInt
+	result: 4
+	expected: 4
+
+j = 0x21880d0
+
+*j = 500
+
+[ OK ]	sizeInt+32+16
+	result: 52
+	expected: 52
+
+[ OK ]	0
+	result: 0
+	expected: 0
+
+
+0.001043 3 0

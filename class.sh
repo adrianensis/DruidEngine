@@ -21,14 +21,14 @@ blank () {
 
 new $headerName
 
-line "#ifndef INCLUDE_"$classNameUppercase"_H_" $headerName
-line "#define INCLUDE_"$classNameUppercase"_H_" $headerName
+line "#ifndef "$classNameUppercase"_H_" $headerName
+line "#define "$classNameUppercase"_H_" $headerName
 blank $headerName
 
 line "namespace DE {" $headerName
 blank $headerName
 
-line "class "$className" : {" $headerName
+line "class "$className" {" $headerName
 blank $headerName
 
 line "private:" $headerName
@@ -43,7 +43,7 @@ blank $headerName
 line "} /* namespace DE */" $headerName
 blank $headerName
 
-line "#endif /* INCLUDE_"$classNameUppercase"_H_ */" $headerName
+line "#endif /* "$classNameUppercase"_H_ */" $headerName
 
 # SOURCE
 

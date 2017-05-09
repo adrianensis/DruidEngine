@@ -1,5 +1,5 @@
-#ifndef INCLUDE_TEST_H_
-#define INCLUDE_TEST_H_
+#ifndef TEST_H_
+#define TEST_H_
 
 #include <iostream>
 #include <iomanip>
@@ -28,4 +28,4 @@
 #define summary() output << std::endl << total.count()*1000.0 << " " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; outputFile << output.str(); std::cout << output.str(); outputFile.close()
 
 
-#endif /* INCLUDE_TEST_H_ */
+#endif /* TEST_H_ */

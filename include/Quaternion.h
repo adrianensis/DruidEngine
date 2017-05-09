@@ -2,7 +2,7 @@
 #define QUATERNION_H_
 
 #include <ostream>
-#include <cassert>
+#include "Assert.h"
 #include "Aligned16.h"
 #include "MathUtils.h"
 #include "Vector3.h"
@@ -154,14 +154,14 @@ public:
 
 	// can be used for assignment
 	float& operator[](const size_t i) {
-		assert(i >= 0 && i < 4);
+		assert(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];
 	}
 
 	// read only
 	float operator[](const size_t i) const {
-		assert(i >= 0 && i < 4);
+		assert(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];
 	}

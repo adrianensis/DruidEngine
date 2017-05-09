@@ -1,5 +1,5 @@
-#ifndef INCLUDE_DRUID_H_
-#define INCLUDE_DRUID_H_
+#ifndef DRUID_H_
+#define DRUID_H_
 
 #include "Test.h"
 #include "MathUtils.h"
@@ -7,7 +7,10 @@
 #include "Vector3.h"
 #include "Vector2.h"
 #include "Quaternion.h"
+#include "Allocator.h"
+#include "LinearAllocator.h"
+#include "StackAllocator.h"
 
 
 
-#endif /* INCLUDE_DRUID_H_ */
+#endif /* DRUID_H_ */

@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <algorithm>    // std::max
-#include <cassert>
+#include "Assert.h"
 #include "MathUtils.h"
 
 namespace DE {
@@ -62,10 +62,10 @@ Vector4& Vector4::mul(const Vector4& rhs) {
 }
 
 Vector4& Vector4::div(const Vector4& rhs) {
-	assert(rhs.x != 0);
-	assert(rhs.y != 0);
-	assert(rhs.z != 0);
-	assert(rhs.w != 0);
+	assert(rhs.x != 0, "Division by zero.");
+	assert(rhs.y != 0, "Division by zero.");
+	assert(rhs.z != 0, "Division by zero.");
+	assert(rhs.w != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -98,7 +98,7 @@ Vector4& Vector4::mul(const float rhs) {
 }
 
 Vector4& Vector4::div(const float rhs) {
-	assert(rhs != 0);
+	assert(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -140,7 +140,7 @@ float Vector4::min() const {
 Vector4& Vector4::nor() {
 	float len = this->len();
 
-	assert(len > 0);
+	assert(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

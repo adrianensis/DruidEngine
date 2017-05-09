@@ -7,7 +7,7 @@ then
 fi
 
 
-sh clean.sh
+# sh clean.sh
 
 mkdir build
 cd build

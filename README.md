@@ -2,7 +2,7 @@
 
 Open a terminal and run the command: `./build.sh`
 
-# Build test
+# Run tests
 
 Open a terminal and run the command: `./test.sh`
 

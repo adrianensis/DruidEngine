@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <algorithm>    // std::max
-#include <cassert>
+#include "Assert.h"
 
 namespace DE {
 
@@ -53,8 +53,8 @@ Vector2& Vector2::mul(const Vector2& rhs) {
 }
 
 Vector2& Vector2::div(const Vector2& rhs) {
-	assert(rhs.x != 0);
-	assert(rhs.y != 0);
+	assert(rhs.x != 0, "Division by zero.");
+	assert(rhs.y != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	return *this;
@@ -79,7 +79,7 @@ Vector2& Vector2::mul(const float rhs) {
 }
 
 Vector2& Vector2::div(const float rhs) {
-	assert(rhs != 0);
+	assert(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	return *this;
@@ -113,7 +113,7 @@ float Vector2::min() const {
 Vector2& Vector2::nor() {
 	float len = this->len();
 
-	assert(len > 0);
+	assert(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

@@ -46,6 +46,7 @@ int main() {
 	expected(DE::Vector2(a).sub(1), DE::Vector2(0-1,1-1));
 	expected(DE::Vector2(a).mul(2), DE::Vector2(0*2,1*2));
 	expected(DE::Vector2(a).div(2), DE::Vector2(0/2.0f,1/2.0f));
+	// expected(DE::Vector2(a).div(0), DE::Vector2(0/2.0f,1/2.0f));
 
 	show(c.div(2));
 	expected(c, DE::Vector2(1/2.0f,2/2.0f));

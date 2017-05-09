@@ -1,5 +1,5 @@
-#ifndef INCLUDE_ALIGNED16_H_
-#define INCLUDE_ALIGNED16_H_
+#ifndef ALIGNED16_H_
+#define ALIGNED16_H_
 
 // for sse auto-vectorization
 
@@ -11,4 +11,4 @@ class __attribute__((aligned (16))) Aligned16 {
 
 } /* namespace DE */
 
-#endif /* INCLUDE_ALIGNED16_H_ */
+#endif /* ALIGNED16_H_ */

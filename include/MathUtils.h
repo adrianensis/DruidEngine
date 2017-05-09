@@ -1,5 +1,5 @@
-#ifndef INCLUDE_MATHUTILS_H_
-#define INCLUDE_MATHUTILS_H_
+#ifndef MATHUTILS_H_
+#define MATHUTILS_H_
 
 #include <cmath>
 
@@ -19,4 +19,4 @@ float clamp(float n, float lower, float upper);
 
 }
 
-#endif /* INCLUDE_MATHUTILS_H_ */
+#endif /* MATHUTILS_H_ */

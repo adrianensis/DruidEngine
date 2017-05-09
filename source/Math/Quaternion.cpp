@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <algorithm>    // std::max
-#include <cassert>
+#include "Assert.h"
 
 namespace DE {
 
@@ -137,7 +137,7 @@ Quaternion& Quaternion::mul(const float rhs) {
 }
 
 Quaternion& Quaternion::div(const float rhs) {
-	assert(rhs != 0);
+	assert(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
 	return *this;
@@ -164,7 +164,7 @@ float Quaternion::len() const {
 Quaternion& Quaternion::nor() {
 	float len = this->len();
 
-	assert(len > 0);
+	assert(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;
