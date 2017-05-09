@@ -3,10 +3,11 @@
 #include <cmath>
 #include <algorithm>    // std::max
 #include "Assert.h"
+#include "AtomicTypes.h"
 
 namespace DE {
 
-Vector2::Vector2(float x, float y):x(x),y(y){
+Vector2::Vector2(f32 x, f32 y):x(x),y(y){
 }
 
 Vector2::Vector2():x(0.0f),y(0.0f){
@@ -18,7 +19,7 @@ Vector2::~Vector2(){
 Vector2::Vector2(const Vector2& other):x(other.x),y(other.y){
 }
 
-Vector2& Vector2::set(float x, float y) {
+Vector2& Vector2::set(f32 x, f32 y) {
 	if (this->x == x && this->y == y) return *this; // handle self assignment
 	//assignment operator
 	this->x = x;
@@ -60,58 +61,58 @@ Vector2& Vector2::div(const Vector2& rhs) {
 	return *this;
 }
 
-Vector2& Vector2::add(const float rhs) {
+Vector2& Vector2::add(const f32 rhs) {
 	x = x + rhs;
 	y = y + rhs;
 	return *this;
 }
 
-Vector2& Vector2::sub(const float rhs) {
+Vector2& Vector2::sub(const f32 rhs) {
 	x = x - rhs;
 	y = y - rhs;
 	return *this;
 }
 
-Vector2& Vector2::mul(const float rhs) {
+Vector2& Vector2::mul(const f32 rhs) {
 	x = x * rhs;
 	y = y * rhs;
 	return *this;
 }
 
-Vector2& Vector2::div(const float rhs) {
+Vector2& Vector2::div(const f32 rhs) {
 	assert(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	return *this;
 }
 
-float Vector2::dot(const Vector2& v) const {
+f32 Vector2::dot(const Vector2& v) const {
 	return this->x*v.x + this->y*v.y;
 }
 
-float Vector2::sqrlen() const {
+f32 Vector2::sqrlen() const {
 	return this->dot(*this);
 }
 
-float Vector2::sqrdst(const Vector2& v) const {
+f32 Vector2::sqrdst(const Vector2& v) const {
 	Vector2 sub = DE::Vector2(v)-(*this);
 	return sub.dot(sub);
 }
 
-float Vector2::len() const {
+f32 Vector2::len() const {
 	return sqrtf(this->sqrlen());
 }
 
-float Vector2::max() const {
+f32 Vector2::max() const {
 	return std::max(x,y);
 }
 
-float Vector2::min() const {
+f32 Vector2::min() const {
 	return std::min(x,y);
 }
 
 Vector2& Vector2::nor() {
-	float len = this->len();
+	f32 len = this->len();
 
 	assert(len > 0, "Length is zero.");
 	this->div(len);
@@ -119,7 +120,7 @@ Vector2& Vector2::nor() {
 	return *this;
 }
 
-float Vector2::dst(const Vector2& v) const {
+f32 Vector2::dst(const Vector2& v) const {
 	return sqrtf(this->sqrdst(v));
 }
 
@@ -127,22 +128,22 @@ bool Vector2::eq(const Vector2& v) const {
 	return eqf(this->x, v.x) && eqf(this->y, v.y);
 }
 
-bool Vector2::eq(const Vector2& v, float e) const {
+bool Vector2::eq(const Vector2& v, f32 e) const {
 	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e);
 }
 
-Vector2& Vector2::lerp(const Vector2& target, float t) {
+Vector2& Vector2::lerp(const Vector2& target, f32 t) {
 	//start + percent*(end - start)
 	(*this) += (Vector2(target)-(*this))*t;
 	return *this;
 }
 
-float Vector2::angle(const Vector2& v) const {
-	float angle = atan2f(v.y, v.x) - atan2f(this->y, this->x);
+f32 Vector2::angle(const Vector2& v) const {
+	f32 angle = atan2f(v.y, v.x) - atan2f(this->y, this->x);
 	return angle < 0 ? angle += 2 * M_PI : angle;
 }
 
-Vector2& Vector2::clamp(float maxLength) {
+Vector2& Vector2::clamp(f32 maxLength) {
 	if(this->sqrlen() > maxLength*maxLength){
 		this->nor();
 		this->mul(maxLength);

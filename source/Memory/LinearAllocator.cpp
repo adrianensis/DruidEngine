@@ -1,13 +1,7 @@
 #include "LinearAllocator.h"
 #include "Assert.h"
+#include "AtomicTypes.h"
 #include <cstdlib> // malloc, free
-#include <cstdint> // std::uintptr_t
-#include <iostream>
-
-using st = std::size_t;
-using u8 = std::uint8_t;
-using ptr = std::uintptr_t;
-using ptrdiff = std::ptrdiff_t;
 
 namespace DE {
 
@@ -20,7 +14,7 @@ LinearAllocator::~LinearAllocator(){
   mStart = nullptr;
 }
 
-void LinearAllocator::init(const std::size_t size){
+void LinearAllocator::init(const u32 size){
 
   if(mStart != nullptr)
     std::free(mStart);
@@ -30,50 +24,51 @@ void LinearAllocator::init(const std::size_t size){
   this->reset();
 }
 
-void* LinearAllocator::allocate(const std::size_t size){
+void* LinearAllocator::allocate(const u32 size){
   Allocator::checkSpace(size);
 
-  const ptr currentAddress = (std::size_t)mStart + mOffset;
+  const ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset;
   mOffset += size;
   mAllocated = mOffset;
   return (void*) currentAddress;
 }
 
-void* LinearAllocator::allocateAligned(const std::size_t size, const std::size_t alignment){
+void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
 
 /*
 
-Example:
+  Example:
 
-16-byte alignment. Each '[ ]' is a byte.
+  16-byte alignment. Each '[ ]' is a byte.
 
--------------------------------------------
+  -------------------------------------------
 
-... greater addresses
-↑
+  ... higher addresses
+  ↑
 
-0x21AC [ ] [ ] [ ] [ ]
-0x21A8 [ ] [ ] [ ] [ ]
-0x21A4 [ ] [ ] [ ] [ ]
-0x21A0 [b] [ ] [ ] [ ]
-0x219C [a] [x] [x] [4]
+  0x21AC [ ] [ ] [ ] [ ]
+  0x21A8 [ ] [ ] [ ] [ ]
+  0x21A4 [ ] [ ] [ ] [ ]
+  0x21A0 [b] [ ] [ ] [ ]
+  0x219C [a] [x] [x] [4]
 
-↓
-... lower addresses
+  ↓
+  ... lower addresses
 
--------------------------------------------
+  -------------------------------------------
 
-a -> unaligned address
-b -> 16-aligned address
-4 -> this is the preceding byte to the aligned address (b)
-x -> just data
+  a -> unaligned address
+  b -> 16-aligned address
+  4 -> this is the preceding byte to the aligned address (b)
+  x -> just data
 
--------------------------------------------
+  -------------------------------------------
 
-Other version:
+  Other version:
 
-[a  4bxxxxxxxxx|                  ]
-               size of the chunk of memory
+  [a  4bxxxxxxxxx|                  ]
+                 size of the chunk of memory
+
 */
 
   Allocator::checkSpace(size);
@@ -88,31 +83,21 @@ Other version:
 
   // Game Engine Architecture 2ed, page 246.
 
-  st expandedSize = size + alignment;
+  u32 expandedSize = size + alignment;
 
   // Allocate unaligned block & convert address to uintptr_t.
   const ptr address = reinterpret_cast<ptr>(allocate(expandedSize));
-
-  std::cout << "--------------------------------" << std::endl;
-  std::cout << "alignment " << alignment << std::endl;
-  std::cout << "address " << address << std::endl;
 
   // Calculate the adjustment by masking off the lower bits
   // of the address, to determine how "misaligned" it is.
 
   // This mask can be calculated in this way, because of power of 2.
-  st mask = alignment - 1; // 4 = 100 -> 4 - 1 = 3 = 011
-
-  std::cout << "st mask = alignment - 1; " << mask << std::endl;
+  u32 mask = alignment - 1; // 4 = 100 -> 4 - 1 = 3 = 011
 
   ptr misalignment = address & mask;
   ptrdiff adjustment = alignment - misalignment;
 
   ptr alignedAddress = address + adjustment;
-
-  std::cout << "ptr misalignment = address & mask; " << misalignment << std::endl;
-  std::cout << "ptrdiff adjustment = alignment - misalignment; " << adjustment << std::endl;
-  std::cout << "ptr alignedAddress = address + adjustment; " << alignedAddress << std::endl;
 
   // Store the adjustment in the byte immediately
   // preceding the adjusted address.
@@ -122,13 +107,9 @@ Other version:
   // The aligned address is accessed as a uint8_t array or byte array.
   u8* pAlignedMem = reinterpret_cast<u8*>(alignedAddress);
 
-  std::cout << "pAlignedMem " << pAlignedMem << std::endl;
-
   // We always store this information in the byte immediately preceding
   // (that's why we use [-1]) the adjusted address.
   pAlignedMem[-1] = static_cast<u8>(adjustment);
-
-  std::cout << "pAlignedMem[-1] " << pAlignedMem[-1] << std::endl;
 
   return static_cast<void*>(pAlignedMem);
 }

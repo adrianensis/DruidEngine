@@ -3,33 +3,34 @@
 #include <cmath>
 #include <algorithm>    // std::max
 #include "Assert.h"
+#include "AtomicTypes.h"
 
 namespace DE {
 
-Quaternion::Quaternion(float x, float y, float z, float w):v(x,y,z),w(w){
+Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w):v(x,y,z),w(w){
 }
 
-Quaternion::Quaternion(const Vector3& v, float w):v(v),w(w){
+Quaternion::Quaternion(const Vector3& v, f32 w):v(v),w(w){
 }
 
 Quaternion::Quaternion():v(),w(1.0f){ // identity 0,0,0,1
 }
 
-Quaternion::Quaternion(float roll, float pitch, float yaw){
+Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw){
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
-	float roll2 = rad(roll)*0.5f; // x
-	float pitch2 = rad(pitch)*0.5f; // y
-	float yaw2 = rad(yaw)*0.5f; // z
+	f32 roll2 = rad(roll)*0.5f; // x
+	f32 pitch2 = rad(pitch)*0.5f; // y
+	f32 yaw2 = rad(yaw)*0.5f; // z
 
-	float c3 = cosf(yaw2);
-	float c2 = cosf(pitch2);
-	float c1 = cosf(roll2);
+	f32 c3 = cosf(yaw2);
+	f32 c2 = cosf(pitch2);
+	f32 c1 = cosf(roll2);
 
-	float s3 = sinf(yaw2);
-	float s2 = sinf(pitch2);
-	float s1 = sinf(roll2);
+	f32 s3 = sinf(yaw2);
+	f32 s2 = sinf(pitch2);
+	f32 s1 = sinf(roll2);
 
 	// original
 	// w   = c3*c2*c1 + s3*s2*s1;
@@ -38,20 +39,20 @@ Quaternion::Quaternion(float roll, float pitch, float yaw){
 	// v.z = s3*c2*c1 - c3*s2*s1;
 
 	// sse-optimized
-	float c3c2 = c3*c2;
-	float s3s2 = s3*s2;
-	float c3s2 = c3*s2;
-	float s3c2 = s3*c2;
+	f32 c3c2 = c3*c2;
+	f32 s3s2 = s3*s2;
+	f32 c3s2 = c3*s2;
+	f32 s3c2 = s3*c2;
 
-	float aux0 = c3c2*c1;
-	float aux1 = c3c2*s1;
-	float aux2 = c3s2*c1;
-	float aux3 = s3c2*c1;
+	f32 aux0 = c3c2*c1;
+	f32 aux1 = c3c2*s1;
+	f32 aux2 = c3s2*c1;
+	f32 aux3 = s3c2*c1;
 
-	float aux4 = s3s2*s1;
-	float aux5 = s3s2*c1;
-	float aux6 = s3c2*s1;
-	float aux7 = c3s2*s1;
+	f32 aux4 = s3s2*s1;
+	f32 aux5 = s3s2*c1;
+	f32 aux6 = s3c2*s1;
+	f32 aux7 = c3s2*s1;
 
 	w   = aux0 + aux4;
 	v.x = aux1 - aux5;
@@ -70,7 +71,7 @@ Quaternion::~Quaternion(){
 }
 
 
-Quaternion& Quaternion::set(float x, float y, float z, float w) {
+Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
 	if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	v.set(x,y,z);
@@ -78,7 +79,7 @@ Quaternion& Quaternion::set(float x, float y, float z, float w) {
 	return *this;
 }
 
-Quaternion& Quaternion::set(const Vector3& v, float w) {
+Quaternion& Quaternion::set(const Vector3& v, f32 w) {
 	if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	this->v.set(v);
@@ -107,7 +108,7 @@ Quaternion& Quaternion::sub(const Quaternion& rhs) {
 }
 
 Quaternion& Quaternion::mul(const Quaternion& rhs) {
-	float w_total = (w * rhs.w) - (v.dot(rhs.v));
+	f32 w_total = (w * rhs.w) - (v.dot(rhs.v));
 	v.set(rhs.v*w + v*w + Vector3(v).cross(rhs.v));
 	w = w_total;
 	return *this;
@@ -118,51 +119,51 @@ Quaternion& Quaternion::div(const Quaternion& rhs) {
 	return *this;
 }
 
-Quaternion& Quaternion::add(const float rhs) {
+Quaternion& Quaternion::add(const f32 rhs) {
 	v.add(rhs);
 	w = w + rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::sub(const float rhs) {
+Quaternion& Quaternion::sub(const f32 rhs) {
 	v.sub(rhs);
 	w = w - rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::mul(const float rhs) {
+Quaternion& Quaternion::mul(const f32 rhs) {
 	v.mul(rhs);
 	w = w * rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::div(const float rhs) {
+Quaternion& Quaternion::div(const f32 rhs) {
 	assert(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
 	return *this;
 }
 
-float Quaternion::dot(const Quaternion& q) const {
+f32 Quaternion::dot(const Quaternion& q) const {
 	// sse-optimized
-	float xx = v.x*q.v.x;
-	float yy = v.y*q.v.y;
-	float zz = v.z*q.v.z;
-	float ww = w*q.w;
+	f32 xx = v.x*q.v.x;
+	f32 yy = v.y*q.v.y;
+	f32 zz = v.z*q.v.z;
+	f32 ww = w*q.w;
 
 	return xx+yy+zz+ww;
 }
 
-float Quaternion::sqrlen() const {
+f32 Quaternion::sqrlen() const {
 	return dot(*this);
 }
 
-float Quaternion::len() const {
+f32 Quaternion::len() const {
 	return sqrtf(this->sqrlen());
 }
 
 Quaternion& Quaternion::nor() {
-	float len = this->len();
+	f32 len = this->len();
 
 	assert(len > 0, "Length is zero.");
 	this->div(len);
@@ -170,7 +171,7 @@ Quaternion& Quaternion::nor() {
 	return *this;
 }
 
-bool Quaternion::eq(const Quaternion& q, float e) const {
+bool Quaternion::eq(const Quaternion& q, f32 e) const {
 	return v.eq(q.v, e) && eqf(this->w, q.w, e);
 }
 
@@ -189,7 +190,7 @@ Quaternion& Quaternion::inv() {
 }
 
 
-float Quaternion::angle(const Quaternion& q) const{
+f32 Quaternion::angle(const Quaternion& q) const{
 	/*
 	* angle is acute (positive dot product)
 	* perpendicular (zero dot product)
@@ -199,24 +200,24 @@ float Quaternion::angle(const Quaternion& q) const{
 	return acosf(v.dot(q.v)/(v.len()*q.v.len()));
 }
 
-Quaternion& Quaternion::lerp(const Quaternion& target, float t) {
+Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
 
-	float tt = 1-t;
+	f32 tt = 1-t;
 	this->mul(tt);
 	this->add(Quaternion(target).mul(tt));
 	return *this;
 }
 
-Quaternion& Quaternion::nlerp(const Quaternion& target, float t) {
+Quaternion& Quaternion::nlerp(const Quaternion& target, f32 t) {
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Quaternion& Quaternion::slerp(const Quaternion& target, float t) {
+Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
 
-	float theta = angle(target);
+	f32 theta = angle(target);
 
-	float sinTheta = sinf(theta);
+	f32 sinTheta = sinf(theta);
 
 	this->mul((sinf(1-t)*theta)/sinTheta)
 	.add(Quaternion(target).mul((sinf(t*theta))/sinTheta));
@@ -227,31 +228,31 @@ Vector3 Quaternion::toEuler() const{
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
-	float xx = v.x * v.x;
-	float yy = v.y * v.y;
-	float zz = v.z * v.z;
-	float zx = v.z * v.x;
-	float yz = v.y * v.z;
-	float xy = v.x * v.y;
-	float wx = w * v.x;
-	float wy = w * v.y;
-	float wz = w * v.z;
+	f32 xx = v.x * v.x;
+	f32 yy = v.y * v.y;
+	f32 zz = v.z * v.z;
+	f32 zx = v.z * v.x;
+	f32 yz = v.y * v.z;
+	f32 xy = v.x * v.y;
+	f32 wx = w * v.x;
+	f32 wy = w * v.y;
+	f32 wz = w * v.z;
 
 	// roll (x-axis rotation)
-	float t0 = +2.0 * (wx + yz);
-	float t1 = +1.0 - 2.0 * (xx + yy);
-	float roll = atan2f(t0, t1);
+	f32 t0 = +2.0 * (wx + yz);
+	f32 t1 = +1.0 - 2.0 * (xx + yy);
+	f32 roll = atan2f(t0, t1);
 
 	// pitch (y-axis rotation)
-	float t2 = +2.0 * (wy * v.y - zx);
+	f32 t2 = +2.0 * (wy * v.y - zx);
 	t2 = t2 > 1.0 ? 1.0 : t2;
 	t2 = t2 < -1.0 ? -1.0 : t2;
-	float pitch = asinf(t2);
+	f32 pitch = asinf(t2);
 
 	// yaw (z-axis rotation)
-	float t3 = +2.0 * (wz * v.z + xy);
-	float t4 = +1.0 - 2.0 * (yy + zz);
-	float yaw = atan2f(t3, t4);
+	f32 t3 = +2.0 * (wz * v.z + xy);
+	f32 t4 = +1.0 - 2.0 * (yy + zz);
+	f32 yaw = atan2f(t3, t4);
 
 	return Vector3(deg(roll),deg(pitch),deg(yaw));
 }

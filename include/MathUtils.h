@@ -2,20 +2,21 @@
 #define MATHUTILS_H_
 
 #include <cmath>
+#include "AtomicTypes.h"
 
 namespace DE {
 
-const float FLOAT_EPSILON = 0.00001f;
+const f32 FLOAT_EPSILON = 0.00001f;
 
-float rad(const float& deg);
-float deg(const float& rad);
+f32 rad(const f32& deg);
+f32 deg(const f32& rad);
 
-// float comparison
+// f32 comparison
 
-bool eqf(const float& a, const float& b, const float& epsilon);
-bool eqf(const float& a, const float& b); // default epsilon
+bool eqf(const f32& a, const f32& b, const f32& epsilon);
+bool eqf(const f32& a, const f32& b); // default epsilon
 
-float clamp(float n, float lower, float upper);
+f32 clamp(f32 n, f32 lower, f32 upper);
 
 }
 

@@ -1,6 +1,7 @@
 #ifndef DRUID_H_
 #define DRUID_H_
 
+#include "AtomicTypes.h"
 #include "Test.h"
 #include "MathUtils.h"
 #include "Vector4.h"

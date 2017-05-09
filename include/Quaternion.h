@@ -4,6 +4,7 @@
 #include <ostream>
 #include "Assert.h"
 #include "Aligned16.h"
+#include "AtomicTypes.h"
 #include "MathUtils.h"
 #include "Vector3.h"
 
@@ -16,7 +17,7 @@ public:
 	// MEMBERS
 	//-------------------------------------------------------------------
 
-	float w;
+	f32 w;
 	Vector3 v;
 
 	//-------------------------------------------------------------------
@@ -24,9 +25,9 @@ public:
 	//-------------------------------------------------------------------
 
 	Quaternion();
-	Quaternion(float x, float y, float z, float w);
-	Quaternion(const Vector3& v, float w);
-	Quaternion(float theta_x, float theta_y, float theta_z);
+	Quaternion(f32 x, f32 y, f32 z, f32 w);
+	Quaternion(const Vector3& v, f32 w);
+	Quaternion(f32 theta_x, f32 theta_y, f32 theta_z);
 	Quaternion(const Vector3& v);
 	Quaternion(const Quaternion& other);
 	~Quaternion();
@@ -35,32 +36,32 @@ public:
 	// METHODS
 	//-------------------------------------------------------------------
 
-	Quaternion& set(float x, float y, float z, float w);
-	Quaternion& set(const Vector3& v, float w);
+	Quaternion& set(f32 x, f32 y, f32 z, f32 w);
+	Quaternion& set(const Vector3& v, f32 w);
 	Quaternion& set(const Quaternion& rhs);
 	Quaternion& add(const Quaternion& rhs);
 	Quaternion& sub(const Quaternion& rhs);
 	Quaternion& mul(const Quaternion& rhs);
 	Quaternion& div(const Quaternion& rhs);
-	Quaternion& add(const float rhs);
-	Quaternion& sub(const float rhs);
-	Quaternion& mul(const float rhs);
-	Quaternion& div(const float rhs);
+	Quaternion& add(const f32 rhs);
+	Quaternion& sub(const f32 rhs);
+	Quaternion& mul(const f32 rhs);
+	Quaternion& div(const f32 rhs);
 
-	float len() const;
-	float sqrlen() const;
-	float dot(const Quaternion& q) const;
+	f32 len() const;
+	f32 sqrlen() const;
+	f32 dot(const Quaternion& q) const;
 	Quaternion& nor();
-	bool eq(const Quaternion& q, float e) const; // epsilon equal
+	bool eq(const Quaternion& q, f32 e) const; // epsilon equal
 	bool eq(const Quaternion& q) const; // equal
 	Quaternion& conj();
 	Quaternion& inv();
-	Quaternion& lerp(const Quaternion& target, float t);
-	Quaternion& nlerp(const Quaternion& target, float t);
-	Quaternion& slerp(const Quaternion& target, float t);
+	Quaternion& lerp(const Quaternion& target, f32 t);
+	Quaternion& nlerp(const Quaternion& target, f32 t);
+	Quaternion& slerp(const Quaternion& target, f32 t);
 	Quaternion& squad(); // TODO: implement
 	Vector3 toEuler() const; // TODO: implement
-	float angle(const Quaternion& q) const;
+	f32 angle(const Quaternion& q) const;
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -96,19 +97,19 @@ public:
 		return this->div(rhs);
 	}
 
-	Quaternion& operator+=(const float rhs) {
+	Quaternion& operator+=(const f32 rhs) {
 		return this->add(rhs);
 	}
 
-	Quaternion& operator-=(const float rhs) {
+	Quaternion& operator-=(const f32 rhs) {
 		return this->sub(rhs);
 	}
 
-	Quaternion& operator*=(const float rhs) {
+	Quaternion& operator*=(const f32 rhs) {
 		return this->mul(rhs);
 	}
 
-	Quaternion& operator/=(const float rhs) {
+	Quaternion& operator/=(const f32 rhs) {
 		return this->div(rhs);
 	}
 
@@ -136,31 +137,31 @@ public:
 		return Quaternion(*this) /= rhs;
 	}
 
-	Quaternion operator+(const float rhs) const {
+	Quaternion operator+(const f32 rhs) const {
 		return Quaternion(*this) += rhs;
 	}
 
-	Quaternion operator-(const float rhs) const {
+	Quaternion operator-(const f32 rhs) const {
 		return Quaternion(*this) -= rhs;
 	}
 
-	Quaternion operator*(const float rhs) const {
+	Quaternion operator*(const f32 rhs) const {
 		return Quaternion(*this) *= rhs;
 	}
 
-	Quaternion operator/(const float rhs) const {
+	Quaternion operator/(const f32 rhs) const {
 		return Quaternion(*this) /= rhs;
 	}
 
 	// can be used for assignment
-	float& operator[](const size_t i) {
+	f32& operator[](const size_t i) {
 		assert(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];
 	}
 
 	// read only
-	float operator[](const size_t i) const {
+	f32 operator[](const size_t i) const {
 		assert(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];

@@ -4,6 +4,7 @@
 #include <ostream>
 #include "Assert.h"
 #include "Aligned16.h"
+#include "AtomicTypes.h"
 #include "MathUtils.h"
 
 namespace DE {
@@ -16,14 +17,14 @@ public:
 	// MEMBERS
 	//-------------------------------------------------------------------
 
-	float x, y, z;
+	f32 x, y, z;
 
 	//-------------------------------------------------------------------
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
 	Vector3();
-	Vector3(float x, float y, float z);
+	Vector3(f32 x, f32 y, f32 z);
 	Vector3(const Vector3& other);
 	~Vector3();
 
@@ -32,33 +33,33 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector3& set(const Vector3& rhs);
-	Vector3& set(float x, float y, float z);
+	Vector3& set(f32 x, f32 y, f32 z);
 	Vector3& add(const Vector3& rhs);
 	Vector3& sub(const Vector3& rhs);
 	Vector3& mul(const Vector3& rhs);
 	Vector3& div(const Vector3& rhs);
-	Vector3& add(const float rhs);
-	Vector3& sub(const float rhs);
-	Vector3& mul(const float rhs);
-	Vector3& div(const float rhs);
+	Vector3& add(const f32 rhs);
+	Vector3& sub(const f32 rhs);
+	Vector3& mul(const f32 rhs);
+	Vector3& div(const f32 rhs);
 
-	float len() const;
-	float sqrlen() const;
-	float max() const;
-	float min() const;
-	float dot(const Vector3& v) const;
+	f32 len() const;
+	f32 sqrlen() const;
+	f32 max() const;
+	f32 min() const;
+	f32 dot(const Vector3& v) const;
 	Vector3& nor();
-	float dst(const Vector3& v) const;
-	float sqrdst(const Vector3& v) const;
-	bool eq(const Vector3& v, float e) const; // epsilon equal
+	f32 dst(const Vector3& v) const;
+	f32 sqrdst(const Vector3& v) const;
+	bool eq(const Vector3& v, f32 e) const; // epsilon equal
 	bool eq(const Vector3& v) const; // equal
 	Vector3& cross(const Vector3& v); // only defined for 3D space
-	Vector3& lerp(const Vector3& target, float t);
-	Vector3& nlerp(const Vector3& target, float t);
-	Vector3& slerp(const Vector3& target, float t); // TODO: implement
-	float angle(const Vector3& v, const Vector3& n) const;
-	float angle(const Vector3& v) const;
-	Vector3& clamp(float maxLength);
+	Vector3& lerp(const Vector3& target, f32 t);
+	Vector3& nlerp(const Vector3& target, f32 t);
+	Vector3& slerp(const Vector3& target, f32 t); // TODO: implement
+	f32 angle(const Vector3& v, const Vector3& n) const;
+	f32 angle(const Vector3& v) const;
+	Vector3& clamp(f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -94,19 +95,19 @@ public:
 		return this->div(rhs);
 	}
 
-	Vector3& operator+=(const float rhs) {
+	Vector3& operator+=(const f32 rhs) {
 		return this->add(rhs);
 	}
 
-	Vector3& operator-=(const float rhs) {
+	Vector3& operator-=(const f32 rhs) {
 		return this->sub(rhs);
 	}
 
-	Vector3& operator*=(const float rhs) {
+	Vector3& operator*=(const f32 rhs) {
 		return this->mul(rhs);
 	}
 
-	Vector3& operator/=(const float rhs) {
+	Vector3& operator/=(const f32 rhs) {
 		return this->div(rhs);
 	}
 
@@ -138,31 +139,31 @@ public:
 		return Vector3(*this) /= rhs;
 	}
 
-	Vector3 operator+(const float rhs) const {
+	Vector3 operator+(const f32 rhs) const {
 		return Vector3(*this) += rhs;
 	}
 
-	Vector3 operator-(const float rhs) const {
+	Vector3 operator-(const f32 rhs) const {
 		return Vector3(*this) -= rhs;
 	}
 
-	Vector3 operator*(const float rhs) const {
+	Vector3 operator*(const f32 rhs) const {
 		return Vector3(*this) *= rhs;
 	}
 
-	Vector3 operator/(const float rhs) const {
+	Vector3 operator/(const f32 rhs) const {
 		return Vector3(*this) /= rhs;
 	}
 
 	// can be used for assignment
-	float& operator[](const size_t i) {
+	f32& operator[](const size_t i) {
 		assert(i >= 0 && i < 3, "Index out of bounds.");
 
 		return *(&x+i);
 	}
 
 	// read only
-	float operator[](const size_t i) const {
+	f32 operator[](const size_t i) const {
 		assert(i >= 0 && i < 3, "Index out of bounds.");
 		return *(&x+i);
 	}

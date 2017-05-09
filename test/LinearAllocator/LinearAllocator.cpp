@@ -1,19 +1,20 @@
 #include "Druid.h"
 
+using namespace DE;
+
 int main() {
+
 
 	test(DE::LinearAllocator);
 
 	DE::LinearAllocator linear;
 	linear.init(64);
-
 	linear.init(1024);
-
 	linear.init(50000);
 
-	std::size_t sizeInt = sizeof(int);
+	u32 sizeInt = sizeof(int);
 
-	int* i = reinterpret_cast<int*>(linear.allocate(sizeInt));
+	u32* i = reinterpret_cast<u32*>(linear.allocate(sizeInt));
 	*i = 500;
 
 	show(i);
@@ -21,8 +22,8 @@ int main() {
 
 	expected_num(sizeInt,linear.getAllocated());
 
-	int* j = reinterpret_cast<int*>(linear.allocateAligned(32,16));
-	*j = 500;
+	u32* j = reinterpret_cast<u32*>(linear.allocateAligned(32,16));
+	*j = 700;
 
 	show(j);
 	show(*j);

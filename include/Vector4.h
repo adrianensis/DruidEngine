@@ -4,6 +4,7 @@
 #include <ostream>
 #include "Assert.h"
 #include "Aligned16.h"
+#include "AtomicTypes.h"
 #include "MathUtils.h"
 
 namespace DE {
@@ -15,14 +16,14 @@ public:
 	// MEMBERS
 	//-------------------------------------------------------------------
 
-	float x, y, z, w;
+	f32 x, y, z, w;
 
 	//-------------------------------------------------------------------
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
 	Vector4();
-	Vector4(float x, float y, float z, float w);
+	Vector4(f32 x, f32 y, f32 z, f32 w);
 	Vector4(const Vector4& other);
 	~Vector4();
 
@@ -31,28 +32,28 @@ public:
 	//-------------------------------------------------------------------
 
 	virtual Vector4& set(const Vector4& rhs);
-	Vector4& set(float x, float y, float z, float w);
+	Vector4& set(f32 x, f32 y, f32 z, f32 w);
 	virtual Vector4& add(const Vector4& rhs);
 	virtual Vector4& sub(const Vector4& rhs);
 	virtual Vector4& mul(const Vector4& rhs);
 	virtual Vector4& div(const Vector4& rhs);
-	virtual Vector4& add(const float rhs);
-	virtual Vector4& sub(const float rhs);
-	virtual Vector4& mul(const float rhs);
-	virtual Vector4& div(const float rhs);
+	virtual Vector4& add(const f32 rhs);
+	virtual Vector4& sub(const f32 rhs);
+	virtual Vector4& mul(const f32 rhs);
+	virtual Vector4& div(const f32 rhs);
 
-	float len() const;
-	float sqrlen() const;
-	float max() const;
-	float min() const;
-	float dot(const Vector4& v) const;
+	f32 len() const;
+	f32 sqrlen() const;
+	f32 max() const;
+	f32 min() const;
+	f32 dot(const Vector4& v) const;
 	Vector4& nor();
-	float dst(const Vector4& v) const;
-	float sqrdst(const Vector4& v) const;
-	bool eq(const Vector4& v, float e) const; // epsilon equal
+	f32 dst(const Vector4& v) const;
+	f32 sqrdst(const Vector4& v) const;
+	bool eq(const Vector4& v, f32 e) const; // epsilon equal
 	bool eq(const Vector4& v) const; // equal
-	Vector4& lerp(const Vector4& target, float t);
-	Vector4& clamp(float maxLength);
+	Vector4& lerp(const Vector4& target, f32 t);
+	Vector4& clamp(f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -88,19 +89,19 @@ public:
 		return this->div(rhs);
 	}
 
-	Vector4& operator+=(const float rhs) {
+	Vector4& operator+=(const f32 rhs) {
 		return this->add(rhs);
 	}
 
-	Vector4& operator-=(const float rhs) {
+	Vector4& operator-=(const f32 rhs) {
 		return this->sub(rhs);
 	}
 
-	Vector4& operator*=(const float rhs) {
+	Vector4& operator*=(const f32 rhs) {
 		return this->mul(rhs);
 	}
 
-	Vector4& operator/=(const float rhs) {
+	Vector4& operator/=(const f32 rhs) {
 		return this->div(rhs);
 	}
 
@@ -128,11 +129,11 @@ public:
 		return Vector4(*this) /= rhs;
 	}
 
-	Vector4 operator+(const float rhs) const {
+	Vector4 operator+(const f32 rhs) const {
 		return Vector4(*this) += rhs;
 	}
 
-	Vector4 operator-(const float rhs) const {
+	Vector4 operator-(const f32 rhs) const {
 		return Vector4(*this) -= rhs;
 	}
 
@@ -140,23 +141,23 @@ public:
 		return Vector4(*this) *= -1;
 	}
 
-	Vector4 operator*(const float rhs) const {
+	Vector4 operator*(const f32 rhs) const {
 		return Vector4(*this) *= rhs;
 	}
 
-	Vector4 operator/(const float rhs) const {
+	Vector4 operator/(const f32 rhs) const {
 		return Vector4(*this) /= rhs;
 	}
 
 	// can be used for assignment
-	float& operator[](const size_t i) {
+	f32& operator[](const size_t i) {
 		assert(i >= 0 && i < 4, "Index out of bounds.");
 
 		return *(&x+i);
 	}
 
 	// read only
-	float operator[](const size_t i) const {
+	f32 operator[](const size_t i) const {
 		assert(i >= 0 && i < 4, "Index out of bounds.");
 		return *(&x+i);
 	}

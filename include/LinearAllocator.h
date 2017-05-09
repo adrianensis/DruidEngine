@@ -2,6 +2,7 @@
 #define LINEARALLOCATOR_H_
 
 #include "Allocator.h"
+#include "AtomicTypes.h"
 
 /*
  * https://en.wikipedia.org/wiki/Data_structure_alignment
@@ -17,14 +18,14 @@ class LinearAllocator : public Allocator {
 
 protected:
   void* mStart;
-  std::size_t mOffset;
+  u32 mOffset;
 public:
 
   LinearAllocator();
   virtual ~LinearAllocator();
-  virtual void init(const std::size_t size);
-  virtual void* allocate(const std::size_t size);
-  virtual void* allocateAligned(const std::size_t size, const std::size_t alignment);
+  virtual void init(const u32 size);
+  virtual void* allocate(const u32 size);
+  virtual void* allocateAligned(const u32 size, const u32 alignment);
   virtual void free(void* pointer);
   virtual void freeAligned(void* pointer);
   virtual void reset();

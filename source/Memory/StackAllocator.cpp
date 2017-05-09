@@ -1,10 +1,6 @@
 #include "StackAllocator.h"
-#include <cstdint> // std::uintptr_t
+#include "AtomicTypes.h"
 
-using st = std::size_t;
-using u8 = std::uint8_t;
-using ptr = std::uintptr_t;
-using ptrdiff = std::ptrdiff_t;
 
 namespace DE {
 
@@ -16,16 +12,16 @@ StackAllocator::~StackAllocator(){
   mTop = nullptr;
 }
 
-void* StackAllocator::allocate(const std::size_t size){
+void* StackAllocator::allocate(const u32 size){
   return LinearAllocator::allocate(size);
 }
 
-void StackAllocator::init(const std::size_t size){
+void StackAllocator::init(const u32 size){
   LinearAllocator::init(size);
   mTop = mStart;
 }
 
-void* StackAllocator::allocateAligned(const std::size_t size, const std::size_t alignment){
+void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
   return LinearAllocator::allocateAligned(size,alignment);
 }
 

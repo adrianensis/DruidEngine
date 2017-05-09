@@ -2,6 +2,7 @@
 #define STACKALLOCATOR_H_
 
 #include "LinearAllocator.h"
+#include "AtomicTypes.h"
 
 namespace DE {
 
@@ -13,9 +14,9 @@ public:
 
   StackAllocator();
   virtual ~StackAllocator();
-  virtual void init(const std::size_t size);
-  virtual void* allocate(const std::size_t size);
-  virtual void* allocateAligned(const std::size_t size, const std::size_t alignment);
+  virtual void init(const u32 size);
+  virtual void* allocate(const u32 size);
+  virtual void* allocateAligned(const u32 size, const u32 alignment);
   virtual void free(void* pointer);
   virtual void freeAligned(void* pointer);
   virtual void reset();

@@ -4,6 +4,7 @@
 #include <ostream>
 #include "Assert.h"
 #include "Aligned16.h"
+#include "AtomicTypes.h"
 #include "MathUtils.h"
 
 namespace DE {
@@ -17,14 +18,14 @@ public:
 	// MEMBERS
 	//-------------------------------------------------------------------
 
-	float x, y;
+	f32 x, y;
 
 	//-------------------------------------------------------------------
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
 	Vector2();
-	Vector2(float x, float y);
+	Vector2(f32 x, f32 y);
 	Vector2(const Vector2& other);
 	~Vector2();
 
@@ -33,29 +34,29 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector2& set(const Vector2& rhs);
-	Vector2& set(float x, float y);
+	Vector2& set(f32 x, f32 y);
 	Vector2& add(const Vector2& rhs);
 	Vector2& sub(const Vector2& rhs);
 	Vector2& mul(const Vector2& rhs);
 	Vector2& div(const Vector2& rhs);
-	Vector2& add(const float rhs);
-	Vector2& sub(const float rhs);
-	Vector2& mul(const float rhs);
-	Vector2& div(const float rhs);
+	Vector2& add(const f32 rhs);
+	Vector2& sub(const f32 rhs);
+	Vector2& mul(const f32 rhs);
+	Vector2& div(const f32 rhs);
 
-	float len() const;
-	float sqrlen() const;
-	float max() const;
-	float min() const;
-	float dot(const Vector2& v) const;
+	f32 len() const;
+	f32 sqrlen() const;
+	f32 max() const;
+	f32 min() const;
+	f32 dot(const Vector2& v) const;
 	Vector2& nor();
-	float dst(const Vector2& v) const;
-	float sqrdst(const Vector2& v) const;
-	bool eq(const Vector2& v, float e) const; // epsilon equal
+	f32 dst(const Vector2& v) const;
+	f32 sqrdst(const Vector2& v) const;
+	bool eq(const Vector2& v, f32 e) const; // epsilon equal
 	bool eq(const Vector2& v) const; // equal
-	Vector2& lerp(const Vector2& target, float t);
-	float angle(const Vector2& v) const;
-	Vector2& clamp(float maxLength);
+	Vector2& lerp(const Vector2& target, f32 t);
+	f32 angle(const Vector2& v) const;
+	Vector2& clamp(f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -91,19 +92,19 @@ public:
 		return this->div(rhs);
 	}
 
-	Vector2& operator+=(const float rhs) {
+	Vector2& operator+=(const f32 rhs) {
 		return this->add(rhs);
 	}
 
-	Vector2& operator-=(const float rhs) {
+	Vector2& operator-=(const f32 rhs) {
 		return this->sub(rhs);
 	}
 
-	Vector2& operator*=(const float rhs) {
+	Vector2& operator*=(const f32 rhs) {
 		return this->mul(rhs);
 	}
 
-	Vector2& operator/=(const float rhs) {
+	Vector2& operator/=(const f32 rhs) {
 		return this->div(rhs);
 	}
 
@@ -131,11 +132,11 @@ public:
 		return Vector2(*this) /= rhs;
 	}
 
-	Vector2 operator+(const float rhs) const {
+	Vector2 operator+(const f32 rhs) const {
 		return Vector2(*this) += rhs;
 	}
 
-	Vector2 operator-(const float rhs) const {
+	Vector2 operator-(const f32 rhs) const {
 		return Vector2(*this) -= rhs;
 	}
 
@@ -143,23 +144,23 @@ public:
 		return Vector2(*this) *= -1;
 	}
 
-	Vector2 operator*(const float rhs) const {
+	Vector2 operator*(const f32 rhs) const {
 		return Vector2(*this) *= rhs;
 	}
 
-	Vector2 operator/(const float rhs) const {
+	Vector2 operator/(const f32 rhs) const {
 		return Vector2(*this) /= rhs;
 	}
 
 	// can be used for assignment
-	float& operator[](const size_t i) {
+	f32& operator[](const size_t i) {
 		assert(i >= 0 && i < 2, "Index out of bounds.");
 
 		return *(&x+i);
 	}
 
 	// read only
-	float operator[](const size_t i) const {
+	f32 operator[](const size_t i) const {
 		assert(i >= 0 && i < 2, "Index out of bounds.");
 		return *(&x+i);
 	}
