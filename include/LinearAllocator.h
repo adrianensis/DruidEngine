@@ -2,7 +2,7 @@
 #define LINEARALLOCATOR_H_
 
 #include "Allocator.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 /*
  * https://en.wikipedia.org/wiki/Data_structure_alignment
@@ -26,8 +26,8 @@ public:
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocateAligned(const u32 size, const u32 alignment);
-  virtual void free(void* pointer);
-  virtual void freeAligned(void* pointer);
+  virtual void free(const void* pointer);
+  virtual void freeAligned(const void* pointer);
   virtual void reset();
 
 };

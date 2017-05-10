@@ -4,13 +4,13 @@
 #include <ostream>
 #include "Assert.h"
 #include "Aligned16.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 #include "MathUtils.h"
 #include "Vector3.h"
 
 namespace DE {
 
-class Quaternion : public Aligned16 {
+class Quaternion /*: public Aligned16*/ {
 public:
 
 	//-------------------------------------------------------------------

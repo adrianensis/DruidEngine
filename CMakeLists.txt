@@ -6,7 +6,7 @@ project(${DRUID})
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -O1 -Wall")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -msse4") # this disables asserts with -DNDEBUG
-set(CMAKE_CXX_FLAGS_RELEASE "-std=c++14 -Wall -O3 -msse4")
+set(CMAKE_CXX_FLAGS_RELEASE "-D DE_DEBUG -std=c++14 -Wall -O3 -msse4")
 
 message("Build target: ${CMAKE_BUILD_TYPE}")
 message("Release: ${CMAKE_CXX_FLAGS_RELEASE}")

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 using namespace DE;
 

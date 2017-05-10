@@ -4,7 +4,7 @@
 #include <algorithm>    // std::max
 #include "Assert.h"
 #include "MathUtils.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 

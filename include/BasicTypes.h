@@ -1,5 +1,5 @@
-#ifndef ATOMICTYPES_H_
-#define ATOMICTYPES_H_
+#ifndef BASICTYPES_H_
+#define BASICTYPES_H_
 
 
 #include <cstdint> // std::uintptr_t
@@ -23,4 +23,4 @@ using u64 = std::uint64_t;
 
 } /* namespace DE */
 
-#endif /* ATOMICTYPES_H_ */
+#endif /* BASICTYPES_H_ */

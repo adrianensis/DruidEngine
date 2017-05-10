@@ -2,7 +2,7 @@
 #define STACKALLOCATOR_H_
 
 #include "LinearAllocator.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 
@@ -13,7 +13,7 @@ private:
 
   static const u32 smHeaderSize = sizeof(u32);
   static void storeHeader(const ptr address, const u32 size);
-  
+
 public:
 
   StackAllocator();
@@ -21,8 +21,8 @@ public:
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocateAligned(const u32 size, const u32 alignment);
-  virtual void free(void* pointer);
-  virtual void freeAligned(void* pointer);
+  virtual void free(const void* pointer);
+  virtual void freeAligned(const void* pointer);
   virtual void free();
   virtual void freeAligned();
   virtual void reset();

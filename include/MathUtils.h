@@ -2,7 +2,7 @@
 #define MATHUTILS_H_
 
 #include <cmath>
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 

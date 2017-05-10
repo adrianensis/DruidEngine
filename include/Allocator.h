@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 #include "Assert.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 
@@ -14,21 +14,21 @@ protected:
   u32 mTotalSize;
   u32 mAllocated;
 
-  void checkSpace(u32 size) { assert(mAllocated + size <= mTotalSize, "Total memory size exceeded."); };
+  void checkSpace(u32 size);
 
 public:
 
-  Allocator() {};
-  virtual ~Allocator() {};
-  u32 getSize() { return mTotalSize; };
-  u32 getAllocated() { return mAllocated; };
-  bool hasSpace(u32) { return mAllocated; };
-  virtual void init(const u32 size) { mTotalSize = size; mAllocated = 0; };
+  Allocator();
+  virtual ~Allocator();
+  u32 getSize();
+  u32 getAllocated();
+  bool hasSpace(const u32 size);
+  virtual void init(const u32 size);
   virtual void* allocate(const u32 size) = 0;
   virtual void* allocateAligned(const u32 size, const u32 alignment) = 0;
-  virtual void free(void* pointer) = 0;
-  virtual void freeAligned(void* pointer) = 0;
-  virtual void reset() { mAllocated = 0; };
+  virtual void free(const void* pointer) = 0;
+  virtual void freeAligned(const void* pointer) = 0;
+  virtual void reset();
 
 };
 

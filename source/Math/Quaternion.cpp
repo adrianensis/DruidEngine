@@ -3,7 +3,7 @@
 #include <cmath>
 #include <algorithm>    // std::max
 #include "Assert.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 

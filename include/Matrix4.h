@@ -1,11 +1,11 @@
 #ifndef MATRIX4_H_
 #define MATRIX4_H_
 
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 
 namespace DE {
 
-class Matrix4 : public Aligned16 {
+class Matrix4 /*: public Aligned16*/ {
 
 private:
 

@@ -1,6 +1,6 @@
 #include "LinearAllocator.h"
 #include "Assert.h"
-#include "AtomicTypes.h"
+#include "BasicTypes.h"
 #include <cstdlib> // malloc, free
 
 namespace DE {
@@ -16,10 +16,11 @@ LinearAllocator::~LinearAllocator(){
 
 void LinearAllocator::init(const u32 size){
 
+  Allocator::init(size);
+
   if(mStart != nullptr)
     std::free(mStart);
 
-  Allocator::init(size);
   mStart = std::malloc(size);
   this->reset();
 }
@@ -114,11 +115,11 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
   return static_cast<void*>(u8Array);
 }
 
-void LinearAllocator::free(void* pointer){
+void LinearAllocator::free(const void* pointer){
   assert(false, "LinearAllocator can't use free(void* pointer), use reset().");
 }
 
-void LinearAllocator::freeAligned(void* pointer){
+void LinearAllocator::freeAligned(const void* pointer){
   assert(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
 }
 
