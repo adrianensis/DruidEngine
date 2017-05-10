@@ -20,15 +20,20 @@ int main() {
 	show(i);
 	show(*i);
 
+	expected_uint(500,*i);
+
 	expected_float(sizeInt,linear.getAllocated());
 
-	u32* j = reinterpret_cast<u32*>(linear.allocateAligned(32,16));
+	u32* j = reinterpret_cast<u32*>(linear.allocateAligned(sizeInt,16));
 	*j = 700;
 
 	show(j);
 	show(*j);
 
-	expected_float(sizeInt+32+16,linear.getAllocated());
+	expected_uint(500,*i);
+	expected_uint(700,*j);
+
+	expected_float(sizeInt+16,linear.getAllocated());
 
 	linear.reset();
 

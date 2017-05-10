@@ -4,11 +4,13 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 set(DRUID druid)
 project(${DRUID})
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -O1 -Wall")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -msse4") # this disables asserts with -DNDEBUG
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++14 -Wall -O3 -msse4")
 
-message("Build target: ${CMAKE_CXX_FLAGS_RELEASE}")
+message("Build target: ${CMAKE_BUILD_TYPE}")
+message("Release: ${CMAKE_CXX_FLAGS_RELEASE}")
+message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 # output directories
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)

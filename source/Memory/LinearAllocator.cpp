@@ -86,7 +86,7 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
   // Game Engine Architecture 2ed, page 246.
 
   // Allocate unaligned block & convert address to uintptr_t.
-  const ptr address = reinterpret_cast<ptr>(allocate(expandedSize));
+  const ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(expandedSize));
 
   // Calculate the adjustment by masking off the lower bits
   // of the address, to determine how "misaligned" it is.

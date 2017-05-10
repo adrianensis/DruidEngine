@@ -15,13 +15,13 @@ int main() {
 	u32 sizeInt = sizeof(u32);
 	u32 headerSize = sizeof(u32);
 
-	u32* i = reinterpret_cast<u32*>(stack.allocate(sizeInt));
-	*i = 300;
+	u32* k = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	*k = 300;
 
-	show(i);
-	show(*i);
+	show(k);
+	show(*k);
 
-	expected_uint(300,*i);
+	expected_uint(300,*k);
 
 	expected_uint(sizeInt+headerSize,stack.getAllocated());
 
@@ -31,14 +31,30 @@ int main() {
 
 	expected_uint(0,stack.getAllocated());
 
-	u32* j = reinterpret_cast<u32*>(stack.allocateAligned(32,16));
+	u32* i = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	*i = 500;
+
+	show(i);
+	show(*i);
+
+	expected_uint(500,*i);
+
+	expected_uint(sizeInt+headerSize,stack.getAllocated());
+
+	u32* j = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,16));
 	*j = 700;
 
 	show(j);
 	show(*j);
 
+	expected_uint(500,*i);
 	expected_uint(700,*j);
-	expected_uint(sizeInt+32+headerSize+16,stack.getAllocated());
+
+	// first allocation + second allocation
+	expected_uint(sizeInt+headerSize+sizeInt+headerSize+16,stack.getAllocated());
+
+	stack.freeAligned();
+	stack.free();
 
 	stack.reset();
 
