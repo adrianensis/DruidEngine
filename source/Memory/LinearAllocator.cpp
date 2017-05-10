@@ -27,10 +27,10 @@ void LinearAllocator::init(const u32 size){
 void* LinearAllocator::allocate(const u32 size){
   Allocator::checkSpace(size);
 
-  const ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset;
+  const ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset; // first time -> mStart + 0 = mStart
   mOffset += size;
   mAllocated = mOffset;
-  return (void*) currentAddress;
+  return reinterpret_cast<void*>(currentAddress);
 }
 
 void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
@@ -71,9 +71,11 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
 
 */
 
-  Allocator::checkSpace(size);
+  u32 expandedSize = size + alignment;
 
-  assert(alignment >= 1);
+  Allocator::checkSpace(size + alignment);
+
+  assert(alignment >= 1); // Because we need at least, 1 byte for adjustment storage.
 
   // 128 (decimal) = 1000 0000 (binary)
   assert(alignment <= 128);
@@ -82,8 +84,6 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
   assert((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 
   // Game Engine Architecture 2ed, page 246.
-
-  u32 expandedSize = size + alignment;
 
   // Allocate unaligned block & convert address to uintptr_t.
   const ptr address = reinterpret_cast<ptr>(allocate(expandedSize));
@@ -105,13 +105,13 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
   assert(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
   // The aligned address is accessed as a uint8_t array or byte array.
-  u8* pAlignedMem = reinterpret_cast<u8*>(alignedAddress);
+  u8* u8Array = reinterpret_cast<u8*>(alignedAddress);
 
   // We always store this information in the byte immediately preceding
   // (that's why we use [-1]) the adjusted address.
-  pAlignedMem[-1] = static_cast<u8>(adjustment);
+  u8Array[-1] = static_cast<u8>(adjustment);
 
-  return static_cast<void*>(pAlignedMem);
+  return static_cast<void*>(u8Array);
 }
 
 void LinearAllocator::free(void* pointer){

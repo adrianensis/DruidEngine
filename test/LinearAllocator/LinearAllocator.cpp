@@ -12,7 +12,7 @@ int main() {
 	linear.init(1024);
 	linear.init(50000);
 
-	u32 sizeInt = sizeof(int);
+	u32 sizeInt = sizeof(u32);
 
 	u32* i = reinterpret_cast<u32*>(linear.allocate(sizeInt));
 	*i = 500;
@@ -20,7 +20,7 @@ int main() {
 	show(i);
 	show(*i);
 
-	expected_num(sizeInt,linear.getAllocated());
+	expected_float(sizeInt,linear.getAllocated());
 
 	u32* j = reinterpret_cast<u32*>(linear.allocateAligned(32,16));
 	*j = 700;
@@ -28,11 +28,11 @@ int main() {
 	show(j);
 	show(*j);
 
-	expected_num(sizeInt+32+16,linear.getAllocated());
+	expected_float(sizeInt+32+16,linear.getAllocated());
 
 	linear.reset();
 
-	expected_num(0,linear.getAllocated());
+	expected_float(0,linear.getAllocated());
 
 	summary();
 

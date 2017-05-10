@@ -10,6 +10,7 @@ class StackAllocator : public LinearAllocator {
 
 private:
   void* mTop;
+  static const u32 smHeaderSize = sizeof(u32);
 public:
 
   StackAllocator();
@@ -19,6 +20,8 @@ public:
   virtual void* allocateAligned(const u32 size, const u32 alignment);
   virtual void free(void* pointer);
   virtual void freeAligned(void* pointer);
+  virtual void free();
+  virtual void freeAligned();
   virtual void reset();
 
 };

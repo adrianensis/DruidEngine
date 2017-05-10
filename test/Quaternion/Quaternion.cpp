@@ -46,21 +46,21 @@ int main() {
 
 	title("ARRAY ACCESS");
 
-	expected_num(a[0],0);
-	expected_num(a[1],1);
-	expected_num(a[2],2);
-	expected_num(a[3],3);
+	expected_float(a[0],0);
+	expected_float(a[1],1);
+	expected_float(a[2],2);
+	expected_float(a[3],3);
 
 	title("METHODS");
 
-	expected_num(a.dot(a), a.v.x*a.v.x + a.v.y*a.v.y + a.v.z*a.v.z + a.w*a.w);
-	expected_num(a.dot(b), a.v.x*b.v.x + a.v.y*b.v.y + a.v.z*b.v.z + a.w*b.w);
-	expected_num(a.sqrlen(), a.dot(a));
-	expected_num(a.len(), sqrtf(a.sqrlen()));
+	expected_float(a.dot(a), a.v.x*a.v.x + a.v.y*a.v.y + a.v.z*a.v.z + a.w*a.w);
+	expected_float(a.dot(b), a.v.x*b.v.x + a.v.y*b.v.y + a.v.z*b.v.z + a.w*b.w);
+	expected_float(a.sqrlen(), a.dot(a));
+	expected_float(a.len(), sqrtf(a.sqrlen()));
 	expected_bool(a.eq(b,0),false);
 	expected_bool(a.eq(b,10),true);
 	expected(DE::Quaternion(a).nor(), DE::Quaternion(a).div(a.len()));
-	expected_num_eps(DE::Quaternion(a).nor().len(), 1.0f, 0.00001f);
+	expected_float_eps(DE::Quaternion(a).nor().len(), 1.0f, 0.00001f);
 
 	expected_bool(e.toEuler().eq(DE::Vector3(0,0,0),0.000001f),true);
 	show(f.toEuler());
