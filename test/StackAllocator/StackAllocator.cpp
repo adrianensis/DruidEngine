@@ -8,57 +8,88 @@ int main() {
 	test(DE::StackAllocator);
 
 	DE::StackAllocator stack;
-	stack.init(64);
+	// stack.init(64);
 	stack.init(1024);
-	stack.init(50000);
+	// stack.init(50000);
 
 	u32 sizeInt = sizeof(u32);
 	u32 headerSize = sizeof(u32);
 
-	u32* k = reinterpret_cast<u32*>(stack.allocate(sizeInt));
-	*k = 300;
+	u32* a = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	*a = 300;
 
-	show(k);
-	show(*k);
+	show(a);
+	show(*a);
 
-	expected_uint(300,*k);
+	expected_uint(*a,300);
 
-	expected_uint(sizeInt+headerSize,stack.getAllocated());
+	expected_uint(stack.getAllocated(),sizeInt+headerSize);
 
 	stack.free();
+
+	expected_uint(stack.getAllocated(),0);
+
+	//------------------------------------------------------
+
+	u32 total = 0;
+
+	u32* b = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	*b = 300;
+	total+=sizeInt+headerSize;
+
+	show(b);
+	show(*b);
+
+	expected_uint(*b,300);
+
+	expected_uint(stack.getAllocated(),total);
+
+	//------------------------------------------------------
+
+	u32* c = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	*c = 500;
+	total+=sizeInt+headerSize;
+
+	show(c);
+	show(*c);
+
+	expected_uint(*c,500);
+
+	expected_uint(stack.getAllocated(),total);
+
+	//------------------------------------------------------
+
+	u32*d = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,16));
+	*d = 700;
+
+	total+=sizeInt+headerSize+16;
+
+	show(d);
+	show(*d);
+
+	expected_uint(*c,500);
+	expected_uint(*d,700);
+
+	// first allocation + second allocation
+	expected_uint(stack.getAllocated(),total);
+
+	//------------------------------------------------------
 
 	show(stack.getAllocated());
 
-	expected_uint(0,stack.getAllocated());
+	stack.freeAligned(); // pop d
 
-	u32* i = reinterpret_cast<u32*>(stack.allocate(sizeInt));
-	*i = 500;
+	show(stack.getAllocated());
 
-	show(i);
-	show(*i);
+	stack.free(); // pop c
 
-	expected_uint(500,*i);
+	show(stack.getAllocated());
 
-	expected_uint(sizeInt+headerSize,stack.getAllocated());
-
-	u32* j = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,16));
-	*j = 700;
-
-	show(j);
-	show(*j);
-
-	expected_uint(500,*i);
-	expected_uint(700,*j);
-
-	// first allocation + second allocation
-	expected_uint(sizeInt+headerSize+sizeInt+headerSize+16,stack.getAllocated());
-
-	stack.freeAligned();
-	stack.free();
+	stack.free(); // pop b
 
 	stack.reset();
 
-	expected_uint(0,stack.getAllocated());
+	expected_uint(stack.getAllocated(),0);
 
 	summary();
 

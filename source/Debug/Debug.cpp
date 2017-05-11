@@ -1,10 +1,18 @@
 #include "Debug.h"
 
+#include <iostream>
+#include <string>
+#include "BasicTypes.h"
+
 namespace DE {
 
 namespace Debug {
 
-void echo(string message) {
+using namespace std;
+
+
+template<typename T>
+void echo(T message) {
   #ifdef DE_DEBUG
   cout << "D > " << message << endl;
   #endif

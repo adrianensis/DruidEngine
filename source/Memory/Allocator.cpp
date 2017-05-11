@@ -4,8 +4,12 @@
 
 namespace DE {
 
-void Allocator::checkSpace(const u32 size) {
+void Allocator::checkAllocate(const u32 size) {
   assert(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
+};
+
+void Allocator::checkFree() {
+  assert(mAllocated > 0, "Allocated memory is 0.");
 };
 
 Allocator::Allocator(){

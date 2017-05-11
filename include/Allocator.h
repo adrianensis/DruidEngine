@@ -14,7 +14,8 @@ protected:
   u32 mTotalSize;
   u32 mAllocated;
 
-  void checkSpace(u32 size);
+  void checkAllocate(u32 size);
+  void checkFree();
 
 public:
 

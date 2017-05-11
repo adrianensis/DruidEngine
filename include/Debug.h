@@ -1,8 +1,8 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
-#include <iostream>
 #include <string>
+#include "BasicTypes.h"
 
 using namespace std;
 
@@ -10,7 +10,8 @@ namespace DE {
 
 namespace Debug {
 
-void echo(string message);
+template<typename T>
+void echo(T message);
 void var(string varname, auto var);
 void var(auto var);
 void error(string message);

@@ -3,7 +3,10 @@
 #include "BasicTypes.h"
 #include <cstdlib> // malloc, free
 
+#include <iostream>
+
 namespace DE {
+  using namespace std;
 
 LinearAllocator::LinearAllocator() : Allocator(){
   mStart = nullptr;
@@ -22,13 +25,13 @@ void LinearAllocator::init(const u32 size){
     std::free(mStart);
 
   mStart = std::malloc(size);
-  this->reset();
+  LinearAllocator::reset();
 }
 
 void* LinearAllocator::allocate(const u32 size){
-  Allocator::checkSpace(size);
+  Allocator::checkAllocate(size);
 
-  const ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset; // first time -> mStart + 0 = mStart
+  ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset; // first time -> mStart + 0 = mStart
   mOffset += size;
   mAllocated = mOffset;
   return reinterpret_cast<void*>(currentAddress);
@@ -74,7 +77,7 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
 
   u32 expandedSize = size + alignment;
 
-  Allocator::checkSpace(size + alignment);
+  Allocator::checkAllocate(expandedSize);
 
   assert(alignment >= 1); // Because we need at least, 1 byte for adjustment storage.
 
@@ -87,8 +90,8 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
   // Game Engine Architecture 2ed, page 246.
 
   // Allocate unaligned block & convert address to uintptr_t.
-  const ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(expandedSize));
-
+  ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(expandedSize));
+  cout << "unaligned address " << address << endl;
   // Calculate the adjustment by masking off the lower bits
   // of the address, to determine how "misaligned" it is.
 
