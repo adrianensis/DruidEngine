@@ -91,7 +91,9 @@ void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
 
   // Allocate unaligned block & convert address to uintptr_t.
   ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(expandedSize));
-  cout << "unaligned address " << address << endl;
+
+  // cout << "unaligned address " << address << endl;
+
   // Calculate the adjustment by masking off the lower bits
   // of the address, to determine how "misaligned" it is.
 

@@ -8,6 +8,9 @@ using namespace std;
 
 void StackAllocator::storeHeader(const ptr address, const u32 size){
   u32* u32Array = reinterpret_cast<u32*>(address);
+
+  // header is stored in the last position of the allocated memory.
+  // (the previus one to the following address).
   u32Array[-1] = size;
 }
 
@@ -23,7 +26,7 @@ void StackAllocator::init(const u32 size){
   LinearAllocator::init(size);
   mTop = mStart;
 
-  cout << "init " << reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "init " << reinterpret_cast<ptr>(mTop) << endl;
 }
 
 void* StackAllocator::allocate(const u32 size){
@@ -34,7 +37,7 @@ void* StackAllocator::allocate(const u32 size){
   // save the top
   mTop = reinterpret_cast<void*>(address+size+smHeaderSize);
 
-  cout << "allocate mTop " << reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "allocate mTop " << reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
   StackAllocator::storeHeader(reinterpret_cast<ptr>(mTop), size);
@@ -47,11 +50,12 @@ void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
 
   // allocate size + header + alignment
   ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocateAligned(size+smHeaderSize,alignment));
-  cout << "aligned address " << alignedAddress << endl;
+  // cout << "aligned address " << alignedAddress << endl;
+
   // save the top
   mTop = reinterpret_cast<void*>(alignedAddress+size+smHeaderSize);
 
-  cout << "allocateAligned mTop "<< reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "allocateAligned mTop "<< reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
   StackAllocator::storeHeader(reinterpret_cast<ptr>(mTop), size+alignment);
@@ -71,7 +75,7 @@ void StackAllocator::free(){
 
   Allocator::checkFree();
 
-  cout << "free " << reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "free " << reinterpret_cast<ptr>(mTop) << endl;
 
   // read header
   u32* u32Array = reinterpret_cast<u32*>(mTop);
@@ -85,7 +89,7 @@ void StackAllocator::free(){
   mAllocated = mOffset;
 
   mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart) + mOffset);
-  cout << "free complete " << reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "free complete " << reinterpret_cast<ptr>(mTop) << endl;
 
 }
 
@@ -102,7 +106,7 @@ void StackAllocator::freeAligned(){
 
   mTop = reinterpret_cast<void*>(address);
 
-  cout << "freeAligned " << reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "freeAligned " << reinterpret_cast<ptr>(mTop) << endl;
 
 }
 
