@@ -24,6 +24,10 @@ StackAllocator::~StackAllocator(){
   mTop = nullptr;
 }
 
+void* StackAllocator::getTop(){
+  return mTop;
+}
+
 void StackAllocator::init(const u32 size){
   LinearAllocator::init(size);
   mTop = mStart;
@@ -66,7 +70,7 @@ void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
 }
 
 void StackAllocator::free(const void* pointer){
-  assert(false, "StackAllocator can't use free(void* pointer), use free().");
+  mTop = (void*) pointer;
 }
 
 void StackAllocator::freeAligned(const void* pointer){

@@ -18,11 +18,13 @@ class LinearAllocator : public Allocator {
 
 protected:
   u32 mOffset;
+  bool mIsReverse;
 public:
 
   LinearAllocator();
   virtual ~LinearAllocator();
-  // virtual void init(const u32 size);
+  void setReverse(bool isReverse);
+  virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocateAligned(const u32 size, const u32 alignment);
   virtual void free(const void* pointer);

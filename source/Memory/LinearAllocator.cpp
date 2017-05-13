@@ -3,10 +3,10 @@
 #include "BasicTypes.h"
 #include <cstdlib> // malloc, free
 
-// #include <iostream>
+#include <iostream>
 
 namespace DE {
-  // using namespace std;
+  using namespace std;
 
 LinearAllocator::LinearAllocator() : Allocator(){
 
@@ -16,19 +16,35 @@ LinearAllocator::~LinearAllocator(){
 
 }
 
-// void LinearAllocator::init(const u32 size){
-//
-//   Allocator::init(size);
-//
-//
-// }
+void LinearAllocator::setReverse(bool isReverse){
+  mIsReverse = isReverse;
+}
+
+void LinearAllocator::init(const u32 size){
+  Allocator::init(size);
+  mOffset = 0;
+  mIsReverse = false;
+}
 
 void* LinearAllocator::allocate(const u32 size){
   Allocator::checkAllocate(size);
 
-  ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset; // first time -> mStart + 0 = mStart
+  ptr currentAddress = 0;
+
+  if(mIsReverse){
+
+    void* end = mStart + mTotalSize;
+    currentAddress = reinterpret_cast<ptr>(end - mOffset + size);
+    
+  } else {
+
+    currentAddress = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
+    
+  }
+
   mOffset += size;
   Allocator::setAllocated(mOffset);
+
   return reinterpret_cast<void*>(currentAddress);
 }
 
