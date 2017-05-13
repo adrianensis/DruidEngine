@@ -45,7 +45,6 @@ bool Allocator::hasSpace(const u32 size) {
 
 void Allocator::init(const u32 size) {
   mTotalSize = size;
-
   Allocator::reset();
 
   if(mStartCopy != nullptr)

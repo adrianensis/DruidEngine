@@ -98,7 +98,7 @@ int main() {
 	*d = 4;
 
 	show(d);
-	show(*d);
+	show(*d); 
 
 	show(a);
 	show(b);
