@@ -13,9 +13,12 @@ protected:
 
   u32 mTotalSize;
   u32 mAllocated;
+  void* mStart;
+  void* mStartCopy; // a backup of mStart for secure the free() call
 
   void checkAllocate(u32 size);
   void checkFree();
+  void setAllocated(u32 size);
 
 public:
 

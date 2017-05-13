@@ -53,6 +53,7 @@ int main() {
 	show(c);
 	show(*c);
 
+	expected_uint(*b,300);
 	expected_uint(*c,500);
 
 	expected_uint(stack.getAllocated(),total);
@@ -67,6 +68,7 @@ int main() {
 	show(d);
 	show(*d);
 
+	expected_uint(*b,300);
 	expected_uint(*c,500);
 	expected_uint(*d,700);
 

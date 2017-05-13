@@ -1,13 +1,15 @@
 #include "StackAllocator.h"
 #include "BasicTypes.h"
-#include <iostream>
+// #include <iostream>
 
 namespace DE {
 
-using namespace std;
+// using namespace std;
 
-void StackAllocator::storeHeader(const ptr address, const u32 size){
-  u32* u32Array = reinterpret_cast<u32*>(address);
+const u32 StackAllocator::smHeaderSize = sizeof(u32);
+
+void StackAllocator::storeHeader(const void* address, const u32 size){
+  u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
 
   // header is stored in the last position of the allocated memory.
   // (the previus one to the following address).
@@ -40,7 +42,7 @@ void* StackAllocator::allocate(const u32 size){
   // cout << "allocate mTop " << reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
-  StackAllocator::storeHeader(reinterpret_cast<ptr>(mTop), size);
+  StackAllocator::storeHeader(mTop, size);
 
   return reinterpret_cast<void*>(address);
 }
@@ -58,7 +60,7 @@ void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
   // cout << "allocateAligned mTop "<< reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
-  StackAllocator::storeHeader(reinterpret_cast<ptr>(mTop), size+alignment);
+  StackAllocator::storeHeader(mTop, size+alignment);
 
   return reinterpret_cast<void*>(alignedAddress);
 }

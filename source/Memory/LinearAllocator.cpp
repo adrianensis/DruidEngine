@@ -3,37 +3,32 @@
 #include "BasicTypes.h"
 #include <cstdlib> // malloc, free
 
-#include <iostream>
+// #include <iostream>
 
 namespace DE {
-  using namespace std;
+  // using namespace std;
 
 LinearAllocator::LinearAllocator() : Allocator(){
-  mStart = nullptr;
+
 }
 
 LinearAllocator::~LinearAllocator(){
-  std::free(mStart);
-  mStart = nullptr;
+
 }
 
-void LinearAllocator::init(const u32 size){
-
-  Allocator::init(size);
-
-  if(mStart != nullptr)
-    std::free(mStart);
-
-  mStart = std::malloc(size);
-  LinearAllocator::reset();
-}
+// void LinearAllocator::init(const u32 size){
+//
+//   Allocator::init(size);
+//
+//
+// }
 
 void* LinearAllocator::allocate(const u32 size){
   Allocator::checkAllocate(size);
 
   ptr currentAddress = reinterpret_cast<ptr>(mStart) + mOffset; // first time -> mStart + 0 = mStart
   mOffset += size;
-  mAllocated = mOffset;
+  Allocator::setAllocated(mOffset);
   return reinterpret_cast<void*>(currentAddress);
 }
 

@@ -17,13 +17,12 @@ namespace DE {
 class LinearAllocator : public Allocator {
 
 protected:
-  void* mStart;
   u32 mOffset;
 public:
 
   LinearAllocator();
   virtual ~LinearAllocator();
-  virtual void init(const u32 size);
+  // virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocateAligned(const u32 size, const u32 alignment);
   virtual void free(const void* pointer);

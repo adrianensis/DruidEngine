@@ -11,8 +11,8 @@ class StackAllocator : public LinearAllocator {
 private:
   void* mTop;
 
-  static const u32 smHeaderSize = sizeof(u32);
-  static void storeHeader(const ptr address, const u32 size);
+  static const u32 smHeaderSize;
+  static void storeHeader(const void* address, const u32 size);
 
 public:
 
