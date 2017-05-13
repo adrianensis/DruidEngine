@@ -5,7 +5,7 @@
 #include "BasicTypes.h"
 
 /*
- *  https://en.wikipedia.org/wiki/Data_structure_alignment
+ * https://en.wikipedia.org/wiki/Data_structure_alignment
  *
  *  ---- pseudo-code: computing padding ----
  * padding = (align - (offset mod align)) mod align
