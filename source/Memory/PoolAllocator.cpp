@@ -37,6 +37,10 @@ PoolAllocator::PoolAllocator() : Allocator(){
 PoolAllocator::~PoolAllocator(){
 }
 
+u32 PoolAllocator::getFreeBlocks(){
+  return mMaxBlocks - mUsedBlocks;
+}
+
 void PoolAllocator::init(const u32 blockSize, const u32 numBlocks, const u32 alignment){
   this->reset();
 
@@ -45,8 +49,8 @@ void PoolAllocator::init(const u32 blockSize, const u32 numBlocks, const u32 ali
   mAlignment = alignment;
   // mFullBlockSize = mAlignment+mBlockSize+smPtrSize;
   mFullBlockSize = mBlockSize+smPtrSize;
-  mNumBlocks = numBlocks;
-  Allocator::init(mAlignment+mFullBlockSize*mNumBlocks);
+  mMaxBlocks = numBlocks;
+  Allocator::init(mAlignment+mFullBlockSize*mMaxBlocks);
 
   // align mStart
   if(mAlignment >= 1){
@@ -59,13 +63,13 @@ void PoolAllocator::init(const u32 blockSize, const u32 numBlocks, const u32 ali
   }
 
   mFirst = mStart + (1*mFullBlockSize) - smPtrSize;
-  mLast = mStart + (mNumBlocks*mFullBlockSize) - smPtrSize;
+  mLast = mStart + (mMaxBlocks*mFullBlockSize) - smPtrSize;
 
   // cout << "smPtrSize " << smPtrSize << endl;
   // cout << "mBlockSize " << mBlockSize << endl;
   // cout << "mAlignment " << mAlignment << endl;
   // cout << "mFullBlockSize " << mFullBlockSize << endl;
-  // cout << "mNumBlocks " << mNumBlocks << endl;
+  // cout << "mMaxBlocks " << mMaxBlocks << endl;
   // cout << "mStart init " << reinterpret_cast<ptr>(mStart) << endl;
   // cout << "mFirst " << reinterpret_cast<ptr>(mFirst) << endl;
   // cout << "mLast " << reinterpret_cast<ptr>(mLast) << endl;

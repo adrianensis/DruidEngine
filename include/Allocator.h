@@ -26,7 +26,7 @@ public:
   virtual ~Allocator();
   u32 getSize();
   u32 getAllocated();
-  bool hasSpace(const u32 size);
+  virtual bool hasSpace(const u32 size);
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size) = 0;
   virtual void* allocateAligned(const u32 size, const u32 alignment) = 0;

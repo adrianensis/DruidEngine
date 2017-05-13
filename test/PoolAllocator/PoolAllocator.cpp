@@ -28,17 +28,23 @@ int main() {
 	*b = 2;
 	*c = 3;
 
-	show(*a);
-	show(*b);
-	show(*c);
+	expected_uint(*a,1);
+	expected_uint(*b,2);
+	expected_uint(*c,3);
 
 	expected_uint(pool.getAllocated(),(sizeInt+sizePtr)*3);
 
+	expected_uint(pool.getFreeBlocks(),1);
+
 	pool.free(b);
+
+	expected_uint(pool.getFreeBlocks(),2);
 
 	expected_uint(pool.getAllocated(),(sizeInt+sizePtr)*2);
 
 	u32* d = reinterpret_cast<u32*>(pool.allocate());
+
+	expected_uint(pool.getFreeBlocks(),1);
 
 	*d = 4;
 
@@ -46,12 +52,14 @@ int main() {
 	show(*d);
 
 	show(a);
-	show(b);
 	show(c);
 
 	expected_uint(*a,1);
-	expected_uint(*b,2);
 	expected_uint(*c,3);
+
+	pool.free(d);
+
+	expected_uint(pool.getFreeBlocks(),2);
 
 	// ALIGNED
 
@@ -77,7 +85,11 @@ int main() {
 
 	expected_uint(pool.getAllocated(),8 + (sizeInt+sizePtr)*3);
 
+	expected_uint(pool.getFreeBlocks(),1);
+
 	pool.free(b);
+
+	expected_uint(pool.getFreeBlocks(),2);
 
 	expected_uint(pool.getAllocated(),8 + (sizeInt+sizePtr)*2);
 
@@ -95,6 +107,12 @@ int main() {
 	expected_uint(*a,1);
 	expected_uint(*b,2);
 	expected_uint(*c,3);
+
+	pool.free(a);
+	pool.free(c);
+	pool.free(d);
+
+	expected_uint(pool.getFreeBlocks(),4);
 
 	pool.allocate();
 
