@@ -1,0 +1,11 @@
+
+
+
+===========    DE::DoubleStackAllocator    ===========
+
+[ OK ]	stack.getLower()->getAllocated()
+	result: 0
+	expected: 0
+
+
+0.00017 1 0

@@ -1,6 +1,7 @@
 #include "Allocator.h"
 #include "Assert.h"
 #include "BasicTypes.h"
+#include <cstdlib>
 
 // #include <iostream>
 
@@ -43,16 +44,26 @@ bool Allocator::hasSpace(const u32 size) {
   return (mTotalSize-mAllocated) >= size;
 };
 
+void Allocator::_init(void* mem) {
+  if(mStartCopy != nullptr)
+    std::free(mStartCopy);
+
+  mStart = mem;
+  mEnd = mStart + mTotalSize;
+
+  mStartCopy = mStart;
+};
+
 void Allocator::init(const u32 size) {
+  initFromMemory(size, std::malloc(size));
+};
+
+void Allocator::initFromMemory(const u32 size, void* mem) {
   mTotalSize = size;
 
   Allocator::reset();
 
-  if(mStartCopy != nullptr)
-    std::free(mStartCopy);
-
-  mStart = std::malloc(size);
-  mEnd = mStart + mTotalSize;
+  _init(mem);
 
   mStartCopy = mStart;
 };

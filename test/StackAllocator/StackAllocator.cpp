@@ -88,7 +88,7 @@ int main() {
 
 	stack.free(); // pop b
 
-	stack.reset();
+	// stack.reset();
 
 	expected_uint(stack.getAllocated(),0);
 
