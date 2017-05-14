@@ -31,16 +31,11 @@ void* LinearAllocator::allocate(const u32 size){
 
   ptr currentAddress = 0;
 
-  if(mIsReverse){
-
-    void* end = mStart + mTotalSize;
-    currentAddress = reinterpret_cast<ptr>(end - mOffset + size);
-    
-  } else {
-
+  if(mIsReverse)
+    currentAddress = reinterpret_cast<ptr>(mEnd - mOffset - size);
+  else
     currentAddress = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
-    
-  }
+
 
   mOffset += size;
   Allocator::setAllocated(mOffset);

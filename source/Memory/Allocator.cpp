@@ -52,6 +52,7 @@ void Allocator::init(const u32 size) {
     std::free(mStartCopy);
 
   mStart = std::malloc(size);
+  mEnd = mStart + mTotalSize;
 
   mStartCopy = mStart;
 };

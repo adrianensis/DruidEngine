@@ -12,7 +12,7 @@ private:
   void* mTop;
 
   static const u32 smHeaderSize;
-  static void storeHeader(const void* address, const u32 size);
+  void storeHeader(const void* address, const u32 size);
 
 public:
 

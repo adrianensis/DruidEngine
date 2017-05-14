@@ -13,7 +13,12 @@ void StackAllocator::storeHeader(const void* address, const u32 size){
 
   // header is stored in the last position of the allocated memory.
   // (the previus one to the following address).
-  u32Array[-1] = size;
+
+  if(mIsReverse)
+    u32Array[1] = size;  // store header at the begining of the block
+  else
+    u32Array[-1] = size;  // store header at the end of the block
+
 }
 
 StackAllocator::StackAllocator() : LinearAllocator(){
@@ -41,12 +46,18 @@ void* StackAllocator::allocate(const u32 size){
   const ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize));
 
   // save the top
-  mTop = reinterpret_cast<void*>(address+size+smHeaderSize);
+  if(mIsReverse)
+    mTop = reinterpret_cast<void*>(address);
+  else
+    mTop = reinterpret_cast<void*>(address+size+smHeaderSize);
+
 
   // cout << "allocate mTop " << reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
   StackAllocator::storeHeader(mTop, size);
+
+
 
   return reinterpret_cast<void*>(address);
 }
@@ -59,7 +70,12 @@ void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
   // cout << "aligned address " << alignedAddress << endl;
 
   // save the top
-  mTop = reinterpret_cast<void*>(alignedAddress+size+smHeaderSize);
+  if(mIsReverse)
+    mTop = reinterpret_cast<void*>(alignedAddress);
+  else
+    mTop = reinterpret_cast<void*>(alignedAddress+size+smHeaderSize);
+
+
 
   // cout << "allocateAligned mTop "<< reinterpret_cast<ptr>(mTop) << endl;
 
@@ -85,7 +101,13 @@ void StackAllocator::free(){
 
   // read header
   u32* u32Array = reinterpret_cast<u32*>(mTop);
-  u32 size = u32Array[-1];
+
+  u32 size = 0;
+
+  if(mIsReverse)
+    size = u32Array[1];
+  else
+    size = u32Array[-1];
 
   // reduce mOffset
   mOffset -= smHeaderSize;
@@ -94,7 +116,11 @@ void StackAllocator::free(){
   // reduce mAllocated
   mAllocated = mOffset;
 
-  mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart) + mOffset);
+  if(mIsReverse)
+    mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mEnd - mOffset));
+  else
+    mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart + mOffset));
+
   // cout << "free complete " << reinterpret_cast<ptr>(mTop) << endl;
 
 }

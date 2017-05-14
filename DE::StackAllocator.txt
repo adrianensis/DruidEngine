@@ -1,0 +1,147 @@
+
+
+
+===========    DE::StackAllocator    ===========
+
+a = 0x61e0c0
+
+*a = 300
+
+[ OK ]	*a
+	result: 300
+	expected: 300
+
+[ OK ]	stack.getAllocated()
+	result: 8
+	expected: 8
+
+[ OK ]	stack.getAllocated()
+	result: 0
+	expected: 0
+
+b = 0x61e0c0
+
+*b = 300
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	stack.getAllocated()
+	result: 8
+	expected: 8
+
+c = 0x61e0c8
+
+*c = 500
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	*c
+	result: 500
+	expected: 500
+
+[ OK ]	stack.getAllocated()
+	result: 16
+	expected: 16
+
+d = 0x61e0e0
+
+*d = 700
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	*c
+	result: 500
+	expected: 500
+
+[ OK ]	*d
+	result: 700
+	expected: 700
+
+[ OK ]	stack.getAllocated()
+	result: 40
+	expected: 40
+
+stack.getAllocated() = 40
+
+stack.getAllocated() = 16
+
+stack.getAllocated() = 8
+
+[ OK ]	stack.getAllocated()
+	result: 0
+	expected: 0
+
+b = 0x61e4b8
+
+*b = 300
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	stack.getAllocated()
+	result: 8
+	expected: 8
+
+c = 0x61e4b0
+
+*c = 500
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	*c
+	result: 500
+	expected: 500
+
+[ OK ]	stack.getAllocated()
+	result: 16
+	expected: 16
+
+d = 0x61e4a0
+
+*d = 700
+
+[ OK ]	*b
+	result: 300
+	expected: 300
+
+[ OK ]	*c
+	result: 500
+	expected: 500
+
+[ OK ]	*d
+	result: 700
+	expected: 700
+
+[ OK ]	stack.getAllocated()
+	result: 40
+	expected: 40
+
+stack.getAllocated() = 40
+
+stack.getAllocated() = 16
+
+x = 0x61e4a8
+
+*x = 1
+
+stack.getAllocated() = 8
+
+[ OK ]	stack.getAllocated()
+	result: 0
+	expected: 0
+
+[ OK ]	stack.getAllocated()
+	result: 0
+	expected: 0
+
+
+0.003323 24 0
