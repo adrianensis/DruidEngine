@@ -63,10 +63,10 @@ void* StackAllocator::allocate(const u32 size){
 }
 
 
-void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
+void* StackAllocator::allocate(const u32 size, const u32 alignment){
 
   // allocate size + header + alignment
-  ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocateAligned(size+smHeaderSize,alignment));
+  ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize,alignment));
   // cout << "aligned address " << alignedAddress << endl;
 
   // save the top
@@ -77,7 +77,7 @@ void* StackAllocator::allocateAligned(const u32 size, const u32 alignment){
 
 
 
-  // cout << "allocateAligned mTop "<< reinterpret_cast<ptr>(mTop) << endl;
+  // cout << "allocate mTop "<< reinterpret_cast<ptr>(mTop) << endl;
 
   // store header
   StackAllocator::storeHeader(mTop, size+alignment);

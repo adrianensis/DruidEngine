@@ -13,7 +13,7 @@ int main() {
 
 	u32 sizeInt = sizeof(u32);
 
-	u32* k = reinterpret_cast<u32*>(linear.allocateAligned(sizeInt,8));
+	u32* k = reinterpret_cast<u32*>(linear.allocate(sizeInt,8));
 	*k = 300;
 
 	show(k);
@@ -33,7 +33,7 @@ int main() {
 
 	expected_float(linear.getAllocated(),sizeInt+8+sizeInt);
 
-	u32* j = reinterpret_cast<u32*>(linear.allocateAligned(sizeInt,16));
+	u32* j = reinterpret_cast<u32*>(linear.allocate(sizeInt,16));
 	*j = 700;
 
 	show(j);
@@ -50,7 +50,7 @@ int main() {
 
 	linear.setReverse(true);
 
-	k = reinterpret_cast<u32*>(linear.allocateAligned(sizeInt,8));
+	k = reinterpret_cast<u32*>(linear.allocate(sizeInt,8));
 	*k = 300;
 
 	show(k);
@@ -70,7 +70,7 @@ int main() {
 
 	expected_float(linear.getAllocated(),sizeInt+8+sizeInt);
 
-	j = reinterpret_cast<u32*>(linear.allocateAligned(sizeInt,16));
+	j = reinterpret_cast<u32*>(linear.allocate(sizeInt,16));
 	*j = 700;
 
 	show(j);

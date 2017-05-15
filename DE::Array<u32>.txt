@@ -1,0 +1,31 @@
+
+
+
+===========    DE::Array<u32>    ===========
+
+[ OK ]	array.getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	array[0]
+	result: 1
+	expected: 1
+
+[ OK ]	array[1]
+	result: 2
+	expected: 2
+
+[ OK ]	array[2]
+	result: 3
+	expected: 3
+
+[ OK ]	array[3]
+	result: 4
+	expected: 4
+
+[ OK ]	array[4]
+	result: 5
+	expected: 5
+
+
+0.004646 6 0

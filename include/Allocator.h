@@ -31,7 +31,7 @@ public:
   virtual void init(const u32 size);
   virtual void initFromMemory(const u32 size, void* mem);
   virtual void* allocate(const u32 size) = 0;
-  virtual void* allocateAligned(const u32 size, const u32 alignment) = 0;
+  virtual void* allocate(const u32 size, const u32 alignment) = 0;
   virtual void free(const void* pointer) = 0;
   virtual void freeAligned(const void* pointer) = 0;
   virtual void reset();

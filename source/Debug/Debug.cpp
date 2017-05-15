@@ -11,7 +11,7 @@ namespace Debug {
 using namespace std;
 
 
-template<typename T>
+template<class T>
 void echo(T message) {
   #ifdef DE_DEBUG
   cout << "D > " << message << endl;

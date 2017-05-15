@@ -117,15 +117,15 @@ void PoolAllocator::init(const u32 blockSize, const u32 numBlocks, const u32 ali
 
 }
 
+void* PoolAllocator::allocateBlock(){
+  return PoolAllocator::allocate(0);
+}
+
+// void* PoolAllocator::allocate(const u32 alignment){
+//   return PoolAllocator::allocate(alignment);
+// }
+
 void* PoolAllocator::allocate(const u32 size){
-  return PoolAllocator::allocate();
-}
-
-void* PoolAllocator::allocateAligned(const u32 size, const u32 alignment){
-  return PoolAllocator::allocateAligned(alignment);
-}
-
-void* PoolAllocator::allocate(){
 
   void* address = getBlock(mFirst); // take the first free block
 
@@ -138,8 +138,8 @@ void* PoolAllocator::allocate(){
   return address;
 }
 
-void* PoolAllocator::allocateAligned(const u32 alignment){
-  assert(false, "PoolAllocator can't use allocateAligned(const u32 alignment) use allocate().");
+void* PoolAllocator::allocate(const u32 size, const u32 alignment){
+  assert(false, "PoolAllocator can't use allocate(const u32 alignment) use allocate().");
 }
 
 void PoolAllocator::free(const void* pointer){

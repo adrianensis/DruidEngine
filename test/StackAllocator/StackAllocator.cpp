@@ -60,7 +60,7 @@ int main() {
 
 	//------------------------------------------------------
 
-	u32*d = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,16));
+	u32*d = reinterpret_cast<u32*>(stack.allocate(sizeInt,16));
 	*d = 700;
 
 	total+=sizeInt+headerSize+16;
@@ -133,7 +133,7 @@ int main() {
 
 	//------------------------------------------------------
 
-	d = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,16));
+	d = reinterpret_cast<u32*>(stack.allocate(sizeInt,16));
 	*d = 700;
 
 	total+=sizeInt+headerSize+16;
@@ -167,7 +167,7 @@ int main() {
 
 	show(stack.getAllocated());
 
-	u32* y = reinterpret_cast<u32*>(stack.allocateAligned(sizeInt,8));
+	u32* y = reinterpret_cast<u32*>(stack.allocate(sizeInt,8));
 	*y = 2;
 
 	stack.freeAligned(); // pop y

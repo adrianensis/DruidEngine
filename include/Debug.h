@@ -10,7 +10,7 @@ namespace DE {
 
 namespace Debug {
 
-template<typename T>
+template<class T>
 void echo(T message);
 void var(string varname, auto var);
 void var(auto var);

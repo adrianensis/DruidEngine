@@ -26,7 +26,7 @@ public:
   void setReverse(bool isReverse);
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
-  virtual void* allocateAligned(const u32 size, const u32 alignment);
+  virtual void* allocate(const u32 size, const u32 alignment);
   virtual void free(const void* pointer);
   virtual void freeAligned(const void* pointer);
   virtual void reset();

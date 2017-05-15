@@ -43,7 +43,7 @@ void* LinearAllocator::allocate(const u32 size){
   return reinterpret_cast<void*>(currentAddress);
 }
 
-void* LinearAllocator::allocateAligned(const u32 size, const u32 alignment){
+void* LinearAllocator::allocate(const u32 size, const u32 alignment){
 
 /*
 
