@@ -17,7 +17,7 @@ public:
 
   Allocatable(){};
   virtual ~Allocatable(){};
-  // void setAllocator(Allocator* allocator){ mAllocator = allocator; };
+  void init(Allocator* allocator){ mAllocator = allocator; };
 
 };
 

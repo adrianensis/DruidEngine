@@ -5,12 +5,6 @@
 #include "BasicTypes.h"
 #include "Allocator.h"
 
-#include <cstring>
-#include <iostream>
-#include <typeinfo>
-
-
-
 namespace DE {
 
 template <class T>
@@ -18,40 +12,40 @@ class Array : public BaseArray {
 
 private:
 
-  T* mStart;
-
-  void fill(T* destiny, T* source, const u32 size) {
-    std::memcpy(destiny, source, size);
-  };
+  T* mTStart;
 
 public:
 
-  Array() : BaseArray(){};
+  Array() : BaseArray(){
+
+  };
 
   Array(const Array& other) : BaseArray(){
-    init(other.mStart, other.mLength, other.mAllocator);
+    copy(other, other.mAllocator);
+    mTStart = static_cast<T*>(mStart);
   };
 
   Array(const Array& other, Allocator* allocator) : BaseArray(){
-    init(other.mStart, other.mLength, allocator);
+    copy(other, allocator);
+    mTStart = static_cast<T*>(mStart);
   };
 
   ~Array(){};
 
-  void init(T* array, u32 length, Allocator* allocator) {
-    mStart = static_cast<T*>(allocate(length, sizeof(T), allocator));
-    this->fill(mStart,array,length*sizeof(T));
+  void init(void* rawArray, const u32 length, Allocator* allocator) {
+    BaseArray::init(rawArray, length, sizeof(T), allocator);
+    mTStart = static_cast<T*>(mStart);
   };
 
-  void init(T* array, u32 length, u32 alignment, Allocator* allocator) {
-    mStart = static_cast<T*>(allocate(length, sizeof(T), alignment, allocator));
-    this->fill(mStart,array,length*sizeof(T));
+  void init(void* rawArray, const u32 length, const u32 alignment, Allocator* allocator) {
+    BaseArray::init(rawArray, length, sizeof(T), alignment, allocator);
+    mTStart = static_cast<T*>(mStart);
   };
 
   // can be used for assignment
 	T& operator[](const size_t i) {
 		assert(i >= 0 && i < mLength, "Index out of bounds.");
-		return mStart[i];
+		return mTStart[i];
 	}
 
 };

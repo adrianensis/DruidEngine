@@ -139,7 +139,7 @@ void* PoolAllocator::allocate(const u32 size){
 }
 
 void* PoolAllocator::allocate(const u32 size, const u32 alignment){
-  assert(false, "PoolAllocator can't use allocate(const u32 alignment) use allocate().");
+  PoolAllocator::allocate(0);
 }
 
 void PoolAllocator::free(const void* pointer){
@@ -157,8 +157,7 @@ void PoolAllocator::free(const void* pointer){
 }
 
 void PoolAllocator::freeAligned(const void* pointer){
-  assert(false, "PoolAllocator can't use freeAligned(const void* pointer) use free(const void* pointer).");
-
+  PoolAllocator::free(pointer);
 }
 
 // void PoolAllocator::reset(){

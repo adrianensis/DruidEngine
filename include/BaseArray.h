@@ -1,31 +1,32 @@
 #ifndef BASEARRAY_H_
 #define BASEARRAY_H_
 
+#include "Container.h"
 #include "BasicTypes.h"
-#include "Allocatable.h"
 #include "Allocator.h"
 
 namespace DE {
 
-class BaseArray : public Allocatable {
+class BaseArray : public Container {
 
 private:
 
-  void _init(const u32 length, const u32 elementSize, Allocator* allocator);
+  void fill(void* destiny, void* source, const u32 size);
 
 protected:
 
-  u32 mElementSize;
-  u32 mLength;
+  void* mStart;
 
-  void* allocate(const u32 length, const u32 elementSize, Allocator* allocator);
-  void* allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  void copy(const BaseArray& other, Allocator* allocator);
+  void init(void* rawArray, const u32 length, const u32 elementSize, Allocator* allocator);
+  void init(void* rawArray, const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  virtual void* allocate(const u32 length, const u32 elementSize, Allocator* allocator);
+  virtual void* allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
 
 public:
 
   BaseArray();
   virtual ~BaseArray();
-  u32 getLength();
 
 };
 

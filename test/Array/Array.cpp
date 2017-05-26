@@ -54,6 +54,16 @@ int main() {
 	expected_uint(array[3],9);
 	expected_uint(array[4],10);
 
+	DE::Array<u32> copy2(array);
+
+	expected_uint(copy2.getLength(),5);
+
+	expected_uint(copy2[0],6);
+	expected_uint(copy2[1],7);
+	expected_uint(copy2[2],8);
+	expected_uint(copy2[3],9);
+	expected_uint(copy2[4],10);
+
 	linear.reset();
 
 	summary();
