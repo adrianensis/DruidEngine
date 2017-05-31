@@ -15,17 +15,18 @@ protected:
   class BaseNode {
 
   public:
-    void* mNext;
-    void* mPrev;
+    BaseNode* mNext;
+    BaseNode* mPrev;
     void* mElement;
     BaseNode ();
     virtual ~BaseNode ();
+    void init();
   };
 
   BaseNode* mFirst;
   BaseNode* mLast;
 
-  void allocationLoop(const u32 length, /*const u32 elementSize,*/ const u32 alignment, Allocator* allocator);
+  void allocationLoop(const u32 length);
   virtual void* allocate(const u32 length, const u32 elementSize, Allocator* allocator);
   virtual void* allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
 

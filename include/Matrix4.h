@@ -5,7 +5,7 @@
 
 namespace DE {
 
-class Matrix4 /*: public Aligned16*/ {
+class Matrix4 /*16 bytes alignment*/ {
 
 private:
 

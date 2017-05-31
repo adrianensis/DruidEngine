@@ -37,7 +37,7 @@ Vector3& Vector3::set(const Vector3& rhs) {
 }
 
 Vector3& Vector3::add(const Vector3& rhs) {
-	// can be parallelized with sse auto-vectorization
+	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
 	z = z + rhs.z;

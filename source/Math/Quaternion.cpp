@@ -38,7 +38,7 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw){
 	// v.y = c3*s2*c1 + s3*c2*s1;
 	// v.z = s3*c2*c1 - c3*s2*s1;
 
-	// sse-optimized
+	// SIMD-optimized
 	f32 c3c2 = c3*c2;
 	f32 s3s2 = s3*s2;
 	f32 c3s2 = c3*s2;
@@ -95,7 +95,7 @@ Quaternion& Quaternion::set(const Quaternion& rhs) {
 }
 
 Quaternion& Quaternion::add(const Quaternion& rhs) {
-	// can be parallelized with sse auto-vectorization
+	// can be parallelized with SIMD auto-vectorization
 	v.add(rhs.v);
 	w = w + rhs.w;
 	return *this;
@@ -145,7 +145,7 @@ Quaternion& Quaternion::div(const f32 rhs) {
 }
 
 f32 Quaternion::dot(const Quaternion& q) const {
-	// sse-optimized
+	// SIMD-optimized
 	f32 xx = v.x*q.v.x;
 	f32 yy = v.y*q.v.y;
 	f32 zz = v.z*q.v.z;

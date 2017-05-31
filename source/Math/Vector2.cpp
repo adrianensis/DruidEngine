@@ -35,7 +35,7 @@ Vector2& Vector2::set(const Vector2& rhs) {
 }
 
 Vector2& Vector2::add(const Vector2& rhs) {
-	// can be parallelized with sse auto-vectorization
+	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
 	return *this;

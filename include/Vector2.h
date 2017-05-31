@@ -3,13 +3,13 @@
 
 #include <ostream>
 #include "Assert.h"
-#include "Aligned16.h"
+
 #include "BasicTypes.h"
 #include "MathUtils.h"
 
 namespace DE {
 
-class Vector2 /*: public Aligned16*/ {
+class Vector2 {
 
 
 public:
@@ -76,7 +76,7 @@ public:
 	}
 
 	Vector2& operator+=(const Vector2& rhs) {
-		// can be parallelized with sse auto-vectorization
+		// can be parallelized with SIMD auto-vectorization
 		return this->add(rhs);
 	}
 

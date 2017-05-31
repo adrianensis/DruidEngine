@@ -38,7 +38,7 @@ Vector4& Vector4::set(const Vector4& rhs) {
 }
 
 Vector4& Vector4::add(const Vector4& rhs) {
-	// can be parallelized with sse auto-vectorization
+	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
 	z = z + rhs.z;
@@ -108,7 +108,7 @@ Vector4& Vector4::div(const f32 rhs) {
 }
 
 f32 Vector4::dot(const Vector4& v) const {
-	// sse-optimized
+	// SIMD-optimized
 	f32 xx = x*v.x;
 	f32 yy = y*v.y;
 	f32 zz = z*v.z;

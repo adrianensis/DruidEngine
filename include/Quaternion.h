@@ -3,14 +3,14 @@
 
 #include <ostream>
 #include "Assert.h"
-#include "Aligned16.h"
+
 #include "BasicTypes.h"
 #include "MathUtils.h"
 #include "Vector3.h"
 
 namespace DE {
 
-class Quaternion /*: public Aligned16*/ {
+class Quaternion /*16 bytes alignment*/ {
 public:
 
 	//-------------------------------------------------------------------
@@ -81,7 +81,7 @@ public:
 	}
 
 	Quaternion& operator+=(const Quaternion& rhs) {
-		// can be parallelized with sse auto-vectorization
+		// can be parallelized with SIMD auto-vectorization
 		return this->add(rhs);
 	}
 
