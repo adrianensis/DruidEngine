@@ -17,8 +17,7 @@ protected:
 
   void init(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
 
-  virtual void* allocate(const u32 length, const u32 elementSize, Allocator* allocator) = 0;
-  virtual void* allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) = 0;
+  virtual void allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) = 0;
 
 public:
 

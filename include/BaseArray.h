@@ -20,8 +20,7 @@ protected:
   void copy(const BaseArray& other, Allocator* allocator);
   void init(void* rawArray, const u32 length, const u32 elementSize, Allocator* allocator);
   void init(void* rawArray, const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
-  virtual void* allocate(const u32 length, const u32 elementSize, Allocator* allocator);
-  virtual void* allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  virtual void allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
 
 public:
 

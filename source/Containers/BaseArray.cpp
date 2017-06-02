@@ -26,27 +26,26 @@ BaseArray::BaseArray() : Container(){
 }
 
 BaseArray::~BaseArray(){
-
+  // TODO
 };
 
 void BaseArray::init(void* rawArray, const u32 length, const u32 elementSize, Allocator* allocator) {
-  mStart = allocate(length, elementSize, allocator);
+  allocate(length, elementSize, 0, allocator);
   fill(mStart,rawArray,mLength*mElementSize);
 };
 
 void BaseArray::init(void* rawArray, const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) {
-  mStart = allocate(length, elementSize, alignment, allocator);
+  allocate(length, elementSize, alignment, allocator);
   fill(mStart,rawArray,mLength*mElementSize);
 };
 
-void* BaseArray::allocate(const u32 length, const u32 elementSize, Allocator* allocator) {
-  Container::init(length,elementSize,0,allocator);
-  return allocator->allocate(mLength*mElementSize);
-};
-
-void* BaseArray::allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) {
+void BaseArray::allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) {
   Container::init(length,elementSize,alignment,allocator);
-  return allocator->allocate(mLength*mElementSize, mAlignment);
+
+  if(mAlignment > 0)
+    mStart = allocator->allocate(mLength*mElementSize, mAlignment);
+  else
+    mStart = allocator->allocate(mLength*mElementSize);
 };
 
 } /* namespace DE */

@@ -4,6 +4,8 @@
 #include "BaseArray.h"
 #include "BasicTypes.h"
 #include "Allocator.h"
+#include "Assert.h"
+
 
 namespace DE {
 
