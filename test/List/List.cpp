@@ -8,7 +8,7 @@ int main() {
 	test(DE::List<u32>);
 
 	DE::PoolAllocator pool;
-	pool.init(List<u32>::smNodeSize,30,0);
+	pool.init(List<u32>::getNodeSize(),30,0);
 
 	DE::List<u32> list;
 

@@ -35,10 +35,11 @@ private:
 
   BaseNode* newNode();
   void freeNode(BaseNode* node);
+  static const u32 smNodeSize;
 
 public:
 
-  static const u32 smNodeSize;
+  static const u32& getNodeSize() {return smNodeSize; };
 
   class BaseIterator {
   friend class BaseList;
