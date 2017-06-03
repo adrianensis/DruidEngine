@@ -5,7 +5,7 @@
 
 namespace DE {
 
-const std::string emptyAssert = "?";
+static const std::string emptyAssert = "?";
 
 void assert(bool condition, std::string message = emptyAssert);
 

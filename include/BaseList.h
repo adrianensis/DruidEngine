@@ -2,14 +2,14 @@
 #define BASELIST_H_
 
 #include "Container.h"
-#include "Allocator.h"
+#include "PoolAllocator.h"
 #include "BasicTypes.h"
 
 namespace DE {
 
 class BaseList : public Container {
 
-friend class Iterator;
+friend class BaseIterator;
 
 protected:
 
@@ -21,22 +21,24 @@ protected:
     void* mElement;
     BaseNode ();
     virtual ~BaseNode ();
-    virtual void init();
-    virtual void init(void* element);
+    void init();
+    void init(void* element);
   };
 
   BaseNode* mFirst;
   BaseNode* mLast;
 
   // void allocationLoop(const u32 length);
-  virtual void allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  void allocate(const u32 elementSize, const u32 alignment, PoolAllocator* allocator);
 
 private:
 
-  static const u32 smNodeSize;
   BaseNode* newNode();
+  void freeNode(BaseNode* node);
 
 public:
+
+  static const u32 smNodeSize;
 
   class BaseIterator {
   friend class BaseList;
@@ -45,33 +47,35 @@ public:
     bool mReverse;
   public:
     BaseIterator ();
+    BaseIterator(const BaseIterator& other);
     virtual ~BaseIterator ();
     void init(BaseNode* start);
-    virtual bool hasNext();
-    virtual void next();
-    virtual void* get();
-    virtual bool isReverse();
-    virtual void setReverse(bool isReverse);
+    bool hasNext();
+    void next();
+    void* get();
+    bool isReverse();
+    void setReverse(bool isReverse);
   };
 
   BaseList ();
   virtual ~BaseList ();
 
-  virtual void init(const u32 length, const u32 elementSize, Allocator* allocator);
-  virtual void init(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  void init(const u32 elementSize, PoolAllocator* allocator);
+  // void init(const u32 length, const u32 elementSize, const u32 alignment, PoolAllocator* allocator);
 
-  virtual BaseIterator getIterator() const;
-  virtual BaseIterator getRevIterator() const;
-  virtual bool isEmpty();
-  virtual void pushFront(void* element);
-  virtual void pushBack(void* element);
-  virtual void* popFront();
-  virtual void* popBack();
-  virtual void* get(u32 index) const;
-  virtual void remove(u32 index);
-  virtual void remove(BaseIterator& it);
-  virtual void insert(u32 index, void* element);
-  virtual void insert(BaseIterator& it, void* element);
+  BaseIterator getIterator() const;
+  BaseIterator getRevIterator() const;
+  bool isEmpty();
+  void clear();
+  void pushFront(void* element);
+  void pushBack(void* element);
+  void* popFront();
+  void* popBack();
+  void* get(u32 index) const;
+  void remove(u32 index);
+  void remove(BaseIterator& it);
+  void insert(u32 index, void* element);
+  void insert(BaseIterator& it, void* element);
 };
 
 } /* namespace DE */

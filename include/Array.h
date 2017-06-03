@@ -23,16 +23,16 @@ public:
   };
 
   Array(const Array& other) : BaseArray(){
-    copy(other, other.mAllocator);
+    BaseArray::copy(other, other.mAllocator);
     mTStart = static_cast<T*>(mStart);
   };
 
   Array(const Array& other, Allocator* allocator) : BaseArray(){
-    copy(other, allocator);
+    BaseArray::copy(other, allocator);
     mTStart = static_cast<T*>(mStart);
   };
 
-  ~Array(){};
+  virtual ~Array(){};
 
   void init(void* rawArray, const u32 length, Allocator* allocator) {
     BaseArray::init(rawArray, length, sizeof(T), allocator);

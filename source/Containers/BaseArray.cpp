@@ -26,7 +26,7 @@ BaseArray::BaseArray() : Container(){
 }
 
 BaseArray::~BaseArray(){
-  // TODO
+  // NOTE: user must free memory externally, by using the choosen allocator.
 };
 
 void BaseArray::init(void* rawArray, const u32 length, const u32 elementSize, Allocator* allocator) {

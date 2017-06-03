@@ -1,14 +1,22 @@
 #include "BaseList.h"
 
 #include "BasicTypes.h"
-#include "Allocator.h"
+#include "PoolAllocator.h"
 #include "Container.h"
 #include "Assert.h"
+
+#include <iostream>
+
+using namespace std;
 
 namespace DE {
 
 BaseList::BaseNode* BaseList::newNode(){
   return static_cast<BaseNode*>(mAllocator->allocate(smNodeSize));
+};
+
+void BaseList::freeNode(BaseList::BaseNode* node){
+    mAllocator->free(node);
 };
 
 const u32 BaseList::smNodeSize = sizeof(BaseNode);
@@ -36,19 +44,25 @@ BaseList::BaseIterator::BaseIterator() {
   mNode = nullptr;
 };
 
+BaseList::BaseIterator::BaseIterator(const BaseIterator& other) {
+  mNode = other.mNode;
+  mReverse = other.mReverse;
+};
+
 BaseList::BaseIterator::~BaseIterator() {
 
 };
 
 void BaseList::BaseIterator::init(BaseNode* start) {
   mNode = start;
+  mReverse = false;
 };
 
 bool BaseList::BaseIterator::hasNext() {
   if(mReverse)
-    return mNode->mPrev != nullptr;
+    return (mNode->mPrev != nullptr);
   else
-    return mNode->mNext != nullptr;
+    return (mNode->mNext != nullptr);
 };
 
 void BaseList::BaseIterator::next() {
@@ -76,7 +90,7 @@ BaseList::BaseList() : Container() {
 };
 
 BaseList::~BaseList() {
- // TODO
+ // NOTE: user must free memory externally, by using the choosen allocator.
 };
 
 // void BaseList::allocationLoop(const u32 length) {
@@ -99,18 +113,18 @@ BaseList::~BaseList() {
 //   }
 // };
 
-void BaseList::allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) {
-  Container::init(length, elementSize, alignment, allocator);
+void BaseList::allocate(const u32 elementSize, const u32 alignment, PoolAllocator* allocator) {
+  Container::init(0, elementSize, alignment, allocator); // mLength = 0
   // allocationLoop(length);
 };
 
-void BaseList::init(const u32 length, const u32 elementSize, Allocator* allocator) {
-  BaseList::allocate(length, elementSize, 0, allocator);
+void BaseList::init(const u32 elementSize, PoolAllocator* allocator) {
+  BaseList::allocate(elementSize, 0, allocator);
 };
 
-void BaseList::init(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator) {
-  BaseList::allocate(length, elementSize, alignment, allocator);
-};
+// void BaseList::init(const u32 length, const u32 elementSize, const u32 alignment, PoolAllocator* allocator) {
+//   BaseList::allocate(length, elementSize, alignment, allocator);
+// };
 
 BaseList::BaseIterator BaseList::getIterator() const{
   BaseIterator it;
@@ -127,6 +141,13 @@ BaseList::BaseIterator BaseList::getRevIterator() const{
 
 bool BaseList::isEmpty(){
   return mLength == 0;
+};
+
+void BaseList::clear(){
+  BaseIterator it = BaseList::getIterator();
+  for (; it.hasNext(); BaseList::remove(it));
+
+  BaseList::remove(it); // remove last
 };
 
 void BaseList::pushFront(void* element){
@@ -171,7 +192,7 @@ void* BaseList::popFront(){
     mLength--;
 
     element = mFirst->mElement;
-    void* old = mFirst;
+    BaseNode* old = mFirst;
 
     if(! BaseList::isEmpty()){
       mFirst = mFirst->mNext;
@@ -181,7 +202,8 @@ void* BaseList::popFront(){
       mLast = nullptr;
     }
 
-    mAllocator->free(old);
+    // mAllocator->free(old);
+    BaseList::freeNode(old);
   }
 
   return element;
@@ -195,7 +217,7 @@ void* BaseList::popBack(){
     mLength--;
 
     element = mLast->mElement;
-    void* old = mLast;
+    BaseNode* old = mLast;
 
     if(! BaseList::isEmpty()){
       mLast = mLast->mPrev;
@@ -205,7 +227,8 @@ void* BaseList::popBack(){
       mLast = nullptr;
     }
 
-    mAllocator->free(old);
+    // mAllocator->free(old);
+    BaseList::freeNode(old);
   }
 
   return element;
@@ -253,12 +276,18 @@ void BaseList::remove(BaseIterator& it){
     if(prev != nullptr)
       prev->mNext = next;
 
-    if(next != nullptr)
+    if(next != nullptr){
       next->mPrev = prev;
 
+      it.mNode = next; // advance iterator.
+    }
+
     //remove it.mNode
-    mAllocator->free(it.mNode);
+    // mAllocator->free(it.mNode);
+    BaseList::freeNode(it.mNode);
+
   }
+
 };
 
 void BaseList::insert(u32 index, void* element){
@@ -279,14 +308,19 @@ void BaseList::insert(u32 index, void* element){
 
 void BaseList::insert(BaseIterator& it, void* element){
 
-  BaseNode* node = newNode();
-  node->init(element);
+  if(it.mNode != mFirst){
+    BaseNode* node = newNode();
+    node->init(element);
 
-  it.mNode->mPrev->mNext = node;
-  node->mPrev = it.mNode->mPrev;
-  node->mNext = it.mNode;
+    // this function inserts new node before the current node (it.mNode)
+    it.mNode->mPrev->mNext = node;
 
-  mLength++;
+    node->mPrev = it.mNode->mPrev;
+    node->mNext = it.mNode;
+
+    mLength++;
+  }else
+    BaseList::pushFront(element);
 };
 
 
