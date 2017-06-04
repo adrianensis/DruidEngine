@@ -9,11 +9,11 @@ namespace DE {
   // using namespace std;
 
 void Allocator::checkAllocate(const u32 size) {
-  assert(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
+  ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 };
 
 void Allocator::checkFree() {
-  assert(mAllocated > 0, "Allocated memory is 0.");
+  ASSERT(mAllocated > 0, "Allocated memory is 0.");
 };
 
 void Allocator::setAllocated(u32 size){

@@ -155,14 +155,14 @@ public:
 
 	// can be used for assignment
 	f32& operator[](const size_t i) {
-		assert(i >= 0 && i < 4, "Index out of bounds.");
+		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];
 	}
 
 	// read only
 	f32 operator[](const size_t i) const {
-		assert(i >= 0 && i < 4, "Index out of bounds.");
+		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
 		if(i == 3) return w;
 		return v[i];
 	}

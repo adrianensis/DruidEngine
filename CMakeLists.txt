@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 set(DRUID druid)
 project(${DRUID})
 
+# We need c++14 because it defines the auto type.
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG -std=c++14 -O1 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -Wall -O3 -ffast-math -mavx")
 

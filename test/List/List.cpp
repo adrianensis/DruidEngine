@@ -97,6 +97,17 @@ int main() {
 	expected_uint(it.get(),2);
 	expected_bool(it.hasNext(),false);
 
+	it.setReverse(true);
+
+	expected_uint(it.get(),2);
+	expected_bool(it.hasNext(),true);
+	it.next();
+	expected_uint(it.get(),1);
+	expected_bool(it.hasNext(),true);
+	it.next();
+	expected_uint(it.get(),0);
+	expected_bool(it.hasNext(),false);
+
 	// TODO copy constructor
 
 	list.clear();

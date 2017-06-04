@@ -85,13 +85,13 @@ void* LinearAllocator::allocate(const u32 size, const u32 alignment){
 
   Allocator::checkAllocate(expandedSize);
 
-  assert(alignment >= 1); // Because we need at least, 1 byte for adjustment storage.
+  ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1."); // Because we need at least, 1 byte for adjustment storage.
 
   // 128 (decimal) = 1000 0000 (binary)
-  assert(alignment <= 128);
+  ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
 
   // IMPORTANT: 'alignment must be a power of 2 (typically 4 or 16).
-  assert((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
+  ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 
   // Game Engine Architecture 2ed, page 246.
 
@@ -114,7 +114,7 @@ void* LinearAllocator::allocate(const u32 size, const u32 alignment){
   // Store the adjustment in the byte immediately
   // preceding the adjusted address.
   // 256 = 1 0000 0000
-  assert(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
+  ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
   // The aligned address is accessed as a uint8_t array or byte array.
   u8* u8Array = reinterpret_cast<u8*>(alignedAddress);
@@ -127,11 +127,11 @@ void* LinearAllocator::allocate(const u32 size, const u32 alignment){
 }
 
 void LinearAllocator::free(const void* pointer){
-  assert(false, "LinearAllocator can't use free(void* pointer), use reset().");
+  ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
 }
 
 void LinearAllocator::freeAligned(const void* pointer){
-  assert(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
+  ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
 }
 
 void LinearAllocator::reset(){

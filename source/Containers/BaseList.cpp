@@ -236,7 +236,7 @@ void* BaseList::popBack(){
 
 void* BaseList::get(u32 index) const{
 
-  assert(index >= 0 && index < mLength, "Index out of bounds.");
+  ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
   u32 i = 0;
   BaseIterator it = BaseList::getIterator();
@@ -249,7 +249,7 @@ void* BaseList::get(u32 index) const{
 
 void BaseList::remove(u32 index){
 
-  assert(index >= 0 && index < mLength, "Index out of bounds.");
+  ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
   if( ! BaseList::isEmpty()){
     // mLength--;
@@ -292,7 +292,7 @@ void BaseList::remove(BaseIterator& it){
 
 void BaseList::insert(u32 index, void* element){
 
-  assert(index >= 0 && index < mLength, "Index out of bounds.");
+  ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
   // mLength++;
 

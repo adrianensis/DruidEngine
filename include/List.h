@@ -5,6 +5,7 @@
 #include "BasicTypes.h"
 #include "PoolAllocator.h"
 #include "Assert.h"
+#include "Debug.h"
 
 
 namespace DE {
@@ -52,7 +53,7 @@ public:
 
   // can be used for assignment
 	// T& operator[](const size_t i) {
-	// 	assert(i >= 0 && i < mLength, "Index out of bounds.");
+	// 	ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
 	// 	return mTStart[i];
 	// }
 

@@ -9,6 +9,8 @@ static const std::string emptyAssert = "?";
 
 void assert(bool condition, std::string message = emptyAssert);
 
+#define ASSERT(condition, message) assert((condition), "[ " #condition " ] " message);
+
 } /* namespace DE */
 
 #endif /* ASSERT_H_ */

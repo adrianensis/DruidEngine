@@ -90,7 +90,7 @@ void StackAllocator::free(const void* pointer){
 }
 
 void StackAllocator::freeAligned(const void* pointer){
-  assert(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
+  ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
 }
 
 void StackAllocator::free(){
@@ -129,7 +129,7 @@ void StackAllocator::freeAligned(){
 
   Allocator::checkFree();
 
-  this->free();
+  StackAllocator::free();
 
   const u8* u8Array = reinterpret_cast<const u8*>(mTop);
   ptr alignedAddress = reinterpret_cast<ptr>(mTop);

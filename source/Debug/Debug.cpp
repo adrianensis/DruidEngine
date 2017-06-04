@@ -4,31 +4,19 @@
 #include <string>
 #include "BasicTypes.h"
 
-namespace DE {
-
-namespace Debug {
 
 using namespace std;
 
+namespace DE {
 
-template<class T>
-void echo(T message) {
+
+void echo(string message) {
   #ifdef DE_DEBUG
   cout << "D > " << message << endl;
   #endif
 };
 
-void var(string varname, auto var) {
-  #ifdef DE_DEBUG
-  cout << "D > " << varname << " " << var << endl;
-  #endif
-};
 
-void var(auto var) {
-  #ifdef DE_DEBUG
-  cout << "D > " << var << endl;
-  #endif
-};
 
 void error(string message) {
   #ifdef DE_DEBUG
@@ -36,13 +24,14 @@ void error(string message) {
   #endif
 };
 
-void br() {
+void brline() { // break line
   #ifdef DE_DEBUG
   cout << endl;
   #endif
 };
 
 
-}
+
+
 
 }

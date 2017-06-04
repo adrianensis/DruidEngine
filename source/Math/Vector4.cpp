@@ -63,10 +63,10 @@ Vector4& Vector4::mul(const Vector4& rhs) {
 }
 
 Vector4& Vector4::div(const Vector4& rhs) {
-	assert(rhs.x != 0, "Division by zero.");
-	assert(rhs.y != 0, "Division by zero.");
-	assert(rhs.z != 0, "Division by zero.");
-	assert(rhs.w != 0, "Division by zero.");
+	ASSERT(rhs.x != 0, "Division by zero.");
+	ASSERT(rhs.y != 0, "Division by zero.");
+	ASSERT(rhs.z != 0, "Division by zero.");
+	ASSERT(rhs.w != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -99,7 +99,7 @@ Vector4& Vector4::mul(const f32 rhs) {
 }
 
 Vector4& Vector4::div(const f32 rhs) {
-	assert(rhs != 0, "Division by zero.");
+	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -141,7 +141,7 @@ f32 Vector4::min() const {
 Vector4& Vector4::nor() {
 	f32 len = this->len();
 
-	assert(len > 0, "Length is zero.");
+	ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;
