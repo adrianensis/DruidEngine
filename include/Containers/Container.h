@@ -2,12 +2,12 @@
 #define CONTAINER_H_
 
 #include "BasicTypes.h"
-#include "Allocatable.h"
+#include "Allocable.h"
 #include "Allocator.h"
 
 namespace DE {
 
-class Container : public Allocatable {
+class Container : public Allocable {
 
 protected:
 
@@ -15,13 +15,13 @@ protected:
   u32 mLength;
   u32 mAlignment;
 
-  void init(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  void init(const u32 length, const u32 elementSize, const u32 alignment);
 
 public:
 
   Container();
   virtual ~Container();
-  u32 getLength();
+  u32 getLength() const;
 
 };
 

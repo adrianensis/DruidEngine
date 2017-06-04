@@ -90,7 +90,8 @@ void StackAllocator::free(const void* pointer){
 }
 
 void StackAllocator::freeAligned(const void* pointer){
-  ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
+  // ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
+  mTop = (void*) pointer;
 }
 
 void StackAllocator::free(){

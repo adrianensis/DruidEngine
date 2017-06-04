@@ -4,6 +4,7 @@
 #include "BaseArray.h"
 #include "BasicTypes.h"
 #include "Allocator.h"
+#include "Allocable.h"
 #include "Assert.h"
 
 
@@ -22,26 +23,58 @@ public:
 
   };
 
-  Array(const Array& other) : BaseArray(){
-    BaseArray::copy(other, other.mAllocator);
-    mTStart = static_cast<T*>(mStart);
-  };
-
-  Array(const Array& other, Allocator* allocator) : BaseArray(){
-    BaseArray::copy(other, allocator);
-    mTStart = static_cast<T*>(mStart);
-  };
-
   virtual ~Array(){};
 
-  void init(void* rawArray, const u32 length, Allocator* allocator) {
-    BaseArray::init(rawArray, length, sizeof(T), allocator);
+  void init(const Array<T>& other){
+    Allocable::init(other);
+    BaseArray::copy(other);
     mTStart = static_cast<T*>(mStart);
   };
 
-  void init(void* rawArray, const u32 length, const u32 alignment, Allocator* allocator) {
-    BaseArray::init(rawArray, length, sizeof(T), alignment, allocator);
+  void fill(T element, const u32 length){
+    Array<T>::init(length);
+
     mTStart = static_cast<T*>(mStart);
+
+    for (u32 i = 0; i < mLength; i++)
+      mTStart[i] = element;
+  };
+
+  void fill(T element, const u32 length, const u32 alignment){
+    Array<T>::init(length, alignment);
+
+    mTStart = static_cast<T*>(mStart);
+
+    for (u32 i = 0; i < mLength; i++)
+      mTStart[i] = element;
+  };
+
+  void init(const void* rawArray, const u32 length) {
+    BaseArray::init(rawArray, length, sizeof(T));
+    mTStart = static_cast<T*>(mStart);
+  };
+
+  void init(const void* rawArray, const u32 length, const u32 alignment) {
+    BaseArray::init(rawArray, length, sizeof(T), alignment);
+    mTStart = static_cast<T*>(mStart);
+  };
+
+  void init(const u32 length) {
+    BaseArray::init(length, sizeof(T));
+    mTStart = static_cast<T*>(mStart);
+  };
+
+  void init(const u32 length, const u32 alignment) {
+    BaseArray::init(length, sizeof(T), alignment);
+    mTStart = static_cast<T*>(mStart);
+  };
+
+  void put(const Array<T>& other, u32 index){
+    BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
+  };
+
+  void put(const void* rawArray, u32 index, const u32 length){
+    BaseArray::put(rawArray, index, length*mElementSize);
   };
 
   // can be used for assignment

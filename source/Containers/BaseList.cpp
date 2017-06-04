@@ -1,7 +1,7 @@
 #include "BaseList.h"
 
 #include "BasicTypes.h"
-#include "PoolAllocator.h"
+#include "Allocator.h"
 #include "Container.h"
 #include "Assert.h"
 
@@ -13,10 +13,6 @@ namespace DE {
 
 BaseList::BaseNode* BaseList::newNode(){
   return static_cast<BaseNode*>(mAllocator->allocate(smNodeSize));
-};
-
-void BaseList::freeNode(BaseList::BaseNode* node){
-    mAllocator->free(node);
 };
 
 const u32 BaseList::smNodeSize = sizeof(BaseNode);
@@ -93,38 +89,15 @@ BaseList::~BaseList() {
  // NOTE: user must free memory externally, by using the choosen allocator.
 };
 
-// void BaseList::allocationLoop(const u32 length) {
-//
-//   BaseNode* node = nullptr;
-//
-//   // Node 0
-//   mFirst = newNode();
-//   mFirst->init();
-//   mLast = mFirst;
-//
-//   // The rest. Nodes 1 to length-1
-//   for (u32 i = 1; i < length; i++) {
-//     node = newNode();
-//     node->init();
-//
-//     mLast->mNext = node;
-//     node->mPrev = mLast;
-//     mLast = node;
-//   }
-// };
 
-void BaseList::allocate(const u32 elementSize, const u32 alignment, PoolAllocator* allocator) {
-  Container::init(0, elementSize, alignment, allocator); // mLength = 0
-  // allocationLoop(length);
+void BaseList::allocate(const u32 elementSize, const u32 alignment) {
+  Container::init(0, elementSize, alignment); // mLength = 0
 };
 
-void BaseList::init(const u32 elementSize, PoolAllocator* allocator) {
-  BaseList::allocate(elementSize, 0, allocator);
+void BaseList::init(const u32 elementSize) {
+  BaseList::allocate(elementSize, 0);
 };
 
-// void BaseList::init(const u32 length, const u32 elementSize, const u32 alignment, PoolAllocator* allocator) {
-//   BaseList::allocate(length, elementSize, alignment, allocator);
-// };
 
 BaseList::BaseIterator BaseList::getIterator() const{
   BaseIterator it;
@@ -203,7 +176,7 @@ void* BaseList::popFront(){
     }
 
     // mAllocator->free(old);
-    BaseList::freeNode(old);
+    // BaseList::freeNode(old);
   }
 
   return element;
@@ -228,7 +201,7 @@ void* BaseList::popBack(){
     }
 
     // mAllocator->free(old);
-    BaseList::freeNode(old);
+    // BaseList::freeNode(old);
   }
 
   return element;
@@ -284,7 +257,7 @@ void BaseList::remove(BaseIterator& it){
 
     //remove it.mNode
     // mAllocator->free(it.mNode);
-    BaseList::freeNode(it.mNode);
+    // BaseList::freeNode(it.mNode);
 
   }
 

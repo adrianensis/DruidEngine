@@ -3,7 +3,7 @@
 
 #include "BaseList.h"
 #include "BasicTypes.h"
-#include "PoolAllocator.h"
+#include "Allocator.h"
 #include "Assert.h"
 #include "Debug.h"
 
@@ -34,28 +34,15 @@ public:
 
   };
 
-  List(const List& other) : BaseList(){
-    // TODO copy constructor
-  };
-
-  List(const List& other, PoolAllocator* allocator) : BaseList(){
-    // TODO copy constructor
-  };
-
   virtual ~List(){};
 
-  void init(PoolAllocator* allocator) {
-    BaseList::init(sizeof(T), allocator);
+  void init(const List& other){
+    // TODO copy constructor
   };
 
-  // void init(const u32 length, const u32 alignment, PoolAllocator* allocator) {
-  // };
-
-  // can be used for assignment
-	// T& operator[](const size_t i) {
-	// 	ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
-	// 	return mTStart[i];
-	// }
+  void init() {
+    BaseList::init(sizeof(T));
+  };
 
   Iterator getIterator() const {
     return Iterator(BaseList::getIterator());

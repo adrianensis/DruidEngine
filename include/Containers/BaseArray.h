@@ -9,23 +9,26 @@ namespace DE {
 
 class BaseArray : public Container {
 
-private:
-
-  void fill(void* destiny, void* source, const u32 size);
-
 protected:
 
   void* mStart;
 
-  void copy(const BaseArray& other, Allocator* allocator);
-  void init(void* rawArray, const u32 length, const u32 elementSize, Allocator* allocator);
-  void init(void* rawArray, const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
-  void allocate(const u32 length, const u32 elementSize, const u32 alignment, Allocator* allocator);
+  void fill(void* destiny, const void* source, const u32 size);
+
+  void copy(const BaseArray& other);
+  void init(const void* rawArray, const u32 length, const u32 elementSize);
+  void init(const void* rawArray, const u32 length, const u32 elementSize, const u32 alignment);
+  void init(const u32 length, const u32 elementSize);
+  void init(const u32 length, const u32 elementSize, const u32 alignment);
+  void allocate(const u32 length, const u32 elementSize, const u32 alignment);
 
 public:
 
   BaseArray();
   virtual ~BaseArray();
+
+  void set(const void* rawArray);
+  void put(const void* rawArray, u32 index, const u32 length);
 
 };
 

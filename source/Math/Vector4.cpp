@@ -114,7 +114,12 @@ f32 Vector4::dot(const Vector4& v) const {
 	f32 zz = z*v.z;
 	f32 ww = w*v.w;
 
-	return xx+yy+zz+ww;
+	f32 dot = xx;
+	dot = dot+yy;
+	dot = dot+zz;
+	dot = dot+ww;
+
+	return dot;
 }
 
 f32 Vector4::sqrlen() const {

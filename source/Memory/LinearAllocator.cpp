@@ -127,11 +127,11 @@ void* LinearAllocator::allocate(const u32 size, const u32 alignment){
 }
 
 void LinearAllocator::free(const void* pointer){
-  ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
+  // ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
 }
 
 void LinearAllocator::freeAligned(const void* pointer){
-  ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
+  // ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
 }
 
 void LinearAllocator::reset(){

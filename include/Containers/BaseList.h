@@ -2,7 +2,7 @@
 #define BASELIST_H_
 
 #include "Container.h"
-#include "PoolAllocator.h"
+#include "Allocator.h"
 #include "BasicTypes.h"
 
 namespace DE {
@@ -29,7 +29,7 @@ protected:
   BaseNode* mLast;
 
   // void allocationLoop(const u32 length);
-  void allocate(const u32 elementSize, const u32 alignment, PoolAllocator* allocator);
+  void allocate(const u32 elementSize, const u32 alignment);
 
 private:
 
@@ -37,9 +37,9 @@ private:
   void freeNode(BaseNode* node);
   static const u32 smNodeSize;
 
-public:
+protected:
 
-  static const u32& getNodeSize() {return smNodeSize; };
+
 
   class BaseIterator {
   friend class BaseList;
@@ -61,13 +61,11 @@ public:
   BaseList ();
   virtual ~BaseList ();
 
-  void init(const u32 elementSize, PoolAllocator* allocator);
-  // void init(const u32 length, const u32 elementSize, const u32 alignment, PoolAllocator* allocator);
+  void init(const u32 elementSize);
 
   BaseIterator getIterator() const;
   BaseIterator getRevIterator() const;
   bool isEmpty();
-  void clear();
   void pushFront(void* element);
   void pushBack(void* element);
   void* popFront();
@@ -77,7 +75,14 @@ public:
   void remove(BaseIterator& it);
   void insert(u32 index, void* element);
   void insert(BaseIterator& it, void* element);
+
+public:
+
+  static const u32& getNodeSize() {return smNodeSize; };
+
+  void clear();
 };
+
 
 } /* namespace DE */
 
