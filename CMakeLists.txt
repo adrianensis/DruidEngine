@@ -27,7 +27,14 @@ foreach(PACKAGE_PATH ${PACKAGES_PATHS})
 endforeach()
 
 # include directory
-include_directories(include)
+
+file(GLOB INCLUDE_PATHS "include/*")
+
+foreach(INCLUDE_PATH ${INCLUDE_PATHS})
+  get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
+  include_directories("include/${INCLUDE_NAME}")
+endforeach()
+
 
 # object libraries
 # Alternative: CMakeLists.txt with this code into source directory.
@@ -43,7 +50,7 @@ foreach(PACKAGE ${PACKAGES})
 endforeach()
 
 # single library
-add_library(${DRUID} "include/Druid.h" ${OBJS} )
+add_library(${DRUID} "include/Druid/Druid.h" ${OBJS} )
 
 file(GLOB TEST_SOURCES "test/*")
 
