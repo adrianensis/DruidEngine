@@ -26,7 +26,6 @@ public:
   virtual ~Array(){};
 
   void init(const Array<T>& other){
-    Allocable::init(other);
     BaseArray::copy(other);
     mTStart = static_cast<T*>(mStart);
   };

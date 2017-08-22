@@ -98,6 +98,15 @@ void BaseList::init(const u32 elementSize) {
   BaseList::allocate(elementSize, 0);
 };
 
+void BaseList::copy(const BaseList& other){
+  this->init(other.mElementSize);
+  BaseIterator it = other.getIterator();
+
+  for (; it.hasNext(); it.next())
+    this->pushBack(it.get());
+
+  this->pushBack(it.get());
+}
 
 BaseList::BaseIterator BaseList::getIterator() const{
   BaseIterator it;

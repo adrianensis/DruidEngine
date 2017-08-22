@@ -30,6 +30,7 @@ protected:
 
   // void allocationLoop(const u32 length);
   void allocate(const u32 elementSize, const u32 alignment);
+  void copy(const BaseList& other);
 
 private:
 
@@ -38,8 +39,6 @@ private:
   static const u32 smNodeSize;
 
 protected:
-
-
 
   class BaseIterator {
   friend class BaseList;

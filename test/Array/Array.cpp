@@ -8,7 +8,7 @@ int main() {
 	test(DE::Array<u32>);
 
 	DE::LinearAllocator linear;
-	linear.init(512);
+	linear.init(1024*1024*1024); // 1GB
 
 	DE::Array<u32>* array = DE::allocate<Array<u32>>(linear);
 
@@ -23,16 +23,16 @@ int main() {
 	expected_uint((*array)[3],4);
 	expected_uint((*array)[4],5);
 
-	DE::Array<u32> copy;
-	copy.init(*array);
+	DE::Array<u32>* copy = DE::allocate<Array<u32>>(linear);
+	copy->init(*array);
 
-	expected_uint(copy.getLength(),5);
+	expected_uint(copy->getLength(),5);
 
-	expected_uint(copy[0],1);
-	expected_uint(copy[1],2);
-	expected_uint(copy[2],3);
-	expected_uint(copy[3],4);
-	expected_uint(copy[4],5);
+	expected_uint((*copy)[0],1);
+	expected_uint((*copy)[1],2);
+	expected_uint((*copy)[2],3);
+	expected_uint((*copy)[3],4);
+	expected_uint((*copy)[4],5);
 
 	u32 y[] = {6,7,8,9,10};
 	array->init(y,5);
@@ -55,16 +55,16 @@ int main() {
 	expected_uint((*array)[3],9);
 	expected_uint((*array)[4],10);
 
-	DE::Array<u32> copy2;
-	copy2.init(*array);
+	DE::Array<u32>* copy2 = DE::allocate<Array<u32>>(linear);
+	copy2->init(*array);
 
-	expected_uint(copy2.getLength(),5);
+	expected_uint(copy2->getLength(),5);
 
-	expected_uint(copy2[0],6);
-	expected_uint(copy2[1],7);
-	expected_uint(copy2[2],8);
-	expected_uint(copy2[3],9);
-	expected_uint(copy2[4],10);
+	expected_uint((*copy2)[0],6);
+	expected_uint((*copy2)[1],7);
+	expected_uint((*copy2)[2],8);
+	expected_uint((*copy2)[3],9);
+	expected_uint((*copy2)[4],10);
 
 	DE::Array<u32>* array2 = DE::allocate<Array<u32>>(linear);
 	array2->init(10);

@@ -37,7 +37,7 @@ public:
   virtual ~List(){};
 
   void init(const List& other){
-    // TODO copy constructor
+    BaseList::copy(other);
   };
 
   void init() {

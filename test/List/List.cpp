@@ -11,7 +11,6 @@ int main() {
 	linear.init(1024);
 
 	DE::List<u32>* list = DE::allocate<List<u32>>(linear);
-
 	list->init();
 
 	expected_uint(list->getLength(),0);
@@ -21,6 +20,17 @@ int main() {
 	list->pushBack(2);
 
 	expected_uint(list->getLength(),3);
+
+	DE::List<u32>* list2 = DE::allocate<List<u32>>(linear);
+	list2->init(*list);
+
+	expected_uint(list2->getLength(),3);
+
+	expected_uint(list2->popBack(),2);
+	expected_uint(list2->popBack(),1);
+	expected_uint(list2->popBack(),0);
+
+	expected_uint(list2->getLength(),0);
 
 	expected_uint(list->popBack(),2);
 	expected_uint(list->popBack(),1);
@@ -113,7 +123,7 @@ int main() {
 
 	expected_uint(list->getLength(),0);
 
-	// TODO copy constructor
+
 
 	linear.reset();
 
