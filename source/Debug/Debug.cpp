@@ -16,8 +16,6 @@ void echo(string message) {
   #endif
 };
 
-
-
 void error(string message) {
   #ifdef DE_DEBUG
   cout << "ERR > " << message << endl;

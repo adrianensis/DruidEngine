@@ -35,7 +35,7 @@ void brline();
 #define VAR(T,x) var<T>(#x, x);
 #define VAL(T,x) val<T>(x);
 #define ERROR(x) error(x);
-#define BRLINE(x) brline();
+#define BRLINE() brline();
 
 } /* namespace DE */
 

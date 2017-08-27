@@ -4,6 +4,7 @@
 #include "Allocator.h"
 #include "Container.h"
 #include "Assert.h"
+#include "Debug.h"
 
 #include <iostream>
 
@@ -54,6 +55,10 @@ void BaseList::BaseIterator::init(BaseNode* start) {
   mReverse = false;
 };
 
+bool BaseList::BaseIterator::isNull(){
+  return mNode == nullptr;
+};
+
 bool BaseList::BaseIterator::hasNext() {
   if(mReverse)
     return (mNode->mPrev != nullptr);
@@ -68,8 +73,48 @@ void BaseList::BaseIterator::next() {
     mNode = mNode->mNext;
 };
 
+BaseList::BaseIterator BaseList::BaseIterator::getNext(){
+  BaseIterator it;
+
+  if(mReverse)
+    it.init(mNode->mPrev);
+  else
+    it.init(mNode->mNext);
+
+  return it;
+};
+
+bool BaseList::BaseIterator::hasPrev(){
+  if(mReverse)
+    return (mNode->mNext != nullptr);
+  else
+    return (mNode->mPrev != nullptr);
+};
+
+void BaseList::BaseIterator::prev(){
+  if(mReverse)
+    mNode = mNode->mNext;
+  else
+    mNode = mNode->mPrev;
+};
+
+BaseList::BaseIterator BaseList::BaseIterator::getPrev(){
+  BaseIterator it;
+
+  if(mReverse)
+    it.init(mNode->mNext);
+  else
+    it.init(mNode->mPrev);
+
+  return it;
+};
+
 void* BaseList::BaseIterator::get() {
   return mNode->mElement;
+};
+
+void BaseList::BaseIterator::set(void* element){
+  mNode->mElement = element;
 };
 
 bool BaseList::BaseIterator::isReverse(){
@@ -121,7 +166,19 @@ BaseList::BaseIterator BaseList::getRevIterator() const{
   return it;
 };
 
-bool BaseList::isEmpty(){
+BaseList::BaseIterator BaseList::getFirst() const {
+  BaseIterator it;
+  it.init(this->mFirst);
+  return it;
+};
+
+BaseList::BaseIterator BaseList::getLast() const {
+  BaseIterator it;
+  it.init(this->mLast);
+  return it;
+};
+
+bool BaseList::isEmpty() const{
   return mLength == 0;
 };
 
@@ -227,6 +284,39 @@ void* BaseList::get(u32 index) const{
     i++;
 
   return it.get();
+};
+
+void BaseList::set(u32 index, void* element){
+  ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+
+  u32 i = 0;
+  BaseIterator it = BaseList::getIterator();
+
+  for (; i < index && it.hasNext(); it.next())
+    i++;
+
+  it.set(element);
+};
+
+void BaseList::swap(u32 index1, u32 index2){
+  u32 i = 0;
+  BaseIterator it1 = BaseList::getIterator();
+  BaseIterator it2 = BaseList::getIterator();
+
+  for (; i < index1 && it1.hasNext(); it1.next())
+    i++;
+
+  void* element1 = it1.get();
+
+  i = 0;
+
+  for (; i < index2 && it2.hasNext(); it2.next())
+    i++;
+
+  void* element2 = it2.get();
+
+  it1.set(element2);
+  it2.set(element1);
 };
 
 void BaseList::remove(u32 index){

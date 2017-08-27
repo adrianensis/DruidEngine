@@ -8,7 +8,7 @@ int main() {
 	test(DE::List<u32>);
 
 	DE::LinearAllocator linear;
-	linear.init(1024);
+	linear.init(1024*1024);
 
 	DE::List<u32>* list = DE::allocate<List<u32>>(linear);
 	list->init();
@@ -123,7 +123,45 @@ int main() {
 
 	expected_uint(list->getLength(),0);
 
+	// sort
 
+	list->pushBack(6);
+	list->pushBack(5);
+	list->pushBack(4);
+	list->pushBack(3);
+	list->pushBack(2);
+	list->pushBack(1);
+	list->pushBack(0);
+
+	list->sort();
+
+	expected_uint(list->get(0),0);
+	expected_uint(list->get(1),1);
+	expected_uint(list->get(2),2);
+	expected_uint(list->get(3),3);
+	expected_uint(list->get(4),4);
+	expected_uint(list->get(5),5);
+	expected_uint(list->get(6),6);
+
+	list->clear();
+
+	list->pushBack(50);
+	list->pushBack(70);
+	list->pushBack(3);
+	list->pushBack(100);
+	list->pushBack(2);
+	list->pushBack(1);
+	list->pushBack(0);
+
+	list->sort();
+
+	expected_uint(list->get(0),0);
+	expected_uint(list->get(1),1);
+	expected_uint(list->get(2),2);
+	expected_uint(list->get(3),3);
+	expected_uint(list->get(4),50);
+	expected_uint(list->get(5),70);
+	expected_uint(list->get(6),100);
 
 	linear.reset();
 
