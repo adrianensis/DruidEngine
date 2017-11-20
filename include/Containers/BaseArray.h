@@ -6,7 +6,7 @@
 #include "Allocator.h"
 
 namespace DE {
-
+    
 class BaseArray : public Container {
 
 protected:

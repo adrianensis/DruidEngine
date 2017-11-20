@@ -2,6 +2,15 @@
 \label{classDE_1_1Array}\index{D\+E\+::\+Array$<$ T $>$@{D\+E\+::\+Array$<$ T $>$}}
 
 
+\hyperlink{classDE_1_1Array}{Array} of elements. Fixed size.  
+
+
+
+
+{\ttfamily \#include $<$Array.\+h$>$}
+
+
+
 Inheritance diagram for DE\+:\+:Array$<$ T $>$\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -21,37 +30,215 @@ Collaboration diagram for DE\+:\+:Array$<$ T $>$\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void {\bfseries init} (const \hyperlink{classDE_1_1Array}{Array}$<$ T $>$ \&other)\hypertarget{classDE_1_1Array_a160b6d7bde381664d3a77c7bc72c7126}{}\label{classDE_1_1Array_a160b6d7bde381664d3a77c7bc72c7126}
+\hyperlink{classDE_1_1Array_ada53b6c458d578ac3199a06ea3f258fb}{Array} ()\hypertarget{classDE_1_1Array_ada53b6c458d578ac3199a06ea3f258fb}{}\label{classDE_1_1Array_ada53b6c458d578ac3199a06ea3f258fb}
 
-\item 
-void {\bfseries fill} (T element, const u32 length)\hypertarget{classDE_1_1Array_a484d1c75533448adae72bb24b5ca1242}{}\label{classDE_1_1Array_a484d1c75533448adae72bb24b5ca1242}
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classDE_1_1Array_a3bcebef65959a0685e257308f50c58f2}{$\sim$\+Array} ()\hypertarget{classDE_1_1Array_a3bcebef65959a0685e257308f50c58f2}{}\label{classDE_1_1Array_a3bcebef65959a0685e257308f50c58f2}
 
-\item 
-void {\bfseries fill} (T element, const u32 length, const u32 alignment)\hypertarget{classDE_1_1Array_a1df5876afd7bea2b6b65e89ae2dbc9f1}{}\label{classDE_1_1Array_a1df5876afd7bea2b6b65e89ae2dbc9f1}
-
-\item 
-void {\bfseries init} (const void $\ast$raw\+Array, const u32 length)\hypertarget{classDE_1_1Array_a9399e75853d0c2f946ad23ceeccf6309}{}\label{classDE_1_1Array_a9399e75853d0c2f946ad23ceeccf6309}
-
-\item 
-void {\bfseries init} (const void $\ast$raw\+Array, const u32 length, const u32 alignment)\hypertarget{classDE_1_1Array_a424ca2b24f97dd2d0a23626b54405476}{}\label{classDE_1_1Array_a424ca2b24f97dd2d0a23626b54405476}
-
-\item 
-void {\bfseries init} (const u32 length)\hypertarget{classDE_1_1Array_aca022d4ff92293f46a634260cb3fd9ed}{}\label{classDE_1_1Array_aca022d4ff92293f46a634260cb3fd9ed}
-
-\item 
-void {\bfseries init} (const u32 length, const u32 alignment)\hypertarget{classDE_1_1Array_a5d03e54b2b7cc4b46b1c7c311f1b23c4}{}\label{classDE_1_1Array_a5d03e54b2b7cc4b46b1c7c311f1b23c4}
-
-\item 
-void {\bfseries put} (const \hyperlink{classDE_1_1Array}{Array}$<$ T $>$ \&other, u32 index)\hypertarget{classDE_1_1Array_a2b0b137f752a2cf067359581e95bcd46}{}\label{classDE_1_1Array_a2b0b137f752a2cf067359581e95bcd46}
-
-\item 
-void {\bfseries put} (const void $\ast$raw\+Array, u32 index, const u32 length)\hypertarget{classDE_1_1Array_a612b948b4b8d915d223a89f4577bcabb}{}\label{classDE_1_1Array_a612b948b4b8d915d223a89f4577bcabb}
-
-\item 
-T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t i)\hypertarget{classDE_1_1Array_a63fea3814adc4a5275b8564a568eddd3}{}\label{classDE_1_1Array_a63fea3814adc4a5275b8564a568eddd3}
-
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a160b6d7bde381664d3a77c7bc72c7126}{init} (const \hyperlink{classDE_1_1Array}{Array}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a9e73e8109d4a8e1839c45f2443eb5f39}{fill} (T element)
+\begin{DoxyCompactList}\small\item\em Fill the array with the same element. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a9399e75853d0c2f946ad23ceeccf6309}{init} (const void $\ast$raw\+Array, const u32 length)
+\begin{DoxyCompactList}\small\item\em Constructor from raw array. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a424ca2b24f97dd2d0a23626b54405476}{init} (const void $\ast$raw\+Array, const u32 length, const u32 alignment)
+\begin{DoxyCompactList}\small\item\em Constructor from raw array. Aligned. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_aca022d4ff92293f46a634260cb3fd9ed}{init} (const u32 length)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a5d03e54b2b7cc4b46b1c7c311f1b23c4}{init} (const u32 length, const u32 alignment)
+\begin{DoxyCompactList}\small\item\em Constructor. Aligned. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a2b0b137f752a2cf067359581e95bcd46}{put} (const \hyperlink{classDE_1_1Array}{Array}$<$ T $>$ \&other, u32 index)
+\begin{DoxyCompactList}\small\item\em Copy an array into other. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1Array_a612b948b4b8d915d223a89f4577bcabb}{put} (const void $\ast$raw\+Array, u32 index, const u32 length)
+\begin{DoxyCompactList}\small\item\em Copy an array into other. \end{DoxyCompactList}\item 
+T \& \hyperlink{classDE_1_1Array_a63fea3814adc4a5275b8564a568eddd3}{operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t i)
+\begin{DoxyCompactList}\small\item\em Can be used for assignment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\\*
+class D\+E\+::\+Array$<$ T $>$}
+
+\hyperlink{classDE_1_1Array}{Array} of elements. Fixed size. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Elements} & class. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\subsection{Member Function Documentation}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!fill@{fill}}
+\index{fill@{fill}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{fill(\+T element)}{fill(T element)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::fill (
+\begin{DoxyParamCaption}
+\item[{T}]{element}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a9e73e8109d4a8e1839c45f2443eb5f39}{}\label{classDE_1_1Array_a9e73e8109d4a8e1839c45f2443eb5f39}
+
+
+Fill the array with the same element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & The element. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!init@{init}}
+\index{init@{init}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{init(const Array$<$ T $>$ \&other)}{init(const Array< T > &other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{const {\bf Array}$<$ T $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a160b6d7bde381664d3a77c7bc72c7126}{}\label{classDE_1_1Array_a160b6d7bde381664d3a77c7bc72c7126}
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Other \hyperlink{classDE_1_1Array}{Array}. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!init@{init}}
+\index{init@{init}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{init(const void $\ast$raw\+Array, const u32 length)}{init(const void *rawArray, const u32 length)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{raw\+Array, }
+\item[{const u32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a9399e75853d0c2f946ad23ceeccf6309}{}\label{classDE_1_1Array_a9399e75853d0c2f946ad23ceeccf6309}
+
+
+Constructor from raw array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Array} & The raw array. \\
+\hline
+{\em length} & The length of the raw array. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!init@{init}}
+\index{init@{init}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{init(const void $\ast$raw\+Array, const u32 length, const u32 alignment)}{init(const void *rawArray, const u32 length, const u32 alignment)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{raw\+Array, }
+\item[{const u32}]{length, }
+\item[{const u32}]{alignment}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a424ca2b24f97dd2d0a23626b54405476}{}\label{classDE_1_1Array_a424ca2b24f97dd2d0a23626b54405476}
+
+
+Constructor from raw array. Aligned. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Array} & The raw array. \\
+\hline
+{\em length} & The length of the raw array. \\
+\hline
+{\em alignment} & Bytes alignment. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!init@{init}}
+\index{init@{init}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{init(const u32 length)}{init(const u32 length)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{const u32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_aca022d4ff92293f46a634260cb3fd9ed}{}\label{classDE_1_1Array_aca022d4ff92293f46a634260cb3fd9ed}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & Length of the array. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!init@{init}}
+\index{init@{init}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{init(const u32 length, const u32 alignment)}{init(const u32 length, const u32 alignment)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{const u32}]{length, }
+\item[{const u32}]{alignment}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a5d03e54b2b7cc4b46b1c7c311f1b23c4}{}\label{classDE_1_1Array_a5d03e54b2b7cc4b46b1c7c311f1b23c4}
+
+
+Constructor. Aligned. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & Length of the array. \\
+\hline
+{\em alignment} & Bytes alignment. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{operator[](const size\+\_\+t i)}{operator[](const size_t i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf D\+E\+::\+Array}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{const size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a63fea3814adc4a5275b8564a568eddd3}{}\label{classDE_1_1Array_a63fea3814adc4a5275b8564a568eddd3}
+
+
+Can be used for assignment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Element reference. 
+\end{DoxyReturn}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!put@{put}}
+\index{put@{put}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{put(const Array$<$ T $>$ \&other, u32 index)}{put(const Array< T > &other, u32 index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::put (
+\begin{DoxyParamCaption}
+\item[{const {\bf Array}$<$ T $>$ \&}]{other, }
+\item[{u32}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a2b0b137f752a2cf067359581e95bcd46}{}\label{classDE_1_1Array_a2b0b137f752a2cf067359581e95bcd46}
+
+
+Copy an array into other. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Other \hyperlink{classDE_1_1Array}{Array}. \\
+\hline
+{\em index} & Index (of the destiny array) from which to paste the other array. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Array@{D\+E\+::\+Array}!put@{put}}
+\index{put@{put}!D\+E\+::\+Array@{D\+E\+::\+Array}}
+\subsubsection[{\texorpdfstring{put(const void $\ast$raw\+Array, u32 index, const u32 length)}{put(const void *rawArray, u32 index, const u32 length)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf D\+E\+::\+Array}$<$ T $>$\+::put (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{raw\+Array, }
+\item[{u32}]{index, }
+\item[{const u32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1Array_a612b948b4b8d915d223a89f4577bcabb}{}\label{classDE_1_1Array_a612b948b4b8d915d223a89f4577bcabb}
+
+
+Copy an array into other. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Other \hyperlink{classDE_1_1Array}{Array}. \\
+\hline
+{\em index} & Index (of the destiny array) from which to paste the other array. \\
+\hline
+{\em length} & Amount of element of the other array to be copied. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

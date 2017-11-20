@@ -1,6 +1,6 @@
 <map id="DE::List&lt; T &gt;" name="DE::List&lt; T &gt;">
 <area shape="rect" id="node2" href="$classDE_1_1BaseList.html" title="DE::BaseList" alt="" coords="88,277,188,304"/>
-<area shape="rect" id="node3" href="$classDE_1_1Container.html" title="DE::Container" alt="" coords="5,172,111,199"/>
+<area shape="rect" id="node3" href="$classDE_1_1Container.html" title="Generic container. " alt="" coords="5,172,111,199"/>
 <area shape="rect" id="node4" href="$classDE_1_1Allocable.html" title="Object that can be allocated by an allocator. " alt="" coords="7,95,109,121"/>
 <area shape="rect" id="node5" href="$classDE_1_1Allocator.html" title="Manages memory allocation. " alt="" coords="8,5,108,32"/>
 <area shape="rect" id="node6" href="$classDE_1_1BaseList_1_1BaseNode.html" title="DE::BaseList::BaseNode" alt="" coords="135,172,304,199"/>

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['getallocated',['getAllocated',['../classDE_1_1Allocator.html#ab1cd017ccd297924b3afec3588f42848',1,'DE::Allocator']]],
-  ['getfreeblocks',['getFreeBlocks',['../classDE_1_1PoolAllocator.html#abb72ae0c4f9cc376cdab99095bd02575',1,'DE::PoolAllocator']]],
-  ['getsize',['getSize',['../classDE_1_1Allocator.html#af8e9d8df95e03bd2a5d2242d67c37ff2',1,'DE::Allocator']]],
-  ['gettop',['getTop',['../classDE_1_1StackAllocator.html#a338da3513a5d49abb8ac7191b5201c37',1,'DE::StackAllocator']]]
+  ['fill',['fill',['../classDE_1_1Array.html#a9e73e8109d4a8e1839c45f2443eb5f39',1,'DE::Array']]],
+  ['free',['free',['../classDE_1_1Allocator.html#a9a01f5da5adafc6d5cee9b3e3e9859c4',1,'DE::Allocator::free()'],['../classDE_1_1LinearAllocator.html#ae1913dde9c2b91738d42686fb08cc755',1,'DE::LinearAllocator::free()'],['../classDE_1_1PoolAllocator.html#ac8566e6920e0f34f70c2f76758fbb68a',1,'DE::PoolAllocator::free()'],['../classDE_1_1StackAllocator.html#ae1c77f32df6421293da96dc322f33c98',1,'DE::StackAllocator::free(const void *pointer)'],['../classDE_1_1StackAllocator.html#a30cba40c244648427e741766d2f26ab7',1,'DE::StackAllocator::free()']]],
+  ['freealigned',['freeAligned',['../classDE_1_1Allocator.html#a765f3ff9d6ff095bdfe4674652542a3d',1,'DE::Allocator::freeAligned()'],['../classDE_1_1LinearAllocator.html#a4199d84edd3d515e0db8512efdf1f208',1,'DE::LinearAllocator::freeAligned()'],['../classDE_1_1PoolAllocator.html#af20c44a50efd12448f87b268e308fc92',1,'DE::PoolAllocator::freeAligned()'],['../classDE_1_1StackAllocator.html#aac3d433b63805fbd046a3ce70d6d6305',1,'DE::StackAllocator::freeAligned(const void *pointer)'],['../classDE_1_1StackAllocator.html#ab85d29fe77b49d3b809ddb89ea2e0ed6',1,'DE::StackAllocator::freeAligned()']]]
 ];

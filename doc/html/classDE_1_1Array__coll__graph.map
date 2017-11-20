@@ -1,6 +1,6 @@
 <map id="DE::Array&lt; T &gt;" name="DE::Array&lt; T &gt;">
 <area shape="rect" id="node2" href="$classDE_1_1BaseArray.html" title="DE::BaseArray" alt="" coords="6,247,117,273"/>
-<area shape="rect" id="node3" href="$classDE_1_1Container.html" title="DE::Container" alt="" coords="9,171,114,197"/>
+<area shape="rect" id="node3" href="$classDE_1_1Container.html" title="Generic container. " alt="" coords="9,171,114,197"/>
 <area shape="rect" id="node4" href="$classDE_1_1Allocable.html" title="Object that can be allocated by an allocator. " alt="" coords="10,95,113,121"/>
 <area shape="rect" id="node5" href="$classDE_1_1Allocator.html" title="Manages memory allocation. " alt="" coords="11,5,111,32"/>
 </map>

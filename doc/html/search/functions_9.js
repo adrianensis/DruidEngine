@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['_7eallocable',['~Allocable',['../classDE_1_1Allocable.html#a5292eaaef5d8b77beb74dea9314e2fdb',1,'DE::Allocable']]],
-  ['_7eallocator',['~Allocator',['../classDE_1_1Allocator.html#a8d95aa03ec7c7801d06a23f5f453961d',1,'DE::Allocator']]],
-  ['_7elinearallocator',['~LinearAllocator',['../classDE_1_1LinearAllocator.html#a4ee6390f3ad8b726c142db0486d60fe2',1,'DE::LinearAllocator']]],
-  ['_7epoolallocator',['~PoolAllocator',['../classDE_1_1PoolAllocator.html#aa43fb65878a2843367907c0c7f87f601',1,'DE::PoolAllocator']]],
-  ['_7estackallocator',['~StackAllocator',['../classDE_1_1StackAllocator.html#a6e680f39f10b1f07ae7d3bd485138abc',1,'DE::StackAllocator']]]
+  ['remove',['remove',['../classDE_1_1List.html#ab70462cf280a4459adb6c837fa20a494',1,'DE::List::remove(u32 index)'],['../classDE_1_1List.html#a91c378ed012e468dfdeb9796206fd70b',1,'DE::List::remove(Iterator &amp;it)']]],
+  ['reset',['reset',['../classDE_1_1Allocator.html#a0a08a7747d50ec63e6eaa1740f5de347',1,'DE::Allocator::reset()'],['../classDE_1_1LinearAllocator.html#a0dbec6e2529dc2f13757c104b17bbdda',1,'DE::LinearAllocator::reset()'],['../classDE_1_1StackAllocator.html#a65370aba2f33a0f04f9e49fec85fb4c8',1,'DE::StackAllocator::reset()']]]
 ];

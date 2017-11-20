@@ -7,8 +7,6 @@
 
 namespace DE {
 
-  // using namespace std;
-
 void BaseArray::fill(void* destiny, const void* source, const u32 size) {
   std::memcpy(destiny, source, size);
 };

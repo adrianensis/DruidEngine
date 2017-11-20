@@ -2,6 +2,15 @@
 \label{classDE_1_1List_1_1Iterator}\index{D\+E\+::\+List$<$ T $>$\+::\+Iterator@{D\+E\+::\+List$<$ T $>$\+::\+Iterator}}
 
 
+\hyperlink{classDE_1_1List_1_1Iterator}{Iterator}. Allows iterate over elements.  
+
+
+
+
+{\ttfamily \#include $<$List.\+h$>$}
+
+
+
 Inheritance diagram for DE\+:\+:List$<$ T $>$\+:\+:Iterator\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -21,21 +30,96 @@ Collaboration diagram for DE\+:\+:List$<$ T $>$\+:\+:Iterator\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\bfseries Iterator} (const Base\+Iterator \&other)\hypertarget{classDE_1_1List_1_1Iterator_aec3de14e44866dc96439a44e484756bd}{}\label{classDE_1_1List_1_1Iterator_aec3de14e44866dc96439a44e484756bd}
+\hyperlink{classDE_1_1List_1_1Iterator_aa670317eef61968df15fe4ec1b721817}{Iterator} ()\hypertarget{classDE_1_1List_1_1Iterator_aa670317eef61968df15fe4ec1b721817}{}\label{classDE_1_1List_1_1Iterator_aa670317eef61968df15fe4ec1b721817}
 
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classDE_1_1List_1_1Iterator_aec3de14e44866dc96439a44e484756bd}{Iterator} (const Base\+Iterator \&other)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classDE_1_1List_1_1Iterator_ac255f2279f9a20b0f494d37961cba484}{$\sim$\+Iterator} ()\hypertarget{classDE_1_1List_1_1Iterator_ac255f2279f9a20b0f494d37961cba484}{}\label{classDE_1_1List_1_1Iterator_ac255f2279f9a20b0f494d37961cba484}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual T \& \hyperlink{classDE_1_1List_1_1Iterator_a4e83d04d4bc5e7715cf8535be70f8796}{get} ()
 \item 
-virtual T \& {\bfseries get} ()\hypertarget{classDE_1_1List_1_1Iterator_a4e83d04d4bc5e7715cf8535be70f8796}{}\label{classDE_1_1List_1_1Iterator_a4e83d04d4bc5e7715cf8535be70f8796}
-
+virtual void \hyperlink{classDE_1_1List_1_1Iterator_a76effe78048f7c8b0b7b7cc9e24044be}{set} (T \&element)
+\begin{DoxyCompactList}\small\item\em Sets the iterator element. \end{DoxyCompactList}\item 
+\hyperlink{classDE_1_1List_1_1Iterator}{Iterator} \hyperlink{classDE_1_1List_1_1Iterator_ae74a3fdd51d427c989adee0fbe218c3c}{get\+Next} ()
 \item 
-virtual void {\bfseries set} (T \&element)\hypertarget{classDE_1_1List_1_1Iterator_a76effe78048f7c8b0b7b7cc9e24044be}{}\label{classDE_1_1List_1_1Iterator_a76effe78048f7c8b0b7b7cc9e24044be}
-
-\item 
-\hyperlink{classDE_1_1List_1_1Iterator}{Iterator} {\bfseries get\+Next} ()\hypertarget{classDE_1_1List_1_1Iterator_ae74a3fdd51d427c989adee0fbe218c3c}{}\label{classDE_1_1List_1_1Iterator_ae74a3fdd51d427c989adee0fbe218c3c}
-
-\item 
-\hyperlink{classDE_1_1List_1_1Iterator}{Iterator} {\bfseries get\+Prev} ()\hypertarget{classDE_1_1List_1_1Iterator_a335fea104b4908acad300498de017156}{}\label{classDE_1_1List_1_1Iterator_a335fea104b4908acad300498de017156}
-
+\hyperlink{classDE_1_1List_1_1Iterator}{Iterator} \hyperlink{classDE_1_1List_1_1Iterator_a335fea104b4908acad300498de017156}{get\+Prev} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\\*
+class D\+E\+::\+List$<$ T $>$\+::\+Iterator}
+
+\hyperlink{classDE_1_1List_1_1Iterator}{Iterator}. Allows iterate over elements. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}!Iterator@{Iterator}}
+\index{Iterator@{Iterator}!D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}}
+\subsubsection[{\texorpdfstring{Iterator(const Base\+Iterator \&other)}{Iterator(const BaseIterator &other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf D\+E\+::\+List}$<$ T $>$\+::Iterator\+::\+Iterator (
+\begin{DoxyParamCaption}
+\item[{const Base\+Iterator \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1List_1_1Iterator_aec3de14e44866dc96439a44e484756bd}{}\label{classDE_1_1List_1_1Iterator_aec3de14e44866dc96439a44e484756bd}
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Other \hyperlink{classDE_1_1List_1_1Iterator}{Iterator}. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}!get@{get}}
+\index{get@{get}!D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}}
+\subsubsection[{\texorpdfstring{get()}{get()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ virtual T\& {\bf D\+E\+::\+List}$<$ T $>$\+::Iterator\+::get (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classDE_1_1List_1_1Iterator_a4e83d04d4bc5e7715cf8535be70f8796}{}\label{classDE_1_1List_1_1Iterator_a4e83d04d4bc5e7715cf8535be70f8796}
+\begin{DoxyReturn}{Returns}
+Element reference. 
+\end{DoxyReturn}
+\index{D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}!get\+Next@{get\+Next}}
+\index{get\+Next@{get\+Next}!D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}}
+\subsubsection[{\texorpdfstring{get\+Next()}{getNext()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Iterator} {\bf D\+E\+::\+List}$<$ T $>$\+::Iterator\+::get\+Next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1List_1_1Iterator_ae74a3fdd51d427c989adee0fbe218c3c}{}\label{classDE_1_1List_1_1Iterator_ae74a3fdd51d427c989adee0fbe218c3c}
+\begin{DoxyReturn}{Returns}
+The next \hyperlink{classDE_1_1List_1_1Iterator}{Iterator}. 
+\end{DoxyReturn}
+\index{D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}!get\+Prev@{get\+Prev}}
+\index{get\+Prev@{get\+Prev}!D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}}
+\subsubsection[{\texorpdfstring{get\+Prev()}{getPrev()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Iterator} {\bf D\+E\+::\+List}$<$ T $>$\+::Iterator\+::get\+Prev (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classDE_1_1List_1_1Iterator_a335fea104b4908acad300498de017156}{}\label{classDE_1_1List_1_1Iterator_a335fea104b4908acad300498de017156}
+\begin{DoxyReturn}{Returns}
+The previous \hyperlink{classDE_1_1List_1_1Iterator}{Iterator}. 
+\end{DoxyReturn}
+\index{D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}!set@{set}}
+\index{set@{set}!D\+E\+::\+List\+::\+Iterator@{D\+E\+::\+List\+::\+Iterator}}
+\subsubsection[{\texorpdfstring{set(\+T \&element)}{set(T &element)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ virtual void {\bf D\+E\+::\+List}$<$ T $>$\+::Iterator\+::set (
+\begin{DoxyParamCaption}
+\item[{T \&}]{element}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classDE_1_1List_1_1Iterator_a76effe78048f7c8b0b7b7cc9e24044be}{}\label{classDE_1_1List_1_1Iterator_a76effe78048f7c8b0b7b7cc9e24044be}
+
+
+Sets the iterator element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & The element. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

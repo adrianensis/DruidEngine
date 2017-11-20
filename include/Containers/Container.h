@@ -7,6 +7,9 @@
 
 namespace DE {
 
+/*!
+    \brief Generic container.
+*/
 class Container : public Allocable {
 
 protected:
@@ -19,8 +22,19 @@ protected:
 
 public:
 
+  /*!
+     \brief Default Constructor.
+  */
   Container();
+
+  /*!
+     \brief Destructor.
+  */
   virtual ~Container();
+
+  /*!
+     \return Container length.
+  */
   u32 getLength() const;
 
 };
