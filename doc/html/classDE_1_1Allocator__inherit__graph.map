@@ -1,0 +1,5 @@
+<map id="DE::Allocator" name="DE::Allocator">
+<area shape="rect" id="node2" href="$classDE_1_1LinearAllocator.html" title="Allocates memory in a linear way. The whole memory is freed in one shot. " alt="" coords="5,80,140,107"/>
+<area shape="rect" id="node4" href="$classDE_1_1PoolAllocator.html" title="Allocates memory using fixed&#45;size blocks. The blocks can be freed. " alt="" coords="164,80,291,107"/>
+<area shape="rect" id="node3" href="$classDE_1_1StackAllocator.html" title="Allocates memory in FIFO strategy. " alt="" coords="5,155,140,181"/>
+</map>

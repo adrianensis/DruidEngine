@@ -1,0 +1,121 @@
+\hypertarget{classDE_1_1BaseList}{}\section{DE\+:\+:Base\+List Class Reference}
+\label{classDE_1_1BaseList}\index{D\+E\+::\+Base\+List@{D\+E\+::\+Base\+List}}
+
+
+Inheritance diagram for DE\+:\+:Base\+List\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classDE_1_1BaseList__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for DE\+:\+:Base\+List\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classDE_1_1BaseList__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator}
+\item 
+class \hyperlink{classDE_1_1BaseList_1_1BaseNode}{Base\+Node}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries clear} ()\hypertarget{classDE_1_1BaseList_a1fb264de58ba818c65da7623e2d42343}{}\label{classDE_1_1BaseList_a1fb264de58ba818c65da7623e2d42343}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const u32 \& {\bfseries get\+Node\+Size} ()\hypertarget{classDE_1_1BaseList_a022bd54e1b6af0b10d352989fc9adc34}{}\label{classDE_1_1BaseList_a022bd54e1b6af0b10d352989fc9adc34}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries allocate} (const u32 element\+Size, const u32 alignment)\hypertarget{classDE_1_1BaseList_a5fc8f3ca27310c6c8e55e4edce149be8}{}\label{classDE_1_1BaseList_a5fc8f3ca27310c6c8e55e4edce149be8}
+
+\item 
+void {\bfseries copy} (const \hyperlink{classDE_1_1BaseList}{Base\+List} \&other)\hypertarget{classDE_1_1BaseList_a3c678d1a2f536c642abe5a7dd800cc79}{}\label{classDE_1_1BaseList_a3c678d1a2f536c642abe5a7dd800cc79}
+
+\item 
+void {\bfseries init} (const u32 element\+Size)\hypertarget{classDE_1_1BaseList_a78a0991d0bcd5506b284140df511e08f}{}\label{classDE_1_1BaseList_a78a0991d0bcd5506b284140df511e08f}
+
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} {\bfseries get\+Iterator} () const \hypertarget{classDE_1_1BaseList_ad3f52d9aeab85bad232394ad0809cc40}{}\label{classDE_1_1BaseList_ad3f52d9aeab85bad232394ad0809cc40}
+
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} {\bfseries get\+Rev\+Iterator} () const \hypertarget{classDE_1_1BaseList_a41028ea5b53c8f9229d2b0e127fbbb9c}{}\label{classDE_1_1BaseList_a41028ea5b53c8f9229d2b0e127fbbb9c}
+
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} {\bfseries get\+First} () const \hypertarget{classDE_1_1BaseList_a9cdf4d25a7e575ca5e8398c6c58ddb18}{}\label{classDE_1_1BaseList_a9cdf4d25a7e575ca5e8398c6c58ddb18}
+
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} {\bfseries get\+Last} () const \hypertarget{classDE_1_1BaseList_af797b5d09fab2c05ca9cab7bb7f1db32}{}\label{classDE_1_1BaseList_af797b5d09fab2c05ca9cab7bb7f1db32}
+
+\item 
+bool {\bfseries is\+Empty} () const \hypertarget{classDE_1_1BaseList_aad916f630075cf2df2501e98ebfa23de}{}\label{classDE_1_1BaseList_aad916f630075cf2df2501e98ebfa23de}
+
+\item 
+void {\bfseries push\+Front} (void $\ast$element)\hypertarget{classDE_1_1BaseList_a5e6869690713975deafa0e055c977da0}{}\label{classDE_1_1BaseList_a5e6869690713975deafa0e055c977da0}
+
+\item 
+void {\bfseries push\+Back} (void $\ast$element)\hypertarget{classDE_1_1BaseList_a0178a7d3ce60727d0dc908e92479a5e0}{}\label{classDE_1_1BaseList_a0178a7d3ce60727d0dc908e92479a5e0}
+
+\item 
+void $\ast$ {\bfseries pop\+Front} ()\hypertarget{classDE_1_1BaseList_a3910c757374eee205c5e4fe66fa5b443}{}\label{classDE_1_1BaseList_a3910c757374eee205c5e4fe66fa5b443}
+
+\item 
+void $\ast$ {\bfseries pop\+Back} ()\hypertarget{classDE_1_1BaseList_a9db5355ad9a1e6ae10c1e179a7e816e6}{}\label{classDE_1_1BaseList_a9db5355ad9a1e6ae10c1e179a7e816e6}
+
+\item 
+void $\ast$ {\bfseries get} (u32 index) const \hypertarget{classDE_1_1BaseList_a8431d5d521a3620fea45c20da0d8e4b3}{}\label{classDE_1_1BaseList_a8431d5d521a3620fea45c20da0d8e4b3}
+
+\item 
+void {\bfseries set} (u32 index, void $\ast$element)\hypertarget{classDE_1_1BaseList_add70f7c86284bf46795159ca2ac49960}{}\label{classDE_1_1BaseList_add70f7c86284bf46795159ca2ac49960}
+
+\item 
+void {\bfseries swap} (u32 index1, u32 index2)\hypertarget{classDE_1_1BaseList_a9bcf75745e1644fd87a12e439afc5c9c}{}\label{classDE_1_1BaseList_a9bcf75745e1644fd87a12e439afc5c9c}
+
+\item 
+void {\bfseries remove} (u32 index)\hypertarget{classDE_1_1BaseList_ae15c3960b5603ca12e1e6560bb922b6a}{}\label{classDE_1_1BaseList_ae15c3960b5603ca12e1e6560bb922b6a}
+
+\item 
+void {\bfseries remove} (\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} \&it)\hypertarget{classDE_1_1BaseList_ad89a50036ae9fcffa04d9dd3ed4de5b8}{}\label{classDE_1_1BaseList_ad89a50036ae9fcffa04d9dd3ed4de5b8}
+
+\item 
+void {\bfseries insert} (u32 index, void $\ast$element)\hypertarget{classDE_1_1BaseList_a84bd701e006411b4c30bd482c3c48a81}{}\label{classDE_1_1BaseList_a84bd701e006411b4c30bd482c3c48a81}
+
+\item 
+void {\bfseries insert} (\hyperlink{classDE_1_1BaseList_1_1BaseIterator}{Base\+Iterator} \&it, void $\ast$element)\hypertarget{classDE_1_1BaseList_a74dc509dbca3bca1ff7bb420d249a556}{}\label{classDE_1_1BaseList_a74dc509dbca3bca1ff7bb420d249a556}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseNode}{Base\+Node} $\ast$ {\bfseries m\+First}\hypertarget{classDE_1_1BaseList_ac5593890d21a73cfa4c837f87b5db5b1}{}\label{classDE_1_1BaseList_ac5593890d21a73cfa4c837f87b5db5b1}
+
+\item 
+\hyperlink{classDE_1_1BaseList_1_1BaseNode}{Base\+Node} $\ast$ {\bfseries m\+Last}\hypertarget{classDE_1_1BaseList_a757f5ad3193919dd4e81f259e07b07af}{}\label{classDE_1_1BaseList_a757f5ad3193919dd4e81f259e07b07af}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Base\+Iterator}\hypertarget{classDE_1_1BaseList_a95d719a456031e0a03c45a657435f35b}{}\label{classDE_1_1BaseList_a95d719a456031e0a03c45a657435f35b}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Containers/Base\+List.\+h\item 
+source/\+Containers/Base\+List.\+cpp\end{DoxyCompactItemize}

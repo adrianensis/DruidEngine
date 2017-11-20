@@ -1,0 +1,221 @@
+\hypertarget{classDE_1_1LinearAllocator}{}\section{DE\+:\+:Linear\+Allocator Class Reference}
+\label{classDE_1_1LinearAllocator}\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+
+
+Allocates memory in a linear way. The whole memory is freed in one shot.  
+
+
+
+
+{\ttfamily \#include $<$Linear\+Allocator.\+h$>$}
+
+
+
+Inheritance diagram for DE\+:\+:Linear\+Allocator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classDE_1_1LinearAllocator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for DE\+:\+:Linear\+Allocator\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classDE_1_1LinearAllocator__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classDE_1_1LinearAllocator_a39842c06f25b2eab2dd5ea4a204ad047}{Linear\+Allocator} ()\hypertarget{classDE_1_1LinearAllocator_a39842c06f25b2eab2dd5ea4a204ad047}{}\label{classDE_1_1LinearAllocator_a39842c06f25b2eab2dd5ea4a204ad047}
+
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classDE_1_1LinearAllocator_a4ee6390f3ad8b726c142db0486d60fe2}{$\sim$\+Linear\+Allocator} ()\hypertarget{classDE_1_1LinearAllocator_a4ee6390f3ad8b726c142db0486d60fe2}{}\label{classDE_1_1LinearAllocator_a4ee6390f3ad8b726c142db0486d60fe2}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{classDE_1_1LinearAllocator_aee64419a4f3c40ac5163ebb744a55155}{set\+Reverse} (bool is\+Reverse)
+\begin{DoxyCompactList}\small\item\em Sets the direction of allocation. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1LinearAllocator_afc065d6a36571958cb33648894fb6c57}{init} (const u32 size)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual void $\ast$ \hyperlink{classDE_1_1LinearAllocator_a6d037588499a66590b52335c8b221454}{allocate} (const u32 size)
+\begin{DoxyCompactList}\small\item\em Allocates memory. \end{DoxyCompactList}\item 
+virtual void $\ast$ \hyperlink{classDE_1_1LinearAllocator_a5d6bf7e2dfe65f6795e77b3a2ed9e811}{allocate} (const u32 size, const u32 alignment)
+\begin{DoxyCompactList}\small\item\em Allocates memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1LinearAllocator_ae1913dde9c2b91738d42686fb08cc755}{free} (const void $\ast$pointer)
+\begin{DoxyCompactList}\small\item\em Frees memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1LinearAllocator_a4199d84edd3d515e0db8512efdf1f208}{free\+Aligned} (const void $\ast$pointer)
+\begin{DoxyCompactList}\small\item\em Frees aligned memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1LinearAllocator_a0dbec6e2529dc2f13757c104b17bbdda}{reset} ()\hypertarget{classDE_1_1LinearAllocator_a0dbec6e2529dc2f13757c104b17bbdda}{}\label{classDE_1_1LinearAllocator_a0dbec6e2529dc2f13757c104b17bbdda}
+
+\begin{DoxyCompactList}\small\item\em Frees aligned memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+u32 {\bfseries m\+Offset}\hypertarget{classDE_1_1LinearAllocator_af63c06fc8c6001db5e6fb20796ab8107}{}\label{classDE_1_1LinearAllocator_af63c06fc8c6001db5e6fb20796ab8107}
+
+\item 
+bool {\bfseries m\+Is\+Reverse}\hypertarget{classDE_1_1LinearAllocator_a4bd2e3779852ab335eeb51925a2ebcd5}{}\label{classDE_1_1LinearAllocator_a4bd2e3779852ab335eeb51925a2ebcd5}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Allocates memory in a linear way. The whole memory is freed in one shot. 
+
+\subsection{Member Function Documentation}
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!allocate@{allocate}}
+\index{allocate@{allocate}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{allocate(const u32 size)}{allocate(const u32 size)}}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ D\+E\+::\+Linear\+Allocator\+::allocate (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1LinearAllocator_a6d037588499a66590b52335c8b221454}{}\label{classDE_1_1LinearAllocator_a6d037588499a66590b52335c8b221454}
+
+
+Allocates memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to memory chunk. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classDE_1_1Allocator_a5dfb8172ab7053e4e6e9f21e02bc26f5}{D\+E\+::\+Allocator}.
+
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_aec00ac9f2cc89aa7338bccb6cb030473}{D\+E\+::\+Stack\+Allocator}.
+
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!allocate@{allocate}}
+\index{allocate@{allocate}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{allocate(const u32 size, const u32 alignment)}{allocate(const u32 size, const u32 alignment)}}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ D\+E\+::\+Linear\+Allocator\+::allocate (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size, }
+\item[{const u32}]{alignment}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1LinearAllocator_a5d6bf7e2dfe65f6795e77b3a2ed9e811}{}\label{classDE_1_1LinearAllocator_a5d6bf7e2dfe65f6795e77b3a2ed9e811}
+
+
+Allocates memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+{\em alignment} & Bytes alignment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to memory chunk. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classDE_1_1Allocator_a87ab42c72ead365ef0f04b9d8ba31b24}{D\+E\+::\+Allocator}.
+
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_a405ba272b7615b56e5a4f93bd991bae6}{D\+E\+::\+Stack\+Allocator}.
+
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!free@{free}}
+\index{free@{free}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{free(const void $\ast$pointer)}{free(const void *pointer)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Linear\+Allocator\+::free (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{pointer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1LinearAllocator_ae1913dde9c2b91738d42686fb08cc755}{}\label{classDE_1_1LinearAllocator_ae1913dde9c2b91738d42686fb08cc755}
+
+
+Frees memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & Pointer to memory. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classDE_1_1Allocator_a9a01f5da5adafc6d5cee9b3e3e9859c4}{D\+E\+::\+Allocator}.
+
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_ae1c77f32df6421293da96dc322f33c98}{D\+E\+::\+Stack\+Allocator}.
+
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!free\+Aligned@{free\+Aligned}}
+\index{free\+Aligned@{free\+Aligned}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{free\+Aligned(const void $\ast$pointer)}{freeAligned(const void *pointer)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Linear\+Allocator\+::free\+Aligned (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{pointer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1LinearAllocator_a4199d84edd3d515e0db8512efdf1f208}{}\label{classDE_1_1LinearAllocator_a4199d84edd3d515e0db8512efdf1f208}
+
+
+Frees aligned memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & Pointer to aligned memory. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classDE_1_1Allocator_a765f3ff9d6ff095bdfe4674652542a3d}{D\+E\+::\+Allocator}.
+
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_aac3d433b63805fbd046a3ce70d6d6305}{D\+E\+::\+Stack\+Allocator}.
+
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!init@{init}}
+\index{init@{init}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{init(const u32 size)}{init(const u32 size)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Linear\+Allocator\+::init (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1LinearAllocator_afc065d6a36571958cb33648894fb6c57}{}\label{classDE_1_1LinearAllocator_afc065d6a36571958cb33648894fb6c57}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classDE_1_1Allocator_a891c3a1ec3d3713cc742412ac184a6e5}{D\+E\+::\+Allocator}.
+
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_aa6f085873c6d8be29d1d24e205450b30}{D\+E\+::\+Stack\+Allocator}.
+
+\index{D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}!set\+Reverse@{set\+Reverse}}
+\index{set\+Reverse@{set\+Reverse}!D\+E\+::\+Linear\+Allocator@{D\+E\+::\+Linear\+Allocator}}
+\subsubsection[{\texorpdfstring{set\+Reverse(bool is\+Reverse)}{setReverse(bool isReverse)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Linear\+Allocator\+::set\+Reverse (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\+Reverse}
+\end{DoxyParamCaption}
+)}\hypertarget{classDE_1_1LinearAllocator_aee64419a4f3c40ac5163ebb744a55155}{}\label{classDE_1_1LinearAllocator_aee64419a4f3c40ac5163ebb744a55155}
+
+
+Sets the direction of allocation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Reverse} & Boolean. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Memory/Linear\+Allocator.\+h\item 
+source/\+Memory/Linear\+Allocator.\+cpp\end{DoxyCompactItemize}

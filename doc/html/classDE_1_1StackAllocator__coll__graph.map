@@ -1,0 +1,4 @@
+<map id="DE::StackAllocator" name="DE::StackAllocator">
+<area shape="rect" id="node2" href="$classDE_1_1LinearAllocator.html" title="Allocates memory in a linear way. The whole memory is freed in one shot. " alt="" coords="5,80,140,107"/>
+<area shape="rect" id="node3" href="$classDE_1_1Allocator.html" title="Manages memory allocation. " alt="" coords="23,5,123,32"/>
+</map>

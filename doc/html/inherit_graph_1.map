@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classDE_1_1Allocator.html" title="Manages memory allocation. " alt="" coords="5,31,105,57"/>
+<area shape="rect" id="node2" href="$classDE_1_1LinearAllocator.html" title="Allocates memory in a linear way. The whole memory is freed in one shot. " alt="" coords="153,5,288,32"/>
+<area shape="rect" id="node4" href="$classDE_1_1PoolAllocator.html" title="Allocates memory using fixed&#45;size blocks. The blocks can be freed. " alt="" coords="157,56,284,83"/>
+<area shape="rect" id="node3" href="$classDE_1_1StackAllocator.html" title="Allocates memory in FIFO strategy. " alt="" coords="336,5,471,32"/>
+</map>

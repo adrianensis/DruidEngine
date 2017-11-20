@@ -1,0 +1,259 @@
+\hypertarget{classDE_1_1Allocator}{}\section{DE\+:\+:Allocator Class Reference}
+\label{classDE_1_1Allocator}\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+
+
+Manages memory allocation.  
+
+
+
+
+{\ttfamily \#include $<$Allocator.\+h$>$}
+
+
+
+Inheritance diagram for DE\+:\+:Allocator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{classDE_1_1Allocator__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classDE_1_1Allocator_ab6534df8f8e4c8b28ca129687bec3b26}{Allocator} ()\hypertarget{classDE_1_1Allocator_ab6534df8f8e4c8b28ca129687bec3b26}{}\label{classDE_1_1Allocator_ab6534df8f8e4c8b28ca129687bec3b26}
+
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classDE_1_1Allocator_a8d95aa03ec7c7801d06a23f5f453961d}{$\sim$\+Allocator} ()\hypertarget{classDE_1_1Allocator_a8d95aa03ec7c7801d06a23f5f453961d}{}\label{classDE_1_1Allocator_a8d95aa03ec7c7801d06a23f5f453961d}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual u32 \hyperlink{classDE_1_1Allocator_af8e9d8df95e03bd2a5d2242d67c37ff2}{get\+Size} ()
+\item 
+virtual u32 \hyperlink{classDE_1_1Allocator_ab1cd017ccd297924b3afec3588f42848}{get\+Allocated} ()
+\item 
+virtual bool \hyperlink{classDE_1_1Allocator_a021200fc6a7c6fae64e7e98907d334b2}{has\+Space} (const u32 size)
+\item 
+virtual void \hyperlink{classDE_1_1Allocator_a891c3a1ec3d3713cc742412ac184a6e5}{init} (const u32 size)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1Allocator_acb18b8358ee9565b3ad0c6f1bff1e65e}{init\+From\+Memory} (const u32 size, void $\ast$mem)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual void $\ast$ \hyperlink{classDE_1_1Allocator_a5dfb8172ab7053e4e6e9f21e02bc26f5}{allocate} (const u32 size)=0
+\begin{DoxyCompactList}\small\item\em Allocates memory. \end{DoxyCompactList}\item 
+virtual void $\ast$ \hyperlink{classDE_1_1Allocator_a87ab42c72ead365ef0f04b9d8ba31b24}{allocate} (const u32 size, const u32 alignment)=0
+\begin{DoxyCompactList}\small\item\em Allocates memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1Allocator_a9a01f5da5adafc6d5cee9b3e3e9859c4}{free} (const void $\ast$pointer)=0
+\begin{DoxyCompactList}\small\item\em Frees memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1Allocator_a765f3ff9d6ff095bdfe4674652542a3d}{free\+Aligned} (const void $\ast$pointer)=0
+\begin{DoxyCompactList}\small\item\em Frees aligned memory. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classDE_1_1Allocator_a0a08a7747d50ec63e6eaa1740f5de347}{reset} ()\hypertarget{classDE_1_1Allocator_a0a08a7747d50ec63e6eaa1740f5de347}{}\label{classDE_1_1Allocator_a0a08a7747d50ec63e6eaa1740f5de347}
+
+\begin{DoxyCompactList}\small\item\em Frees aligned memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries check\+Allocate} (u32 size)\hypertarget{classDE_1_1Allocator_adfa4cc6e2a100ced016d76dad996ec03}{}\label{classDE_1_1Allocator_adfa4cc6e2a100ced016d76dad996ec03}
+
+\item 
+void {\bfseries check\+Free} ()\hypertarget{classDE_1_1Allocator_a77aa1061f03024b4908d1df48b5f6a9b}{}\label{classDE_1_1Allocator_a77aa1061f03024b4908d1df48b5f6a9b}
+
+\item 
+void {\bfseries set\+Allocated} (u32 size)\hypertarget{classDE_1_1Allocator_a1ba0de66726af5f264a32bbdc56e09e6}{}\label{classDE_1_1Allocator_a1ba0de66726af5f264a32bbdc56e09e6}
+
+\item 
+void {\bfseries \+\_\+init} (void $\ast$mem)\hypertarget{classDE_1_1Allocator_a26ac571c71cac6e35eaadef60b145d04}{}\label{classDE_1_1Allocator_a26ac571c71cac6e35eaadef60b145d04}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+u32 {\bfseries m\+Total\+Size}\hypertarget{classDE_1_1Allocator_aceae0739788b604e09461cb87c9cee33}{}\label{classDE_1_1Allocator_aceae0739788b604e09461cb87c9cee33}
+
+\item 
+u32 {\bfseries m\+Allocated}\hypertarget{classDE_1_1Allocator_a5b5fdd9a1d11ae939f0dafee6aa65be7}{}\label{classDE_1_1Allocator_a5b5fdd9a1d11ae939f0dafee6aa65be7}
+
+\item 
+void $\ast$ {\bfseries m\+Start}\hypertarget{classDE_1_1Allocator_a4b8cbee3d0d9544e88ebdfaa62902b90}{}\label{classDE_1_1Allocator_a4b8cbee3d0d9544e88ebdfaa62902b90}
+
+\item 
+void $\ast$ {\bfseries m\+End}\hypertarget{classDE_1_1Allocator_adef4833178f44b6c047d47945d5c93d4}{}\label{classDE_1_1Allocator_adef4833178f44b6c047d47945d5c93d4}
+
+\item 
+void $\ast$ {\bfseries m\+Start\+Copy}\hypertarget{classDE_1_1Allocator_a26a25b124b6a727393ecaa51e8c9925b}{}\label{classDE_1_1Allocator_a26a25b124b6a727393ecaa51e8c9925b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Manages memory allocation. 
+
+\subsection{Member Function Documentation}
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!allocate@{allocate}}
+\index{allocate@{allocate}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{allocate(const u32 size)=0}{allocate(const u32 size)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ D\+E\+::\+Allocator\+::allocate (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classDE_1_1Allocator_a5dfb8172ab7053e4e6e9f21e02bc26f5}{}\label{classDE_1_1Allocator_a5dfb8172ab7053e4e6e9f21e02bc26f5}
+
+
+Allocates memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to memory chunk. 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classDE_1_1PoolAllocator_a145223d6697c2f9ad9bbab65ea0cb1b3}{D\+E\+::\+Pool\+Allocator}, \hyperlink{classDE_1_1StackAllocator_aec00ac9f2cc89aa7338bccb6cb030473}{D\+E\+::\+Stack\+Allocator}, and \hyperlink{classDE_1_1LinearAllocator_a6d037588499a66590b52335c8b221454}{D\+E\+::\+Linear\+Allocator}.
+
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!allocate@{allocate}}
+\index{allocate@{allocate}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{allocate(const u32 size, const u32 alignment)=0}{allocate(const u32 size, const u32 alignment)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void$\ast$ D\+E\+::\+Allocator\+::allocate (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size, }
+\item[{const u32}]{alignment}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classDE_1_1Allocator_a87ab42c72ead365ef0f04b9d8ba31b24}{}\label{classDE_1_1Allocator_a87ab42c72ead365ef0f04b9d8ba31b24}
+
+
+Allocates memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+{\em alignment} & Bytes alignment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to memory chunk. 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classDE_1_1PoolAllocator_ad35d3c065c766c42534f04d6c6adeed6}{D\+E\+::\+Pool\+Allocator}, \hyperlink{classDE_1_1StackAllocator_a405ba272b7615b56e5a4f93bd991bae6}{D\+E\+::\+Stack\+Allocator}, and \hyperlink{classDE_1_1LinearAllocator_a5d6bf7e2dfe65f6795e77b3a2ed9e811}{D\+E\+::\+Linear\+Allocator}.
+
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!free@{free}}
+\index{free@{free}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{free(const void $\ast$pointer)=0}{free(const void *pointer)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void D\+E\+::\+Allocator\+::free (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{pointer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classDE_1_1Allocator_a9a01f5da5adafc6d5cee9b3e3e9859c4}{}\label{classDE_1_1Allocator_a9a01f5da5adafc6d5cee9b3e3e9859c4}
+
+
+Frees memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & Pointer to memory. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classDE_1_1PoolAllocator_ac8566e6920e0f34f70c2f76758fbb68a}{D\+E\+::\+Pool\+Allocator}, \hyperlink{classDE_1_1StackAllocator_ae1c77f32df6421293da96dc322f33c98}{D\+E\+::\+Stack\+Allocator}, and \hyperlink{classDE_1_1LinearAllocator_ae1913dde9c2b91738d42686fb08cc755}{D\+E\+::\+Linear\+Allocator}.
+
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!free\+Aligned@{free\+Aligned}}
+\index{free\+Aligned@{free\+Aligned}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{free\+Aligned(const void $\ast$pointer)=0}{freeAligned(const void *pointer)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void D\+E\+::\+Allocator\+::free\+Aligned (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{pointer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classDE_1_1Allocator_a765f3ff9d6ff095bdfe4674652542a3d}{}\label{classDE_1_1Allocator_a765f3ff9d6ff095bdfe4674652542a3d}
+
+
+Frees aligned memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & Pointer to aligned memory. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classDE_1_1PoolAllocator_af20c44a50efd12448f87b268e308fc92}{D\+E\+::\+Pool\+Allocator}, \hyperlink{classDE_1_1StackAllocator_aac3d433b63805fbd046a3ce70d6d6305}{D\+E\+::\+Stack\+Allocator}, and \hyperlink{classDE_1_1LinearAllocator_a4199d84edd3d515e0db8512efdf1f208}{D\+E\+::\+Linear\+Allocator}.
+
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!get\+Allocated@{get\+Allocated}}
+\index{get\+Allocated@{get\+Allocated}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{get\+Allocated()}{getAllocated()}}]{\setlength{\rightskip}{0pt plus 5cm}u32 D\+E\+::\+Allocator\+::get\+Allocated (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1Allocator_ab1cd017ccd297924b3afec3588f42848}{}\label{classDE_1_1Allocator_ab1cd017ccd297924b3afec3588f42848}
+\begin{DoxyReturn}{Returns}
+Amount of memory used. 
+\end{DoxyReturn}
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!get\+Size@{get\+Size}}
+\index{get\+Size@{get\+Size}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{get\+Size()}{getSize()}}]{\setlength{\rightskip}{0pt plus 5cm}u32 D\+E\+::\+Allocator\+::get\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1Allocator_af8e9d8df95e03bd2a5d2242d67c37ff2}{}\label{classDE_1_1Allocator_af8e9d8df95e03bd2a5d2242d67c37ff2}
+\begin{DoxyReturn}{Returns}
+Total size. 
+\end{DoxyReturn}
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!has\+Space@{has\+Space}}
+\index{has\+Space@{has\+Space}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{has\+Space(const u32 size)}{hasSpace(const u32 size)}}]{\setlength{\rightskip}{0pt plus 5cm}bool D\+E\+::\+Allocator\+::has\+Space (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1Allocator_a021200fc6a7c6fae64e7e98907d334b2}{}\label{classDE_1_1Allocator_a021200fc6a7c6fae64e7e98907d334b2}
+\begin{DoxyReturn}{Returns}
+True if space is enough. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Size you want to check. \\
+\hline
+\end{DoxyParams}
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!init@{init}}
+\index{init@{init}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{init(const u32 size)}{init(const u32 size)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Allocator\+::init (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1Allocator_a891c3a1ec3d3713cc742412ac184a6e5}{}\label{classDE_1_1Allocator_a891c3a1ec3d3713cc742412ac184a6e5}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{classDE_1_1StackAllocator_aa6f085873c6d8be29d1d24e205450b30}{D\+E\+::\+Stack\+Allocator}, and \hyperlink{classDE_1_1LinearAllocator_afc065d6a36571958cb33648894fb6c57}{D\+E\+::\+Linear\+Allocator}.
+
+\index{D\+E\+::\+Allocator@{D\+E\+::\+Allocator}!init\+From\+Memory@{init\+From\+Memory}}
+\index{init\+From\+Memory@{init\+From\+Memory}!D\+E\+::\+Allocator@{D\+E\+::\+Allocator}}
+\subsubsection[{\texorpdfstring{init\+From\+Memory(const u32 size, void $\ast$mem)}{initFromMemory(const u32 size, void *mem)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Allocator\+::init\+From\+Memory (
+\begin{DoxyParamCaption}
+\item[{const u32}]{size, }
+\item[{void $\ast$}]{mem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classDE_1_1Allocator_acb18b8358ee9565b3ad0c6f1bff1e65e}{}\label{classDE_1_1Allocator_acb18b8358ee9565b3ad0c6f1bff1e65e}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Amount of memory you want to allocate. \\
+\hline
+{\em mem} & Pointer to pre-\/allocated memory chunk. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Memory/Allocator.\+h\item 
+source/\+Memory/Allocator.\+cpp\end{DoxyCompactItemize}

@@ -6,6 +6,9 @@
 
 namespace DE {
 
+    /*!
+        \brief Allocates memory in FIFO strategy.
+    */
 class StackAllocator : public LinearAllocator {
 
 private:
@@ -16,16 +19,37 @@ private:
 
 public:
 
+  /*!
+     \brief Default Constructor.
+  */
   StackAllocator();
+
+  /*!
+     \brief Destructor.
+  */
   virtual ~StackAllocator();
+
+  /*!
+     \return Pointer to the top of the stack.
+  */
   void* getTop();
+
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocate(const u32 size, const u32 alignment);
   virtual void free(const void* pointer);
   virtual void freeAligned(const void* pointer);
-  virtual void free();
-  virtual void freeAligned();
+
+  /*!
+     \brief Free the top of the stack.
+  */
+  void free();
+
+  /*!
+     \brief Free the (aligned) top of the stack.
+  */
+  void freeAligned();
+
   virtual void reset();
 
 };

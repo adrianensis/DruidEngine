@@ -5,6 +5,14 @@
 
 #include <iostream>
 
+/*
+ * https://en.wikipedia.org/wiki/Data_structure_alignment
+ *
+ *  ---- pseudo-code: computing padding ----
+ * padding = (align - (offset mod align)) mod align
+ * new offset = offset + padding = offset + (align - (offset mod align)) mod align
+ */
+
 namespace DE {
   using namespace std;
 

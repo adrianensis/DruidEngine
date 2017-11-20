@@ -1,11 +1,16 @@
-# Build project
+# README
 
-Open a terminal and run the command: `./build.sh`
+## Scripts
 
-# Run tests
+* Build project: `./build.sh`
+* Run tests: `./test.sh`
+* Clean project: `./clean.sh`
+* Generate documentation: `./doc.sh` *(requires doxygen)*
 
-Open a terminal and run the command: `./test.sh`
+## Install Doxygen on Linux
 
-# Clean project
+To install doxygen on Ubuntu, Mint or Debian:
 
-Open a terminal and run the command: `./clean.sh`
+`$ sudo apt-get install doxygen`
+
+`$ sudo apt-get install graphviz`

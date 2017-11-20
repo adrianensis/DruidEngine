@@ -4,16 +4,11 @@
 #include "Allocator.h"
 #include "BasicTypes.h"
 
-/*
- * https://en.wikipedia.org/wiki/Data_structure_alignment
- *
- *  ---- pseudo-code: computing padding ----
- * padding = (align - (offset mod align)) mod align
- * new offset = offset + padding = offset + (align - (offset mod align)) mod align
- */
-
 namespace DE {
 
+/*!
+    \brief Allocates memory in a linear way. The whole memory is freed in one shot.
+*/
 class LinearAllocator : public Allocator {
 
 protected:
@@ -21,9 +16,22 @@ protected:
   bool mIsReverse;
 public:
 
+  /*!
+     \brief Default Constructor.
+  */
   LinearAllocator();
+
+  /*!
+     \brief Destructor.
+  */
   virtual ~LinearAllocator();
+
+  /*!
+     \brief Sets the direction of allocation.
+     \param isReverse Boolean.
+  */
   void setReverse(bool isReverse);
+
   virtual void init(const u32 size);
   virtual void* allocate(const u32 size);
   virtual void* allocate(const u32 size, const u32 alignment);
