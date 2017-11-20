@@ -9,16 +9,15 @@ namespace DE {
 u32 StackAllocator::smHeaderSize = sizeof(u32);
 
 void StackAllocator::storeHeader(const void* address, u32 size){
-  u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
+    u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
 
-  // header is stored in the last position of the allocated memory.
-  // (the previus one to the following address).
+    // header is stored in the last position of the allocated memory.
+    // (the previus one to the following address).
 
-  if(mIsReverse)
-    u32Array[1] = size;  // store header at the begining of the block
-  else
-    u32Array[-1] = size;  // store header at the end of the block
-
+    if(mIsReverse)
+        u32Array[1] = size;  // store header at the begining of the block
+    else
+        u32Array[-1] = size;  // store header at the end of the block
 }
 
 StackAllocator::StackAllocator() : LinearAllocator(){
@@ -26,63 +25,49 @@ StackAllocator::StackAllocator() : LinearAllocator(){
 }
 
 StackAllocator::~StackAllocator(){
-  mTop = nullptr;
+    mTop = nullptr;
 }
 
 void* StackAllocator::getTop(){
-  return mTop;
+    return mTop;
 }
 
 void StackAllocator::init(u32 size){
-  LinearAllocator::init(size);
-  mTop = mStart;
-
-  // cout << "init " << reinterpret_cast<ptr>(mTop) << endl;
+    LinearAllocator::init(size);
+    mTop = mStart;
 }
 
 void* StackAllocator::allocate(u32 size){
+    // allocate size + header
+    const ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize));
 
-  // allocate size + header
-  const ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize));
+    // save the top
+    if(mIsReverse)
+        mTop = reinterpret_cast<void*>(address);
+    else
+        mTop = reinterpret_cast<void*>(address+size+smHeaderSize);
 
-  // save the top
-  if(mIsReverse)
-    mTop = reinterpret_cast<void*>(address);
-  else
-    mTop = reinterpret_cast<void*>(address+size+smHeaderSize);
+    // store header
+    StackAllocator::storeHeader(mTop, size);
 
-
-  // cout << "allocate mTop " << reinterpret_cast<ptr>(mTop) << endl;
-
-  // store header
-  StackAllocator::storeHeader(mTop, size);
-
-
-
-  return reinterpret_cast<void*>(address);
+    return reinterpret_cast<void*>(address);
 }
 
 
 void* StackAllocator::allocate(u32 size, u32 alignment){
+    // allocate size + header + alignment
+    ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize,alignment));
 
-  // allocate size + header + alignment
-  ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize,alignment));
-  // cout << "aligned address " << alignedAddress << endl;
+    // save the top
+    if(mIsReverse)
+        mTop = reinterpret_cast<void*>(alignedAddress);
+    else
+        mTop = reinterpret_cast<void*>(alignedAddress+size+smHeaderSize);
 
-  // save the top
-  if(mIsReverse)
-    mTop = reinterpret_cast<void*>(alignedAddress);
-  else
-    mTop = reinterpret_cast<void*>(alignedAddress+size+smHeaderSize);
+    // store header
+    StackAllocator::storeHeader(mTop, size+alignment);
 
-
-
-  // cout << "allocate mTop "<< reinterpret_cast<ptr>(mTop) << endl;
-
-  // store header
-  StackAllocator::storeHeader(mTop, size+alignment);
-
-  return reinterpret_cast<void*>(alignedAddress);
+    return reinterpret_cast<void*>(alignedAddress);
 }
 
 void StackAllocator::free(const void* pointer){
@@ -90,62 +75,52 @@ void StackAllocator::free(const void* pointer){
 }
 
 void StackAllocator::freeAligned(const void* pointer){
-  // ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
-  mTop = (void*) pointer;
+    // ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
+    mTop = (void*) pointer;
 }
 
 void StackAllocator::free(){
+    Allocator::checkFree();
 
-  Allocator::checkFree();
+    // read header
+    u32* u32Array = reinterpret_cast<u32*>(mTop);
 
-  // cout << "free " << reinterpret_cast<ptr>(mTop) << endl;
+    u32 size = 0;
 
-  // read header
-  u32* u32Array = reinterpret_cast<u32*>(mTop);
+    if(mIsReverse)
+        size = u32Array[1];
+    else
+        size = u32Array[-1];
 
-  u32 size = 0;
+    // reduce mOffset
+    mOffset -= smHeaderSize;
+    mOffset -= size;
 
-  if(mIsReverse)
-    size = u32Array[1];
-  else
-    size = u32Array[-1];
+    // reduce mAllocated
+    mAllocated = mOffset;
 
-  // reduce mOffset
-  mOffset -= smHeaderSize;
-  mOffset -= size;
-
-  // reduce mAllocated
-  mAllocated = mOffset;
-
-  if(mIsReverse)
-    mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mEnd - mOffset));
-  else
-    mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart + mOffset));
-
-  // cout << "free complete " << reinterpret_cast<ptr>(mTop) << endl;
-
+    if(mIsReverse)
+        mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mEnd - mOffset));
+    else
+        mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart + mOffset));
 }
 
 void StackAllocator::freeAligned(){
+    Allocator::checkFree();
 
-  Allocator::checkFree();
+    StackAllocator::free();
 
-  StackAllocator::free();
+    const u8* u8Array = reinterpret_cast<const u8*>(mTop);
+    ptr alignedAddress = reinterpret_cast<ptr>(mTop);
+    ptrdiff adjustment = static_cast<ptrdiff>(u8Array[-1]);
+    ptr address = alignedAddress - adjustment;
 
-  const u8* u8Array = reinterpret_cast<const u8*>(mTop);
-  ptr alignedAddress = reinterpret_cast<ptr>(mTop);
-  ptrdiff adjustment = static_cast<ptrdiff>(u8Array[-1]);
-  ptr address = alignedAddress - adjustment;
-
-  mTop = reinterpret_cast<void*>(address);
-
-  // cout << "freeAligned " << reinterpret_cast<ptr>(mTop) << endl;
-
+    mTop = reinterpret_cast<void*>(address);
 }
 
 void StackAllocator::reset(){
-  LinearAllocator::reset();
-  mTop = nullptr;
+    LinearAllocator::reset();
+    mTop = nullptr;
 }
 
 } /* namespace DE */

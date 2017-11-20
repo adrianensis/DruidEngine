@@ -10,7 +10,7 @@ class Matrix4 /*16 bytes alignment*/ {
 
   // REMEMBER
   // OpenGL uses column-major order (transposed)
-  // a webGL matrix : [ [column 0] [column 1] [column 2] [column 3] ]
+  // a GL matrix : [ [column 0] [column 1] [column 2] [column 3] ]
 
   // NOTE:
   // You can use the get(row,col) and set(row,col,value) functions

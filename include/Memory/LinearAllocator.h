@@ -12,32 +12,34 @@ namespace DE {
 class LinearAllocator : public Allocator {
 
 protected:
-  u32 mOffset;
-  bool mIsReverse;
+
+    u32 mOffset;
+    bool mIsReverse;
+
 public:
 
-  /*!
-     \brief Default Constructor.
-  */
-  LinearAllocator();
+    /*!
+        \brief Default Constructor.
+    */
+    LinearAllocator();
 
-  /*!
-     \brief Destructor.
-  */
-  virtual ~LinearAllocator();
+    /*!
+        \brief Destructor.
+    */
+    virtual ~LinearAllocator();
 
-  /*!
-     \brief Sets the direction of allocation.
-     \param isReverse Boolean.
-  */
-  void setReverse(bool isReverse);
+    /*!
+        \brief Sets the direction of allocation.
+        \param isReverse Boolean.
+    */
+    void setReverse(bool isReverse);
 
-  virtual void init(u32 size);
-  virtual void* allocate(u32 size);
-  virtual void* allocate(u32 size, u32 alignment);
-  virtual void free(const void* pointer);
-  virtual void freeAligned(const void* pointer);
-  virtual void reset();
+    virtual void init(u32 size);
+    virtual void* allocate(u32 size);
+    virtual void* allocate(u32 size, u32 alignment);
+    virtual void free(const void* pointer);
+    virtual void freeAligned(const void* pointer);
+    virtual void reset();
 
 };
 

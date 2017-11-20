@@ -9,8 +9,10 @@
 
 namespace DE {
 
+/*!
+    \brief 2D Vector.
+*/
 class Vector2 {
-
 
 public:
 
@@ -24,6 +26,9 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
+	/*!
+	   \brief Default Constructor.
+	*/
 	Vector2();
 	Vector2(f32 x, f32 y);
 	Vector2(const Vector2& other);

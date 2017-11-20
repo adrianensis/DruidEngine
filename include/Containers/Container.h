@@ -14,28 +14,28 @@ class Container : public Allocable {
 
 protected:
 
-  u32 mElementSize;
-  u32 mLength;
-  u32 mAlignment;
+    u32 mElementSize;
+    u32 mLength;
+    u32 mAlignment;
 
-  void init(u32 length, u32 elementSize, u32 alignment);
+    void init(u32 length, u32 elementSize, u32 alignment);
 
 public:
 
-  /*!
-     \brief Default Constructor.
-  */
-  Container();
+    /*!
+        \brief Default Constructor.
+    */
+    Container();
 
-  /*!
-     \brief Destructor.
-  */
-  virtual ~Container();
+    /*!
+        \brief Destructor.
+    */
+    virtual ~Container();
 
-  /*!
-     \return Container length.
-  */
-  u32 getLength() const;
+    /*!
+        \return Container length.
+    */
+    u32 getLength() const;
 
 };
 
