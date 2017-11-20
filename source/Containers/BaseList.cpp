@@ -16,7 +16,7 @@ BaseList::BaseNode* BaseList::newNode(){
   return static_cast<BaseNode*>(mAllocator->allocate(smNodeSize));
 };
 
-const u32 BaseList::smNodeSize = sizeof(BaseNode);
+u32 BaseList::smNodeSize = sizeof(BaseNode);
 
 BaseList::BaseNode::BaseNode() {
   BaseNode::init();
@@ -135,11 +135,11 @@ BaseList::~BaseList() {
 };
 
 
-void BaseList::allocate(const u32 elementSize, const u32 alignment) {
+void BaseList::allocate(u32 elementSize, u32 alignment) {
   Container::init(0, elementSize, alignment); // mLength = 0
 };
 
-void BaseList::init(const u32 elementSize) {
+void BaseList::init(u32 elementSize) {
   BaseList::allocate(elementSize, 0);
 };
 

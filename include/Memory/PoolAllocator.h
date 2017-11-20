@@ -20,7 +20,7 @@ private:
   void* mFirst;
   void* mLast;
 
-  static const u32 smPtrSize;
+  static u32 smPtrSize;
   static void storePointer(const void* address, const void* pointer);
   static void* getNextIterator(const void* it);
   void* getBlock(const void* it);
@@ -49,10 +49,10 @@ public:
      \param numBlocks Number of blocks.
      \param alignment Bytes alignment.
   */
-  virtual void init(const u32 blockSize, const u32 numBlocks, const u32 alignment);
+  virtual void init(u32 blockSize, u32 numBlocks, u32 alignment);
 
-  virtual void* allocate(const u32 size);
-  virtual void* allocate(const u32 size, const u32 alignment);
+  virtual void* allocate(u32 size);
+  virtual void* allocate(u32 size, u32 alignment);
 
   /*!
      \brief Allocates a single block.

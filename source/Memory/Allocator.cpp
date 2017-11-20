@@ -8,7 +8,7 @@ namespace DE {
 
   // using namespace std;
 
-void Allocator::checkAllocate(const u32 size) {
+void Allocator::checkAllocate(u32 size) {
   ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 };
 
@@ -39,7 +39,7 @@ u32 Allocator::getAllocated() {
   return mAllocated;
 };
 
-bool Allocator::hasSpace(const u32 size) {
+bool Allocator::hasSpace(u32 size) {
   return (mTotalSize-mAllocated) >= size;
 };
 
@@ -53,11 +53,11 @@ void Allocator::_init(void* mem) {
   mStartCopy = mStart;
 };
 
-void Allocator::init(const u32 size) {
+void Allocator::init(u32 size) {
   initFromMemory(size, ::operator new (size));
 };
 
-void Allocator::initFromMemory(const u32 size, void* mem) {
+void Allocator::initFromMemory(u32 size, void* mem) {
   mTotalSize = size;
 
   Allocator::reset();

@@ -28,15 +28,15 @@ protected:
   BaseNode* mFirst;
   BaseNode* mLast;
 
-  // void allocationLoop(const u32 length);
-  void allocate(const u32 elementSize, const u32 alignment);
+  // void allocationLoop(u32 length);
+  void allocate(u32 elementSize, u32 alignment);
   void copy(const BaseList& other);
 
 private:
 
   BaseNode* newNode();
   void freeNode(BaseNode* node);
-  static const u32 smNodeSize;
+  static u32 smNodeSize;
 
 protected:
 
@@ -82,7 +82,7 @@ protected:
   BaseList ();
   virtual ~BaseList ();
 
-  void init(const u32 elementSize);
+  void init(u32 elementSize);
 
   BaseIterator getIterator() const;
   BaseIterator getRevIterator() const;

@@ -58,7 +58,7 @@ public:
      \param rawArray The raw array.
      \param length The length of the raw array.
   */
-  void init(const void* rawArray, const u32 length) {
+  void init(const void* rawArray, u32 length) {
     BaseArray::init(rawArray, length, sizeof(T));
     mTStart = static_cast<T*>(mStart);
   };
@@ -69,7 +69,7 @@ public:
      \param length The length of the raw array.
      \param alignment Bytes alignment.
   */
-  void init(const void* rawArray, const u32 length, const u32 alignment) {
+  void init(const void* rawArray, u32 length, u32 alignment) {
     BaseArray::init(rawArray, length, sizeof(T), alignment);
     mTStart = static_cast<T*>(mStart);
   };
@@ -78,7 +78,7 @@ public:
      \brief Constructor.
      \param length Length of the array.
   */
-  void init(const u32 length) {
+  void init(u32 length) {
     BaseArray::init(length, sizeof(T));
     mTStart = static_cast<T*>(mStart);
   };
@@ -88,7 +88,7 @@ public:
      \param length Length of the array.
      \param alignment Bytes alignment.
   */
-  void init(const u32 length, const u32 alignment) {
+  void init(u32 length, u32 alignment) {
     BaseArray::init(length, sizeof(T), alignment);
     mTStart = static_cast<T*>(mStart);
   };
@@ -109,7 +109,7 @@ public:
      \param index Index (of the destiny array) from which to paste the other array.
      \param length Amount of element of the other array to be copied.
   */
-  void put(const void* rawArray, u32 index, const u32 length){
+  void put(const void* rawArray, u32 index, u32 length){
     ASSERT(length <= this->getLength() - index, "Not enough space for put array.");
     BaseArray::put(rawArray, index, length*mElementSize);
   };

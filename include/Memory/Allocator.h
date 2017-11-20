@@ -50,27 +50,27 @@ public:
      \return True if space is enough.
      \param size Size you want to check.
   */
-  virtual bool hasSpace(const u32 size);
+  virtual bool hasSpace(u32 size);
 
   /*!
      \brief Constructor.
      \param size Amount of memory you want to allocate.
   */
-  virtual void init(const u32 size);
+  virtual void init(u32 size);
 
   /*!
      \brief Constructor.
      \param size Amount of memory you want to allocate.
      \param mem Pointer to pre-allocated memory chunk.
   */
-  virtual void initFromMemory(const u32 size, void* mem);
+  virtual void initFromMemory(u32 size, void* mem);
 
   /*!
      \brief Allocates memory.
      \param size Amount of memory you want to allocate.
      \return Pointer to memory chunk.
   */
-  virtual void* allocate(const u32 size) = 0;
+  virtual void* allocate(u32 size) = 0;
 
   /*!
      \brief Allocates memory.
@@ -78,7 +78,7 @@ public:
      \param alignment Bytes alignment.
      \return Pointer to memory chunk.
   */
-  virtual void* allocate(const u32 size, const u32 alignment) = 0;
+  virtual void* allocate(u32 size, u32 alignment) = 0;
 
   /*!
      \brief Frees memory.

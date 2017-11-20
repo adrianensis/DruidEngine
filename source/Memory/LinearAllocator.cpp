@@ -28,13 +28,13 @@ void LinearAllocator::setReverse(bool isReverse){
   mIsReverse = isReverse;
 }
 
-void LinearAllocator::init(const u32 size){
+void LinearAllocator::init(u32 size){
   Allocator::init(size);
   mOffset = 0;
   mIsReverse = false;
 }
 
-void* LinearAllocator::allocate(const u32 size){
+void* LinearAllocator::allocate(u32 size){
   Allocator::checkAllocate(size);
 
   ptr currentAddress = 0;
@@ -51,7 +51,7 @@ void* LinearAllocator::allocate(const u32 size){
   return reinterpret_cast<void*>(currentAddress);
 }
 
-void* LinearAllocator::allocate(const u32 size, const u32 alignment){
+void* LinearAllocator::allocate(u32 size, u32 alignment){
 
 /*
 

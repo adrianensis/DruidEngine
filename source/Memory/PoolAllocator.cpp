@@ -8,7 +8,7 @@ namespace DE {
 
   // using namespace std;
 
-const u32 PoolAllocator::smPtrSize = sizeof(ptr);
+u32 PoolAllocator::smPtrSize = sizeof(ptr);
 
 void PoolAllocator::storePointer(const void* address, const void* pointer){
   ptr* ptrArray = reinterpret_cast<ptr*>(reinterpret_cast<ptr>(address));
@@ -41,7 +41,7 @@ u32 PoolAllocator::getFreeBlocks(){
   return mMaxBlocks - mUsedBlocks;
 }
 
-void PoolAllocator::init(const u32 blockSize, const u32 numBlocks, const u32 alignment){
+void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
   this->reset();
 
   mUsedBlocks = 0;
@@ -121,11 +121,11 @@ void* PoolAllocator::allocateBlock(){
   return PoolAllocator::allocate(0);
 }
 
-// void* PoolAllocator::allocate(const u32 alignment){
+// void* PoolAllocator::allocate(u32 alignment){
 //   return PoolAllocator::allocate(alignment);
 // }
 
-void* PoolAllocator::allocate(const u32 size){
+void* PoolAllocator::allocate(u32 size){
 
   void* address = getBlock(mFirst); // take the first free block
 
@@ -138,7 +138,7 @@ void* PoolAllocator::allocate(const u32 size){
   return address;
 }
 
-void* PoolAllocator::allocate(const u32 size, const u32 alignment){
+void* PoolAllocator::allocate(u32 size, u32 alignment){
   PoolAllocator::allocate(0);
 }
 
