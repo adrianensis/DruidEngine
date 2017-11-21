@@ -52,7 +52,7 @@ void Allocator::_init(void* mem) {
 };
 
 void Allocator::init(u32 size) {
-initFromMemory(size, ::operator new (size));
+    initFromMemory(size, ::operator new (size));
 };
 
 void Allocator::initFromMemory(u32 size, void* mem) {
@@ -66,7 +66,7 @@ void Allocator::initFromMemory(u32 size, void* mem) {
 };
 
 void Allocator::reset() {
-mAllocated = 0;
+    mAllocated = 0;
 };
 
 

@@ -116,6 +116,12 @@ int main() {
 
 	pool.allocateBlock();
 
+	expected_uint(pool.getFreeBlocks(),3);
+
+	pool.reset();
+
+	expected_uint(pool.getFreeBlocks(),4);
+
 	summary();
 
 	return 0;

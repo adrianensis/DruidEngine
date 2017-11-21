@@ -56,7 +56,7 @@ public:
 	Vector3& cross(const Vector3& v); // only defined for 3D space
 	Vector3& lerp(const Vector3& target, f32 t);
 	Vector3& nlerp(const Vector3& target, f32 t);
-	Vector3& slerp(const Vector3& target, f32 t); // TODO: implement
+	Vector3& slerp(const Vector3& target, f32 t);
 	f32 angle(const Vector3& v, const Vector3& n) const;
 	f32 angle(const Vector3& v) const;
 	Vector3& clamp(f32 maxLength);

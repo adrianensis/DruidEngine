@@ -63,7 +63,7 @@ public:
 
     virtual void free(const void* pointer);
     virtual void freeAligned(const void* pointer);
-    // virtual void reset(); // TODO: implement
+    virtual void reset();
 
 };
 
