@@ -19,11 +19,6 @@
 
 ---
 
-## Vector3
-* implement slerp
-
----
-
 ## Quaternion
 * implement squad
 * implement toEuler

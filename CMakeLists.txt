@@ -15,7 +15,7 @@ message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 # output directories
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/test_bin)
 
 # packages
 file(GLOB PACKAGES_PATHS "source/*")

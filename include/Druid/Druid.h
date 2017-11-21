@@ -2,6 +2,7 @@
 #define DRUID_H_
 
 #include "BasicTypes.h"
+#include "MemoryUtils.h"
 #include "Debug.h"
 #include "Test.h"
 #include "MathUtils.h"

@@ -4,7 +4,6 @@
 #include "BaseArray.h"
 #include "BasicTypes.h"
 #include "Allocator.h"
-#include "Allocable.h"
 #include "Assert.h"
 
 
@@ -40,8 +39,8 @@ public:
         \param other Other Array.
     */
     void init(const Array<T>& other){
-    BaseArray::copy(other);
-    mTStart = static_cast<T*>(mStart);
+        BaseArray::copy(other);
+        mTStart = static_cast<T*>(mStart);
     };
 
     /*!
@@ -49,8 +48,8 @@ public:
         \param element The element.
     */
     void fill(T element){
-    for (u32 i = 0; i < mLength; i++)
-    mTStart[i] = element;
+        for (u32 i = 0; i < mLength; i++)
+            mTStart[i] = element;
     };
 
     /*!
@@ -59,8 +58,8 @@ public:
         \param length The length of the raw array.
     */
     void init(const void* rawArray, u32 length) {
-    BaseArray::init(rawArray, length, sizeof(T));
-    mTStart = static_cast<T*>(mStart);
+        BaseArray::init(rawArray, length, sizeof(T));
+        mTStart = static_cast<T*>(mStart);
     };
 
     /*!
@@ -70,8 +69,8 @@ public:
         \param alignment Bytes alignment.
     */
     void init(const void* rawArray, u32 length, u32 alignment) {
-    BaseArray::init(rawArray, length, sizeof(T), alignment);
-    mTStart = static_cast<T*>(mStart);
+        BaseArray::init(rawArray, length, sizeof(T), alignment);
+        mTStart = static_cast<T*>(mStart);
     };
 
     /*!
@@ -79,8 +78,8 @@ public:
         \param length Length of the array.
     */
     void init(u32 length) {
-    BaseArray::init(length, sizeof(T));
-    mTStart = static_cast<T*>(mStart);
+        BaseArray::init(length, sizeof(T));
+        mTStart = static_cast<T*>(mStart);
     };
 
     /*!
@@ -89,8 +88,8 @@ public:
         \param alignment Bytes alignment.
     */
     void init(u32 length, u32 alignment) {
-    BaseArray::init(length, sizeof(T), alignment);
-    mTStart = static_cast<T*>(mStart);
+        BaseArray::init(length, sizeof(T), alignment);
+        mTStart = static_cast<T*>(mStart);
     };
 
     /*!
@@ -99,8 +98,8 @@ public:
         \param index Index (of the destiny array) from which to paste the other array.
     */
     void put(const Array<T>& other, u32 index){
-    ASSERT(other.getLength() <= this->getLength() - index, "Not enough space for put array.");
-    BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
+        ASSERT(other.getLength() <= this->getLength() - index, "Not enough space for put array.");
+        BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
     };
 
     /*!
@@ -110,8 +109,8 @@ public:
         \param length Amount of element of the other array to be copied.
     */
     void put(const void* rawArray, u32 index, u32 length){
-    ASSERT(length <= this->getLength() - index, "Not enough space for put array.");
-    BaseArray::put(rawArray, index, length*mElementSize);
+        ASSERT(length <= this->getLength() - index, "Not enough space for put array.");
+        BaseArray::put(rawArray, index, length*mElementSize);
     };
 
     /*!
@@ -120,8 +119,8 @@ public:
         \return Element reference.
     */
     T& operator[](const size_t i) {
-    ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
-    return mTStart[i];
+        ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
+        return mTStart[i];
     }
 
 };

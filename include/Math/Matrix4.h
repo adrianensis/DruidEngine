@@ -38,26 +38,26 @@ class Matrix4 /*16 bytes alignment*/ {
 
 private:
 
-  f32 mData[16];
+    f32 mData[16];
 
-  void setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
-  void setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
+    void setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
+    void setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
 
 public:
 
-Matrix4();
-virtual ~Matrix4();
-void init(const f32 n);
-void init(const Matrix4& other);
-void init(Array<f32>& data);
-void init(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
-void init(const f32* data);
-void init(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
-f32* getData();
-f32 get(u8 row, u8 col);
-void set(u8 row, u8 col, f32 value);
-void transpose();
-void transpose(Matrix4& other);
+    Matrix4();
+    virtual ~Matrix4();
+    void init(const f32 n);
+    void init(const Matrix4& other);
+    void init(Array<f32>& data);
+    void init(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
+    void init(const f32* data);
+    void init(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
+    f32* getData();
+    f32 get(u8 row, u8 col);
+    void set(u8 row, u8 col, f32 value);
+    void transpose();
+    void transpose(Matrix4& other);
 
 };
 

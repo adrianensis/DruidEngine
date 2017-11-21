@@ -1,0 +1,171 @@
+
+
+
+===========    DE::Array<u32>    ===========
+
+[ OK ]	array->getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	(*array)[0]
+	result: 1
+	expected: 1
+
+[ OK ]	(*array)[1]
+	result: 2
+	expected: 2
+
+[ OK ]	(*array)[2]
+	result: 3
+	expected: 3
+
+[ OK ]	(*array)[3]
+	result: 4
+	expected: 4
+
+[ OK ]	(*array)[4]
+	result: 5
+	expected: 5
+
+[ OK ]	copy->getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	(*copy)[0]
+	result: 1
+	expected: 1
+
+[ OK ]	(*copy)[1]
+	result: 2
+	expected: 2
+
+[ OK ]	(*copy)[2]
+	result: 3
+	expected: 3
+
+[ OK ]	(*copy)[3]
+	result: 4
+	expected: 4
+
+[ OK ]	(*copy)[4]
+	result: 5
+	expected: 5
+
+[ OK ]	array->getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	(*array)[0]
+	result: 6
+	expected: 6
+
+[ OK ]	(*array)[1]
+	result: 7
+	expected: 7
+
+[ OK ]	(*array)[2]
+	result: 8
+	expected: 8
+
+[ OK ]	(*array)[3]
+	result: 9
+	expected: 9
+
+[ OK ]	(*array)[4]
+	result: 10
+	expected: 10
+
+[ OK ]	array->getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	(*array)[0]
+	result: 6
+	expected: 6
+
+[ OK ]	(*array)[1]
+	result: 7
+	expected: 7
+
+[ OK ]	(*array)[2]
+	result: 8
+	expected: 8
+
+[ OK ]	(*array)[3]
+	result: 9
+	expected: 9
+
+[ OK ]	(*array)[4]
+	result: 10
+	expected: 10
+
+[ OK ]	copy2->getLength()
+	result: 5
+	expected: 5
+
+[ OK ]	(*copy2)[0]
+	result: 6
+	expected: 6
+
+[ OK ]	(*copy2)[1]
+	result: 7
+	expected: 7
+
+[ OK ]	(*copy2)[2]
+	result: 8
+	expected: 8
+
+[ OK ]	(*copy2)[3]
+	result: 9
+	expected: 9
+
+[ OK ]	(*copy2)[4]
+	result: 10
+	expected: 10
+
+[ OK ]	array2->getLength()
+	result: 10
+	expected: 10
+
+[ OK ]	(*array2)[0]
+	result: 6
+	expected: 6
+
+[ OK ]	(*array2)[1]
+	result: 7
+	expected: 7
+
+[ OK ]	(*array2)[2]
+	result: 8
+	expected: 8
+
+[ OK ]	(*array2)[3]
+	result: 9
+	expected: 9
+
+[ OK ]	(*array2)[4]
+	result: 10
+	expected: 10
+
+[ OK ]	(*array2)[5]
+	result: 6
+	expected: 6
+
+[ OK ]	(*array2)[6]
+	result: 7
+	expected: 7
+
+[ OK ]	(*array2)[7]
+	result: 8
+	expected: 8
+
+[ OK ]	(*array2)[8]
+	result: 9
+	expected: 9
+
+[ OK ]	(*array2)[9]
+	result: 10
+	expected: 10
+
+
+0.012989 41 0

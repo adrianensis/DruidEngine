@@ -1,0 +1,15 @@
+
+
+
+===========    DE::Matrix4    ===========
+
+[ OK ]	m->get(0,0)
+	result: 1
+	expected: 1
+
+[ OK ]	m2->get(0,0)
+	result: 1
+	expected: 1
+
+
+0.00012 2 0

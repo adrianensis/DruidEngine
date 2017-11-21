@@ -98,7 +98,7 @@ void* PoolAllocator::allocate(u32 size){
 }
 
 void* PoolAllocator::allocate(u32 size, u32 alignment){
-    PoolAllocator::allocate(0);
+    return PoolAllocator::allocate(0);
 }
 
 void PoolAllocator::free(const void* pointer){

@@ -1,0 +1,135 @@
+
+
+
+===========    DE::PoolAllocator    ===========
+
+[ OK ]	pool.getAllocated()
+	result: 0
+	expected: 0
+
+a = 0xab90c0
+
+b = 0xab90cc
+
+c = 0xab90d8
+
+[ OK ]	*a
+	result: 1
+	expected: 1
+
+[ OK ]	*b
+	result: 2
+	expected: 2
+
+[ OK ]	*c
+	result: 3
+	expected: 3
+
+[ OK ]	pool.getAllocated()
+	result: 36
+	expected: 36
+
+[ OK ]	pool.getFreeBlocks()
+	result: 1
+	expected: 1
+
+[ OK ]	pool.getFreeBlocks()
+	result: 2
+	expected: 2
+
+[ OK ]	pool.getAllocated()
+	result: 24
+	expected: 24
+
+[ OK ]	pool.getFreeBlocks()
+	result: 1
+	expected: 1
+
+d = 0xab90e4
+
+*d = 4
+
+a = 0xab90c0
+
+c = 0xab90d8
+
+[ OK ]	*a
+	result: 1
+	expected: 1
+
+[ OK ]	*c
+	result: 3
+	expected: 3
+
+[ OK ]	pool.getFreeBlocks()
+	result: 2
+	expected: 2
+
+[ OK ]	pool.getAllocated()
+	result: 0
+	expected: 0
+
+a = 0xab8eb8
+
+b = 0xab8ec4
+
+c = 0xab8ed0
+
+*a = 1
+
+*b = 2
+
+*c = 3
+
+[ OK ]	pool.getAllocated()
+	result: 44
+	expected: 44
+
+[ OK ]	pool.getFreeBlocks()
+	result: 1
+	expected: 1
+
+[ OK ]	pool.getFreeBlocks()
+	result: 2
+	expected: 2
+
+[ OK ]	pool.getAllocated()
+	result: 32
+	expected: 32
+
+d = 0xab8edc
+
+*d = 4
+
+a = 0xab8eb8
+
+b = 0xab8ec4
+
+c = 0xab8ed0
+
+[ OK ]	*a
+	result: 1
+	expected: 1
+
+[ OK ]	*b
+	result: 2
+	expected: 2
+
+[ OK ]	*c
+	result: 3
+	expected: 3
+
+[ OK ]	pool.getFreeBlocks()
+	result: 4
+	expected: 4
+
+[ OK ]	pool.getFreeBlocks()
+	result: 3
+	expected: 3
+
+[ OK ]	pool.getFreeBlocks()
+	result: 4
+	expected: 4
+
+
+0.000987 23 0

@@ -1,6 +1,10 @@
 #! /bin/bash
 
-cd "./bin/"
+cd "./test_bin/"
+
+echo -e "\n-----------------------------------------------------\n"
+echo -e "  RESULT \t TIME/OK/FAIL \t\t TEST NAME\n"
+echo -e "-----------------------------------------------------"
 
 for f in $(ls .)
 do
@@ -11,11 +15,17 @@ do
 		ok=$(echo $output | cut -d" " -f2 )
 		fail=$(echo $output | cut -d" " -f3 )
 
+		printf "\n> "
+
 		if [ $fail = "0" ]
 		then
-			echo "$f $output OK"
+			printf "OK"
 		else
-			echo "$f $output FAIL"
+			printf "FAIL"
 		fi
+
+		printf "\t\t$output\t\t$f\n"
 	fi
 done
+
+printf "\n"

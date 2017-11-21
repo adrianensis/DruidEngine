@@ -60,7 +60,7 @@ public:
 	Quaternion& nlerp(const Quaternion& target, f32 t);
 	Quaternion& slerp(const Quaternion& target, f32 t);
 	Quaternion& squad(); // TODO: implement
-	Vector3 toEuler() const; // TODO: implement
+	Vector3 toEuler() const;
 	f32 angle(const Quaternion& q) const;
 
 	//-------------------------------------------------------------------

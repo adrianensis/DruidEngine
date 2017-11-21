@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classDE_1_1BaseList_1_1BaseNode.html" title="DE::BaseList::BaseNode" alt="" coords="5,5,175,32"/>
+<area shape="rect" id="node1" href="$classDE_1_1Container.html" title="Generic container. " alt="" coords="5,31,111,57"/>
+<area shape="rect" id="node2" href="$classDE_1_1BaseArray.html" title="DE::BaseArray" alt="" coords="159,5,269,32"/>
+<area shape="rect" id="node4" href="$classDE_1_1BaseList.html" title="DE::BaseList" alt="" coords="164,56,264,83"/>
+<area shape="rect" id="node3" href="$classDE_1_1Array.html" title="Array of elements. Fixed size. " alt="" coords="317,5,429,32"/>
+<area shape="rect" id="node5" href="$classDE_1_1List.html" title="List of elements. " alt="" coords="322,56,425,83"/>
 </map>

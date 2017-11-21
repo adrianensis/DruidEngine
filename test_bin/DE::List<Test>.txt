@@ -1,0 +1,23 @@
+
+
+
+===========    DE::List<Test>    ===========
+
+[ OK ]	list->getLength()
+	result: 0
+	expected: 0
+
+[ OK ]	list->getLength()
+	result: 3
+	expected: 3
+
+[ OK ]	cc.n == c.n
+	result: 0
+	expected: 0
+
+[ OK ]	list->getLength()
+	result: 0
+	expected: 0
+
+
+0.000183 4 0

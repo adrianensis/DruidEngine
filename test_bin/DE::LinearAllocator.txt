@@ -1,0 +1,91 @@
+
+
+
+===========    DE::LinearAllocator    ===========
+
+k = 0x25cb118
+
+*k = 300
+
+[ OK ]	*k
+	result: 300
+	expected: 300
+
+[ OK ]	linear.getAllocated()
+	result: 12
+	expected: 12
+
+i = 0x25cb11c
+
+*i = 500
+
+[ OK ]	*i
+	result: 500
+	expected: 500
+
+[ OK ]	linear.getAllocated()
+	result: 16
+	expected: 16
+
+j = 0x25cb130
+
+*j = 700
+
+[ OK ]	*i
+	result: 500
+	expected: 500
+
+[ OK ]	*j
+	result: 700
+	expected: 700
+
+[ OK ]	linear.getAllocated()
+	result: 36
+	expected: 36
+
+[ OK ]	linear.getAllocated()
+	result: 0
+	expected: 0
+
+k = 0x25cb508
+
+*k = 300
+
+[ OK ]	*k
+	result: 300
+	expected: 300
+
+[ OK ]	linear.getAllocated()
+	result: 12
+	expected: 12
+
+i = 0x25cb500
+
+*i = 500
+
+[ OK ]	*i
+	result: 500
+	expected: 500
+
+[ OK ]	linear.getAllocated()
+	result: 16
+	expected: 16
+
+j = 0x25cb4f0
+
+*j = 700
+
+[ OK ]	*i
+	result: 500
+	expected: 500
+
+[ OK ]	*j
+	result: 700
+	expected: 700
+
+[ OK ]	linear.getAllocated()
+	result: 36
+	expected: 36
+
+
+0.000605 15 0

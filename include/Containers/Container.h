@@ -2,7 +2,6 @@
 #define CONTAINER_H_
 
 #include "BasicTypes.h"
-#include "Allocable.h"
 #include "Allocator.h"
 
 namespace DE {
@@ -10,13 +9,14 @@ namespace DE {
 /*!
     \brief Generic container.
 */
-class Container : public Allocable {
+class Container{
 
 protected:
 
     u32 mElementSize;
     u32 mLength;
     u32 mAlignment;
+    Allocator* mAllocator;
 
     void init(u32 length, u32 elementSize, u32 alignment);
 
@@ -37,6 +37,11 @@ public:
     */
     u32 getLength() const;
 
+    /*!
+        \brief Sets the allocator.
+        \param allocator Pointer to Allocator.
+    */
+    void setAllocator(Allocator* allocator);
 };
 
 } /* namespace DE */

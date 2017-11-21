@@ -13,9 +13,9 @@ void BaseArray::fill(void* destiny, const void* source, u32 size) {
 
 void BaseArray::copy(const BaseArray& other){
     if(other.mAlignment == 0)
-        init(other.mStart, other.mLength, other.mElementSize);
+        BaseArray::init(other.mStart, other.mLength, other.mElementSize);
     else
-        init(other.mStart, other.mLength, other.mElementSize, other.mAlignment);
+        BaseArray::init(other.mStart, other.mLength, other.mElementSize, other.mAlignment);
 }
 
 

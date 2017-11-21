@@ -39,7 +39,9 @@ virtual \hyperlink{classDE_1_1Container_aa22155e6b8843498914f90c38154a1dd}{$\sim
 
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
 u32 \hyperlink{classDE_1_1Container_ac4e1b4aefaecda0e225312fe463c9995}{get\+Length} () const 
-\end{DoxyCompactItemize}
+\item 
+void \hyperlink{classDE_1_1Container_ab75751a02a0ad81a235e8a98155f4c22}{set\+Allocator} (\hyperlink{classDE_1_1Allocator}{Allocator} $\ast$allocator)
+\begin{DoxyCompactList}\small\item\em Sets the allocator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -57,8 +59,10 @@ u32 {\bfseries m\+Length}\hypertarget{classDE_1_1Container_acde96d5b0bd1bd51c64b
 \item 
 u32 {\bfseries m\+Alignment}\hypertarget{classDE_1_1Container_af34003e0c91ad31e4d744d3b9f4bb7c1}{}\label{classDE_1_1Container_af34003e0c91ad31e4d744d3b9f4bb7c1}
 
+\item 
+\hyperlink{classDE_1_1Allocator}{Allocator} $\ast$ {\bfseries m\+Allocator}\hypertarget{classDE_1_1Container_a1835d37abfdc0459be148a228d8082b9}{}\label{classDE_1_1Container_a1835d37abfdc0459be148a228d8082b9}
+
 \end{DoxyCompactItemize}
-\subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
@@ -75,6 +79,22 @@ Generic container.
 \begin{DoxyReturn}{Returns}
 \hyperlink{classDE_1_1Container}{Container} length. 
 \end{DoxyReturn}
+\index{D\+E\+::\+Container@{D\+E\+::\+Container}!set\+Allocator@{set\+Allocator}}
+\index{set\+Allocator@{set\+Allocator}!D\+E\+::\+Container@{D\+E\+::\+Container}}
+\subsubsection[{\texorpdfstring{set\+Allocator(\+Allocator $\ast$allocator)}{setAllocator(Allocator *allocator)}}]{\setlength{\rightskip}{0pt plus 5cm}void D\+E\+::\+Container\+::set\+Allocator (
+\begin{DoxyParamCaption}
+\item[{{\bf Allocator} $\ast$}]{allocator}
+\end{DoxyParamCaption}
+)}\hypertarget{classDE_1_1Container_ab75751a02a0ad81a235e8a98155f4c22}{}\label{classDE_1_1Container_ab75751a02a0ad81a235e8a98155f4c22}
+
+
+Sets the allocator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em allocator} & Pointer to \hyperlink{classDE_1_1Allocator}{Allocator}. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
