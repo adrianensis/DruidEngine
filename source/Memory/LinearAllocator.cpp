@@ -23,31 +23,13 @@ LinearAllocator::~LinearAllocator(){
 
 }
 
-void LinearAllocator::setReverse(bool isReverse){
-    mIsReverse = isReverse;
-}
-
 void LinearAllocator::init(u32 size){
     Allocator::init(size);
     mOffset = 0;
-    mIsReverse = false;
 }
 
 void* LinearAllocator::allocate(u32 size){
-    Allocator::checkAllocate(size);
-
-    ptr currentAddress = 0;
-
-    if(mIsReverse)
-        currentAddress = reinterpret_cast<ptr>(mEnd - mOffset - size);
-    else
-        currentAddress = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
-
-
-    mOffset += size;
-    Allocator::setAllocated(mOffset);
-
-    return reinterpret_cast<void*>(currentAddress);
+    LinearAllocator::allocate(size, 1);
 }
 
 void* LinearAllocator::allocate(u32 size, u32 alignment){
@@ -103,9 +85,13 @@ void* LinearAllocator::allocate(u32 size, u32 alignment){
     // Game Engine Architecture 2ed, page 246.
 
     // Allocate unaligned block & convert address to uintptr_t.
-    ptr address = reinterpret_cast<ptr>(LinearAllocator::allocate(expandedSize));
+    ptr address = 0;
 
-    // cout << "unaligned address " << address << endl;
+    address = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
+
+    mOffset += expandedSize;
+
+    Allocator::setAllocated(mOffset);
 
     // Calculate the adjustment by masking off the lower bits
     // of the address, to determine how "misaligned" it is.
@@ -131,14 +117,14 @@ void* LinearAllocator::allocate(u32 size, u32 alignment){
     u8Array[-1] = static_cast<u8>(adjustment);
 
     return static_cast<void*>(u8Array);
-    }
+}
 
 void LinearAllocator::free(const void* pointer){
-  // ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
+    ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
 }
 
 void LinearAllocator::freeAligned(const void* pointer){
-  // ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
+    ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
 }
 
 void LinearAllocator::reset(){

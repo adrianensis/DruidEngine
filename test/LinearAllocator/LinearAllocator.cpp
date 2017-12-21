@@ -31,7 +31,7 @@ int main() {
 
 	expected_uint(*i,500);
 
-	expected_float(linear.getAllocated(),sizeInt+8+sizeInt);
+	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+1); // +1 because always allocate a header for padding
 
 	u32* j = reinterpret_cast<u32*>(linear.allocate(sizeInt,16));
 	*j = 700;
@@ -42,13 +42,11 @@ int main() {
 	expected_uint(*i,500);
 	expected_uint(*j,700);
 
-	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+sizeInt+16);
+	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
 
 	linear.reset();
 
 	expected_float(linear.getAllocated(),0);
-
-	linear.setReverse(true);
 
 	k = reinterpret_cast<u32*>(linear.allocate(sizeInt,8));
 	*k = 300;
@@ -68,7 +66,7 @@ int main() {
 
 	expected_uint(*i,500);
 
-	expected_float(linear.getAllocated(),sizeInt+8+sizeInt);
+	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+1);
 
 	j = reinterpret_cast<u32*>(linear.allocate(sizeInt,16));
 	*j = 700;
@@ -79,7 +77,7 @@ int main() {
 	expected_uint(*i,500);
 	expected_uint(*j,700);
 
-	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+sizeInt+16);
+	expected_float(linear.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
 
 	summary();
 

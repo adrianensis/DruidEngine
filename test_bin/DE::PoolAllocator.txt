@@ -7,11 +7,11 @@
 	result: 0
 	expected: 0
 
-a = 0xab90c0
+a = 0xbd90c0
 
-b = 0xab90cc
+b = 0xbd90cc
 
-c = 0xab90d8
+c = 0xbd90d8
 
 [ OK ]	*a
 	result: 1
@@ -45,13 +45,13 @@ c = 0xab90d8
 	result: 1
 	expected: 1
 
-d = 0xab90e4
+d = 0xbd90e4
 
 *d = 4
 
-a = 0xab90c0
+a = 0xbd90c0
 
-c = 0xab90d8
+c = 0xbd90d8
 
 [ OK ]	*a
 	result: 1
@@ -69,11 +69,11 @@ c = 0xab90d8
 	result: 0
 	expected: 0
 
-a = 0xab8eb8
+a = 0xbd8eb8
 
-b = 0xab8ec4
+b = 0xbd8ec4
 
-c = 0xab8ed0
+c = 0xbd8ed0
 
 *a = 1
 
@@ -97,15 +97,15 @@ c = 0xab8ed0
 	result: 32
 	expected: 32
 
-d = 0xab8edc
+d = 0xbd8edc
 
 *d = 4
 
-a = 0xab8eb8
+a = 0xbd8eb8
 
-b = 0xab8ec4
+b = 0xbd8ec4
 
-c = 0xab8ed0
+c = 0xbd8ed0
 
 [ OK ]	*a
 	result: 1
@@ -132,4 +132,4 @@ c = 0xab8ed0
 	expected: 4
 
 
-0.000987 23 0
+0.000903 23 0

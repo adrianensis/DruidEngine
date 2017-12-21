@@ -3,7 +3,7 @@
 
 ===========    DE::LinearAllocator    ===========
 
-k = 0x25cb118
+k = 0x14c4118
 
 *k = 300
 
@@ -15,7 +15,7 @@ k = 0x25cb118
 	result: 12
 	expected: 12
 
-i = 0x25cb11c
+i = 0x14c411d
 
 *i = 500
 
@@ -24,10 +24,10 @@ i = 0x25cb11c
 	expected: 500
 
 [ OK ]	linear.getAllocated()
-	result: 16
-	expected: 16
+	result: 17
+	expected: 17
 
-j = 0x25cb130
+j = 0x14c4130
 
 *j = 700
 
@@ -40,14 +40,14 @@ j = 0x25cb130
 	expected: 700
 
 [ OK ]	linear.getAllocated()
-	result: 36
-	expected: 36
+	result: 37
+	expected: 37
 
 [ OK ]	linear.getAllocated()
 	result: 0
 	expected: 0
 
-k = 0x25cb508
+k = 0x14c4118
 
 *k = 300
 
@@ -59,7 +59,7 @@ k = 0x25cb508
 	result: 12
 	expected: 12
 
-i = 0x25cb500
+i = 0x14c411d
 
 *i = 500
 
@@ -68,10 +68,10 @@ i = 0x25cb500
 	expected: 500
 
 [ OK ]	linear.getAllocated()
-	result: 16
-	expected: 16
+	result: 17
+	expected: 17
 
-j = 0x25cb4f0
+j = 0x14c4130
 
 *j = 700
 
@@ -84,8 +84,8 @@ j = 0x25cb4f0
 	expected: 700
 
 [ OK ]	linear.getAllocated()
-	result: 36
-	expected: 36
+	result: 37
+	expected: 37
 
 
-0.000605 15 0
+0.000622 15 0

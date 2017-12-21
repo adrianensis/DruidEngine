@@ -46,7 +46,7 @@ void Allocator::_init(void* mem) {
         delete mStartCopy;
 
     mStart = mem;
-    mEnd = mStart + mTotalSize;
+    mEnd = mStart + mTotalSize - 1;
 
     mStartCopy = mStart;
 };

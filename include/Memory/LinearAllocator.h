@@ -14,7 +14,6 @@ class LinearAllocator : public Allocator {
 protected:
 
     u32 mOffset;
-    bool mIsReverse;
 
 public:
 
@@ -27,12 +26,6 @@ public:
         \brief Destructor.
     */
     virtual ~LinearAllocator();
-
-    /*!
-        \brief Sets the direction of allocation.
-        \param isReverse Boolean.
-    */
-    void setReverse(bool isReverse);
 
     virtual void init(u32 size);
     virtual void* allocate(u32 size);
