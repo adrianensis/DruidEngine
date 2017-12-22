@@ -3,7 +3,7 @@
 
 ===========    DE::StackAllocator    ===========
 
-a = 0xe310c1
+a = 0x1c220c1
 
 *a = 300
 
@@ -19,7 +19,7 @@ a = 0xe310c1
 	result: 0
 	expected: 0
 
-b = 0xe310c1
+b = 0x1c220c1
 
 *b = 300
 
@@ -31,7 +31,7 @@ b = 0xe310c1
 	result: 9
 	expected: 9
 
-c = 0xe310ca
+c = 0x1c220ca
 
 *c = 500
 
@@ -47,7 +47,7 @@ c = 0xe310ca
 	result: 18
 	expected: 18
 
-d = 0xe310e0
+d = 0x1c220e0
 
 *d = 700
 
@@ -82,4 +82,4 @@ stack.getAllocated() = 9
 	expected: 0
 
 
-0.000619 14 0
+0.000606 14 0

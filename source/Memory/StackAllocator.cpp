@@ -52,11 +52,6 @@ void StackAllocator::free(const void* pointer){
     mTop = (void*) pointer;
 }
 
-void StackAllocator::freeAligned(const void* pointer){
-    // ASSERT(false, "StackAllocator can't use freeAligned(void* pointer), use freeAligned().");
-    mTop = (void*) pointer;
-}
-
 void StackAllocator::free(){
     Allocator::checkFree();
 
@@ -82,19 +77,6 @@ void StackAllocator::free(){
     ptr address = alignedAddress - adjustment;
 
     mTop = reinterpret_cast<void*>(address);
-}
-
-void StackAllocator::freeAligned(){
-    // Allocator::checkFree();
-    //
-    // StackAllocator::free();
-    //
-    // const u8* u8Array = reinterpret_cast<const u8*>(mTop);
-    // ptr alignedAddress = reinterpret_cast<ptr>(mTop);
-    // ptrdiff adjustment = static_cast<ptrdiff>(u8Array[-1]);
-    // ptr address = alignedAddress - adjustment;
-    //
-    // mTop = reinterpret_cast<void*>(address);
 }
 
 void StackAllocator::reset(){

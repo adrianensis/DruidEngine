@@ -1,7 +1,7 @@
 #ifndef POOLALLOCATOR_H_
 #define POOLALLOCATOR_H_
 
-#include "Allocator.h"
+#include "LinearAllocator.h"
 #include "BasicTypes.h"
 
 namespace DE {
@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Allocates memory using fixed-size blocks. The blocks can be freed.
 */
-class PoolAllocator : public Allocator {
+class PoolAllocator : public LinearAllocator {
 
 private:
 
@@ -22,10 +22,15 @@ private:
     void* mLast;
 
     static u32 smPtrSize;
+
     static void storePointer(const void* address, const void* pointer);
     static void* getNextIterator(const void* it);
+
     void* getBlock(const void* it);
     void* getIteratorFromBlock(const void* block);
+
+    void checkAllocateBlock();
+    void checkFreeBlock();
 
 public:
 
@@ -52,6 +57,13 @@ public:
     */
     virtual void init(u32 blockSize, u32 numBlocks, u32 alignment);
 
+    /*!
+        \brief Constructor.
+        \param blockSize Size of a single block.
+        \param numBlocks Number of blocks.
+    */
+    virtual void init(u32 blockSize, u32 numBlocks);
+
     virtual void* allocate(u32 size);
     virtual void* allocate(u32 size, u32 alignment);
 
@@ -62,7 +74,6 @@ public:
     void* allocateBlock();
 
     virtual void free(const void* pointer);
-    virtual void freeAligned(const void* pointer);
     virtual void reset();
 
 };

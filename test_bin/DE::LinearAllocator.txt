@@ -3,7 +3,7 @@
 
 ===========    DE::LinearAllocator    ===========
 
-k = 0x14c4118
+k = 0x8e4118
 
 *k = 300
 
@@ -15,7 +15,7 @@ k = 0x14c4118
 	result: 12
 	expected: 12
 
-i = 0x14c411d
+i = 0x8e411d
 
 *i = 500
 
@@ -27,7 +27,7 @@ i = 0x14c411d
 	result: 17
 	expected: 17
 
-j = 0x14c4130
+j = 0x8e4130
 
 *j = 700
 
@@ -47,7 +47,7 @@ j = 0x14c4130
 	result: 0
 	expected: 0
 
-k = 0x14c4118
+k = 0x8e4118
 
 *k = 300
 
@@ -59,7 +59,7 @@ k = 0x14c4118
 	result: 12
 	expected: 12
 
-i = 0x14c411d
+i = 0x8e411d
 
 *i = 500
 
@@ -71,7 +71,7 @@ i = 0x14c411d
 	result: 17
 	expected: 17
 
-j = 0x14c4130
+j = 0x8e4130
 
 *j = 700
 
@@ -88,4 +88,4 @@ j = 0x14c4130
 	expected: 37
 
 
-0.000622 15 0
+0.000565 15 0

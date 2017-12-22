@@ -88,12 +88,6 @@ public:
 
     /*!
         \brief Frees aligned memory.
-        \param pointer Pointer to aligned memory.
-    */
-    virtual void freeAligned(const void* pointer) = 0;
-
-    /*!
-        \brief Frees aligned memory.
     */
     virtual void reset();
 

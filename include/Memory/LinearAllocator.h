@@ -31,7 +31,6 @@ public:
     virtual void* allocate(u32 size);
     virtual void* allocate(u32 size, u32 alignment);
     virtual void free(const void* pointer);
-    virtual void freeAligned(const void* pointer);
     virtual void reset();
 
 };

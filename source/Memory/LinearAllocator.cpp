@@ -85,9 +85,9 @@ void* LinearAllocator::allocate(u32 size, u32 alignment){
     // Game Engine Architecture 2ed, page 246.
 
     // Allocate unaligned block & convert address to uintptr_t.
-    ptr address = 0;
+    ptr unalignedAddress = 0;
 
-    address = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
+    unalignedAddress = reinterpret_cast<ptr>(mStart + mOffset); // first time -> mStart + 0 = mStart
 
     mOffset += expandedSize;
 
@@ -99,10 +99,10 @@ void* LinearAllocator::allocate(u32 size, u32 alignment){
     // This mask can be calculated in this way, because of power of 2.
     u32 mask = alignment - 1; // 4 = 100 -> 4 - 1 = 3 = 011
 
-    ptr misalignment = address & mask;
+    ptr misalignment = unalignedAddress & mask;
     ptrdiff adjustment = alignment - misalignment;
 
-    ptr alignedAddress = address + adjustment;
+    ptr alignedAddress = unalignedAddress + adjustment;
 
     // Store the adjustment in the byte immediately
     // preceding the adjusted address.
@@ -121,10 +121,6 @@ void* LinearAllocator::allocate(u32 size, u32 alignment){
 
 void LinearAllocator::free(const void* pointer){
     ASSERT(false, "LinearAllocator can't use free(void* pointer), use reset().");
-}
-
-void LinearAllocator::freeAligned(const void* pointer){
-    ASSERT(false, "LinearAllocator can't use freeAligned(void* pointer), use reset().");
 }
 
 void LinearAllocator::reset(){

@@ -3,11 +3,7 @@
 #include "BasicTypes.h"
 #include "Debug.h"
 
-// #include <iostream>
-
 namespace DE {
-
-  // using namespace std;
 
 u32 PoolAllocator::smPtrSize = sizeof(ptr);
 
@@ -31,7 +27,15 @@ void* PoolAllocator::getIteratorFromBlock(const void* block){
     return (void*)(block + mBlockSize);
 }
 
-PoolAllocator::PoolAllocator() : Allocator(){
+void PoolAllocator::checkAllocateBlock() {
+    ASSERT(mUsedBlocks + 1 <= mMaxBlocks, "Total memory size exceeded.");
+}
+
+void PoolAllocator::checkFreeBlock() {
+    ASSERT(mUsedBlocks > 0, "Allocated memory is 0.");
+}
+
+PoolAllocator::PoolAllocator() : LinearAllocator(){
 }
 
 PoolAllocator::~PoolAllocator(){
@@ -47,53 +51,57 @@ void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
     mUsedBlocks = 0;
     mBlockSize = blockSize;
     mAlignment = alignment;
-    mFullBlockSize = mBlockSize+smPtrSize;
+    mFullBlockSize = smPtrSize + mBlockSize ;
     mMaxBlocks = numBlocks;
-    Allocator::init(mAlignment+mFullBlockSize*mMaxBlocks);
+    LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
 
     // align mStart
-    if(mAlignment >= 1){
-        ptr unaligned = reinterpret_cast<ptr>(mStart);
-        u32 mask = alignment - 1;
-        ptr misalignment = unaligned & mask;
-        ptrdiff adjustment = alignment - misalignment;
-        ptr alignedAddress = unaligned + adjustment;
-        mStart = reinterpret_cast<void*>(alignedAddress);
-    }
+    // if(mAlignment >= 1){
+    //     ptr unalignedAddress = reinterpret_cast<ptr>(mStart);
+    //     u32 mask = alignment - 1;
+    //     ptr misalignment = unalignedAddress & mask;
+    //     ptrdiff adjustment = alignment - misalignment;
+    //     ptr alignedAddress = unalignedAddress + adjustment;
+    //     mStart = reinterpret_cast<void*>(alignedAddress);
+    // }
 
-    mFirst = mStart + (1*mFullBlockSize) - smPtrSize;
-    mLast = mStart + (mMaxBlocks*mFullBlockSize) - smPtrSize;
 
-    ptr* ptrArray = nullptr;
+
+    // mFirst = mStart + (1*mFullBlockSize) - smPtrSize;
+    // mLast = mStart + (mMaxBlocks*mFullBlockSize) - smPtrSize;
+
+    mFirst = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
+    void* current = mFirst;
+    void* next = nullptr;
 
     // iterate over all blocks
     for (u32 i = 1; i < numBlocks; i++) {
         // store the next pointer in the first position of the block
-        storePointer(mStart + (i*mFullBlockSize) - smPtrSize, mStart + ((i+1)*mFullBlockSize) - smPtrSize);
+        next = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
+        storePointer(current, next);
+        current = next;
     }
 
-    //last = null pointer.
-    ptrArray = reinterpret_cast<ptr*>(mStart + (numBlocks*mFullBlockSize));
-
+    // store last pointer to null
     // store the next pointer in the first position of the block
-    storePointer(mStart + (numBlocks*mFullBlockSize) - smPtrSize, nullptr); // nullptr = 0
+    storePointer(current, nullptr); // nullptr = 0
+    mLast = current;
+}
+
+void PoolAllocator::init(u32 blockSize, u32 numBlocks){
+    PoolAllocator::init(blockSize, numBlocks, 1);
 }
 
 void* PoolAllocator::allocateBlock(){
     return PoolAllocator::allocate(0);
 }
 
-// void* PoolAllocator::allocate(u32 alignment){
-//   return PoolAllocator::allocate(alignment);
-// }
-
 void* PoolAllocator::allocate(u32 size){
-    Allocator::checkAllocate(mFullBlockSize);
+    PoolAllocator::checkAllocateBlock();
 
     void* address = getBlock(mFirst); // take the first free block
     mFirst = getNextIterator(mFirst); // it++
     mUsedBlocks++;
-    Allocator::setAllocated(mAlignment + mUsedBlocks*mFullBlockSize);
     return address;
 }
 
@@ -102,22 +110,17 @@ void* PoolAllocator::allocate(u32 size, u32 alignment){
 }
 
 void PoolAllocator::free(const void* pointer){
-    Allocator::checkFree();
+    PoolAllocator::checkFreeBlock();
 
     void* it = getIteratorFromBlock(pointer);
     storePointer(mLast, it); // we can recycle the storePointer function
     mLast = it;
     storePointer(mLast, nullptr);
     mUsedBlocks--;
-    Allocator::setAllocated(mAlignment + mUsedBlocks*mFullBlockSize);
-}
-
-void PoolAllocator::freeAligned(const void* pointer){
-    PoolAllocator::free(pointer);
 }
 
 void PoolAllocator::reset(){
-    Allocator::reset();
+    LinearAllocator::reset();
     mUsedBlocks = 0;
 }
 

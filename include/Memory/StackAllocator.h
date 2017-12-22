@@ -39,17 +39,11 @@ public:
     virtual void* allocate(u32 size);
     virtual void* allocate(u32 size, u32 alignment);
     virtual void free(const void* pointer);
-    virtual void freeAligned(const void* pointer);
 
     /*!
         \brief Free the top of the stack.
     */
     void free();
-
-    /*!
-        \brief Free the (aligned) top of the stack.
-    */
-    void freeAligned();
 
     virtual void reset();
 
