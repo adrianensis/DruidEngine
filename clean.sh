@@ -1,3 +1,3 @@
 #! /bin/bash
 
-rm -R bin lib build
+rm -R test_bin lib build
