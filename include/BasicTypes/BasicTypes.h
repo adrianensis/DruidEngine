@@ -1,7 +1,6 @@
 #ifndef BASICTYPES_H_
 #define BASICTYPES_H_
 
-
 #include <cstdint> // std::uintptr_t
 
 namespace DE {

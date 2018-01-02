@@ -21,6 +21,14 @@ u32 Container::getLength() const {
     return mLength;
 };
 
+u32 Container::getElementSize() const {
+    return mElementSize;
+};
+
+u32 Container::getAlignment() const {
+    return mAlignment;
+};
+
 void Container::setAllocator(Allocator* allocator){
     mAllocator = allocator;
 };

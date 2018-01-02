@@ -35,9 +35,9 @@ static void checkContainer(T* pointer, Allocator& allocator){
 */
 template<class T>
 static T* allocate(Allocator& allocator, u32 alignment){
-    void* obj = allocator.allocate(sizeof(T), alignment);
-    checkContainer<T>(static_cast<T*>(obj), allocator);
-    return static_cast<T*>(obj);
+    T* obj = static_cast<T*>(allocator.allocate(sizeof(T), alignment));
+    checkContainer<T>(obj, allocator);
+    return obj;
 };
 
 /*!
@@ -49,9 +49,9 @@ static T* allocate(Allocator& allocator, u32 alignment){
 */
 template<class T>
 static T* allocate(Allocator& allocator){
-    void* obj = allocator.allocate(sizeof(T));
-    checkContainer<T>(static_cast<T*>(obj), allocator);
-    return static_cast<T*>(obj);
+    T* obj = static_cast<T*>(allocator.allocate(sizeof(T)));
+    checkContainer<T>(obj, allocator);
+    return obj;
 };
 
 } /* namespace DE */

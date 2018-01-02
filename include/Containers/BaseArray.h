@@ -13,21 +13,19 @@ protected:
 
     void* mStart;
 
-    void fill(void* destiny, const void* source, u32 size);
-
     void copy(const BaseArray& other);
     void init(const void* rawArray, u32 length, u32 elementSize);
     void init(const void* rawArray, u32 length, u32 elementSize, u32 alignment);
     void init(u32 length, u32 elementSize);
     void init(u32 length, u32 elementSize, u32 alignment);
     void allocate(u32 length, u32 elementSize, u32 alignment);
+    void set(const void* rawArray);
 
 public:
 
     BaseArray();
     virtual ~BaseArray();
 
-    void set(const void* rawArray);
     void put(const void* rawArray, u32 index, u32 length);
 
 };

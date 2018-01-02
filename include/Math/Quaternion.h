@@ -11,6 +11,7 @@
 namespace DE {
 
 class Quaternion /*16 bytes alignment*/ {
+
 public:
 
 	//-------------------------------------------------------------------

@@ -140,7 +140,7 @@ void BaseList::allocate(u32 elementSize, u32 alignment) {
 };
 
 void BaseList::init(u32 elementSize) {
-    BaseList::allocate(elementSize, 0);
+    BaseList::allocate(elementSize, 1);
 };
 
 void BaseList::copy(const BaseList& other){

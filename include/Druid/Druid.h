@@ -2,6 +2,7 @@
 #define DRUID_H_
 
 #include "BasicTypes.h"
+
 #include "MemoryUtils.h"
 #include "Debug.h"
 #include "Test.h"
@@ -15,9 +16,10 @@
 #include "LinearAllocator.h"
 #include "StackAllocator.h"
 #include "PoolAllocator.h"
+#include "Memory.h"
 #include "Array.h"
+#include "DynamicArray.h"
 #include "List.h"
-
 
 
 #endif /* DRUID_H_ */

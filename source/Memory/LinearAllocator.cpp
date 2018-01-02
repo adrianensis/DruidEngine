@@ -3,8 +3,6 @@
 #include "BasicTypes.h"
 #include <cstdlib> // malloc, free
 
-#include <iostream>
-
 /*
  * https://en.wikipedia.org/wiki/Data_structure_alignment
  *

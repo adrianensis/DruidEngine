@@ -5,7 +5,7 @@
 #include "BasicTypes.h"
 #include "Allocator.h"
 #include "Assert.h"
-
+#include "Debug.h"
 
 namespace DE {
 
@@ -122,6 +122,33 @@ public:
         ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
         return mTStart[i];
     }
+
+    /*!
+        \brief Read only.
+        \param i Index.
+        \return Element reference.
+    */
+	T operator[](const size_t i) const {
+		ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
+		return mTStart[i];
+	}
+
+    /*!
+        \param index The index.
+        \return Element at index.
+    */
+    T get(u32 index) const{
+        return (*this)[index];
+    };
+
+    /*!
+        \brief Sets element at index.
+        \param element The element.
+        \param element The element.
+    */
+    void set(u32 index, T element){
+        (*this)[index] = element;
+    };
 
 };
 

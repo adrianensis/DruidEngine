@@ -9,7 +9,11 @@
 
 namespace DE {
 
+/*!
+    \brief 4D Vector.
+*/
 class Vector4 /*16 bytes alignment*/ {
+
 public:
 
 	//-------------------------------------------------------------------

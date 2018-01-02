@@ -21,6 +21,16 @@ int main() {
 
 	expected_uint(m2->get(0,0),1);
 
+	DE::Array<f32>* array = DE::allocate<Array<f32>>(linear);
+	array->init(16);
+	array->fill(1);
+
+	DE::Matrix4* m3 = DE::allocate<Matrix4>(linear);
+
+	m3->init(*array);
+
+	expected_uint(m3->get(0,0),1);
+
 	linear.reset();
 
 	summary();

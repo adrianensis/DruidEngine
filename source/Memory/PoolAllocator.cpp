@@ -7,15 +7,15 @@ namespace DE {
 
 u32 PoolAllocator::smPtrSize = sizeof(ptr);
 
-void PoolAllocator::storePointer(const void* address, const void* pointer){
-    ptr* ptrArray = reinterpret_cast<ptr*>(reinterpret_cast<ptr>(address));
+void PoolAllocator::storePointer(void* address, const void* pointer){
+    ptr* ptrArray = reinterpret_cast<ptr*>(address);
 
     // header is stored in the last position of the allocated memory.
     ptrArray[0] = reinterpret_cast<ptr>(pointer);
 }
 
-void* PoolAllocator::getNextIterator(const void* it){
-    ptr ptrValue = reinterpret_cast<ptr*>(reinterpret_cast<ptr>(it))[0];
+void* PoolAllocator::getNextIterator(void* it){
+    ptr ptrValue = reinterpret_cast<ptr*>(it)[0];
     return reinterpret_cast<void*>(ptrValue);
 }
 
@@ -55,21 +55,6 @@ void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
     mMaxBlocks = numBlocks;
     LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
 
-    // align mStart
-    // if(mAlignment >= 1){
-    //     ptr unalignedAddress = reinterpret_cast<ptr>(mStart);
-    //     u32 mask = alignment - 1;
-    //     ptr misalignment = unalignedAddress & mask;
-    //     ptrdiff adjustment = alignment - misalignment;
-    //     ptr alignedAddress = unalignedAddress + adjustment;
-    //     mStart = reinterpret_cast<void*>(alignedAddress);
-    // }
-
-
-
-    // mFirst = mStart + (1*mFullBlockSize) - smPtrSize;
-    // mLast = mStart + (mMaxBlocks*mFullBlockSize) - smPtrSize;
-
     mFirst = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
     void* current = mFirst;
     void* next = nullptr;
@@ -84,7 +69,7 @@ void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
 
     // store last pointer to null
     // store the next pointer in the first position of the block
-    storePointer(current, nullptr); // nullptr = 0
+    storePointer(current, nullptr);
     mLast = current;
 }
 

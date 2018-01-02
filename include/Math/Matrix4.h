@@ -42,12 +42,13 @@ private:
 
     void setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
     void setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
+    void setRows(f32 n);
 
 public:
 
     Matrix4();
     virtual ~Matrix4();
-    void init(const f32 n);
+    void init(f32 n);
     void init(const Matrix4& other);
     void init(Array<f32>& data);
     void init(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);

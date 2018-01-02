@@ -38,6 +38,16 @@ public:
     u32 getLength() const;
 
     /*!
+        \return Container element size.
+    */
+    u32 getElementSize() const;
+
+    /*!
+        \return Container alignment.
+    */
+    u32 getAlignment() const;
+
+    /*!
         \brief Sets the allocator.
         \param allocator Pointer to Allocator.
     */

@@ -23,8 +23,8 @@ private:
 
     static u32 smPtrSize;
 
-    static void storePointer(const void* address, const void* pointer);
-    static void* getNextIterator(const void* it);
+    static void storePointer(void* address, const void* pointer);
+    static void* getNextIterator(void* it);
 
     void* getBlock(const void* it);
     void* getIteratorFromBlock(const void* block);
