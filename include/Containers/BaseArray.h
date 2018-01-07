@@ -26,7 +26,7 @@ public:
     BaseArray();
     virtual ~BaseArray();
 
-    void put(const void* rawArray, u32 index, u32 length);
+    void put(const void* rawArray, u32 destinyIndex, u32 sourceIndex, u32 length);
 
 };
 

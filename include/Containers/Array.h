@@ -95,22 +95,29 @@ public:
     /*!
         \brief Copy an array into other.
         \param other Other Array.
-        \param index Index (of the destiny array) from which to paste the other array.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
     */
-    void put(const Array<T>& other, u32 index){
-        ASSERT(other.getLength() <= this->getLength() - index, "Not enough space for put array.");
-        BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
+    void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex){
+        ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+        ASSERT(destinyIndex >= 0 && destinyIndex < this->getLength(), "destinyIndex is out of bounds.");
+        ASSERT(other.getLength() - sourceIndex <= this->getLength() - destinyIndex, "Not enough space to put array.");
+        BaseArray::put(other.mStart, destinyIndex, sourceIndex, other.getLength());
     };
 
     /*!
         \brief Copy an array into other.
         \param other Other Array.
-        \param index Index (of the destiny array) from which to paste the other array.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
         \param length Amount of element of the other array to be copied.
     */
-    void put(const void* rawArray, u32 index, u32 length){
-        ASSERT(length <= this->getLength() - index, "Not enough space for put array.");
-        BaseArray::put(rawArray, index, length*mElementSize);
+    void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length){
+        ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+        ASSERT(destinyIndex >= 0 && destinyIndex < this->getLength(), "destinyIndex is out of bounds.");
+        ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+        ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
+        BaseArray::put(other.mStart, destinyIndex, sourceIndex, length);
     };
 
     /*!
@@ -119,7 +126,7 @@ public:
         \return Element reference.
     */
     T& operator[](const size_t i) {
-        ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
+        ASSERT(i >= 0 && i < this->getLength(), "Index out of bounds.");
         return mTStart[i];
     }
 
@@ -129,7 +136,7 @@ public:
         \return Element reference.
     */
 	T operator[](const size_t i) const {
-		ASSERT(i >= 0 && i < mLength, "Index out of bounds.");
+		ASSERT(i >= 0 && i < this->getLength(), "Index out of bounds.");
 		return mTStart[i];
 	}
 
@@ -137,17 +144,19 @@ public:
         \param index The index.
         \return Element at index.
     */
-    T get(u32 index) const{
-        return (*this)[index];
+    T get(u32 index) const {
+        ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+		return mTStart[index];
     };
 
     /*!
         \brief Sets element at index.
-        \param element The element.
+        \param index The index.
         \param element The element.
     */
     void set(u32 index, T element){
-        (*this)[index] = element;
+        ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+        mTStart[index] = element;
     };
 
 };

@@ -8,140 +8,98 @@ int main() {
 	test(DE::DynamicArray<u32>);
 
 	DE::LinearAllocator linear;
-	linear.init(1024*1024*1024); // 1GB
+	linear.init(1024*1024);
 
 	DE::DynamicArray<u32>* array = DE::allocate<DynamicArray<u32>>(linear);
 
 	array->init(5);
+	u32 n = (*array)[0];
 
 	expected_uint(array->getLength(),5);
 
 	DE::DynamicArray<u32>* array0 = DE::allocate<DynamicArray<u32>>(linear);
 
-	u32 x0[] = {1,2,3,4,5};
-	array0->init(x0,5);
+	u32 x0[] = {1,2,3,4,5,6,7,8,9,10};
+	array0->init(x0,10);
 
-	expected_uint(array0->getLength(),5);
+	expected_uint(array0->getLength(),10);
 
-	expected_uint((*array0)[0],1);
-	expected_uint((*array0)[1],2);
-	expected_uint((*array0)[2],3);
-	expected_uint((*array0)[3],4);
-	expected_uint((*array0)[4],5);
+	for (int i = 0; i < 10; ++i) {
+		expected_uint((*array0)[i],i+1);
+	}
 
-	DE::Array<u32>* array1 = DE::allocate<Array<u32>>(linear);
-	u32 size = 250;
+	DE::DynamicArray<u32>* array1 = DE::allocate<DynamicArray<u32>>(linear);
+	u32 size = 200;
 	array1->init(size);
 
-	for (u32 i = 0; i < size; ++i)
-	{
+	for (u32 i = 0; i < size; ++i) {
 		(*array1)[i] = i;
 	}
 
 	expected_uint(array1->getLength(),size);
 
-	for (int i = 0; i < size; ++i)
-	{
+	for (int i = 0; i < size; ++i) {
 		expected_uint((*array1)[i],i);
 	}
 
-	DE::Array<u32>* array2 = DE::allocate<Array<u32>>(linear);
-	size = 300000;
+	DE::DynamicArray<u32>* array2 = DE::allocate<DynamicArray<u32>>(linear);
+	size = 657;
 	array2->init(size);
 
-	for (u32 i = 0; i < size; ++i)
-	{
+	for (u32 i = 0; i < size; ++i) {
 		(*array2)[i] = i;
 	}
 
 	expected_uint(array2->getLength(),size);
 
-	for (int i = 0; i < size; ++i)
-	{
+	for (int i = 0; i < size; ++i) {
 		expected_uint((*array2)[i],i);
 	}
 
-	// DE::DynamicArray<u32>* copy = DE::allocate<DynamicArray<u32>>(linear);
-	// copy->init(*array);
-    //
-	// expected_uint(copy->getLength(),5);
-    //
-	// expected_uint((*copy)[0],1);
-	// expected_uint((*copy)[1],2);
-	// expected_uint((*copy)[2],3);
-	// expected_uint((*copy)[3],4);
-	// expected_uint((*copy)[4],5);
-    //
-	// u32 y[] = {6,7,8,9,10};
-	// array->init(y,5);
-    //
-	// expected_uint(array->getLength(),5);
-    //
-	// expected_uint((*array)[0],6);
-	// expected_uint((*array)[1],7);
-	// expected_uint((*array)[2],8);
-	// expected_uint((*array)[3],9);
-	// expected_uint((*array)[4],10);
-    //
-	// array->init(y,5,8);
-    //
-	// expected_uint(array->getLength(),5);
-    //
-	// expected_uint((*array)[0],6);
-	// expected_uint((*array)[1],7);
-	// expected_uint((*array)[2],8);
-	// expected_uint((*array)[3],9);
-	// expected_uint((*array)[4],10);
-    //
-	// DE::DynamicArray<u32>* copy2 = DE::allocate<DynamicArray<u32>>(linear);
-	// copy2->init(*array);
-    //
-	// expected_uint(copy2->getLength(),5);
-    //
-	// expected_uint((*copy2)[0],6);
-	// expected_uint((*copy2)[1],7);
-	// expected_uint((*copy2)[2],8);
-	// expected_uint((*copy2)[3],9);
-	// expected_uint((*copy2)[4],10);
+	DE::DynamicArray<u32>* array3 = DE::allocate<DynamicArray<u32>>(linear);
 
+	array3->init();
 
+	expected_uint(array3->getLength(),0);
 
+	DE::DynamicArray<u32>* copy = DE::allocate<DynamicArray<u32>>(linear);
+	copy->init(*array0);
 
+	expected_uint(copy->getLength(),10);
 
+	expected_uint((*copy)[0],1);
+	expected_uint((*copy)[1],2);
+	expected_uint((*copy)[2],3);
+	expected_uint((*copy)[3],4);
+	expected_uint((*copy)[4],5);
 
+	DE::DynamicArray<u32>* array4 = DE::allocate<DynamicArray<u32>>(linear);
+	array4->init(10);
 
+	DE::DynamicArray<u32>* array5 = DE::allocate<DynamicArray<u32>>(linear);
 
+	u32 x5[] = {1,2,3,4,5};
+	array5->init(x5,5);
 
+	array4->put(*array5, 0, 0);
 
+	expected_uint(array5->getLength(),5);
+	expected_uint(array4->getLength(),10);
 
+	expected_uint(array4->get(0),1);
+	expected_uint((*array4)[0],1);
+	expected_uint((*array4)[1],2);
+	expected_uint((*array4)[2],3);
+	expected_uint((*array4)[3],4);
+	expected_uint((*array4)[4],5);
 
+	array4->put(*array0, 5, 0);
 
-
-
-
-
-
-
-	// DE::DynamicArray<u32>* array2 = DE::allocate<DynamicArray<u32>>(linear);
-	// array2->init(10);
-    //
-	// array2->put(*array, 0);
-    //
-	// expected_uint(array2->getLength(),10);
-    //
-	// expected_uint((*array2)[0],6);
-	// expected_uint((*array2)[1],7);
-	// expected_uint((*array2)[2],8);
-	// expected_uint((*array2)[3],9);
-	// expected_uint((*array2)[4],10);
-    //
-	// array2->put(*array, 5);
-    //
-	// expected_uint((*array2)[5],6);
-	// expected_uint((*array2)[6],7);
-	// expected_uint((*array2)[7],8);
-	// expected_uint((*array2)[8],9);
-	// expected_uint((*array2)[9],10);
+	expected_uint((*array4)[5],1);
+	expected_uint((*array4)[6],2);
+	expected_uint((*array4)[7],3);
+	expected_uint((*array4)[8],4);
+	expected_uint((*array4)[9],5);
 
 	linear.reset();
 

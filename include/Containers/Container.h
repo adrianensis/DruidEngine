@@ -13,8 +13,8 @@ class Container{
 
 protected:
 
-    u32 mElementSize;
     u32 mLength;
+    u32 mElementSize;
     u32 mAlignment;
     Allocator* mAllocator;
 

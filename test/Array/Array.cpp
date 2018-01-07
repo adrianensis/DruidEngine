@@ -69,7 +69,7 @@ int main() {
 	DE::Array<u32>* array2 = DE::allocate<Array<u32>>(linear);
 	array2->init(10);
 
-	array2->put(*array, 0);
+	array2->put(*array, 0, 0);
 
 	expected_uint(array2->getLength(),10);
 
@@ -79,7 +79,7 @@ int main() {
 	expected_uint((*array2)[3],9);
 	expected_uint((*array2)[4],10);
 
-	array2->put(*array, 5);
+	array2->put(*array, 5, 0);
 
 	expected_uint((*array2)[5],6);
 	expected_uint((*array2)[6],7);

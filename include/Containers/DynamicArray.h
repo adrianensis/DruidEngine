@@ -21,9 +21,17 @@ class DynamicArray : public Container {
 
 private:
 
-    static const u32 mMinSize = 100;
-
+    static const u32 smMinSize = 100;
+    Array<T>* mCache = nullptr;
+    u32 mCacheIndex = 0;
     List<Array<T>*>* mArrays;
+
+    void updateCache(u32 arrayIndex){
+        if(arrayIndex != mCacheIndex || mCache == nullptr){
+            mCache = mArrays->get(arrayIndex);
+            mCacheIndex = arrayIndex;
+        }
+    }
 
 public:
 
@@ -42,6 +50,7 @@ public:
         \param other Other DynamicArray.
     */
     void init(const DynamicArray<T>& other){
+        Container::init(other.mLength, other.mElementSize, other.mAlignment);
         mArrays = DE::allocate< List<Array<T>*> >(*mAllocator); // TODO: change mAllocator for Memory::allocate();
         mArrays->init(*(other.mArrays));
     };
@@ -52,19 +61,21 @@ public:
     */
     void init(const Array<T>& other){
         u32 otherLength = other.getLength();
+        u32 otherOffset = 0;
 
         DynamicArray::init(otherLength, other.getAlignment());
-
-        u32 otherOffset = 0;
 
         auto it = mArrays->getIterator();
 
         for (; (!it.isNull()) && otherOffset < otherLength; it.next()){
             Array<T>* array = it.get();
-            for (u32 i = 0; i < array->getLength() && otherOffset < otherLength; i++){
-                (*array)[i] = other[i];
-                otherOffset++;
-            }
+
+            if(otherLength < smMinSize)
+                array->put(other, 0, 0);
+            else
+                array->put(other, 0, otherOffset, smMinSize - 1);
+
+            otherOffset += smMinSize;
         }
     };
 
@@ -117,11 +128,11 @@ public:
         mArrays->init();
 
         // how many arrays are needed.
-        u32 arrayCount = ceil(length/mMinSize);
+        u32 arrayCount = ceil(length/smMinSize) + 1;
 
-        for (u32 i = 0; i <= arrayCount; i++) {
+        for (u32 i = 0; i < arrayCount; i++) {
             Array<T>* newArray = DE::allocate<Array<T>>(*mAllocator, mAlignment);
-            newArray->init(mMinSize);
+            newArray->init(smMinSize);
 
             mArrays->pushBack(newArray);
         }
@@ -137,41 +148,59 @@ public:
 
         for (; it.isNull(); it.next()){
             Array<T>* array = it.get();
-            for (u32 i = 0; i < array->getLength(); i++)
-                (*array)[i] = element;
+            array->fill(element);
         }
     };
 
     /*!
         \brief Copy an array into other.
         \param other Other Array.
-        \param index Index (of the destiny array) from which to paste the other array.
-    */
-    void put(const Array<T>& other, u32 index){
-        // ASSERT(other.getLength() <= this->getLength() - index, "Not enough space for put array.");
-        // BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
-    };
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other DynamicArray.
-        \param index Index (of the destiny array) from which to paste the other array.
-    */
-    void put(const DynamicArray<T>& other, u32 index){
-        // ASSERT(other.getLength() <= this->getLength() - index, "Not enough space for put array.");
-        // BaseArray::put(other.mStart, index, other.getLength()*mElementSize);
-    };
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other DynamicArray.
-        \param index Index (of the destiny array) from which to paste the other array.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
         \param length Amount of element of the other array to be copied.
     */
-    void put(const void* rawArray, u32 index, u32 length){
-        Array<T>* array = DE::allocate<Array<T>>(*mAllocator, mAlignment);
-        array->init(rawArray, length);
-        DynamicArray::put(*array, index);
+    void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length){
+        ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+        ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+        ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+
+        for (int i = 0; i < length; ++i)
+            (*this)[destinyIndex + i] = other[sourceIndex + i];
+    };
+
+    /*!
+        \brief Copy an array into other.
+        \param other Other DynamicArray.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
+        \param length Amount of element of the other array to be copied.
+    */
+    void put(DynamicArray<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length){
+        ASSERT(sourceIndex >= 0, "sourceIndex must be greater than 0.");
+        ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+
+        for (int i = 0; i < length; ++i)
+            (*this)[destinyIndex + i] = other[sourceIndex + i];
+    };
+
+    /*!
+        \brief Copy an array into other.
+        \param other Other Array.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
+    */
+    void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex){
+        DynamicArray::put(other, destinyIndex, sourceIndex, other.getLength());
+    };
+
+    /*!
+        \brief Copy an array into other.
+        \param other Other DynamicArray.
+        \param destinyIndex Index (of the destiny array) from which to paste the other array.
+        \param sourceIndex Index (of the source array) from which to copy.
+    */
+    void put(DynamicArray<T>& other, u32 destinyIndex, u32 sourceIndex){
+        DynamicArray::put(other, destinyIndex, sourceIndex, other.getLength());
     };
 
     /*!
@@ -182,31 +211,18 @@ public:
     T& operator[](const size_t i) {
         ASSERT(i >= 0, "Index must be greater than 0.");
 
-        u32 realIndex = i % mMinSize;
-        u32 arrayIndex = ceil(i/mMinSize);
+        u32 realIndex = i % smMinSize;
+        u32 arrayIndex = ceil(i/smMinSize);
 
-        return (*(mArrays->get(arrayIndex)))[realIndex];
+        updateCache(arrayIndex);
+        return (*mCache)[realIndex];
     }
-
-    /*!
-        \brief Read only.
-        \param i Index.
-        \return Element reference.
-    */
-	T operator[](const size_t i) const {
-        ASSERT(i >= 0, "Index must be greater than 0.");
-
-        u32 realIndex = i % mMinSize;
-        u32 arrayIndex = ceil(i/mMinSize);
-
-        return (*(mArrays->get(arrayIndex)))[realIndex];
-	}
 
     /*!
         \param index The index.
         \return Element at index.
     */
-    T get(u32 index) const{
+    T get(u32 index){
         return (*this)[index];
     };
 
@@ -217,9 +233,9 @@ public:
     */
     void set(u32 index, T element){
         // resize
-        if(index > mArrays->getLength()*mMinSize){
+        if(index > mArrays->getLength()*smMinSize){
             Array<T>* newArray = DE::allocate<Array<T>>(*mAllocator, mAlignment); // TODO: change mAllocator for Memory::allocate();
-            newArray->init(mMinSize);
+            newArray->init(smMinSize);
 
             mArrays->pushBack(newArray);
         }

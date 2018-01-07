@@ -42,8 +42,8 @@ void BaseArray::set(const void* rawArray){
     std::memcpy(mStart,rawArray,mLength*mElementSize);
 };
 
-void BaseArray::put(const void* rawArray, u32 index, u32 length){
-    std::memcpy(mStart+index*mElementSize,rawArray,length*mElementSize);
+void BaseArray::put(const void* rawArray, u32 destinyIndex, u32 sourceIndex, u32 length){
+    std::memcpy(mStart+destinyIndex*mElementSize,rawArray+sourceIndex*mElementSize,length*mElementSize);
 };
 
 void BaseArray::allocate(u32 length, u32 elementSize, u32 alignment) {
