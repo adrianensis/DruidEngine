@@ -19,25 +19,22 @@ private:
     public:
         void* unalignedAddress;
         u32 size;
-        bool used;
 
         Block();
         ~Block();
         void init(void* unalignedAddress, u32 size);
 
         Block& operator=(const Block& rhs) {
-            // if (this == &rhs) return *this; // handle self assignment
-            //assignment operator
+            if (this == &rhs) return *this; // handle self assignment
             this->unalignedAddress = rhs.unalignedAddress;
             this->size = rhs.size;
-            this->used = rhs.used;
             return (*this);
         }
     };
 
     LinearAllocator mLinearAllocator; // TODO: change for Memory::allocate()
     List<Block>* mFreeBlocks; // TODO: change to Block*
-    // List<Block>* mUsedBlocks;
+    List<Block>* mUsedBlocks;
 
     Block allocateBlock(u32 size);
     u32 freeBlock(void* unalignedAddress);

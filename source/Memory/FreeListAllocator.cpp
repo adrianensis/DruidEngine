@@ -15,7 +15,6 @@ FreeListAllocator::Block::~Block(){
 void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
     this->unalignedAddress = unalignedAddress;
     this->size = size;
-    this->used = false;
 }
 
 FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
@@ -28,7 +27,7 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 
         Block b = it.get();
 
-        if( (! b.used) && b.size >= size){
+        if(b.size >= size){
             found = true;
             selectedIt = it;
         }
@@ -40,9 +39,9 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 
     Block usedBlock;
     usedBlock.init(selectedBlock.unalignedAddress, size);
-    usedBlock.used = true;
-    mFreeBlocks->pushBack(usedBlock);
-    // mUsedBlocks->pushBack(usedBlock);
+    // usedBlock.used = true;
+    // mFreeBlocks->pushBack(usedBlock);
+    mUsedBlocks->pushBack(usedBlock);
 
     Block newFreeBlock;
     newFreeBlock.init(selectedBlock.unalignedAddress + size, selectedBlock.size - size);
@@ -69,7 +68,7 @@ u32 FreeListAllocator::freeBlock(void* unalignedAddress){
 
     Block selectedBlock = selectedIt.get();
 
-    // mUsedBlocks->remove(selectedIt);
+    mUsedBlocks->remove(selectedIt);
 
     mFreeBlocks->pushBack(selectedBlock);
 
@@ -86,14 +85,7 @@ FreeListAllocator::~FreeListAllocator(){
 
 void FreeListAllocator::init(u32 size){
     Allocator::init(size);
-
-    mLinearAllocator.init(1024*1024); // TODO: change for Memory::allocate()
-    // mUsedBlocks = DE::allocate<List<Block>>(mLinearAllocator);
-    mFreeBlocks = DE::allocate<List<Block>>(mLinearAllocator);
-
-    Block block;
-    block.init(mStart, size);
-    mFreeBlocks->pushBack(block);
+    FreeListAllocator::reset();
 }
 
 void* FreeListAllocator::allocate(u32 size){
@@ -117,16 +109,13 @@ void FreeListAllocator::free(const void* pointer){
 
 void FreeListAllocator::reset(){
     Allocator::reset();
-
-    mFreeBlocks->clear();
+    mLinearAllocator.init(1024*1024); // TODO: change for Memory::allocate()
+    mUsedBlocks = DE::allocate<List<Block>>(mLinearAllocator);
+    mFreeBlocks = DE::allocate<List<Block>>(mLinearAllocator);
 
     Block block;
-    block.init(mStart, Allocator::getSize());
+    block.init(mStart, mTotalSize);
     mFreeBlocks->pushBack(block);
-
-    // mUsedBlocks->clear();
-
-    // mLinearAllocator.reset();
 }
 
 } /* namespace DE */
