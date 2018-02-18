@@ -62,21 +62,10 @@ void StackAllocator::free(){
 
     size = u32Array[-1];
 
-    // reduce mOffset
-    mOffset -= smHeaderSize;
-    mOffset -= size;
-
     // reduce mAllocated
-    Allocator::setAllocated(mOffset);
+    Allocator::setAllocated(Allocator::getAllocated() - smHeaderSize - size);
 
-    mTop = reinterpret_cast<void*>(reinterpret_cast<ptr>(mStart + mOffset));
-
-    const u8* u8Array = reinterpret_cast<const u8*>(mTop);
-    ptr alignedAddress = reinterpret_cast<ptr>(mTop);
-    ptrdiff adjustment = static_cast<ptrdiff>(u8Array[-1]);
-    ptr address = alignedAddress - adjustment;
-
-    mTop = reinterpret_cast<void*>(address);
+    mTop = calculateUnalignedAddress(mStart + Allocator::getAllocated());
 }
 
 void StackAllocator::reset(){

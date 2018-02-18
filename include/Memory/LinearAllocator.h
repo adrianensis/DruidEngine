@@ -11,10 +11,6 @@ namespace DE {
 */
 class LinearAllocator : public Allocator {
 
-protected:
-
-    u32 mOffset;
-
 public:
 
     /*!

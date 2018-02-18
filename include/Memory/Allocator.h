@@ -20,7 +20,11 @@ protected:
     void* mStartCopy; // a backup of mStart for secure the free() call
 
     void checkAllocate(u32 size);
+    void checkAlignment(u32 alignment);
     void checkFree();
+    void* calculateAlignedAddress(const void* unalignedAddress, u32 alignment);
+    void* calculateUnalignedAddress(const void* alignedAddress);
+    void* allocateAlignedAddress(const void* unalignedAddress, u32 size, u32 alignment);
     void setAllocated(u32 size);
     void _init(void* mem);
 
@@ -39,18 +43,18 @@ public:
     /*!
         \return Total size.
     */
-    virtual u32 getSize();
+    u32 getSize();
 
     /*!
         \return Amount of memory used.
     */
-    virtual u32 getAllocated();
+    u32 getAllocated();
 
     /*!
         \return True if space is enough.
         \param size Size you want to check.
     */
-    virtual bool hasSpace(u32 size);
+    bool hasSpace(u32 size);
 
     /*!
         \brief Constructor.
@@ -63,7 +67,7 @@ public:
         \param size Amount of memory you want to allocate.
         \param mem Pointer to pre-allocated memory chunk.
     */
-    virtual void initFromMemory(u32 size, void* mem);
+    void initFromMemory(u32 size, void* mem);
 
     /*!
         \brief Allocates memory.

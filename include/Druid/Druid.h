@@ -16,6 +16,7 @@
 #include "LinearAllocator.h"
 #include "StackAllocator.h"
 #include "PoolAllocator.h"
+#include "FreeListAllocator.h"
 #include "Memory.h"
 #include "Array.h"
 #include "DynamicArray.h"

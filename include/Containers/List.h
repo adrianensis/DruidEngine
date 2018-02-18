@@ -41,12 +41,12 @@ private:
         };
     };
 
-    Node* newNode(){
-        return static_cast<Node*>(mAllocator->allocate(smNodeSize));
-    };
-
     static const u32 smNodeSize = sizeof(Node);
-    static u32 getNodeSize() {return smNodeSize; };
+
+    Node* newNode(){
+        Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
+        return node;
+    };
 
     Node* mFirst;
     Node* mLast;
@@ -194,7 +194,7 @@ public:
         }
 
         Iterator& operator=(const Iterator& rhs) {
-            // if (this == &rhs) return *this; // handle self assignment
+            if (this == &rhs) return *this; // handle self assignment
             //assignment operator
             this->mNode = rhs.mNode;
             this->mReverse = rhs.mReverse;
@@ -250,9 +250,7 @@ public:
     }
 
     Iterator getIterator() const{
-        Iterator it;
-        it.init(this->mFirst);
-        return it;
+        return List::getFirst();
     };
 
     Iterator getRevIterator() const{
@@ -279,10 +277,18 @@ public:
     };
 
     void clear(){
-        Iterator it = List::getIterator();
-        for (; it.hasNext(); List::remove(it));
+        if( ! List::isEmpty()){
+            Iterator it = List::getIterator();
+            for (; it.hasNext(); it.next()){
+                List::remove(it);
+            }
 
-        List::remove(it); // remove last
+            List::remove(it); // remove last
+        }
+
+        mFirst = nullptr;
+        mLast = nullptr;
+
     };
 
     void pushFront(T element){
@@ -336,7 +342,7 @@ public:
             }
 
             // mAllocator->free(old);
-            // List::freeNode(old);
+            // List::freeNode(old); // TODO: delete
         }
 
         return *element;
@@ -361,7 +367,7 @@ public:
             }
 
             // mAllocator->free(old);
-            // List::freeNode(old);
+            // List::freeNode(old); // TODO: delete
         }
 
         return *element;
@@ -439,19 +445,29 @@ public:
             Node* prev = it.mNode->mPrev;
             Node* next = it.mNode->mNext;
 
+            // check First and Last
+            if(it.mNode == mFirst){
+                mFirst = next;
+            }
+
+            if(it.mNode == mLast){
+                mLast = prev;
+            }
+
             if(prev != nullptr)
                 prev->mNext = next;
 
-            if(next != nullptr){
+            if(next != nullptr)
                 next->mPrev = prev;
 
-            it.mNode = next; // advance iterator.
+            //remove it.mNode
+            // mAllocator->free(it.mNode);
+            // List::freeNode(it.mNode); // TODO: delete
         }
 
-        //remove it.mNode
-        // mAllocator->free(it.mNode);
-        // List::freeNode(it.mNode);
-
+        if(List::isEmpty()){
+            mFirst = nullptr;
+            mLast = nullptr;
         }
 
     };

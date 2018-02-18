@@ -146,7 +146,7 @@ public:
 
         auto it = mArrays->getIterator();
 
-        for (; it.isNull(); it.next()){
+        for (; !it.isNull(); it.next()){
             Array<T>* array = it.get();
             array->fill(element);
         }
@@ -233,7 +233,7 @@ public:
     */
     void set(u32 index, T element){
         // resize
-        if(index > mArrays->getLength()*smMinSize){
+        if(index >= mArrays->getLength()*smMinSize){
             Array<T>* newArray = DE::allocate<Array<T>>(*mAllocator, mAlignment); // TODO: change mAllocator for Memory::allocate();
             newArray->init(smMinSize);
 

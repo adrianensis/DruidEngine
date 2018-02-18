@@ -11,6 +11,4 @@
 
 To install doxygen on Ubuntu, Mint or Debian:
 
-`$ sudo apt-get install doxygen`
-
-`$ sudo apt-get install graphviz`
+`$ sudo apt-get install doxygen graphviz`

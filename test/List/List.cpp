@@ -58,13 +58,23 @@ int main() {
 	list->pushBack(1);
 	list->pushBack(2);
 
+	expected_uint(list->get(0),0);
+	expected_uint(list->get(1),1);
+	expected_uint(list->get(2),2);
+
 	expected_uint(list->getLength(),3);
 
 	list->remove(1);
 
+	expected_uint(list->get(0),0);
+	expected_uint(list->get(1),2);
+
 	expected_uint(list->getLength(),2);
 
 	list->remove(0);
+
+	expected_uint(list->get(0),2);
+
 	list->remove(0);
 
 	expected_uint(list->getLength(),0);

@@ -10,7 +10,7 @@
 namespace DE {
 
 class Memory {
-    
+
 private:
 
     /*
@@ -23,8 +23,8 @@ private:
 
     static LinearAllocator mGlobal;
 
-    static DE::Array<bool>* mFlags;
-    static DE::Array<PoolAllocator>* mPools;
+    // static DE::Array<bool>* mFlags;
+    // static DE::Array<PoolAllocator>* mPools;
 
     //std::map <string, PoolAllocator> mPools;
 
