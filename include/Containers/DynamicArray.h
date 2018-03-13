@@ -95,6 +95,7 @@ public:
         \param alignment Bytes alignment.
     */
     void init(const void* rawArray, u32 length, u32 alignment) {
+        Container::setAllocator(&Memory::getGlobal());
         Array<T>* array = DE::allocate<Array<T>>(*mAllocator, alignment);
         array->init(rawArray, length);
         DynamicArray::init(*array);

@@ -116,6 +116,8 @@ void FreeListAllocator::reset(){
     mFreeBlocks = DE::allocate<List<Block>>(mLinearAllocator);
     mFreeBlocks->init();
     mUsedBlocks->init();
+    mFreeBlocks->setAllocator(&mLinearAllocator);
+    mUsedBlocks->setAllocator(&mLinearAllocator);
 
     Block block;
     block.init(mStart, mTotalSize);

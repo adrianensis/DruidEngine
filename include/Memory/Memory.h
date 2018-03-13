@@ -44,10 +44,14 @@ public:
     static Allocator& getGlobal();
 
     template<class T>
-    static T* allocate(u32 alignment);
+    static T* allocate(u32 alignment){
+        return DE::allocate<T>(smGlobal, alignment);
+    }
 
     template<class T>
-    static T* allocate();
+    static T* allocate(){
+        return DE::allocate<T>(smGlobal);
+    }
 
     static void free();
 

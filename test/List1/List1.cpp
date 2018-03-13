@@ -13,19 +13,20 @@ int main() {
 
 	test(DE::List<Test>);
 
-	DE::LinearAllocator linear;
-	linear.init(1024);
+	DE::Memory::init();
 
-	List<Array<u32>*>* mArrays = DE::allocate< List<Array<u32>*> >(linear); // TODO: change mAllocator for Memory::allocate();
-	Array<u32>* newArray = DE::allocate<Array<u32>>(linear); // TODO: change mAllocator for Memory::allocate();
+	List<Array<u32>*>* mArrays = DE::Memory::allocate< List<Array<u32>*> >();
+	Array<u32>* newArray = DE::Memory::allocate<Array<u32>>();
+
 	newArray->init(100);
+	mArrays->init();
+	
 	mArrays->pushBack(newArray);
 
 	auto itArrays = mArrays->getIterator();
 	expected_uint(itArrays.get()->getLength(),100);
 
-
-	DE::List<Test>* list = DE::allocate<List<Test>>(linear);
+	DE::List<Test>* list = DE::Memory::allocate<List<Test>>();
 
 	list->init();
 
@@ -124,7 +125,10 @@ int main() {
     //
 	// expected_uint(list32->getLength(),3);
     //
-	linear.reset();
+
+	// linear.reset();
+
+	DE::Memory::free();
 
 	summary();
 

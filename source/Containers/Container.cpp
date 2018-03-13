@@ -1,5 +1,6 @@
 #include "Container.h"
 #include "BasicTypes.h"
+#include "Memory.h"
 
 namespace DE {
 
@@ -15,6 +16,7 @@ void Container::init(u32 length, u32 elementSize, u32 alignment) {
     mLength = length;
     mElementSize = elementSize;
     mAlignment = alignment;
+    mAllocator = &Memory::getGlobal();
 };
 
 u32 Container::getLength() const {

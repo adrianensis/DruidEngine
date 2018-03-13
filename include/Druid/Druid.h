@@ -12,6 +12,7 @@
 #include "Vector2.h"
 #include "Matrix4.h"
 #include "Quaternion.h"
+#include "Memory.h"
 #include "Allocator.h"
 #include "LinearAllocator.h"
 #include "StackAllocator.h"
@@ -20,7 +21,6 @@
 #include "Array.h"
 #include "DynamicArray.h"
 #include "List.h"
-#include "Memory.h"
 
 
 #endif /* DRUID_H_ */

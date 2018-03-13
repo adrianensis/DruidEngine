@@ -4,6 +4,8 @@
 
 namespace DE {
 
+FreeListAllocator Memory::smGlobal;
+
 Memory::Memory(){
 
 }
@@ -21,14 +23,8 @@ void Memory::init(u32 size){
     smGlobal.init(size);
 };
 
-template<class T>
-T* Memory::allocate(u32 alignment){
-    return DE::allocate<T>(smGlobal, alignment);
-}
-
-template<class T>
-T* Memory::allocate(){
-    return DE::allocate<T>(smGlobal);
+Allocator& Memory::getGlobal(){
+    return smGlobal;
 }
 
 void Memory::free(){
