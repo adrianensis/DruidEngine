@@ -1,6 +1,9 @@
 #include "FreeListAllocator.h"
 #include "Assert.h"
+#include "MathUtils.h"
 #include "MemoryUtils.h"
+#include "Memory.h"
+#include "Debug.h"
 
 namespace DE {
 
@@ -39,8 +42,6 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 
     Block usedBlock;
     usedBlock.init(selectedBlock.unalignedAddress, size);
-    // usedBlock.used = true;
-    // mFreeBlocks->pushBack(usedBlock);
     mUsedBlocks->pushBack(usedBlock);
 
     Block newFreeBlock;
@@ -51,7 +52,7 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 }
 
 u32 FreeListAllocator::freeBlock(void* unalignedAddress){
-    auto it = mFreeBlocks->getIterator();
+    auto it = mUsedBlocks->getIterator();
 
     bool found = false;
     List<Block>::Iterator selectedIt;
@@ -89,7 +90,7 @@ void FreeListAllocator::init(u32 size){
 }
 
 void* FreeListAllocator::allocate(u32 size){
-    FreeListAllocator::allocate(size, 1);
+    return FreeListAllocator::allocate(size, 1);
 }
 
 void* FreeListAllocator::allocate(u32 size, u32 alignment){
@@ -109,9 +110,12 @@ void FreeListAllocator::free(const void* pointer){
 
 void FreeListAllocator::reset(){
     Allocator::reset();
-    mLinearAllocator.init(1024*1024); // TODO: change for Memory::allocate()
+
+    mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.01f));
     mUsedBlocks = DE::allocate<List<Block>>(mLinearAllocator);
     mFreeBlocks = DE::allocate<List<Block>>(mLinearAllocator);
+    mFreeBlocks->init();
+    mUsedBlocks->init();
 
     Block block;
     block.init(mStart, mTotalSize);

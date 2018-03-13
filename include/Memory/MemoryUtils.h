@@ -20,9 +20,6 @@ static void checkContainer(T* pointer, Allocator& allocator){
         Container* a = dynamic_cast<Container*>(pointer);
         a->setAllocator(&allocator);
     }
-    else{
-        // ECHO("Object is not Allocable.");
-    }
 }
 
 /*!

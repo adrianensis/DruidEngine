@@ -46,7 +46,7 @@ private:
     Node* newNode(){
         Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
         return node;
-    };
+    }
 
     Node* mFirst;
     Node* mLast;

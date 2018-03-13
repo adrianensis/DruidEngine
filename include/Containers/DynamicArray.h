@@ -8,7 +8,7 @@
 #include "Allocator.h"
 #include "Assert.h"
 #include "Debug.h"
-#include <math.h> /* ceil, max */
+#include <cmath> /* ceil, max */
 
 namespace DE {
 

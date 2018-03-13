@@ -25,6 +25,20 @@ int main() {
 
 	expected_float(freeList.getAllocated(),sizeInt+8);
 
+	freeList.free(k);
+
+	expected_float(freeList.getAllocated(),0);
+
+	k = reinterpret_cast<u32*>(freeList.allocate(sizeInt,8));
+	*k = 300;
+
+	show(k);
+	show(*k);
+
+	expected_uint(*k,300);
+
+	expected_float(freeList.getAllocated(),sizeInt+8);
+
 	u32* i = reinterpret_cast<u32*>(freeList.allocate(sizeInt));
 	*i = 500;
 
@@ -45,6 +59,10 @@ int main() {
 	expected_uint(*j,700);
 
 	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
+
+	freeList.free(j);
+
+	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1);
 
 	freeList.reset(); //TODO: FIX RESET
 
@@ -80,6 +98,13 @@ int main() {
 	expected_uint(*j,700);
 
 	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
+
+	freeList.free(k);
+	expected_float(freeList.getAllocated(),sizeInt+1+sizeInt+16);
+	freeList.free(i);
+	expected_float(freeList.getAllocated(),sizeInt+16);
+	freeList.free(j);
+	expected_float(freeList.getAllocated(),0);
 
 	summary();
 
