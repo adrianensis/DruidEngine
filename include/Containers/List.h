@@ -46,7 +46,11 @@ private:
     Node* newNode(){
         Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
         return node;
-    }
+    };
+
+    void freeNode(Node* node){
+        mAllocator->free(node);
+    };
 
     Node* mFirst;
     Node* mLast;
@@ -366,8 +370,7 @@ public:
                 mLast = nullptr;
             }
 
-            // mAllocator->free(old);
-            // List::freeNode(old); // TODO: delete
+            List::freeNode(old);
         }
 
         return *element;
@@ -460,9 +463,7 @@ public:
             if(next != nullptr)
                 next->mPrev = prev;
 
-            //remove it.mNode
-            // mAllocator->free(it.mNode);
-            // List::freeNode(it.mNode); // TODO: delete
+            List::freeNode(it.mNode);
         }
 
         if(List::isEmpty()){
