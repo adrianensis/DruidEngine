@@ -1,0 +1,8 @@
+bin/
+lib/
+build/
+.settings/
+.cproject
+.project
+DruidEngine.cbp
+DruidEngine.layout
