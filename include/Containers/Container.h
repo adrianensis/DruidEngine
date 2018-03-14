@@ -1,7 +1,7 @@
 #ifndef CONTAINER_H_
 #define CONTAINER_H_
 
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "Allocator.h"
 
 namespace DE {
@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Generic container.
 */
-class Container{
+DE_CLASS(Container) {
 
 protected:
 

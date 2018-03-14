@@ -4,7 +4,7 @@
 #include <ostream>
 #include "Assert.h"
 
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "MathUtils.h"
 
 namespace DE {
@@ -12,7 +12,7 @@ namespace DE {
 /*!
     \brief 4D Vector.
 */
-class Vector4 /*16 bytes alignment*/ {
+DE_CLASS(Vector4) /*16 bytes alignment*/ {
 
 public:
 

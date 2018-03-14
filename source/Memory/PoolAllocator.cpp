@@ -45,7 +45,7 @@ u32 PoolAllocator::getFreeBlocks(){
     return mMaxBlocks - mUsedBlocks;
 }
 
-void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
+void PoolAllocator::_init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment){
     Allocator::reset();
 
     mUsedBlocks = 0;
@@ -53,7 +53,11 @@ void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
     mAlignment = alignment;
     mFullBlockSize = smPtrSize + mBlockSize ;
     mMaxBlocks = numBlocks;
-    LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
+
+    if(mem == nullptr)
+        LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
+    else
+        LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem);
 
     mFirst = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
     void* current = mFirst;
@@ -72,6 +76,19 @@ void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
     storePointer(current, nullptr);
     mLast = current;
 }
+
+void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
+    PoolAllocator::_init(blockSize, numBlocks, nullptr, alignment);
+}
+
+void PoolAllocator::initFromMemory(u32 blockSize, void* mem, u32 numBlocks, u32 alignment){
+    PoolAllocator::_init(blockSize, numBlocks, mem, alignment);
+}
+
+void PoolAllocator::initFromMemory(u32 blockSize, void* mem, u32 numBlocks){
+    PoolAllocator::_init(blockSize, numBlocks, mem, 1);
+}
+
 
 void PoolAllocator::init(u32 blockSize, u32 numBlocks){
     PoolAllocator::init(blockSize, numBlocks, 1);

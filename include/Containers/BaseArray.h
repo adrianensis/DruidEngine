@@ -2,12 +2,12 @@
 #define BASEARRAY_H_
 
 #include "Container.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "Allocator.h"
 
 namespace DE {
 
-class BaseArray : public Container {
+DE_CLASS(BaseArray) DE_CLASS_EXTENDS public Container {
 
 protected:
 

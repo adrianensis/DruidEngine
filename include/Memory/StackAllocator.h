@@ -2,14 +2,14 @@
 #define STACKALLOCATOR_H_
 
 #include "LinearAllocator.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 
 namespace DE {
 
 /*!
     \brief Allocates memory in FIFO strategy.
 */
-class StackAllocator : public LinearAllocator {
+DE_CLASS(StackAllocator) DE_CLASS_EXTENDS public LinearAllocator {
 
 private:
 
@@ -36,6 +36,7 @@ public:
     void* getTop();
 
     virtual void init(u32 size);
+    virtual void initFromMemory(u32 size, void* mem);
     virtual void* allocate(u32 size);
     virtual void* allocate(u32 size, u32 alignment);
     virtual void free(const void* pointer);

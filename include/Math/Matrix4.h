@@ -1,12 +1,12 @@
 #ifndef MATRIX4_H_
 #define MATRIX4_H_
 
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "Array.h"
 
 namespace DE {
 
-class Matrix4 /*16 bytes alignment*/ {
+DE_CLASS(Matrix4) /*16 bytes alignment*/ {
 
   // REMEMBER
   // OpenGL uses column-major order (transposed)

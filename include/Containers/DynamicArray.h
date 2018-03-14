@@ -4,11 +4,11 @@
 #include "Container.h"
 #include "Array.h"
 #include "List.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "Allocator.h"
 #include "Assert.h"
 #include "Debug.h"
-#include <cmath> /* ceil, max */
+#include "MathUtils.h"
 
 namespace DE {
 
@@ -17,7 +17,10 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-class DynamicArray : public Container {
+DE_CLASS(DynamicArray) DE_CLASS_EXTENDS public Container {
+
+template <class K, class V>
+friend class HashMap; // Friend Class
 
 private:
 

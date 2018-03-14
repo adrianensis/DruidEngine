@@ -2,14 +2,6 @@
 #include "Assert.h"
 #include "BasicTypes.h"
 
-/*
- * https://en.wikipedia.org/wiki/Data_structure_alignment
- *
- *  ---- pseudo-code: computing padding ----
- * padding = (align - (offset mod align)) mod align
- * new offset = offset + padding = offset + (align - (offset mod align)) mod align
- */
-
 namespace DE {
 
 LinearAllocator::LinearAllocator() : Allocator(){

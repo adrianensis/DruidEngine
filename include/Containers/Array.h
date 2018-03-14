@@ -2,7 +2,7 @@
 #define ARRAY_H_
 
 #include "BaseArray.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "Allocator.h"
 #include "Assert.h"
 #include "Debug.h"
@@ -14,7 +14,7 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-class Array : public BaseArray {
+DE_CLASS(Array) DE_CLASS_EXTENDS public BaseArray {
 
 private:
 

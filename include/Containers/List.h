@@ -3,12 +3,12 @@
 
 #include "Container.h"
 #include "Allocator.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 
 namespace DE {
 
 template <class T>
-class List : public Container {
+DE_CLASS(List) DE_CLASS_EXTENDS public Container {
 
 friend class Iterator;
 
@@ -25,9 +25,7 @@ private:
             Node::init();
         };
 
-        ~Node() {
-
-        };
+        ~Node() { };
 
         void init() {
             mNext = nullptr;

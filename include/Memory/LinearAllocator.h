@@ -2,14 +2,14 @@
 #define LINEARALLOCATOR_H_
 
 #include "Allocator.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 
 namespace DE {
 
 /*!
     \brief Allocates memory in a linear way. The whole memory is freed in one shot.
 */
-class LinearAllocator : public Allocator {
+DE_CLASS(LinearAllocator) DE_CLASS_EXTENDS public Allocator {
 
 public:
 

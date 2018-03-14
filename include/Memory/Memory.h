@@ -6,12 +6,11 @@
 #include "StackAllocator.h"
 #include "PoolAllocator.h"
 #include "MemoryUtils.h"
-#include <type_traits>
 #include <string>
 
 namespace DE {
 
-class Memory {
+DE_CLASS(Memory) {
 
 private:
 

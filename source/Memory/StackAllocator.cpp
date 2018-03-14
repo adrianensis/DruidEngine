@@ -31,6 +31,11 @@ void StackAllocator::init(u32 size){
     mTop = mStart;
 }
 
+void StackAllocator::initFromMemory(u32 size, void* mem){
+    LinearAllocator::initFromMemory(size, mem);
+    mTop = mStart;
+}
+
 void* StackAllocator::allocate(u32 size){
     return StackAllocator::allocate(size,1);
 }

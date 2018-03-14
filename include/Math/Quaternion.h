@@ -4,13 +4,13 @@
 #include <ostream>
 #include "Assert.h"
 
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "MathUtils.h"
 #include "Vector3.h"
 
 namespace DE {
 
-class Quaternion /*16 bytes alignment*/ {
+DE_CLASS(Quaternion) /*16 bytes alignment*/ {
 
 public:
 

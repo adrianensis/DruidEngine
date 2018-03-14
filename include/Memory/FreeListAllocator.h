@@ -2,7 +2,7 @@
 #define FREELISTALLOCATOR_H_
 
 #include "Allocator.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 #include "List.h"
 #include "LinearAllocator.h"
 
@@ -11,7 +11,7 @@ namespace DE {
 /*!
     \brief List of memory blocks.
 */
-class FreeListAllocator : public Allocator {
+DE_CLASS(FreeListAllocator) DE_CLASS_EXTENDS public Allocator {
 
 private:
 

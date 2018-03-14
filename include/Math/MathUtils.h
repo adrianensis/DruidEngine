@@ -1,8 +1,8 @@
 #ifndef MATHUTILS_H_
 #define MATHUTILS_H_
 
-#include <cmath>
-#include "BasicTypes.h"
+#include <cmath> /* ceil, max */
+#include "Basic.h"
 
 namespace DE {
 

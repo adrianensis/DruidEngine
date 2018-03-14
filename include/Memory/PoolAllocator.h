@@ -2,14 +2,14 @@
 #define POOLALLOCATOR_H_
 
 #include "LinearAllocator.h"
-#include "BasicTypes.h"
+#include "Basic.h"
 
 namespace DE {
 
 /*!
     \brief Allocates memory using fixed-size blocks. The blocks can be freed.
 */
-class PoolAllocator : public LinearAllocator {
+DE_CLASS(PoolAllocator) DE_CLASS_EXTENDS public LinearAllocator {
 
 private:
 
@@ -31,6 +31,8 @@ private:
 
     void checkAllocateBlock();
     void checkFreeBlock();
+
+    void _init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment);
 
 public:
 
@@ -55,14 +57,17 @@ public:
         \param numBlocks Number of blocks.
         \param alignment Bytes alignment.
     */
-    virtual void init(u32 blockSize, u32 numBlocks, u32 alignment);
+    void init(u32 blockSize, u32 numBlocks, u32 alignment);
 
     /*!
         \brief Constructor.
         \param blockSize Size of a single block.
         \param numBlocks Number of blocks.
     */
-    virtual void init(u32 blockSize, u32 numBlocks);
+    void init(u32 blockSize, u32 numBlocks);
+
+    void initFromMemory(u32 size, void* mem, u32 numBlocks);
+    void initFromMemory(u32 size, void* mem, u32 numBlocks, u32 alignment);
 
     virtual void* allocate(u32 size);
     virtual void* allocate(u32 size, u32 alignment);

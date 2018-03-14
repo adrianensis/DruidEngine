@@ -4,6 +4,14 @@
 
 namespace DE {
 
+/*
+ * https://en.wikipedia.org/wiki/Data_structure_alignment
+ *
+ *  ---- pseudo-code: computing padding ----
+ * padding = (align - (offset mod align)) mod align
+ * new offset = offset + padding = offset + (align - (offset mod align)) mod align
+ */
+
 void Allocator::checkAllocate(u32 size) {
     ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 }
@@ -120,13 +128,11 @@ void Allocator::setAllocated(u32 size){
 
 Allocator::Allocator(){
     mStart = nullptr;
-    mStartCopy = nullptr;
 }
 
 Allocator::~Allocator(){
-    delete mStartCopy;
+    delete mStart;
     mStart = nullptr;
-    mStartCopy = nullptr;
 }
 
 u32 Allocator::getSize() {
@@ -142,13 +148,12 @@ bool Allocator::hasSpace(u32 size) {
 }
 
 void Allocator::_init(void* mem) {
-    if(mStartCopy != nullptr)
-        delete mStartCopy;
+    // Only must delete when Allocator is destroyed. See ~Allocator()
+    // if(mStartCopy != nullptr)
+    //     delete mStartCopy;
 
     mStart = mem;
     mEnd = mStart + mTotalSize - 1;
-
-    mStartCopy = mStart;
 }
 
 void Allocator::init(u32 size) {
@@ -161,8 +166,6 @@ void Allocator::initFromMemory(u32 size, void* mem) {
     Allocator::reset();
 
     _init(mem);
-
-    mStartCopy = mStart;
 }
 
 void Allocator::reset() {

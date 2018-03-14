@@ -1,7 +1,7 @@
 #ifndef DRUID_H_
 #define DRUID_H_
 
-#include "BasicTypes.h"
+#include "Basic.h"
 
 #include "MemoryUtils.h"
 #include "Debug.h"
@@ -21,6 +21,7 @@
 #include "Array.h"
 #include "DynamicArray.h"
 #include "List.h"
+#include "HashMap.h"
 
 
 #endif /* DRUID_H_ */
