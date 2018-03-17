@@ -1,14 +1,10 @@
 #ifndef DYNAMICARRAY_H_
 #define DYNAMICARRAY_H_
 
-#include "Container.h"
 #include "Array.h"
 #include "List.h"
 #include "Basic.h"
 #include "Allocator.h"
-#include "Assert.h"
-#include "Debug.h"
-#include "MathUtils.h"
 
 namespace DE {
 

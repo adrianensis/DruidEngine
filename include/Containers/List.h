@@ -122,6 +122,8 @@ public:
         };
 
         bool hasNext() {
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             if(mReverse)
                 return (mNode->mPrev != nullptr);
             else
@@ -129,6 +131,8 @@ public:
         };
 
         void next() {
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             if(mReverse)
                 mNode = mNode->mPrev;
             else
@@ -136,6 +140,8 @@ public:
         };
 
         Iterator getNext(){
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             Iterator it;
 
             if(mReverse)
@@ -147,6 +153,8 @@ public:
         };
 
         bool hasPrev(){
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             if(mReverse)
                 return (mNode->mNext != nullptr);
             else
@@ -154,6 +162,8 @@ public:
         };
 
         void prev(){
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             if(mReverse)
                 mNode = mNode->mNext;
             else
@@ -161,6 +171,8 @@ public:
         };
 
         Iterator getPrev(){
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             Iterator it;
 
             if(mReverse)
@@ -172,6 +184,8 @@ public:
         };
 
         T get() const {
+            DE_ASSERT(mNode != nullptr, "List is empty.");
+
             return mNode->mElement;
         };
 
@@ -230,7 +244,13 @@ public:
         \param other Other List.
     */
     void init(const List& other){
-        List::copy(other);
+        this->init(other.mElementSize);
+        Iterator it = other.getIterator();
+
+        for (; it.hasNext(); it.next())
+            this->pushBack(it.get());
+
+        this->pushBack(it.get());
     };
 
     /*!
@@ -239,17 +259,6 @@ public:
     void init() {
         List::init(sizeof(T));
     };
-
-
-    void copy(const List& other){
-        this->init(other.mElementSize);
-        Iterator it = other.getIterator();
-
-        for (; it.hasNext(); it.next())
-            this->pushBack(it.get());
-
-        this->pushBack(it.get());
-    }
 
     Iterator getIterator() const{
         return List::getFirst();
@@ -343,8 +352,7 @@ public:
                 mLast = nullptr;
             }
 
-            // mAllocator->free(old);
-            // List::freeNode(old); // TODO: delete
+            List::freeNode(old);
         }
 
         return *element;

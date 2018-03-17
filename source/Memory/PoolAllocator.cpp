@@ -1,7 +1,5 @@
 #include "PoolAllocator.h"
-#include "Assert.h"
-#include "BasicTypes.h"
-#include "Debug.h"
+#include "Basic.h"
 
 namespace DE {
 
