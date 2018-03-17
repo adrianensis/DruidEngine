@@ -18,7 +18,7 @@ protected:
     u32 mAlignment;
     Allocator* mAllocator;
 
-    void init(u32 length, u32 elementSize, u32 alignment);
+    void init(const u32 length, const u32 elementSize, const u32 alignment);
 
 public:
 

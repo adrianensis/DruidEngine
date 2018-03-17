@@ -100,7 +100,7 @@ int main() {
     //
 	// expected_uint(list32->getLength(),0);
     //
-	// u32 sizeInt = sizeof(u32);
+	// const u32 sizeInt = sizeof(u32);
 	// u32 a32;// = (u32*)linear.allocate(sizeInt);
 	// u32 b32;// = (u32*)linear.allocate(sizeInt);
 	// u32 c32;// = (u32*)linear.allocate(sizeInt);

@@ -26,9 +26,9 @@ public:
 	//-------------------------------------------------------------------
 
 	Quaternion();
-	Quaternion(f32 x, f32 y, f32 z, f32 w);
-	Quaternion(const Vector3& v, f32 w);
-	Quaternion(f32 theta_x, f32 theta_y, f32 theta_z);
+	Quaternion(const f32 x, const f32 y, const f32 z, const f32 w);
+	Quaternion(const Vector3& v, const f32 w);
+	Quaternion(const f32 roll, const f32 pitch, const f32 yaw);
 	Quaternion(const Vector3& v);
 	Quaternion(const Quaternion& other);
 	~Quaternion();
@@ -37,7 +37,7 @@ public:
 	// METHODS
 	//-------------------------------------------------------------------
 
-	Quaternion& set(f32 x, f32 y, f32 z, f32 w);
+	Quaternion& set(const f32 x, const f32 y, const f32 z, const f32 w);
 	Quaternion& set(const Vector3& v, f32 w);
 	Quaternion& set(const Quaternion& rhs);
 	Quaternion& add(const Quaternion& rhs);
@@ -53,13 +53,13 @@ public:
 	f32 sqrlen() const;
 	f32 dot(const Quaternion& q) const;
 	Quaternion& nor();
-	bool eq(const Quaternion& q, f32 e) const; // epsilon equal
+	bool eq(const Quaternion& q, const f32 e) const; // epsilon equal
 	bool eq(const Quaternion& q) const; // equal
 	Quaternion& conj();
 	Quaternion& inv();
-	Quaternion& lerp(const Quaternion& target, f32 t);
-	Quaternion& nlerp(const Quaternion& target, f32 t);
-	Quaternion& slerp(const Quaternion& target, f32 t);
+	Quaternion& lerp(const Quaternion& target, const f32 t);
+	Quaternion& nlerp(const Quaternion& target, const f32 t);
+	Quaternion& slerp(const Quaternion& target, const f32 t);
 	Quaternion& squad(); // TODO: implement
 	Vector3 toEuler() const;
 	f32 angle(const Quaternion& q) const;
@@ -155,17 +155,17 @@ public:
 	}
 
 	// can be used for assignment
-	f32& operator[](const size_t i) {
-		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
-		if(i == 3) return w;
-		return v[i];
+	f32& operator[](const size_t index) {
+		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		if(index == 3) return w;
+		return v[index];
 	}
 
 	// read only
-	f32 operator[](const size_t i) const {
-		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
-		if(i == 3) return w;
-		return v[i];
+	f32 operator[](const size_t index) const {
+		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		if(index == 3) return w;
+		return v[index];
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Quaternion& q) {

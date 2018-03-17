@@ -46,7 +46,7 @@ private:
         mAllocator->free(node);
     };
 
-    u64 hash(K key){
+    u64 hash(K key) const {
 
         u32 arrayLength = mArray->mArrays->getLength();
 
@@ -66,7 +66,7 @@ private:
         // }
 
         else
-            ASSERT(false, "K must be integer, pointer or extends Hash.");
+            DE_ASSERT(false, "K must be integer, pointer or extends Hash.");
 
         return hashIndex;
     }
@@ -100,7 +100,7 @@ public:
         mArray->get(hashIndex)->pushBack(node);
     };
 
-    V get(K key) {
+    V get(K key) const {
 
         u64 hashIndex = HashMap::hash(key);
 
@@ -119,7 +119,7 @@ public:
             it.prev();
             return it.get();
         }else{
-            ASSERT(false, "Can't find the element with given key.");
+            DE_ASSERT(false, "Can't find the element with given key.");
         }
     };
 

@@ -27,7 +27,7 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector4();
-	Vector4(f32 x, f32 y, f32 z, f32 w);
+	Vector4(const f32 x, const f32 y, const f32 z, const f32 w);
 	Vector4(const Vector4& other);
 	~Vector4();
 
@@ -35,16 +35,16 @@ public:
 	// METHODS
 	//-------------------------------------------------------------------
 
-	virtual Vector4& set(const Vector4& rhs);
-	Vector4& set(f32 x, f32 y, f32 z, f32 w);
-	virtual Vector4& add(const Vector4& rhs);
-	virtual Vector4& sub(const Vector4& rhs);
-	virtual Vector4& mul(const Vector4& rhs);
-	virtual Vector4& div(const Vector4& rhs);
-	virtual Vector4& add(const f32 rhs);
-	virtual Vector4& sub(const f32 rhs);
-	virtual Vector4& mul(const f32 rhs);
-	virtual Vector4& div(const f32 rhs);
+	Vector4& set(const Vector4& rhs);
+	Vector4& set(const f32 x, const f32 y, const f32 z, const f32 w);
+	Vector4& add(const Vector4& rhs);
+	Vector4& sub(const Vector4& rhs);
+	Vector4& mul(const Vector4& rhs);
+	Vector4& div(const Vector4& rhs);
+	Vector4& add(const f32 rhs);
+	Vector4& sub(const f32 rhs);
+	Vector4& mul(const f32 rhs);
+	Vector4& div(const f32 rhs);
 
 	f32 len() const;
 	f32 sqrlen() const;
@@ -54,10 +54,10 @@ public:
 	Vector4& nor();
 	f32 dst(const Vector4& v) const;
 	f32 sqrdst(const Vector4& v) const;
-	bool eq(const Vector4& v, f32 e) const; // epsilon equal
+	bool eq(const Vector4& v, const f32 e) const; // epsilon equal
 	bool eq(const Vector4& v) const; // equal
-	Vector4& lerp(const Vector4& target, f32 t);
-	Vector4& clamp(f32 maxLength);
+	Vector4& lerp(const Vector4& target, const f32 t);
+	Vector4& clamp(const f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -154,16 +154,16 @@ public:
 	}
 
 	// can be used for assignment
-	f32& operator[](const size_t i) {
-		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
+	f32& operator[](const size_t index) {
+		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 
-		return *(&x+i);
+		return *(&x+index);
 	}
 
 	// read only
-	f32 operator[](const size_t i) const {
-		ASSERT(i >= 0 && i < 4, "Index out of bounds.");
-		return *(&x+i);
+	f32 operator[](const size_t index) const {
+		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		return *(&x+index);
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Vector4& v) {

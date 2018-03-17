@@ -23,7 +23,7 @@ namespace DE {
     \param alignment Bytes alignment.
 */
 template<class T>
-static T* allocate(Allocator& allocator, u32 alignment){
+static T* allocate(Allocator& allocator, const u32 alignment){
     T* obj = static_cast<T*>(allocator.allocate(sizeof(T), alignment));
     return obj;
 };

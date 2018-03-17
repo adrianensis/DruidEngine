@@ -5,7 +5,7 @@ namespace DE {
 
 u32 StackAllocator::smHeaderSize = sizeof(u32);
 
-void StackAllocator::storeHeader(const void* address, u32 size){
+void StackAllocator::storeHeader(const void* address, const u32 size){
     u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
 
     // header is stored in the last position of the allocated memory.
@@ -26,21 +26,21 @@ void* StackAllocator::getTop(){
     return mTop;
 }
 
-void StackAllocator::init(u32 size){
+void StackAllocator::init(const u32 size){
     LinearAllocator::init(size);
     mTop = mStart;
 }
 
-void StackAllocator::initFromMemory(u32 size, void* mem){
+void StackAllocator::initFromMemory(const u32 size, void* mem){
     LinearAllocator::initFromMemory(size, mem);
     mTop = mStart;
 }
 
-void* StackAllocator::allocate(u32 size){
+void* StackAllocator::allocate(const u32 size){
     return StackAllocator::allocate(size,1);
 }
 
-void* StackAllocator::allocate(u32 size, u32 alignment){
+void* StackAllocator::allocate(const u32 size, const u32 alignment){
     // allocate size + header + alignment
     ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(size+smHeaderSize,alignment));
 
@@ -63,9 +63,7 @@ void StackAllocator::free(){
     // read header
     u32* u32Array = reinterpret_cast<u32*>(mTop);
 
-    u32 size = 0;
-
-    size = u32Array[-1];
+    u32 size = u32Array[-1];
 
     // reduce mAllocated
     Allocator::setAllocated(Allocator::getAllocated() - smHeaderSize - size);

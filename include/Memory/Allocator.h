@@ -18,13 +18,13 @@ protected:
     void* mStart;
     void* mEnd;
 
-    void checkAllocate(u32 size);
-    void checkAlignment(u32 alignment);
-    void checkFree();
-    void* calculateAlignedAddress(const void* unalignedAddress, u32 alignment);
-    void* calculateUnalignedAddress(const void* alignedAddress);
-    void* allocateAlignedAddress(const void* unalignedAddress, u32 size, u32 alignment);
-    void setAllocated(u32 size);
+    void checkAllocate(const u32 size) const;
+    void checkAlignment(const u32 alignment) const;
+    void checkFree() const;
+    void* calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const;
+    void* calculateUnalignedAddress(const void* alignedAddress) const;
+    void* allocateAlignedAddress(const void* unalignedAddress, const u32 size, const u32 alignment);
+    void setAllocated(const u32 size);
     void _init(void* mem);
 
 public:
@@ -42,38 +42,38 @@ public:
     /*!
         \return Total size.
     */
-    u32 getSize();
+    u32 getSize() const;
 
     /*!
         \return Amount of memory used.
     */
-    u32 getAllocated();
+    u32 getAllocated() const;
 
     /*!
         \return True if space is enough.
         \param size Size you want to check.
     */
-    bool hasSpace(u32 size);
+    bool hasSpace(const u32 size) const;
 
     /*!
         \brief Constructor.
         \param size Amount of memory you want to allocate.
     */
-    virtual void init(u32 size);
+    virtual void init(const u32 size);
 
     /*!
         \brief Constructor.
         \param size Amount of memory you want to allocate.
         \param mem Pointer to pre-allocated memory chunk.
     */
-    virtual void initFromMemory(u32 size, void* mem);
+    virtual void initFromMemory(const u32 size, void* mem);
 
     /*!
         \brief Allocates memory.
         \param size Amount of memory you want to allocate.
         \return Pointer to memory chunk.
     */
-    virtual void* allocate(u32 size) = 0;
+    virtual void* allocate(const u32 size) = 0;
 
     /*!
         \brief Allocates memory.
@@ -81,7 +81,7 @@ public:
         \param alignment Bytes alignment.
         \return Pointer to memory chunk.
     */
-    virtual void* allocate(u32 size, u32 alignment) = 0;
+    virtual void* allocate(const u32 size, const u32 alignment) = 0;
 
     /*!
         \brief Frees memory.

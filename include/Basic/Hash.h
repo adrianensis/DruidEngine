@@ -7,12 +7,17 @@ namespace DE {
 
 class Hash {
 
+private:
+
+    const u64 mHash = reinterpret_cast<u64>(this);
+
 public:
+
     Hash() {};
     ~Hash() {};
 
-    virtual u64 hash(){
-        return reinterpret_cast<u64>(this);
+    virtual u64 hash() const{
+        return mHash;
     };
 };
 

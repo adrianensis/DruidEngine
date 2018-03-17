@@ -16,7 +16,7 @@ private:
     void* mTop;
 
     static u32 smHeaderSize;
-    void storeHeader(const void* address, u32 size);
+    void storeHeader(const void* address, const u32 size);
 
 public:
 
@@ -35,10 +35,10 @@ public:
     */
     void* getTop();
 
-    virtual void init(u32 size);
-    virtual void initFromMemory(u32 size, void* mem);
-    virtual void* allocate(u32 size);
-    virtual void* allocate(u32 size, u32 alignment);
+    virtual void init(const u32 size);
+    virtual void initFromMemory(const u32 size, void* mem);
+    virtual void* allocate(const u32 size);
+    virtual void* allocate(const u32 size, const u32 alignment);
     virtual void free(const void* pointer);
 
     /*!

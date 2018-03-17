@@ -27,7 +27,7 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector3();
-	Vector3(f32 x, f32 y, f32 z);
+	Vector3(const f32 x, const f32 y, const f32 z);
 	Vector3(const Vector3& other);
 	~Vector3();
 
@@ -36,7 +36,7 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector3& set(const Vector3& rhs);
-	Vector3& set(f32 x, f32 y, f32 z);
+	Vector3& set(const f32 x, const f32 y, const f32 z);
 	Vector3& add(const Vector3& rhs);
 	Vector3& sub(const Vector3& rhs);
 	Vector3& mul(const Vector3& rhs);
@@ -54,15 +54,15 @@ public:
 	Vector3& nor();
 	f32 dst(const Vector3& v) const;
 	f32 sqrdst(const Vector3& v) const;
-	bool eq(const Vector3& v, f32 e) const; // epsilon equal
+	bool eq(const Vector3& v, const f32 e) const; // epsilon equal
 	bool eq(const Vector3& v) const; // equal
 	Vector3& cross(const Vector3& v); // only defined for 3D space
-	Vector3& lerp(const Vector3& target, f32 t);
-	Vector3& nlerp(const Vector3& target, f32 t);
-	Vector3& slerp(const Vector3& target, f32 t);
+	Vector3& lerp(const Vector3& target, const f32 t);
+	Vector3& nlerp(const Vector3& target, const f32 t);
+	Vector3& slerp(const Vector3& target, const f32 t);
 	f32 angle(const Vector3& v, const Vector3& n) const;
 	f32 angle(const Vector3& v) const;
-	Vector3& clamp(f32 maxLength);
+	Vector3& clamp(const f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -159,16 +159,16 @@ public:
 	}
 
 	// can be used for assignment
-	f32& operator[](const size_t i) {
-		ASSERT(i >= 0 && i < 3, "Index out of bounds.");
+	f32& operator[](const size_t index) {
+		DE_ASSERT(index >= 0 && index < 3, "Index out of bounds.");
 
-		return *(&x+i);
+		return *(&x+index);
 	}
 
 	// read only
-	f32 operator[](const size_t i) const {
-		ASSERT(i >= 0 && i < 3, "Index out of bounds.");
-		return *(&x+i);
+	f32 operator[](const size_t index) const {
+		DE_ASSERT(index >= 0 && index < 3, "Index out of bounds.");
+		return *(&x+index);
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Vector3& v) {

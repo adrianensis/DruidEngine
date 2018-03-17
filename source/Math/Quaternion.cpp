@@ -7,10 +7,10 @@
 
 namespace DE {
 
-Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w):v(x,y,z),w(w){
+Quaternion::Quaternion(const f32 x, const f32 y, const f32 z, const f32 w):v(x,y,z),w(w){
 }
 
-Quaternion::Quaternion(const Vector3& v, f32 w):v(v),w(w){
+Quaternion::Quaternion(const Vector3& v, const f32 w):v(v),w(w){
 }
 
 Quaternion::Quaternion():v(),w(1.0f){ // identity 0,0,0,1
@@ -71,7 +71,7 @@ Quaternion::~Quaternion(){
 }
 
 
-Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
+Quaternion& Quaternion::set(const f32 x, const f32 y, const f32 z, const f32 w) {
 	if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	v.set(x,y,z);
@@ -138,7 +138,7 @@ Quaternion& Quaternion::mul(const f32 rhs) {
 }
 
 Quaternion& Quaternion::div(const f32 rhs) {
-	ASSERT(rhs != 0, "Division by zero.");
+	DE_ASSERT(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
 	return *this;
@@ -165,13 +165,13 @@ f32 Quaternion::len() const {
 Quaternion& Quaternion::nor() {
 	f32 len = this->len();
 
-	ASSERT(len > 0, "Length is zero.");
+	DE_ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;
 }
 
-bool Quaternion::eq(const Quaternion& q, f32 e) const {
+bool Quaternion::eq(const Quaternion& q, const f32 e) const {
 	return v.eq(q.v, e) && eqf(this->w, q.w, e);
 }
 
@@ -200,7 +200,7 @@ f32 Quaternion::angle(const Quaternion& q) const{
 	return acosf(v.dot(q.v)/(v.len()*q.v.len()));
 }
 
-Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::lerp(const Quaternion& target, const f32 t) {
 
 	f32 tt = 1-t;
 	this->mul(tt);
@@ -208,12 +208,12 @@ Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
 	return *this;
 }
 
-Quaternion& Quaternion::nlerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::nlerp(const Quaternion& target, const f32 t) {
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::slerp(const Quaternion& target, const f32 t) {
 
 	f32 theta = angle(target);
 

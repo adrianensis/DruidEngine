@@ -8,7 +8,7 @@
 
 namespace DE {
 
-Vector3::Vector3(f32 x, f32 y, f32 z):x(x),y(y),z(z){
+Vector3::Vector3(const f32 x, const f32 y, const f32 z):x(x),y(y),z(z){
 }
 
 Vector3::Vector3():x(0.0f),y(0.0f),z(0.0f){
@@ -20,7 +20,7 @@ Vector3::~Vector3(){
 Vector3::Vector3(const Vector3& other):x(other.x),y(other.y),z(other.z){
 }
 
-Vector3& Vector3::set(f32 x, f32 y, f32 z) {
+Vector3& Vector3::set(const f32 x, const f32 y, const f32 z) {
 	if (this->x == x && this->y == y && this->z == z) return *this; // handle self assignment
 	//assignment operator
 	this->x = x;
@@ -59,9 +59,9 @@ Vector3& Vector3::mul(const Vector3& rhs) {
 }
 
 Vector3& Vector3::div(const Vector3& rhs) {
-	ASSERT(rhs.x != 0, "Division by zero.");
-	ASSERT(rhs.y != 0, "Division by zero.");
-	ASSERT(rhs.z != 0, "Division by zero.");
+	DE_ASSERT(rhs.x != 0, "Division by zero.");
+	DE_ASSERT(rhs.y != 0, "Division by zero.");
+	DE_ASSERT(rhs.z != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -90,7 +90,7 @@ Vector3& Vector3::mul(const f32 rhs) {
 }
 
 Vector3& Vector3::div(const f32 rhs) {
-	ASSERT(rhs != 0, "Division by zero.");
+	DE_ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -125,7 +125,7 @@ f32 Vector3::min() const {
 Vector3& Vector3::nor() {
 	f32 len = this->len();
 
-	ASSERT(len > 0, "Length is zero.");
+	DE_ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;
@@ -139,7 +139,7 @@ bool Vector3::eq(const Vector3& v) const {
 	return eqf(this->x, v.x) && eqf(this->y, v.y) && eqf(this->z, v.z);
 }
 
-bool Vector3::eq(const Vector3& v, f32 e) const {
+bool Vector3::eq(const Vector3& v, const f32 e) const {
 	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e) && eqf(this->z, v.z, e);
 }
 
@@ -159,19 +159,19 @@ Vector3& Vector3::cross(const Vector3& v){
 	return *this;
 }
 
-Vector3& Vector3::lerp(const Vector3& target, f32 t) {
+Vector3& Vector3::lerp(const Vector3& target, const f32 t) {
 	//start + percent*(end - start)
 	(*this) += (Vector3(target)-(*this))*t;
 	return *this;
 }
 
-Vector3& Vector3::nlerp(const Vector3& target, f32 t) {
+Vector3& Vector3::nlerp(const Vector3& target, const f32 t) {
 	//start + percent*(end - start)
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Vector3& Vector3::slerp(const Vector3& target, f32 t) {
+Vector3& Vector3::slerp(const Vector3& target, const f32 t) {
 
 	if (t == 0) return *this;
 
@@ -205,7 +205,7 @@ f32 Vector3::angle(const Vector3& v, const Vector3& n) const {
 	return angle;
 }
 
-Vector3& Vector3::clamp(f32 maxLength) {
+Vector3& Vector3::clamp(const f32 maxLength) {
 	if(this->sqrlen() > maxLength*maxLength){
 		this->nor();
 		this->mul(maxLength);

@@ -33,7 +33,7 @@ int main() {
 	// }
 	//
 	// DE::DynamicArray<u32>* array1 = DE::Memory::allocate<DynamicArray<u32>>();
-	// u32 size = 200;
+	// const u32 size = 200;
 	// array1->init(size);
 	//
 	// for (u32 i = 0; i < size; ++i) {

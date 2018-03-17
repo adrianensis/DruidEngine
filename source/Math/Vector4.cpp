@@ -8,7 +8,7 @@
 
 namespace DE {
 
-Vector4::Vector4(f32 x, f32 y, f32 z, f32 w):x(x),y(y),z(z),w(w){
+Vector4::Vector4(const f32 x, const f32 y, const f32 z, const f32 w):x(x),y(y),z(z),w(w){
 }
 
 Vector4::Vector4():x(0.0f),y(0.0f),z(0.0f),w(0.0f){
@@ -20,7 +20,7 @@ Vector4::~Vector4(){
 Vector4::Vector4(const Vector4& other):x(other.x),y(other.y),z(other.z),w(other.w){
 }
 
-Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {
+Vector4& Vector4::set(const f32 x, const f32 y, const f32 z, const f32 w) {
 	if (this->x == x && this->y == y && this->z == z && this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	this->x = x;
@@ -63,10 +63,10 @@ Vector4& Vector4::mul(const Vector4& rhs) {
 }
 
 Vector4& Vector4::div(const Vector4& rhs) {
-	ASSERT(rhs.x != 0, "Division by zero.");
-	ASSERT(rhs.y != 0, "Division by zero.");
-	ASSERT(rhs.z != 0, "Division by zero.");
-	ASSERT(rhs.w != 0, "Division by zero.");
+	DE_ASSERT(rhs.x != 0, "Division by zero.");
+	DE_ASSERT(rhs.y != 0, "Division by zero.");
+	DE_ASSERT(rhs.z != 0, "Division by zero.");
+	DE_ASSERT(rhs.w != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -99,7 +99,7 @@ Vector4& Vector4::mul(const f32 rhs) {
 }
 
 Vector4& Vector4::div(const f32 rhs) {
-	ASSERT(rhs != 0, "Division by zero.");
+	DE_ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -146,7 +146,7 @@ f32 Vector4::min() const {
 Vector4& Vector4::nor() {
 	f32 len = this->len();
 
-	ASSERT(len > 0, "Length is zero.");
+	DE_ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;
@@ -156,7 +156,7 @@ f32 Vector4::dst(const Vector4& v) const {
 	return sqrtf(this->sqrdst(v));
 }
 
-bool Vector4::eq(const Vector4& v, f32 e) const {
+bool Vector4::eq(const Vector4& v, const f32 e) const {
 	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e) &&
 	eqf(this->z, v.z, e) && eqf(this->w, v.w, e);
 }
@@ -166,13 +166,13 @@ bool Vector4::eq(const Vector4& v) const {
 	eqf(this->z, v.z) && eqf(this->w, v.w);
 }
 
-Vector4& Vector4::lerp(const Vector4& target, f32 t) {
+Vector4& Vector4::lerp(const Vector4& target, const f32 t) {
 	//start + percent*(end - start)
 	(*this) += (Vector4(target)-(*this))*t;
 	return *this;
 }
 
-Vector4& Vector4::clamp(f32 maxLength) {
+Vector4& Vector4::clamp(const f32 maxLength) {
 	if(this->sqrlen() > maxLength*maxLength){
 		this->nor();
 		this->mul(maxLength);

@@ -33,7 +33,7 @@ private:
             //mElement = nullptr;
         };
 
-        void init(T element) {
+        void init(const T element) {
             Node::init();
             mElement = element;
         };
@@ -117,7 +117,7 @@ public:
 
         };
 
-        bool isNull(){
+        bool isNull() const{
             return mNode == nullptr;
         };
 
@@ -171,7 +171,7 @@ public:
             return it;
         };
 
-        T get() {
+        T get() const {
             return mNode->mElement;
         };
 
@@ -179,7 +179,7 @@ public:
             mNode->mElement = element;
         };
 
-        bool isReverse(){
+        bool isReverse() const {
             return mReverse;
         };
 
@@ -206,7 +206,7 @@ public:
 
 private:
 
-    void allocate(u32 elementSize, u32 alignment) {
+    void allocate(u32 elementSize, const u32 alignment) {
         Container::init(0, elementSize, alignment); // mLength = 0
     };
 
@@ -374,9 +374,9 @@ public:
         return *element;
     };
 
-    T get(u32 index) const{
+    T get(const u32 index) const{
 
-        ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
         u32 i = 0;
         Iterator it = List::getIterator();
@@ -387,8 +387,8 @@ public:
         return it.get();
     };
 
-    void set(u32 index, T element){
-        ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+    void set(const u32 index, const T element){
+        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
         u32 i = 0;
         Iterator it = List::getIterator();
@@ -422,7 +422,7 @@ public:
 
     void remove(u32 index){
 
-        ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
         if( ! List::isEmpty()){
             // mLength--;
@@ -473,7 +473,7 @@ public:
 
     void insert(u32 index, T element){
 
-        ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
 
         // mLength++;
 

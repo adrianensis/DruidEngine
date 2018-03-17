@@ -23,7 +23,7 @@ void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f
           Matrix4::set(row,col,rows[row][col]);
 };
 
-void Matrix4::setRows(f32 n){
+void Matrix4::setRows(const f32 n){
   for (u8 row = 0; row < 4; row++)
       for (u8 col = 0; col < 4; col++)
           Matrix4::set(row,col,n);
@@ -37,7 +37,7 @@ Matrix4::~Matrix4(){
 
 };
 
-void Matrix4::init(f32 n){
+void Matrix4::init(const f32 n){
   Matrix4::setRows(n);
 };
 
@@ -61,15 +61,15 @@ void Matrix4::init(const f32* row0, const f32* row1, const f32* row2, const f32*
   Matrix4::setRows(row0,row1,row2,row3);
 };
 
-f32* Matrix4::getData(){
+const f32* Matrix4::getData() const{
   return mData;
 };
 
-f32 Matrix4::get(u8 row, u8 col){
+f32 Matrix4::get(const u8 row, const u8 col) const{
   return mData[row+(4*col)];
 };
 
-void Matrix4::set(u8 row, u8 col, f32 value){
+void Matrix4::set(const u8 row, const u8 col, const f32 value){
   mData[row+(4*col)] = value;
 };
 

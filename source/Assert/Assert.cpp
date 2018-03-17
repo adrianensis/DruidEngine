@@ -7,7 +7,7 @@ namespace DE {
 
 void assert(bool condition, std::string message){
   if(!condition){
-    ERROR("ASSERT > "+  message);
+    ERROR("DE_ASSERT > "+  message);
     abort();
   }
 }

@@ -8,7 +8,7 @@ int main() {
 	test(DE::DynamicArray<u32>);
 
 	DE::Memory::init();
-	
+
 	DE::DynamicArray<u32>* array = DE::Memory::allocate<DynamicArray<u32>>();
 
 	array->init(5);

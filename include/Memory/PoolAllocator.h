@@ -29,10 +29,10 @@ private:
     void* getBlock(const void* it);
     void* getIteratorFromBlock(const void* block);
 
-    void checkAllocateBlock();
-    void checkFreeBlock();
+    void checkAllocateBlock() const;
+    void checkFreeBlock() const;
 
-    void _init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment);
+    void _init(u32 blockSize, u32 numBlocks, void* mem, const u32 alignment);
 
 public:
 
@@ -49,7 +49,7 @@ public:
     /*!
         \return The count of free blocks.
     */
-    u32 getFreeBlocks();
+    u32 getFreeBlocks() const;
 
     /*!
         \brief Constructor.
@@ -57,7 +57,7 @@ public:
         \param numBlocks Number of blocks.
         \param alignment Bytes alignment.
     */
-    void init(u32 blockSize, u32 numBlocks, u32 alignment);
+    void init(u32 blockSize, u32 numBlocks, const u32 alignment);
 
     /*!
         \brief Constructor.
@@ -66,11 +66,11 @@ public:
     */
     void init(u32 blockSize, u32 numBlocks);
 
-    void initFromMemory(u32 size, void* mem, u32 numBlocks);
-    void initFromMemory(u32 size, void* mem, u32 numBlocks, u32 alignment);
+    void initFromMemory(const u32 size, void* mem, u32 numBlocks);
+    void initFromMemory(const u32 size, void* mem, u32 numBlocks, const u32 alignment);
 
-    virtual void* allocate(u32 size);
-    virtual void* allocate(u32 size, u32 alignment);
+    virtual void* allocate(const u32 size);
+    virtual void* allocate(const u32 size, const u32 alignment);
 
     /*!
         \brief Allocates a single block.

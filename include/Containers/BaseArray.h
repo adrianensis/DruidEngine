@@ -14,11 +14,11 @@ protected:
     void* mStart;
 
     void copy(const BaseArray& other);
-    void init(const void* rawArray, u32 length, u32 elementSize);
-    void init(const void* rawArray, u32 length, u32 elementSize, u32 alignment);
-    void init(u32 length, u32 elementSize);
-    void init(u32 length, u32 elementSize, u32 alignment);
-    void allocate(u32 length, u32 elementSize, u32 alignment);
+    void init(const void* rawArray, const u32 length, const u32 elementSize);
+    void init(const void* rawArray, const u32 length, const u32 elementSize, const u32 alignment);
+    void init(const u32 length, const u32 elementSize);
+    void init(const u32 length, const u32 elementSize, const u32 alignment);
+    void allocate(const u32 length, const u32 elementSize, const u32 alignment);
     void set(const void* rawArray);
 
 public:
@@ -26,7 +26,7 @@ public:
     BaseArray();
     virtual ~BaseArray();
 
-    void put(const void* rawArray, u32 destinyIndex, u32 sourceIndex, u32 length);
+    void put(const void* rawArray, const u32 destinyIndex, const u32 sourceIndex, const u32 length);
 
 };
 

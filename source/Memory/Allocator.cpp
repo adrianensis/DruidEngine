@@ -12,26 +12,26 @@ namespace DE {
  * new offset = offset + padding = offset + (align - (offset mod align)) mod align
  */
 
-void Allocator::checkAllocate(u32 size) {
-    ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
+void Allocator::checkAllocate(const u32 size) const {
+    DE_ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 }
 
-void Allocator::checkAlignment(u32 alignment) {
+void Allocator::checkAlignment(const u32 alignment) const {
     // Because we need at least, 1 byte for adjustment storage.
-    ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
+    DE_ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
 
     // 128 (decimal) = 1000 0000 (binary)
-    ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
+    DE_ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
 
     // IMPORTANT: 'alignment must be a power of 2 (typically 4 or 16).
-    ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
+    DE_ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 }
 
-void Allocator::checkFree() {
-    ASSERT(mAllocated > 0, "Allocated memory is 0.");
+void Allocator::checkFree() const {
+    DE_ASSERT(mAllocated > 0, "Allocated memory is 0.");
 }
 
-void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 alignment) {
+void* Allocator::calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const {
 
     /*
 
@@ -85,7 +85,7 @@ void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 align
     // Store the adjustment in the byte immediately
     // preceding the adjusted address.
     // 256 = 1 0000 0000
-    ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
+    DE_ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
     // The aligned address is accessed as a uint8_t array or byte array.
     u8* u8Array = reinterpret_cast<u8*>(alignedAddress);
@@ -97,7 +97,7 @@ void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 align
     return static_cast<void*>(u8Array);
 }
 
-void* Allocator::calculateUnalignedAddress(const void* alignedAddress) {
+void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
 
     const u8* u8Array = reinterpret_cast<const u8*>(alignedAddress);
     ptr _alignedAddress = reinterpret_cast<ptr>(alignedAddress);
@@ -107,7 +107,7 @@ void* Allocator::calculateUnalignedAddress(const void* alignedAddress) {
     return reinterpret_cast<void*>(unalignedAddress);
 }
 
-void* Allocator::allocateAlignedAddress(const void* unalignedAddress, u32 size, u32 alignment) {
+void* Allocator::allocateAlignedAddress(const void* unalignedAddress, const u32 size, const u32 alignment) {
     u32 expandedSize = size + alignment;
 
     Allocator::checkAllocate(expandedSize);
@@ -122,7 +122,7 @@ void* Allocator::allocateAlignedAddress(const void* unalignedAddress, u32 size, 
     return Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 }
 
-void Allocator::setAllocated(u32 size){
+void Allocator::setAllocated(const u32 size){
     mAllocated = size;
 }
 
@@ -135,15 +135,15 @@ Allocator::~Allocator(){
     mStart = nullptr;
 }
 
-u32 Allocator::getSize() {
+u32 Allocator::getSize() const {
     return mTotalSize;
 }
 
-u32 Allocator::getAllocated() {
+u32 Allocator::getAllocated() const {
     return mAllocated;
 }
 
-bool Allocator::hasSpace(u32 size) {
+bool Allocator::hasSpace(const u32 size) const {
     return (mTotalSize-mAllocated) >= size;
 }
 
@@ -156,11 +156,11 @@ void Allocator::_init(void* mem) {
     mEnd = mStart + mTotalSize - 1;
 }
 
-void Allocator::init(u32 size) {
+void Allocator::init(const u32 size) {
     initFromMemory(size, ::operator new (size));
 }
 
-void Allocator::initFromMemory(u32 size, void* mem) {
+void Allocator::initFromMemory(const u32 size, void* mem) {
     mTotalSize = size;
 
     Allocator::reset();

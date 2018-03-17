@@ -22,7 +22,7 @@ private:
 
         Block();
         ~Block();
-        void init(void* unalignedAddress, u32 size);
+        void init(void* unalignedAddress, const u32 size);
 
         Block& operator=(const Block& rhs) {
             if (this == &rhs) return *this; // handle self assignment
@@ -36,7 +36,7 @@ private:
     List<Block>* mFreeBlocks; // TODO: change to Block*
     List<Block>* mUsedBlocks;
 
-    Block allocateBlock(u32 size);
+    Block allocateBlock(const u32 size);
     u32 freeBlock(void* unalignedAddress);
 
 public:
@@ -51,9 +51,9 @@ public:
     */
     virtual ~FreeListAllocator();
 
-    virtual void init(u32 size);
-    virtual void* allocate(u32 size);
-    virtual void* allocate(u32 size, u32 alignment);
+    virtual void init(const u32 size);
+    virtual void* allocate(const u32 size);
+    virtual void* allocate(const u32 size, const u32 alignment);
     virtual void free(const void* pointer);
     virtual void reset();
 
