@@ -4,5 +4,5 @@ build/
 .settings/
 .cproject
 .project
-DruidEngine.cbp
-DruidEngine.layout
+cmake-build-debug/
+.idea/

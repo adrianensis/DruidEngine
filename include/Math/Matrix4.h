@@ -6,7 +6,7 @@
 
 namespace DE {
 
-DE_CLASS(Matrix4) /*16 bytes alignment*/ {
+class Matrix4 : public DE_Class /*16 bytes alignment*/ {
 
   // REMEMBER
   // OpenGL uses column-major order (transposed)

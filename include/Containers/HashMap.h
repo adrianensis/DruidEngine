@@ -14,7 +14,7 @@ namespace DE {
     \tparam V Value class.
 */
 template <class K, class V>
-DE_CLASS(HashMap) DE_CLASS_EXTENDS public Container {
+class HashMap : public Container {
 
 private:
 

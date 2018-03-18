@@ -12,7 +12,7 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-DE_CLASS(Array) DE_CLASS_EXTENDS public BaseArray {
+class Array : public BaseArray {
 
 private:
 

@@ -4,7 +4,7 @@
 
 namespace DE {
 
-Container::Container(){
+Container::Container() : DE_Class(){
     mAllocator = nullptr;
 };
 

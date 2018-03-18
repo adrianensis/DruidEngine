@@ -7,7 +7,7 @@
 
 namespace DE {
 
-DE_CLASS(BaseArray) DE_CLASS_EXTENDS public Container {
+class BaseArray : public Container {
 
 protected:
 
@@ -20,14 +20,11 @@ protected:
     void init(const u32 length, const u32 elementSize, const u32 alignment);
     void allocate(const u32 length, const u32 elementSize, const u32 alignment);
     void set(const void* rawArray);
-
-public:
-
-    BaseArray();
-    virtual ~BaseArray();
-
     void put(const void* rawArray, const u32 destinyIndex, const u32 sourceIndex, const u32 length);
 
+public:
+    BaseArray();
+    virtual ~BaseArray();
 };
 
 } /* namespace DE */

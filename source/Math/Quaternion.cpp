@@ -1,9 +1,6 @@
 #include "Quaternion.h"
 
-#include <cmath>
 #include <algorithm>    // std::max
-#include "Assert.h"
-#include "BasicTypes.h"
 
 namespace DE {
 
@@ -67,8 +64,7 @@ Quaternion::Quaternion(const Vector3& v):Quaternion(v.x,v.y,v.z){
 Quaternion::Quaternion(const Quaternion& other):v(other.v),w(other.w){
 }
 
-Quaternion::~Quaternion(){
-}
+Quaternion::~Quaternion() = default;
 
 
 Quaternion& Quaternion::set(const f32 x, const f32 y, const f32 z, const f32 w) {

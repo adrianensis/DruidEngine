@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Generic container.
 */
-DE_CLASS(Container) {
+class Container : public DE_Class {
 
 protected:
 

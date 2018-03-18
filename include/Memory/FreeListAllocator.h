@@ -10,7 +10,7 @@ namespace DE {
 /*!
     \brief List of memory blocks.
 */
-DE_CLASS(FreeListAllocator) DE_CLASS_EXTENDS public Allocator {
+class FreeListAllocator : public Allocator {
 
 private:
 
@@ -48,13 +48,13 @@ public:
     /*!
         \brief Destructor.
     */
-    virtual ~FreeListAllocator();
+    ~FreeListAllocator() override;
 
-    virtual void init(const u32 size);
-    virtual void* allocate(const u32 size);
-    virtual void* allocate(const u32 size, const u32 alignment);
-    virtual void free(const void* pointer);
-    virtual void reset();
+    void init(const u32 size) override;
+    void* allocate(const u32 size) override;
+    void* allocate(const u32 size, const u32 alignment) override;
+    void free(const void* pointer) override;
+    void reset() override;
 
 };
 

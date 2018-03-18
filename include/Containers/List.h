@@ -8,7 +8,7 @@
 namespace DE {
 
 template <class T>
-DE_CLASS(List) DE_CLASS_EXTENDS public Container {
+class List : public Container {
 
 friend class Iterator;
 

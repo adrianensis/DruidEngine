@@ -1,9 +1,6 @@
 #include "Vector2.h"
 
-#include <cmath>
 #include <algorithm>    // std::max
-#include "Assert.h"
-#include "BasicTypes.h"
 
 namespace DE {
 
@@ -13,8 +10,7 @@ Vector2::Vector2(const f32 x, const f32 y):x(x),y(y){
 Vector2::Vector2():x(0.0f),y(0.0f){
 }
 
-Vector2::~Vector2(){
-}
+Vector2::~Vector2() = default;
 
 Vector2::Vector2(const Vector2& other):x(other.x),y(other.y){
 }

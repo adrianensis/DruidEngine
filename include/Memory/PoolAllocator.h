@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Allocates memory using fixed-size blocks. The blocks can be freed.
 */
-DE_CLASS(PoolAllocator) DE_CLASS_EXTENDS public LinearAllocator {
+class PoolAllocator : public LinearAllocator {
 
 private:
 
@@ -44,7 +44,7 @@ public:
     /*!
         \brief Destructor.
     */
-    virtual ~PoolAllocator();
+    ~PoolAllocator() override;
 
     /*!
         \return The count of free blocks.
@@ -69,8 +69,8 @@ public:
     void initFromMemory(const u32 size, void* mem, u32 numBlocks);
     void initFromMemory(const u32 size, void* mem, u32 numBlocks, const u32 alignment);
 
-    virtual void* allocate(const u32 size);
-    virtual void* allocate(const u32 size, const u32 alignment);
+    void* allocate(const u32 size) override;
+    void* allocate(const u32 size, const u32 alignment) override;
 
     /*!
         \brief Allocates a single block.
@@ -78,8 +78,8 @@ public:
     */
     void* allocateBlock();
 
-    virtual void free(const void* pointer);
-    virtual void reset();
+    void free(const void* pointer) override;
+    void reset() override;
 
 };
 

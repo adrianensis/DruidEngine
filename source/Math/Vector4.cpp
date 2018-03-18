@@ -1,10 +1,6 @@
 #include "Vector4.h"
 
-#include <cmath>
 #include <algorithm>    // std::max
-#include "Assert.h"
-#include "MathUtils.h"
-#include "BasicTypes.h"
 
 namespace DE {
 
@@ -14,8 +10,7 @@ Vector4::Vector4(const f32 x, const f32 y, const f32 z, const f32 w):x(x),y(y),z
 Vector4::Vector4():x(0.0f),y(0.0f),z(0.0f),w(0.0f){
 }
 
-Vector4::~Vector4(){
-}
+Vector4::~Vector4() = default;
 
 Vector4::Vector4(const Vector4& other):x(other.x),y(other.y),z(other.z),w(other.w){
 }

@@ -22,6 +22,7 @@
 #include "DynamicArray.h"
 #include "List.h"
 #include "HashMap.h"
+#include "Tree.h"
 
 
 #endif /* DRUID_H_ */

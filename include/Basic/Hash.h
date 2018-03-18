@@ -13,8 +13,8 @@ private:
 
 public:
 
-    Hash() {};
-    ~Hash() {};
+    Hash() = default;
+    virtual ~Hash() = default;
 
     virtual u64 hash() const{
         return mHash;

@@ -9,14 +9,13 @@ namespace DE {
 /*!
     \brief Manages memory allocation.
 */
-DE_CLASS(Allocator) {
+class Allocator : public DE_Class {
 
 protected:
 
     u32 mTotalSize;
     u32 mAllocated;
     void* mStart;
-    void* mEnd;
 
     void checkAllocate(const u32 size) const;
     void checkAlignment(const u32 alignment) const;

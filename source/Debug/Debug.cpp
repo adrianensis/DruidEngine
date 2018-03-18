@@ -10,13 +10,13 @@ using namespace std;
 namespace DE {
 
 
-void echo(string message) {
+void echo(const string& message) {
   #ifdef DE_DEBUG
   cout << "D > " << message << endl;
   #endif
 };
 
-void error(string message) {
+void error(const string& message) {
   #ifdef DE_DEBUG
   cout << "ERR > " << message << endl;
   #endif

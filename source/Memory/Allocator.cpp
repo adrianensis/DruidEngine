@@ -126,7 +126,7 @@ void Allocator::setAllocated(const u32 size){
     mAllocated = size;
 }
 
-Allocator::Allocator(){
+Allocator::Allocator() : DE_Class(){
     mStart = nullptr;
 }
 
@@ -153,7 +153,6 @@ void Allocator::_init(void* mem) {
     //     delete mStartCopy;
 
     mStart = mem;
-    mEnd = mStart + mTotalSize - 1;
 }
 
 void Allocator::init(const u32 size) {

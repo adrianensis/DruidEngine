@@ -1,10 +1,6 @@
 #include "Vector3.h"
 
-#include <cmath>
 #include <algorithm>    // std::max
-#include "Assert.h"
-#include "MathUtils.h"
-#include "BasicTypes.h"
 
 namespace DE {
 
@@ -14,8 +10,7 @@ Vector3::Vector3(const f32 x, const f32 y, const f32 z):x(x),y(y),z(z){
 Vector3::Vector3():x(0.0f),y(0.0f),z(0.0f){
 }
 
-Vector3::~Vector3(){
-}
+Vector3::~Vector3() = default;
 
 Vector3::Vector3(const Vector3& other):x(other.x),y(other.y),z(other.z){
 }

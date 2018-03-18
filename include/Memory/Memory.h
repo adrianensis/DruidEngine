@@ -10,7 +10,7 @@
 
 namespace DE {
 
-DE_CLASS(Memory) {
+class Memory : public DE_Class {
 
 private:
 

@@ -1,8 +1,6 @@
 #include "Matrix4.h"
 
 #include <cstring>
-#include "BasicTypes.h"
-#include "Array.h"
 
 namespace DE {
 
@@ -29,13 +27,9 @@ void Matrix4::setRows(const f32 n){
           Matrix4::set(row,col,n);
 };
 
-Matrix4::Matrix4(){
+Matrix4::Matrix4() = default;
 
-};
-
-Matrix4::~Matrix4(){
-
-};
+Matrix4::~Matrix4() = default;
 
 void Matrix4::init(const f32 n){
   Matrix4::setRows(n);

@@ -13,7 +13,7 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-DE_CLASS(DynamicArray) DE_CLASS_EXTENDS public Container {
+class DynamicArray : public Container {
 
 template <class K, class V>
 friend class HashMap; // Friend Class

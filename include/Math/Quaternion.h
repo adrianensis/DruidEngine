@@ -10,7 +10,7 @@
 
 namespace DE {
 
-DE_CLASS(Quaternion) /*16 bytes alignment*/ {
+class Quaternion : public DE_Class /*16 bytes alignment*/ {
 
 public:
 

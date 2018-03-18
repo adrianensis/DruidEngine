@@ -10,23 +10,23 @@ using namespace std;
 namespace DE {
 
 
-void echo(string message);
+void echo(const string& message);
 
 template <class T>
-void var(string varname, T var) {
+void var(const string& varname, T var) {
   #ifdef DE_DEBUG
   cout << "D > " << varname << " : " << var << endl;
   #endif
 };
 
 template <class T>
-void val(T var) {
+void val(const T& var) {
   #ifdef DE_DEBUG
   cout << "D > " << var << endl;
   #endif
 };
 
-void error(string message);
+void error(const string& message);
 
 void brline();
 
