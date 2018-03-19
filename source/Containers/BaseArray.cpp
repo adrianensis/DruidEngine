@@ -1,9 +1,6 @@
 #include "BaseArray.h"
 
-#include "BasicTypes.h"
-#include "Allocator.h"
 #include <cstring>
-
 
 namespace DE {
 

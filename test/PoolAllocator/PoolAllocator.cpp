@@ -80,9 +80,9 @@ int main() {
 	show(b);
 	show(c);
 
-	*a = 1;
-	*b = 2;
-	*c = 3;
+	*a = 1111;
+	*b = 2222;
+	*c = 3333;
 
 	show(*a);
 	show(*b);
@@ -94,7 +94,7 @@ int main() {
 
 	d = reinterpret_cast<u32*>(pool.allocateBlock());
 
-	*d = 4;
+	*d = 4444;
 
 	show(d);
 	show(*d);
@@ -103,9 +103,9 @@ int main() {
 	show(b);
 	show(c);
 
-	expected_uint(*a,1);
-	expected_uint(*b,2);
-	expected_uint(*c,3);
+	expected_uint(*a,1111);
+	expected_uint(*b,2222);
+	expected_uint(*c,3333);
 
 	pool.free(a);
 	pool.free(c);

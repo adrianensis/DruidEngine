@@ -255,7 +255,7 @@ public:
             mArrays->pushBack(newArray);
         }
 
-        ISequentialContainer<T>::mLength = max(index + 1, ISequentialContainer<T>::mLength); // save the max index accessed
+        ISequentialContainer<T>::mLength = std::max(index + 1, ISequentialContainer<T>::mLength); // save the max index accessed
 
         (*this)[index] = element;
     };

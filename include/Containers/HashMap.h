@@ -3,7 +3,6 @@
 
 #include "List.h"
 #include "Array.h"
-#include <string>
 #include <functional>
 
 namespace DE {
@@ -45,66 +44,6 @@ private:
         BaseContainer::mAllocator->free(node);
     };
 
-    // generic function: arithmetic keys and pointers.
-    u64 hash(const u64 key) const {
-        return key % mArray->BaseContainer::getLength();
-    };
-
-    u64 hash(const void* key) const {
-        return hash(reinterpret_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const f32 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const u8 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const u16 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const u32 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const i8 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const i16 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const i32 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const i64 key) const {
-        return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
-    };
-
-    // for Hash objects
-    u64 hash(const Hash key) const {
-        return hash(key.hash()); // calls hash(const u64 key) const.
-    };
-
-    // for strings
-    u64 hash(const std::string key) const {
-        std::hash<std::string> hash_fn;
-        u64 hashString = hash_fn(key);
-        return hash(hashString); // calls hash(const u64 key) const.
-    };
-
-    u64 hash(const char* key) const {
-        std::string str(key);
-        std::hash<std::string> hash_fn;
-        u64 hashString = hash_fn(str);
-        return hash(hashString); // calls hash(const u64 key) const.
-    };
-
     Array<List<Node*>*>* mArray;
 
 public:
@@ -125,7 +64,7 @@ public:
 
     void set(const K key, const V element) {
 
-        u64 hashIndex = HashMap::hash(key);
+        u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
         List<Node*>* list = mArray->get(hashIndex);
 
@@ -157,7 +96,7 @@ public:
 
     V get(const K key) const {
 
-        u64 hashIndex = HashMap::hash(key);
+        u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
         // iterate over list to find element.
 
@@ -186,7 +125,7 @@ public:
 
     V remove(const K key) {
 
-        u64 hashIndex = HashMap::hash(key);
+        u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
         auto list = mArray->get(hashIndex);
 

@@ -43,8 +43,6 @@ u32 PoolAllocator::getFreeBlocks() const {
 }
 
 void PoolAllocator::_init(u32 blockSize, u32 numBlocks, void* mem, const u32 alignment){
-    Allocator::reset();
-
     mUsedBlocks = 0;
     mBlockSize = blockSize;
     mAlignment = alignment;

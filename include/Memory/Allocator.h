@@ -22,8 +22,9 @@ protected:
     void checkFree() const;
     void* calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const;
     void* calculateUnalignedAddress(const void* alignedAddress) const;
-    void* allocateAlignedAddress(const void* unalignedAddress, const u32 size, const u32 alignment);
+    void* allocateAlignedAddress(void* unalignedAddress, const u32 size, const u32 alignment);
     void setAllocated(const u32 size);
+    void clean(void* mem, const u32 size);
     void _init(void* mem);
 
 public:

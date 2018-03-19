@@ -1,5 +1,7 @@
 #include "StackAllocator.h"
 
+#include <cstring>
+
 namespace DE {
 
 u32 StackAllocator::smHeaderSize = sizeof(u32);
@@ -66,6 +68,9 @@ void StackAllocator::free(){
 
     // reduce mAllocated
     Allocator::setAllocated(Allocator::getAllocated() - smHeaderSize - size);
+
+    // clean memory block
+    std::memset(mTop, 0, size);
 
     mTop = calculateUnalignedAddress(mStart + Allocator::getAllocated());
 }

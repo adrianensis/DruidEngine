@@ -4,27 +4,24 @@
 #include <iostream>
 #include <string>
 
-
-using namespace std;
-
 namespace DE {
 
 
-void echo(const string& message) {
+void echo(const std::string& message) {
   #ifdef DE_DEBUG
-  cout << "D > " << message << endl;
+  std::cout << "D > " << message << std::endl;
   #endif
 };
 
-void error(const string& message) {
+void error(const std::string& message) {
   #ifdef DE_DEBUG
-  cout << "ERR > " << message << endl;
+  std::cout << "ERR > " << message << std::endl;
   #endif
 };
 
 void brline() { // break line
   #ifdef DE_DEBUG
-  cout << endl;
+  std::cout << std::endl;
   #endif
 };
 

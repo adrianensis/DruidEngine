@@ -5,28 +5,26 @@
 #include <iostream>
 #include "Basic.h"
 
-using namespace std;
-
 namespace DE {
 
 
-void echo(const string& message);
+void echo(const std::string& message);
 
 template <class T>
-void var(const string& varname, T var) {
+void var(const std::string& varname, T var) {
   #ifdef DE_DEBUG
-  cout << "D > " << varname << " : " << var << endl;
+  std::cout << "D > " << varname << " : " << var << std::endl;
   #endif
 };
 
 template <class T>
 void val(const T& var) {
   #ifdef DE_DEBUG
-  cout << "D > " << var << endl;
+  std::cout << "D > " << var << std::endl;
   #endif
 };
 
-void error(const string& message);
+void error(const std::string& message);
 
 void brline();
 

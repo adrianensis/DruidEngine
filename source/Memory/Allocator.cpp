@@ -1,6 +1,5 @@
 #include "Allocator.h"
-#include "Assert.h"
-#include "BasicTypes.h"
+#include <cstring>
 
 namespace DE {
 
@@ -107,7 +106,7 @@ void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
     return reinterpret_cast<void*>(unalignedAddress);
 }
 
-void* Allocator::allocateAlignedAddress(const void* unalignedAddress, const u32 size, const u32 alignment) {
+void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, const u32 alignment) {
     u32 expandedSize = size + alignment;
 
     Allocator::checkAllocate(expandedSize);
@@ -124,6 +123,11 @@ void* Allocator::allocateAlignedAddress(const void* unalignedAddress, const u32 
 
 void Allocator::setAllocated(const u32 size){
     mAllocated = size;
+}
+
+void Allocator::clean(void *mem, const u32 size) {
+    // clean memory block
+    std::memset(mem, 0, size);
 }
 
 Allocator::Allocator() : DE_Class(){
@@ -149,8 +153,6 @@ bool Allocator::hasSpace(const u32 size) const {
 
 void Allocator::_init(void* mem) {
     // Only must delete when Allocator is destroyed. See ~Allocator()
-    // if(mStartCopy != nullptr)
-    //     delete mStartCopy;
 
     mStart = mem;
 }
@@ -162,14 +164,14 @@ void Allocator::init(const u32 size) {
 void Allocator::initFromMemory(const u32 size, void* mem) {
     mTotalSize = size;
 
-    Allocator::reset();
-
     _init(mem);
+
+    Allocator::reset();
 }
 
 void Allocator::reset() {
     mAllocated = 0;
+    Allocator::clean(mStart, mTotalSize);
 }
-
 
 } /* namespace DE */
