@@ -1,14 +1,14 @@
 #ifndef LIST_H_
 #define LIST_H_
 
-#include "Container.h"
+#include "ISequentialContainer.h"
 #include "Allocator.h"
 #include "Basic.h"
 
 namespace DE {
 
 template <class T>
-class List : public Container {
+class List : public ISequentialContainer<T> {
 
 friend class Iterator;
 
@@ -42,12 +42,12 @@ private:
     static const u32 smNodeSize = sizeof(Node);
 
     Node* newNode(){
-        Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
+        Node* node = static_cast<Node*>(ISequentialContainer<T>::mAllocator->allocate(smNodeSize));
         return node;
     };
 
     void freeNode(Node* node){
-        mAllocator->free(node);
+        ISequentialContainer<T>::mAllocator->free(node);
     };
 
     Node* mFirst;
@@ -221,7 +221,7 @@ public:
 private:
 
     void allocate(u32 elementSize, const u32 alignment) {
-        Container::init(0, elementSize, alignment); // mLength = 0
+        BaseContainer::init(0, elementSize, alignment); // ISequentialContainer<T>::mLength = 0
     };
 
     void init(u32 elementSize) {
@@ -230,7 +230,7 @@ private:
 
 public:
 
-    List() : Container() {
+    List() : ISequentialContainer<T>() {
         mFirst = nullptr;
         mLast = nullptr;
     };
@@ -284,10 +284,10 @@ public:
     };
 
     bool isEmpty() const{
-        return mLength == 0;
+        return ISequentialContainer<T>::mLength == 0;
     };
 
-    void clear(){
+    void clear() override {
         if( ! List::isEmpty()){
             Iterator it = List::getIterator();
             for (; it.hasNext(); it.next()){
@@ -314,7 +314,7 @@ public:
 
         mFirst = node;
 
-        mLength++;
+        ISequentialContainer<T>::mLength++;
 
     };
 
@@ -330,7 +330,7 @@ public:
 
         mLast = node;
 
-        mLength++;
+        ISequentialContainer<T>::mLength++;
 
     };
 
@@ -339,7 +339,7 @@ public:
         T* element = nullptr;
 
         if( ! List::isEmpty()){
-            mLength--;
+            ISequentialContainer<T>::mLength--;
 
             element = &mFirst->mElement;
             Node* old = mFirst;
@@ -363,7 +363,7 @@ public:
         T* element = nullptr;
 
         if( ! List::isEmpty()){
-            mLength--;
+            ISequentialContainer<T>::mLength--;
 
             element = &mLast->mElement;
             Node* old = mLast;
@@ -384,7 +384,7 @@ public:
 
     T get(const u32 index) const{
 
-        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
 
         u32 i = 0;
         Iterator it = List::getIterator();
@@ -396,7 +396,7 @@ public:
     };
 
     void set(const u32 index, const T element){
-        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
 
         u32 i = 0;
         Iterator it = List::getIterator();
@@ -430,10 +430,10 @@ public:
 
     void remove(u32 index){
 
-        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
 
         if( ! List::isEmpty()){
-            // mLength--;
+            // ISequentialContainer<T>::mLength--;
 
             u32 i = 0;
             Iterator it = List::getIterator();
@@ -449,7 +449,7 @@ public:
     void remove(Iterator& it){
 
         if( ! List::isEmpty()){
-            mLength--;
+            ISequentialContainer<T>::mLength--;
 
             Node* prev = it.mNode->mPrev;
             Node* next = it.mNode->mNext;
@@ -481,9 +481,9 @@ public:
 
     void insert(u32 index, T element){
 
-        DE_ASSERT(index >= 0 && index < mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
 
-        // mLength++;
+        // ISequentialContainer<T>::mLength++;
 
         // TODO refactor loop
         u32 i = 0;
@@ -507,7 +507,7 @@ public:
             node->mPrev = it.mNode->mPrev;
             node->mNext = it.mNode;
 
-            mLength++;
+            ISequentialContainer<T>::mLength++;
         }else
             List::pushFront(element);
     };

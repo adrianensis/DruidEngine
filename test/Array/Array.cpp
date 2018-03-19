@@ -86,6 +86,10 @@ int main() {
 	expected_uint((*array2)[8],9);
 	expected_uint((*array2)[9],10);
 
+	array2->clear();
+
+	expected_uint(array2->getLength(),0);
+
 	DE::Memory::free();
 
 	summary();

@@ -12,13 +12,11 @@ void BaseArray::copy(const BaseArray& other){
 }
 
 
-BaseArray::BaseArray() : Container(){
+BaseArray::BaseArray() : BaseContainer(){
 
 }
 
-BaseArray::~BaseArray(){
-    // NOTE: user must free memory externally, by using the choosen allocator.
-};
+BaseArray::~BaseArray() = default;
 
 void BaseArray::init(const void* rawArray, const u32 length, const u32 elementSize) {
     BaseArray::init(length, elementSize, 1);
@@ -47,8 +45,13 @@ void BaseArray::put(const void* rawArray, const u32 destinyIndex, const u32 sour
 };
 
 void BaseArray::allocate(const u32 length, const u32 elementSize, const u32 alignment) {
-    Container::init(length,elementSize,alignment);
+    BaseContainer::init(length,elementSize,alignment);
     mStart = mAllocator->allocate(mLength*mElementSize, mAlignment);
+};
+
+void BaseArray::clear() {
+    BaseContainer::clear();
+    std::memset(mStart, 0, mLength*mElementSize);
 };
 
 } /* namespace DE */

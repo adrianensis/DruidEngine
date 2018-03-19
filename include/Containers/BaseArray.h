@@ -1,13 +1,13 @@
 #ifndef BASEARRAY_H_
 #define BASEARRAY_H_
 
-#include "Container.h"
+#include "BaseContainer.h"
 #include "Basic.h"
 #include "Allocator.h"
 
 namespace DE {
 
-class BaseArray : public Container {
+class BaseArray : virtual public BaseContainer {
 
 protected:
 
@@ -23,8 +23,11 @@ protected:
     void put(const void* rawArray, const u32 destinyIndex, const u32 sourceIndex, const u32 length);
 
 public:
+    void clear() override;
+
+public:
     BaseArray();
-    virtual ~BaseArray();
+    ~BaseArray() override;
 };
 
 } /* namespace DE */

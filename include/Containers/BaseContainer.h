@@ -1,5 +1,5 @@
-#ifndef CONTAINER_H_
-#define CONTAINER_H_
+#ifndef BASECONTAINER_H_
+#define BASECONTAINER_H_
 
 #include "Basic.h"
 #include "Allocator.h"
@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Generic container.
 */
-class Container : public DE_Class {
+class BaseContainer : public DE_Class {
 
 protected:
 
@@ -25,12 +25,12 @@ public:
     /*!
         \brief Default Constructor.
     */
-    Container();
+    BaseContainer();
 
     /*!
         \brief Destructor.
     */
-    virtual ~Container();
+    ~BaseContainer() override;
 
     /*!
         \return Container length.
@@ -52,8 +52,13 @@ public:
         \param allocator Pointer to Allocator.
     */
     void setAllocator(Allocator* allocator);
+
+    /*!
+        \brief Clear the container.
+    */
+    virtual void clear();
 };
 
 } /* namespace DE */
 
-#endif /* CONTAINER_H_ */
+#endif /* BASECONTAINER_H_ */

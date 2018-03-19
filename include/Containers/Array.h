@@ -2,8 +2,7 @@
 #define ARRAY_H_
 
 #include "BaseArray.h"
-#include "Basic.h"
-#include "Allocator.h"
+#include "IArray.h"
 
 namespace DE {
 
@@ -12,7 +11,7 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-class Array : public BaseArray {
+class Array : public IArray<T>, public BaseArray {
 
 private:
 
@@ -23,14 +22,14 @@ public:
     /*!
         \brief Default Constructor.
     */
-    Array() : BaseArray(){
+    Array() : IArray<T>(), BaseArray(){
 
     };
 
     /*!
         \brief Destructor.
     */
-    virtual ~Array(){};
+    ~Array() override = default;
 
     /*!
         \brief Copy Constructor.
@@ -41,51 +40,28 @@ public:
         mTStart = static_cast<T*>(mStart);
     };
 
-    /*!
-        \brief Fill the array with the same element.
-        \param element The element.
-    */
-    void fill(const T element){
-        for (u32 i = 0; i < mLength; i++)
+
+    void fill(const T element) override {
+        for (u32 i = 0; i < ISequentialContainer<T>::mLength; i++)
             mTStart[i] = element;
     };
 
-    /*!
-        \brief Constructor from raw array.
-        \param rawArray The raw array.
-        \param length The length of the raw array.
-    */
-    void init(const void* rawArray, const u32 length) {
+    void init(const void* rawArray, const u32 length) override {
         BaseArray::init(rawArray, length, sizeof(T));
         mTStart = static_cast<T*>(mStart);
     };
 
-    /*!
-        \brief Constructor from raw array. Aligned.
-        \param rawArray The raw array.
-        \param length The length of the raw array.
-        \param alignment Bytes alignment.
-    */
-    void init(const void* rawArray, const u32 length, const u32 alignment) {
+    void init(const void* rawArray, const u32 length, const u32 alignment) override {
         BaseArray::init(rawArray, length, sizeof(T), alignment);
         mTStart = static_cast<T*>(mStart);
     };
 
-    /*!
-        \brief Constructor.
-        \param length Length of the array.
-    */
-    void init(const u32 length) {
+    void init(const u32 length) override {
         BaseArray::init(length, sizeof(T));
         mTStart = static_cast<T*>(mStart);
     };
 
-    /*!
-        \brief Constructor. Aligned.
-        \param length Length of the array.
-        \param alignment Bytes alignment.
-    */
-    void init(const u32 length, const u32 alignment) {
+    void init(const u32 length, const u32 alignment) override {
         BaseArray::init(length, sizeof(T), alignment);
         mTStart = static_cast<T*>(mStart);
     };
@@ -96,10 +72,10 @@ public:
         \param destinyIndex Index (of the destiny array) from which to paste the other array.
         \param sourceIndex Index (of the source array) from which to copy.
     */
-    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex){
+    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
         DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-        DE_ASSERT(destinyIndex >= 0 && destinyIndex < this->getLength(), "destinyIndex is out of bounds.");
-        DE_ASSERT(other.getLength() - sourceIndex <= this->getLength() - destinyIndex, "Not enough space to put array.");
+        DE_ASSERT(destinyIndex >= 0 && destinyIndex < ISequentialContainer<T>::getLength(), "destinyIndex is out of bounds.");
+        DE_ASSERT(other.getLength() - sourceIndex <= ISequentialContainer<T>::getLength() - destinyIndex, "Not enough space to put array.");
         BaseArray::put(other.mStart, destinyIndex, sourceIndex, other.getLength());
     };
 
@@ -110,11 +86,11 @@ public:
         \param sourceIndex Index (of the source array) from which to copy.
         \param length Amount of element of the other array to be copied.
     */
-    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length){
+    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
         DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-        DE_ASSERT(destinyIndex >= 0 && destinyIndex < this->getLength(), "destinyIndex is out of bounds.");
+        DE_ASSERT(destinyIndex >= 0 && destinyIndex < ISequentialContainer<T>::getLength(), "destinyIndex is out of bounds.");
         DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-        DE_ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
+        DE_ASSERT(length <= ISequentialContainer<T>::getLength() - destinyIndex, "Not enough space to put array.");
         BaseArray::put(other.mStart, destinyIndex, sourceIndex, length);
     };
 
@@ -124,7 +100,7 @@ public:
         \return Element reference.
     */
     T& operator[](const size_t index) {
-        DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
         return mTStart[index];
     }
 
@@ -134,28 +110,23 @@ public:
         \return Element reference.
     */
 	T operator[](const size_t index) const {
-		DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+		DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
 		return mTStart[index];
 	}
 
-    /*!
-        \param index The index.
-        \return Element at index.
-    */
-    T get(const u32 index) const {
-        DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+    T get(const u32 index) const override {
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
 		return mTStart[index];
     };
 
-    /*!
-        \brief Sets element at index.
-        \param index The index.
-        \param element The element.
-    */
-    void set(const u32 index, const T element){
-        DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+    void set(const u32 index, const T element) override {
+        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
         mTStart[index] = element;
     };
+
+    void clear() override {
+        BaseArray::clear();
+    }
 
 };
 

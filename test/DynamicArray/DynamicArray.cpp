@@ -100,6 +100,12 @@ int main() {
 	expected_uint((*array4)[8],4);
 	expected_uint((*array4)[9],5);
 
+	array4->clear();
+	expected_uint(array4->getLength(),0);
+
+	array5->clear();
+	expected_uint(array5->getLength(),0);
+
 	DE::Memory::free();
 
 	summary();

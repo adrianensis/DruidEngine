@@ -14,7 +14,7 @@ namespace DE {
     \tparam V Value class.
 */
 template <class K, class V>
-class HashMap : public Container {
+class HashMap : public BaseContainer {
 
 private:
 
@@ -36,18 +36,18 @@ private:
     static const u32 smNodeSize = sizeof(Node);
 
     Node* newNode(const K key, const V element){
-        Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
+        Node* node = static_cast<Node*>(BaseContainer::mAllocator->allocate(smNodeSize));
         node->init(key, element);
         return node;
     };
 
     void freeNode(Node* node){
-        mAllocator->free(node);
+        BaseContainer::mAllocator->free(node);
     };
 
     // generic function: arithmetic keys and pointers.
     u64 hash(const u64 key) const {
-        return key % mArray->getLength();
+        return key % mArray->BaseContainer::getLength();
     };
 
     u64 hash(const void* key) const {
@@ -113,8 +113,8 @@ public:
         \brief Constructor.
     */
     void init() {
-        Container::init(0, sizeof(V), 1);
-        mArray = DE::allocate< Array<List<Node*>*> >(*mAllocator);
+        BaseContainer::init(0, sizeof(V), 1);
+        mArray = DE::allocate< Array<List<Node*>*> >(*BaseContainer::mAllocator);
         mArray->init(100);
 
         // check class
@@ -131,7 +131,7 @@ public:
 
         // if there is no list, create it
         if(list == nullptr){
-            list = DE::allocate< List<Node*> >(*mAllocator);
+            list = DE::allocate< List<Node*> >(*BaseContainer::mAllocator);
             list->init();
             mArray->set(hashIndex, list);
         }
@@ -151,7 +151,7 @@ public:
             node->mElement = element;
         else{
             list->pushBack(newNode(key, element));
-            mLength++;
+            BaseContainer::mLength++;
         }
     };
 
@@ -208,9 +208,13 @@ public:
 
         if(found){
             list->remove(index-1);
-            mLength--;
+            BaseContainer::mLength--;
         }else
             DE_ASSERT(false, "Can't find the element with given key.");
+    };
+
+    void clear() override {
+        // TODO: implement
     };
 
 };

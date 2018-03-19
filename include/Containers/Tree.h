@@ -11,7 +11,7 @@ namespace DE {
     \tparam T Talue class.
 */
 template <class T>
-class Tree : public Container {
+class Tree : public BaseContainer {
 
 private:
 
@@ -59,6 +59,10 @@ public:
     };
 
     T remove(const T key) {
+
+    };
+
+    void clear() override {
 
     };
 

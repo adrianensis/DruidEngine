@@ -22,7 +22,7 @@ namespace DE {
 */
 template<class T>
 static T* allocate(Allocator& allocator, const u32 alignment){
-    T* obj = static_cast<T*>(allocator.allocate(sizeof(T), alignment));
+    T* obj = new(allocator.allocate(sizeof(T), alignment)) T;
     return obj;
 };
 
@@ -35,7 +35,7 @@ static T* allocate(Allocator& allocator, const u32 alignment){
 */
 template<class T>
 static T* allocate(Allocator& allocator){
-    T* obj = static_cast<T*>(allocator.allocate(sizeof(T)));
+    T* obj = new(allocator.allocate(sizeof(T))) T;
     return obj;
 };
 
