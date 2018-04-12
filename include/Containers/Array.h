@@ -17,7 +17,21 @@ private:
 
     T* mTStart;
 
+    T& _get(const u32 index) const{
+      DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
+      return mTStart[index];
+    };
+
+    void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+      DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+      DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+      DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+      DE_ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
+    };
+
 public:
+
+    using IArray<T>::put; // because "put" method is ambiguous.
 
     /*!
         \brief Default Constructor.
@@ -66,57 +80,18 @@ public:
         mTStart = static_cast<T*>(mStart);
     };
 
-    /*!
-        \brief Copy an array into other.
-        \param other Other Array.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-    */
     void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
-        DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-        DE_ASSERT(destinyIndex >= 0 && destinyIndex < ISequentialContainer<T>::getLength(), "destinyIndex is out of bounds.");
-        DE_ASSERT(other.getLength() - sourceIndex <= ISequentialContainer<T>::getLength() - destinyIndex, "Not enough space to put array.");
-        BaseArray::put(other.mStart, destinyIndex, sourceIndex, other.getLength());
+        Array::put(other, destinyIndex, sourceIndex, other.getLength());
     };
 
-    /*!
-        \brief Copy an array into other.
-        \param other Other Array.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-        \param length Amount of element of the other array to be copied.
-    */
     void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
-        DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-        DE_ASSERT(destinyIndex >= 0 && destinyIndex < ISequentialContainer<T>::getLength(), "destinyIndex is out of bounds.");
-        DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-        DE_ASSERT(length <= ISequentialContainer<T>::getLength() - destinyIndex, "Not enough space to put array.");
+        this->checkPut(other, destinyIndex, sourceIndex, length);
         BaseArray::put(other.mStart, destinyIndex, sourceIndex, length);
     };
 
-    /*!
-        \brief Can be used for assignment.
-        \param i Index.
-        \return Element reference.
-    */
-    T& operator[](const size_t index) {
-        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
-        return mTStart[index];
-    }
-
-    /*!
-        \brief Read only.
-        \param i Index.
-        \return Element reference.
-    */
-	T operator[](const size_t index) const {
-		DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
-		return mTStart[index];
-	}
-
     T get(const u32 index) const override {
         DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::getLength(), "Index out of bounds.");
-		return mTStart[index];
+        return mTStart[index];
     };
 
     void set(const u32 index, const T element) override {

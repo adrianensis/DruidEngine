@@ -3,14 +3,13 @@
 
 #include "BaseContainer.h"
 #include "Basic.h"
-#include "Allocator.h"
+#include "IAllocator.h"
 
 namespace DE {
 
 class BaseArray : virtual public BaseContainer {
 
 protected:
-
     void* mStart;
 
     void copy(const BaseArray& other);
@@ -23,11 +22,10 @@ protected:
     void put(const void* rawArray, const u32 destinyIndex, const u32 sourceIndex, const u32 length);
 
 public:
-    void clear() override;
-
-public:
     BaseArray();
     ~BaseArray() override;
+
+    void clear() override;
 };
 
 } /* namespace DE */

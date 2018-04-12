@@ -31,7 +31,7 @@ u32 BaseContainer::getAlignment() const {
     return mAlignment;
 };
 
-void BaseContainer::setAllocator(Allocator* allocator){
+void BaseContainer::setAllocator(IAllocator* allocator){
     mAllocator = allocator;
 };
 

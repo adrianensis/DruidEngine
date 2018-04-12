@@ -26,7 +26,7 @@ private:
         Node() = default;
         ~Node() = default;
 
-        void init(Node* parent, const T element, Allocator* allocator, u32 childrenCount) {
+        void init(Node* parent, const T element, IAllocator* allocator, u32 childrenCount) {
             mParent = parent;
             mElement = element;
             mHash = Hash::hash(element);
@@ -38,7 +38,7 @@ private:
         void addChild(Node* node){
             u32 index = Hash::hash(node->mElement) < mHash ? 0 : 1;
 
-            Node* child = mChildren->getLength() == index + 1 ? mChildren->get(index) : nullptr;
+            Node* child = mChildren->get(index);
 
             if(child == nullptr) {
                 node->mParent = this;
@@ -62,8 +62,8 @@ private:
 
     void freeSubTree(Node* node) {
 
-        Node* child0 = node->mChildren->getLength() == 1 ? node->mChildren->get(0) : nullptr;
-        Node* child1 = node->mChildren->getLength() == 2 ? node->mChildren->get(1) : nullptr;
+        Node* child0 = node->mChildren->get(0);
+        Node* child1 = node->mChildren->get(1);
 
         if(child0 != nullptr)
             freeSubTree(child0);
@@ -84,7 +84,7 @@ private:
 
         u32 index = Hash::hash(element) < node->mHash ? 0 : 1;
 
-        Node* child = node->mChildren->getLength() == index + 1 ? node->mChildren->get(index) : nullptr;
+        Node* child = node->mChildren->get(index);
 
         if(element != node->mElement && child == nullptr){
             return nullptr;
@@ -93,13 +93,11 @@ private:
     };
 
     Node* minNode(Node* node){
-        u32 minv = node->mHash;
-        while (node->mChildren->getLength() > 0 && node->mChildren->get(0) != nullptr) {
-            minv = node->mChildren->get(0)->mHash;
-            node = node->mChildren->get(0);
-        }
+        Node* minNode;
+        while (node->mChildren->getLength() > 0 && node->mChildren->get(0) != nullptr)
+            minNode = node->mChildren->get(0);
 
-        return node;
+        return minNode;
     }
 
     Node* mRoot;
@@ -131,8 +129,8 @@ public:
 
         if(node != nullptr){
 
-            Node* child0 = node->mChildren->getLength() == 1 ? node->mChildren->get(0) : nullptr;
-            Node* child1 = node->mChildren->getLength() == 2 ? node->mChildren->get(1) : nullptr;
+            Node* child0 = node->mChildren->get(0);
+            Node* child1 = node->mChildren->get(1);
 
             if(child0 == nullptr && child1 == nullptr){ // 1. If no children
                 mAllocator->free(node->mChildren);
@@ -164,8 +162,6 @@ public:
     };
 
     void clear() override {
-        Node* current = mRoot;
-
         freeSubTree(mRoot);
     };
 

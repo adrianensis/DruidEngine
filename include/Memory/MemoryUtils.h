@@ -1,7 +1,7 @@
 #ifndef MEMORYUTILS_H_
 #define MEMORYUTILS_H_
 
-#include "Allocator.h"
+#include "IAllocator.h"
 #include <typeinfo>
 #include <type_traits>
 
@@ -17,11 +17,11 @@ namespace DE {
     Allocate an object of T class, using the allocator.
 
     \tparam T Class.
-    \param allocator Allocator used to allocate memory.
+    \param allocator IAllocator used to allocate memory.
     \param alignment Bytes alignment.
 */
 template<class T>
-static T* allocate(Allocator& allocator, const u32 alignment){
+static T* allocate(IAllocator& allocator, const u32 alignment){
     T* obj = new(allocator.allocate(sizeof(T), alignment)) T;
     return obj;
 };
@@ -31,10 +31,10 @@ static T* allocate(Allocator& allocator, const u32 alignment){
     Allocate an object of T class, using the allocator.
 
     \tparam T Class
-    \param allocator Allocator used to allocate memory.
+    \param allocator IAllocator used to allocate memory.
 */
 template<class T>
-static T* allocate(Allocator& allocator){
+static T* allocate(IAllocator& allocator){
     T* obj = new(allocator.allocate(sizeof(T))) T;
     return obj;
 };

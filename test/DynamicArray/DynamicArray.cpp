@@ -100,6 +100,11 @@ int main() {
 	expected_uint((*array4)[8],4);
 	expected_uint((*array4)[9],5);
 
+	DE::Array<u32>* array6 = DE::Memory::allocate<Array<u32>>();
+	array6->init(10);
+
+	array6->put(*array4,0,0);
+
 	array4->clear();
 	expected_uint(array4->getLength(),0);
 

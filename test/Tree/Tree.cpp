@@ -6,11 +6,11 @@ using namespace DE;
 int main() {
 
 
-	test(Tree<u32>);
+	test(Tree<i32>);
 
 	DE::Memory::init();
 
-    Tree<u32>* tree = DE::Memory::allocate<Tree<u32>>();
+    Tree<i32>* tree = DE::Memory::allocate<Tree<i32>>();
 
     tree->init();
 
@@ -24,9 +24,15 @@ int main() {
     expected_uint(tree->getLength(),3);
     tree->add(3);
     expected_uint(tree->getLength(),4);
+    tree->add(-1);
+    expected_uint(tree->getLength(),5);
+    tree->add(-2);
+    expected_uint(tree->getLength(),6);
+    tree->add(-3);
+    expected_uint(tree->getLength(),7);
 
     tree->remove(3);
-    expected_uint(tree->getLength(),3);
+    expected_uint(tree->getLength(),6);
 
     tree->clear();
 

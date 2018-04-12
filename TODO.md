@@ -7,7 +7,6 @@
   * Mother of allocators.
   * Allocator of allocators.
   * It's a big linear allocator or free-list.
-* Implement free-list allocator.
 * Memory System
   * At start: allocates big chunk of memory.
     * this block of mem. is where dyn. mem. is allocated by default.
@@ -33,7 +32,13 @@
 ---
 
 ## List
-* refactor internal loop
-* copy constructor
+* Test: put, fill, init(void*), [] operator
+
+---
+
+## Misc.
+* use modern keywords: default, override, final method, final class.
+* Delete memory inside containers.
+* Change asserts by execptions.
 
 ---

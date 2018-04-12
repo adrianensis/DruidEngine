@@ -2,7 +2,7 @@
 #define LIST_H_
 
 #include "ISequentialContainer.h"
-#include "Allocator.h"
+#include "IAllocator.h"
 #include "Basic.h"
 
 namespace DE {
@@ -183,7 +183,7 @@ public:
             return it;
         };
 
-        T get() const {
+        T& get() const {
             DE_ASSERT(mNode != nullptr, "List is empty.");
 
             return mNode->mElement;
@@ -228,6 +228,24 @@ private:
         List::allocate(elementSize, 1);
     };
 
+    T& _get(const u32 index) const{
+      DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
+
+      u32 i = 0;
+      Iterator it = List::getIterator();
+
+      for (; i < index && it.hasNext(); it.next())
+          i++;
+
+      return it.get();
+    };
+
+    void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+      DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+      DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+      DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+    };
+
 public:
 
     List() : ISequentialContainer<T>() {
@@ -260,6 +278,52 @@ public:
         List::init(sizeof(T));
     };
 
+    void init(const void* rawArray, const u32 length) override {
+        const T* typedArray = static_cast<const T*>(rawArray);
+
+        for (u32 i = 0; i < length; i++)
+          List::pushBack(typedArray[i]);
+    };
+
+    void init(const void* rawArray, const u32 length, const u32 alignment) override {
+        List::init(rawArray, length);
+    };
+
+    void fill(const T element) override {
+        if( ! List::isEmpty()){
+            Iterator it = List::getIterator();
+            for (; it.hasNext(); it.next())
+                it.set(element);
+
+            it.set(element);
+        }
+    };
+
+    void put(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+        this->checkPut(other, destinyIndex, sourceIndex, length);
+
+        u32 i = 0;
+        Iterator it = List::getIterator();
+
+        if( ! List::isEmpty()){
+            for (; i < destinyIndex && it.hasNext(); it.next())
+                i++;
+
+            i = 0;
+
+            // update nodes
+            for (; i < length && it.hasNext(); it.next()){
+                it.set(other.get(i));
+                i++;
+            }
+        }
+
+        // create new nodes
+        for (; i < length; i++) {
+          List::pushBack(other.get(i));
+        }
+    };
+
     Iterator getIterator() const{
         return List::getFirst();
     };
@@ -290,9 +354,8 @@ public:
     void clear() override {
         if( ! List::isEmpty()){
             Iterator it = List::getIterator();
-            for (; it.hasNext(); it.next()){
+            for (; it.hasNext(); it.next())
                 List::remove(it);
-            }
 
             List::remove(it); // remove last
         }
@@ -383,16 +446,7 @@ public:
     };
 
     T get(const u32 index) const{
-
-        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
-
-        u32 i = 0;
-        Iterator it = List::getIterator();
-
-        for (; i < index && it.hasNext(); it.next())
-            i++;
-
-        return it.get();
+      return List::_get(index);
     };
 
     void set(const u32 index, const T element){

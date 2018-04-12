@@ -26,21 +26,6 @@ public:
     ~IArray() override = default;
 
     /*!
-        \brief Constructor from raw array.
-        \param rawArray The raw array.
-        \param length The length of the raw array.
-    */
-    virtual void init(const void* rawArray, const u32 length) = 0;
-
-    /*!
-        \brief Constructor from raw array. Aligned.
-        \param rawArray The raw array.
-        \param length The length of the raw array.
-        \param alignment Bytes alignment.
-    */
-    virtual void init(const void* rawArray, const u32 length, const u32 alignment) = 0;
-
-    /*!
         \brief Constructor.
         \param length Length of the array.
     */
@@ -53,11 +38,6 @@ public:
     */
     virtual void init(const u32 length, const u32 alignment) = 0;
 
-    /*!
-        \brief Fill the seq. container with the same element.
-        \param element The element.
-    */
-    virtual void fill(const T element) = 0;
 
 };
 

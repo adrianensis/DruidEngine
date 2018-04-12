@@ -72,7 +72,7 @@ u32 FreeListAllocator::freeBlock(void* unalignedAddress){
     return selectedBlock.size;
 }
 
-FreeListAllocator::FreeListAllocator() : Allocator(){
+FreeListAllocator::FreeListAllocator() : IAllocator(){
 
 }
 
@@ -81,7 +81,7 @@ FreeListAllocator::~FreeListAllocator(){
 }
 
 void FreeListAllocator::init(const u32 size){
-    Allocator::init(size);
+    IAllocator::init(size);
     FreeListAllocator::reset();
 }
 
@@ -92,7 +92,7 @@ void* FreeListAllocator::allocate(const u32 size){
 void* FreeListAllocator::allocate(const u32 size, const u32 alignment){
     Block block = allocateBlock(size+alignment);
     void* unalignedAddress = block.unalignedAddress;
-    return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
+    return IAllocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
 
 void FreeListAllocator::free(const void* pointer){
@@ -101,11 +101,11 @@ void FreeListAllocator::free(const void* pointer){
     u32 freeSize = freeBlock(unalignedAddress);
 
     // reduce mAllocated
-    Allocator::setAllocated(Allocator::getAllocated() - freeSize);
+    IAllocator::setAllocated(IAllocator::getAllocated() - freeSize);
 }
 
 void FreeListAllocator::reset(){
-    Allocator::reset();
+    IAllocator::reset();
 
     mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.01f));
     mUsedBlocks = DE::allocate<List<Block>>(mLinearAllocator);

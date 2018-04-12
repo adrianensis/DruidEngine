@@ -40,7 +40,7 @@ public:
 
     static void init(const u32 size);
 
-    static Allocator& getGlobal();
+    static IAllocator& getGlobal();
 
     template<class T>
     static T* allocate(u32 alignment){

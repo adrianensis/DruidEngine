@@ -4,7 +4,7 @@
 #include "Array.h"
 #include "List.h"
 #include "Basic.h"
-#include "Allocator.h"
+#include "IAllocator.h"
 
 namespace DE {
 
@@ -32,15 +32,21 @@ private:
         }
     }
 
-    T& _get(const u32 i) const{
-        DE_ASSERT(i >= 0, "Index must be greater than 0.");
+    T& _get(const u32 index) const{
+      DE_ASSERT(index >= 0, "Index out of bounds.");
 
-        u32 realIndex = i % smMinSize;
-        u32 arrayIndex = ceil(i/smMinSize);
+        u32 realIndex = index % smMinSize;
+        u32 arrayIndex = ceil(index/smMinSize);
 
         DynamicArray::_updateCache(arrayIndex);
         return (*mCache)[realIndex];
-    }
+    };
+
+    void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+      DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+      DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+      DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+    };
 
 public:
 
@@ -95,7 +101,7 @@ public:
         \param rawArray The raw array.
         \param length The length of the raw array.
     */
-    void init(const void* rawArray, const u32 length) {
+    void init(const void* rawArray, const u32 length) override {
         DynamicArray::init(rawArray, length, 1);
     };
 
@@ -105,7 +111,7 @@ public:
         \param length The length of the raw array.
         \param alignment Bytes alignment.
     */
-    void init(const void* rawArray, const u32 length, const u32 alignment) {
+    void init(const void* rawArray, const u32 length, const u32 alignment) override {
         BaseContainer::setAllocator(&Memory::getGlobal());
         Array<T>* array = DE::allocate<Array<T>>(*ISequentialContainer<T>::mAllocator, alignment);
         array->init(rawArray, length);
@@ -163,75 +169,6 @@ public:
             array->fill(element);
         }
     };
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other Array.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-        \param length Amount of element of the other array to be copied.
-    */
-    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length){
-        DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-        DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-        DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-
-        for (int i = 0; i < length; ++i)
-            (*this)[destinyIndex + i] = other[sourceIndex + i];
-    }
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other DynamicArray.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-        \param length Amount of element of the other array to be copied.
-    */
-    void put(const DynamicArray<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length){
-        DE_ASSERT(sourceIndex >= 0, "sourceIndex must be greater than 0.");
-        DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-
-        for (int i = 0; i < length; ++i)
-            (*this)[destinyIndex + i] = other[sourceIndex + i];
-    };
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other Array.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-    */
-    void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex){
-        DynamicArray::put(other, destinyIndex, sourceIndex, other.getLength());
-    };
-
-    /*!
-        \brief Copy an array into other.
-        \param other Other DynamicArray.
-        \param destinyIndex Index (of the destiny array) from which to paste the other array.
-        \param sourceIndex Index (of the source array) from which to copy.
-    */
-    void put(const DynamicArray<T>& other, const u32 destinyIndex, const u32 sourceIndex){
-        DynamicArray::put(other, destinyIndex, sourceIndex, other.getLength());
-    };
-
-    /*!
-        \brief Can be used for assignment.
-        \param i Index.
-        \return Element reference.
-    */
-    T& operator[](const size_t index) {
-        return DynamicArray::_get(index);
-    };
-
-    /*!
-        \brief Read only.
-        \param i Index.
-        \return Element reference.
-    */
-	T operator[](const size_t index) const {
-        return DynamicArray::_get(index);
-	}
 
     /*!
         \param index The index.

@@ -2,7 +2,7 @@
 
 namespace DE {
 
-LinearAllocator::LinearAllocator() : Allocator(){
+LinearAllocator::LinearAllocator() : IAllocator(){
 
 }
 
@@ -11,7 +11,7 @@ LinearAllocator::~LinearAllocator(){
 }
 
 void LinearAllocator::init(const u32 size){
-    Allocator::init(size);
+    IAllocator::init(size);
 }
 
 void* LinearAllocator::allocate(const u32 size){
@@ -19,7 +19,7 @@ void* LinearAllocator::allocate(const u32 size){
 }
 
 void* LinearAllocator::allocate(const u32 size, const u32 alignment){
-    return Allocator::allocateAlignedAddress(mStart + Allocator::getAllocated(), size, alignment);
+    return IAllocator::allocateAlignedAddress(mStart + IAllocator::getAllocated(), size, alignment);
 }
 
 void LinearAllocator::free(const void* pointer){
@@ -27,7 +27,7 @@ void LinearAllocator::free(const void* pointer){
 }
 
 void LinearAllocator::reset(){
-    Allocator::reset();
+    IAllocator::reset();
 }
 
 } /* namespace DE */
