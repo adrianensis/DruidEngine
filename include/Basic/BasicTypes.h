@@ -9,6 +9,9 @@ using ptr = std::uintptr_t;
 using ptrdiff = std::ptrdiff_t;
 
 using f32 = float;
+using f64 = double;
+
+using c8 = char;
 
 using i8 = std::int8_t;
 using i16 = std::int16_t;

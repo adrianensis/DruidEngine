@@ -1,8 +1,4 @@
 bin/
 lib/
 build/
-.settings/
-.cproject
-.project
-cmake-build-debug/
-.idea/
+test_output/
