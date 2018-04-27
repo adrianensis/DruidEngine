@@ -13,7 +13,7 @@ namespace DE {
     \tparam Elements class.
 */
 template <class T>
-class DynamicArray : public IArray<T> {
+class DynamicArray : public SequentialContainer<T>{
 
 template <class K, class V>
 friend class HashMap; // Friend Class
@@ -42,7 +42,7 @@ private:
         return (*mCache)[realIndex];
     };
 
-    void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+    void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
       DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
       DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
       DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
@@ -53,7 +53,7 @@ public:
     /*!
         \brief Default Constructor.
     */
-    DynamicArray() : IArray<T>(){
+    DynamicArray() : SequentialContainer<T>(){
 
     };
 
@@ -67,8 +67,8 @@ public:
         \param other Other DynamicArray.
     */
     void init(const DynamicArray<T>& other){
-        BaseContainer::init(other.ISequentialContainer<T>::mLength, other.mElementSize, other.ISequentialContainer<T>::mAlignment);
-        mArrays = DE::allocate< List<Array<T>*> >(*ISequentialContainer<T>::mAllocator); // TODO: change ISequentialContainer<T>::mAllocator for Memory::allocate();
+        BaseContainer::init(other.SequentialContainer<T>::mLength, other.mElementSize, other.SequentialContainer<T>::mAlignment);
+        mArrays = DE::allocate< List<Array<T>*> >(*SequentialContainer<T>::mAllocator); // TODO: change SequentialContainer<T>::mAllocator for Memory::allocate();
         mArrays->init(*(other.mArrays));
     };
 
@@ -113,7 +113,7 @@ public:
     */
     void init(const void* rawArray, const u32 length, const u32 alignment) override {
         BaseContainer::setAllocator(&Memory::getGlobal());
-        Array<T>* array = DE::allocate<Array<T>>(*ISequentialContainer<T>::mAllocator, alignment);
+        Array<T>* array = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, alignment);
         array->init(rawArray, length);
         DynamicArray::init(*array);
     };
@@ -142,14 +142,14 @@ public:
         BaseContainer::init(length, sizeof(T), alignment);
 
         // list of arrays
-        mArrays = DE::allocate< List<Array<T>*> >(*ISequentialContainer<T>::mAllocator); // TODO: change ISequentialContainer<T>::mAllocator for Memory::allocate();
+        mArrays = DE::allocate< List<Array<T>*> >(*SequentialContainer<T>::mAllocator); // TODO: change SequentialContainer<T>::mAllocator for Memory::allocate();
         mArrays->init();
 
         // how many arrays are needed.
         u32 arrayCount = ceil(length/smMinSize) + 1;
 
         for (u32 i = 0; i < arrayCount; i++) {
-            Array<T>* newArray = DE::allocate<Array<T>>(*ISequentialContainer<T>::mAllocator, ISequentialContainer<T>::mAlignment);
+            Array<T>* newArray = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, SequentialContainer<T>::mAlignment);
             newArray->init(smMinSize);
 
             mArrays->pushBack(newArray);
@@ -186,13 +186,13 @@ public:
     void set(const u32 index, const T element){
         // resize
         if(index >= mArrays->getLength()*smMinSize){
-            Array<T>* newArray = DE::allocate<Array<T>>(*ISequentialContainer<T>::mAllocator, ISequentialContainer<T>::mAlignment);
+            Array<T>* newArray = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, SequentialContainer<T>::mAlignment);
             newArray->init(smMinSize);
 
             mArrays->pushBack(newArray);
         }
 
-        ISequentialContainer<T>::mLength = std::max(index + 1, ISequentialContainer<T>::mLength); // save the max index accessed
+        SequentialContainer<T>::mLength = std::max(index + 1, SequentialContainer<T>::mLength); // save the max index accessed
 
         (*this)[index] = element;
     };
@@ -203,7 +203,7 @@ public:
         auto it = mArrays->getIterator();
 
         for (; !it.isNull(); it.next())
-            ISequentialContainer<T>::mAllocator->free(it.get());
+            SequentialContainer<T>::mAllocator->free(it.get());
 
         mArrays->clear();
 

@@ -1,7 +1,6 @@
 #ifndef MATRIX4_H_
 #define MATRIX4_H_
 
-#include "Basic.h"
 #include "Array.h"
 
 namespace DE {

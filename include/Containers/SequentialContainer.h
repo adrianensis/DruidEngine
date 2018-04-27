@@ -1,17 +1,15 @@
-#ifndef ISEQUENTIALCONTAINER_H_
-#define ISEQUENTIALCONTAINER_H_
+#ifndef SequentialContainer_H_
+#define SequentialContainer_H_
 
-#include "Basic.h"
-#include "IAllocator.h"
 #include "BaseContainer.h"
 
 namespace DE {
 
 /*!
-    \brief ISequentialContainer.
+    \brief SequentialContainer.
 */
 template<class T>
-class ISequentialContainer : virtual public BaseContainer {
+class SequentialContainer : public BaseContainer {
 
 protected:
 
@@ -24,21 +22,21 @@ protected:
     /*!
         \brief Check boundaries on put method.
     */
-    virtual void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) = 0;
+    virtual void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) = 0;
 
 public:
 
     /*!
         \brief Default Constructor.
     */
-    ISequentialContainer() : BaseContainer(){
+    SequentialContainer() : BaseContainer(){
 
     };
 
     /*!
         \brief Destructor.
     */
-    ~ISequentialContainer() override = default;
+    ~SequentialContainer() = default;
 
     /*!
         \param index The index.
@@ -69,6 +67,19 @@ public:
     virtual void init(const void* rawArray, const u32 length, const u32 alignment) = 0;
 
     /*!
+        \brief Constructor.
+        \param length Length of the array.
+    */
+    virtual void init(const u32 length) = 0;
+
+    /*!
+        \brief Constructor. Aligned.
+        \param length Length of the array.
+        \param alignment Bytes alignment.
+    */
+    virtual void init(const u32 length, const u32 alignment) = 0;
+
+    /*!
         \brief Fill the seq. container with the same element.
         \param element The element.
     */
@@ -80,7 +91,7 @@ public:
         \param destinyIndex Index (of the destiny array) from which to paste the other array.
         \param sourceIndex Index (of the source array) from which to copy.
     */
-    void put(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
+    void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
         this->put(other, destinyIndex, sourceIndex, other.getLength());
     };
 
@@ -90,7 +101,7 @@ public:
         \param destinyIndex Index (of the destiny array) from which to paste the other array.
         \param sourceIndex Index (of the source array) from which to copy.
     */
-    virtual void put(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
+    virtual void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
       this->checkPut(other, destinyIndex, sourceIndex, length);
 
       for (u32 i = 0; i < length; ++i)
@@ -118,4 +129,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* ISEQUENTIALCONTAINER_H_ */
+#endif /* SequentialContainer_H_ */

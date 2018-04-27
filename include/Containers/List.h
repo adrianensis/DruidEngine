@@ -1,14 +1,14 @@
 #ifndef LIST_H_
 #define LIST_H_
 
-#include "ISequentialContainer.h"
+#include "SequentialContainer.h"
 #include "IAllocator.h"
 #include "Basic.h"
 
 namespace DE {
 
 template <class T>
-class List : public ISequentialContainer<T> {
+class List : public SequentialContainer<T>{
 
 friend class Iterator;
 
@@ -42,12 +42,12 @@ private:
     static const u32 smNodeSize = sizeof(Node);
 
     Node* newNode(){
-        Node* node = static_cast<Node*>(ISequentialContainer<T>::mAllocator->allocate(smNodeSize));
+        Node* node = static_cast<Node*>(SequentialContainer<T>::mAllocator->allocate(smNodeSize));
         return node;
     };
 
     void freeNode(Node* node){
-        ISequentialContainer<T>::mAllocator->free(node);
+        SequentialContainer<T>::mAllocator->free(node);
     };
 
     Node* mFirst;
@@ -221,15 +221,15 @@ public:
 private:
 
     void allocate(u32 elementSize, const u32 alignment) {
-        BaseContainer::init(0, elementSize, alignment); // ISequentialContainer<T>::mLength = 0
+        BaseContainer::init(0, elementSize, alignment); // SequentialContainer<T>::mLength = 0
     };
 
-    void init(u32 elementSize) {
+    void _init(u32 elementSize) {
         List::allocate(elementSize, 1);
     };
 
     T& _get(const u32 index) const{
-      DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
+      DE_ASSERT(index >= 0 && index < SequentialContainer<T>::mLength, "Index out of bounds.");
 
       u32 i = 0;
       Iterator it = List::getIterator();
@@ -240,7 +240,7 @@ private:
       return it.get();
     };
 
-    void checkPut(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+    void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
       DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
       DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
       DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
@@ -248,7 +248,7 @@ private:
 
 public:
 
-    List() : ISequentialContainer<T>() {
+    List() : SequentialContainer<T>() {
         mFirst = nullptr;
         mLast = nullptr;
     };
@@ -275,7 +275,7 @@ public:
         \brief Constructor. Empty List.
     */
     void init() {
-        List::init(sizeof(T));
+        List::_init(sizeof(T));
     };
 
     void init(const void* rawArray, const u32 length) override {
@@ -289,6 +289,14 @@ public:
         List::init(rawArray, length);
     };
 
+    void init(const u32 length) override {
+        List::init();
+    };
+
+    void init(const u32 length, const u32 alignment) override {
+        List::init();
+    };
+
     void fill(const T element) override {
         if( ! List::isEmpty()){
             Iterator it = List::getIterator();
@@ -299,7 +307,7 @@ public:
         }
     };
 
-    void put(const ISequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+    void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
         this->checkPut(other, destinyIndex, sourceIndex, length);
 
         u32 i = 0;
@@ -348,7 +356,7 @@ public:
     };
 
     bool isEmpty() const{
-        return ISequentialContainer<T>::mLength == 0;
+        return SequentialContainer<T>::mLength == 0;
     };
 
     void clear() override {
@@ -377,7 +385,7 @@ public:
 
         mFirst = node;
 
-        ISequentialContainer<T>::mLength++;
+        SequentialContainer<T>::mLength++;
 
     };
 
@@ -393,7 +401,7 @@ public:
 
         mLast = node;
 
-        ISequentialContainer<T>::mLength++;
+        SequentialContainer<T>::mLength++;
 
     };
 
@@ -402,7 +410,7 @@ public:
         T* element = nullptr;
 
         if( ! List::isEmpty()){
-            ISequentialContainer<T>::mLength--;
+            SequentialContainer<T>::mLength--;
 
             element = &mFirst->mElement;
             Node* old = mFirst;
@@ -426,7 +434,7 @@ public:
         T* element = nullptr;
 
         if( ! List::isEmpty()){
-            ISequentialContainer<T>::mLength--;
+            SequentialContainer<T>::mLength--;
 
             element = &mLast->mElement;
             Node* old = mLast;
@@ -450,7 +458,7 @@ public:
     };
 
     void set(const u32 index, const T element){
-        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < SequentialContainer<T>::mLength, "Index out of bounds.");
 
         u32 i = 0;
         Iterator it = List::getIterator();
@@ -484,10 +492,10 @@ public:
 
     void remove(u32 index){
 
-        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < SequentialContainer<T>::mLength, "Index out of bounds.");
 
         if( ! List::isEmpty()){
-            // ISequentialContainer<T>::mLength--;
+            // SequentialContainer<T>::mLength--;
 
             u32 i = 0;
             Iterator it = List::getIterator();
@@ -503,7 +511,7 @@ public:
     void remove(Iterator& it){
 
         if( ! List::isEmpty()){
-            ISequentialContainer<T>::mLength--;
+            SequentialContainer<T>::mLength--;
 
             Node* prev = it.mNode->mPrev;
             Node* next = it.mNode->mNext;
@@ -535,9 +543,9 @@ public:
 
     void insert(u32 index, T element){
 
-        DE_ASSERT(index >= 0 && index < ISequentialContainer<T>::mLength, "Index out of bounds.");
+        DE_ASSERT(index >= 0 && index < SequentialContainer<T>::mLength, "Index out of bounds.");
 
-        // ISequentialContainer<T>::mLength++;
+        // SequentialContainer<T>::mLength++;
 
         // TODO refactor loop
         u32 i = 0;
@@ -561,7 +569,7 @@ public:
             node->mPrev = it.mNode->mPrev;
             node->mNext = it.mNode;
 
-            ISequentialContainer<T>::mLength++;
+            SequentialContainer<T>::mLength++;
         }else
             List::pushFront(element);
     };
