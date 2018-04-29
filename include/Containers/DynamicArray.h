@@ -4,7 +4,7 @@
 #include "Array.h"
 #include "List.h"
 #include "Basic.h"
-#include "IAllocator.h"
+#include "Allocator.h"
 
 namespace DE {
 
@@ -32,7 +32,7 @@ private:
         }
     }
 
-    T& _get(const u32 index) const{
+    T& randomAccessOperator(const u32 index) const{
       DE_ASSERT(index >= 0, "Index out of bounds.");
 
         u32 realIndex = index % smMinSize;
@@ -175,7 +175,7 @@ public:
         \return Element at index.
     */
     T get(const u32 index) const{
-        return DynamicArray::_get(index);
+        return DynamicArray::randomAccessOperator(index);
     };
 
     /*!

@@ -1,4 +1,4 @@
-#include "IAllocator.h"
+#include "Allocator.h"
 #include <cstring>
 
 namespace DE {
@@ -11,11 +11,11 @@ namespace DE {
  * new offset = offset + padding = offset + (align - (offset mod align)) mod align
  */
 
-void IAllocator::checkAllocate(const u32 size) const {
+void Allocator::checkAllocate(const u32 size) const {
     DE_ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 }
 
-void IAllocator::checkAlignment(const u32 alignment) const {
+void Allocator::checkAlignment(const u32 alignment) const {
     // Because we need at least, 1 byte for adjustment storage.
     DE_ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
 
@@ -26,11 +26,11 @@ void IAllocator::checkAlignment(const u32 alignment) const {
     DE_ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 }
 
-void IAllocator::checkFree() const {
+void Allocator::checkFree() const {
     DE_ASSERT(mAllocated > 0, "Allocated memory is 0.");
 }
 
-void* IAllocator::calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const {
+void* Allocator::calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const {
 
     /*
 
@@ -96,7 +96,7 @@ void* IAllocator::calculateAlignedAddress(const void* unalignedAddress, const u3
     return static_cast<void*>(u8Array);
 }
 
-void* IAllocator::calculateUnalignedAddress(const void* alignedAddress) const {
+void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
 
     const u8* u8Array = reinterpret_cast<const u8*>(alignedAddress);
     ptr _alignedAddress = reinterpret_cast<ptr>(alignedAddress);
@@ -106,72 +106,72 @@ void* IAllocator::calculateUnalignedAddress(const void* alignedAddress) const {
     return reinterpret_cast<void*>(unalignedAddress);
 }
 
-void* IAllocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, const u32 alignment) {
+void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, const u32 alignment) {
     u32 expandedSize = size + alignment;
 
-    IAllocator::checkAllocate(expandedSize);
+    Allocator::checkAllocate(expandedSize);
 
-    IAllocator::checkAlignment(alignment);
+    Allocator::checkAlignment(alignment);
 
     // Game Engine Architecture 2ed, page 246.
 
-    IAllocator::setAllocated(IAllocator::getAllocated() + expandedSize);
+    Allocator::setAllocated(Allocator::getAllocated() + expandedSize);
 
     // Allocate unaligned block & convert address to uintptr_t.
-    return IAllocator::calculateAlignedAddress(unalignedAddress, alignment);
+    return Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 }
 
-void IAllocator::setAllocated(const u32 size){
+void Allocator::setAllocated(const u32 size){
     mAllocated = size;
 }
 
-void IAllocator::clean(void *mem, const u32 size) {
+void Allocator::clean(void *mem, const u32 size) {
     // clean memory block
     std::memset(mem, 0, size);
 }
 
-IAllocator::IAllocator() : DE_Class(){
+Allocator::Allocator() : DE_Class(){
     mStart = nullptr;
 }
 
-IAllocator::~IAllocator(){
+Allocator::~Allocator(){
     delete mStart;
     mStart = nullptr;
 }
 
-u32 IAllocator::getSize() const {
+u32 Allocator::getSize() const {
     return mTotalSize;
 }
 
-u32 IAllocator::getAllocated() const {
+u32 Allocator::getAllocated() const {
     return mAllocated;
 }
 
-bool IAllocator::hasSpace(const u32 size) const {
+bool Allocator::hasSpace(const u32 size) const {
     return (mTotalSize-mAllocated) >= size;
 }
 
-void IAllocator::_init(void* mem) {
-    // Only must delete when IAllocator is destroyed. See ~IAllocator()
+void Allocator::_init(void* mem) {
+    // Only must delete when Allocator is destroyed. See ~Allocator()
 
     mStart = mem;
 }
 
-void IAllocator::init(const u32 size) {
+void Allocator::init(const u32 size) {
     initFromMemory(size, ::operator new (size));
 }
 
-void IAllocator::initFromMemory(const u32 size, void* mem) {
+void Allocator::initFromMemory(const u32 size, void* mem) {
     mTotalSize = size;
 
     _init(mem);
 
-    IAllocator::reset();
+    Allocator::reset();
 }
 
-void IAllocator::reset() {
+void Allocator::reset() {
     mAllocated = 0;
-    IAllocator::clean(mStart, mTotalSize);
+    Allocator::clean(mStart, mTotalSize);
 }
 
 } /* namespace DE */

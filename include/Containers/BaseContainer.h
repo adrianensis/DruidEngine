@@ -2,7 +2,7 @@
 #define BASECONTAINER_H_
 
 #include "Basic.h"
-#include "IAllocator.h"
+#include "Allocator.h"
 
 namespace DE {
 
@@ -16,7 +16,7 @@ protected:
     u32 mLength;
     u32 mElementSize;
     u32 mAlignment;
-    IAllocator* mAllocator;
+    Allocator* mAllocator;
 
     void init(const u32 length, const u32 elementSize, const u32 alignment);
 
@@ -49,9 +49,9 @@ public:
 
     /*!
         \brief Sets the allocator.
-        \param allocator Pointer to IAllocator.
+        \param allocator Pointer to Allocator.
     */
-    void setAllocator(IAllocator* allocator);
+    void setAllocator(Allocator* allocator);
 
     /*!
         \brief Clear the container.

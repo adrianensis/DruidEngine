@@ -21,7 +21,7 @@ void Memory::init(const u32 size){
     smGlobal.init(size);
 };
 
-IAllocator& Memory::getGlobal(){
+Allocator& Memory::getGlobal(){
     return smGlobal;
 }
 

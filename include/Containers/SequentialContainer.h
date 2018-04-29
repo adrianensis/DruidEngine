@@ -17,7 +17,7 @@ protected:
         \param index The index.
         \return Reference to Element at index.
     */
-    virtual T& _get(const u32 index) const = 0;
+    virtual T& randomAccessOperator(const u32 index) const = 0;
 
     /*!
         \brief Check boundaries on put method.
@@ -114,7 +114,7 @@ public:
         \return Element reference.
     */
     T& operator[](const size_t index) {
-        return this->_get(index);
+        return this->randomAccessOperator(index);
     };
 
     /*!
@@ -123,7 +123,7 @@ public:
         \return Element reference.
     */
   	T operator[](const size_t index) const {
-          return this->_get(index);
+          return this->randomAccessOperator(index);
   	}
 };
 

@@ -1,5 +1,5 @@
-#ifndef IALLOCATOR_H_
-#define IALLOCATOR_H_
+#ifndef Allocator_H_
+#define Allocator_H_
 
 #include "Assert.h"
 #include "Basic.h"
@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Manages memory allocation.
 */
-class IAllocator : public DE_Class {
+class Allocator : public DE_Class {
 
 protected:
 
@@ -32,12 +32,12 @@ public:
     /*!
         \brief Default Constructor.
     */
-    IAllocator();
+    Allocator();
 
     /*!
         \brief Destructor.
     */
-    virtual ~IAllocator();
+    virtual ~Allocator();
 
     /*!
         \return Total size.
@@ -98,4 +98,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* IALLOCATOR_H_ */
+#endif /* Allocator_H_ */

@@ -26,7 +26,7 @@ private:
         Node() = default;
         ~Node() = default;
 
-        void init(Node* parent, const T element, IAllocator* allocator, u32 childrenCount) {
+        void init(Node* parent, const T element, Allocator* allocator, u32 childrenCount) {
             mParent = parent;
             mElement = element;
             mHash = Hash::hash(element);

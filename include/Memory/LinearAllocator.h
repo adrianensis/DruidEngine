@@ -1,7 +1,7 @@
 #ifndef LINEARALLOCATOR_H_
 #define LINEARALLOCATOR_H_
 
-#include "IAllocator.h"
+#include "Allocator.h"
 #include "Basic.h"
 
 namespace DE {
@@ -9,7 +9,7 @@ namespace DE {
 /*!
     \brief Allocates memory in a linear way. The whole memory is freed in one shot.
 */
-class LinearAllocator : public IAllocator {
+class LinearAllocator : public Allocator {
 
 public:
 

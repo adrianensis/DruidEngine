@@ -18,7 +18,7 @@ private:
     T* mTStart;
     void* mStart;
 
-    T& _get(const u32 index) const{
+    T& randomAccessOperator(const u32 index) const{
       DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
       return mTStart[index];
     };

@@ -13,7 +13,7 @@
 #include "Matrix4.h"
 #include "Quaternion.h"
 #include "Memory.h"
-#include "IAllocator.h"
+#include "Allocator.h"
 #include "LinearAllocator.h"
 #include "StackAllocator.h"
 #include "PoolAllocator.h"

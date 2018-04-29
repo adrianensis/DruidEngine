@@ -10,7 +10,7 @@ namespace DE {
 /*!
     \brief List of memory blocks.
 */
-class FreeListAllocator : public IAllocator {
+class FreeListAllocator : public Allocator {
 
 private:
 

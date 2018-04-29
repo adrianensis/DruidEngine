@@ -42,7 +42,7 @@ int main() {
 	}
 
 	DE::DynamicArray<u32>* array2 = DE::Memory::allocate<DynamicArray<u32>>();
-	size = 657;
+	size = 457;
 	array2->init(size);
 
 	for (u32 i = 0; i < size; ++i) {
@@ -104,6 +104,14 @@ int main() {
 	array6->init(10);
 
 	array6->put(*array4,0,0);
+
+	for (u32 i = 0; i < 5; ++i) {
+		expected_uint((*array6)[i],i+1);
+	}
+
+	for (u32 i = 5; i < 10; ++i) {
+		expected_uint((*array6)[i],i+1 - 5);
+	}
 
 	array4->clear();
 	expected_uint(array4->getLength(),0);

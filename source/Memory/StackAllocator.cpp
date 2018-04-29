@@ -59,7 +59,7 @@ void StackAllocator::free(const void* pointer){
 }
 
 void StackAllocator::free(){
-    IAllocator::checkFree();
+    Allocator::checkFree();
 
     // read header
     u32* u32Array = reinterpret_cast<u32*>(mTop);
@@ -67,12 +67,12 @@ void StackAllocator::free(){
     u32 size = u32Array[-1];
 
     // reduce mAllocated
-    IAllocator::setAllocated(IAllocator::getAllocated() - smHeaderSize - size);
+    Allocator::setAllocated(Allocator::getAllocated() - smHeaderSize - size);
 
     // clean memory block
     std::memset(mTop, 0, size);
 
-    mTop = calculateUnalignedAddress(mStart + IAllocator::getAllocated());
+    mTop = calculateUnalignedAddress(mStart + Allocator::getAllocated());
 }
 
 void StackAllocator::reset(){
