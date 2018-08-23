@@ -21,7 +21,6 @@ private:
         Node* mParent;
         T mElement;
         Array<Node*>* mChildren;
-        u64 mHash;
 
         Node() = default;
         ~Node() = default;
@@ -29,14 +28,13 @@ private:
         void init(Node* parent, const T element, Allocator* allocator, u32 childrenCount) {
             mParent = parent;
             mElement = element;
-            mHash = Hash::hash(element);
             mChildren = DE::allocate< Array<Node*> >(*allocator);
             mChildren->init(childrenCount);
         };
 
 
         void addChild(Node* node){
-            u32 index = Hash::hash(node->mElement) < mHash ? 0 : 1;
+            u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
 
             Node* child = mChildren->get(index);
 
@@ -46,6 +44,13 @@ private:
             } else
                 child->addChild(node);
         };
+
+        void removeChild(Node* node){
+            u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
+
+            mChildren->get(index)->mParent = nullptr;
+            mChildren->set(index,nullptr);
+        }
     };
 
     static const u32 smNodeSize = sizeof(Node);
@@ -61,7 +66,6 @@ private:
     };
 
     void freeSubTree(Node* node) {
-
         Node* child0 = node->mChildren->get(0);
         Node* child1 = node->mChildren->get(1);
 
@@ -71,6 +75,9 @@ private:
         if(child1 != nullptr)
             freeSubTree(child1);
 
+        node->mChildren->set(0, nullptr);
+        node->mChildren->set(1, nullptr);
+
         // mAllocator->free(node->mChildren);
         // mAllocator->free(node);
 
@@ -78,27 +85,19 @@ private:
     };
 
     Node* find(const T element, Node* node){
-
-        if(element == node->mElement)
+        if(element == node->mElement){
             return node;
+        }
 
-        u32 index = Hash::hash(element) < node->mHash ? 0 : 1;
+        u32 index = Hash::hash(element) < Hash::hash(node->mElement) ? 0 : 1;
 
         Node* child = node->mChildren->get(index);
 
-        if(element != node->mElement && child == nullptr){
+        if(child == nullptr){
             return nullptr;
         }else
             return find(element, child);
     };
-
-    Node* minNode(Node* node){
-        Node* minNode;
-        while (node->mChildren->getLength() > 0 && node->mChildren->get(0) != nullptr)
-            minNode = node->mChildren->get(0);
-
-        return minNode;
-    }
 
     Node* mRoot;
     static const u32 mChildrenCount = 2;
@@ -132,29 +131,48 @@ public:
             Node* child0 = node->mChildren->get(0);
             Node* child1 = node->mChildren->get(1);
 
-            if(child0 == nullptr && child1 == nullptr){ // 1. If no children
-                mAllocator->free(node->mChildren);
-                mAllocator->free(node);
+            // 3 cases: a, b, c.
 
-            }else if(child0 != nullptr && child1 == nullptr){ // 2.0. If only 1 child
-                node->mParent->mChildren->set(0, child0);
+            if(child0 == nullptr && child1 == nullptr){ // a) If no children
+                // mAllocator->free(node->mChildren);
+                // mAllocator->free(node);
 
-            }else if(child0 == nullptr && child1 != nullptr){ // 2.1. If only 1 child
-                node->mParent->mChildren->set(1, child1);
+                Node* parent = node->mParent;
+                node->mParent = nullptr;
 
-            }else{ // 3. If 2 children
+                if(parent != nullptr){
+                  parent->removeChild(node);
+                }else{ // Is the root!
+                  mRoot = nullptr;
+                }
 
-                Node* suc = minNode(node->mChildren->get(1)); // inorderSuccessor
+            }else if(child0 != nullptr && child1 != nullptr){ // b) If 2 children
+                Node* inorderSuccessor; // inorderSuccessor
+                Node* inorderSuccessorParent = node->mChildren->get(1);
+                while (inorderSuccessorParent->mChildren->getLength() > 0 && inorderSuccessorParent->mChildren->get(0) != nullptr){
+                    inorderSuccessor = inorderSuccessorParent->mChildren->get(0);
+                    inorderSuccessorParent = inorderSuccessor;
+                }
 
-                node->mHash = suc->mHash;
-                node->mElement = suc->mElement;
+                inorderSuccessorParent->mChildren->set(0,nullptr);
 
-                remove(suc->mElement);
-            }
+                node->mElement = inorderSuccessor->mElement;
 
-            if(node->mParent != nullptr){
-                u32 index = node->mHash < node->mParent->mHash ? 0 : 1;
-                node->mParent->mChildren->set(index,nullptr);
+                // TODO: delete inorderSuccessor node
+
+            }else{ // c) If only 1 child
+              Node* child = child0 != nullptr ? child0 : child1;
+              Node* parent = node->mParent;
+              node->mParent = nullptr;
+
+              if(parent != nullptr){
+                parent->removeChild(node);
+                parent->addChild(child);
+              }else{ // Is the root!
+                child->mParent = nullptr;
+                mRoot = child;
+              }
+
             }
 
             mLength--;
@@ -162,7 +180,10 @@ public:
     };
 
     void clear() override {
+      if(mLength > 0){
         freeSubTree(mRoot);
+      }
+      mRoot = nullptr;
     };
 
 };
