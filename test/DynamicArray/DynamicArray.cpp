@@ -123,7 +123,7 @@ int main() {
 	DE::Memory::free<DynamicArray<u32>>(array1);
 	DE::Memory::free<DynamicArray<u32>>(array2);
 	DE::Memory::free<DynamicArray<u32>>(array3);
-	//DE::Memory::free<DynamicArray<u32>>(copy);
+	DE::Memory::free<DynamicArray<u32>>(copy);
 	DE::Memory::free<DynamicArray<u32>>(array4);
 	DE::Memory::free<DynamicArray<u32>>(array5);
 	DE::Memory::free<Array<u32>>(array6);

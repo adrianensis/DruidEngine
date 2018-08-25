@@ -401,10 +401,8 @@ public:
   void clear() override {
     if( ! List::isEmpty()){
       Iterator it = List::getIterator();
-      for (; it.hasNext(); it.next())
+      for (; !it.isNull(); it.next())
         List::remove(it);
-
-      List::remove(it); // remove last
     }
 
     mFirst = nullptr;

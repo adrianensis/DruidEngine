@@ -10,10 +10,9 @@ public:
 
 int main() {
 
+	DE::Memory::init();
 
 	test(DE::List<Test>);
-
-	DE::Memory::init();
 
 	List<Array<u32>*>* mArrays = DE::Memory::allocate< List<Array<u32>*> >();
 	Array<u32>* newArray = DE::Memory::allocate<Array<u32>>();

@@ -4,10 +4,9 @@ using namespace DE;
 
 int main() {
 
+	DE::Memory::init();
 
 	test(DE::List<u32>);
-
-	DE::Memory::init();
 
 	DE::List<u32>* list = DE::Memory::allocate<List<u32>>();
 	list->init();

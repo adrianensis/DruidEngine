@@ -71,10 +71,10 @@ int main() {
 	expected_float(a.angle(a), 0.0);
 	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0))*(180/M_PI), 90);
 	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0))*(180/M_PI), 90);
-	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0))*(180/M_PI), 45);
-	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0))*(180/M_PI), 45);
-	expected_float(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0))*(180/M_PI), 45);
-	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0))*(180/M_PI), 180);
+	expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0))*(180/M_PI), 45, 0.00001f);
+	expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0))*(180/M_PI), 45, 0.00001f);
+	expected_float_eps(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0))*(180/M_PI), 45, 0.00001f);
+	expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0))*(180/M_PI), 180, 0.00001f);
 	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1))*(180/M_PI), 135);
 	expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1))*(180/M_PI), 135);
 

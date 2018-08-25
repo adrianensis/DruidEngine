@@ -5,11 +5,11 @@ using namespace DE;
 
 int main() {
 
+	DE::Memory::init();
+
 	using HashMapu32u32 = HashMap<u32,u32>;
 
 	test(HashMapu32u32);
-
-	DE::Memory::init();
 
 	DE::HashMap<u32,u32>* map = DE::Memory::allocate<HashMap<u32,u32>>();
 

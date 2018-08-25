@@ -34,10 +34,11 @@ for f in $(ls)
 do
 		if [ ${f: -4} != ".txt" ]
 		then
-			array+=($f)
+			# array+=($f)
+			runTest $f
 		fi
 done
 
-parallel -j 4 runTest ::: "${array[@]}"
+# parallel -j 4 runTest ::: "${array[@]}"
 
 printf "\n"

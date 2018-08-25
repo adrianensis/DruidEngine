@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 # project name
 set(DRUID druid)
@@ -9,6 +9,7 @@ project(${DRUID})
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG -std=c++14 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -Wall -O3 -ffast-math -mavx")
 
+message("Compiler: ${CMAKE_CXX_COMPILER}")
 message("Release: ${CMAKE_CXX_FLAGS_RELEASE}")
 message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 

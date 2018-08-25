@@ -5,10 +5,9 @@ using namespace DE;
 
 int main() {
 
+	DE::Memory::init();
 
 	test(Tree<i32>);
-
-	DE::Memory::init();
 
 	Tree<i32>* tree = DE::Memory::allocate<Tree<i32>>();
 

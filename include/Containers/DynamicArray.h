@@ -78,9 +78,18 @@ public:
     \param other Other DynamicArray.
   */
   void init(const DynamicArray<T>& other){
-    BaseContainer::init(other.SequentialContainer<T>::mLength, other.mElementSize, other.SequentialContainer<T>::mAlignment);
+    BaseContainer::init(other.BaseContainer::mLength, other.mElementSize, other.BaseContainer::mAlignment);
     mArrays = Memory::allocate< List<Array<T>*> >();
-    mArrays->init(*(other.mArrays));
+    mArrays->init();
+
+    auto it = other.mArrays->getIterator();
+
+    for (; !it.isNull(); it.next()){
+      Array<T>* otherArray = it.get();
+      Array<T>* array = Memory::allocate<Array<T>>();
+      array->init(*otherArray);
+      mArrays->pushBack(array);
+    }
   };
 
   /*!
