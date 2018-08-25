@@ -5,6 +5,7 @@
 #include "List.h"
 #include "Basic.h"
 #include "Allocator.h"
+#include "Memory.h"
 
 namespace DE {
 
@@ -54,13 +55,23 @@ public:
     \brief Default Constructor.
   */
   DynamicArray() : SequentialContainer<T>(){
-
+    mArrays = nullptr;
+    mCache = nullptr;
   };
 
   /*!
     \brief Destructor.
   */
-  ~DynamicArray() override = default;
+  ~DynamicArray(){
+    if(mArrays != nullptr){
+      auto it = mArrays->getIterator();
+
+      for (; !it.isNull(); it.next())
+        Memory::free<Array<T>>(it.get());
+
+      Memory::free<List<Array<T>*>>(mArrays);
+    }
+  };
 
   /*!
     \brief Copy Constructor.
@@ -68,7 +79,7 @@ public:
   */
   void init(const DynamicArray<T>& other){
     BaseContainer::init(other.SequentialContainer<T>::mLength, other.mElementSize, other.SequentialContainer<T>::mAlignment);
-    mArrays = DE::allocate< List<Array<T>*> >(*SequentialContainer<T>::mAllocator); // TODO: change SequentialContainer<T>::mAllocator for Memory::allocate();
+    mArrays = Memory::allocate< List<Array<T>*> >();
     mArrays->init(*(other.mArrays));
   };
 
@@ -113,7 +124,7 @@ public:
   */
   void init(const void* rawArray, const u32 length, const u32 alignment) override {
     BaseContainer::setAllocator(&Memory::getGlobal());
-    Array<T>* array = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, alignment);
+    Array<T>* array = Memory::allocate<Array<T>>(alignment);
     array->init(rawArray, length);
     DynamicArray::init(*array);
   };
@@ -142,14 +153,14 @@ public:
     BaseContainer::init(length, sizeof(T), alignment);
 
     // list of arrays
-    mArrays = DE::allocate< List<Array<T>*> >(*SequentialContainer<T>::mAllocator); // TODO: change SequentialContainer<T>::mAllocator for Memory::allocate();
+    mArrays = Memory::allocate< List<Array<T>*> >();
     mArrays->init();
 
     // how many arrays are needed.
     u32 arrayCount = ceil(length/smMinSize) + 1;
 
     for (u32 i = 0; i < arrayCount; i++) {
-      Array<T>* newArray = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, SequentialContainer<T>::mAlignment);
+      Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
       newArray->init(smMinSize);
 
       mArrays->pushBack(newArray);
@@ -186,7 +197,7 @@ public:
   void set(const u32 index, const T element){
     // resize
     if(index >= mArrays->getLength()*smMinSize){
-      Array<T>* newArray = DE::allocate<Array<T>>(*SequentialContainer<T>::mAllocator, SequentialContainer<T>::mAlignment);
+      Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
       newArray->init(smMinSize);
 
       mArrays->pushBack(newArray);
@@ -203,7 +214,7 @@ public:
     auto it = mArrays->getIterator();
 
     for (; !it.isNull(); it.next())
-      SequentialContainer<T>::mAllocator->free(it.get());
+      it.get()->clear();
 
     mArrays->clear();
 

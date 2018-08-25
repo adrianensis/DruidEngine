@@ -23,38 +23,38 @@ protected:
 public:
 
   /*!
-  \brief Default Constructor.
+    \brief Default Constructor.
   */
   BaseContainer();
 
   /*!
   \brief Destructor.
   */
-  ~BaseContainer() override;
+  ~BaseContainer() = default;
 
   /*!
-  \return Container length.
+    \return Container length.
   */
   u32 getLength() const;
 
   /*!
-  \return Container element size.
+    \return Container element size.
   */
   u32 getElementSize() const;
 
   /*!
-  \return Container alignment.
+    \return Container alignment.
   */
   u32 getAlignment() const;
 
   /*!
-  \brief Sets the allocator.
-  \param allocator Pointer to Allocator.
+    \brief Sets the allocator.
+    \param allocator Pointer to Allocator.
   */
   void setAllocator(Allocator* allocator);
 
   /*!
-  \brief Clear the container.
+    \brief Clear the container.
   */
   virtual void clear();
 };

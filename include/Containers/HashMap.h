@@ -3,6 +3,7 @@
 
 #include "List.h"
 #include "Array.h"
+#include "Memory.h"
 #include <functional>
 
 namespace DE {
@@ -23,25 +24,25 @@ private:
     K mKey;
     V mElement;
 
-    Node() { };
-    ~Node() { };
+    Node() = default;
+    ~Node() = default;
 
     void init(const K key, const V element) {
       mKey = key;
       mElement = element;
-      };
+    };
   };
 
   static const u32 smNodeSize = sizeof(Node);
 
   Node* newNode(const K key, const V element){
-    Node* node = static_cast<Node*>(BaseContainer::mAllocator->allocate(smNodeSize));
+    Node* node = Memory::allocate<Node>();
     node->init(key, element);
     return node;
   };
 
   void freeNode(Node* node){
-    BaseContainer::mAllocator->free(node);
+    Memory::free<Node>(node);
   };
 
   Array<List<Node*>*>* mArray;
@@ -49,11 +50,25 @@ private:
 public:
 
   /*!
+    \brief Default Constructor.
+  */
+  HashMap(){
+    mArray = nullptr;
+  };
+
+  /*!
+  \brief Destructor.
+  */
+  ~HashMap(){
+    HashMap::clear();
+  };
+
+  /*!
     \brief Constructor.
   */
   void init() {
     BaseContainer::init(0, sizeof(V), 1);
-    mArray = DE::allocate< Array<List<Node*>*> >(*BaseContainer::mAllocator);
+    mArray = Memory::allocate<Array<List<Node*>*>>();
     mArray->init(100);
 
     // check class
@@ -70,7 +85,7 @@ public:
 
     // if there is no list, create it
     if(list == nullptr){
-      list = DE::allocate< List<Node*> >(*BaseContainer::mAllocator);
+      list = Memory::allocate< List<Node*>>();
       list->init();
       mArray->set(hashIndex, list);
     }
@@ -79,14 +94,15 @@ public:
     bool found = false;
     Node* node = nullptr;
 
-    for (; !it.isNull() && !node; it.next()){
+    for (; !it.isNull() && !found; it.next()){
       if(it.get()->mKey == key){
+        found = true;
         node = it.get();
       }
     }
 
     // if element exists, update element
-    if(node)
+    if(found)
       node->mElement = element;
     else{
       list->pushBack(newNode(key, element));
@@ -131,21 +147,23 @@ public:
 
     bool found = false;
     u32 index = 0;
+    auto it = list->getIterator();
+    typename List<Node*>::Iterator selectedIt;
 
     if(list != nullptr){
-
       // iterate over list to find element.
-      auto it = list->getIterator();
-
       for (; !it.isNull() && !found; it.next()){
-        if(it.get()->mKey == key)
-        found = true;
+        if(it.get()->mKey == key){
+          found = true;
+          selectedIt = it;
+        }
 
         index++;
       }
     }
 
     if(found){
+      freeNode(selectedIt.get());
       list->remove(index-1);
       BaseContainer::mLength--;
     }else
@@ -153,7 +171,20 @@ public:
   };
 
   void clear() override {
-    // TODO: implement
+    if(mArray != nullptr){
+      for (u32 i = 0; i < mArray->getLength(); i++) {
+        List<Node*>* list = mArray->get(i);
+        if(list != nullptr && ! list->isEmpty()){
+          auto it = list->getIterator();
+
+          if(list != nullptr){
+            for (; !it.isNull(); it.next()){
+              freeNode(it.get());
+            }
+          }
+        }
+      }
+    }
   };
 };
 

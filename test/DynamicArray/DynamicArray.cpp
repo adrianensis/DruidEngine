@@ -4,10 +4,9 @@ using namespace DE;
 
 int main() {
 
+	DE::Memory::init();
 
 	test(DE::DynamicArray<u32>);
-
-	DE::Memory::init();
 
 	DE::DynamicArray<u32>* array = DE::Memory::allocate<DynamicArray<u32>>();
 
@@ -118,6 +117,16 @@ int main() {
 
 	array5->clear();
 	expected_uint(array5->getLength(),0);
+
+	DE::Memory::free<DynamicArray<u32>>(array);
+	DE::Memory::free<DynamicArray<u32>>(array0);
+	DE::Memory::free<DynamicArray<u32>>(array1);
+	DE::Memory::free<DynamicArray<u32>>(array2);
+	DE::Memory::free<DynamicArray<u32>>(array3);
+	//DE::Memory::free<DynamicArray<u32>>(copy);
+	DE::Memory::free<DynamicArray<u32>>(array4);
+	DE::Memory::free<DynamicArray<u32>>(array5);
+	DE::Memory::free<Array<u32>>(array6);
 
 	DE::Memory::free();
 

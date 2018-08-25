@@ -2,11 +2,12 @@
 #define TREE_H_
 
 #include "Array.h"
+#include "Memory.h"
 
 namespace DE {
 
 /*!
-  \brief Tree of elements with k-children per node.
+  \brief Binary Tree.
   \tparam K Key class.
   \tparam T Talue class.
 */
@@ -22,16 +23,23 @@ private:
     T mElement;
     Array<Node*>* mChildren;
 
-    Node() = default;
-    ~Node() = default;
-
-    void init(Node* parent, const T element, Allocator* allocator, u32 childrenCount) {
-      mParent = parent;
-      mElement = element;
-      mChildren = DE::allocate< Array<Node*> >(*allocator);
-      mChildren->init(childrenCount);
+    Node() {
+      mChildren = nullptr;
     };
 
+    ~Node(){
+      mParent = nullptr;
+      Memory::free<Array<Node*>>(mChildren);
+    };
+
+    void init(Node* parent, const T element, u32 childrenCount) {
+      mParent = parent;
+      mElement = element;
+      mChildren = Memory::allocate<Array<Node*>>();
+      mChildren->init(childrenCount);
+      mChildren->set(0, nullptr);
+      mChildren->set(1, nullptr);
+    };
 
     void addChild(Node* node){
       u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
@@ -41,7 +49,7 @@ private:
       if(child == nullptr) {
         node->mParent = this;
         mChildren->set(index, node);
-      } else
+      }else
         child->addChild(node);
     };
 
@@ -56,13 +64,13 @@ private:
   static const u32 smNodeSize = sizeof(Node);
 
   Node* newNode(Node* parent, const T element){
-    Node* node = static_cast<Node*>(mAllocator->allocate(smNodeSize));
-    node->init(parent, element, mAllocator, mChildrenCount);
+    Node* node = Memory::allocate<Node>();
+    node->init(parent, element, mChildrenCount);
     return node;
   };
 
   void freeNode(Node* node){
-    mAllocator->free(node);
+    Memory::free<Node>(node);
   };
 
   void freeSubTree(Node* node) {
@@ -77,9 +85,6 @@ private:
 
     node->mChildren->set(0, nullptr);
     node->mChildren->set(1, nullptr);
-
-    // mAllocator->free(node->mChildren);
-    // mAllocator->free(node);
 
     mLength--;
   };
@@ -133,9 +138,6 @@ public:
       // 3 cases: a, b, c.
 
       if(child0 == nullptr && child1 == nullptr){ // a) If no children
-        // mAllocator->free(node->mChildren);
-        // mAllocator->free(node);
-
         Node* parent = node->mParent;
         node->mParent = nullptr;
 
@@ -144,19 +146,27 @@ public:
         else// Is the root!
           mRoot = nullptr;
 
+        freeNode(node);
+
       }else if(child0 != nullptr && child1 != nullptr){ // b) If 2 children
-        Node* inorderSuccessor; // inorderSuccessor
-        Node* inorderSuccessorParent = node->mChildren->get(1);
-        while (inorderSuccessorParent->mChildren->getLength() > 0 && inorderSuccessorParent->mChildren->get(0) != nullptr){
-          inorderSuccessor = inorderSuccessorParent->mChildren->get(0);
-          inorderSuccessorParent = inorderSuccessor;
+
+        // Find min value in right subtree.
+
+        Node* successor = nullptr; // successor
+        Node* successorParent = node->mChildren->get(1); // root of right subtree.
+        while (successorParent->mChildren->getLength() > 0 && successorParent->mChildren->get(0) != nullptr){
+          successor = successorParent->mChildren->get(0); // explore left side (where values are always min).
+          successorParent = successor;
         }
 
-        inorderSuccessorParent->mChildren->set(0,nullptr);
+        if(successor != nullptr) // if successor prune the child.
+          successor->mParent->removeChild(successor);
+        else // if no successor then choose the root of the right subtree.
+          successor = successorParent;
 
-        node->mElement = inorderSuccessor->mElement;
+        node->mElement = successor->mElement;
 
-        // TODO: delete inorderSuccessor node
+        freeNode(successor); // delete successor node
 
       }else{ // c) If only 1 child
         Node* child = child0 != nullptr ? child0 : child1;
@@ -170,16 +180,24 @@ public:
           child->mParent = nullptr;
           mRoot = child;
         }
+
+        freeNode(node);
       }
 
       mLength--;
+
+      if(mLength == 0){
+        Tree::clear();
+      }
     }
   };
 
   void clear() override {
     if(mLength > 0){
       freeSubTree(mRoot);
+      freeNode(mRoot);
     }
+
     mRoot = nullptr;
   };
 };

@@ -63,6 +63,7 @@ private:
   void raw_allocate(const u32 length, const u32 elementSize, const u32 alignment) {
     BaseContainer::init(length,elementSize,alignment);
     mStart = this->mAllocator->allocate(this->mLength*(this->mElementSize), this->mAlignment);
+    // TODO allocate with Memory::allocate, create new function for raw allocation.
   };
 
   void raw_clear() {
@@ -78,13 +79,20 @@ public:
   \brief Default Constructor.
   */
   Array() : SequentialContainer<T>()/*, BaseArray()*/{
-
+    mStart = nullptr;
+    mTStart = nullptr;
   };
 
   /*!
   \brief Destructor.
   */
-  ~Array() override = default;
+  ~Array() {
+    if(mStart != nullptr){
+      this->mAllocator->free(mStart);
+      mStart = nullptr;
+      mTStart = nullptr;
+    }
+  };
 
   /*!
   \brief Copy Constructor.

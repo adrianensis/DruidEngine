@@ -4,10 +4,10 @@ using namespace DE;
 
 int main() {
 
+	DE::Memory::init();
 
 	test(DE::Array<u32>);
 
-	DE::Memory::init();
 
 	DE::Array<u32>* array = DE::Memory::allocate<Array<u32>>();
 
@@ -89,6 +89,11 @@ int main() {
 	array2->clear();
 
 	expected_uint(array2->getLength(),0);
+
+	DE::Memory::free<Array<u32>>(array);
+	DE::Memory::free<Array<u32>>(copy);
+	DE::Memory::free<Array<u32>>(copy2);
+	DE::Memory::free<Array<u32>>(array2);
 
 	DE::Memory::free();
 

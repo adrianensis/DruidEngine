@@ -30,6 +30,11 @@ int main() {
 
 	expected_uint(m3->get(0,0),1);
 
+	DE::Memory::free<DE::Matrix4>(m);
+	DE::Memory::free<DE::Matrix4>(m2);
+	DE::Memory::free<DE::Array<f32>>(array);
+	DE::Memory::free<DE::Matrix4>(m3);
+
 	DE::Memory::free();
 
 	summary();

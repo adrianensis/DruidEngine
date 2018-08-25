@@ -9,7 +9,6 @@
 #include "MathUtils.h"
 #include <type_traits>
 
-#define id_to_str(str) #str
-#define CLASS_ID(classname) id_to_str(id_##classname)
+#define CLASS_STR(classname) #classname
 
 #endif /* BASIC_H_ */

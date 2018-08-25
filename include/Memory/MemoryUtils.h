@@ -7,7 +7,7 @@
 
 /*!
    \file MemoryUtils.h
-   \brief Functions for memory allocation.
+   \brief Static functions for memory allocation.
 */
 
 namespace DE {
@@ -22,8 +22,8 @@ namespace DE {
 */
 template<class T>
 static T* allocate(Allocator& allocator, const u32 alignment){
-  T* obj = new(allocator.allocate(sizeof(T), alignment)) T;
-  return obj;
+  T* object = new(allocator.allocate(sizeof(T), alignment)) T;
+  return object;
 };
 
 /*!
@@ -35,8 +35,23 @@ static T* allocate(Allocator& allocator, const u32 alignment){
 */
 template<class T>
 static T* allocate(Allocator& allocator){
-  T* obj = new(allocator.allocate(sizeof(T))) T;
-  return obj;
+  T* object = new(allocator.allocate(sizeof(T))) T;
+  return object;
+};
+
+/*!
+  \brief Destroys objects. It is used like "delete" keyword.
+  Deallocate data, using the allocator.
+
+  \tparam pointer pointer to data
+  \param allocator Allocator used to deallocate memory.
+*/
+template<class T>
+static void free(T* object, Allocator& allocator){
+  if(object != nullptr){
+    object->~T();
+    allocator.free(object);
+  }
 };
 
 } /* namespace DE */

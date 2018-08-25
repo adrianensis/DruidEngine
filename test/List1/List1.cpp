@@ -20,7 +20,7 @@ int main() {
 
 	newArray->init(100);
 	mArrays->init();
-	
+
 	mArrays->pushBack(newArray);
 
 	auto itArrays = mArrays->getIterator();
@@ -92,41 +92,42 @@ int main() {
 
 
 
-  //
-  //
-	// DE::List<u32>* list32 = DE::allocate<List<u32>>(linear);
-  //
-	// list32->init();
-  //
-	// expected_uint(list32->getLength(),0);
-  //
-	// const u32 sizeInt = sizeof(u32);
-	// u32 a32;// = (u32*)linear.allocate(sizeInt);
-	// u32 b32;// = (u32*)linear.allocate(sizeInt);
-	// u32 c32;// = (u32*)linear.allocate(sizeInt);
-  //
-	// a32 = 1;
-	// b32 = 2;
-	// c32 = 3;
-  //
-	// list32->pushBack(a32);
-	// list32->pushBack(b32);
-	// list32->pushBack(c32);
-  //
-	// expected_uint(list32->getLength(),3);
-  //
-	// List<u32>::Iterator it32 = list32->getIterator();
-  //
-	// expected_uint((it32.get()),1);
-	// it32.next();
-	// expected_uint((it32.get()),2);
-	// it32.next();
-	// expected_uint((it32.get()),3);
-  //
-	// expected_uint(list32->getLength(),3);
-  //
 
-	// linear.reset();
+	DE::List<u32>* list32 = DE::Memory::allocate<List<u32>>();
+
+	list32->init();
+
+	expected_uint(list32->getLength(),0);
+
+	const u32 sizeInt = sizeof(u32);
+	u32 a32;// = (u32*)linear.allocate(sizeInt);
+	u32 b32;// = (u32*)linear.allocate(sizeInt);
+	u32 c32;// = (u32*)linear.allocate(sizeInt);
+
+	a32 = 1;
+	b32 = 2;
+	c32 = 3;
+
+	list32->pushBack(a32);
+	list32->pushBack(b32);
+	list32->pushBack(c32);
+
+	expected_uint(list32->getLength(),3);
+
+	List<u32>::Iterator it32 = list32->getIterator();
+
+	expected_uint((it32.get()),1);
+	it32.next();
+	expected_uint((it32.get()),2);
+	it32.next();
+	expected_uint((it32.get()),3);
+
+	expected_uint(list32->getLength(),3);
+
+	DE::Memory::free<List<Array<u32>*>>(mArrays);
+	DE::Memory::free<Array<u32>>(newArray);
+	DE::Memory::free<DE::List<Test>>(list);
+	DE::Memory::free<DE::List<u32>>(list32);
 
 	DE::Memory::free();
 

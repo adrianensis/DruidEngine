@@ -46,6 +46,14 @@ int main() {
 	tree->remove(-3);
 	expected_uint(tree->getLength(),0);
 
+	tree->add(-1);
+	tree->add(1);
+	tree->add(3);
+	tree->add(-2);
+	tree->add(2);
+	tree->add(0);
+	tree->add(-3);
+
 	tree->clear();
 
 	expected_uint(tree->getLength(),0);
@@ -79,6 +87,8 @@ int main() {
 	expected_uint(tree->getLength(),1);
 	tree->remove(-3);
 	expected_uint(tree->getLength(),0);
+
+	DE::Memory::free<Tree<i32>>(tree);
 
 	DE::Memory::free();
 

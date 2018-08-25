@@ -117,8 +117,11 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, 
 
   Allocator::setAllocated(Allocator::getAllocated() + expandedSize);
 
-  // Allocate unaligned block & convert address to uintptr_t.
-  return Allocator::calculateAlignedAddress(unalignedAddress, alignment);
+  void* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
+  
+  Allocator::clean(alignedAddress, size);
+
+  return alignedAddress;
 }
 
 void Allocator::setAllocated(const u32 size){

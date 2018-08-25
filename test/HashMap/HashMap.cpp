@@ -126,6 +126,12 @@ int main() {
 	mapSigned->remove(-10);
 	expected_uint(mapSigned->getLength(),0);
 
+	DE::Memory::free<HashMap<u32,u32>>(map);
+	DE::Memory::free<DE::HashMap<std::string,u32>>(mapStr);
+	DE::Memory::free<DE::HashMap<const char*,u32>>(mapStrLiteral);
+	DE::Memory::free<DE::HashMap<u32*,u32>>(mapPtr);
+	DE::Memory::free<DE::HashMap<i32,i32>>(mapSigned);
+
 	DE::Memory::free();
 
 	summary();

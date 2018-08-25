@@ -8,10 +8,6 @@ BaseContainer::BaseContainer() : DE_Class(){
   mAllocator = nullptr;
 };
 
-BaseContainer::~BaseContainer() {
-
-};
-
 void BaseContainer::init(const u32 length, const u32 elementSize, const u32 alignment) {
   mLength = length;
   mElementSize = elementSize;

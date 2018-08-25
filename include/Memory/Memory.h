@@ -52,6 +52,11 @@ public:
     return DE::allocate<T>(smGlobal);
   }
 
+  template<class T>
+  static void free(T* pointer){
+    DE::free(pointer, smGlobal);
+  }
+
   static void free();
 
 };

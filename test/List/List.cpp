@@ -172,6 +172,9 @@ int main() {
 	expected_uint(list->get(5),70);
 	expected_uint(list->get(6),100);
 
+	DE::Memory::free<DE::List<u32>>(list);
+	DE::Memory::free<DE::List<u32>>(list2);
+
 	DE::Memory::free();
 
 	summary();

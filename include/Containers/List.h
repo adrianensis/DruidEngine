@@ -7,6 +7,10 @@
 
 namespace DE {
 
+  /*
+    NOTE : Here we cant use Memory.h, because List.h is used by FreeListAllocator.h.
+  */
+
 template <class T>
 class List : public SequentialContainer<T>{
 
@@ -25,12 +29,13 @@ private:
       Node::init();
     };
 
-    ~Node() { };
+    ~Node() {
+      Node::init();
+    };
 
     void init() {
       mNext = nullptr;
       mPrev = nullptr;
-      //mElement = nullptr;
     };
 
     void init(const T element) {
@@ -114,7 +119,8 @@ public:
     };
 
     ~Iterator() {
-
+      mNode = nullptr;
+      mReverse = false;
     };
 
     bool isNull() const{
@@ -285,7 +291,7 @@ public:
   };
 
   ~List() {
-    // NOTE: user must free memory externally, by using the choosen allocator.
+    List::clear();
   };
 
   /*!
@@ -530,7 +536,6 @@ public:
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
     if( ! List::isEmpty()){
-      // BaseContainer::mLength--;
 
       u32 i = 0;
       Iterator it = List::getIterator();
