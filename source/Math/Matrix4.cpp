@@ -9,22 +9,22 @@ void Matrix4::setRows(const Array<f32>& row0, const Array<f32>& row1, const Arra
   Array<f32> rows[4] = {row0,row1,row2,row3};
 
   for (u8 row = 0; row < 4; row++)
-      for (u8 col = 0; col < 4; col++)
-          Matrix4::set(row,col,rows[row][col]);
+  for (u8 col = 0; col < 4; col++)
+  Matrix4::set(row,col,rows[row][col]);
 };
 
 void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3){
   const f32* rows[4] = {row0,row1,row2,row3};
 
   for (u8 row = 0; row < 4; row++)
-      for (u8 col = 0; col < 4; col++)
-          Matrix4::set(row,col,rows[row][col]);
+  for (u8 col = 0; col < 4; col++)
+  Matrix4::set(row,col,rows[row][col]);
 };
 
 void Matrix4::setRows(const f32 n){
   for (u8 row = 0; row < 4; row++)
-      for (u8 col = 0; col < 4; col++)
-          Matrix4::set(row,col,n);
+  for (u8 col = 0; col < 4; col++)
+  Matrix4::set(row,col,n);
 };
 
 Matrix4::Matrix4() = default;
@@ -76,8 +76,8 @@ void Matrix4::transpose(Matrix4& destiny){
   copy.init((*this));
 
   for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
-          destiny.set(col,row,copy.get(row,col));
+  for (u8 col = 0; col < 4; col++)
+  destiny.set(col,row,copy.get(row,col));
 
 };
 

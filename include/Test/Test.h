@@ -12,8 +12,8 @@
 
 using namespace DE;
 
-#define test(theClass) std::chrono::duration<double> __test__totaltime; auto t = std::chrono::high_resolution_clock::now(); std::ofstream __test__outputFile; std::ostringstream __test__output; __test__outputFile.open((std::string(#theClass)+".txt").c_str()); __test__output << std::endl << std::endl << std::endl <<   "===========    " << #theClass << "    ===========" << std::endl << std::endl; theClass __test__aux; bool __test__bool; f32 __test__float; f64 __test__float_precision; i64 __test__sint; u64 __test__uint; int __test__ok = 0; int __test__total = 0; bool __test__b
-#define title(text) __test__output << std::endl << std::endl << std::endl <<   "===========    " << text << "    ===========" << std::endl << std::endl
+#define test(theClass) std::chrono::duration<double> __test__totaltime; auto t = std::chrono::high_resolution_clock::now(); std::ofstream __test__outputFile; std::ostringstream __test__output; __test__outputFile.open((std::string(#theClass)+".txt").c_str()); __test__output << std::endl << std::endl << std::endl <<   "===========  " << #theClass << "  ===========" << std::endl << std::endl; theClass __test__aux; bool __test__bool; f32 __test__float; f64 __test__float_precision; i64 __test__sint; u64 __test__uint; int __test__ok = 0; int __test__total = 0; bool __test__b
+#define title(text) __test__output << std::endl << std::endl << std::endl <<   "===========  " << text << "  ===========" << std::endl << std::endl
 #define tic() t=std::chrono::high_resolution_clock::now()
 #define toc()__test__totaltime+=std::chrono::high_resolution_clock::now()-t
 

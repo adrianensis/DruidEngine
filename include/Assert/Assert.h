@@ -1,7 +1,7 @@
 #ifndef DE_ASSERT_H_
 #define DE_ASSERT_H_
 
-#include <string>       // std::string
+#include <string>  // std::string
 #include "BasicTypes.h"
 
 namespace DE {

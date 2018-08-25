@@ -5,11 +5,11 @@
 
 namespace DE {
 
-    class DE_Class : public Hash {
-    public:
-        DE_Class() = default;
-        virtual ~DE_Class() = default;
-    };
+  class DE_Class : public Hash {
+  public:
+    DE_Class() = default;
+    virtual ~DE_Class() = default;
+  };
 
 } /* namespace DE */
 

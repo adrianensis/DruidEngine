@@ -10,7 +10,7 @@
 namespace DE {
 
 /*!
-    \brief 2D Vector.
+  \brief 2D Vector.
 */
 class Vector2 : public DE_Class {
 

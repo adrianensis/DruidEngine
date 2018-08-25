@@ -5,7 +5,7 @@
 namespace DE {
 
 BaseContainer::BaseContainer() : DE_Class(){
-    mAllocator = nullptr;
+  mAllocator = nullptr;
 };
 
 BaseContainer::~BaseContainer() {
@@ -13,30 +13,30 @@ BaseContainer::~BaseContainer() {
 };
 
 void BaseContainer::init(const u32 length, const u32 elementSize, const u32 alignment) {
-    mLength = length;
-    mElementSize = elementSize;
-    mAlignment = alignment;
-    mAllocator = &Memory::getGlobal();
+  mLength = length;
+  mElementSize = elementSize;
+  mAlignment = alignment;
+  mAllocator = &Memory::getGlobal();
 };
 
 u32 BaseContainer::getLength() const {
-    return mLength;
+  return mLength;
 };
 
 u32 BaseContainer::getElementSize() const {
-    return mElementSize;
+  return mElementSize;
 };
 
 u32 BaseContainer::getAlignment() const {
-    return mAlignment;
+  return mAlignment;
 };
 
 void BaseContainer::setAllocator(Allocator* allocator){
-    mAllocator = allocator;
+  mAllocator = allocator;
 };
 
 void BaseContainer::clear(){
-    mLength = 0;
+  mLength = 0;
 };
 
 } /* namespace DE */

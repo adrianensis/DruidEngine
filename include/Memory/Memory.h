@@ -14,45 +14,45 @@ class Memory : public DE_Class {
 
 private:
 
-    /*
-        * Global Heap for general purposes
-        * Special Heap for gameObjects (spawn and destroy)
-        * Level-Loading Heap
-        * Stack-allocator for single-frame allocations (cleared every frame)
-        * Debug memory Heap, only for allocations that will not be needed in final game.
-    */
+  /*
+  * Global Heap for general purposes
+  * Special Heap for gameObjects (spawn and destroy)
+  * Level-Loading Heap
+  * Stack-allocator for single-frame allocations (cleared every frame)
+  * Debug memory Heap, only for allocations that will not be needed in final game.
+  */
 
-    static FreeListAllocator smGlobal;
+  static FreeListAllocator smGlobal;
 
-    // static DE::Array<bool>* mFlags;
-    // static DE::Array<PoolAllocator>* mPools;
+  // static DE::Array<bool>* mFlags;
+  // static DE::Array<PoolAllocator>* mPools;
 
-    //std::map <string, PoolAllocator> mPools;
+  //std::map <string, PoolAllocator> mPools;
 
-    Memory();
-    ~Memory();
+  Memory();
+  ~Memory();
 
 public:
 
-    // static FreeListAllocator smGlobal;
+  // static FreeListAllocator smGlobal;
 
-    static void init();
+  static void init();
 
-    static void init(const u32 size);
+  static void init(const u32 size);
 
-    static Allocator& getGlobal();
+  static Allocator& getGlobal();
 
-    template<class T>
-    static T* allocate(u32 alignment){
-        return DE::allocate<T>(smGlobal, alignment);
-    }
+  template<class T>
+  static T* allocate(u32 alignment){
+    return DE::allocate<T>(smGlobal, alignment);
+  }
 
-    template<class T>
-    static T* allocate(){
-        return DE::allocate<T>(smGlobal);
-    }
+  template<class T>
+  static T* allocate(){
+    return DE::allocate<T>(smGlobal);
+  }
 
-    static void free();
+  static void free();
 
 };
 

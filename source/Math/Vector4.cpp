@@ -1,6 +1,6 @@
 #include "Vector4.h"
 
-#include <algorithm>    // std::max
+#include <algorithm>  // std::max
 
 namespace DE {
 

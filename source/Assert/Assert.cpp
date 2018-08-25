@@ -1,7 +1,7 @@
 #include "Assert.h"
 #include "Debug.h"
-#include <string>       // std::string
-#include <cstdlib>      // abort
+#include <string>   // std::string
+#include <cstdlib>  // abort
 
 namespace DE {
 

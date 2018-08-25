@@ -13,20 +13,20 @@ Memory::~Memory(){
 }
 
 void Memory::init(){
-    u32 GB = 1024*1024*1024;
-    smGlobal.init(1*GB);
+  u32 GB = 1024*1024*1024;
+  smGlobal.init(1*GB);
 };
 
 void Memory::init(const u32 size){
-    smGlobal.init(size);
+  smGlobal.init(size);
 };
 
 Allocator& Memory::getGlobal(){
-    return smGlobal;
+  return smGlobal;
 }
 
 void Memory::free(){
-    smGlobal.reset();
+  smGlobal.reset();
 }
 
 } /* namespace DE */
