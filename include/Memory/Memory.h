@@ -1,5 +1,5 @@
-#ifndef MEMORY_H_
-#define MEMORY_H_
+#ifndef DE_MEMORY_H
+#define DE_MEMORY_H
 
 #include "FreeListAllocator.h"
 #include "LinearAllocator.h"
@@ -63,4 +63,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* MEMORY_H_ */
+#endif /* DE_MEMORY_H */

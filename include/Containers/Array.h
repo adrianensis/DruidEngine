@@ -1,5 +1,5 @@
-#ifndef ARRAY_H_
-#define ARRAY_H_
+#ifndef DE_ARRAY_H
+#define DE_ARRAY_H
 
 #include "SequentialContainer.h"
 #include <cstring>
@@ -156,4 +156,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* ARRAY_H_ */
+#endif /* DE_ARRAY_H */

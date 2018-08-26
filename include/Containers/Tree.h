@@ -1,5 +1,5 @@
-#ifndef TREE_H_
-#define TREE_H_
+#ifndef DE_TREE_H
+#define DE_TREE_H
 
 #include "Array.h"
 #include "Memory.h"
@@ -204,4 +204,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* TREE_H_ */
+#endif /* DE_TREE_H */

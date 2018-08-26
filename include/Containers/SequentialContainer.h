@@ -1,5 +1,5 @@
-#ifndef SequentialContainer_H_
-#define SequentialContainer_H_
+#ifndef DE_SEQUENTIALCONTAINER_H
+#define DE_SEQUENTIALCONTAINER_H
 
 #include "BaseContainer.h"
 
@@ -129,4 +129,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* SequentialContainer_H_ */
+#endif /* DE_SEQUENTIALCONTAINER_H */

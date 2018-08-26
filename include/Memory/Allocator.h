@@ -1,5 +1,5 @@
-#ifndef Allocator_H_
-#define Allocator_H_
+#ifndef DE_ALLOCATOR_H
+#define DE_ALLOCATOR_H
 
 #include "Assert.h"
 #include "Basic.h"
@@ -98,4 +98,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* Allocator_H_ */
+#endif /* DE_ALLOCATOR_H */

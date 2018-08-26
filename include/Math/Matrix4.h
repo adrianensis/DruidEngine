@@ -1,5 +1,5 @@
-#ifndef MATRIX4_H_
-#define MATRIX4_H_
+#ifndef DE_MATRIX4_H
+#define DE_MATRIX4_H
 
 #include "Array.h"
 
@@ -34,4 +34,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* MATRIX4_H_ */
+#endif /* DE_MATRIX4_H */

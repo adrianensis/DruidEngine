@@ -1,5 +1,5 @@
-#ifndef POOLALLOCATOR_H_
-#define POOLALLOCATOR_H_
+#ifndef DE_POOLALLOCATOR_H
+#define DE_POOLALLOCATOR_H
 
 #include "LinearAllocator.h"
 #include "Basic.h"
@@ -85,4 +85,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* POOLALLOCATOR_H_ */
+#endif /* DE_POOLALLOCATOR_H */

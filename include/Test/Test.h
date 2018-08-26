@@ -1,5 +1,5 @@
-#ifndef TEST_H_
-#define TEST_H_
+#ifndef DE_TEST_H
+#define DE_TEST_H
 
 #include <iostream>
 #include <iomanip>
@@ -34,4 +34,4 @@ using namespace DE;
 #define summary() __test__output << std::endl <<__test__totaltime.count()*1000.0 << " " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; __test__outputFile << __test__output.str(); std::cout << __test__output.str(); __test__outputFile.close()
 
 
-#endif /* TEST_H_ */
+#endif /* DE_TEST_H */

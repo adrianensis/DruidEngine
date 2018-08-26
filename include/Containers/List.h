@@ -1,5 +1,5 @@
-#ifndef LIST_H_
-#define LIST_H_
+#ifndef DE_LIST_H
+#define DE_LIST_H
 
 #include "SequentialContainer.h"
 #include "Allocator.h"
@@ -628,4 +628,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* LIST_H_ */
+#endif /* DE_LIST_H */

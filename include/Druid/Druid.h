@@ -1,5 +1,5 @@
-#ifndef DRUID_H_
-#define DRUID_H_
+#ifndef DE_DRUID_H
+#define DE_DRUID_H
 
 #include "Basic.h"
 
@@ -23,6 +23,8 @@
 #include "List.h"
 #include "HashMap.h"
 #include "Tree.h"
+#include "Engine.h"
+#include "Time.h"
 
 
-#endif /* DRUID_H_ */
+#endif /* DE_DRUID_H */

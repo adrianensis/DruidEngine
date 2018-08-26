@@ -1,5 +1,5 @@
-#ifndef VECTOR3_H_
-#define VECTOR3_H_
+#ifndef DE_VECTOR3_H
+#define DE_VECTOR3_H
 
 #include <ostream>
 #include "Assert.h"
@@ -179,4 +179,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* VECTOR3_H_ */
+#endif /* DE_VECTOR3_H */

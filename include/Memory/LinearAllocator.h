@@ -1,5 +1,5 @@
-#ifndef LINEARALLOCATOR_H_
-#define LINEARALLOCATOR_H_
+#ifndef DE_LINEARALLOCATOR_H
+#define DE_LINEARALLOCATOR_H
 
 #include "Allocator.h"
 #include "Basic.h"
@@ -33,4 +33,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* LINEARALLOCATOR_H_ */
+#endif /* DE_LINEARALLOCATOR_H */

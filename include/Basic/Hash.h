@@ -1,11 +1,16 @@
-#ifndef HASH_H_
-#define HASH_H_
+#ifndef DE_HASH_H
+#define DE_HASH_H
 
 #include "BasicTypes.h"
 #include <string>
 
 namespace DE {
 
+#define CLASS_HASH(classname) Hash::hash(#classname)
+
+/*!
+  \brief Gives objects a hash number (u64).
+*/
 class Hash {
 
 private:
@@ -92,4 +97,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* HASH_H_ */
+#endif /* DE_HASH_H */

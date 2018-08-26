@@ -1,5 +1,5 @@
-#ifndef DEBUG_H_
-#define DEBUG_H_
+#ifndef DE_DEBUG_H
+#define DE_DEBUG_H
 
 #include <string>
 #include <iostream>
@@ -35,4 +35,4 @@ void brline();
 
 } /* namespace DE */
 
-#endif /* DEBUG_H_ */
+#endif /* DE_DEBUG_H */

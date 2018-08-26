@@ -1,5 +1,5 @@
-#ifndef BASIC_H_
-#define BASIC_H_
+#ifndef DE_BASIC_H
+#define DE_BASIC_H
 
 #include "BasicTypes.h"
 #include "DE_Class.h"
@@ -9,6 +9,4 @@
 #include "MathUtils.h"
 #include <type_traits>
 
-#define CLASS_STR(classname) #classname
-
-#endif /* BASIC_H_ */
+#endif /* DE_BASIC_H */

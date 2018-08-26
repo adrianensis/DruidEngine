@@ -1,5 +1,5 @@
-#ifndef DYNAMICARRAY_H_
-#define DYNAMICARRAY_H_
+#ifndef DE_DYNAMICARRAY_H
+#define DE_DYNAMICARRAY_H
 
 #include "Array.h"
 #include "List.h"
@@ -234,4 +234,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* DYNAMICARRAY_H_ */
+#endif /* DE_DYNAMICARRAY_H */

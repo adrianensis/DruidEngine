@@ -1,5 +1,5 @@
-#ifndef QUATERNION_H_
-#define QUATERNION_H_
+#ifndef DE_QUATERNION_H
+#define DE_QUATERNION_H
 
 #include <ostream>
 #include "Assert.h"
@@ -176,4 +176,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* QUATERNION_H_ */
+#endif /* DE_QUATERNION_H */

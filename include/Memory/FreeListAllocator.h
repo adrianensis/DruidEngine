@@ -1,5 +1,5 @@
-#ifndef FREELISTALLOCATOR_H_
-#define FREELISTALLOCATOR_H_
+#ifndef DE_FREELISTALLOCATOR_H
+#define DE_FREELISTALLOCATOR_H
 
 #include "Basic.h"
 #include "List.h"
@@ -60,4 +60,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* FREELISTALLOCATOR_H_ */
+#endif /* DE_FREELISTALLOCATOR_H */

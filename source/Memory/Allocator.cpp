@@ -87,20 +87,20 @@ void* Allocator::calculateAlignedAddress(const void* unalignedAddress, const u32
   DE_ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
   // The aligned address is accessed as a uint8_t array or byte array.
-  u8* u8Array = reinterpret_cast<u8*>(alignedAddress);
+  byte* byteArray = reinterpret_cast<byte*>(alignedAddress);
 
   // We always store this information in the byte immediately preceding
   // (that's why we use [-1]) the adjusted address.
-  u8Array[-1] = static_cast<u8>(adjustment);
+  byteArray[-1] = static_cast<byte>(adjustment);
 
-  return static_cast<void*>(u8Array);
+  return static_cast<void*>(byteArray);
 }
 
 void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
 
-  const u8* u8Array = reinterpret_cast<const u8*>(alignedAddress);
+  const byte* byteArray = reinterpret_cast<const byte*>(alignedAddress);
   ptr _alignedAddress = reinterpret_cast<ptr>(alignedAddress);
-  ptrdiff adjustment = static_cast<ptrdiff>(u8Array[-1]);
+  ptrdiff adjustment = static_cast<ptrdiff>(byteArray[-1]);
   ptr unalignedAddress = _alignedAddress - adjustment;
 
   return reinterpret_cast<void*>(unalignedAddress);
@@ -118,7 +118,7 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, 
   Allocator::setAllocated(Allocator::getAllocated() + expandedSize);
 
   void* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
-  
+
   Allocator::clean(alignedAddress, size);
 
   return alignedAddress;

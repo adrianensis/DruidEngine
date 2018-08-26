@@ -1,5 +1,5 @@
-#ifndef DE_ASSERT_H_
-#define DE_ASSERT_H_
+#ifndef DE_DE_ASSERT_H
+#define DE_DE_ASSERT_H
 
 #include <string>  // std::string
 #include "BasicTypes.h"
@@ -14,4 +14,4 @@ void assert(const bool condition, const std::string file, const u32 line, const 
 
 } /* namespace DE */
 
-#endif /* DE_ASSERT_H_ */
+#endif /* DE_DE_ASSERT_H */

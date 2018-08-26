@@ -1,5 +1,5 @@
-#ifndef VECTOR4_H_
-#define VECTOR4_H_
+#ifndef DE_VECTOR4_H
+#define DE_VECTOR4_H
 
 #include <ostream>
 #include "Assert.h"
@@ -174,4 +174,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* VECTOR4_H_ */
+#endif /* DE_VECTOR4_H */

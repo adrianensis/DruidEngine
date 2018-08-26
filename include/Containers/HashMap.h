@@ -1,5 +1,5 @@
-#ifndef HASHMAP_H_
-#define HASHMAP_H_
+#ifndef DE_HASHMAP_H
+#define DE_HASHMAP_H
 
 #include "List.h"
 #include "Array.h"
@@ -190,4 +190,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* HASHMAP_H_ */
+#endif /* DE_HASHMAP_H */

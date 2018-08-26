@@ -1,5 +1,5 @@
-#ifndef STACKALLOCATOR_H_
-#define STACKALLOCATOR_H_
+#ifndef DE_STACKALLOCATOR_H
+#define DE_STACKALLOCATOR_H
 
 #include "LinearAllocator.h"
 #include "Basic.h"
@@ -52,4 +52,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* STACKALLOCATOR_H_ */
+#endif /* DE_STACKALLOCATOR_H */

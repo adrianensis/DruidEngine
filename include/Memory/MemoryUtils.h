@@ -1,5 +1,5 @@
-#ifndef MEMORYUTILS_H_
-#define MEMORYUTILS_H_
+#ifndef DE_MEMORYUTILS_H
+#define DE_MEMORYUTILS_H
 
 #include "Allocator.h"
 #include <typeinfo>
@@ -56,4 +56,4 @@ static void free(T* object, Allocator& allocator){
 
 } /* namespace DE */
 
-#endif /* MEMORYUTILS_H_ */
+#endif /* DE_MEMORYUTILS_H */

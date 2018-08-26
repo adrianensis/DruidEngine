@@ -1,5 +1,5 @@
-#ifndef MATHUTILS_H_
-#define MATHUTILS_H_
+#ifndef DE_MATHUTILS_H
+#define DE_MATHUTILS_H
 
 #include <cmath> /* ceil, max */
 #include "BasicTypes.h"
@@ -20,4 +20,4 @@ f32 clamp(const f32 n, const f32 lower, const f32 upper);
 
 }
 
-#endif /* MATHUTILS_H_ */
+#endif /* DE_MATHUTILS_H */

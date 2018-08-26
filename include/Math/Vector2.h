@@ -1,5 +1,5 @@
-#ifndef VECTOR2_H_
-#define VECTOR2_H_
+#ifndef DE_VECTOR2_H
+#define DE_VECTOR2_H
 
 #include <ostream>
 #include "Assert.h"
@@ -178,4 +178,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* VECTOR2_H_ */
+#endif /* DE_VECTOR2_H */

@@ -1,5 +1,5 @@
-#ifndef BASECONTAINER_H_
-#define BASECONTAINER_H_
+#ifndef DE_BASECONTAINER_H
+#define DE_BASECONTAINER_H
 
 #include "Basic.h"
 #include "Allocator.h"
@@ -61,4 +61,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* BASECONTAINER_H_ */
+#endif /* DE_BASECONTAINER_H */

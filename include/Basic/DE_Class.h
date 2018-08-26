@@ -5,11 +5,14 @@
 
 namespace DE {
 
-  class DE_Class : public Hash {
-  public:
-    DE_Class() = default;
-    virtual ~DE_Class() = default;
-  };
+/*!
+  \brief Base class for Druid Engine.
+*/
+class DE_Class : public Hash {
+public:
+  DE_Class() = default;
+  virtual ~DE_Class() = default;
+};
 
 } /* namespace DE */
 
