@@ -14,28 +14,14 @@ private:
   static time_point mNow, mLastTime;
 
 public:
-  Time () = default;
+  Time();
+  ~Time();
 
-  ~Time () = default;
-
-  static void init(){
-    mDeltaTime = 0.0;
-    mLastTime = std::chrono::system_clock::now();
-  };
-
-  static void tick(){
-    mNow = std::chrono::system_clock::now();
-    mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(mNow - mLastTime).count();
-  };
-
-  static f32 getNow(){
-      auto epoch = std::chrono::time_point_cast<std::chrono::milliseconds>(mNow).time_since_epoch();
-      return std::chrono::duration_cast<std::chrono::milliseconds>(epoch).count();
-  };
-
-  static f32 getDeltaTime(){
-    return mDeltaTime;
-  }
+  static void init();
+  static void tick();
+  static f32 getNow();
+  static f32 getDeltaTime();
+  static f32 getElapsedTime();
 };
 
 } /* namespace DE */

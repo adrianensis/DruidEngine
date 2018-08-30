@@ -31,7 +31,7 @@ using namespace DE;
 #define expected_float_eps(x,exp,eps) tic(); __test__float_precision = (x); toc(); __test__total++; __test__b = ( std::max(0.0f,fabsf(__test__float_precision)-fabsf(exp)) < fabsf(eps)); if (__test__b) { __test__ok++; } __test__output  << (__test__b ? "[ OK ]" : "[ FAIL ]") << "\t" << #x << std::endl << "\t" << "result: " << __PRECISION << __test__float << std::endl << "\t" << "expected: " << __PRECISION << (exp) << std::endl << "\t" << "epsilon: " << __PRECISION << (eps) << std::endl << std::endl
 #define expected(x,exp) expected_any(__test__any,x,exp)
 
-#define summary() __test__output << std::endl <<__test__totaltime.count()*1000.0 << " " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; __test__outputFile << __test__output.str(); std::cout << __test__output.str(); __test__outputFile.close()
+#define summary() __test__output << std::endl << std::setprecision(4) << std::chrono::duration_cast<std::chrono::microseconds>(__test__totaltime).count() / 1000.0f << " " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; __test__outputFile << __test__output.str(); std::cout << __test__output.str(); __test__outputFile.close()
 
 
 #endif /* DE_TEST_H */

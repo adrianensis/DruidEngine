@@ -4,11 +4,11 @@
 namespace DE {
 
 f32 rad(const f32 deg){
-  return deg * (f32)(M_PI/180.0f);
+  return deg * TO_RAD;
 }
 
 f32 deg(const f32 rad){
-  return rad * (f32)(180.0f/M_PI);
+  return rad * TO_DEG;
 }
 
 bool eqf(const f32 a, const f32 b, const f32 epsilon){

@@ -25,7 +25,7 @@ export -f runTest
 cd "./test_output/"
 
 echo -e "\n-----------------------------------------------------\n"
-echo -e "  RESULT \t TIME/OK/FAIL \t\t TEST NAME\n"
+echo -e "  RESULT \t TIME(ms)/OK/FAIL \t TEST NAME\n"
 echo -e "-----------------------------------------------------"
 
 array=()

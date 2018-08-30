@@ -10,8 +10,8 @@ private:
   f32 fps;
 
 public:
-  Engine ();
-  ~Engine ();
+  Engine();
+  ~Engine();
 
   void init();
   void run();
