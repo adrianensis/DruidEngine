@@ -22,7 +22,7 @@ function runTest() {
 
 export -f runTest
 
-cd "./testOutput/"
+cd "testOutput"
 
 echo -e "\n-----------------------------------------------------\n"
 echo -e "  RESULT \t TIME(ms)/OK/FAIL \t TEST NAME\n"
