@@ -19,6 +19,7 @@ message("Selected Build target: ${CMAKE_BUILD_TYPE}")
 
 # OpenGL
 find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
@@ -26,6 +27,10 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(libs/glfw-3.2.1)
 include_directories(libs/glfw-3.2.1/include)
+
+# glad
+set(GLAD_SOURCE "libs/glad/src/glad.c")
+include_directories(libs/glad/include)
 
 # output directories
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/libDruid)
@@ -63,11 +68,9 @@ foreach(PACKAGE ${PACKAGES})
 endforeach()
 
 # single library
-add_library(${DRUID} "include/Druid/Druid.h" ${OBJS} )
+add_library(${DRUID} "include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
 
 # link libraries with druid library
-include_directories(${OPENGL_INCLUDE_DIR})
-
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
