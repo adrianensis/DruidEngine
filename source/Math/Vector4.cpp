@@ -152,13 +152,13 @@ f32 Vector4::dst(const Vector4& v) const {
 }
 
 bool Vector4::eq(const Vector4& v, const f32 e) const {
-	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e) &&
-	eqf(this->z, v.z, e) && eqf(this->w, v.w, e);
+	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e) &&
+			MathUtils::eqf(this->z, v.z, e) && MathUtils::eqf(this->w, v.w, e);
 }
 
 bool Vector4::eq(const Vector4& v) const {
-	return eqf(this->x, v.x) && eqf(this->y, v.y) &&
-	eqf(this->z, v.z) && eqf(this->w, v.w);
+	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y) &&
+			MathUtils::eqf(this->z, v.z) && MathUtils::eqf(this->w, v.w);
 }
 
 Vector4& Vector4::lerp(const Vector4& target, const f32 t) {

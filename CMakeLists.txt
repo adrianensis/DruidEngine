@@ -15,9 +15,21 @@ message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 message("Selected Build target: ${CMAKE_BUILD_TYPE}")
 
+# third party libraries
+
+# OpenGL
+find_package(OpenGL REQUIRED)
+
+# GLFW
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(libs/glfw-3.2.1)
+include_directories(libs/glfw-3.2.1/include)
+
 # output directories
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/test_output)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/libDruid)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/testOutput)
 
 # packages
 file(GLOB PACKAGES_PATHS "source/*")
@@ -53,6 +65,14 @@ endforeach()
 # single library
 add_library(${DRUID} "include/Druid/Druid.h" ${OBJS} )
 
+# link libraries with druid library
+include_directories(${OPENGL_INCLUDE_DIR})
+
+target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
+target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
+target_link_libraries( ${DRUID} glfw)
+
+# compile tests
 file(GLOB TEST_PATHS "test/*")
 
 foreach(TEST_PATH ${TEST_PATHS})
@@ -65,8 +85,8 @@ foreach(TEST_PATH ${TEST_PATHS})
 
 	  set(TEST_FINAL_NAME "test_${DRUID}_${TEST_NAME}" )
 
-	  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
-	  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID} )
+      add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
+      target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
 	  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 	endforeach()
 

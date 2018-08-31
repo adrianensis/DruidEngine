@@ -174,7 +174,7 @@ Matrix4 Matrix4::rotation(const Vector3& vector){
   f32 radians, cos, sin;
 
   if(vector.x != 0){
-      radians = rad(vector.x);
+      radians = MathUtils::rad(vector.x);
       sin = sinf(radians);
       cos = cosf(radians);
       m.set(1,1,cos);
@@ -182,7 +182,7 @@ Matrix4 Matrix4::rotation(const Vector3& vector){
       m.set(2,1,sin);
       m.set(2,2,cos);
   }else if(vector.y != 0){
-      radians = rad(vector.y);
+      radians = MathUtils::rad(vector.y);
       sin = sinf(radians);
       cos = cosf(radians);
       m.set(0,0,cos);
@@ -190,7 +190,7 @@ Matrix4 Matrix4::rotation(const Vector3& vector){
       m.set(2,0,-sin);
       m.set(2,2,cos);
   }else if(vector.z != 0){
-      radians = rad(vector.z);
+      radians = MathUtils::rad(vector.z);
       sin = sinf(radians);
       cos = cosf(radians);
       m.set(0,0,cos);
@@ -222,7 +222,7 @@ Matrix4 Matrix4::ortho(const f32 left, const f32 right, const f32 bottom, const 
 };
 
 Matrix4 Matrix4::perspective(const f32 near, const f32 far, const f32 aspect, f32 fov){
-  f32 top = near * tanf((fov/2)*TO_RAD);
+  f32 top = near * tanf((fov/2)*MathUtils::PI_180);
   f32 bottom = -top;
   f32 right = top*aspect;
   f32 left = -right;

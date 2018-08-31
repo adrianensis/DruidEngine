@@ -17,9 +17,9 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw){
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
-	f32 roll2 = rad(roll)*0.5f; // x
-	f32 pitch2 = rad(pitch)*0.5f; // y
-	f32 yaw2 = rad(yaw)*0.5f; // z
+	f32 roll2 = MathUtils::rad(roll)*0.5f; // x
+	f32 pitch2 = MathUtils::rad(pitch)*0.5f; // y
+	f32 yaw2 = MathUtils::rad(yaw)*0.5f; // z
 
 	f32 c3 = cosf(yaw2);
 	f32 c2 = cosf(pitch2);
@@ -168,11 +168,11 @@ Quaternion& Quaternion::nor() {
 }
 
 bool Quaternion::eq(const Quaternion& q, const f32 e) const {
-	return v.eq(q.v, e) && eqf(this->w, q.w, e);
+	return v.eq(q.v, e) && MathUtils::eqf(this->w, q.w, e);
 }
 
 bool Quaternion::eq(const Quaternion& q) const {
-	return v.eq(q.v) && eqf(this->w, q.w);
+	return v.eq(q.v) && MathUtils::eqf(this->w, q.w);
 }
 
 Quaternion& Quaternion::conj() {
@@ -250,7 +250,7 @@ Vector3 Quaternion::toEuler() const{
 	f32 t4 = +1.0 - 2.0 * (yy + zz);
 	f32 yaw = atan2f(t3, t4);
 
-	return Vector3(deg(roll),deg(pitch),deg(yaw));
+	return Vector3(MathUtils::deg(roll),MathUtils::deg(pitch),MathUtils::deg(yaw));
 }
 
 } /* namespace DE */

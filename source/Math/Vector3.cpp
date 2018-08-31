@@ -131,11 +131,11 @@ f32 Vector3::dst(const Vector3& v) const {
 }
 
 bool Vector3::eq(const Vector3& v) const {
-	return eqf(this->x, v.x) && eqf(this->y, v.y) && eqf(this->z, v.z);
+	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y) && MathUtils::eqf(this->z, v.z);
 }
 
 bool Vector3::eq(const Vector3& v, const f32 e) const {
-	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e) && eqf(this->z, v.z, e);
+	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e) && MathUtils::eqf(this->z, v.z, e);
 }
 
 Vector3& Vector3::cross(const Vector3& v){

@@ -121,11 +121,11 @@ f32 Vector2::dst(const Vector2& v) const {
 }
 
 bool Vector2::eq(const Vector2& v) const {
-	return eqf(this->x, v.x) && eqf(this->y, v.y);
+	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y);
 }
 
 bool Vector2::eq(const Vector2& v, const f32 e) const {
-	return eqf(this->x, v.x, e) && eqf(this->y, v.y, e);
+	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e);
 }
 
 Vector2& Vector2::lerp(const Vector2& target, const f32 t) {
