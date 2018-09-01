@@ -19,6 +19,8 @@ void Engine::run(){
 	while(! render.isClosed()){
 		render.step();
 	}
+
+	render.terminate();
 };
 
 void Engine::terminate() {

@@ -17,6 +17,7 @@ public:
 	void init();
 	bool isClosed();
 	void step();
+	void terminate();
 };
 
 } /* namespace DE */

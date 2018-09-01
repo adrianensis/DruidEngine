@@ -50,4 +50,8 @@ void RenderEngine::step() {
 	glfwPollEvents();
 }
 
+void RenderEngine::terminate() {
+	glfwTerminate();
+}
+
 } /* namespace DE */

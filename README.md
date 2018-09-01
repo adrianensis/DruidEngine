@@ -26,4 +26,4 @@ This command will print the results in terminal.
 
 ## Integration Tests
 
-Run intgration tests by executing `./testOutput/test_integration_<NAME OF THE TEST>`. Result are stored in **testOutput/output**.
+Run intgration tests by executing `./testOutput/test_integration_<NAME OF THE TEST>`. Results are stored in **testOutput/output**.
