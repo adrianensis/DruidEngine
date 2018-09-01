@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
@@ -11,7 +12,17 @@ void Engine::init(){
 
 void Engine::run(){
 
+	RenderEngine render;
+
+	render.init();
+
+	while(! render.isClosed()){
+		render.step();
+	}
 };
 
+void Engine::terminate() {
+	Memory::free();
+}
 
 } /* namespace DE */

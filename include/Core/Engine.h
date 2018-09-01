@@ -15,6 +15,7 @@ public:
 
   void init();
   void run();
+  void terminate();
 };
 
 } /* namespace DE */

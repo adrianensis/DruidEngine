@@ -25,6 +25,15 @@
 #include "Tree.h"
 #include "Engine.h"
 #include "Time.h"
+#include "Batch.h"
+#include "Camera.h"
+#include "Material.h"
+#include "Mesh.h"
+#include "RenderContext.h"
+#include "RenderEngine.h"
+#include "Renderer.h"
+#include "Shader.h"
+#include "Texture.h"
 
 
 #endif /* DE_DRUID_H */

@@ -9,6 +9,10 @@ project(${DRUID})
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG -std=c++14 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -Wall -O3 -ffast-math -mavx")
 
+# output directories
+set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libDruid")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/testOutput")
+
 message("Compiler: ${CMAKE_CXX_COMPILER}")
 message("Release: ${CMAKE_CXX_FLAGS_RELEASE}")
 message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -32,10 +36,6 @@ include_directories("${LIBS_DIR}/glfw-3.2.1/include")
 # glad
 set(GLAD_SOURCE "${LIBS_DIR}/glad/src/glad.c")
 include_directories("${LIBS_DIR}/glad/include")
-
-# output directories
-set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libDruid")
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/testOutput")
 
 # packages
 file(GLOB PACKAGES_PATHS "source/*")
@@ -77,7 +77,10 @@ target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
 
 # compile tests
-file(GLOB TEST_PATHS "test/*")
+
+# unit tests
+
+file(GLOB TEST_PATHS "test/unit/*")
 
 foreach(TEST_PATH ${TEST_PATHS})
 
@@ -87,10 +90,29 @@ foreach(TEST_PATH ${TEST_PATHS})
 
 	  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
 
-	  set(TEST_FINAL_NAME "test_${DRUID}_${TEST_NAME}" )
+	  set(TEST_FINAL_NAME "test_unit_${TEST_NAME}" )
+	  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
+	  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
+	  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+	endforeach()
 
-    add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
-    target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
+endforeach()
+
+# integration tests
+
+file(GLOB TEST_PATHS "test/integration/*")
+
+foreach(TEST_PATH ${TEST_PATHS})
+
+	file(GLOB TEST_SOURCES "${TEST_PATH}/*.cpp")
+
+	foreach(TEST_PATH ${TEST_SOURCES})
+
+	  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
+
+	  set(TEST_FINAL_NAME "test_integration_${TEST_NAME}" )
+	  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
+	  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
 	  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 	endforeach()
 

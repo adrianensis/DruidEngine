@@ -1,12 +1,14 @@
 #! /bin/bash
 
-function runTest() {
+outputDir="output"
+
+function readTest() {
 	f=$1
 
-	output=$("./$f" | tail -1)
-	time=$(echo $output | cut -d" " -f1 )
-	ok=$(echo $output | cut -d" " -f2 )
-	fail=$(echo $output | cut -d" " -f3 )
+	output=$(tail -1 "$outputDir/$f.txt")
+	time=$(echo $output | cut -d" " -f1)
+	ok=$(echo $output | cut -d" " -f2)
+	fail=$(echo $output | cut -d" " -f3)
 
 	printf "\n> "
 
@@ -20,25 +22,23 @@ function runTest() {
 	printf "\t\t$output\t\t$f\n"
 }
 
-export -f runTest
-
 cd "testOutput"
 
 echo -e "\n-----------------------------------------------------\n"
 echo -e "  RESULT \t TIME(ms)/OK/FAIL \t TEST NAME\n"
 echo -e "-----------------------------------------------------"
 
-array=()
+rm -R "output" 2> /dev/null
+tests=$(ls)
+mkdir $outputDir
 
-for f in $(ls)
+for f in $tests
 do
-		if [ ${f: -4} != ".txt" ]
-		then
-			# array+=($f)
-			runTest $f
-		fi
+    if [[ $f = *"test_unit_"* ]]
+    then
+      ./$f >> "$outputDir/$f.txt"
+	    readTest $f
+    fi
 done
-
-# parallel -j 4 runTest ::: "${array[@]}"
 
 printf "\n"
