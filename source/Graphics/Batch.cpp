@@ -1,5 +1,7 @@
 #include "Batch.h"
 
+#include "RenderContext.h"
+
 namespace DE {
 
 Batch::Batch() {
@@ -12,3 +14,10 @@ Batch::~Batch() {
 }
 
 } /* namespace DE */
+
+void DE::Batch::bind() {
+	mVAO = RenderContext::createVAO();
+	mVBOPosition = RenderContext::createVBO(nullptr, 3, 0);
+	mVBOElemIndices = RenderContext::createEBO(nullptr);
+	//mVBONormal = RenderContext::createVBO();
+}

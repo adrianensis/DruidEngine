@@ -1,5 +1,6 @@
 #include "Engine.h"
-#include "RenderEngine.h"
+#include "Memory.h"
+#include "RenderContext.h"
 
 namespace DE {
 
@@ -8,19 +9,15 @@ Engine::~Engine() = default;
 
 void Engine::init(){
   Memory::init();
+  mRender.init();
 };
 
 void Engine::run(){
-
-	RenderEngine render;
-
-	render.init();
-
-	while(! render.isClosed()){
-		render.step();
+	while(! RenderContext::isClosed()){
+		mRender.step();
 	}
 
-	render.terminate();
+	mRender.terminate();
 };
 
 void Engine::terminate() {

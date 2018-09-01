@@ -1,13 +1,15 @@
 #ifndef DE_ENGINE_H
 #define DE_ENGINE_H
 
-#include "Memory.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
 class Engine {
 private:
   f32 fps;
+
+  RenderEngine mRender;
 
 public:
   Engine();

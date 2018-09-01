@@ -1,15 +1,19 @@
 #ifndef DE_RENDERENGINE_H
 #define DE_RENDERENGINE_H
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "List.h"
+#include "Batch.h"
+#include "RenderContext.h"
+#include "Camera.h"
 
 namespace DE {
 
 class RenderEngine {
 private:
-	GLFWwindow* mWindow;
-	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+	List<Batch*>* mTextureBatches;
+	RenderContext* mRenderContext;
+	Camera* mCamera;
+
 public:
 	RenderEngine();
 	virtual ~RenderEngine();

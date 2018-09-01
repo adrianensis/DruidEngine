@@ -1,57 +1,45 @@
 #include "RenderEngine.h"
 
-#include <iostream>
-
+#include "Memory.h"
 
 namespace DE {
 
-RenderEngine::RenderEngine() {
-	// TODO Auto-generated constructor stub
-}
-
-RenderEngine::~RenderEngine() {
-	// TODO Auto-generated destructor stub
-}
-
-void RenderEngine::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+RenderEngine::RenderEngine() :
+	mTextureBatches(nullptr),
+	mRenderContext(nullptr),
+	mCamera(nullptr)
 {
-    glViewport(0, 0, width, height);
 }
+
+RenderEngine::~RenderEngine() = default;
 
 void RenderEngine::init() {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	mWindow = glfwCreateWindow(800, 600, "DruidEngine", NULL, NULL);
-	if (mWindow == NULL){
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-	}else{
-		glfwMakeContextCurrent(mWindow);
+	mTextureBatches = Memory::allocate<List<Batch*>>();
+	mRenderContext = Memory::allocate<RenderContext>();
+	mCamera = Memory::allocate<Camera>();
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-		    std::cout << "Failed to initialize GLAD" << std::endl;
-		}
-	}
-
-	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
-	glViewport(0, 0, 800, 600);
+	RenderContext::init();
 }
 
-bool RenderEngine::isClosed() {
-	return glfwWindowShouldClose(mWindow);
-}
 
 void RenderEngine::step() {
-	glfwSwapBuffers(mWindow);
-	glfwPollEvents();
+
+	auto it = mTextureBatches->getIterator();
+
+	for (; !it.isNull(); it.next())  ;
+		//draw
+
+	RenderContext::swap();
 }
 
 void RenderEngine::terminate() {
-	glfwTerminate();
+
+	Memory::free<List<Batch*>>(mTextureBatches);
+	Memory::free<RenderContext>(mRenderContext);
+	Memory::free<Camera>(mCamera);
+
+	RenderContext::terminate();
 }
 
 } /* namespace DE */
