@@ -38,7 +38,7 @@ set(GLAD_SOURCE "${LIBS_DIR}/glad/src/glad.c")
 include_directories("${LIBS_DIR}/glad/include")
 
 # packages
-file(GLOB PACKAGES_PATHS "source/*")
+file(GLOB PACKAGES_PATHS "code/source/*")
 set(PACKAGES "")
 
 foreach(PACKAGE_PATH ${PACKAGES_PATHS})
@@ -48,18 +48,18 @@ endforeach()
 
 # include directory
 
-file(GLOB INCLUDE_PATHS "include/*")
+file(GLOB INCLUDE_PATHS "code/include/*")
 
 foreach(INCLUDE_PATH ${INCLUDE_PATHS})
   get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
-  include_directories("include/${INCLUDE_NAME}")
+  include_directories("code/include/${INCLUDE_NAME}")
 endforeach()
 
 # object libraries
 # Alternative: CMakeLists.txt with this code into source directory.
 # add_subdirectory(source)
 foreach(PACKAGE ${PACKAGES})
-  file(GLOB PACKAGE_SOURCE "source/${PACKAGE}/*.cpp")
+  file(GLOB PACKAGE_SOURCE "code/source/${PACKAGE}/*.cpp")
   add_library(${PACKAGE} OBJECT ${PACKAGE_SOURCE})
 endforeach()
 
@@ -69,7 +69,7 @@ foreach(PACKAGE ${PACKAGES})
 endforeach()
 
 # single library
-add_library(${DRUID} "include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
+add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
 
 # link libraries with druid library
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
