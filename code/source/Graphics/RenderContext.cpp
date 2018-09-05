@@ -16,8 +16,7 @@ RenderContext::RenderContext() : DE_Class()
 
 RenderContext::~RenderContext() = default;
 
-void RenderContext::onResize(GLFWwindow* window, int width, int height)
-{
+void RenderContext::onResize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
 }
 
@@ -53,15 +52,22 @@ void RenderContext::init() {
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+
+	RenderContext::clean();
 }
 
 bool RenderContext::isClosed() {
 	return glfwWindowShouldClose(mWindow);
 }
 
+void RenderContext::clean() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
+}
+
 void RenderContext::swap() {
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
+	RenderContext::clean();
 }
 
 void RenderContext::terminate() {

@@ -5,7 +5,6 @@
 #include "Batch.h"
 #include "RenderContext.h"
 #include "Camera.h"
-#include "DE_Class.h"
 
 namespace DE {
 
@@ -20,8 +19,9 @@ public:
 	~RenderEngine() override;
 
 	void init();
-	bool isClosed();
-	void step();
+	void bind();
+	void update();
+	void render();
 	void terminate();
 };
 

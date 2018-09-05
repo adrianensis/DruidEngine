@@ -3,7 +3,7 @@
 
 #include "DE_Class.h"
 #include "Material.h"
-#include "Array.h"
+#include "List.h"
 #include "Renderer.h"
 #include "Mesh.h"
 #include "Shader.h"
@@ -13,7 +13,7 @@ namespace DE {
 class Batch : public DE_Class{
 private:
 	Material* mMaterial;
-	Array<Renderer*>* mRenderers;
+	List<Renderer*>* mRenderers;
 	Mesh* mMesh;
 
 	u32 mVBOPosition; // TODO: change u32 for GLuint

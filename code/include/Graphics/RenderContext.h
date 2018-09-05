@@ -21,6 +21,7 @@ public:
 	static void init();
 	static bool isClosed();
 	static void swap();
+	static void clean();
 	static void terminate();
 
 	static GLuint createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex);

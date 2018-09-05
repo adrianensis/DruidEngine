@@ -25,34 +25,42 @@ void RenderEngine::init() {
 	Mesh* mesh = Memory::allocate<Mesh>();
 	mesh->init(3);
 
-	mesh->addVertex(Vector3(-0.5f, -0.5f, 0.0f))->
-			addVertex(Vector3(0.5f, -0.5f, 0.0f))->
-			addVertex(Vector3(0.0f, 0.5f, 0.0f))->
-			addFace(0,1,2)->
-			close();
+	mesh->open()->
+		addVertex(Vector3(-0.5f, -0.5f, 0.0f))->
+		addVertex(Vector3(0.5f, -0.5f, 0.0f))->
+		addVertex(Vector3(0.0f, 0.5f, 0.0f))->
+		addFace(0,1,2)->
+		close();
 
 	Batch* batch = Memory::allocate<Batch>();
 	batch->init(mesh, nullptr);
-	batch->bind();
 	mTextureBatches->pushBack(batch);
 }
 
 
-void RenderEngine::step() {
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
-
+void RenderEngine::render() {
 	auto it = mTextureBatches->getIterator();
-
 	for (; !it.isNull(); it.next())
 		it.get()->render();
 
 	RenderContext::swap();
 }
 
+void RenderEngine::bind() {
+	auto it = mTextureBatches->getIterator();
+	for (; !it.isNull(); it.next())
+		it.get()->bind();
+}
+
+void RenderEngine::update() {
+	auto it = mTextureBatches->getIterator();
+	for (; !it.isNull(); it.next())
+		it.get()->update();
+}
+
 void RenderEngine::terminate() {
 
-	Memory::free<List<Batch*>>(mTextureBatches);
+	Memory::free<List<Batch*>>(mTextureBatches); // TODO : foreach, clean batches ?
 	Memory::free<RenderContext>(mRenderContext);
 	Memory::free<Camera>(mCamera);
 

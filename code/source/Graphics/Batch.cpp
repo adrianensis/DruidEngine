@@ -19,11 +19,9 @@ Batch::Batch() : DE_Class(),
 }
 
 Batch::~Batch() {
-
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
 	glDeleteBuffers(1, &mEBO);
-
 }
 
 void Batch::init(Mesh* mesh, Material* material) {
@@ -49,7 +47,6 @@ void Batch::update() {
 }
 
 void Batch::render() {
-
 	mShader->use();
 	RenderContext::enableVAO(mVAO);
 	glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);

@@ -25,7 +25,8 @@ Mesh::~Mesh() {
 	Memory::free<Array<f32>>(mNormals);
 	Memory::free<Array<f32>>(mTextureCoordinates);
 	Memory::free<Array<u32>>(mFaces);
-	Memory::free<DynamicArray<u32>>(mFacesTmp);
+	if(mFacesTmp != nullptr)
+		Memory::free<DynamicArray<u32>>(mFacesTmp);
 }
 
 void Mesh::init(const u32 vertexCount) {
@@ -36,12 +37,10 @@ void Mesh::init(const u32 vertexCount) {
 	mNormals = Memory::allocate<Array<f32>>();
 	mTextureCoordinates = Memory::allocate<Array<f32>>();
 	mFaces = Memory::allocate<Array<u32>>();
-	mFacesTmp = Memory::allocate<DynamicArray<u32>>();
 
 	mVertices->init(vertexCount*3);
 	mNormals->init(vertexCount*3);
 	mTextureCoordinates->init(vertexCount*3);
-	mFacesTmp->init();
 
 	mVerticesIndex = 0; // Vertices index
 	mNormalsIndex = 0; // Normals index
@@ -84,9 +83,20 @@ Mesh* Mesh::addFace(const u32 v1,const u32 v2,const u32 v3) {
     return this;
 };
 
+
+Mesh* Mesh::open() {
+	mFacesTmp = Memory::allocate<DynamicArray<u32>>();
+	mFacesTmp->init();
+	return this;
+}
+
 void Mesh::close() {
+	// move data from dynamic array to fixed array.
 	mFaces->init(mFacesTmp->getLength());
 	mFaces->put(*mFacesTmp,0,0);
+
+	Memory::free<DynamicArray<u32>>(mFacesTmp);
+	mFacesTmp = nullptr;
 }
 
 const Array<f32>* Mesh::getVerticesData() const {

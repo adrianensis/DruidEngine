@@ -16,8 +16,11 @@ void Engine::init(){
 };
 
 void Engine::run(){
+	mRender.bind();
+
 	while(! RenderContext::isClosed()){
-		mRender.step();
+		mRender.update();
+		mRender.render();
 	}
 
 	mRender.terminate();
