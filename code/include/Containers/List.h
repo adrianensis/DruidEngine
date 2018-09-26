@@ -109,8 +109,10 @@ public:
 
     public:
 
-    Iterator() {
-      mNode = nullptr;
+    Iterator() :
+      mNode(nullptr),
+      mReverse(false)
+	{
     };
 
     Iterator(const Iterator& other) {
@@ -285,9 +287,11 @@ private:
 
 public:
 
-  List() : SequentialContainer<T>() {
-    mFirst = nullptr;
-    mLast = nullptr;
+  List() : SequentialContainer<T>(),
+  	  mFirst(nullptr),
+      mLast(nullptr),
+	  mLastAccessedIndex(-1)
+  {
   };
 
   ~List() {
@@ -608,6 +612,31 @@ public:
       BaseContainer::mLength++;
     }else
       List::pushFront(element);
+  };
+
+  /*!
+    \brief Finds with default comparator.
+  */
+  Iterator find(T element){
+	  return find(element, defaultComparator);
+  };
+
+  /*!
+    \brief Finds with custom comparator.
+  */
+  Iterator find(T element, u8 (*comparator)(const T& a, const T& b)){
+	auto it = getIterator();
+	Iterator selectedIt;
+	bool found = false;
+
+	for (; !it.isNull() && !found; it.next()){
+		if(comparator(element, it.get()) == 0){
+			found = true;
+			selectedIt = it;
+		}
+	}
+
+	return selectedIt;
   };
 
   /*!

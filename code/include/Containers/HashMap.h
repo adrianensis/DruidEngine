@@ -47,14 +47,22 @@ private:
 
   Array<List<Node*>*>* mArray;
 
+  List<K>* mKeys;
+  List<V>* mValues;
+
 public:
 
   /*!
     \brief Default Constructor.
   */
   HashMap() : BaseContainer(),
-  	  mArray(nullptr)
+  	  mArray(nullptr),
+	  mKeys(nullptr),
+	  mValues(nullptr)
   {
+	  // check class
+	  bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value || std::is_arithmetic<K>::value || std::is_pointer<K>::value;
+	  DE_ASSERT(class_ok, "K must be integer, pointer or extend Hash class.");
   };
 
   /*!
@@ -62,6 +70,9 @@ public:
   */
   ~HashMap(){
     HashMap<K,V>::clear();
+    Memory::free<Array<List<Node*>*>>(mArray);
+    Memory::free<List<K>>(mKeys);
+    Memory::free<List<V>>(mValues);
   };
 
   /*!
@@ -72,10 +83,11 @@ public:
     mArray = Memory::allocate<Array<List<Node*>*>>();
     mArray->init(100);
 
-    // check class
-    bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value || std::is_arithmetic<K>::value || std::is_pointer<K>::value;
-    DE_ASSERT(class_ok, "K must be integer, pointer or extend Hash class.");
+    mKeys = Memory::allocate<List<K>>();
+    mValues = Memory::allocate<List<V>>();
 
+    mKeys->init();
+    mValues->init();
   };
 
   void set(const K key, const V element) {
@@ -108,7 +120,11 @@ public:
     else{
       list->pushBack(newNode(key, element));
       BaseContainer::mLength++;
+
+      mKeys->pushBack(key);
     }
+
+    mValues->pushBack(element);
   };
 
   V get(const K key) const {
@@ -171,6 +187,14 @@ public:
       DE_ASSERT(false, "Can't find the element with given key.");
   };
 
+  const List<K>* getKeys() const{
+	  return mKeys;
+  }
+
+  const List<V>* getValues() const{
+	return mValues;
+  }
+
   void clear() override {
     if(mArray != nullptr){
       for (u32 i = 0; i < mArray->getLength(); i++) {
@@ -183,8 +207,15 @@ public:
               freeNode(it.get());
             }
           }
+
+          Memory::free<List<Node*>>(list);
         }
+
+        mArray->set(i,nullptr);
       }
+
+      mKeys->clear();
+      mValues->clear();
     }
   };
 };

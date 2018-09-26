@@ -6,8 +6,6 @@
 
 namespace DE {
 
-#define CLASS_HASH(classname) Hash::hash(#classname)
-
 /*!
   \brief Gives objects a hash number (u64).
 */

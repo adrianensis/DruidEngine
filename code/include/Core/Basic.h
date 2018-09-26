@@ -7,6 +7,5 @@
 #include "Assert.h"
 #include "Debug.h"
 #include "MathUtils.h"
-#include <type_traits>
 
 #endif /* DE_BASIC_H */

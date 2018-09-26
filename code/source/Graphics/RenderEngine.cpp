@@ -38,7 +38,7 @@ void RenderEngine::init() {
 }
 
 
-void RenderEngine::render() {
+void RenderEngine::step() {
 	auto it = mTextureBatches->getIterator();
 	for (; !it.isNull(); it.next())
 		it.get()->render();

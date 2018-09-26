@@ -4,29 +4,48 @@
 
 namespace DE {
 
-Engine::Engine() : DE_Class(){
-
+Engine::Engine() : DE_Class(),
+		mFPS(60),
+		mScenes(nullptr),
+		mRenderEngine(nullptr),
+		mScriptEngine(nullptr)
+{
 };
 
 Engine::~Engine() = default;
 
 void Engine::init(){
   Memory::init();
-  mRender.init();
+
+  mRenderEngine = Memory::allocate<RenderEngine>();
+  mScriptEngine = Memory::allocate<ScriptEngine>();
+  mScenes = Memory::allocate<List<Scene*>>();
+
+  mRenderEngine->init();
+  mScriptEngine->init();
+  mScenes->init();
 };
 
 void Engine::run(){
-	mRender.bind();
+	mRenderEngine->bind();
 
 	while(! RenderContext::isClosed()){
-		mRender.update();
-		mRender.render();
+		mScriptEngine->step();
+
+		mRenderEngine->update();
+		mRenderEngine->step();
 	}
 
-	mRender.terminate();
+	mScriptEngine->terminate();
+	mRenderEngine->terminate();
 };
 
 void Engine::terminate() {
+
+	Memory::free<RenderEngine>(mRenderEngine);
+	Memory::free<ScriptEngine>(mScriptEngine);
+	Memory::free<List<Scene*>>(mScenes);
+
 	Memory::free();
 }
 

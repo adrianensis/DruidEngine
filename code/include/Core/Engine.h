@@ -2,15 +2,20 @@
 #define DE_ENGINE_H
 
 #include "DE_Class.h"
+#include "List.h"
+#include "Scene.h"
 #include "RenderEngine.h"
+#include "ScriptEngine.h"
 
 namespace DE {
 
 class Engine : public DE_Class{
 private:
-  f32 fps;
+  f32 mFPS;
 
-  RenderEngine mRender;
+  List<Scene*>* mScenes;
+  RenderEngine* mRenderEngine;
+  ScriptEngine* mScriptEngine;
 
 public:
   Engine();

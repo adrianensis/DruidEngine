@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG -std=c++14 -Wall
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -Wall -O3 -ffast-math -mavx")
 
 # output directories
-set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libDruid")
+set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libOutput")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/testOutput")
 
 message("Compiler: ${CMAKE_CXX_COMPILER}")
@@ -20,7 +20,7 @@ message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 message("Selected Build target: ${CMAKE_BUILD_TYPE}")
 
 # third party libraries
-set(LIBS_DIR "libs")
+set(DEPENDENCIES_DIR "dependencies")
 
 # OpenGL
 find_package(OpenGL REQUIRED)
@@ -30,12 +30,12 @@ include_directories(${OPENGL_INCLUDE_DIR})
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory("${LIBS_DIR}/glfw-3.2.1")
-include_directories("${LIBS_DIR}/glfw-3.2.1/include")
+add_subdirectory("${DEPENDENCIES_DIR}/glfw-3.2.1")
+include_directories("${DEPENDENCIES_DIR}/glfw-3.2.1/include")
 
 # glad
-set(GLAD_SOURCE "${LIBS_DIR}/glad/src/glad.c")
-include_directories("${LIBS_DIR}/glad/include")
+set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
+include_directories("${DEPENDENCIES_DIR}/glad/include")
 
 # packages
 file(GLOB PACKAGES_PATHS "code/source/*")

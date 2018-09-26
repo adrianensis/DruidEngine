@@ -21,7 +21,7 @@ public:
 	void init();
 	void bind();
 	void update();
-	void render();
+	void step(); // render
 	void terminate();
 };
 
