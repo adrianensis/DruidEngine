@@ -78,6 +78,8 @@ target_link_libraries( ${DRUID} glfw)
 
 # compile tests
 
+if(BUILD_TESTS)
+
 # unit tests
 
 file(GLOB TEST_PATHS "test/unit/*")
@@ -117,3 +119,5 @@ foreach(TEST_PATH ${TEST_PATHS})
 	endforeach()
 
 endforeach()
+
+endif(BUILD_TESTS)

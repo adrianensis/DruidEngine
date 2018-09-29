@@ -2,10 +2,11 @@
 #define DE_RENDERER_H
 
 #include "DE_Class.h"
+#include "Component.h"
 
 namespace DE {
 
-class Renderer : public DE_Class{
+class Renderer : public Component{
 public:
 	Renderer();
 	~Renderer() override;

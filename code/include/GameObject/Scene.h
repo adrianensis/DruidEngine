@@ -3,9 +3,10 @@
 
 #include "DE_Class.h"
 #include "List.h"
-#include "GameObject.h"
 
 namespace DE {
+
+class GameObject;
 
 class Scene : public DE_Class {
 private:

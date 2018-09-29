@@ -2,7 +2,7 @@
 
 namespace DE {
 
-Renderer::Renderer() : DE_Class() {
+Renderer::Renderer() : Component() {
 	// TODO Auto-generated constructor stub
 
 }

@@ -25,15 +25,7 @@ using u16 = std::uint16_t;
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
-using ClassId = u32;
-
-static ClassId idCounter = 0;
-
-template <class T>
-ClassId getClassId(){
-	static ClassId id = idCounter++; // static variable, local to function.
-	return id;
-}
+using ClassId = u16;
 
 } /* namespace DE */
 

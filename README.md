@@ -3,10 +3,12 @@
 ## Scripts
 
 * RUN FIRST! → Download and install dependencies: `./scripts/dependencies.sh`
-* Build project: `./scripts/build.sh [Debug | Release]`
-  * if no parameter is passed, build is Debug by default.
+* Build project: `./scripts/build.sh -[rtch]`
+  * -h Show help.
+  * -r Compile Release, Debug by default.
+  * -t Compile Tests suite.
+  * -c Clean the project.
 * Run unitary tests: `./scripts/test.sh`
-* Clean project: `./scripts/clean.sh`
 * Generate documentation: `./scripts/doc.sh`
 
 ## Directories

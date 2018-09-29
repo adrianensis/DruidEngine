@@ -22,12 +22,12 @@ public:
 
 	template<class T>
 	void addComponent(Component* component){
-		GameObject::addComponent(getClassId<T>(), component);
+		GameObject::addComponent(T::getClassId(), component);
 	}
 
 	template<class T>
 	List<T*>* getComponents(){
-		return static_cast<List<T*>*>(GameObject::getComponents(getClassId<T>()));
+		return static_cast<List<T*>*>(GameObject::getComponents(T::getClassId()));
 	}
 };
 

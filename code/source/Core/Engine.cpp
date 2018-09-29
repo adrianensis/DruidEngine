@@ -1,6 +1,10 @@
 #include "Engine.h"
 #include "Memory.h"
 #include "RenderContext.h"
+#include "Scene.h"
+#include "RenderEngine.h"
+#include "ScriptEngine.h"
+#include "GameObject.h"
 
 namespace DE {
 
@@ -24,6 +28,16 @@ void Engine::init(){
   mRenderEngine->init();
   mScriptEngine->init();
   mScenes->init();
+
+  Scene* scene = Memory::allocate<Scene>();
+  GameObject* gameObject = Memory::allocate<GameObject>();
+
+  scene->init();
+  gameObject->init();
+
+  scene->addGameObject(gameObject);
+
+  mScenes->pushBack(scene);
 };
 
 void Engine::run(){

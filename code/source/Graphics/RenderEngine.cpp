@@ -1,6 +1,8 @@
 #include "RenderEngine.h"
-
 #include "Memory.h"
+#include "Batch.h"
+#include "RenderContext.h"
+#include "Camera.h"
 
 namespace DE {
 

@@ -11,6 +11,7 @@ class Component : public DE_Class{
 private:
 	GameObject* gameObject;
 public:
+	DE_GENERATE_CLASS_ID;
 	Component();
 	~Component() override;
 

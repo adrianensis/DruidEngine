@@ -3,11 +3,12 @@
 
 #include "DE_Class.h"
 #include "List.h"
-#include "Scene.h"
-#include "RenderEngine.h"
-#include "ScriptEngine.h"
 
 namespace DE {
+
+class Scene;
+class RenderEngine;
+class ScriptEngine;
 
 class Engine : public DE_Class{
 private:
