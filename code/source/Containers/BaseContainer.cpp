@@ -5,6 +5,9 @@
 namespace DE {
 
 BaseContainer::BaseContainer() : DE_Class(){
+  mLength = 0;
+  mElementSize = 0;
+  mAlignment = 0;
   mAllocator = nullptr;
 };
 
