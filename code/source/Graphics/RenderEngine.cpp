@@ -25,13 +25,15 @@ void RenderEngine::init() {
 	mTextureBatches->init();
 
 	Mesh* mesh = Memory::allocate<Mesh>();
-	mesh->init(3);
+	mesh->init(4);
 
 	mesh->open()->
+		addVertex(Vector3(-0.5f, 0.5f, 0.0f))->
 		addVertex(Vector3(-0.5f, -0.5f, 0.0f))->
 		addVertex(Vector3(0.5f, -0.5f, 0.0f))->
-		addVertex(Vector3(0.0f, 0.5f, 0.0f))->
-		addFace(0,1,2)->
+		addVertex(Vector3(0.5f, 0.5f, 0.0f))->
+		addFace(0,1,3)->
+		addFace(1,2,3)->
 		close();
 
 	Batch* batch = Memory::allocate<Batch>();

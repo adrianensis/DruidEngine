@@ -24,7 +24,7 @@ void RenderContext::init() {
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	mWindow = glfwCreateWindow(800, 600, "DruidEngine", NULL, NULL);
@@ -44,7 +44,7 @@ void RenderContext::init() {
 
 	glViewport(0, 0, 800, 600);
 
-	glClearColor(0.2f, 1.0f, 0.3f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL); // Near things obscure far things
 	glEnable(GL_CULL_FACE); // BACK by default
@@ -53,21 +53,21 @@ void RenderContext::init() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	RenderContext::clean();
+	RenderContext::clear();
 }
 
 bool RenderContext::isClosed() {
 	return glfwWindowShouldClose(mWindow);
 }
 
-void RenderContext::clean() {
+void RenderContext::clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
 }
 
 void RenderContext::swap() {
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
-	RenderContext::clean();
+	RenderContext::clear();
 }
 
 void RenderContext::terminate() {
@@ -102,6 +102,9 @@ GLuint RenderContext::createVAO() {
 }
 
 GLuint RenderContext::createEBO(const Array<u32>* data) {
+
+// TODO : if data is nullptr use assert, don't return -1.
+
 	if(data != nullptr){
 		unsigned int EBO;
 		glGenBuffers(1, &EBO);
