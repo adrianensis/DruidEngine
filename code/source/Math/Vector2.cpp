@@ -4,7 +4,7 @@
 
 namespace DE {
 
-Vector2::Vector2(const f32 x, const f32 y):DE_Class(),x(x),y(y){
+Vector2::Vector2(f32 x, f32 y):DE_Class(),x(x),y(y){
 }
 
 Vector2::Vector2():x(0.0f),y(0.0f){
@@ -15,7 +15,7 @@ Vector2::~Vector2() = default;
 Vector2::Vector2(const Vector2& other):x(other.x),y(other.y){
 }
 
-Vector2& Vector2::set(const f32 x, const f32 y) {
+Vector2& Vector2::set(f32 x, f32 y) {
 	if (this->x == x && this->y == y) return *this; // handle self assignment
 	//assignment operator
 	this->x = x;
@@ -57,25 +57,25 @@ Vector2& Vector2::div(const Vector2& rhs) {
 	return *this;
 }
 
-Vector2& Vector2::add(const f32 rhs) {
+Vector2& Vector2::add(f32 rhs) {
 	x = x + rhs;
 	y = y + rhs;
 	return *this;
 }
 
-Vector2& Vector2::sub(const f32 rhs) {
+Vector2& Vector2::sub(f32 rhs) {
 	x = x - rhs;
 	y = y - rhs;
 	return *this;
 }
 
-Vector2& Vector2::mul(const f32 rhs) {
+Vector2& Vector2::mul(f32 rhs) {
 	x = x * rhs;
 	y = y * rhs;
 	return *this;
 }
 
-Vector2& Vector2::div(const f32 rhs) {
+Vector2& Vector2::div(f32 rhs) {
 	DE_ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
@@ -124,11 +124,11 @@ bool Vector2::eq(const Vector2& v) const {
 	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y);
 }
 
-bool Vector2::eq(const Vector2& v, const f32 e) const {
+bool Vector2::eq(const Vector2& v, f32 e) const {
 	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e);
 }
 
-Vector2& Vector2::lerp(const Vector2& target, const f32 t) {
+Vector2& Vector2::lerp(const Vector2& target, f32 t) {
 	//start + percent*(end - start)
 	(*this) += (Vector2(target)-(*this))*t;
 	return *this;
@@ -139,7 +139,7 @@ f32 Vector2::angle(const Vector2& v) const {
 	return angle < 0 ? angle += 2 * M_PI : angle;
 }
 
-Vector2& Vector2::clamp(const f32 maxLength) {
+Vector2& Vector2::clamp(f32 maxLength) {
 	if(this->sqrlen() > maxLength*maxLength){
 		this->nor();
 		this->mul(maxLength);

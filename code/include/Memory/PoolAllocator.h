@@ -21,7 +21,7 @@ private:
   void* mFirst;
   void* mLast;
 
-  static u32 smPtrSize;
+  static const u32 smPtrSize;
 
   static void storePointer(void* address, const void* pointer);
   static void* getNextIterator(void* it);
@@ -32,7 +32,7 @@ private:
   void checkAllocateBlock() const;
   void checkFreeBlock() const;
 
-  void _init(u32 blockSize, u32 numBlocks, void* mem, const u32 alignment);
+  void _init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment);
 
 public:
 
@@ -57,7 +57,7 @@ public:
   \param numBlocks Number of blocks.
   \param alignment Bytes alignment.
   */
-  void init(u32 blockSize, u32 numBlocks, const u32 alignment);
+  void init(u32 blockSize, u32 numBlocks, u32 alignment);
 
   /*!
   \brief Constructor.
@@ -66,11 +66,11 @@ public:
   */
   void init(u32 blockSize, u32 numBlocks);
 
-  void initFromMemory(const u32 size, void* mem, u32 numBlocks);
-  void initFromMemory(const u32 size, void* mem, u32 numBlocks, const u32 alignment);
+  void initFromMemory(u32 size, void* mem, u32 numBlocks);
+  void initFromMemory(u32 size, void* mem, u32 numBlocks, u32 alignment);
 
-  void* allocate(const u32 size) override;
-  void* allocate(const u32 size, const u32 alignment) override;
+  void* allocate(u32 size) override;
+  void* allocate(u32 size, u32 alignment) override;
 
   /*!
   \brief Allocates a single block.

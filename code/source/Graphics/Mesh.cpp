@@ -29,7 +29,7 @@ Mesh::~Mesh() {
 		Memory::free<DynamicArray<u32>>(mFacesTmp);
 }
 
-void Mesh::init(const u32 vertexCount) {
+void Mesh::init(u32 vertexCount) {
 	mVertexCount = vertexCount;
 
 	mVertices = Memory::allocate<Array<f32>>();
@@ -70,13 +70,13 @@ Mesh* Mesh::addNormal(const Vector3 vector) {
     return this;
 };
 
-Mesh* Mesh::addTexCoord(const u32 u,const u32 v) {
+Mesh* Mesh::addTexCoord(u32 u,u32 v) {
     mTextureCoordinates->set(mTextureCoordinatesIndex,u); mTextureCoordinatesIndex++;
     mTextureCoordinates->set(mTextureCoordinatesIndex,v); mTextureCoordinatesIndex++;
     return this;
 };
 
-Mesh* Mesh::addFace(const u32 v1,const u32 v2,const u32 v3) {
+Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3) {
     mFacesTmp->set(mFacesIndex,v1); mFacesIndex++;
     mFacesTmp->set(mFacesIndex,v2); mFacesIndex++;
     mFacesTmp->set(mFacesIndex,v3); mFacesIndex++;

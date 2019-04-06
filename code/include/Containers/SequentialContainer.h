@@ -17,12 +17,12 @@ protected:
     \param index The index.
     \return Reference to Element at index.
   */
-  virtual T& randomAccessOperator(const u32 index) const = 0;
+  virtual T& randomAccessOperator(u32 index) const = 0;
 
   /*!
     \brief Check boundaries on put method.
   */
-  virtual void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) = 0;
+  virtual void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) = 0;
 
 public:
 
@@ -42,21 +42,21 @@ public:
     \param index The index.
     \return Element at index.
   */
-  virtual T get(const u32 index) const = 0;
+  virtual T get(u32 index) const = 0;
 
   /*!
     \brief Sets element at index.
     \param index The index.
     \param element The element.
   */
-  virtual void set(const u32 index, const T element) = 0;
+  virtual void set(u32 index, const T element) = 0;
 
   /*!
     \brief Constructor from raw array.
     \param rawArray The raw array.
     \param length The length of the raw array.
   */
-  virtual void init(const void* rawArray, const u32 length) = 0;
+  virtual void init(const void* rawArray, u32 length) = 0;
 
   /*!
     \brief Constructor from raw array. Aligned.
@@ -64,20 +64,20 @@ public:
     \param length The length of the raw array.
     \param alignment Bytes alignment.
   */
-  virtual void init(const void* rawArray, const u32 length, const u32 alignment) = 0;
+  virtual void init(const void* rawArray, u32 length, u32 alignment) = 0;
 
   /*!
     \brief Constructor.
     \param length Length of the array.
   */
-  virtual void init(const u32 length) = 0;
+  virtual void init(u32 length) = 0;
 
   /*!
     \brief Constructor. Aligned.
     \param length Length of the array.
     \param alignment Bytes alignment.
   */
-  virtual void init(const u32 length, const u32 alignment) = 0;
+  virtual void init(u32 length, u32 alignment) = 0;
 
   /*!
     \brief Fill the seq. container with the same element.
@@ -91,7 +91,7 @@ public:
     \param destinyIndex Index (of the destiny array) from which to paste the other array.
     \param sourceIndex Index (of the source array) from which to copy.
   */
-  void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
+  void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex) {
     this->put(other, destinyIndex, sourceIndex, other.getLength());
   };
 
@@ -101,7 +101,7 @@ public:
     \param destinyIndex Index (of the destiny array) from which to paste the other array.
     \param sourceIndex Index (of the source array) from which to copy.
   */
-  virtual void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
+  virtual void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) {
     this->checkPut(other, destinyIndex, sourceIndex, length);
 
     for (u32 i = 0; i < length; ++i)

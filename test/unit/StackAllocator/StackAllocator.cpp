@@ -12,7 +12,7 @@ int main() {
 	stack.init(1024);
 	// stack.init(50000);
 
-	const u32 sizeInt = sizeof(u32);
+	u32 sizeInt = sizeof(u32);
 	u32 headerSize = sizeof(u32);
 
 	u32* a = reinterpret_cast<u32*>(stack.allocate(sizeInt));

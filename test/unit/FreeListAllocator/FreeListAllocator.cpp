@@ -11,7 +11,7 @@ int main() {
 	freeList.init(64);
 	freeList.init(1024);
 
-	const u32 sizeInt = sizeof(u32);
+	u32 sizeInt = sizeof(u32);
 
 	freeList.reset(); //TODO: FIX RESET
 

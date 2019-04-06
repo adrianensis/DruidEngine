@@ -11,7 +11,7 @@ int main() {
 	linear.init(64);
 	linear.init(1024);
 
-	const u32 sizeInt = sizeof(u32);
+	u32 sizeInt = sizeof(u32);
 
 	u32* k = reinterpret_cast<u32*>(linear.allocate(sizeInt,8));
 	*k = 300;

@@ -11,11 +11,11 @@ namespace DE {
  * new offset = offset + padding = offset + (align - (offset mod align)) mod align
  */
 
-void Allocator::checkAllocate(const u32 size) const {
+void Allocator::checkAllocate(u32 size) const {
   DE_ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
 }
 
-void Allocator::checkAlignment(const u32 alignment) const {
+void Allocator::checkAlignment(u32 alignment) const {
   // Because we need at least, 1 byte for adjustment storage.
   DE_ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
 
@@ -30,7 +30,7 @@ void Allocator::checkFree() const {
   DE_ASSERT(mAllocated > 0, "Allocated memory is 0.");
 }
 
-void* Allocator::calculateAlignedAddress(const void* unalignedAddress, const u32 alignment) const {
+void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 alignment) const {
 
   /*
 
@@ -106,7 +106,7 @@ void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
   return reinterpret_cast<void*>(unalignedAddress);
 }
 
-void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, const u32 alignment) {
+void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 alignment) {
   u32 expandedSize = size + alignment;
 
   Allocator::checkAllocate(expandedSize);
@@ -124,11 +124,11 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, const u32 size, 
   return alignedAddress;
 }
 
-void Allocator::setAllocated(const u32 size){
+void Allocator::setAllocated(u32 size){
   mAllocated = size;
 }
 
-void Allocator::clean(void *mem, const u32 size) {
+void Allocator::clean(void *mem, u32 size) {
   // clean memory block
   std::memset(mem, 0, size);
 }
@@ -150,7 +150,7 @@ u32 Allocator::getAllocated() const {
   return mAllocated;
 }
 
-bool Allocator::hasSpace(const u32 size) const {
+bool Allocator::hasSpace(u32 size) const {
   return (mTotalSize-mAllocated) >= size;
 }
 
@@ -160,11 +160,11 @@ void Allocator::_init(void* mem) {
   mStart = mem;
 }
 
-void Allocator::init(const u32 size) {
+void Allocator::init(u32 size) {
   initFromMemory(size, ::operator new (size));
 }
 
-void Allocator::initFromMemory(const u32 size, void* mem) {
+void Allocator::initFromMemory(u32 size, void* mem) {
   mTotalSize = size;
 
   _init(mem);

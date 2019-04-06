@@ -4,10 +4,10 @@
 
 namespace DE {
 
-Quaternion::Quaternion(const f32 x, const f32 y, const f32 z, const f32 w):DE_Class(),v(x,y,z),w(w){
+Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w):DE_Class(),v(x,y,z),w(w){
 }
 
-Quaternion::Quaternion(const Vector3& v, const f32 w):DE_Class(),v(v),w(w){
+Quaternion::Quaternion(const Vector3& v, f32 w):DE_Class(),v(v),w(w){
 }
 
 Quaternion::Quaternion():DE_Class(),v(),w(1.0f){ // identity 0,0,0,1
@@ -67,7 +67,7 @@ Quaternion::Quaternion(const Quaternion& other):DE_Class(),v(other.v),w(other.w)
 Quaternion::~Quaternion() = default;
 
 
-Quaternion& Quaternion::set(const f32 x, const f32 y, const f32 z, const f32 w) {
+Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
 	if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	v.set(x,y,z);
@@ -115,25 +115,25 @@ Quaternion& Quaternion::div(const Quaternion& rhs) {
 	return *this;
 }
 
-Quaternion& Quaternion::add(const f32 rhs) {
+Quaternion& Quaternion::add(f32 rhs) {
 	v.add(rhs);
 	w = w + rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::sub(const f32 rhs) {
+Quaternion& Quaternion::sub(f32 rhs) {
 	v.sub(rhs);
 	w = w - rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::mul(const f32 rhs) {
+Quaternion& Quaternion::mul(f32 rhs) {
 	v.mul(rhs);
 	w = w * rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::div(const f32 rhs) {
+Quaternion& Quaternion::div(f32 rhs) {
 	DE_ASSERT(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
@@ -167,7 +167,7 @@ Quaternion& Quaternion::nor() {
 	return *this;
 }
 
-bool Quaternion::eq(const Quaternion& q, const f32 e) const {
+bool Quaternion::eq(const Quaternion& q, f32 e) const {
 	return v.eq(q.v, e) && MathUtils::eqf(this->w, q.w, e);
 }
 
@@ -196,7 +196,7 @@ f32 Quaternion::angle(const Quaternion& q) const{
 	return acosf(v.dot(q.v)/(v.len()*q.v.len()));
 }
 
-Quaternion& Quaternion::lerp(const Quaternion& target, const f32 t) {
+Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
 
 	f32 tt = 1-t;
 	this->mul(tt);
@@ -204,12 +204,12 @@ Quaternion& Quaternion::lerp(const Quaternion& target, const f32 t) {
 	return *this;
 }
 
-Quaternion& Quaternion::nlerp(const Quaternion& target, const f32 t) {
+Quaternion& Quaternion::nlerp(const Quaternion& target, f32 t) {
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Quaternion& Quaternion::slerp(const Quaternion& target, const f32 t) {
+Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
 
 	f32 theta = angle(target);
 

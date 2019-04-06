@@ -17,7 +17,7 @@ void Memory::init(){
   smGlobal.init(1*GB);
 };
 
-void Memory::init(const u32 size){
+void Memory::init(u32 size){
   smGlobal.init(size);
 };
 

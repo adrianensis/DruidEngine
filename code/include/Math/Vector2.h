@@ -30,7 +30,7 @@ public:
 	   \brief Default Constructor.
 	*/
 	Vector2();
-	Vector2(const f32 x, const f32 y);
+	Vector2(f32 x, f32 y);
 	Vector2(const Vector2& other);
 	~Vector2();
 
@@ -39,15 +39,15 @@ public:
 	//-------------------------------------------------------------------
 
 	Vector2& set(const Vector2& rhs);
-	Vector2& set(const f32 x, const f32 y);
+	Vector2& set(f32 x, f32 y);
 	Vector2& add(const Vector2& rhs);
 	Vector2& sub(const Vector2& rhs);
 	Vector2& mul(const Vector2& rhs);
 	Vector2& div(const Vector2& rhs);
-	Vector2& add(const f32 rhs);
-	Vector2& sub(const f32 rhs);
-	Vector2& mul(const f32 rhs);
-	Vector2& div(const f32 rhs);
+	Vector2& add(f32 rhs);
+	Vector2& sub(f32 rhs);
+	Vector2& mul(f32 rhs);
+	Vector2& div(f32 rhs);
 
 	f32 len() const;
 	f32 sqrlen() const;
@@ -57,11 +57,11 @@ public:
 	Vector2& nor();
 	f32 dst(const Vector2& v) const;
 	f32 sqrdst(const Vector2& v) const;
-	bool eq(const Vector2& v, const f32 e) const; // epsilon equal
+	bool eq(const Vector2& v, f32 e) const; // epsilon equal
 	bool eq(const Vector2& v) const; // equal
-	Vector2& lerp(const Vector2& target, const f32 t);
+	Vector2& lerp(const Vector2& target, f32 t);
 	f32 angle(const Vector2& v) const;
-	Vector2& clamp(const f32 maxLength);
+	Vector2& clamp(f32 maxLength);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -97,19 +97,19 @@ public:
 		return this->div(rhs);
 	}
 
-	Vector2& operator+=(const f32 rhs) {
+	Vector2& operator+=(f32 rhs) {
 		return this->add(rhs);
 	}
 
-	Vector2& operator-=(const f32 rhs) {
+	Vector2& operator-=(f32 rhs) {
 		return this->sub(rhs);
 	}
 
-	Vector2& operator*=(const f32 rhs) {
+	Vector2& operator*=(f32 rhs) {
 		return this->mul(rhs);
 	}
 
-	Vector2& operator/=(const f32 rhs) {
+	Vector2& operator/=(f32 rhs) {
 		return this->div(rhs);
 	}
 
@@ -137,11 +137,11 @@ public:
 		return Vector2(*this) /= rhs;
 	}
 
-	Vector2 operator+(const f32 rhs) const {
+	Vector2 operator+(f32 rhs) const {
 		return Vector2(*this) += rhs;
 	}
 
-	Vector2 operator-(const f32 rhs) const {
+	Vector2 operator-(f32 rhs) const {
 		return Vector2(*this) -= rhs;
 	}
 
@@ -149,11 +149,11 @@ public:
 		return Vector2(*this) *= -1;
 	}
 
-	Vector2 operator*(const f32 rhs) const {
+	Vector2 operator*(f32 rhs) const {
 		return Vector2(*this) *= rhs;
 	}
 
-	Vector2 operator/(const f32 rhs) const {
+	Vector2 operator/(f32 rhs) const {
 		return Vector2(*this) /= rhs;
 	}
 

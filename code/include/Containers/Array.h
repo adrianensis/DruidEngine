@@ -18,12 +18,12 @@ private:
   T* mTStart;
   void* mStart;
 
-  T& randomAccessOperator(const u32 index) const{
+  T& randomAccessOperator(u32 index) const{
   DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
     return mTStart[index];
   };
 
-  void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+  void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
     DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
     DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
@@ -34,21 +34,21 @@ private:
     raw_init(other.mStart, other.mLength, other.mElementSize, other.mAlignment);
   };
 
-  void raw_init(const void* rawArray, const u32 length, const u32 elementSize) {
+  void raw_init(const void* rawArray, u32 length, u32 elementSize) {
     raw_init(length, elementSize, 1);
     raw_set(rawArray);
   };
 
-  void raw_init(const void* rawArray, const u32 length, const u32 elementSize, const u32 alignment) {
+  void raw_init(const void* rawArray, u32 length, u32 elementSize, u32 alignment) {
     raw_init(length, elementSize, alignment);
     raw_set(rawArray);
   };
 
-  void raw_init(const u32 length, const u32 elementSize) {
+  void raw_init(u32 length, u32 elementSize) {
     raw_allocate(length, elementSize, 1);
   };
 
-  void raw_init(const u32 length, const u32 elementSize, const u32 alignment) {
+  void raw_init(u32 length, u32 elementSize, u32 alignment) {
     raw_allocate(length, elementSize, alignment);
   };
 
@@ -56,11 +56,11 @@ private:
     std::memcpy(mStart,rawArray,this->mLength*(this->mElementSize));
   };
 
-  void raw_put(const void* rawArray, const u32 destinyIndex, const u32 sourceIndex, const u32 length){
+  void raw_put(const void* rawArray, u32 destinyIndex, u32 sourceIndex, u32 length){
     std::memcpy(mStart+destinyIndex*(this->mElementSize),rawArray+sourceIndex*(this->mElementSize),length*(this->mElementSize));
   };
 
-  void raw_allocate(const u32 length, const u32 elementSize, const u32 alignment) {
+  void raw_allocate(u32 length, u32 elementSize, u32 alignment) {
     BaseContainer::init(length,elementSize,alignment);
     mStart = this->mAllocator->allocate(this->mLength*(this->mElementSize), this->mAlignment);
     // TODO allocate with Memory::allocate, create new function for raw allocation.
@@ -109,41 +109,41 @@ public:
     mTStart[i] = element;
   };
 
-  void init(const void* rawArray, const u32 length) override {
+  void init(const void* rawArray, u32 length) override {
     raw_init(rawArray, length, sizeof(T));
     mTStart = static_cast<T*>(mStart);
   };
 
-  void init(const void* rawArray, const u32 length, const u32 alignment) override {
+  void init(const void* rawArray, u32 length, u32 alignment) override {
     raw_init(rawArray, length, sizeof(T), alignment);
     mTStart = static_cast<T*>(mStart);
   };
 
-  void init(const u32 length) override {
+  void init(u32 length) override {
     raw_init(length, sizeof(T));
     mTStart = static_cast<T*>(mStart);
   };
 
-  void init(const u32 length, const u32 alignment) override {
+  void init(u32 length, u32 alignment) override {
     raw_init(length, sizeof(T), alignment);
     mTStart = static_cast<T*>(mStart);
   };
 
-  void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex) {
+  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex) {
     Array::put(other, destinyIndex, sourceIndex, other.getLength());
   };
 
-  void put(const Array<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) {
+  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) {
     this->checkPut(other, destinyIndex, sourceIndex, length);
     raw_put(other.mStart, destinyIndex, sourceIndex, length);
   };
 
-  T get(const u32 index) const override {
+  T get(u32 index) const override {
     DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
     return mTStart[index];
   };
 
-  void set(const u32 index, const T element) override {
+  void set(u32 index, const T element) override {
     DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
     mTStart[index] = element;
   };

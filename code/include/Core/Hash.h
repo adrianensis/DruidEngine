@@ -33,7 +33,7 @@ public:
   }
 
   // generic function: arithmetic keys and pointers.
-  static u64 hash(const u64 key) {
+  static u64 hash(u64 key) {
     return key;
   };
 
@@ -41,35 +41,35 @@ public:
     return hash(reinterpret_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const f32 key) {
+  static u64 hash(f32 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const u8 key) {
+  static u64 hash(u8 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const u16 key) {
+  static u64 hash(u16 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const u32 key) {
+  static u64 hash(u32 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const i8 key) {
+  static u64 hash(i8 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const i16 key) {
+  static u64 hash(i16 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const i32 key) {
+  static u64 hash(i32 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const i64 key) {
+  static u64 hash(i64 key) {
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 

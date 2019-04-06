@@ -9,8 +9,8 @@ int main() {
 
 	DE::PoolAllocator pool;
 
-	const u32 sizeInt = sizeof(u32);
-	const u32 sizePtr = sizeof(ptr);
+	u32 sizeInt = sizeof(u32);
+	u32 sizePtr = sizeof(ptr);
 
 	show(sizeInt);
 	show(sizePtr);

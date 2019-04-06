@@ -23,9 +23,9 @@ public:
   */
   ~LinearAllocator() override;
 
-  void init(const u32 size) override;
-  void* allocate(const u32 size) override;
-  void* allocate(const u32 size, const u32 alignment) override;
+  void init(u32 size) override;
+  void* allocate(u32 size) override;
+  void* allocate(u32 size, u32 alignment) override;
   void free(const void* pointer) override;
   void reset() override;
 

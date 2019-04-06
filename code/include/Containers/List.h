@@ -229,7 +229,7 @@ public:
 
 private:
 
-  void allocate(u32 elementSize, const u32 alignment) {
+  void allocate(u32 elementSize, u32 alignment) {
     BaseContainer::init(0, elementSize, alignment); // BaseContainer::mLength = 0
   };
 
@@ -245,7 +245,7 @@ private:
     mLastAccessedIndex = -1;
   }
 
-  T& randomAccessOperator(const u32 index) const{
+  T& randomAccessOperator(u32 index) const{
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
     const i32 signedIndex = static_cast<i32>(index);
@@ -279,7 +279,7 @@ private:
     return mLastAccessedIt.get();
   };
 
-  void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+  void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
     DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
     DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
@@ -319,7 +319,7 @@ public:
     List::_init(sizeof(T));
   };
 
-  void init(const void* rawArray, const u32 length) override {
+  void init(const void* rawArray, u32 length) override {
     List::init();
     const T* typedArray = static_cast<const T*>(rawArray);
 
@@ -327,15 +327,15 @@ public:
       List::pushBack(typedArray[i]);
   };
 
-  void init(const void* rawArray, const u32 length, const u32 alignment) override {
+  void init(const void* rawArray, u32 length, u32 alignment) override {
     List::init(rawArray, length);
   };
 
-  void init(const u32 length) override {
+  void init(u32 length) override {
     List::init();
   };
 
-  void init(const u32 length, const u32 alignment) override {
+  void init(u32 length, u32 alignment) override {
     List::init();
   };
 
@@ -349,7 +349,7 @@ public:
     }
   };
 
-  void put(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+  void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     resetCache();
     this->checkPut(other, destinyIndex, sourceIndex, length);
 
@@ -496,11 +496,11 @@ public:
     return *element;
   };
 
-  T get(const u32 index) const{
+  T get(u32 index) const{
     return List::randomAccessOperator(index);
   };
 
-  void set(const u32 index, const T element){
+  void set(u32 index, const T element){
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
     u32 i = 0;

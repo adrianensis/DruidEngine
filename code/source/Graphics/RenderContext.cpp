@@ -74,7 +74,7 @@ void RenderContext::terminate() {
 	glfwTerminate();
 }
 
-GLuint RenderContext::createVBO(const Array<f32>* data, const u32 elementSize, const u32 attributeArrayIndex) {
+GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex) {
 	if(data != nullptr){
 		u32 VBO;
 		glGenBuffers(1, &VBO);
@@ -118,15 +118,15 @@ GLuint RenderContext::createEBO(const Array<u32>* data) {
 	}
 }
 
-void RenderContext::enableAttribute(const u32 attributeArrayIndex){
+void RenderContext::enableAttribute(u32 attributeArrayIndex){
 	glEnableVertexAttribArray(attributeArrayIndex);
 }
 
-void RenderContext::disableAttribute(const u32 attributeArrayIndex){
+void RenderContext::disableAttribute(u32 attributeArrayIndex){
 	glDisableVertexAttribArray(attributeArrayIndex);
 }
 
-void RenderContext::enableVAO(const u32 VAO) {
+void RenderContext::enableVAO(u32 VAO) {
 	glBindVertexArray(VAO);
 }
 

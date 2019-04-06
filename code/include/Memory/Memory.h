@@ -38,7 +38,7 @@ public:
 
   static void init();
 
-  static void init(const u32 size);
+  static void init(u32 size);
 
   static Allocator& getGlobal();
 

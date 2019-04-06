@@ -11,12 +11,12 @@ FreeListAllocator::Block::~Block(){
 
 }
 
-void FreeListAllocator::Block::init(void* unalignedAddress, const u32 size){
+void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
 }
 
-FreeListAllocator::Block FreeListAllocator::allocateBlock(const u32 size){
+FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
   auto it = mFreeBlocks->getIterator();
 
   bool found = false;
@@ -80,16 +80,16 @@ FreeListAllocator::~FreeListAllocator(){
 
 }
 
-void FreeListAllocator::init(const u32 size){
+void FreeListAllocator::init(u32 size){
   Allocator::init(size);
   FreeListAllocator::reset();
 }
 
-void* FreeListAllocator::allocate(const u32 size){
+void* FreeListAllocator::allocate(u32 size){
   return FreeListAllocator::allocate(size, 1);
 }
 
-void* FreeListAllocator::allocate(const u32 size, const u32 alignment){
+void* FreeListAllocator::allocate(u32 size, u32 alignment){
   Block block = allocateBlock(size+alignment);
   void* unalignedAddress = block.unalignedAddress;
   return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);

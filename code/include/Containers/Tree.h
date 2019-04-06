@@ -65,7 +65,7 @@ private:
 
   Node* newNode(Node* parent, const T element){
     Node* node = Memory::allocate<Node>();
-    node->init(parent, element, mChildrenCount);
+    node->init(parent, element, smChildrenCount);
     return node;
   };
 
@@ -104,7 +104,7 @@ private:
   };
 
   Node* mRoot;
-  static const u32 mChildrenCount = 2;
+  static const u32 smChildrenCount = 2;
 
 public:
 

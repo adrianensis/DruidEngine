@@ -14,14 +14,14 @@ private:
 
   void setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
   void setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3);
-  void setRows(const f32 n);
+  void setRows(u32 n);
   void setRows(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
 
 public:
 
   Matrix4();
   ~Matrix4();
-  void init(const f32 n);
+  void init(u32 n);
   void init(const Matrix4& other);
   void init(Array<f32>& data);
   void init(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
@@ -31,8 +31,8 @@ public:
 
   const f32* getData() const;
 
-  f32 get(const u8 row, const u8 col) const;
-  void set(const u8 row, const u8 col, const f32 value);
+  f32 get(u8 row, u8 col) const;
+  void set(u8 row, u8 col, f32 value);
 
   void transpose();
 
@@ -44,8 +44,8 @@ public:
   static Matrix4 translation(const Vector3& vector);
   static Matrix4 rotation(const Vector3& vector);
   static Matrix4 scale(const Vector3& vector);
-  static Matrix4 ortho(const f32 left, const f32 right, const f32 bottom, const f32 top, const f32 near, f32 far);
-  static Matrix4 perspective(const f32 near, const f32 far, const f32 aspect, f32 fov);
+  static Matrix4 ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
+  static Matrix4 perspective(f32 near, f32 far, f32 aspect, f32 fov);
 };
 
 } /* namespace DE */

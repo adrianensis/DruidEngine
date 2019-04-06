@@ -30,8 +30,8 @@ public:
 	Mesh* addVertex(const Vector3 vec);
 	Mesh* addColor(const Vector4 vec);
 	Mesh* addNormal(const Vector3 vec);
-	Mesh* addTexCoord(const u32 u,const u32 v);
-	Mesh* addFace(const u32 v1,const u32 v2,const u32 v3);
+	Mesh* addTexCoord(u32 u,u32 v);
+	Mesh* addFace(u32 v1,u32 v2,u32 v3);
 	Mesh* open();
 	void close();
 

@@ -51,7 +51,7 @@ void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f
       Matrix4::set(row,col,rows[row][col]);
 };
 
-void Matrix4::setRows(const f32 n){
+void Matrix4::setRows(u32 n){
   for (u8 row = 0; row < 4; row++)
     for (u8 col = 0; col < 4; col++)
       Matrix4::set(row,col,n);
@@ -70,7 +70,7 @@ Matrix4::Matrix4() : DE_Class(){
 
 Matrix4::~Matrix4() = default;
 
-void Matrix4::init(const f32 n){
+void Matrix4::init(u32 n){
   Matrix4::setRows(n);
 };
 
@@ -102,11 +102,11 @@ const f32* Matrix4::getData() const{
   return mData;
 };
 
-f32 Matrix4::get(const u8 row, const u8 col) const{
+f32 Matrix4::get(u8 row, u8 col) const{
   return mData[row+(4*col)];
 };
 
-void Matrix4::set(const u8 row, const u8 col, const f32 value){
+void Matrix4::set(u8 row, u8 col, f32 value){
   mData[row+(4*col)] = value;
 };
 
@@ -211,7 +211,7 @@ Matrix4 Matrix4::scale(const Vector3& vector){
   return m;
 };
 
-Matrix4 Matrix4::ortho(const f32 left, const f32 right, const f32 bottom, const f32 top, const f32 near, f32 far){
+Matrix4 Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
   Matrix4 m = Matrix4::identity();
   m.set(0,0,2.0f/(right-left));
   m.set(0,3,-((right+left)/(right-left)));
@@ -222,7 +222,7 @@ Matrix4 Matrix4::ortho(const f32 left, const f32 right, const f32 bottom, const 
   return m;
 };
 
-Matrix4 Matrix4::perspective(const f32 near, const f32 far, const f32 aspect, f32 fov){
+Matrix4 Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov){
   f32 top = near * tanf((fov/2)*MathUtils::PI_180);
   f32 bottom = -top;
   f32 right = top*aspect;

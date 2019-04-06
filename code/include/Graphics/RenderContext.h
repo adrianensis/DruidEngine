@@ -28,9 +28,9 @@ public:
 	static GLuint createEBO(const Array<u32>* data);
 	static GLuint createVAO();
 
-	static void enableAttribute(const u32 attributeArrayIndex);
-	static void disableAttribute(const u32 attributeArrayIndex);
-	static void enableVAO(const u32 VAO);
+	static void enableAttribute(u32 attributeArrayIndex);
+	static void disableAttribute(u32 attributeArrayIndex);
+	static void enableVAO(u32 VAO);
 };
 
 } /* namespace DE */

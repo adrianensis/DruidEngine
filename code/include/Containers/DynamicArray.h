@@ -26,14 +26,14 @@ private:
   mutable u32 mCacheIndex = 0;
   List<Array<T>*>* mArrays;
 
-  void _updateCache(const u32 arrayIndex) const{ // const method, but mutable variables.
+  void _updateCache(u32 arrayIndex) const{ // const method, but mutable variables.
     if(arrayIndex != mCacheIndex || mCache == nullptr){
       mCache = mArrays->get(arrayIndex);
       mCacheIndex = arrayIndex;
     }
   };
 
-  T& randomAccessOperator(const u32 index) const{
+  T& randomAccessOperator(u32 index) const{
     DE_ASSERT(index >= 0, "Index out of bounds.");
 
     u32 realIndex = index % smMinSize;
@@ -43,7 +43,7 @@ private:
     return (*mCache)[realIndex];
   };
 
-  void checkPut(const SequentialContainer<T>& other, const u32 destinyIndex, const u32 sourceIndex, const u32 length) override {
+  void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
     DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
     DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
@@ -121,7 +121,7 @@ public:
     \param rawArray The raw array.
     \param length The length of the raw array.
   */
-  void init(const void* rawArray, const u32 length) override {
+  void init(const void* rawArray, u32 length) override {
     DynamicArray::init(rawArray, length, 1);
   };
 
@@ -131,7 +131,7 @@ public:
     \param length The length of the raw array.
     \param alignment Bytes alignment.
   */
-  void init(const void* rawArray, const u32 length, const u32 alignment) override {
+  void init(const void* rawArray, u32 length, u32 alignment) override {
     BaseContainer::setAllocator(&Memory::getGlobal());
     Array<T>* array = Memory::allocate<Array<T>>(alignment);
     array->init(rawArray, length);
@@ -149,7 +149,7 @@ public:
     \brief Constructor.
     \param length Length of the array.
   */
-  void init(const u32 length) {
+  void init(u32 length) {
     DynamicArray::init(length, 1);
   };
 
@@ -158,7 +158,7 @@ public:
     \param length Length of the array.
     \param alignment Bytes alignment.
   */
-  void init(const u32 length, const u32 alignment) {
+  void init(u32 length, u32 alignment) {
     BaseContainer::init(length, sizeof(T), alignment);
 
     // list of arrays
@@ -194,7 +194,7 @@ public:
     \param index The index.
     \return Element at index.
   */
-  T get(const u32 index) const{
+  T get(u32 index) const{
     return DynamicArray::randomAccessOperator(index);
   };
 
@@ -203,7 +203,7 @@ public:
   \param index The index.
   \param element The element.
   */
-  void set(const u32 index, const T element){
+  void set(u32 index, const T element){
     // resize
     if(index >= mArrays->getLength()*smMinSize){
       Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
