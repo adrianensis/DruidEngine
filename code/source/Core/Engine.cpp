@@ -1,25 +1,31 @@
 #include "Engine.h"
 #include "Memory.h"
+#include "List.h"
+#include "Singleton.h"
 #include "RenderContext.h"
 #include "Scene.h"
 #include "RenderEngine.h"
 #include "ScriptEngine.h"
 #include "GameObject.h"
+#include "Transform.h"
+#include "Script.h"
+
+#include <string>
 
 namespace DE {
 
-Engine::Engine() : DE_Class(),
+Engine::Engine() : DE_Class(), Singleton(),
 		mFPS(60),
 		mScenes(nullptr),
 		mRenderEngine(nullptr),
-		mScriptEngine(nullptr)
+		mScriptEngine(nullptr),
+		mCurrentSceneIndex(0)
 {
 };
 
 Engine::~Engine() = default;
 
 void Engine::init(){
-  Memory::init();
 
   mRenderEngine = Memory::allocate<RenderEngine>();
   mScriptEngine = Memory::allocate<ScriptEngine>();
@@ -28,19 +34,34 @@ void Engine::init(){
   mRenderEngine->init();
   mScriptEngine->init();
   mScenes->init();
-
-  Scene* scene = Memory::allocate<Scene>();
-  GameObject* gameObject = Memory::allocate<GameObject>();
-
-  scene->init();
-  gameObject->init();
-
-  scene->addGameObject(gameObject);
-
-  mScenes->pushBack(scene);
 };
 
+void Engine::addScene(Scene* newScene){
+	mScenes->pushBack(newScene);
+}
+
+void Engine::setScene(u32 i){
+	mCurrentSceneIndex = i;
+}
+
+void Engine::loadScene(Scene* scene){
+	List<GameObject*>* gameObjects = scene->getGameObjects();
+
+	auto itGameObjects = gameObjects->getIterator();
+
+	for (; !itGameObjects.isNull(); itGameObjects.next()){
+		GameObject* gameObject = itGameObjects.get();
+
+		Script* script = (Script*)gameObject->getComponents<Script>()->get(0);
+
+		mScriptEngine->addScript(script);
+	}
+}
+
 void Engine::run(){
+
+	loadScene(mScenes->get(mCurrentSceneIndex));
+
 	mRenderEngine->bind();
 
 	while(! RenderContext::isClosed()){
@@ -61,6 +82,6 @@ void Engine::terminate() {
 	Memory::free<List<Scene*>>(mScenes);
 
 	Memory::free();
-}
+};
 
 } /* namespace DE */

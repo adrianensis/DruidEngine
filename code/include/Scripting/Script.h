@@ -1,15 +1,18 @@
 #ifndef DE_SCRIPT_H
 #define DE_SCRIPT_H
 
-#include "DE_Class.h"
+#include "Component.h"
 
 namespace DE {
 
-class Script : public DE_Class{
+class Script : public Component{
 private:
 
 
 public:
+
+  DE_GENERATE_METADATA(Script);
+
   Script();
   ~Script() override;
 

@@ -5,9 +5,10 @@
 #include "GLFW/glfw3.h"
 
 #include "DE_Class.h"
-#include "Array.h"
 
 namespace DE {
+
+	template <class T> class Array;
 
 class RenderContext : public DE_Class{
 private:

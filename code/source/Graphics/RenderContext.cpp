@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+#include "Array.h"
+
 namespace DE {
 
 GLFWwindow* RenderContext::mWindow = nullptr;

@@ -67,12 +67,12 @@ void StackAllocator::free(){
   u32 size = u32Array[-1];
 
   // reduce mAllocated
-  Allocator::setAllocated(Allocator::getAllocated() - smHeaderSize - size);
+  Allocator::setAllocatedSize(Allocator::getAllocatedSize() - smHeaderSize - size);
 
   // clean memory block
   std::memset(mTop, 0, size);
 
-  mTop = calculateUnalignedAddress(mStart + Allocator::getAllocated());
+  mTop = calculateUnalignedAddress(mStart + Allocator::getAllocatedSize());
 }
 
 void StackAllocator::reset(){

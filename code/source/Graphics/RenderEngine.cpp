@@ -43,23 +43,32 @@ void RenderEngine::init() {
 
 
 void RenderEngine::step() {
+
 	auto it = mTextureBatches->getIterator();
-	for (; !it.isNull(); it.next())
+
+	for (; !it.isNull(); it.next()){
 		it.get()->render();
+	}
 
 	RenderContext::swap();
 }
 
 void RenderEngine::bind() {
+
 	auto it = mTextureBatches->getIterator();
-	for (; !it.isNull(); it.next())
+
+	for (; !it.isNull(); it.next()){
 		it.get()->bind();
+	}
 }
 
 void RenderEngine::update() {
+
 	auto it = mTextureBatches->getIterator();
-	for (; !it.isNull(); it.next())
+
+	for (; !it.isNull(); it.next()){
 		it.get()->update();
+	}
 }
 
 void RenderEngine::terminate() {

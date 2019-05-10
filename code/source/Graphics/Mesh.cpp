@@ -25,8 +25,11 @@ Mesh::~Mesh() {
 	Memory::free<Array<f32>>(mNormals);
 	Memory::free<Array<f32>>(mTextureCoordinates);
 	Memory::free<Array<u32>>(mFaces);
+
 	if(mFacesTmp != nullptr)
+	{
 		Memory::free<DynamicArray<u32>>(mFacesTmp);
+	}
 }
 
 void Mesh::init(u32 vertexCount) {

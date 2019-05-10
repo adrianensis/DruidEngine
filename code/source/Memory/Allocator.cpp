@@ -115,7 +115,7 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 al
 
   // Game Engine Architecture 2ed, page 246.
 
-  Allocator::setAllocated(Allocator::getAllocated() + expandedSize);
+  Allocator::setAllocatedSize(Allocator::getAllocatedSize() + expandedSize);
 
   void* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 
@@ -124,7 +124,7 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 al
   return alignedAddress;
 }
 
-void Allocator::setAllocated(u32 size){
+void Allocator::setAllocatedSize(u32 size){
   mAllocated = size;
 }
 
@@ -146,7 +146,7 @@ u32 Allocator::getSize() const {
   return mTotalSize;
 }
 
-u32 Allocator::getAllocated() const {
+u32 Allocator::getAllocatedSize() const {
   return mAllocated;
 }
 
@@ -154,7 +154,7 @@ bool Allocator::hasSpace(u32 size) const {
   return (mTotalSize-mAllocated) >= size;
 }
 
-void Allocator::_init(void* mem) {
+void Allocator::setMemoryChunk(void* mem) {
   // Only must delete when Allocator is destroyed. See ~Allocator()
 
   mStart = mem;
@@ -167,7 +167,7 @@ void Allocator::init(u32 size) {
 void Allocator::initFromMemory(u32 size, void* mem) {
   mTotalSize = size;
 
-  _init(mem);
+  setMemoryChunk(mem);
 
   Allocator::reset();
 }

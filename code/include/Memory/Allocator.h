@@ -20,12 +20,14 @@ protected:
   void checkAllocate(u32 size) const;
   void checkAlignment(u32 alignment) const;
   void checkFree() const;
+
   void* calculateAlignedAddress(const void* unalignedAddress, u32 alignment) const;
   void* calculateUnalignedAddress(const void* alignedAddress) const;
   void* allocateAlignedAddress(void* unalignedAddress, u32 size, u32 alignment);
-  void setAllocated(u32 size);
+
+  void setAllocatedSize(u32 size);
   void clean(void* mem, u32 size);
-  void _init(void* mem);
+  void setMemoryChunk(void* mem);
 
 public:
 
@@ -45,9 +47,9 @@ public:
   u32 getSize() const;
 
   /*!
-    \return Amount of memory used.
+    \return Amount of used memory.
   */
-  u32 getAllocated() const;
+  u32 getAllocatedSize() const;
 
   /*!
     \return True if space is enough.
@@ -93,6 +95,48 @@ public:
     \brief Frees aligned memory.
   */
   virtual void reset();
+
+  /*!
+    \brief Constructs objects. It is used like "new" keyword.
+    Allocate an object of T class, using the allocator.
+
+    \tparam T Class.
+    \param allocator Allocator used to allocate memory.
+    \param alignment Bytes alignment.
+  */
+  template<class T>
+  static T* internalAllocate(Allocator* allocator, u32 alignment){
+    T* object = new(allocator->allocate(sizeof(T), alignment)) T;
+    return object;
+  };
+
+  /*!
+    \brief Constructs objects. It is used like "new" keyword.
+    Allocate an object of T class, using the allocator.
+
+    \tparam T Class
+    \param allocator Allocator used to allocate memory.
+  */
+  template<class T>
+  static T* internalAllocate(Allocator* allocator){
+    T* object = new(allocator->allocate(sizeof(T))) T;
+    return object;
+  };
+
+  /*!
+    \brief Destroys objects. It is used like "delete" keyword.
+    Deallocate data, using the allocator.
+
+    \tparam pointer pointer to data
+    \param allocator Allocator used to deallocate memory.
+  */
+  template<class T>
+  static void internalFree(T* object, Allocator* allocator){
+    if(object != nullptr){
+      object->~T();
+      allocator->free(object);
+    }
+  };
 
 };
 

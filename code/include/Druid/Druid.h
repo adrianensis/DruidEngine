@@ -3,7 +3,6 @@
 
 #include "Basic.h"
 
-#include "MemoryUtils.h"
 #include "Debug.h"
 #include "Test.h"
 #include "MathUtils.h"
@@ -34,6 +33,10 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Transform.h"
+#include "Script.h"
+#include "Scene.h"
+#include "GameObject.h"
 
 
 #endif /* DE_DRUID_H */

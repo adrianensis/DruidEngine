@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "Memory.h"
+#include "List.h"
 #include "GameObject.h"
 
 namespace DE {

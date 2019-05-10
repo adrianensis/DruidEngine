@@ -23,11 +23,11 @@ int main() {
 
 	expected_uint(*a,300);
 
-	expected_uint(stack.getAllocated(),sizeInt+headerSize+1);
+	expected_uint(stack.getAllocatedSize(),sizeInt+headerSize+1);
 
 	stack.free();
 
-	expected_uint(stack.getAllocated(),0);
+	expected_uint(stack.getAllocatedSize(),0);
 
 	//------------------------------------------------------
 
@@ -42,7 +42,7 @@ int main() {
 
 	expected_uint(*b,300);
 
-	expected_uint(stack.getAllocated(),total);
+	expected_uint(stack.getAllocatedSize(),total);
 
 	//------------------------------------------------------
 
@@ -56,7 +56,7 @@ int main() {
 	expected_uint(*b,300);
 	expected_uint(*c,500);
 
-	expected_uint(stack.getAllocated(),total);
+	expected_uint(stack.getAllocatedSize(),total);
 
 	//------------------------------------------------------
 
@@ -72,29 +72,29 @@ int main() {
 	expected_uint(*c,500);
 	expected_uint(*d,700);
 
-	expected_uint(stack.getAllocated(),total);
+	expected_uint(stack.getAllocatedSize(),total);
 
 	//------------------------------------------------------
 
-	show(stack.getAllocated());
+	show(stack.getAllocatedSize());
 
 	stack.free(); // pop d
 
-	show(stack.getAllocated());
+	show(stack.getAllocatedSize());
 
 	stack.free(); // pop c
 
-	show(stack.getAllocated());
+	show(stack.getAllocatedSize());
 
 	stack.free(); // pop b
 
 	// stack.reset();
 
-	expected_uint(stack.getAllocated(),0);
+	expected_uint(stack.getAllocatedSize(),0);
 
 	stack.reset();
 
-	expected_uint(stack.getAllocated(),0);
+	expected_uint(stack.getAllocatedSize(),0);
 
 	summary();
 

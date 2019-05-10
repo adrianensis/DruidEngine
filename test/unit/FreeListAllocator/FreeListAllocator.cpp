@@ -23,11 +23,11 @@ int main() {
 
 	expected_uint(*k,300);
 
-	expected_float(freeList.getAllocated(),sizeInt+8);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8);
 
 	freeList.free(k);
 
-	expected_float(freeList.getAllocated(),0);
+	expected_float(freeList.getAllocatedSize(),0);
 
 	k = reinterpret_cast<u32*>(freeList.allocate(sizeInt,8));
 	*k = 300;
@@ -37,7 +37,7 @@ int main() {
 
 	expected_uint(*k,300);
 
-	expected_float(freeList.getAllocated(),sizeInt+8);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8);
 
 	u32* i = reinterpret_cast<u32*>(freeList.allocate(sizeInt));
 	*i = 500;
@@ -47,7 +47,7 @@ int main() {
 
 	expected_uint(*i,500);
 
-	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1); // +1 because always allocate a header for padding
+	expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1); // +1 because always allocate a header for padding
 
 	u32* j = reinterpret_cast<u32*>(freeList.allocate(sizeInt,16));
 	*j = 700;
@@ -58,15 +58,15 @@ int main() {
 	expected_uint(*i,500);
 	expected_uint(*j,700);
 
-	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1+sizeInt+16);
 
 	freeList.free(j);
 
-	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1);
 
 	freeList.reset(); //TODO: FIX RESET
 
-	expected_float(freeList.getAllocated(),0);
+	expected_float(freeList.getAllocatedSize(),0);
 
 	k = reinterpret_cast<u32*>(freeList.allocate(sizeInt,8));
 	*k = 300;
@@ -76,7 +76,7 @@ int main() {
 
 	expected_uint(*k,300);
 
-	expected_float(freeList.getAllocated(),sizeInt+8);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8);
 
 	i = reinterpret_cast<u32*>(freeList.allocate(sizeInt));
 	*i = 500;
@@ -86,7 +86,7 @@ int main() {
 
 	expected_uint(*i,500);
 
-	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1);
 
 	j = reinterpret_cast<u32*>(freeList.allocate(sizeInt,16));
 	*j = 700;
@@ -97,14 +97,14 @@ int main() {
 	expected_uint(*i,500);
 	expected_uint(*j,700);
 
-	expected_float(freeList.getAllocated(),sizeInt+8+sizeInt+1+sizeInt+16);
+	expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1+sizeInt+16);
 
 	freeList.free(k);
-	expected_float(freeList.getAllocated(),sizeInt+1+sizeInt+16);
+	expected_float(freeList.getAllocatedSize(),sizeInt+1+sizeInt+16);
 	freeList.free(i);
-	expected_float(freeList.getAllocated(),sizeInt+16);
+	expected_float(freeList.getAllocatedSize(),sizeInt+16);
 	freeList.free(j);
-	expected_float(freeList.getAllocated(),0);
+	expected_float(freeList.getAllocatedSize(),0);
 
 	summary();
 

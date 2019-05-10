@@ -150,11 +150,35 @@ public:
       }
     }
 
-    if(found)
+    if(found) {
       return element;
-    else
+    } else {
       DE_ASSERT(false, "Can't find the element with given key.");
+    }
   };
+
+  bool contains(const K key){
+    u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
+
+    // iterate over list to find element.
+
+    auto list = mArray->get(hashIndex);
+
+    bool found = false;
+
+    if(list != nullptr){
+
+      auto it = list->getIterator();
+
+      for (; !it.isNull() && !found; it.next()){
+        if(it.get()->mKey == key){
+          found = true;
+        }
+      }
+    }
+
+    return found;
+  }
 
   V remove(const K key) {
 

@@ -1,14 +1,13 @@
 #ifndef DE_MEMORY_H
 #define DE_MEMORY_H
 
-#include "FreeListAllocator.h"
-#include "LinearAllocator.h"
-#include "StackAllocator.h"
-#include "PoolAllocator.h"
-#include "MemoryUtils.h"
+#include "Allocator.h"
 #include <string>
 
 namespace DE {
+
+class Allocator;
+class FreeListAllocator;
 
 class Memory : public DE_Class {
 
@@ -44,17 +43,17 @@ public:
 
   template<class T>
   static T* allocate(u32 alignment){
-    return DE::allocate<T>(smGlobal, alignment);
+    return Allocator::internalAllocate<T>((Allocator*)(&smGlobal), alignment);
   }
 
   template<class T>
   static T* allocate(){
-    return DE::allocate<T>(smGlobal);
+    return Allocator::internalAllocate<T>((Allocator*)(&smGlobal));
   }
 
   template<class T>
   static void free(T* pointer){
-    DE::free(pointer, smGlobal);
+    Allocator::internalFree<T>(pointer, (Allocator*)(&smGlobal));
   }
 
   static void free();

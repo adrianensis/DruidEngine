@@ -8,10 +8,15 @@ namespace DE {
 class GameObject;
 
 class Component : public DE_Class{
+
 private:
+
 	GameObject* gameObject;
+
 public:
-	DE_GENERATE_CLASS_ID;
+
+	//DE_GENERATE_METADATA(Component)
+
 	Component();
 	~Component() override;
 

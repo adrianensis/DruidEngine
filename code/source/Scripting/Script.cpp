@@ -1,8 +1,9 @@
 #include "Script.h"
+#include "Debug.h"
 
 namespace DE {
 
-Script::Script() : DE_Class()
+Script::Script() : Component()
 {
 };
 
@@ -13,7 +14,7 @@ void Script::init(){
 };
 
 void Script::step(){
-
+  ECHO("STEP")
 };
 
 void Script::update() {

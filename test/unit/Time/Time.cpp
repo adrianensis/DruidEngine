@@ -23,6 +23,7 @@ int main() {
 	f32 msCount = 200.0f;
 	while (DE::Time::getElapsedTime() < msCount) {
 		expected_bool(DE::Time::getElapsedTime() >= 0.0f, true);
+		//show(DE::Time::getElapsedTime());
 	}
 
 	summary();

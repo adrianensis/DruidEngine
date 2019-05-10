@@ -17,7 +17,7 @@ int main() {
 
 	pool.init(sizeInt, 4);
 
-	expected_uint(pool.getAllocated(),(sizeInt+sizePtr+1)*4);
+	expected_uint(pool.getAllocatedSize(),(sizeInt+sizePtr+1)*4);
 	expected_uint(pool.getFreeBlocks(),4);
 
 	u32* a = reinterpret_cast<u32*>(pool.allocateBlock());
@@ -66,7 +66,7 @@ int main() {
 
 	pool.init(sizeInt, 4, 8);
 
-	expected_uint(pool.getAllocated(),(sizeInt+sizePtr+8)*4);
+	expected_uint(pool.getAllocatedSize(),(sizeInt+sizePtr+8)*4);
 	expected_uint(pool.getFreeBlocks(),4);
 
 	a = reinterpret_cast<u32*>(pool.allocateBlock());

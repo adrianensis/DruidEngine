@@ -2,10 +2,10 @@
 #define DE_SCENE_H
 
 #include "DE_Class.h"
-#include "List.h"
 
 namespace DE {
 
+template <class T> class List;
 class GameObject;
 
 class Scene : public DE_Class {

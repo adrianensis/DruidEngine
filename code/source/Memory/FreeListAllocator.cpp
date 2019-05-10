@@ -1,5 +1,4 @@
 #include "FreeListAllocator.h"
-#include "Memory.h"
 
 namespace DE {
 
@@ -101,15 +100,15 @@ void FreeListAllocator::free(const void* pointer){
   u32 freeSize = freeBlock(unalignedAddress);
 
   // reduce mAllocated
-  Allocator::setAllocated(Allocator::getAllocated() - freeSize);
+  Allocator::setAllocatedSize(Allocator::getAllocatedSize() - freeSize);
 }
 
 void FreeListAllocator::reset(){
   Allocator::reset();
 
   mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.01f));
-  mUsedBlocks = DE::allocate<List<Block>>(mLinearAllocator);
-  mFreeBlocks = DE::allocate<List<Block>>(mLinearAllocator);
+  mUsedBlocks = Allocator::internalAllocate<List<Block>>(&mLinearAllocator);
+  mFreeBlocks = Allocator::internalAllocate<List<Block>>(&mLinearAllocator);
   mFreeBlocks->init();
   mUsedBlocks->init();
   mFreeBlocks->setAllocator(&mLinearAllocator);

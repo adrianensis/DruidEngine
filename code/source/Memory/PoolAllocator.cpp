@@ -42,17 +42,18 @@ u32 PoolAllocator::getFreeBlocks() const {
   return mMaxBlocks - mUsedBlocks;
 }
 
-void PoolAllocator::_init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment){
+void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, void* mem, u32 alignment){
   mUsedBlocks = 0;
   mBlockSize = blockSize;
   mAlignment = alignment;
   mFullBlockSize = smPtrSize + mBlockSize ;
   mMaxBlocks = numBlocks;
 
-  if(mem == nullptr)
-  LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
-  else
-  LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem);
+  if(mem == nullptr){
+    LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
+  }else{
+    LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem);
+  }
 
   mFirst = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
   void* current = mFirst;
@@ -73,15 +74,15 @@ void PoolAllocator::_init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment
 }
 
 void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment){
-  PoolAllocator::_init(blockSize, numBlocks, nullptr, alignment);
+  PoolAllocator::internalInit(blockSize, numBlocks, nullptr, alignment);
 }
 
 void PoolAllocator::initFromMemory(u32 blockSize, void* mem, u32 numBlocks, u32 alignment){
-  PoolAllocator::_init(blockSize, numBlocks, mem, alignment);
+  PoolAllocator::internalInit(blockSize, numBlocks, mem, alignment);
 }
 
 void PoolAllocator::initFromMemory(u32 blockSize, void* mem, u32 numBlocks){
-  PoolAllocator::_init(blockSize, numBlocks, mem, 1);
+  PoolAllocator::internalInit(blockSize, numBlocks, mem, 1);
 }
 
 

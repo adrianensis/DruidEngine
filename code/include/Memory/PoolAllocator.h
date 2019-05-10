@@ -32,7 +32,7 @@ private:
   void checkAllocateBlock() const;
   void checkFreeBlock() const;
 
-  void _init(u32 blockSize, u32 numBlocks, void* mem, u32 alignment);
+  void internalInit(u32 blockSize, u32 numBlocks, void* mem, u32 alignment);
 
 public:
 

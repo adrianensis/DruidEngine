@@ -2,19 +2,29 @@
 #define DE_GAMEOBJECT_H
 
 #include "DE_Class.h"
-#include "Component.h"
-#include "HashMap.h"
 
 namespace DE {
 
+	template <class K, class V> class HashMap;
+	template <class T> class List;
+	class Component;
+	class Transform;
+
 class GameObject : public DE_Class{
+
 private:
+
 	HashMap<ClassId,List<Component*>*>* mComponents;
+
+	Transform* mTransform;
 
 	void addComponent(ClassId classId, Component* component);
 	List<Component*>* getComponents(ClassId classId);
 
 public:
+
+	DE_GENERATE_METADATA(GameObject)
+
 	GameObject();
 	~GameObject() override;
 
@@ -27,8 +37,10 @@ public:
 
 	template<class T>
 	List<T*>* getComponents(){
-		return static_cast<List<T*>*>(GameObject::getComponents(T::getClassId()));
+		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassId()));
 	}
+
+	Transform* getTransform();
 };
 
 } /* namespace DE */

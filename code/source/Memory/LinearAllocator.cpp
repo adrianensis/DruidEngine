@@ -19,7 +19,7 @@ void* LinearAllocator::allocate(u32 size){
 }
 
 void* LinearAllocator::allocate(u32 size, u32 alignment){
-  return Allocator::allocateAlignedAddress(mStart + Allocator::getAllocated(), size, alignment);
+  return Allocator::allocateAlignedAddress(mStart + Allocator::getAllocatedSize(), size, alignment);
 }
 
 void LinearAllocator::free(const void* pointer){

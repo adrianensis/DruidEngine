@@ -1,26 +1,37 @@
 #include "GameObject.h"
 
+#include "List.h"
+#include "HashMap.h"
+
+#include "Component.h"
+#include "Transform.h"
+
+
 namespace DE {
 
 GameObject::GameObject() : DE_Class(),
-	mComponents(nullptr)
+	mComponents(nullptr),
+	mTransform(nullptr)
 {
 }
 
 GameObject::~GameObject() {
 	Memory::free<HashMap<ClassId,List<Component*>*>>(mComponents);
+	Memory::free<Transform>(mTransform);
 }
 
 void GameObject::addComponent(ClassId classId, Component* component) {
-	List<Component*>* list = mComponents->get(classId);
+	List<Component*>* list = nullptr;
 
-	if(list != nullptr){
+	if(! mComponents->contains(classId)){
+
 		list = Memory::allocate<List<Component*>>();
 		list->init();
 		mComponents->set(classId,list);
 	}
 
 	list->pushBack(component);
+	list = mComponents->get(classId);
 }
 
 List<Component*>* GameObject::getComponents(ClassId classId) {
@@ -30,6 +41,15 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 void GameObject::init() {
 	mComponents = Memory::allocate<HashMap<ClassId,List<Component*>*>>();
 	mComponents->init();
+
+	mTransform = Memory::allocate<Transform>();
+	//mTransform->init();
+
+	addComponent(Transform::getClassId(), mTransform);
+}
+
+Transform* GameObject::getTransform(){
+	return mTransform;
 }
 
 } /* namespace DE */
