@@ -1,8 +1,11 @@
 #include "RenderEngine.h"
 #include "Memory.h"
 #include "Batch.h"
+#include "Mesh.h"
 #include "RenderContext.h"
 #include "Camera.h"
+#include "Renderer.h"
+#include "List.h"
 
 namespace DE {
 
@@ -24,29 +27,21 @@ void RenderEngine::init() {
 	RenderContext::init();
 	mTextureBatches->init();
 
-	Mesh* mesh = Memory::allocate<Mesh>();
-	mesh->init(4);
-
-	mesh->open()->
-		addVertex(Vector3(-0.5f, 0.5f, 0.0f))->
-		addVertex(Vector3(-0.5f, -0.5f, 0.0f))->
-		addVertex(Vector3(0.5f, -0.5f, 0.0f))->
-		addVertex(Vector3(0.5f, 0.5f, 0.0f))->
-		addFace(0,1,3)->
-		addFace(1,2,3)->
-		close();
-
 	Batch* batch = Memory::allocate<Batch>();
-	batch->init(mesh, nullptr);
+
+	// TODO : don't initialize batch here
+	batch->init(nullptr, nullptr);
+
 	mTextureBatches->pushBack(batch);
 }
 
 
 void RenderEngine::step() {
 
-	auto it = mTextureBatches->getIterator();
-
-	for (; !it.isNull(); it.next()){
+	u32 i=0;
+	for (auto it = mTextureBatches->getIterator(); !it.isNull(); it.next()){
+		ECHO("BATCH NUM")
+		VAL(u32,i+1)
 		it.get()->render();
 	}
 
@@ -55,18 +50,14 @@ void RenderEngine::step() {
 
 void RenderEngine::bind() {
 
-	auto it = mTextureBatches->getIterator();
-
-	for (; !it.isNull(); it.next()){
+	for (auto it = mTextureBatches->getIterator(); !it.isNull(); it.next()){
 		it.get()->bind();
 	}
 }
 
 void RenderEngine::update() {
 
-	auto it = mTextureBatches->getIterator();
-
-	for (; !it.isNull(); it.next()){
+	for (auto it = mTextureBatches->getIterator(); !it.isNull(); it.next()){
 		it.get()->update();
 	}
 }
@@ -78,6 +69,14 @@ void RenderEngine::terminate() {
 	Memory::free<Camera>(mCamera);
 
 	RenderContext::terminate();
+}
+
+void RenderEngine::addRenderer(Renderer* renderer) {
+	// TODO :initialize batch here
+	// if batch doesn't exist, create.
+
+	mTextureBatches->get(0)->setMesh(renderer->getMesh());
+	mTextureBatches->get(0)->addRenderer(renderer);
 }
 
 } /* namespace DE */

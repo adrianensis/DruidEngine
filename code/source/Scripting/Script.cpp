@@ -14,7 +14,7 @@ void Script::init(){
 };
 
 void Script::step(){
-  ECHO("STEP")
+  ECHO("CUSTOM SCRIPT STEP")
 };
 
 void Script::update() {

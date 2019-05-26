@@ -1,10 +1,12 @@
 #ifndef DE_MATERIAL_H
 #define DE_MATERIAL_H
 
-#include "Texture.h"
-#include "Shader.h"
+#include "DE_Class.h"
 
 namespace DE {
+
+class Texture;
+class Shader;
 
 class Material : public DE_Class {
 private:

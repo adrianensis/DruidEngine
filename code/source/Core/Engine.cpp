@@ -3,6 +3,7 @@
 #include "List.h"
 #include "Singleton.h"
 #include "RenderContext.h"
+#include "Renderer.h"
 #include "Scene.h"
 #include "RenderEngine.h"
 #include "ScriptEngine.h"
@@ -47,14 +48,14 @@ void Engine::setScene(u32 i){
 void Engine::loadScene(Scene* scene){
 	List<GameObject*>* gameObjects = scene->getGameObjects();
 
-	auto itGameObjects = gameObjects->getIterator();
-
-	for (; !itGameObjects.isNull(); itGameObjects.next()){
+	for (auto itGameObjects = gameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
 		GameObject* gameObject = itGameObjects.get();
 
 		Script* script = (Script*)gameObject->getComponents<Script>()->get(0);
+		Renderer* renderer = (Renderer*)gameObject->getComponents<Renderer>()->get(0);
 
 		mScriptEngine->addScript(script);
+		mRenderEngine->addRenderer(renderer);
 	}
 }
 

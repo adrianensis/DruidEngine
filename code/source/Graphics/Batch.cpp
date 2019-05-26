@@ -1,6 +1,12 @@
 #include "Batch.h"
-
+#include "Material.h"
+#include "List.h"
+#include "Renderer.h"
+#include "Mesh.h"
+#include "Shader.h"
 #include "RenderContext.h"
+#include "List.h"
+#include "Debug.h"
 
 namespace DE {
 
@@ -19,12 +25,18 @@ Batch::Batch() : DE_Class(),
 }
 
 Batch::~Batch() {
+	Memory::free<List<Renderer*>>(mRenderers);
+	Memory::free<Shader>(mShader);
+
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
 	glDeleteBuffers(1, &mEBO);
 }
 
 void Batch::init(Mesh* mesh, Material* material) {
+	mRenderers = Memory::allocate<List<Renderer*>>();
+	mRenderers->init();
+
 	mMesh = mesh;
 	mMaterial = material;
 
@@ -47,12 +59,28 @@ void Batch::update() {
 }
 
 void Batch::render() {
+
 	mShader->use();
 	RenderContext::enableVAO(mVAO);
-	glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
+
+	u32 i=0;
+	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
+		ECHO("RENDERER NUM")
+		VAL(u32,i+1)
+
+		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
+	}
+
 	RenderContext::enableVAO(0);
+
+}
+
+void Batch::setMesh(Mesh* mesh){
+  mMesh = mesh;
+}
+
+void Batch::addRenderer(Renderer* renderer) {
+	mRenderers->pushBack(renderer);
 }
 
 } /* namespace DE */
-
-

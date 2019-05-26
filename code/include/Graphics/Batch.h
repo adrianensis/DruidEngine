@@ -2,18 +2,19 @@
 #define DE_BATCH_H
 
 #include "DE_Class.h"
-#include "Material.h"
-#include "List.h"
-#include "Renderer.h"
-#include "Mesh.h"
-#include "Shader.h"
 
 namespace DE {
 
+class Material;
+class Mesh;
+class Shader;
+class Renderer;
+template <class T> class List;
+
 class Batch : public DE_Class{
 private:
-	Material* mMaterial;
 	List<Renderer*>* mRenderers;
+	Material* mMaterial;
 	Mesh* mMesh;
 
 	u32 mVBOPosition; // TODO: change u32 for GLuint
@@ -33,6 +34,9 @@ public:
 	void bind();
 	void update();
 	void render();
+
+	void setMesh(Mesh* mesh);
+	void addRenderer(Renderer* renderer);
 };
 
 } /* namespace DE */

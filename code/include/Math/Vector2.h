@@ -1,10 +1,12 @@
 #ifndef DE_VECTOR2_H
 #define DE_VECTOR2_H
 
-#include <ostream>
-#include "Assert.h"
+#include "DE_Class.h"
 
-#include "Basic.h"
+#include <ostream>
+
+#include "BasicTypes.h"
+#include "Assert.h"
 #include "MathUtils.h"
 
 namespace DE {

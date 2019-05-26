@@ -1,13 +1,15 @@
 #ifndef DE_RENDERENGINE_H
 #define DE_RENDERENGINE_H
 
-#include "List.h"
+#include "DE_Class.h"
 
 namespace DE {
 
 class Batch;
 class RenderContext;
 class Camera;
+class Renderer;
+template <class T> class List;
 
 class RenderEngine : public DE_Class{
 private:
@@ -24,6 +26,8 @@ public:
 	void update();
 	void step(); // render
 	void terminate();
+
+	void addRenderer(Renderer* renderer);
 };
 
 } /* namespace DE */

@@ -1,11 +1,13 @@
 #ifndef DE_MATRIX4_H
 #define DE_MATRIX4_H
 
-#include "Array.h"
-#include "Vector4.h"
+#include "DE_Class.h"
 #include "Vector3.h"
+#include "Vector4.h"
 
 namespace DE {
+
+template <class T> class Array;
 
 class Matrix4 : public DE_Class /*16 bytes alignment*/ {
 private:
