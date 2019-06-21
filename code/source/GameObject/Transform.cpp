@@ -1,58 +1,73 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Matrix4.h"
+#include "Memory.h"
 
 namespace DE {
 
 Transform::Transform() : Component()
 {
-	// TODO Auto-generated constructor stub
+	mMatrix = nullptr;
+	mTranslationMatrix = nullptr;
+	mRotationMatrix = nullptr;
+	mScaleMatrix = nullptr;
+
+	mIsDirty = false;
 }
 
 Transform::~Transform() {
-	// TODO Auto-generated destructor stub
+	Memory::free<Matrix4>(mMatrix);
+	Memory::free<Matrix4>(mTranslationMatrix);
+	Memory::free<Matrix4>(mRotationMatrix);
+	Memory::free<Matrix4>(mScaleMatrix);
 }
 
-const Vector3& Transform::getWorldPosition(){
+const Vector3& Transform::getWorldPosition() const{
 	return mWorldPosition;
 }
 
-const Vector3& Transform::getLocalPosition(){
+const Vector3& Transform::getLocalPosition() const{
 	return mLocalPosition;
 }
 
-const Vector3& Transform::getRotation(){
+const Vector3& Transform::getRotation() const{
 	return mRotation;
 };
 
-const Vector3& Transform::getScale(){
+const Vector3& Transform::getScale() const{
 	return mScale;
 };
 
 void Transform::setWorldPosition(const Vector3& vector){
+	mIsDirty = true;
 	mWorldPosition = vector;
 }
 
 void Transform::setLocalPosition(const Vector3& vector){
+	mIsDirty = true;
 	mLocalPosition = vector;
 }
 
 void Transform::setRotation(const Vector3& vector){
+	mIsDirty = true;
 	mRotation = vector;
 };
 
 void Transform::setScale(const Vector3& vector){
+	mIsDirty = true;
 	mScale = vector;
 };
 
 void Transform::translate(const Vector3& vector){
 	if(vector.len() > 0.0f){
+		mIsDirty = true;
 		mLocalPosition.add(vector);
 	}
 };
 
 void Transform::rotate(const Vector3& vector){
 	if(vector.len() > 0.0f){
+		mIsDirty = true;
 		mRotation.add(vector);
 	}
 };
@@ -72,5 +87,24 @@ void Transform::lookAt(const Vector3& vector){
 	// this.up = this.forward.cpy().cross(this.right);
 
 };
+
+const Matrix4& Transform::getTranslationMatrix() const{
+	if(!mTranslationMatrix){
+		mTranslationMatrix = Memory::allocate<Matrix4>();
+		mTranslationMatrix->identity();
+	}
+
+	mTranslationMatrix->translation(mLocalPosition);
+	return *mTranslationMatrix;
+}
+
+const Matrix4& Transform::getRotationMatrix() const{
+	return *mRotationMatrix;
+}
+
+const Matrix4& Transform::getScaleMatrix() const{
+	return *mScaleMatrix;
+}
+
 
 } /* namespace DE */

@@ -31,7 +31,10 @@ void GameObject::addComponent(ClassId classId, Component* component) {
 	}
 
 	list->pushBack(component);
-	list = mComponents->get(classId);
+
+	component->setGameObject(this);
+
+	//list = mComponents->get(classId);
 }
 
 List<Component*>* GameObject::getComponents(ClassId classId) {

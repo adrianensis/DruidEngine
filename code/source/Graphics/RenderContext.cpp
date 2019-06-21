@@ -30,7 +30,7 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	mWindow = glfwCreateWindow(800, 600, "DruidEngine", NULL, NULL);
-	if (mWindow == nullptr){
+	if (!mWindow){
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 	}else{
@@ -77,21 +77,20 @@ void RenderContext::terminate() {
 }
 
 GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex) {
-	if(data != nullptr){
-		u32 VBO;
-		glGenBuffers(1, &VBO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
+  DE_ASSERT(data != nullptr, "Data must be not null.");
 
-		// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-		glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (void*)0);
-		RenderContext::enableAttribute(attributeArrayIndex);
+  u32 VBO;
+	glGenBuffers(1, &VBO);
 
-		return VBO;
-	}else{
-			return -1;
-		}
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
+
+	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
+	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (void*)0);
+	RenderContext::enableAttribute(attributeArrayIndex);
+
+  return VBO;
 }
 
 GLuint RenderContext::createVAO() {
@@ -104,20 +103,16 @@ GLuint RenderContext::createVAO() {
 }
 
 GLuint RenderContext::createEBO(const Array<u32>* data) {
+  
+  DE_ASSERT(data != nullptr, "Data must be not null.");
 
-// TODO : if data is nullptr use assert, don't return -1.
+	unsigned int EBO;
+	glGenBuffers(1, &EBO);
 
-	if(data != nullptr){
-		unsigned int EBO;
-		glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
-
-		return EBO;
-	}else{
-		return -1;
-	}
+	return EBO;
 }
 
 void RenderContext::enableAttribute(u32 attributeArrayIndex){

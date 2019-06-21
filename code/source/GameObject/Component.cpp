@@ -5,7 +5,7 @@
 namespace DE {
 
 Component::Component() : DE_Class(),
-		gameObject(nullptr)
+		mGameObject(nullptr)
 {
 	// TODO Auto-generated constructor stub
 }
@@ -15,7 +15,12 @@ Component::~Component() {
 }
 
 GameObject* Component::getGameObject() const{
-	return gameObject;
+	return mGameObject;
 }
+
+void Component::setGameObject(GameObject* gameObject){
+	mGameObject = gameObject;
+}
+
 
 } /* namespace DE */

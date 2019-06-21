@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+#include "Matrix4.h"
+
 
 namespace DE {
 
@@ -72,5 +74,11 @@ void Shader::init() {
 void Shader::use() {
 	glUseProgram(mProgram);
 }
+
+void Shader::addMatrix(const Matrix4& matrix, std::string name){
+	u32 matrixLocation = glGetUniformLocation(mProgram, name.c_str());
+	std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
+	glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrix.getData());
+};
 
 } /* namespace DE */

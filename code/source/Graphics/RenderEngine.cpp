@@ -40,8 +40,8 @@ void RenderEngine::step() {
 
 	u32 i=0;
 	for (auto it = mTextureBatches->getIterator(); !it.isNull(); it.next()){
-		ECHO("BATCH NUM")
-		VAL(u32,i+1)
+		//ECHO("BATCH NUM")
+		//VAL(u32,i+1)
 		it.get()->render();
 	}
 

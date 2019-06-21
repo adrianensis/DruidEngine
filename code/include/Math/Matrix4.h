@@ -41,13 +41,13 @@ public:
   void mul(const Matrix4& other);
   Vector4 mulVector(const Vector4& vector);
 
-  static Matrix4 zeros();
-  static Matrix4 identity();
-  static Matrix4 translation(const Vector3& vector);
-  static Matrix4 rotation(const Vector3& vector);
-  static Matrix4 scale(const Vector3& vector);
-  static Matrix4 ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
-  static Matrix4 perspective(f32 near, f32 far, f32 aspect, f32 fov);
+  void zeros();
+  void identity();
+  void translation(const Vector3& vector);
+  void rotation(const Vector3& vector);
+  void scale(const Vector3& vector);
+  void ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
+  void perspective(f32 near, f32 far, f32 aspect, f32 fov);
 };
 
 } /* namespace DE */

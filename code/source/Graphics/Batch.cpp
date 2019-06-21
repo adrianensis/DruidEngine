@@ -7,6 +7,9 @@
 #include "RenderContext.h"
 #include "List.h"
 #include "Debug.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Matrix4.h"
 
 namespace DE {
 
@@ -65,8 +68,12 @@ void Batch::render() {
 
 	u32 i=0;
 	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
-		ECHO("RENDERER NUM")
-		VAL(u32,i+1)
+		//ECHO("RENDERER NUM")
+		//VAL(u32,i+1)
+
+		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
+
+		mShader->addMatrix(translationMatrix, "translationMatrix");
 
 		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
 	}

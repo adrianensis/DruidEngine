@@ -6,6 +6,8 @@
 
 namespace DE {
 
+class Matrix4;
+
 class Shader : public DE_Class{
 private:
 	u32 mVertexShader;
@@ -19,6 +21,9 @@ public:
 
 	void init();
 	void use();
+
+	void addMatrix(const Matrix4& matrix, std::string name);
+
 };
 
 } /* namespace DE */

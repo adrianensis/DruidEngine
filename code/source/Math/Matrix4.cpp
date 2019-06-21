@@ -148,32 +148,25 @@ Vector4 Matrix4::mulVector(const Vector4& vector){
 };
 
 
-Matrix4 Matrix4::zeros(){
-  Matrix4 m;
-  m.init(0.0f);
-  return m;
+void Matrix4::zeros(){
+  this->init(0.0f);
 };
 
-Matrix4 Matrix4::identity(){
-  Matrix4 m;
-  m.init(0.0f);
-  m.set(0,0,1.0f);
-  m.set(1,1,1.0f);
-  m.set(2,2,1.0f);
-  m.set(3,3,1.0f);
-  return m;
+void Matrix4::identity(){
+  this->init(0.0f);
+  this->set(0,0,1.0f);
+  this->set(1,1,1.0f);
+  this->set(2,2,1.0f);
+  this->set(3,3,1.0f);
 };
 
-Matrix4 Matrix4::translation(const Vector3& vector){
-  Matrix4 m = Matrix4::identity();
-  m.set(0,3,vector.x);
-  m.set(1,3,vector.y);
-  m.set(2,3,vector.z);
-  return m;
+void Matrix4::translation(const Vector3& vector){
+  this->set(0,3,vector.x);
+  this->set(1,3,vector.y);
+  this->set(2,3,vector.z);
 };
 
-Matrix4 Matrix4::rotation(const Vector3& vector){
-  Matrix4 m = Matrix4::identity();
+void Matrix4::rotation(const Vector3& vector){
 
   f32 radians, cos, sin;
 
@@ -181,65 +174,58 @@ Matrix4 Matrix4::rotation(const Vector3& vector){
       radians = MathUtils::rad(vector.x);
       sin = sinf(radians);
       cos = cosf(radians);
-      m.set(1,1,cos);
-      m.set(1,2,-sin);
-      m.set(2,1,sin);
-      m.set(2,2,cos);
+      this->set(1,1,cos);
+      this->set(1,2,-sin);
+      this->set(2,1,sin);
+      this->set(2,2,cos);
   }else if(vector.y != 0){
       radians = MathUtils::rad(vector.y);
       sin = sinf(radians);
       cos = cosf(radians);
-      m.set(0,0,cos);
-      m.set(0,2,sin);
-      m.set(2,0,-sin);
-      m.set(2,2,cos);
+      this->set(0,0,cos);
+      this->set(0,2,sin);
+      this->set(2,0,-sin);
+      this->set(2,2,cos);
   }else if(vector.z != 0){
       radians = MathUtils::rad(vector.z);
       sin = sinf(radians);
       cos = cosf(radians);
-      m.set(0,0,cos);
-      m.set(0,1,-sin);
-      m.set(1,0,sin);
-      m.set(1,1,cos);
+      this->set(0,0,cos);
+      this->set(0,1,-sin);
+      this->set(1,0,sin);
+      this->set(1,1,cos);
   }
 
-  return m;
 };
 
-Matrix4 Matrix4::scale(const Vector3& vector){
-  Matrix4 m = Matrix4::identity();
-  m.set(0,0,vector.x);
-  m.set(1,1,vector.y);
-  m.set(2,2,vector.z);
-  return m;
+void Matrix4::scale(const Vector3& vector){
+  this->set(0,0,vector.x);
+  this->set(1,1,vector.y);
+  this->set(2,2,vector.z);
 };
 
-Matrix4 Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
-  Matrix4 m = Matrix4::identity();
-  m.set(0,0,2.0f/(right-left));
-  m.set(0,3,-((right+left)/(right-left)));
-  m.set(1,1,2.0f/(top-bottom));
-  m.set(1,3,-((top+bottom)/(top-bottom)));
-  m.set(2,2,-2.0f/(far-near));
-  m.set(2,3,-((far+near)/(far-near)));
-  return m;
+void Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
+  this->set(0,0,2.0f/(right-left));
+  this->set(0,3,-((right+left)/(right-left)));
+  this->set(1,1,2.0f/(top-bottom));
+  this->set(1,3,-((top+bottom)/(top-bottom)));
+  this->set(2,2,-2.0f/(far-near));
+  this->set(2,3,-((far+near)/(far-near)));
 };
 
-Matrix4 Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov){
+void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov){
   f32 top = near * tanf((fov/2)*MathUtils::PI_180);
   f32 bottom = -top;
   f32 right = top*aspect;
   f32 left = -right;
 
-  Matrix4 m = Matrix4::zeros();
-  m.set(0,0,(2*near)/(right-left));
-  m.set(0,2,(right+left)/(right-left));
-  m.set(1,1,(2*near)/(top-bottom));
-  m.set(1,2,(top+bottom)/(top-bottom));
-  m.set(2,2,(-(far+near))/(far-near));
-  m.set(2,3,(-2*far*near)/(far-near));
-  m.set(3,2,-1.0f);
-  return m;
+  this->set(0,0,(2*near)/(right-left));
+  this->set(0,2,(right+left)/(right-left));
+  this->set(1,1,(2*near)/(top-bottom));
+  this->set(1,2,(top+bottom)/(top-bottom));
+  this->set(2,2,(-(far+near))/(far-near));
+  this->set(2,3,(-2*far*near)/(far-near));
+  this->set(3,2,-1.0f);
 };
 
 

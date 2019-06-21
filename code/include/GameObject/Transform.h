@@ -19,11 +19,11 @@ private:
 	Vector3 mScale;
 
 	Matrix4* mMatrix;
-	Matrix4* mTranslationMatrix;
-	Matrix4* mRotationMatrix;
-	Matrix4* mScaleMatrix;
+	mutable Matrix4* mTranslationMatrix;
+	mutable Matrix4* mRotationMatrix;
+	mutable Matrix4* mScaleMatrix;
 
-	bool mIsirty;
+	bool mIsDirty;
 
 public:
 
@@ -36,10 +36,10 @@ public:
 	Transform();
 	~Transform() override;
 
-	const Vector3& getWorldPosition();
-	const Vector3& getLocalPosition();
-	const Vector3& getRotation();
-	const Vector3& getScale();
+	const Vector3& getWorldPosition() const;
+	const Vector3& getLocalPosition() const;
+	const Vector3& getRotation() const;
+	const Vector3& getScale() const;
 
 	void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3& vector);
@@ -49,6 +49,11 @@ public:
 	void translate(const Vector3& vector);
 	void rotate(const Vector3& vector);
 	void lookAt(const Vector3& vector);
+
+	const Matrix4& getTranslationMatrix() const;
+	const Matrix4& getRotationMatrix() const;
+	const Matrix4& getScaleMatrix() const;
+
 };
 
 } /* namespace DE */

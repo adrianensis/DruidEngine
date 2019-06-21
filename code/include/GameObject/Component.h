@@ -11,7 +11,7 @@ class Component : public DE_Class{
 
 private:
 
-	GameObject* gameObject;
+	GameObject* mGameObject;
 
 public:
 
@@ -20,6 +20,7 @@ public:
 	Component();
 	~Component() override;
 
+	void setGameObject(GameObject* gameObject);
 	GameObject* getGameObject() const;
 };
 
