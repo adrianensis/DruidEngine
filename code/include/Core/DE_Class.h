@@ -14,6 +14,8 @@ namespace DE {
 #define DE_GENERATE_NAME(Class) static std::string getClassName() {static std::string className = #Class; return className;}
 #define DE_GENERATE_METADATA(Class) DE_GENERATE_NAME(Class); DE_GENERATE_ID(Class);
 
+// ---------------------------------------------------------------------------
+
 /*!
   \brief Base class for Druid Engine.
 */
@@ -25,6 +27,8 @@ public:
   DE_Class() = default;
   virtual ~DE_Class() = default;
 };
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */
 

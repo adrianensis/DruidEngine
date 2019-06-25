@@ -10,6 +10,8 @@ namespace DE {
 	class Component;
 	class Transform;
 
+// ---------------------------------------------------------------------------
+
 class GameObject : public DE_Class{
 
 private:
@@ -42,6 +44,8 @@ public:
 
 	Transform* getTransform();
 };
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */
 

@@ -21,6 +21,7 @@ void Script::step(){
   ECHO("CUSTOM SCRIPT STEP")
 
   getGameObject()->getTransform()->translate(Vector3(0.002f,0,0));
+  // getGameObject()->getTransform()->rotate(Vector3(0,0,0.5f));
 };
 
 void Script::update() {

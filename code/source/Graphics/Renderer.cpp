@@ -13,6 +13,10 @@ Renderer::~Renderer() {
 	// TODO Auto-generated destructor stub
 }
 
+void Renderer::init(){
+  
+}
+
 void Renderer::setMesh(Mesh* mesh){
   mMesh = mesh;
 }

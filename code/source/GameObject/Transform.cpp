@@ -12,7 +12,9 @@ Transform::Transform() : Component()
 	mRotationMatrix = nullptr;
 	mScaleMatrix = nullptr;
 
-	mIsDirty = false;
+	mIsDirtyTranslation = true;
+	mIsDirtyRotation = true;
+	mIsDirtyScale = true;
 }
 
 Transform::~Transform() {
@@ -20,6 +22,22 @@ Transform::~Transform() {
 	Memory::free<Matrix4>(mTranslationMatrix);
 	Memory::free<Matrix4>(mRotationMatrix);
 	Memory::free<Matrix4>(mScaleMatrix);
+}
+
+void Transform::init(){
+	mTranslationMatrix = Memory::allocate<Matrix4>();
+	mTranslationMatrix->identity();
+
+	mRotationMatrix = Memory::allocate<Matrix4>();
+	mRotationMatrix->identity();
+
+	mScaleMatrix = Memory::allocate<Matrix4>();
+	mScaleMatrix->identity();
+
+	mWorldPosition = Vector3(0.0f, 0.0f, 0.0f);
+	mLocalPosition = Vector3(0.0f, 0.0f, 0.0f);
+	mRotation = Vector3(0.0f, 0.0f, 0.0f);
+	mScale = Vector3(1.0f, 1.0f, 1.0f);
 }
 
 const Vector3& Transform::getWorldPosition() const{
@@ -39,41 +57,43 @@ const Vector3& Transform::getScale() const{
 };
 
 void Transform::setWorldPosition(const Vector3& vector){
-	mIsDirty = true;
+	mIsDirtyTranslation = true;
 	mWorldPosition = vector;
 }
 
 void Transform::setLocalPosition(const Vector3& vector){
-	mIsDirty = true;
+	mIsDirtyTranslation = true;
 	mLocalPosition = vector;
 }
 
 void Transform::setRotation(const Vector3& vector){
-	mIsDirty = true;
+	mIsDirtyRotation = true;
 	mRotation = vector;
 };
 
 void Transform::setScale(const Vector3& vector){
-	mIsDirty = true;
+	mIsDirtyScale = true;
 	mScale = vector;
 };
 
 void Transform::translate(const Vector3& vector){
 	if(vector.len() > 0.0f){
-		mIsDirty = true;
+		mIsDirtyTranslation = true;
 		mLocalPosition.add(vector);
 	}
 };
 
 void Transform::rotate(const Vector3& vector){
 	if(vector.len() > 0.0f){
-		mIsDirty = true;
+		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
 };
 
 void Transform::lookAt(const Vector3& vector){
-
+	if(vector.len() > 0.0f){
+		mIsDirtyRotation = true;
+	}
 	// this.dirty = true;
 	//
 	// this.target = vector.cpy();
@@ -89,20 +109,29 @@ void Transform::lookAt(const Vector3& vector){
 };
 
 const Matrix4& Transform::getTranslationMatrix() const{
-	if(!mTranslationMatrix){
-		mTranslationMatrix = Memory::allocate<Matrix4>();
-		mTranslationMatrix->identity();
+	if(mIsDirtyTranslation){
+		mTranslationMatrix->translation(mLocalPosition);
+		mIsDirtyTranslation = false;
 	}
 
-	mTranslationMatrix->translation(mLocalPosition);
 	return *mTranslationMatrix;
 }
 
 const Matrix4& Transform::getRotationMatrix() const{
+	if(mIsDirtyRotation){
+		mRotationMatrix->rotation(mRotation);
+		mIsDirtyRotation = false;
+	}
+
 	return *mRotationMatrix;
 }
 
 const Matrix4& Transform::getScaleMatrix() const{
+	if(mIsDirtyScale){
+		mScaleMatrix->scale(mScale);
+		mIsDirtyScale = false;
+	}
+
 	return *mScaleMatrix;
 }
 

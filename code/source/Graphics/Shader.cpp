@@ -1,24 +1,28 @@
 #include "Shader.h"
 #include "RenderContext.h"
+#include "Matrix4.h"
 #include <fstream> // std::ifstream
 #include <string>
 #include <iostream>
 
-#include "Matrix4.h"
-
-
 namespace DE {
+
+// ---------------------------------------------------------------------------
 
 Shader::Shader() : DE_Class(),
 	mVertexShader(-1),
 	mFragmentShader(-1),
 	mProgram(-1)
 {
-}
+};
+
+// ---------------------------------------------------------------------------
 
 Shader::~Shader() {
 
-}
+};
+
+// ---------------------------------------------------------------------------
 
 void Shader::init() {
 	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -73,12 +77,18 @@ void Shader::init() {
 
 void Shader::use() {
 	glUseProgram(mProgram);
-}
+};
+
+// ---------------------------------------------------------------------------
+
 
 void Shader::addMatrix(const Matrix4& matrix, std::string name){
 	u32 matrixLocation = glGetUniformLocation(mProgram, name.c_str());
 	std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrix.getData());
 };
+
+// ---------------------------------------------------------------------------
+
 
 } /* namespace DE */

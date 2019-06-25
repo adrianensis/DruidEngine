@@ -20,6 +20,8 @@ public:
 	Component();
 	~Component() override;
 
+	virtual void init() = 0;
+
 	void setGameObject(GameObject* gameObject);
 	GameObject* getGameObject() const;
 };

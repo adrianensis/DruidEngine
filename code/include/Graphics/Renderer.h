@@ -22,6 +22,8 @@ public:
 	Renderer();
 	~Renderer() override;
 
+	virtual void init() override;
+
 	void setMesh(Mesh* mesh);
 	Mesh* getMesh();
 };

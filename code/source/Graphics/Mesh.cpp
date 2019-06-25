@@ -36,14 +36,15 @@ void Mesh::init(u32 vertexCount) {
 	mVertexCount = vertexCount;
 
 	mVertices = Memory::allocate<Array<f32>>();
+	mTextureCoordinates = Memory::allocate<Array<f32>>();
 	mColors = Memory::allocate<Array<f32>>();
 	mNormals = Memory::allocate<Array<f32>>();
-	mTextureCoordinates = Memory::allocate<Array<f32>>();
 	mFaces = Memory::allocate<Array<u32>>();
 
 	mVertices->init(vertexCount*3);
-	mNormals->init(vertexCount*3);
 	mTextureCoordinates->init(vertexCount*3);
+	mColors->init(vertexCount*4);
+	mNormals->init(vertexCount*3);
 
 	mVerticesIndex = 0; // Vertices index
 	mNormalsIndex = 0; // Normals index
@@ -74,16 +75,16 @@ Mesh* Mesh::addNormal(const Vector3 vector) {
 };
 
 Mesh* Mesh::addTexCoord(u32 u,u32 v) {
-    mTextureCoordinates->set(mTextureCoordinatesIndex,u); mTextureCoordinatesIndex++;
-    mTextureCoordinates->set(mTextureCoordinatesIndex,v); mTextureCoordinatesIndex++;
-    return this;
+  mTextureCoordinates->set(mTextureCoordinatesIndex,u); mTextureCoordinatesIndex++;
+  mTextureCoordinates->set(mTextureCoordinatesIndex,v); mTextureCoordinatesIndex++;
+  return this;
 };
 
 Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3) {
-    mFacesTmp->set(mFacesIndex,v1); mFacesIndex++;
-    mFacesTmp->set(mFacesIndex,v2); mFacesIndex++;
-    mFacesTmp->set(mFacesIndex,v3); mFacesIndex++;
-    return this;
+  mFacesTmp->set(mFacesIndex,v1); mFacesIndex++;
+  mFacesTmp->set(mFacesIndex,v2); mFacesIndex++;
+  mFacesTmp->set(mFacesIndex,v3); mFacesIndex++;
+  return this;
 };
 
 
@@ -103,23 +104,23 @@ void Mesh::close() {
 }
 
 const Array<f32>* Mesh::getVerticesData() const {
-    return mVertices;
+  return mVertices;
 };
 
 const Array<f32>* Mesh::getColorsData() const {
-    return mColors;
+  return mColors;
 };
 
 const Array<f32>* Mesh::getNormalsData() const {
-    return mNormals;
+  return mNormals;
 };
 
 const Array<f32>* Mesh::getTexureCoordinatesData() const {
-    return mTextureCoordinates;
+  return mTextureCoordinates;
 };
 
 const Array<u32>* Mesh::getFacesData() const {
-    return mFaces;
+  return mFaces;
 };
 
 } /* namespace DE */

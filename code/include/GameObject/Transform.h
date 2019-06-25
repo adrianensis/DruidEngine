@@ -14,7 +14,6 @@ private:
 
 	Vector3 mWorldPosition;
 	Vector3 mLocalPosition;
-
 	Vector3 mRotation;
 	Vector3 mScale;
 
@@ -23,7 +22,9 @@ private:
 	mutable Matrix4* mRotationMatrix;
 	mutable Matrix4* mScaleMatrix;
 
-	bool mIsDirty;
+	mutable bool mIsDirtyTranslation;
+	mutable bool mIsDirtyRotation;
+	mutable bool mIsDirtyScale;
 
 public:
 
@@ -36,19 +37,21 @@ public:
 	Transform();
 	~Transform() override;
 
-	const Vector3& getWorldPosition() const;
-	const Vector3& getLocalPosition() const;
-	const Vector3& getRotation() const;
-	const Vector3& getScale() const;
+	virtual void init() override;
+
+	void translate(const Vector3& vector);
+	void rotate(const Vector3& vector);
+	void lookAt(const Vector3& vector);
 
 	void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3& vector);
 	void setRotation(const Vector3& vector);
 	void setScale(const Vector3& vector);
 
-	void translate(const Vector3& vector);
-	void rotate(const Vector3& vector);
-	void lookAt(const Vector3& vector);
+	const Vector3& getWorldPosition() const;
+	const Vector3& getLocalPosition() const;
+	const Vector3& getRotation() const;
+	const Vector3& getScale() const;
 
 	const Matrix4& getTranslationMatrix() const;
 	const Matrix4& getRotationMatrix() const;

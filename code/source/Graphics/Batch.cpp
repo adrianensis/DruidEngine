@@ -50,8 +50,8 @@ void Batch::init(Mesh* mesh, Material* material) {
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(mMesh->getVerticesData(), 3, 0);
-//	mVBOTexture = RenderContext::createVBO(mMesh->getTexureCoordinatesData(), 2, 1);
-//	mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
+	mVBOTexture = RenderContext::createVBO(mMesh->getTexureCoordinatesData(), 2, 1);
+	mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
 //	mVBONormal = RenderContext::createVBO(mMesh->getNormalsData(), 3, 3);
 	mEBO = RenderContext::createEBO(mMesh->getFacesData());
 	RenderContext::enableVAO(0);
@@ -72,8 +72,12 @@ void Batch::render() {
 		//VAL(u32,i+1)
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
+		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
+		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
 
 		mShader->addMatrix(translationMatrix, "translationMatrix");
+		mShader->addMatrix(rotationMatrix, "rotationMatrix");
+		mShader->addMatrix(scaleMatrix, "scaleMatrix");
 
 		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
 	}
