@@ -7,6 +7,33 @@
 namespace DE {
 
 /*
+  SIMPLIFY C++ MACROS
+*/
+
+#define DE_PUB public :
+#define DE_PRI private :
+#define DE_PRO protected :
+
+#define DE_MEMBER_BASE(T, name) T m##name;
+
+#define DE_MEMBER_GET_BASE(T, name) T get##name () { return m##name; }
+#define DE_MEMBER_SET_BASE(T, name) void set##name (T new##name) { m##name = new##name; }
+
+#define DE_MEMBER_GET(T, name) DE_PUB DE_MEMBER_GET_BASE(T, name)
+#define DE_MEMBER_SET(T, name) DE_PUB DE_MEMBER_SET_BASE(T, name)
+#define DE_MEMBER_GET_S(T, name) DE_PUB static DE_MEMBER_GET_BASE(T, name)
+#define DE_MEMBER_SET_S(T, name) DE_PUB static DE_MEMBER_SET_BASE(T, name)
+
+#define DE_MEMBER(T, name) DE_MEMBER_BASE(T, name) DE_MEMBER_GET(T, name) DE_MEMBER_SET(T, name)
+#define DE_MEMBER_S(T, name) static DE_MEMBER_BASE(T, name) DE_MEMBER_GET_S(T, name) DE_MEMBER_SET_S(T, name)
+
+#define DE_CONSTRUCTOR(class_name) DE_PUB class_name(); ~class_name() override;
+
+#define DE_CLASS(class_name) class class_name : public DE_Class { DE_CONSTRUCTOR(class_name)
+#define DE_CLASS_SINGLETON(class_name) class class_name : public DE_Class, public Singleton< class_name > { DE_CONSTRUCTOR(class_name)
+#define DE_END_CLASS }
+
+/*
   METADATA MACROS
 */
 
@@ -21,9 +48,6 @@ namespace DE {
 */
 class DE_Class : public Hash {
 public:
-
-  static ClassId rootClassId;
-
   DE_Class() = default;
   virtual ~DE_Class() = default;
 };
