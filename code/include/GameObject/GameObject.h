@@ -25,7 +25,7 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(GameObject)
+	DE_GENERATE_METADATA(GameObject);
 
 	GameObject();
 	~GameObject() override;

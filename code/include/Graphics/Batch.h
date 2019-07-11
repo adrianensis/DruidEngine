@@ -12,7 +12,9 @@ class Renderer;
 template <class T> class List;
 
 class Batch : public DE_Class{
+
 private:
+
 	List<Renderer*>* mRenderers;
 	Material* mMaterial;
 	Mesh* mMesh;
@@ -27,6 +29,7 @@ private:
 	Shader* mShader;
 
 public:
+	
 	Batch();
 	~Batch() override;
 

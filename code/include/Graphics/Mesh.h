@@ -10,6 +10,7 @@
 namespace DE {
 
 class Mesh : public DE_Class{
+
 private:
 
 	u32 mVertexCount;
@@ -22,7 +23,9 @@ private:
 	DynamicArray<u32>* mFacesTmp;
 
 	u32 mVerticesIndex, mColorsIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
+
 public:
+
 	Mesh();
 	~Mesh() override;
 

@@ -32,5 +32,13 @@ void Scene::removeGameObject(GameObject* gameObject) {
 	mGameObjects->remove(it);
 }
 
+void Scene::setCamera(GameObject* camera){
+	mCamera = camera;
+}
+
+GameObject* Scene::getCamera(){
+ 	return mCamera;
+}
+
 
 } /* namespace DE */

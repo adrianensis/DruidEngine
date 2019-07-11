@@ -12,10 +12,13 @@ class Scene;
 class RenderEngine;
 class ScriptEngine;
 
-class Engine : public DE_Class, public Singleton<Engine> {
-private:
-  f32 mFPS;
+// ---------------------------------------------------------------------------
 
+class Engine : public DE_Class, public Singleton<Engine> {
+
+private:
+
+  f32 mFPS;
   u32 mCurrentSceneIndex;
   List<Scene*>* mScenes;
   RenderEngine* mRenderEngine;
@@ -24,17 +27,19 @@ private:
   void loadScene(Scene* scene);
 
 public:
+
   Engine();
   ~Engine() override;
 
   void init();
+  void run();
+  void terminate();
 
   void addScene(Scene* newScene);
   void setScene(u32 i);
-
-  void run();
-  void terminate();
 };
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */
 

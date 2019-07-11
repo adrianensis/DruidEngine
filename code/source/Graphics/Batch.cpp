@@ -28,7 +28,7 @@ Batch::Batch() : DE_Class(),
 }
 
 Batch::~Batch() {
-	Memory::free<List<Renderer*>>(mRenderers);
+	Memory::free<List<Renderer*>>(mRenderers); // TODO : sorted by layers, or use a hashmap
 	Memory::free<Shader>(mShader);
 
 	glDeleteVertexArrays(1, &mVAO);
@@ -91,6 +91,16 @@ void Batch::setMesh(Mesh* mesh){
 }
 
 void Batch::addRenderer(Renderer* renderer) {
+	// u32 layerIndex=0;
+	// for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
+	// 	u32 layer = it.get()->getGameObject()->getLayer();
+	// 	if(layer == layerIndex){
+	// 		// INSERT
+	// 	}
+	//
+	// 	layerIndex++;
+	// }
+
 	mRenderers->pushBack(renderer);
 }
 

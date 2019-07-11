@@ -46,6 +46,7 @@ void Engine::setScene(u32 i){
 }
 
 void Engine::loadScene(Scene* scene){
+
 	List<GameObject*>* gameObjects = scene->getGameObjects();
 
 	for (auto itGameObjects = gameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){

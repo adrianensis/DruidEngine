@@ -9,10 +9,14 @@ template <class T> class List;
 class GameObject;
 
 class Scene : public DE_Class {
+
 private:
+
 	List<GameObject*>* mGameObjects;
+	GameObject* mCamera;
 
 public:
+
 	Scene();
 	~Scene() override;
 
@@ -20,6 +24,9 @@ public:
 	List<GameObject*>* getGameObjects();
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
+
+	void setCamera(GameObject* camera);
+	GameObject* getCamera();
 };
 
 } /* namespace DE */

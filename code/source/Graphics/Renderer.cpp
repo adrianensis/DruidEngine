@@ -14,7 +14,7 @@ Renderer::~Renderer() {
 }
 
 void Renderer::init(){
-  
+
 }
 
 void Renderer::setMesh(Mesh* mesh){

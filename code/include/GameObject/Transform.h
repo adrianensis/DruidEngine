@@ -32,7 +32,7 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	DE_GENERATE_METADATA(Transform)
+	DE_GENERATE_METADATA(Transform);
 
 	Transform();
 	~Transform() override;

@@ -15,8 +15,6 @@ private:
 
 public:
 
-	//DE_GENERATE_METADATA(Component)
-
 	Component();
 	~Component() override;
 
