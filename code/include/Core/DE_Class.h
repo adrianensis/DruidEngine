@@ -10,9 +10,12 @@ namespace DE {
   METADATA MACROS
 */
 
-#define DE_GENERATE_ID(Class) static ClassId getClassId() {static ClassId classId = Hash::hash(#Class); return classId;}
-#define DE_GENERATE_NAME(Class) static std::string getClassName() {static std::string className = #Class; return className;}
-#define DE_GENERATE_METADATA(Class) DE_GENERATE_NAME(Class); DE_GENERATE_ID(Class);
+#define DE_GENERATE_ID_STATIC(Class) static ClassId getClassIdStatic() {static ClassId classId = Hash::hash(#Class); return classId;}
+#define DE_GENERATE_NAME_STATIC(Class) static std::string getClassName() {static std::string className = #Class; return className;}
+#define DE_GENERATE_ID_VIRTUAL(Class) virtual ClassId getClassId() override { return Class::getClassIdStatic(); };
+#define DE_GENERATE_METADATA(Class) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_ID_VIRTUAL(Class);
+
+#define DE_CLASS(Class) Class(); ~Class() override; DE_GENERATE_METADATA(Class)
 
 // ---------------------------------------------------------------------------
 
@@ -22,10 +25,10 @@ namespace DE {
 class DE_Class : public Hash {
 public:
 
-  static ClassId rootClassId;
-
   DE_Class() = default;
   virtual ~DE_Class() = default;
+
+  virtual ClassId getClassId() { return 0; };
 };
 
 // ---------------------------------------------------------------------------

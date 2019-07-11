@@ -18,16 +18,12 @@ private:
 
 public:
 
-	Camera();
-	~Camera() override;
-
-	DE_GENERATE_METADATA(Camera);
+	DE_CLASS(Camera);
 
 	virtual void init() override;
 
-	const Matrix4* getProjectionMatrix() const;
-	const Matrix4* getViewMatrix();
-	void setProjection(Matrix4* projectionMatrix);
+	const Matrix4& getProjectionMatrix() const;
+	const Matrix4& getViewMatrix();
 
 	void setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);

@@ -30,7 +30,7 @@ void RenderEngine::init() {
 	Batch* batch = Memory::allocate<Batch>();
 
 	// TODO : don't initialize batch here
-	batch->init(nullptr, nullptr);
+	batch->init(this, nullptr, nullptr);
 
 	mTextureBatches->pushBack(batch);
 }
@@ -77,6 +77,14 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
 	mTextureBatches->get(0)->setMesh(renderer->getMesh());
 	mTextureBatches->get(0)->addRenderer(renderer);
+}
+
+void RenderEngine::setCamera(Camera* camera){
+	mCamera = camera;
+}
+
+Camera* RenderEngine::getCamera(){
+ 	return mCamera;
 }
 
 } /* namespace DE */

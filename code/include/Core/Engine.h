@@ -28,8 +28,7 @@ private:
 
 public:
 
-  Engine();
-  ~Engine() override;
+  DE_CLASS(Engine);
 
   void init();
   void run();

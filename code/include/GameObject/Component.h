@@ -15,8 +15,7 @@ private:
 
 public:
 
-	Component();
-	~Component() override;
+	DE_CLASS(Component);
 
 	virtual void init() = 0;
 

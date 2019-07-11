@@ -2,6 +2,8 @@
 #include "Material.h"
 #include "List.h"
 #include "Renderer.h"
+#include "RenderEngine.h"
+#include "Camera.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "RenderContext.h"
@@ -36,7 +38,9 @@ Batch::~Batch() {
 	glDeleteBuffers(1, &mEBO);
 }
 
-void Batch::init(Mesh* mesh, Material* material) {
+void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
+	mRenderEngine = renderEngine;
+
 	mRenderers = Memory::allocate<List<Renderer*>>();
 	mRenderers->init();
 
@@ -70,6 +74,8 @@ void Batch::render() {
 	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
 		//ECHO("RENDERER NUM")
 		//VAL(u32,i+1)
+
+		const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();

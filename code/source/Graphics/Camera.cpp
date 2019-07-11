@@ -43,19 +43,13 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
 
 //----------------------------------------------------------------------
 
-void Camera::setProjection(Matrix4* projectionMatrix){
-    mProjectionMatrix = projectionMatrix;
+const Matrix4& Camera::getProjectionMatrix() const{
+    return *mProjectionMatrix;
 };
 
 //----------------------------------------------------------------------
 
-const Matrix4* Camera::getProjectionMatrix() const{
-    return mProjectionMatrix;
-};
-
-//----------------------------------------------------------------------
-
-const Matrix4* Camera::getViewMatrix(){
+const Matrix4& Camera::getViewMatrix(){
 
 	// var t = this.gameObject.getTransform();
   //
@@ -72,7 +66,7 @@ const Matrix4* Camera::getViewMatrix(){
 	// 	mViewMatrix = Matrix4.mulMM(translationMatrix, rotationMatrix);
 	// }
 
-	return mViewMatrix;
+	return *mViewMatrix;
 };
 
 //----------------------------------------------------------------------

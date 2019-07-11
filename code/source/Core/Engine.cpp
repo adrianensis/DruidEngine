@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Script.h"
+#include "Camera.h"
 
 #include <string>
 
@@ -46,6 +47,8 @@ void Engine::setScene(u32 i){
 }
 
 void Engine::loadScene(Scene* scene){
+
+	mRenderEngine->setCamera((Camera*)scene->getCameraGameObject()->getComponents<Camera>()->get(0));
 
 	List<GameObject*>* gameObjects = scene->getGameObjects();
 

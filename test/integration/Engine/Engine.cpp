@@ -14,6 +14,16 @@ int main() {
 
   scene->init();
 
+	// camera
+
+	GameObject* cameraGameObject = Memory::allocate<GameObject>();
+  cameraGameObject->init();
+
+	// script
+
+	Camera* cameraComponent = Memory::allocate<Camera>();
+	cameraGameObject->addComponent(cameraComponent);
+
 	// render
 
 	Mesh* mesh = Memory::allocate<Mesh>();
@@ -49,13 +59,13 @@ int main() {
 	// script
 
 	Script* script = Memory::allocate<Script>();
-	gameObject->addComponent<Script>(script);
+	gameObject->addComponent(script);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 
 	renderer->setMesh(mesh);
 
-	gameObject->addComponent<Renderer>(renderer);
+	gameObject->addComponent(renderer);
 
 	// OBJECT 2
 
@@ -68,13 +78,15 @@ int main() {
 	// script
 
 	Script* script2 = Memory::allocate<Script>();
-	gameObject2->addComponent<Script>(script2);
+	gameObject2->addComponent(script2);
 
 	Renderer* renderer2 = Memory::allocate<Renderer>();
 
 	renderer2->setMesh(mesh);
 
-	gameObject2->addComponent<Renderer>(renderer2);
+	gameObject2->addComponent(renderer2);
+
+	scene->setCameraGameObject(cameraGameObject);
 
 	scene->addGameObject(gameObject);
 	scene->addGameObject(gameObject2);

@@ -9,11 +9,14 @@ class Material;
 class Mesh;
 class Shader;
 class Renderer;
+class RenderEngine;
 template <class T> class List;
 
 class Batch : public DE_Class{
 
 private:
+
+	RenderEngine* mRenderEngine;
 
 	List<Renderer*>* mRenderers;
 	Material* mMaterial;
@@ -29,11 +32,10 @@ private:
 	Shader* mShader;
 
 public:
-	
-	Batch();
-	~Batch() override;
 
-	void init(Mesh* mesh, Material* material);
+	DE_CLASS(Batch);
+
+	void init(RenderEngine* renderEngine, Mesh* mesh, Material* material);
 	void bind();
 	void update();
 	void render();

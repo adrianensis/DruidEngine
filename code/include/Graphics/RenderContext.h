@@ -8,7 +8,8 @@
 
 namespace DE {
 
-	template <class T> class Array;
+template <class T> class Array;
+class Camera;
 
 class RenderContext : public DE_Class{
 
@@ -19,7 +20,7 @@ private:
 	static void onResize(GLFWwindow* window, int width, int height);
 
 public:
-	
+
 	RenderContext();
 	~RenderContext() override;
 

@@ -25,8 +25,10 @@ GameObject::~GameObject() {
 
 // ---------------------------------------------------------------------------
 
-void GameObject::addComponent(ClassId classId, Component* component) {
+void GameObject::addComponent(Component* component) {
 	List<Component*>* list = nullptr;
+
+	ClassId classId = component->getClassId();
 
 	if(! mComponents->contains(classId)){
 		list = Memory::allocate<List<Component*>>();
@@ -55,7 +57,7 @@ void GameObject::init() {
 	mTransform = Memory::allocate<Transform>();
 	//mTransform->init();
 
-	addComponent(Transform::getClassId(), mTransform);
+	addComponent(mTransform);
 }
 
 // ---------------------------------------------------------------------------

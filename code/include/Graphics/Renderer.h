@@ -17,10 +17,7 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(Renderer);
-
-	Renderer();
-	~Renderer() override;
+	DE_CLASS(Renderer);
 
 	virtual void init() override;
 

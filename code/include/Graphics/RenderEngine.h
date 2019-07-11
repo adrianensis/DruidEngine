@@ -28,6 +28,9 @@ public:
 	void terminate();
 
 	void addRenderer(Renderer* renderer);
+
+	void setCamera(Camera* camera);
+	Camera* getCamera();
 };
 
 } /* namespace DE */

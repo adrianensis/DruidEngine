@@ -32,12 +32,12 @@ void Scene::removeGameObject(GameObject* gameObject) {
 	mGameObjects->remove(it);
 }
 
-void Scene::setCamera(GameObject* camera){
-	mCamera = camera;
+void Scene::setCameraGameObject(GameObject* cameraGameObject){
+	mCameraGameObject = cameraGameObject;
 }
 
-GameObject* Scene::getCamera(){
- 	return mCamera;
+GameObject* Scene::getCameraGameObject(){
+ 	return mCameraGameObject;
 }
 
 

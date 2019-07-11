@@ -11,10 +11,7 @@ private:
 
 public:
 
-  DE_GENERATE_METADATA(Script);
-
-  Script();
-  ~Script() override;
+  DE_CLASS(Script);
 
   void init();
   void update();

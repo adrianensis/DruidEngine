@@ -7,6 +7,7 @@
 #include <string>
 
 #include "Array.h"
+#include "Camera.h"
 
 namespace DE {
 
@@ -103,7 +104,7 @@ GLuint RenderContext::createVAO() {
 }
 
 GLuint RenderContext::createEBO(const Array<u32>* data) {
-  
+
   DE_ASSERT(data != nullptr, "Data must be not null.");
 
 	unsigned int EBO;

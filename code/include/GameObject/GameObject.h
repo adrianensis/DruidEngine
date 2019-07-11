@@ -2,6 +2,7 @@
 #define DE_GAMEOBJECT_H
 
 #include "DE_Class.h"
+#include "Component.h"
 
 namespace DE {
 
@@ -20,26 +21,19 @@ private:
 
 	Transform* mTransform;
 
-	void addComponent(ClassId classId, Component* component);
 	List<Component*>* getComponents(ClassId classId);
 
 public:
 
-	DE_GENERATE_METADATA(GameObject);
-
-	GameObject();
-	~GameObject() override;
+	DE_CLASS(GameObject);
 
 	void init();
 
-	template<class T>
-	void addComponent(Component* component){
-		GameObject::addComponent(T::getClassId(), component);
-	}
+	void addComponent(Component* component);
 
 	template<class T>
 	List<T*>* getComponents(){
-		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassId()));
+		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
 	Transform* getTransform();
