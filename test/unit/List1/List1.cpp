@@ -12,7 +12,7 @@ int main() {
 
 	DE::Memory::init();
 
-	test(DE::List<Test>);
+	DE_test(DE::List<Test>);
 
 	List<Array<u32>*>* mArrays = DE::Memory::allocate< List<Array<u32>*> >();
 	Array<u32>* newArray = DE::Memory::allocate<Array<u32>>();
@@ -23,13 +23,13 @@ int main() {
 	mArrays->pushBack(newArray);
 
 	auto itArrays = mArrays->getIterator();
-	expected_uint(itArrays.get()->getLength(),100);
+	DE_test_expected_uint(itArrays.get()->getLength(),100);
 
 	DE::List<Test>* list = DE::Memory::allocate<List<Test>>();
 
 	list->init();
 
-	expected_uint(list->getLength(),0);
+	DE_test_expected_uint(list->getLength(),0);
 
 	Test a;
 	Test b;
@@ -39,16 +39,16 @@ int main() {
 	list->pushBack(b);
 	list->pushBack(c);
 
-	expected_uint(list->getLength(),3);
+	DE_test_expected_uint(list->getLength(),3);
 
 	Test cc = list->popBack();
 	cc.n = 7;
 
-	expected_bool(cc.n == c.n, false);
+	DE_test_expected_bool(cc.n == c.n, false);
 
 	list->clear();
 
-	expected_uint(list->getLength(),0);
+	DE_test_expected_uint(list->getLength(),0);
 
 	a.n = 0;
 	b.n = 1;
@@ -60,30 +60,30 @@ int main() {
 
 	auto it = list->getIterator();
 
-	expected_uint(it.get().n,0);
-	expected_bool(it.hasNext(),true);
+	DE_test_expected_uint(it.get().n,0);
+	DE_test_expected_bool(it.hasNext(),true);
 	it.next();
-	expected_uint(it.get().n,1);
-	expected_bool(it.hasNext(),true);
+	DE_test_expected_uint(it.get().n,1);
+	DE_test_expected_bool(it.hasNext(),true);
 	it.next();
-	expected_uint(it.get().n,2);
-	expected_bool(it.hasNext(),false);
+	DE_test_expected_uint(it.get().n,2);
+	DE_test_expected_bool(it.hasNext(),false);
 
 	it = list->getIterator();
 
-	expected_uint(it.get().n,0);
+	DE_test_expected_uint(it.get().n,0);
 
 	list->remove(it);
 
-	expected_uint(list->getLength(),2);
+	DE_test_expected_uint(list->getLength(),2);
 
 	it = list->getIterator();
 
-	expected_uint(it.get().n,1);
-	expected_bool(it.hasNext(),true);
+	DE_test_expected_uint(it.get().n,1);
+	DE_test_expected_bool(it.hasNext(),true);
 	it.next();
-	expected_uint(it.get().n,2);
-	expected_bool(it.hasNext(),false);
+	DE_test_expected_uint(it.get().n,2);
+	DE_test_expected_bool(it.hasNext(),false);
 
 
 
@@ -96,7 +96,7 @@ int main() {
 
 	list32->init();
 
-	expected_uint(list32->getLength(),0);
+	DE_test_expected_uint(list32->getLength(),0);
 
 	u32 sizeInt = sizeof(u32);
 	u32 a32;// = (u32*)linear.allocate(sizeInt);
@@ -111,17 +111,17 @@ int main() {
 	list32->pushBack(b32);
 	list32->pushBack(c32);
 
-	expected_uint(list32->getLength(),3);
+	DE_test_expected_uint(list32->getLength(),3);
 
 	List<u32>::Iterator it32 = list32->getIterator();
 
-	expected_uint((it32.get()),1);
+	DE_test_expected_uint((it32.get()),1);
 	it32.next();
-	expected_uint((it32.get()),2);
+	DE_test_expected_uint((it32.get()),2);
 	it32.next();
-	expected_uint((it32.get()),3);
+	DE_test_expected_uint((it32.get()),3);
 
-	expected_uint(list32->getLength(),3);
+	DE_test_expected_uint(list32->getLength(),3);
 
 	DE::Memory::free<List<Array<u32>*>>(mArrays);
 	DE::Memory::free<Array<u32>>(newArray);

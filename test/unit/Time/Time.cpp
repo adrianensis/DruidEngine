@@ -2,29 +2,43 @@
 
 int main() {
 
-	test(DE::Time);
+	DE_test(DE::Time);
 
 	DE::Time::init();
 
-	expected_float(DE::Time::getDeltaTime(), 0.0f);
-
-	// expected_float_eps(DE::Vector2(a).clamp(0.1f).len(),0.1f,0.1f);
-	// expected_float_eps(DE::Vector2(a).clamp(0.2f).len(),0.2f,0.1f);
-	// expected_float_eps(DE::Vector2(a).clamp(0.3f).len(),0.3f,0.1f);
-	// expected_float_eps(DE::Vector2(a).clamp(0.4f).len(),0.4f,0.1f);
-	// expected_float_eps(DE::Vector2(a).clamp(0.5f).len(),0.5f,0.1f);
+	DE_test_expected_float(DE::Time::getDeltaTime(), 0.0f);
 
 	DE::Time::tick();
 
-	expected_bool(DE::Time::getDeltaTime() > 0.0f, true);
+	DE_test_expected_float(DE::Time::getDeltaTime(), 0.0f);
 
 	DE::Time::tick();
+
+	// waste some time in this loop
+	int a = 0;
+	while (DE::Time::getElapsedTime() < 300) {
+		a++;
+	}
+
+	DE::Time::tick();
+
+	DE_test_show(DE::Time::getDeltaTime());
+
+	DE_test_expected_bool(DE::Time::getDeltaTime() > 0.0f, true);
+
+	DE::Time::tick();
+
+	DE_test_tick(); // Starts measuring time for test
 
 	f32 msCount = 200.0f;
 	while (DE::Time::getElapsedTime() < msCount) {
-		expected_bool(DE::Time::getElapsedTime() >= 0.0f, true);
-		//show(DE::Time::getElapsedTime());
+		//DE_test_show(DE::Time::getElapsedTime());
 	}
+
+	DE_test_tock(); // Ends measuring time for test
+
+	DE_test_show(DE::Time::getElapsedTime());
+	DE_test_expected_bool(DE::Time::getElapsedTime() > 0.0f, true);
 
 	summary();
 
