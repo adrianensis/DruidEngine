@@ -76,11 +76,15 @@ void Batch::render() {
 		//VAL(u32,i+1)
 
 		const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
+		const Matrix4& viewMatrix = mRenderEngine->getCamera()->getViewMatrix();
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
 		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
 
+		mShader->addMatrix(projectionMatrix, "projectionMatrix");
+		mShader->addMatrix(viewMatrix, "viewMatrix");
+		
 		mShader->addMatrix(translationMatrix, "translationMatrix");
 		mShader->addMatrix(rotationMatrix, "rotationMatrix");
 		mShader->addMatrix(scaleMatrix, "scaleMatrix");

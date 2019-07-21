@@ -12,16 +12,17 @@ int main() {
 
 	Scene* scene = Memory::allocate<Scene>();
 
-  scene->init();
+    scene->init();
 
 	// camera
 
 	GameObject* cameraGameObject = Memory::allocate<GameObject>();
-  cameraGameObject->init();
+	cameraGameObject->init();
 
 	// script
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
+	cameraComponent->setOrtho(-800, 800, -600, 600, 100, -100);
 	cameraGameObject->addComponent(cameraComponent);
 
 	// render
@@ -52,9 +53,10 @@ int main() {
 	// OBJECT 1
 
 	GameObject* gameObject = Memory::allocate<GameObject>();
-  gameObject->init();
+    gameObject->init();
 
 	gameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
+	gameObject->getTransform()->setScale(Vector3(300,300,1));
 
 	// script
 
@@ -70,10 +72,10 @@ int main() {
 	// OBJECT 2
 
 	GameObject* gameObject2 = Memory::allocate<GameObject>();
-  gameObject2->init();
+    gameObject2->init();
 
-	gameObject2->getTransform()->setLocalPosition(Vector3(0.5,0.5,0));
-	gameObject2->getTransform()->setScale(Vector3(0.5,0.5,1));
+	gameObject2->getTransform()->setLocalPosition(Vector3(-300,-300,0));
+	gameObject2->getTransform()->setScale(Vector3(100,100,1));
 
 	// script
 

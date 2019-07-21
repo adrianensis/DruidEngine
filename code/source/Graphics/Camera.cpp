@@ -14,7 +14,8 @@ Camera::~Camera() {
 }
 
 void Camera::init(){
-
+	mViewMatrix = Memory::allocate<Matrix4>();
+	mViewMatrix->identity();
 };
 
 //----------------------------------------------------------------------
@@ -30,15 +31,17 @@ void Camera::init(){
 //----------------------------------------------------------------------
 
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
-  mProjectionMatrix = Memory::allocate<Matrix4>();
-  mProjectionMatrix->ortho(left, right, bottom, top, near, far);
+	Memory::free<Matrix4>(mProjectionMatrix);
+	mProjectionMatrix = Memory::allocate<Matrix4>();
+	mProjectionMatrix->ortho(left, right, bottom, top, near, far);
 };
 
 //----------------------------------------------------------------------
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
-  mProjectionMatrix = Memory::allocate<Matrix4>();
-  mProjectionMatrix->perspective(near, far, aspect, fov);
+	Memory::free<Matrix4>(mProjectionMatrix);
+	mProjectionMatrix = Memory::allocate<Matrix4>();
+	mProjectionMatrix->perspective(near, far, aspect, fov);
 };
 
 //----------------------------------------------------------------------

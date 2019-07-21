@@ -161,13 +161,16 @@ void Matrix4::identity(){
 };
 
 void Matrix4::translation(const Vector3& vector){
+  this->identity();
   this->set(0,3,vector.x);
   this->set(1,3,vector.y);
   this->set(2,3,vector.z);
 };
 
 void Matrix4::rotation(const Vector3& vector){
-
+	
+  this->identity();
+	
   f32 radians, cos, sin;
 
   if(vector.x != 0){
@@ -199,12 +202,14 @@ void Matrix4::rotation(const Vector3& vector){
 };
 
 void Matrix4::scale(const Vector3& vector){
+  this->identity();
   this->set(0,0,vector.x);
   this->set(1,1,vector.y);
   this->set(2,2,vector.z);
 };
 
 void Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
+  this->identity();
   this->set(0,0,2.0f/(right-left));
   this->set(0,3,-((right+left)/(right-left)));
   this->set(1,1,2.0f/(top-bottom));
@@ -219,6 +224,7 @@ void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov){
   f32 right = top*aspect;
   f32 left = -right;
 
+  this->identity();
   this->set(0,0,(2*near)/(right-left));
   this->set(0,2,(right+left)/(right-left));
   this->set(1,1,(2*near)/(top-bottom));
