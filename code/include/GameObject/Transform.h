@@ -17,7 +17,7 @@ private:
 	Vector3 mRotation;
 	Vector3 mScale;
 
-	Matrix4* mMatrix;
+	mutable Matrix4* mModelMatrix;
 	mutable Matrix4* mTranslationMatrix;
 	mutable Matrix4* mRotationMatrix;
 	mutable Matrix4* mScaleMatrix;

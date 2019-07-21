@@ -7,7 +7,7 @@ namespace DE {
 
 Transform::Transform() : Component()
 {
-	mMatrix = nullptr;
+	mModelMatrix = nullptr;
 	mTranslationMatrix = nullptr;
 	mRotationMatrix = nullptr;
 	mScaleMatrix = nullptr;
@@ -18,13 +18,16 @@ Transform::Transform() : Component()
 }
 
 Transform::~Transform() {
-	Memory::free<Matrix4>(mMatrix);
+	Memory::free<Matrix4>(mModelMatrix);
 	Memory::free<Matrix4>(mTranslationMatrix);
 	Memory::free<Matrix4>(mRotationMatrix);
 	Memory::free<Matrix4>(mScaleMatrix);
 }
 
 void Transform::init(){
+	// mModelMatrix = Memory::allocate<Matrix4>();
+	// mModelMatrix->identity();
+
 	mTranslationMatrix = Memory::allocate<Matrix4>();
 	mTranslationMatrix->identity();
 
@@ -91,21 +94,17 @@ void Transform::rotate(const Vector3& vector){
 };
 
 void Transform::lookAt(const Vector3& vector){
-	if(vector.len() > 0.0f){
-		mIsDirtyRotation = true;
-	}
-	// this.dirty = true;
+	// if(vector.len() > 0.0f){
+	// 	mIsDirtyRotation = true;
 	//
-	// this.target = vector.cpy();
+	// 	Vector3 target(vector);
 	//
-	// var pos = this.getPosition().cpy();
+	// 	Vector3 forward(target.sub(mLocalPosition).nor());
 	//
-	// this.forward = this.target.cpy().sub(pos).nor();
-	//
-	// var yAxis = new Vector3(0,1,0);
-	// this.right = yAxis.cross(this.forward).nor();
-	// this.up = this.forward.cpy().cross(this.right);
-
+	// 	Vector3 yAxis(0,1,0);
+	// 	Vector3 right = yAxis.cross(forward).nor();
+	// 	Vector3 up = Vector3(forward).cross(right);
+	// }
 };
 
 const Matrix4& Transform::getTranslationMatrix() const{

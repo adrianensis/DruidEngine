@@ -55,11 +55,19 @@ void Engine::loadScene(Scene* scene){
 	for (auto itGameObjects = gameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
 		GameObject* gameObject = itGameObjects.get();
 
-		Script* script = (Script*)gameObject->getComponents<Script>()->get(0);
-		Renderer* renderer = (Renderer*)gameObject->getComponents<Renderer>()->get(0);
+		List<Script*>* ScriptList = gameObject->getComponents<Script>();
+		List<Renderer*>* RendererList = gameObject->getComponents<Renderer>();
 
-		mScriptEngine->addScript(script);
-		mRenderEngine->addRenderer(renderer);
+		Script* script = ScriptList ? ScriptList->get(0) : nullptr;
+		Renderer* renderer = RendererList ? RendererList->get(0) : nullptr;
+
+		if(script){
+			mScriptEngine->addScript(script);
+		}
+
+		if(renderer){
+			mRenderEngine->addRenderer(renderer);
+		}
 	}
 }
 

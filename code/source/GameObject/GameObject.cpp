@@ -45,7 +45,7 @@ void GameObject::addComponent(Component* component) {
 // ---------------------------------------------------------------------------
 
 List<Component*>* GameObject::getComponents(ClassId classId) {
-	return mComponents->get(classId);
+	return mComponents->contains(classId) ? mComponents->get(classId) : nullptr;
 }
 
 // ---------------------------------------------------------------------------

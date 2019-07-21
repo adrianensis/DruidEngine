@@ -13,7 +13,7 @@ class Camera : public Component{
 private:
 
 	Matrix4* mProjectionMatrix;
-	Matrix4* mViewMatrix;
+	Matrix4* mViewTranslationMatrix;
 	//Frustum* mFrustum;
 
 public:
@@ -23,7 +23,8 @@ public:
 	virtual void init() override;
 
 	const Matrix4& getProjectionMatrix() const;
-	const Matrix4& getViewMatrix();
+	const Matrix4& getViewTranslationMatrix();
+	const Matrix4& getViewRotationMatrix();
 
 	void setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);

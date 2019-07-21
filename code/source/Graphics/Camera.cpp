@@ -1,6 +1,8 @@
 #include "Camera.h"
 
 #include "Matrix4.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 namespace DE {
 
@@ -10,12 +12,12 @@ Camera::Camera() : Component() {
 }
 
 Camera::~Camera() {
-	// TODO Auto-generated destructor stub
+	Memory::free<Matrix4>(mViewTranslationMatrix);
 }
 
 void Camera::init(){
-	mViewMatrix = Memory::allocate<Matrix4>();
-	mViewMatrix->identity();
+	mViewTranslationMatrix = Memory::allocate<Matrix4>();
+	mViewTranslationMatrix->identity();
 };
 
 //----------------------------------------------------------------------
@@ -47,29 +49,23 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
 //----------------------------------------------------------------------
 
 const Matrix4& Camera::getProjectionMatrix() const{
-    return *mProjectionMatrix;
+  return *mProjectionMatrix;
 };
 
 //----------------------------------------------------------------------
 
-const Matrix4& Camera::getViewMatrix(){
+const Matrix4& Camera::getViewTranslationMatrix(){
 
-	// var t = this.gameObject.getTransform();
-  //
-	// if(t.isDirty()){
-  //
-	// 	var rotationMatrix = new Matrix4(
-	//         t.right,
-	//         t.up,
-	//         t.forward,
-	//         new Vector4(0,0,0,1));
-  //
-	// 	var translationMatrix = Matrix4.translation(t.getPosition().cpy().mulScl(-1));
-  //
-	// 	mViewMatrix = Matrix4.mulMM(translationMatrix, rotationMatrix);
-	// }
+	// TODO : optimization, if transform hasn't changed, directly return mViewTranslationMatrix
 
-	return *mViewMatrix;
+	Vector3 position = getGameObject()->getTransform()->getLocalPosition();
+	mViewTranslationMatrix->translation(position * -1);
+
+	return *mViewTranslationMatrix;
+};
+
+const Matrix4& Camera::getViewRotationMatrix(){
+	return getGameObject()->getTransform()->getRotationMatrix();
 };
 
 //----------------------------------------------------------------------
