@@ -185,7 +185,7 @@ f32 Vector3::angle(const Vector3& v) const {
 	* perpendicular (zero dot product)
 	* or obtuse (negative dot product).
 	*/
-	// between 0 - 180
+	// between 0 - PI (radians)
 	return acosf(this->dot(v)/(this->len()*v.len()));
 }
 
@@ -193,11 +193,11 @@ f32 Vector3::angle(const Vector3& v, const Vector3& n) const {
 
 	f32 dot = this->dot(v);
 	Vector3 cross = Vector3(*this).cross(v);
-	f32 angle = atan2f(cross.len(),dot);
+	f32 radians = atan2f(cross.len(),dot);
 
-	angle = n.dot(cross) < 0.0f ? (2.0f*M_PI)-angle : angle;
+	radians = n.dot(cross) < 0.0f ? (2.0f*M_PI)-radians : radians;
 
-	return angle;
+	return radians;
 }
 
 Vector3& Vector3::clamp(f32 maxLength) {

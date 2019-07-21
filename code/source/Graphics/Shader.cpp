@@ -84,7 +84,7 @@ void Shader::use() {
 
 void Shader::addMatrix(const Matrix4& matrix, std::string name){
 	u32 matrixLocation = glGetUniformLocation(mProgram, name.c_str());
-	std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
+	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrix.getData());
 };
 

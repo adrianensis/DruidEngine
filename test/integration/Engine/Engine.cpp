@@ -12,12 +12,14 @@ int main() {
 
 	Scene* scene = Memory::allocate<Scene>();
 
-    scene->init();
+  scene->init();
 
 	// camera
 
 	GameObject* cameraGameObject = Memory::allocate<GameObject>();
 	cameraGameObject->init();
+
+	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 
 	// script
 
@@ -25,7 +27,8 @@ int main() {
 	cameraGameObject->addComponent(script);
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
-	cameraComponent->setOrtho(-800, 800, -600, 600, 100, -100);
+	cameraComponent->setOrtho(-800, 800, -600, 600, 1, -1);
+	//cameraComponent->setPerspective(10, -10, 800/600, 45);
 	cameraGameObject->addComponent(cameraComponent);
 
 	// render

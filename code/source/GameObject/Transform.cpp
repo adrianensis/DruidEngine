@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Matrix4.h"
 #include "Memory.h"
+#include "Debug.h"
 
 namespace DE {
 
@@ -91,20 +92,6 @@ void Transform::rotate(const Vector3& vector){
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
-};
-
-void Transform::lookAt(const Vector3& vector){
-	// if(vector.len() > 0.0f){
-	// 	mIsDirtyRotation = true;
-	//
-	// 	Vector3 target(vector);
-	//
-	// 	Vector3 forward(target.sub(mLocalPosition).nor());
-	//
-	// 	Vector3 yAxis(0,1,0);
-	// 	Vector3 right = yAxis.cross(forward).nor();
-	// 	Vector3 up = Vector3(forward).cross(right);
-	// }
 };
 
 const Matrix4& Transform::getTranslationMatrix() const{

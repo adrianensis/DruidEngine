@@ -78,7 +78,7 @@ int main() {
 	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1))*(180/M_PI), 135);
 	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1))*(180/M_PI), 135);
 
-	DE_test_expected_float(a.angle(a, DE::Vector3(0,1,0)), 0.0);
+	DE_test_expected_float(a.angle(a, DE::Vector3(0,0,1)), 0.0);
 	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0), DE::Vector3(0,0,1))*(180/M_PI), 90);
 	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0), DE::Vector3(0,0,1))*(180/M_PI), 270);
 	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0), DE::Vector3(0,0,1))*(180/M_PI), 45);

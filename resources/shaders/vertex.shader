@@ -16,7 +16,7 @@ varying vec2 vTexcoord;
 
 void main()
 {
-  gl_Position = projectionMatrix * (viewTranslationMatrix * viewRotationMatrix) * ( (translationMatrix * scaleMatrix) * rotationMatrix ) * vec4(position.x, position.y, position.z, 1.0);
+  gl_Position = projectionMatrix * (viewTranslationMatrix * viewRotationMatrix) * ( (rotationMatrix *translationMatrix * scaleMatrix) ) * vec4(position.x, position.y, position.z, 1.0);
 
   // Pass the texcoord to the fragment shader.
   vTexcoord = texcoord;

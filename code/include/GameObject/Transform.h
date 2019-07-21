@@ -36,9 +36,17 @@ public:
 
 	virtual void init() override;
 
+	/*!
+    \brief Translate the object by an increment vector.
+    \param vector Delta position.
+  */
 	void translate(const Vector3& vector);
+
+	/*!
+    \brief Rotate the object by an increment vector.
+    \param vector Delta rotation.
+  */
 	void rotate(const Vector3& vector);
-	void lookAt(const Vector3& vector);
 
 	void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3& vector);

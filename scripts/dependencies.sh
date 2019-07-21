@@ -6,7 +6,7 @@ destiny="dependencies"
 rm -R $destiny 2> /dev/null
 
 sudo apt-get update
-sudo apt-get install build-essential cmake python-pip libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz
+sudo apt-get install build-essential cmake cmake-data python-pip libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev libsoil-dev doxygen graphviz
 sudo apt-get install wget unzip
 
 # GLFW

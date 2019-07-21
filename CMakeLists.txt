@@ -37,6 +37,9 @@ include_directories("${DEPENDENCIES_DIR}/glfw-3.2.1/include")
 set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
+set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
+include_directories("${DEPENDENCIES_DIR}/glad/include")
+
 # packages
 file(GLOB PACKAGES_PATHS "code/source/*")
 set(PACKAGES "")
@@ -75,6 +78,9 @@ add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
+# SOIL
+target_link_libraries( ${DRUID} SOIL )
+
 
 # compile tests
 
