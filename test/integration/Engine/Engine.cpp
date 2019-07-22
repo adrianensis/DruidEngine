@@ -1,5 +1,7 @@
 #include "Druid.h"
 
+#include "SOIL.h"
+
 using namespace DE;
 
 int main() {
@@ -106,6 +108,11 @@ int main() {
 	engine->run();
 
 	engine->terminate();
+
+	int width, height;
+	unsigned char* image = SOIL_load_image("resources/char.png", &width, &height, 0, SOIL_LOAD_RGBA);
+
+	SOIL_free_image_data(image);
 
 	return 0;
 }

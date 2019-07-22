@@ -78,6 +78,7 @@ add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
+
 # SOIL
 target_link_libraries( ${DRUID} SOIL )
 
