@@ -23,6 +23,9 @@ public:
 
 	void setMesh(Mesh* mesh);
 	Mesh* getMesh();
+
+	void setMaterial(Material* material);
+	Material* getMaterial();
 };
 
 } /* namespace DE */

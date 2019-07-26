@@ -76,6 +76,7 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 	// if batch doesn't exist, create.
 
 	mTextureBatches->get(0)->setMesh(renderer->getMesh());
+	mTextureBatches->get(0)->setMaterial(renderer->getMaterial());
 	mTextureBatches->get(0)->addRenderer(renderer);
 }
 

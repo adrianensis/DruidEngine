@@ -5,8 +5,8 @@
 namespace DE {
 
 Renderer::Renderer() : Component() {
-	// TODO Auto-generated constructor stub
-
+  mMesh = nullptr;
+  mMaterial = nullptr;
 }
 
 Renderer::~Renderer() {
@@ -23,6 +23,14 @@ void Renderer::setMesh(Mesh* mesh){
 
 Mesh* Renderer::getMesh(){
   return mMesh;
+}
+
+void Renderer::setMaterial(Material* material){
+  mMaterial = material;
+}
+
+Material* Renderer::getMaterial(){
+  return mMaterial;
 }
 
 } /* namespace DE */

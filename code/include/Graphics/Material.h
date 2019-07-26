@@ -9,12 +9,20 @@ class Texture;
 class Shader;
 
 class Material : public DE_Class {
+
 private:
 	Shader* mShader;
 	Texture* mTexture;
+
 public:
-	Material();
-	~Material() override;
+
+	DE_CLASS(Material);
+
+	Shader* getShader();
+	Texture* getTexture();
+
+	void setShader(Shader* shader);
+	void setTexture(Texture* texture);
 };
 
 } /* namespace DE */

@@ -29,7 +29,10 @@ private:
 	u32 mVBONormal;
 	u32 mVAO;
 
+	// TODO : this variables are temporal
 	Shader* mShader;
+
+	u32 mTextureId;
 
 public:
 
@@ -41,6 +44,7 @@ public:
 	void render();
 
 	void setMesh(Mesh* mesh);
+	void setMaterial(Material* material);
 	void addRenderer(Renderer* renderer);
 };
 

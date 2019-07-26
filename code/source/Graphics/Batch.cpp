@@ -1,5 +1,6 @@
 #include "Batch.h"
 #include "Material.h"
+#include "Texture.h"
 #include "List.h"
 #include "Renderer.h"
 #include "RenderEngine.h"
@@ -58,6 +59,22 @@ void Batch::bind() {
 	mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
 //	mVBONormal = RenderContext::createVBO(mMesh->getNormalsData(), 3, 3);
 	mEBO = RenderContext::createEBO(mMesh->getFacesData());
+
+	glGenTextures(1, &mTextureId);
+
+	glBindTexture(GL_TEXTURE_2D, mTextureId);
+
+	Texture* texture = mMaterial->getTexture();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texture->getData());
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	// Prevents s-coordinate wrapping (repeating).
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	// Prevents t-coordinate wrapping (repeating).
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	RenderContext::enableVAO(0);
 }
 
@@ -91,6 +108,8 @@ void Batch::render() {
 		mShader->addMatrix(rotationMatrix, "rotationMatrix");
 		mShader->addMatrix(scaleMatrix, "scaleMatrix");
 
+		glBindTexture(GL_TEXTURE_2D, mTextureId);
+
 		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
 	}
 
@@ -100,6 +119,10 @@ void Batch::render() {
 
 void Batch::setMesh(Mesh* mesh){
   mMesh = mesh;
+}
+
+void Batch::setMaterial(Material* material){
+	mMaterial = material;
 }
 
 void Batch::addRenderer(Renderer* renderer) {
