@@ -6,8 +6,9 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
 Camera::Camera() : Component() {
-	// TODO Auto-generated constructor stub
 
 }
 
@@ -20,7 +21,7 @@ void Camera::init(){
 	mViewTranslationMatrix->identity();
 };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 /**
 * Return the frustum.
@@ -30,7 +31,7 @@ void Camera::init(){
 // 	return mFrustum;
 // };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
 	Memory::free<Matrix4>(mProjectionMatrix);
@@ -38,7 +39,7 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mProjectionMatrix->ortho(left, right, bottom, top, near, far);
 };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
 	Memory::free<Matrix4>(mProjectionMatrix);
@@ -46,13 +47,13 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
 	mProjectionMatrix->perspective(near, far, aspect, fov);
 };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const Matrix4& Camera::getProjectionMatrix() const{
   return *mProjectionMatrix;
 };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const Matrix4& Camera::getViewTranslationMatrix(){
 
@@ -68,6 +69,6 @@ const Matrix4& Camera::getViewRotationMatrix(){
 	return getGameObject()->getTransform()->getRotationMatrix();
 };
 
-//----------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

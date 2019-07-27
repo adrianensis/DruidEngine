@@ -6,6 +6,8 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
 Transform::Transform() : Component()
 {
 	mModelMatrix = nullptr;
@@ -24,6 +26,8 @@ Transform::~Transform() {
 	Memory::free<Matrix4>(mRotationMatrix);
 	Memory::free<Matrix4>(mScaleMatrix);
 }
+
+// ---------------------------------------------------------------------------
 
 void Transform::init(){
 	// mModelMatrix = Memory::allocate<Matrix4>();
@@ -44,21 +48,10 @@ void Transform::init(){
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
 }
 
-const Vector3& Transform::getWorldPosition() const{
-	return mWorldPosition;
-}
-
-const Vector3& Transform::getLocalPosition() const{
-	return mLocalPosition;
-}
-
-const Vector3& Transform::getRotation() const{
-	return mRotation;
-};
-
-const Vector3& Transform::getScale() const{
-	return mScale;
-};
+const Vector3& Transform::getWorldPosition() const{ return mWorldPosition; }
+const Vector3& Transform::getLocalPosition() const{ return mLocalPosition; }
+const Vector3& Transform::getRotation() const{ return mRotation; }
+const Vector3& Transform::getScale() const{ return mScale; }
 
 void Transform::setWorldPosition(const Vector3& vector){
 	mIsDirtyTranslation = true;
@@ -80,6 +73,8 @@ void Transform::setScale(const Vector3& vector){
 	mScale = vector;
 };
 
+// ---------------------------------------------------------------------------
+
 void Transform::translate(const Vector3& vector){
 	if(vector.len() > 0.0f){
 		mIsDirtyTranslation = true;
@@ -87,12 +82,16 @@ void Transform::translate(const Vector3& vector){
 	}
 };
 
+// ---------------------------------------------------------------------------
+
 void Transform::rotate(const Vector3& vector){
 	if(vector.len() > 0.0f){
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
 };
+
+// ---------------------------------------------------------------------------
 
 const Matrix4& Transform::getTranslationMatrix() const{
 	if(mIsDirtyTranslation){
@@ -121,5 +120,6 @@ const Matrix4& Transform::getScaleMatrix() const{
 	return *mScaleMatrix;
 }
 
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

@@ -6,6 +6,8 @@
 
 namespace DE {
 
+  // ---------------------------------------------------------------------------
+
 /*!
   \brief Binary Tree.
   \tparam K Key class.
@@ -16,6 +18,8 @@ class Tree : public BaseContainer {
 
 private:
 
+
+  // ---------------------------------------------------------------------------
   class Node {
 
   public:
@@ -61,6 +65,8 @@ private:
     }
   };
 
+  // ---------------------------------------------------------------------------
+
   static const u32 smNodeSize = sizeof(Node);
 
   Node* newNode(Node* parent, const T element){
@@ -72,6 +78,8 @@ private:
   void freeNode(Node* node){
     Memory::free<Node>(node);
   };
+
+  // ---------------------------------------------------------------------------
 
   void freeSubTree(Node* node) {
     Node* child0 = node->mChildren->get(0);
@@ -89,6 +97,8 @@ private:
     mLength--;
   };
 
+  // ---------------------------------------------------------------------------
+
   Node* find(const T element, Node* node){
     if(element == node->mElement)
       return node;
@@ -103,19 +113,22 @@ private:
       return find(element, child);
   };
 
+  // ---------------------------------------------------------------------------
+
   Node* mRoot;
   static const u32 smChildrenCount = 2;
 
 public:
 
-  Tree() : BaseContainer(),
-  	  mRoot(nullptr)
-  {
+  Tree() : BaseContainer() {
+    mRoot = nullptr;
   }
 
   ~Tree(){
 	  Tree<T>::clear();
   }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor.
@@ -123,7 +136,9 @@ public:
   void init() {
     BaseContainer::init(0, sizeof(T), 1);
     mRoot = nullptr;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void add(const T element) {
     Node* node = newNode(nullptr, element);
@@ -134,7 +149,9 @@ public:
       mRoot->addChild(node);
 
     mLength++;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void remove(const T element) {
     Node* node = find(element, mRoot);
@@ -199,7 +216,9 @@ public:
         Tree::clear();
       }
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void clear() override {
     if(mLength > 0){
@@ -208,7 +227,9 @@ public:
     }
 
     mRoot = nullptr;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 };
 
 } /* namespace DE */

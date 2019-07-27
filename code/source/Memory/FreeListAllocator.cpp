@@ -2,6 +2,8 @@
 
 namespace DE {
 
+  // ---------------------------------------------------------------------------
+
 FreeListAllocator::Block::Block(){
 
 }
@@ -10,10 +12,14 @@ FreeListAllocator::Block::~Block(){
 
 }
 
+// ---------------------------------------------------------------------------
+
 void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
 }
+
+// ---------------------------------------------------------------------------
 
 FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
   auto it = mFreeBlocks->getIterator();
@@ -46,6 +52,8 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
   return selectedBlock;
 }
 
+// ---------------------------------------------------------------------------
+
 u32 FreeListAllocator::freeBlock(void* unalignedAddress){
   auto it = mUsedBlocks->getIterator();
 
@@ -71,28 +79,40 @@ u32 FreeListAllocator::freeBlock(void* unalignedAddress){
   return selectedBlock.size;
 }
 
+// ---------------------------------------------------------------------------
+
 FreeListAllocator::FreeListAllocator() : Allocator(){
 
 }
 
+// ---------------------------------------------------------------------------
+
 FreeListAllocator::~FreeListAllocator(){
 
 }
+
+// ---------------------------------------------------------------------------
 
 void FreeListAllocator::init(u32 size){
   Allocator::init(size);
   FreeListAllocator::reset();
 }
 
+// ---------------------------------------------------------------------------
+
 void* FreeListAllocator::allocate(u32 size){
   return FreeListAllocator::allocate(size, 1);
 }
+
+// ---------------------------------------------------------------------------
 
 void* FreeListAllocator::allocate(u32 size, u32 alignment){
   Block block = allocateBlock(size+alignment);
   void* unalignedAddress = block.unalignedAddress;
   return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
+
+// ---------------------------------------------------------------------------
 
 void FreeListAllocator::free(const void* pointer){
   // pointer is an aligned address
@@ -102,6 +122,8 @@ void FreeListAllocator::free(const void* pointer){
   // reduce mAllocated
   Allocator::setAllocatedSize(Allocator::getAllocatedSize() - freeSize);
 }
+
+// ---------------------------------------------------------------------------
 
 void FreeListAllocator::reset(){
   Allocator::reset();
@@ -118,5 +140,7 @@ void FreeListAllocator::reset(){
   block.init(mStart, mTotalSize);
   mFreeBlocks->pushBack(block);
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

@@ -12,13 +12,16 @@
 
 namespace DE {
 
-RenderEngine::RenderEngine() : DE_Class(),
-	mBatches(nullptr),
-	mCamera(nullptr)
-{
+// ---------------------------------------------------------------------------
+
+RenderEngine::RenderEngine() : DE_Class() {
+	mBatches = nullptr;
+	mCamera = nullptr;
 }
 
 RenderEngine::~RenderEngine() = default;
+
+// ---------------------------------------------------------------------------
 
 void RenderEngine::init() {
 
@@ -27,6 +30,8 @@ void RenderEngine::init() {
 	RenderContext::init();
 	mBatches->init();
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
 
@@ -40,6 +45,8 @@ void RenderEngine::step() {
 	RenderContext::swap();
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderEngine::bind() {
 
 	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
@@ -47,12 +54,16 @@ void RenderEngine::bind() {
 	}
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderEngine::update() {
 
 	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
 		it.get()->update();
 	}
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
 
@@ -64,6 +75,8 @@ void RenderEngine::terminate() {
 
 	RenderContext::terminate();
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderEngine::addRenderer(Renderer* renderer) {
 
@@ -80,12 +93,18 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 	mBatches->get(texture)->addRenderer(renderer);
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderEngine::setCamera(Camera* camera){
 	mCamera = camera;
 }
 
+// ---------------------------------------------------------------------------
+
 Camera* RenderEngine::getCamera(){
  	return mCamera;
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

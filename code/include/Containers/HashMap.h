@@ -8,6 +8,8 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
 /*!
   \brief HashMap of elements.
   \tparam K Key class.
@@ -17,6 +19,8 @@ template <class K, class V>
 class HashMap : public BaseContainer {
 
 private:
+
+  // ---------------------------------------------------------------------------
 
   class Node {
 
@@ -30,8 +34,10 @@ private:
     void init(const K key, const V element) {
       mKey = key;
       mElement = element;
-    };
+    }
   };
+
+  // ---------------------------------------------------------------------------
 
   static const u32 smNodeSize = sizeof(Node);
 
@@ -39,11 +45,13 @@ private:
     Node* node = Memory::allocate<Node>();
     node->init(key, element);
     return node;
-  };
+  }
 
   void freeNode(Node* node){
     Memory::free<Node>(node);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   Array<List<Node*>*>* mArray;
 
@@ -55,15 +63,16 @@ public:
   /*!
     \brief Default Constructor.
   */
-  HashMap() : BaseContainer(),
-  	  mArray(nullptr),
-	  mKeys(nullptr),
-	  mValues(nullptr)
+  HashMap() : BaseContainer()
   {
+    mArray = nullptr;
+    mKeys = nullptr;
+    mValues = nullptr;
+
 	  // check class
 	  bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value || std::is_arithmetic<K>::value || std::is_pointer<K>::value;
 	  DE_ASSERT(class_ok, "K must be integer, pointer or extend Hash class.");
-  };
+  }
 
   /*!
   \brief Destructor.
@@ -73,7 +82,9 @@ public:
     Memory::free<Array<List<Node*>*>>(mArray);
     Memory::free<List<K>>(mKeys);
     Memory::free<List<V>>(mValues);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor.
@@ -88,7 +99,9 @@ public:
 
     mKeys->init();
     mValues->init();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void set(const K key, const V element) {
 
@@ -125,7 +138,9 @@ public:
     }
 
     mValues->pushBack(element);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   V get(const K key) const {
 
@@ -155,7 +170,9 @@ public:
     } else {
       DE_ASSERT(false, "Can't find the element with given key.");
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   bool contains(const K key){
     u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
@@ -179,6 +196,8 @@ public:
 
     return found;
   }
+
+  // ---------------------------------------------------------------------------
 
   V remove(const K key) {
 
@@ -209,15 +228,21 @@ public:
       BaseContainer::mLength--;
     }else
       DE_ASSERT(false, "Can't find the element with given key.");
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   const List<K>* getKeys() const{
 	  return mKeys;
   }
 
+  // ---------------------------------------------------------------------------
+
   const List<V>* getValues() const{
 	return mValues;
   }
+
+  // ---------------------------------------------------------------------------
 
   void clear() override {
 
@@ -227,7 +252,7 @@ public:
 
         List<Node*>* list = mArray->get(i);
         if(list != nullptr && ! list->isEmpty()){
-          
+
           auto it = list->getIterator();
 
           if(list != nullptr){
@@ -245,7 +270,10 @@ public:
       mKeys->clear();
       mValues->clear();
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
+
 };
 
 } /* namespace DE */

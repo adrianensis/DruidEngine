@@ -5,6 +5,8 @@
 
 namespace DE {
 
+  // ---------------------------------------------------------------------------
+
 /*!
   \brief SequentialContainer.
 */
@@ -19,10 +21,14 @@ protected:
   */
   virtual T& randomAccessOperator(u32 index) const = 0;
 
+  // ---------------------------------------------------------------------------
+
   /*!
     \brief Check boundaries on put method.
   */
   virtual void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) = 0;
+
+  // ---------------------------------------------------------------------------
 
 public:
 
@@ -38,11 +44,15 @@ public:
   */
   ~SequentialContainer() = default;
 
+  // ---------------------------------------------------------------------------
+
   /*!
     \param index The index.
     \return Element at index.
   */
   virtual T get(u32 index) const = 0;
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Sets element at index.
@@ -51,12 +61,16 @@ public:
   */
   virtual void set(u32 index, const T element) = 0;
 
+  // ---------------------------------------------------------------------------
+
   /*!
     \brief Constructor from raw array.
     \param rawArray The raw array.
     \param length The length of the raw array.
   */
   virtual void init(const void* rawArray, u32 length) = 0;
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor from raw array. Aligned.
@@ -66,11 +80,15 @@ public:
   */
   virtual void init(const void* rawArray, u32 length, u32 alignment) = 0;
 
+  // ---------------------------------------------------------------------------
+
   /*!
     \brief Constructor.
     \param length Length of the array.
   */
   virtual void init(u32 length) = 0;
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor. Aligned.
@@ -79,11 +97,15 @@ public:
   */
   virtual void init(u32 length, u32 alignment) = 0;
 
+  // ---------------------------------------------------------------------------
+
   /*!
     \brief Fill the seq. container with the same element.
     \param element The element.
   */
   virtual void fill(const T element) = 0;
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Copy an array into other.
@@ -93,7 +115,9 @@ public:
   */
   void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex) {
     this->put(other, destinyIndex, sourceIndex, other.getLength());
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Copy an array into other.
@@ -106,7 +130,9 @@ public:
 
     for (u32 i = 0; i < length; ++i)
       (*this)[destinyIndex + i] = other[sourceIndex + i];
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Can be used for assignment.
@@ -115,7 +141,9 @@ public:
   */
   T& operator[](const size_t index) {
     return this->randomAccessOperator(index);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Read only.
@@ -125,6 +153,8 @@ public:
   T operator[](const size_t index) const {
     return this->randomAccessOperator(index);
   }
+
+  // ---------------------------------------------------------------------------
 };
 
 } /* namespace DE */

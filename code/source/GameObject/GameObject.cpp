@@ -10,13 +10,10 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-GameObject::GameObject() : DE_Class(),
-	mComponents(nullptr),
-	mTransform(nullptr)
-{
+GameObject::GameObject() : DE_Class(){
+	mComponents = nullptr;
+	mTransform = nullptr;
 }
-
-// ---------------------------------------------------------------------------
 
 GameObject::~GameObject() {
 	Memory::free<HashMap<ClassId,List<Component*>*>>(mComponents);
@@ -44,12 +41,6 @@ void GameObject::addComponent(Component* component) {
 
 // ---------------------------------------------------------------------------
 
-List<Component*>* GameObject::getComponents(ClassId classId) {
-	return mComponents->contains(classId) ? mComponents->get(classId) : nullptr;
-}
-
-// ---------------------------------------------------------------------------
-
 void GameObject::init() {
 	mComponents = Memory::allocate<HashMap<ClassId,List<Component*>*>>();
 	mComponents->init();
@@ -62,9 +53,11 @@ void GameObject::init() {
 
 // ---------------------------------------------------------------------------
 
-Transform* GameObject::getTransform(){
-	return mTransform;
+List<Component*>* GameObject::getComponents(ClassId classId) {
+	return mComponents->contains(classId) ? mComponents->get(classId) : nullptr;
 }
+
+Transform* GameObject::getTransform(){ return mTransform; }
 
 // ---------------------------------------------------------------------------
 

@@ -17,8 +17,8 @@ private:
 	u32 mProgram;
 
 public:
-	Shader();
-	~Shader() override;
+	
+	DE_CLASS(Shader);
 
 	void init();
 	void use();

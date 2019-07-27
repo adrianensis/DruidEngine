@@ -16,16 +16,19 @@
 
 namespace DE {
 
-Engine::Engine() : DE_Class(), Singleton(),
-		mFPS(60),
-		mScenes(nullptr),
-		mRenderEngine(nullptr),
-		mScriptEngine(nullptr),
-		mCurrentSceneIndex(0)
-{
-};
+// ---------------------------------------------------------------------------
+
+Engine::Engine() : DE_Class(), Singleton(){
+	mFPS = 60;
+	mScenes = nullptr;
+	mRenderEngine = nullptr;
+	mScriptEngine = nullptr;
+	mCurrentSceneIndex = 0;
+}
 
 Engine::~Engine() = default;
+
+// ---------------------------------------------------------------------------
 
 void Engine::init(){
 
@@ -36,15 +39,21 @@ void Engine::init(){
   mRenderEngine->init();
   mScriptEngine->init();
   mScenes->init();
-};
+}
+
+// ---------------------------------------------------------------------------
 
 void Engine::addScene(Scene* newScene){
 	mScenes->pushBack(newScene);
 }
 
+// ---------------------------------------------------------------------------
+
 void Engine::setScene(u32 i){
 	mCurrentSceneIndex = i;
 }
+
+// ---------------------------------------------------------------------------
 
 void Engine::loadScene(Scene* scene){
 
@@ -71,6 +80,8 @@ void Engine::loadScene(Scene* scene){
 	}
 }
 
+// ---------------------------------------------------------------------------
+
 void Engine::run(){
 
 	loadScene(mScenes->get(mCurrentSceneIndex));
@@ -86,7 +97,9 @@ void Engine::run(){
 
 	mScriptEngine->terminate();
 	mRenderEngine->terminate();
-};
+}
+
+// ---------------------------------------------------------------------------
 
 void Engine::terminate() {
 
@@ -95,6 +108,8 @@ void Engine::terminate() {
 	Memory::free<List<Scene*>>(mScenes);
 
 	Memory::free();
-};
+}
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

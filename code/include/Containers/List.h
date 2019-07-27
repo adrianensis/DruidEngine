@@ -7,6 +7,8 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
   /*
     NOTE : Here we cant use Memory.h, because List.h is used by FreeListAllocator.h.
   */
@@ -18,6 +20,8 @@ friend class Iterator;
 
 private:
 
+  // ---------------------------------------------------------------------------
+
   class Node {
 
   public:
@@ -27,22 +31,24 @@ private:
 
     Node() {
       Node::init();
-    };
+    }
 
     ~Node() {
       Node::init();
-    };
+    }
 
     void init() {
       mNext = nullptr;
       mPrev = nullptr;
-    };
+    }
 
     void init(const T element) {
       Node::init();
       mElement = element;
-    };
+    }
   };
+
+  // ---------------------------------------------------------------------------
 
   static const u32 smNodeSize = sizeof(Node);
 
@@ -52,15 +58,17 @@ private:
   Node* newNode(){
     Node* node = static_cast<Node*>(BaseContainer::mAllocator->allocate(smNodeSize));
     return node;
-  };
+  }
 
   void freeNode(Node* node){
     BaseContainer::mAllocator->free(node);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   static u8 defaultComparator(const T& a, const T& b){
     return (a < b) ? 1 : (b < a) ? 2 : 0;
-  };
+  }
 
   void qsort(u8 (*comparator)(const T& a, const T& b), i32 left, i32 right){
 
@@ -89,9 +97,13 @@ private:
       qsort(comparator, left, length-1);
 
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
 public:
+
+  // ---------------------------------------------------------------------------
 
   class Iterator {
 
@@ -102,32 +114,39 @@ public:
     Node* mNode;
     bool mReverse;
 
+    // ---------------------------------------------------------------------------
+
     void init(Node* start) {
       mNode = start;
       mReverse = false;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     public:
 
-    Iterator() :
-      mNode(nullptr),
-      mReverse(false)
-	{
-    };
+    Iterator() {
+      mNode = nullptr;
+      mReverse = false;
+    }
 
     Iterator(const Iterator& other) {
       mNode = other.mNode;
       mReverse = other.mReverse;
-    };
+    }
 
     ~Iterator() {
       mNode = nullptr;
       mReverse = false;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     bool isNull() const{
       return mNode == nullptr;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     bool hasNext() {
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -136,7 +155,9 @@ public:
       return (mNode->mPrev != nullptr);
       else
       return (mNode->mNext != nullptr);
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     void next() {
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -145,7 +166,9 @@ public:
         mNode = mNode->mPrev;
       else
         mNode = mNode->mNext;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     Iterator getNext(){
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -158,7 +181,9 @@ public:
         it.init(mNode->mNext);
 
       return it;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     bool hasPrev(){
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -167,7 +192,9 @@ public:
         return (mNode->mNext != nullptr);
       else
         return (mNode->mPrev != nullptr);
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     void prev(){
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -176,7 +203,9 @@ public:
         mNode = mNode->mNext;
       else
         mNode = mNode->mPrev;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     Iterator getPrev(){
       DE_ASSERT(mNode != nullptr, "Node is null.");
@@ -189,34 +218,48 @@ public:
         it.init(mNode->mPrev);
 
       return it;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     T& get() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       return mNode->mElement;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     void set(T element){
       mNode->mElement = element;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     bool isReverse() const {
       return mReverse;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     void setReverse(bool isReverse){
       mReverse = isReverse;
-    };
+    }
+
+    // ---------------------------------------------------------------------------
 
     bool operator==(const Iterator& rhs) const {
       return this->mNode == rhs.mNode &&
       this->mReverse == rhs.mReverse;
     }
 
+    // ---------------------------------------------------------------------------
+
     bool operator!=(const Iterator& rhs) const {
       return !((*this) == rhs);
     }
+
+    // ---------------------------------------------------------------------------
 
     Iterator& operator=(const Iterator& rhs) {
       if (this == &rhs) return *this; // handle self assignment
@@ -225,18 +268,27 @@ public:
       this->mReverse = rhs.mReverse;
       return (*this);
     }
+
+    // ---------------------------------------------------------------------------
+
   };
+
+  // ---------------------------------------------------------------------------
 
 private:
 
   void allocate(u32 elementSize, u32 alignment) {
     BaseContainer::init(0, elementSize, alignment); // BaseContainer::mLength = 0
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void _init(u32 elementSize) {
     List::allocate(elementSize, 1);
     resetCache();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   mutable Iterator mLastAccessedIt;
   mutable i32 mLastAccessedIndex;
@@ -244,6 +296,8 @@ private:
   void resetCache(){
     mLastAccessedIndex = -1;
   }
+
+  // ---------------------------------------------------------------------------
 
   T& randomAccessOperator(u32 index) const{
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
@@ -277,26 +331,31 @@ private:
     }
 
     return mLastAccessedIt.get();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
     DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
     DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
 public:
 
-  List() : SequentialContainer<T>(),
-  	  mFirst(nullptr),
-      mLast(nullptr),
-	  mLastAccessedIndex(-1)
-  {
-  };
+  List() : SequentialContainer<T>() {
+    mFirst = nullptr;
+    mLast = nullptr;
+    mLastAccessedIndex = -1;
+  }
 
   ~List() {
     List::clear();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Copy Constructor.
@@ -310,14 +369,18 @@ public:
       this->pushBack(it.get());
 
     this->pushBack(it.get());
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor. Empty List.
   */
   void init() {
     List::_init(sizeof(T));
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void init(const void* rawArray, u32 length) override {
     List::init();
@@ -325,19 +388,27 @@ public:
 
     for (u32 i = 0; i < length; i++)
       List::pushBack(typedArray[i]);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void init(const void* rawArray, u32 length, u32 alignment) override {
     List::init(rawArray, length);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void init(u32 length) override {
     List::init();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void init(u32 length, u32 alignment) override {
     List::init();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void fill(const T element) override {
     if( ! List::isEmpty()){
@@ -347,7 +418,9 @@ public:
 
       it.set(element);
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     resetCache();
@@ -373,34 +446,46 @@ public:
     for (; i < length; i++) {
       List::pushBack(other.get(i));
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   Iterator getIterator() const{
     return List::getFirst();
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   Iterator getRevIterator() const{
     Iterator it;
     it.init(this->mLast);
     it.setReverse(true);
     return it;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   Iterator getFirst() const {
     Iterator it;
     it.init(this->mFirst);
     return it;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   Iterator getLast() const {
     Iterator it;
     it.init(this->mLast);
     return it;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   bool isEmpty() const{
     return BaseContainer::mLength == 0;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void clear() override {
     if( ! List::isEmpty()){
@@ -412,7 +497,9 @@ public:
     mFirst = nullptr;
     mLast = nullptr;
 
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void pushFront(T element){
     resetCache();
@@ -429,7 +516,9 @@ public:
 
     BaseContainer::mLength++;
 
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void pushBack(T element){
     resetCache();
@@ -446,7 +535,9 @@ public:
 
     BaseContainer::mLength++;
 
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   T popFront(){
     resetCache();
@@ -470,7 +561,9 @@ public:
     }
 
     return *element;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   T popBack(){
     resetCache();
@@ -494,11 +587,15 @@ public:
     }
 
     return *element;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   T get(u32 index) const{
     return List::randomAccessOperator(index);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void set(u32 index, const T element){
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
@@ -510,7 +607,9 @@ public:
       i++;
 
     it.set(element);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void swap(u32 index1, u32 index2){
     u32 i = 0;
@@ -531,7 +630,9 @@ public:
 
     it1.set(element2);
     it2.set(element1);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void remove(u32 index){
     resetCache();
@@ -548,7 +649,9 @@ public:
       List::remove(it);
     }
 
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void remove(Iterator& it){
     resetCache();
@@ -579,7 +682,9 @@ public:
       mLast = nullptr;
     }
 
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void insert(u32 index, T element){
     resetCache();
@@ -595,7 +700,9 @@ public:
       i++;
 
     List::insert(it,element);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void insert(Iterator& it, T element){
     resetCache();
@@ -612,39 +719,47 @@ public:
       BaseContainer::mLength++;
     }else
       List::pushFront(element);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Finds with default comparator.
   */
   Iterator find(T element){
 	  return find(element, defaultComparator);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Finds with custom comparator.
   */
   Iterator find(T element, u8 (*comparator)(const T& a, const T& b)){
-	auto it = getIterator();
-	Iterator selectedIt;
-	bool found = false;
+    auto it = getIterator();
+    Iterator selectedIt;
+    bool found = false;
 
-	for (; !it.isNull() && !found; it.next()){
-		if(comparator(element, it.get()) == 0){
-			found = true;
-			selectedIt = it;
-		}
-	}
+    for (; !it.isNull() && !found; it.next()){
+    	if(comparator(element, it.get()) == 0){
+    		found = true;
+    		selectedIt = it;
+    	}
+    }
 
-	return selectedIt;
-  };
+    return selectedIt;
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Sorts with default comparator.
   */
   void sort(){
     sort(defaultComparator);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Sorts custom comparator.
@@ -652,7 +767,9 @@ public:
   */
   void sort(u8 (*comparator)(const T& a, const T& b)){
     qsort(comparator, 0, this->getLength()-1);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 };
 
 } /* namespace DE */

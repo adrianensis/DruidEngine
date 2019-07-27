@@ -9,15 +9,21 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
 /*!
   \brief DynamicArray of elements. Fixed size.
   \tparam Elements class.
 */
 template <class T>
-class DynamicArray : public SequentialContainer<T>{
+class DynamicArray : public SequentialContainer<T> {
+
+// ---------------------------------------------------------------------------
 
 template <class K, class V>
 friend class HashMap; // Friend Class
+
+// ---------------------------------------------------------------------------
 
 private:
 
@@ -26,12 +32,16 @@ private:
   mutable u32 mCacheIndex = 0;
   List<Array<T>*>* mArrays;
 
+  // ---------------------------------------------------------------------------
+
   void _updateCache(u32 arrayIndex) const{ // const method, but mutable variables.
     if(arrayIndex != mCacheIndex || mCache == nullptr){
       mCache = mArrays->get(arrayIndex);
       mCacheIndex = arrayIndex;
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   T& randomAccessOperator(u32 index) const{
     DE_ASSERT(index >= 0, "Index out of bounds.");
@@ -41,13 +51,17 @@ private:
 
     DynamicArray::_updateCache(arrayIndex);
     return (*mCache)[realIndex];
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void checkPut(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
     DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
     DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
     DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
 public:
 
@@ -57,7 +71,9 @@ public:
   DynamicArray() : SequentialContainer<T>(){
     mArrays = nullptr;
     mCache = nullptr;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Destructor.
@@ -71,7 +87,9 @@ public:
 
       Memory::free<List<Array<T>*>>(mArrays);
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Copy Constructor.
@@ -90,7 +108,9 @@ public:
       array->init(*otherArray);
       mArrays->pushBack(array);
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Copy Constructor.
@@ -114,7 +134,9 @@ public:
 
       otherOffset += smMinSize;
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor from raw array.
@@ -123,7 +145,9 @@ public:
   */
   void init(const void* rawArray, u32 length) override {
     DynamicArray::init(rawArray, length, 1);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor from raw array. Aligned.
@@ -136,14 +160,18 @@ public:
     Array<T>* array = Memory::allocate<Array<T>>(alignment);
     array->init(rawArray, length);
     DynamicArray::init(*array);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor.
   */
   void init() {
     DynamicArray::init(0);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor.
@@ -151,7 +179,9 @@ public:
   */
   void init(u32 length) {
     DynamicArray::init(length, 1);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Constructor. Aligned.
@@ -174,7 +204,9 @@ public:
 
       mArrays->pushBack(newArray);
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Fill the array with the same element.
@@ -188,7 +220,9 @@ public:
       Array<T>* array = it.get();
       array->fill(element);
     }
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
     \param index The index.
@@ -196,7 +230,9 @@ public:
   */
   T get(u32 index) const{
     return DynamicArray::randomAccessOperator(index);
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   /*!
   \brief Sets element at index.
@@ -215,7 +251,9 @@ public:
     SequentialContainer<T>::mLength = std::max(index + 1, SequentialContainer<T>::mLength); // save the max index accessed
 
     (*this)[index] = element;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
   void clear() override {
     BaseContainer::clear();
@@ -229,7 +267,9 @@ public:
 
     mCache = nullptr;
     mCacheIndex = 0;
-  };
+  }
+
+  // ---------------------------------------------------------------------------
 
 };
 

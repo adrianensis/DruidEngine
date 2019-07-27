@@ -6,6 +6,8 @@
 
 namespace DE {
 
+// ---------------------------------------------------------------------------
+
 class Matrix4;
 
 class Transform : public Component{
@@ -36,17 +38,23 @@ public:
 
 	virtual void init() override;
 
+	// ---------------------------------------------------------------------------
+
 	/*!
     \brief Translate the object by an increment vector.
     \param vector Delta position.
   */
 	void translate(const Vector3& vector);
 
+	// ---------------------------------------------------------------------------
+
 	/*!
     \brief Rotate the object by an increment vector.
     \param vector Delta rotation.
   */
 	void rotate(const Vector3& vector);
+
+	// ---------------------------------------------------------------------------
 
 	void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3& vector);
@@ -61,6 +69,8 @@ public:
 	const Matrix4& getTranslationMatrix() const;
 	const Matrix4& getRotationMatrix() const;
 	const Matrix4& getScaleMatrix() const;
+
+	// ---------------------------------------------------------------------------
 
 };
 

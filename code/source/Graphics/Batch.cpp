@@ -16,18 +16,19 @@
 
 namespace DE {
 
-Batch::Batch() : DE_Class(),
-		mVBOPosition(0),
-		mEBO(0),
-		mVBOTexture(0),
-		mVBOColor(0),
-		mVBONormal(0),
-		mVAO(0),
-		mMesh(nullptr),
-		mRenderers(nullptr),
-		mMaterial(nullptr),
-		mShader(nullptr)
-{
+// ---------------------------------------------------------------------------
+
+Batch::Batch() : DE_Class() {
+	mVBOPosition = 0;
+	mEBO = 0;
+	mVBOTexture = 0;
+	mVBOColor = 0;
+	mVBONormal = 0;
+	mVAO = 0;
+	mMesh = nullptr;
+	mRenderers = nullptr;
+	mMaterial = nullptr;
+	mShader = nullptr;
 }
 
 Batch::~Batch() {
@@ -38,6 +39,8 @@ Batch::~Batch() {
 	glDeleteBuffers(1, &mVBOPosition);
 	glDeleteBuffers(1, &mEBO);
 }
+
+// ---------------------------------------------------------------------------
 
 void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
 	mRenderEngine = renderEngine;
@@ -51,6 +54,8 @@ void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
 	mShader = Memory::allocate<Shader>();
 	mShader->init();
 }
+
+// ---------------------------------------------------------------------------
 
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
@@ -78,9 +83,13 @@ void Batch::bind() {
 	RenderContext::enableVAO(0);
 }
 
+// ---------------------------------------------------------------------------
+
 void Batch::update() {
 
 }
+
+// ---------------------------------------------------------------------------
 
 void Batch::render() {
 
@@ -117,13 +126,12 @@ void Batch::render() {
 
 }
 
-void Batch::setMesh(Mesh* mesh){
-  mMesh = mesh;
-}
+// ---------------------------------------------------------------------------
 
-void Batch::setMaterial(Material* material){
-	mMaterial = material;
-}
+void Batch::setMesh(Mesh* mesh){ mMesh = mesh; }
+void Batch::setMaterial(Material* material){ mMaterial = material; }
+
+// ---------------------------------------------------------------------------
 
 void Batch::addRenderer(Renderer* renderer) {
 	// u32 layerIndex=0;
@@ -138,5 +146,7 @@ void Batch::addRenderer(Renderer* renderer) {
 
 	mRenderers->pushBack(renderer);
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

@@ -6,6 +6,8 @@ namespace DE {
 
 const u32 StackAllocator::smHeaderSize = sizeof(u32);
 
+// ---------------------------------------------------------------------------
+
 void StackAllocator::storeHeader(const void* address, u32 size){
   u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
 
@@ -15,31 +17,45 @@ void StackAllocator::storeHeader(const void* address, u32 size){
   u32Array[-1] = size;  // store header at the end of the block
 }
 
+// ---------------------------------------------------------------------------
+
 StackAllocator::StackAllocator() : LinearAllocator(){
 
 }
+
+// ---------------------------------------------------------------------------
 
 StackAllocator::~StackAllocator(){
   mTop = nullptr;
 }
 
+// ---------------------------------------------------------------------------
+
 void* StackAllocator::getTop(){
   return mTop;
 }
+
+// ---------------------------------------------------------------------------
 
 void StackAllocator::init(u32 size){
   LinearAllocator::init(size);
   mTop = mStart;
 }
 
+// ---------------------------------------------------------------------------
+
 void StackAllocator::initFromMemory(u32 size, void* mem){
   LinearAllocator::initFromMemory(size, mem);
   mTop = mStart;
 }
 
+// ---------------------------------------------------------------------------
+
 void* StackAllocator::allocate(u32 size){
   return StackAllocator::allocate(size,1);
 }
+
+// ---------------------------------------------------------------------------
 
 void* StackAllocator::allocate(u32 size, u32 alignment){
   // allocate size + header + alignment
@@ -54,9 +70,13 @@ void* StackAllocator::allocate(u32 size, u32 alignment){
   return reinterpret_cast<void*>(alignedAddress);
 }
 
+// ---------------------------------------------------------------------------
+
 void StackAllocator::free(const void* pointer){
   mTop = (void*) pointer;
 }
+
+// ---------------------------------------------------------------------------
 
 void StackAllocator::free(){
   Allocator::checkFree();
@@ -75,9 +95,13 @@ void StackAllocator::free(){
   mTop = calculateUnalignedAddress(mStart + Allocator::getAllocatedSize());
 }
 
+// ---------------------------------------------------------------------------
+
 void StackAllocator::reset(){
   LinearAllocator::reset();
   mTop = nullptr;
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

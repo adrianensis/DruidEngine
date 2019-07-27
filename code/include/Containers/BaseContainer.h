@@ -22,15 +22,7 @@ protected:
 
 public:
 
-  /*!
-    \brief Default Constructor.
-  */
-  BaseContainer();
-
-  /*!
-  \brief Destructor.
-  */
-  ~BaseContainer() = default;
+  DE_CLASS(BaseContainer)
 
   /*!
     \return Container length.

@@ -13,15 +13,21 @@ namespace DE {
 
 GLFWwindow* RenderContext::mWindow = nullptr;
 
+// ---------------------------------------------------------------------------
+
 RenderContext::RenderContext() : DE_Class()
 {
 };
 
 RenderContext::~RenderContext() = default;
 
+// ---------------------------------------------------------------------------
+
 void RenderContext::onResize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderContext::init() {
 
@@ -59,13 +65,19 @@ void RenderContext::init() {
 	RenderContext::clear();
 }
 
+// ---------------------------------------------------------------------------
+
 bool RenderContext::isClosed() {
 	return glfwWindowShouldClose(mWindow);
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderContext::clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderContext::swap() {
 	glfwSwapBuffers(mWindow);
@@ -73,9 +85,13 @@ void RenderContext::swap() {
 	RenderContext::clear();
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderContext::terminate() {
 	glfwTerminate();
 }
+
+// ---------------------------------------------------------------------------
 
 GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex) {
 
@@ -94,6 +110,8 @@ GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 att
   return VBO;
 }
 
+// ---------------------------------------------------------------------------
+
 GLuint RenderContext::createVAO() {
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -102,6 +120,8 @@ GLuint RenderContext::createVAO() {
 
 	return VAO;
 }
+
+// ---------------------------------------------------------------------------
 
 GLuint RenderContext::createEBO(const Array<u32>* data) {
 
@@ -116,16 +136,24 @@ GLuint RenderContext::createEBO(const Array<u32>* data) {
 	return EBO;
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderContext::enableAttribute(u32 attributeArrayIndex){
 	glEnableVertexAttribArray(attributeArrayIndex);
 }
+
+// ---------------------------------------------------------------------------
 
 void RenderContext::disableAttribute(u32 attributeArrayIndex){
 	glDisableVertexAttribArray(attributeArrayIndex);
 }
 
+// ---------------------------------------------------------------------------
+
 void RenderContext::enableVAO(u32 VAO) {
 	glBindVertexArray(VAO);
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */
