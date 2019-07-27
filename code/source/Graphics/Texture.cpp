@@ -15,7 +15,7 @@ Texture::~Texture() {
 
 void Texture::init(std::string path){
   // data = SOIL_load_image("resources/char.png", &mWidth, &mHeight, 0, SOIL_LOAD_RGB);
-  data = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGB);
+  data = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGBA);
 }
 
 u32 Texture::getTextureId(){

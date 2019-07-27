@@ -83,12 +83,25 @@ void Shader::use() {
 
 
 void Shader::addMatrix(const Matrix4& matrix, std::string name){
-	u32 matrixLocation = glGetUniformLocation(mProgram, name.c_str());
+	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
-	glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrix.getData());
+	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
 };
 
 // ---------------------------------------------------------------------------
 
+void Shader::addInt(u32 value, std::string name){
+  u32 location = glGetUniformLocation(mProgram, name.c_str());
+  glUniform1i(location, value);
+};
+
+// ---------------------------------------------------------------------------
+
+void Shader::addFloat(f32 value, std::string name){
+  u32 location = glGetUniformLocation(mProgram, name.c_str());
+  glUniform1f(location, value);
+};
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

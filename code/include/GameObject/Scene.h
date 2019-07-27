@@ -17,8 +17,7 @@ private:
 
 public:
 
-	Scene();
-	~Scene() override;
+	DE_CLASS(Scene);
 
 	void init();
 	List<GameObject*>* getGameObjects();
