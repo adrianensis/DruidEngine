@@ -220,10 +220,14 @@ public:
   }
 
   void clear() override {
+
     if(mArray != nullptr){
+
       for (u32 i = 0; i < mArray->getLength(); i++) {
+
         List<Node*>* list = mArray->get(i);
         if(list != nullptr && ! list->isEmpty()){
+          
           auto it = list->getIterator();
 
           if(list != nullptr){

@@ -6,15 +6,16 @@
 namespace DE {
 
 class Batch;
+class Texture;
 class RenderContext;
 class Camera;
 class Renderer;
 template <class T> class List;
+template <class K, class V> class HashMap;
 
 class RenderEngine : public DE_Class{
 private:
-	List<Batch*>* mTextureBatches;
-	RenderContext* mRenderContext;
+	HashMap<Texture*, Batch*>* mBatches;
 	Camera* mCamera;
 
 public:

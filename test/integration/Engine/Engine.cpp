@@ -99,8 +99,14 @@ int main() {
 
 	Renderer* renderer2 = Memory::allocate<Renderer>();
 
+	Texture* texture2 = Memory::allocate<Texture>();
+	texture2->init("resources/snorlax.bmp");
+
+	Material* material2 = Memory::allocate<Material>();
+	material2->setTexture(texture2);
+
 	renderer2->setMesh(mesh);
-	renderer2->setMaterial(material);
+	renderer2->setMaterial(material2);
 
 	gameObject2->addComponent(renderer2);
 
