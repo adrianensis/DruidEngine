@@ -1,0 +1,50 @@
+#ifndef DE_ANIMATION_H_
+#define DE_ANIMATION_H_
+
+#include "DE_Class.h"
+
+#include "Vector2.h"
+
+namespace DE {
+
+	template <class T> class List;
+	class AnimationFrame;
+
+class Animation : public DE_Class{
+
+private:
+	List<AnimationFrame*>* mFrames;
+	u32 mCurrentFrameNumber;
+	f32 mSpeed;
+	f32 mTimeAccumulator;
+
+public:
+	DE_CLASS(Animation);
+
+	/**
+	* Static method that creates an animation.
+	* /param frameCount The number of frames of the animation.
+	* /param horizontal True if horizontal (left to right), False if vertical (down to up).
+	* /param reverse True to use the reverse direction.
+	* /param startPosition The start position (bottom-left corner of the frame) in texture coordinates (see OpenGL texture coordinates).
+	* /param width The frame width.
+	* /param height The frame height.
+	* /param speed The speed of the animation.
+	* /returns The animation.
+	*/
+	static Animation* create(u32 frameCount, bool horizontal, bool reverse, const Vector2& startPosition, f32 width, f32 height, f32 speed);
+
+	void init();
+
+	void setSpeed(f32 speed);
+
+	void addFrame(AnimationFrame* frame);
+
+	u32 getNumberOfFrames();
+	u32 getCurrentFrameNumber();
+	const AnimationFrame* getNextFrame();
+};
+
+} /* namespace DE */
+
+#endif /* DE_ANIMATION_H_ */

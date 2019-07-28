@@ -27,9 +27,9 @@ int main() {
 	cameraGameObject->addComponent(script);
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
+	cameraGameObject->addComponent(cameraComponent);
 	cameraComponent->setOrtho(-800, 800, -600, 600, 1, -1);
 	//cameraComponent->setPerspective(10, -10, 800/600, 45);
-	cameraGameObject->addComponent(cameraComponent);
 
 	// render
 
@@ -62,6 +62,7 @@ int main() {
 	texture->init("resources/char.png");
 
 	Material* material = Memory::allocate<Material>();
+	material->init();
 	material->setTexture(texture);
 
 	// OBJECT 1
@@ -78,11 +79,13 @@ int main() {
 	// gameObject->addComponent(script);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
+	gameObject->addComponent(renderer);
 
 	renderer->setMesh(mesh);
 	renderer->setMaterial(material);
+	renderer->addAnimation("testAnimation", Animation::create(3, true, false, Vector2(0,0), 1.0f/3.0f, 1.0f, 3));
+	renderer->setAnimation("testAnimation");
 
-	gameObject->addComponent(renderer);
 
 	// OBJECT 2
 
@@ -98,22 +101,23 @@ int main() {
 	// gameObject2->addComponent(script2);
 
 	Renderer* renderer2 = Memory::allocate<Renderer>();
+	gameObject2->addComponent(renderer2);
 
 	Texture* texture2 = Memory::allocate<Texture>();
 	texture2->init("resources/snorlax.bmp");
 
 	Material* material2 = Memory::allocate<Material>();
+	material2->init();
 	material2->setTexture(texture2);
 
 	renderer2->setMesh(mesh);
 	renderer2->setMaterial(material2);
 
-	gameObject2->addComponent(renderer2);
 
 	scene->setCameraGameObject(cameraGameObject);
 
 	scene->addGameObject(gameObject);
-	scene->addGameObject(gameObject2);
+	//scene->addGameObject(gameObject2);
 	scene->addGameObject(cameraGameObject);
 
 	engine->addScene(scene);

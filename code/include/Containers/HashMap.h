@@ -128,16 +128,18 @@ public:
     }
 
     // if element exists, update element
-    if(found)
-      node->mElement = element;
-    else{
+    if(found){
+      mValues->remove(mValues->find(node->mElement)); // remove outdated element
+      node->mElement = element; // update the elemetn
+      mValues->pushBack(element); // add updated element
+    }else{
       list->pushBack(newNode(key, element));
       BaseContainer::mLength++;
 
       mKeys->pushBack(key);
+      mValues->pushBack(element);
     }
 
-    mValues->pushBack(element);
   }
 
   // ---------------------------------------------------------------------------
@@ -224,8 +226,14 @@ public:
 
     if(found){
       freeNode(selectedIt.get());
+      mValues->remove(mValues->find(selectedIt.get()->mElement));
       list->remove(index-1);
       BaseContainer::mLength--;
+
+      if(list->getLength() == 0){
+        mKeys->remove(mKeys->find(selectedIt.get()->mKey));
+      }
+
     }else
       DE_ASSERT(false, "Can't find the element with given key.");
   }

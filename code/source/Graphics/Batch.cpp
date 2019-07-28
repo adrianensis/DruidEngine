@@ -28,12 +28,10 @@ Batch::Batch() : DE_Class() {
 	mMesh = nullptr;
 	mRenderers = nullptr;
 	mMaterial = nullptr;
-	mShader = nullptr;
 }
 
 Batch::~Batch() {
 	Memory::free<List<Renderer*>>(mRenderers); // TODO : sorted by layers, or use a hashmap
-	Memory::free<Shader>(mShader);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -50,9 +48,6 @@ void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
 
 	mMesh = mesh;
 	mMaterial = material;
-
-	mShader = Memory::allocate<Shader>();
-	mShader->init();
 }
 
 // ---------------------------------------------------------------------------
@@ -93,7 +88,9 @@ void Batch::update() {
 
 void Batch::render() {
 
-	mShader->use();
+	Shader* shader = mMaterial->getShader();
+
+	shader->use();
 	RenderContext::enableVAO(mVAO);
 
 	u32 i=0;
@@ -109,15 +106,17 @@ void Batch::render() {
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
 		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
 
-		mShader->addMatrix(projectionMatrix, "projectionMatrix");
-		mShader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-		mShader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+		shader->addMatrix(projectionMatrix, "projectionMatrix");
+		shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+		shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-		mShader->addMatrix(translationMatrix, "translationMatrix");
-		mShader->addMatrix(rotationMatrix, "rotationMatrix");
-		mShader->addMatrix(scaleMatrix, "scaleMatrix");
+		shader->addMatrix(translationMatrix, "translationMatrix");
+		shader->addMatrix(rotationMatrix, "rotationMatrix");
+		shader->addMatrix(scaleMatrix, "scaleMatrix");
 
 		glBindTexture(GL_TEXTURE_2D, mTextureId);
+
+		it.get()->updateMaterial(mMaterial);
 
 		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
 	}

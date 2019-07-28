@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Memory.h"
+#include "Time.h"
 #include "List.h"
 #include "Singleton.h"
 #include "RenderContext.h"
@@ -84,11 +85,16 @@ void Engine::loadScene(Scene* scene){
 
 void Engine::run(){
 
+	Time::init();
+
 	loadScene(mScenes->get(mCurrentSceneIndex));
 
 	mRenderEngine->bind();
 
 	while(! RenderContext::isClosed()){
+
+		Time::tick();
+
 		mScriptEngine->step();
 
 		mRenderEngine->update();

@@ -1,5 +1,6 @@
 #include "Material.h"
 
+#include "Memory.h"
 #include "Texture.h"
 #include "Shader.h"
 
@@ -13,14 +14,19 @@ Material::Material() : DE_Class(){
 }
 
 Material::~Material() {
-	// TODO Auto-generated destructor stub
+  Memory::free<Shader>(mShader);
+}
+
+void Material::init(){
+  mShader = Memory::allocate<Shader>(); // TODO : Share the same shader !!
+	mShader->init();
 }
 
 // ---------------------------------------------------------------------------
 
 Shader* Material::getShader(){ return mShader; }
 Texture* Material::getTexture(){ return mTexture; }
-void Material::setShader(Shader* shader){ mShader = shader; }
+//void Material::setShader(Shader* shader){ mShader = shader; }
 void Material::setTexture(Texture* texture){ mTexture = texture; }
 
 // ---------------------------------------------------------------------------

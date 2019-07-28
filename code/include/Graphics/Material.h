@@ -18,10 +18,12 @@ public:
 
 	DE_CLASS(Material);
 
+	void init();
+
 	Shader* getShader();
 	Texture* getTexture();
 
-	void setShader(Shader* shader);
+	//void setShader(Shader* shader);
 	void setTexture(Texture* texture);
 };
 

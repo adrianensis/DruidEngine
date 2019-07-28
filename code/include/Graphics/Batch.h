@@ -7,7 +7,6 @@ namespace DE {
 
 class Material;
 class Mesh;
-class Shader;
 class Renderer;
 class RenderEngine;
 template <class T> class List;
@@ -28,9 +27,6 @@ private:
 	u32 mVBOColor;
 	u32 mVBONormal;
 	u32 mVAO;
-
-	// TODO : this variables are temporal
-	Shader* mShader;
 
 	u32 mTextureId;
 

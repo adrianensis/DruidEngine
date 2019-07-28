@@ -33,6 +33,7 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Animation.h"
 #include "Transform.h"
 #include "Script.h"
 #include "Scene.h"

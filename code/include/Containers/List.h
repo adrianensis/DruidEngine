@@ -653,7 +653,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void remove(Iterator& it){
+  void remove(Iterator it){
     resetCache();
     if( ! List::isEmpty()){
       BaseContainer::mLength--;
