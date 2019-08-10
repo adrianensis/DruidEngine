@@ -9,6 +9,7 @@
 #include "Assert.h"
 #include "MathUtils.h"
 #include "Vector3.h"
+#include "Matrix4.h"
 
 namespace DE {
 
@@ -59,12 +60,16 @@ public:
 	bool eq(const Quaternion& q) const; // equal
 	Quaternion& conj();
 	Quaternion& inv();
+	f32 angle(const Quaternion& q) const;
 	Quaternion& lerp(const Quaternion& target, f32 t);
 	Quaternion& nlerp(const Quaternion& target, f32 t);
 	Quaternion& slerp(const Quaternion& target, f32 t);
 	Quaternion& squad(); // TODO: implement
+	void fromEuler(f32 roll, f32 pitch, f32 yaw);
+	void fromEuler(const Vector3& v);
 	Vector3 toEuler() const;
-	f32 angle(const Quaternion& q) const;
+	void toMatrix(Matrix4* outMatrix) const;
+	void fromMatrix(const Matrix4& m);
 
 	//-------------------------------------------------------------------
 	// OPERATORS

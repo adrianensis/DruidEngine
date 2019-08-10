@@ -15,47 +15,7 @@ Quaternion::Quaternion():DE_Class(),v(),w(1.0f){ // identity 0,0,0,1
 
 Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw){
 
-	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-
-	f32 roll2 = MathUtils::rad(roll)*0.5f; // x
-	f32 pitch2 = MathUtils::rad(pitch)*0.5f; // y
-	f32 yaw2 = MathUtils::rad(yaw)*0.5f; // z
-
-	f32 c3 = cosf(yaw2);
-	f32 c2 = cosf(pitch2);
-	f32 c1 = cosf(roll2);
-
-	f32 s3 = sinf(yaw2);
-	f32 s2 = sinf(pitch2);
-	f32 s1 = sinf(roll2);
-
-	// original
-	// w   = c3*c2*c1 + s3*s2*s1;
-	// v.x = c3*c2*s1 - s3*s2*c1;
-	// v.y = c3*s2*c1 + s3*c2*s1;
-	// v.z = s3*c2*c1 - c3*s2*s1;
-
-	// SIMD-optimized
-	f32 c3c2 = c3*c2;
-	f32 s3s2 = s3*s2;
-	f32 c3s2 = c3*s2;
-	f32 s3c2 = s3*c2;
-
-	f32 aux0 = c3c2*c1;
-	f32 aux1 = c3c2*s1;
-	f32 aux2 = c3s2*c1;
-	f32 aux3 = s3c2*c1;
-
-	f32 aux4 = s3s2*s1;
-	f32 aux5 = s3s2*c1;
-	f32 aux6 = s3c2*s1;
-	f32 aux7 = c3s2*s1;
-
-	w   = aux0 + aux4;
-	v.x = aux1 - aux5;
-	v.y = aux2 + aux6;
-	v.z = aux3 - aux7;
-
+	fromEuler(roll, pitch, yaw);
 }
 
 Quaternion::Quaternion(const Vector3& v):Quaternion(v.x,v.y,v.z){
@@ -68,7 +28,7 @@ Quaternion::~Quaternion() = default;
 
 
 Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
-	if (this->w == w ) return *this; // handle self assignment
+	//if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	v.set(x,y,z);
 	this->w = w;
@@ -76,7 +36,7 @@ Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
 }
 
 Quaternion& Quaternion::set(const Vector3& v, f32 w) {
-	if (this->w == w ) return *this; // handle self assignment
+	//if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	this->v.set(v);
 	this->w = w;
@@ -84,7 +44,7 @@ Quaternion& Quaternion::set(const Vector3& v, f32 w) {
 }
 
 Quaternion& Quaternion::set(const Quaternion& rhs) {
-	if (this == &rhs) return *this; // handle self assignment
+	//if (this == &rhs) return *this; // handle self assignment
 	//assignment operator
 	set(rhs.v, rhs.w);
 	return *this;
@@ -220,6 +180,54 @@ Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
 	return *this;
 }
 
+void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
+
+	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+	f32 roll2 = MathUtils::rad(roll)*0.5f; // x
+	f32 pitch2 = MathUtils::rad(pitch)*0.5f; // y
+	f32 yaw2 = MathUtils::rad(yaw)*0.5f; // z
+
+	f32 c3 = cosf(yaw2);
+	f32 c2 = cosf(pitch2);
+	f32 c1 = cosf(roll2);
+
+	f32 s3 = sinf(yaw2);
+	f32 s2 = sinf(pitch2);
+	f32 s1 = sinf(roll2);
+
+	// original
+	// w   = c3*c2*c1 + s3*s2*s1;
+	// v.x = c3*c2*s1 - s3*s2*c1;
+	// v.y = c3*s2*c1 + s3*c2*s1;
+	// v.z = s3*c2*c1 - c3*s2*s1;
+
+	// SIMD-optimized
+	f32 c3c2 = c3*c2;
+	f32 s3s2 = s3*s2;
+	f32 c3s2 = c3*s2;
+	f32 s3c2 = s3*c2;
+
+	f32 aux0 = c3c2*c1;
+	f32 aux1 = c3c2*s1;
+	f32 aux2 = c3s2*c1;
+	f32 aux3 = s3c2*c1;
+
+	f32 aux4 = s3s2*s1;
+	f32 aux5 = s3s2*c1;
+	f32 aux6 = s3c2*s1;
+	f32 aux7 = c3s2*s1;
+
+	w   = aux0 + aux4;
+	v.x = aux1 - aux5;
+	v.y = aux2 + aux6;
+	v.z = aux3 - aux7;
+}
+
+void Quaternion::fromEuler(const Vector3& v) {
+	fromEuler(v.x, v.y, v.z);
+}
+
 Vector3 Quaternion::toEuler() const{
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
@@ -251,6 +259,83 @@ Vector3 Quaternion::toEuler() const{
 	f32 yaw = atan2f(t3, t4);
 
 	return Vector3(MathUtils::deg(roll),MathUtils::deg(pitch),MathUtils::deg(yaw));
+}
+
+void Quaternion::fromMatrix(const Matrix4& m){
+
+	// https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+
+	f32 t = m.get(0,0) + m.get(1,1) + m.get(2,2);
+
+  // we protect the division by s by ensuring that s>=1
+  if (t >= 0) { // |w| >= .5
+
+		f32 s = sqrtf(t + 1); // |s|>=1 ...
+		w = 0.5f * s;
+		s = 0.5f / s;                 // so this division isn't bad
+		v.x = (m.get(1,2) - m.get(2,1)) * s;
+		v.y = (m.get(2,0) - m.get(0,2)) * s;
+		v.z = (m.get(0,1) - m.get(1,0)) * s;
+
+  } else if ((m.get(0,0) > m.get(1,1)) && (m.get(0,0) > m.get(2,2))) {
+
+		f32 s = sqrtf(1.0f + m.get(0,0) - m.get(1,1) - m.get(2,2)); // |s|>=1
+		v.x = s * 0.5f; // |x| >= .5
+		s = 0.5f / s;
+		v.y = (m.get(0,1) + m.get(1,0)) * s;
+		v.z = (m.get(2,0) + m.get(0,2)) * s;
+		w = (m.get(1,2) - m.get(2,1)) * s;
+
+  } else if (m.get(1,1) > m.get(2,2)) {
+
+		f32 s = sqrtf(1.0f + m.get(1,1) - m.get(0,0) - m.get(2,2)); // |s|>=1
+		v.y = s * 0.5f; // |y| >= .5
+		s = 0.5f / s;
+		v.x = (m.get(0,1) + m.get(1,0)) * s;
+		v.z = (m.get(1,2) + m.get(2,1)) * s;
+		w = (m.get(2,0) - m.get(0,2)) * s;
+
+  } else {
+
+		f32 s = sqrtf(1.0f + m.get(2,2) - m.get(0,0) - m.get(1,1)); // |s|>=1
+		v.z = s * 0.5f; // |z| >= .5
+		s = 0.5f / s;
+		v.x = (m.get(2,0) + m.get(0,2)) * s;
+		v.y = (m.get(1,2) + m.get(2,1)) * s;
+		w = (m.get(0,1) - m.get(1,0)) * s;
+		
+  }
+
+}
+
+void Quaternion::toMatrix(Matrix4* outMatrix) const {
+
+	f32 xx2 = 2*v.x*v.x;
+	f32 yy2 = 2*v.y*v.y;
+	f32 zz2 = 2*v.z*v.z;
+
+	f32 xy2 = 2*v.x*v.y;
+	f32 xz2 = 2*v.x*v.z;
+	f32 yz2 = 2*v.y*v.z;
+
+	f32 wx2 = 2*w*v.x;
+	f32 wy2 = 2*w*v.y;
+	f32 wz2 = 2*w*v.z;
+
+	outMatrix->identity();
+
+	outMatrix->set(0,0, 1 - yy2 - zz2);
+	outMatrix->set(0,1, xy2 + wz2);
+	outMatrix->set(0,2, xz2 - wy2);
+
+	outMatrix->set(1,0, xy2 - wz2);
+	outMatrix->set(1,1, 1 - xx2 - zz2);
+	outMatrix->set(1,2, yz2 + wx2);
+
+	outMatrix->set(2,0, xz2 + wy2);
+	outMatrix->set(2,1, yz2 - wx2);
+	outMatrix->set(2,2, 1 - xx2 - yy2);
+
 }
 
 } /* namespace DE */

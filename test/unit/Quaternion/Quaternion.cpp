@@ -9,6 +9,8 @@ DE::Quaternion mul(DE::Quaternion q1, DE::Quaternion q2) {
 
 int main() {
 
+	DE::Memory::init();
+
 	DE_test(DE::Quaternion);
 
 	DE::Quaternion a(0,1,2,3);
@@ -65,6 +67,60 @@ int main() {
 	DE_test_expected_bool(e.toEuler().eq(DE::Vector3(0,0,0),0.000001f),true);
 	DE_test_show(f.toEuler());
 	DE_test_expected_bool(f.toEuler().eq(DE::Vector3(-180,10,10),0.1f),true);
+
+	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();
+	m->zeros();
+
+	DE::Quaternion i(0,0,0,1);
+	i.toMatrix(m);
+
+	DE_test_expected_float_eps(m->get(0,0), 1.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(0,1), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(0,2), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(0,3), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(1,0), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(1,1), 1.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(1,2), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(1,3), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(2,0), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(2,1), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(2,2), 1.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(2,3), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(3,1), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(3,2), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(3,0), 0.0f, 0.00001f);
+	DE_test_expected_float_eps(m->get(3,3), 1.0f, 0.00001f);
+
+	DE::Quaternion ii(0,0,0,1);
+
+	DE::Matrix4* mRot = DE::Memory::allocate<Matrix4>();
+	mRot->rotation(DE::Vector3(0,0,0));
+
+	ii.fromMatrix(*mRot);
+
+	DE_test_expected_float_eps(ii[0],0, 0.00001f);
+	DE_test_expected_float_eps(ii[1],0, 0.00001f);
+	DE_test_expected_float_eps(ii[2],0, 0.00001f);
+	DE_test_expected_float_eps(ii[3],1, 0.00001f);
+
+	mRot->rotation(DE::Vector3(92.0f,0,0));
+
+	ii.fromMatrix(*mRot);
+
+	DE_test_show(ii.toEuler().x);
+	DE_test_show(ii.toEuler().y);
+	DE_test_show(ii.toEuler().z);
+
+	DE_test_expected_bool(ii.toEuler().eq(DE::Vector3(-92.0f,0,0), 0.001f),true);
+
+	DE_test_show(ii.v.x);
+
+	DE_test_expected_float_eps(ii.v.x,-0.719f, 0.001f);
+	DE_test_expected_float_eps(ii.v.y,0, 0.00001f);
+	DE_test_expected_float_eps(ii.v.z,0, 0.00001f);
+	DE_test_expected_float_eps(ii.w,0.695f, 0.00001f);
+
+	DE::Memory::free();
 
 	summary();
 
