@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Matrix4.h"
+#include "Quaternion.h"
 #include "Memory.h"
 #include "Debug.h"
 
@@ -90,6 +91,35 @@ void Transform::rotate(const Vector3& vector){
 		mRotation.add(vector);
 	}
 };
+
+// ---------------------------------------------------------------------------
+
+void Transform::lookAt(const Vector3& targetPosition) {
+
+	mIsDirtyRotation = true;
+
+	Vector3 target(targetPosition);
+
+	Vector3 forward(target.sub(mLocalPosition).nor());
+
+	Vector3 yAxis(0,1,0);
+	Vector3 right(yAxis.cross(forward).nor());
+	Vector3 up(Vector3(forward).cross(right));
+
+	Matrix4 lookAtMatrix;
+	lookAtMatrix.init(
+		Vector4(right.x, right.y, right.z, 0),
+		Vector4(up.x, up.y, up.z, 0),
+		Vector4(forward.x, forward.y, forward.z, 0),
+		Vector4(0, 0, 0, 1)
+	);
+
+	Quaternion q;
+
+	q.fromMatrix(lookAtMatrix);
+
+	mRotation = q.toEuler();
+}
 
 // ---------------------------------------------------------------------------
 

@@ -120,8 +120,11 @@ f32 Vector3::min() const {
 Vector3& Vector3::nor() {
 	f32 len = this->len();
 
-	DE_ASSERT(len > 0, "Length is zero.");
-	this->div(len);
+	//DE_ASSERT(len > 0, "Length is zero.");
+
+	if(len > 0){
+		this->div(len);	
+	}
 
 	return *this;
 }

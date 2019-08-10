@@ -42,7 +42,7 @@ public:
 
 	/*!
     \brief Translate the object by an increment vector.
-    \param vector Delta position.
+    \param Vector3 Delta position.
   */
 	void translate(const Vector3& vector);
 
@@ -50,9 +50,17 @@ public:
 
 	/*!
     \brief Rotate the object by an increment vector.
-    \param vector Delta rotation.
+    \param Vector3 Delta rotation.
   */
 	void rotate(const Vector3& vector);
+
+	// ---------------------------------------------------------------------------
+
+	/*!
+    \brief Orient the object to a 3D point.
+    \param Vector3 Target position.
+  */
+	void lookAt(const Vector3& targetPosition);
 
 	// ---------------------------------------------------------------------------
 

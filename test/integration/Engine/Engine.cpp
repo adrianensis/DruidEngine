@@ -19,7 +19,7 @@ int main() {
 	GameObject* cameraGameObject = Memory::allocate<GameObject>();
 	cameraGameObject->init();
 
-	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
+	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,-100));
 
 	// script
 
@@ -28,8 +28,8 @@ int main() {
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent(cameraComponent);
-	cameraComponent->setOrtho(-800, 800, -600, 600, 1, -1);
-	//cameraComponent->setPerspective(10, -10, 800/600, 45);
+	cameraComponent->setOrtho(-800, 800, -600, 600, 1000, -1000);
+	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
 	// render
 
@@ -92,8 +92,9 @@ int main() {
 	GameObject* gameObject2 = Memory::allocate<GameObject>();
   gameObject2->init();
 
-	gameObject2->getTransform()->setLocalPosition(Vector3(-300,-300,0));
-	gameObject2->getTransform()->setScale(Vector3(100,100,1));
+	gameObject2->getTransform()->setLocalPosition(Vector3(0,0,0));
+	gameObject2->getTransform()->setScale(Vector3(200,200,1));
+	gameObject2->getTransform()->setRotation(Vector3(0,-90,0));
 
 	// script
 
@@ -117,7 +118,7 @@ int main() {
 	scene->setCameraGameObject(cameraGameObject);
 
 	scene->addGameObject(gameObject);
-	//scene->addGameObject(gameObject2);
+	scene->addGameObject(gameObject2);
 	scene->addGameObject(cameraGameObject);
 
 	engine->addScene(scene);

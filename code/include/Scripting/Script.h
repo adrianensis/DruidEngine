@@ -8,7 +8,7 @@ namespace DE {
 class Script : public Component{
 private:
 
-
+  f32 x = 0;
 public:
 
   DE_CLASS(Script);
