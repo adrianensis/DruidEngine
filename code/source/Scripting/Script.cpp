@@ -30,7 +30,7 @@ void Script::step(){
 
   getGameObject()->getTransform()->translate(Vector3(1.0f,0,0));
   //getGameObject()->getTransform()->rotate(Vector3(0,0.5f,0.0f));
-  //getGameObject()->getTransform()->lookAt(Vector3(0,0,0));
+  //getGameObject()->getTransform()->lookAt(Vector3(0,0,100));
 
   x += 1.0f;
 }
