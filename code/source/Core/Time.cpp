@@ -2,7 +2,8 @@
 
 namespace DE {
 
-  f32 Time::mDeltaTime = 0.0f;
+  f32 Time::mDeltaTimeMillis = 0.0f;
+  f32 Time::mDeltaTimeSeconds = 0.0f;
   time_point Time::mNow, Time::mLastTime;
 
   // ---------------------------------------------------------------------------
@@ -14,7 +15,8 @@ namespace DE {
   // ---------------------------------------------------------------------------
 
   void Time::init(){
-    Time::mDeltaTime = 0.0;
+    Time::mDeltaTimeMillis = 0.0;
+    Time::mDeltaTimeSeconds = 0.0;
     Time::mLastTime = std::chrono::high_resolution_clock::now();
   }
 
@@ -22,7 +24,8 @@ namespace DE {
 
   void Time::tick(){
     Time::mNow = std::chrono::high_resolution_clock::now();
-    Time::mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Time::mLastTime).count();
+    Time::mDeltaTimeMillis = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - Time::mLastTime).count();
+    Time::mDeltaTimeSeconds = Time::mDeltaTimeMillis/1000.0f;
     Time::mLastTime = std::chrono::high_resolution_clock::now();
   }
 
@@ -35,8 +38,14 @@ namespace DE {
 
   // ---------------------------------------------------------------------------
 
-  f32 Time::getDeltaTime(){
-    return Time::mDeltaTime;
+  f32 Time::getDeltaTimeMillis(){
+    return Time::mDeltaTimeMillis;
+  }
+
+  // ---------------------------------------------------------------------------
+
+  f32 Time::getDeltaTimeSeconds(){
+    return Time::mDeltaTimeSeconds;
   }
 
   // ---------------------------------------------------------------------------

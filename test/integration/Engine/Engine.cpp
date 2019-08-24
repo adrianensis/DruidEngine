@@ -28,7 +28,7 @@ int main() {
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent(cameraComponent);
-	cameraComponent->setOrtho(-800, 800, -600, 600, 1000, -1000);
+	cameraComponent->setOrtho(-1024, 1024, -768, 768, 1000, -1000);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
 	// render
@@ -59,7 +59,7 @@ int main() {
 	// Material
 
 	Texture* texture = Memory::allocate<Texture>();
-	texture->init("resources/char.png");
+	texture->init("resources/terrain.png");
 
 	Material* material = Memory::allocate<Material>();
 	material->init();
@@ -83,26 +83,20 @@ int main() {
 
 	renderer->setMesh(mesh);
 	renderer->setMaterial(material);
-	renderer->addAnimation("testAnimation", Animation::create(3, true, false, Vector2(0,0), 1.0f/3.0f, 1.0f, 3));
+
+	f32 tileSize = (1.0f/16.0f);
+	renderer->setRegion(0*tileSize,2*tileSize,(1.0f),tileSize);
+
+	renderer->addAnimation("testAnimation", Animation::create(16, true, false, Vector2(0,0), 1.0f/16.0f, 1.0f, 1));
 	renderer->setAnimation("testAnimation");
 
+	scene->setCameraGameObject(cameraGameObject);
+
+	scene->addGameObject(gameObject);
+
+	scene->addGameObject(cameraGameObject);
 
 	// OBJECT 2
-
-	GameObject* gameObject2 = Memory::allocate<GameObject>();
-  gameObject2->init();
-
-	gameObject2->getTransform()->setLocalPosition(Vector3(0,0,-20));
-	gameObject2->getTransform()->setScale(Vector3(200,200,1));
-	gameObject2->getTransform()->setRotation(Vector3(0,0,0));
-
-	// script
-
-	// Script* script2 = Memory::allocate<Script>();
-	// gameObject2->addComponent(script2);
-
-	Renderer* renderer2 = Memory::allocate<Renderer>();
-	gameObject2->addComponent(renderer2);
 
 	Texture* texture2 = Memory::allocate<Texture>();
 	texture2->init("resources/snorlax.bmp");
@@ -111,15 +105,29 @@ int main() {
 	material2->init();
 	material2->setTexture(texture2);
 
-	renderer2->setMesh(mesh);
-	renderer2->setMaterial(material2);
+	for (size_t i = 0; i < 200; i++) {
 
+		GameObject* gameObject2 = Memory::allocate<GameObject>();
+	  gameObject2->init();
 
-	scene->setCameraGameObject(cameraGameObject);
+		gameObject2->getTransform()->setLocalPosition(Vector3((rand() * 100) % 1000,(rand() * 100) % 1000,20));
+		gameObject2->getTransform()->setScale(Vector3(200,200,1));
+		gameObject2->getTransform()->setRotation(Vector3(0,0,0));
 
-	scene->addGameObject(gameObject);
-	scene->addGameObject(gameObject2);
-	scene->addGameObject(cameraGameObject);
+		// script
+
+		// Script* script2 = Memory::allocate<Script>();
+		// gameObject2->addComponent(script2);
+
+		Renderer* renderer2 = Memory::allocate<Renderer>();
+		gameObject2->addComponent(renderer2);
+
+		renderer2->setMesh(mesh);
+		renderer2->setMaterial(material2);
+
+		//scene->addGameObject(gameObject2);
+
+	}
 
 	engine->addScene(scene);
 	engine->setScene(0);

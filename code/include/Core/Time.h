@@ -10,7 +10,8 @@ using time_point = std::chrono::time_point<std::chrono::system_clock>;
 
 class Time {
 private:
-  static f32 mDeltaTime;
+  static f32 mDeltaTimeMillis;
+  static f32 mDeltaTimeSeconds;
   static time_point mNow, mLastTime;
 
 public:
@@ -20,7 +21,8 @@ public:
   static void init();
   static void tick();
   static f32 getNow();
-  static f32 getDeltaTime();
+  static f32 getDeltaTimeMillis();
+  static f32 getDeltaTimeSeconds();
   static f32 getElapsedTime();
 };
 

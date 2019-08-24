@@ -12,6 +12,7 @@
 #include "Transform.h"
 #include "Script.h"
 #include "Camera.h"
+#include "Debug.h"
 
 #include <string>
 
@@ -91,14 +92,30 @@ void Engine::run(){
 
 	mRenderEngine->bind();
 
-	while(! RenderContext::isClosed()){
+	f32 accumulator = 0.0f;
+
+	f32 FPS = 60.0f;
+	f32 inverseFPS = 1.0f/FPS;
+
+	while(! RenderContext::isClosed()) {
 
 		Time::tick();
+		// ECHO("START FRAME");
+		// VAR(f32,Time::getElapsedTime());
 
-		mScriptEngine->step();
+		accumulator += Time::getDeltaTimeMillis();
+
+		while(accumulator >= inverseFPS){
+			mScriptEngine->step();
+			accumulator -= inverseFPS;
+    }
 
 		mRenderEngine->update();
 		mRenderEngine->step();
+
+		// VAR(f32,Time::getDeltaTimeMillis());
+		// VAR(f32,Time::getElapsedTime());
+		// ECHO("END FRAME");
 	}
 
 	mScriptEngine->terminate();

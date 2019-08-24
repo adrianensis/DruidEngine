@@ -2,6 +2,7 @@
 #define DE_MEMORY_H
 
 #include "Allocator.h"
+#include "Debug.h"
 #include <string>
 
 namespace DE {

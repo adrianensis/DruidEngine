@@ -8,6 +8,11 @@ out vec4 FragColor;
 varying vec2 vTexcoord;
 varying lowp vec4 vColor;
 
+uniform float regionX;
+uniform float regionY;
+uniform float regionWidth;
+uniform float regionHeight;
+
 uniform float animationX;
 uniform float animationY;
 uniform float animationWidth;
@@ -19,6 +24,9 @@ void main()
 {
     vec2 t = vTexcoord;
     t.y = 1.0 - t.y; // flip the texture along the y-Axis!
+
+    t.x = t.x * regionWidth + regionX;
+    t.y = t.y * regionHeight + regionY;
 
     t.x = t.x * animationWidth + animationX;
     t.y = t.y * animationHeight + animationY;

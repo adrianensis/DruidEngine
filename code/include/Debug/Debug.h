@@ -26,7 +26,7 @@ void error(const std::string& message);
 
 void brline();
 
-
+#define TO_STR(s) #s
 #define ECHO(x) echo(x);
 #define VAR(T,x) var<T>(#x, x);
 #define VAL(T,x) val<T>(x);

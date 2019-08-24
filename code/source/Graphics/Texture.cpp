@@ -6,13 +6,13 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Texture::Texture() : DE_Class(){
+Texture::Texture() : DE_Class() {
   mTextureId = -1;
   data = nullptr;
 }
 
 Texture::~Texture() {
-	SOIL_free_image_data(data);
+  SOIL_free_image_data(data);
 }
 
 // ---------------------------------------------------------------------------
@@ -26,7 +26,7 @@ void Texture::init(std::string path){
 
 u32 Texture::getTextureId(){ return mTextureId; }
 u32 Texture::setTextureId(u32 id){ mTextureId = id; }
-bool Texture::isLoaded(){ return data != nullptr; }
+bool Texture::isLoaded(){ return data != nullptr;}
 byte* Texture::getData(){ return data; }
 u32 Texture::getWidth(){ return mWidth; }
 u32 Texture::getHeight(){ return mHeight; }

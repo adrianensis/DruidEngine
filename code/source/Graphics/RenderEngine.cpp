@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "List.h"
 #include "HashMap.h"
+#include "Debug.h"
 
 namespace DE {
 
@@ -68,6 +69,7 @@ void RenderEngine::update() {
 void RenderEngine::terminate() {
 
 	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
+		ECHO("REMOVE BATCH");
 		Memory::free<Batch>(it.get());
 	}
 
@@ -82,8 +84,8 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
 	Texture* texture = renderer->getMaterial()->getTexture();
 
-	if( ! mBatches->contains(texture))
-	{
+	if( ! mBatches->contains(texture)) {
+
 		Batch* batch = Memory::allocate<Batch>();
 		batch->init(this, renderer->getMesh(), renderer->getMaterial());
 

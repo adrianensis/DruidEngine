@@ -94,7 +94,7 @@ const AnimationFrame* Animation::getNextFrame() {
 
     f32 time = (1.0/(mSpeed)) * 1000.0f; // in milliseconds !
 
-    mTimeAccumulator += Time::getDeltaTime();
+    mTimeAccumulator += Time::getDeltaTimeMillis();
 
     //ECHO("RENDERER NUM")
     //VAL(f32,mTimeAccumulator)

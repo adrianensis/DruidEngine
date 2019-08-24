@@ -33,7 +33,7 @@ private:
       Node::init();
     }
 
-    ~Node() {
+    virtual ~Node() {
       Node::init();
     }
 

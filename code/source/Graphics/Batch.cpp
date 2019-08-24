@@ -93,14 +93,14 @@ void Batch::render() {
 	shader->use();
 	RenderContext::enableVAO(mVAO);
 
+	const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
+	const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
+	const Matrix4& viewRotationMatrix = mRenderEngine->getCamera()->getViewRotationMatrix();
+
 	u32 i=0;
 	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
 		//ECHO("RENDERER NUM")
 		//VAL(u32,i+1)
-
-		const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
-		const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
-		const Matrix4& viewRotationMatrix = mRenderEngine->getCamera()->getViewRotationMatrix();
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();

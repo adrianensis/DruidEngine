@@ -6,11 +6,11 @@ int main() {
 
 	DE::Time::init();
 
-	DE_test_expected_float(DE::Time::getDeltaTime(), 0.0f);
+	DE_test_expected_float(DE::Time::getDeltaTimeMillis(), 0.0f);
 
 	DE::Time::tick();
 
-	DE_test_expected_float(DE::Time::getDeltaTime(), 0.0f);
+	DE_test_expected_float(DE::Time::getDeltaTimeMillis(), 0.0f);
 
 	DE::Time::tick();
 
@@ -22,9 +22,9 @@ int main() {
 
 	DE::Time::tick();
 
-	DE_test_show(DE::Time::getDeltaTime());
+	DE_test_show(DE::Time::getDeltaTimeMillis());
 
-	DE_test_expected_bool(DE::Time::getDeltaTime() > 0.0f, true);
+	DE_test_expected_bool(DE::Time::getDeltaTimeMillis() > 0.0f, true);
 
 	DE::Time::tick();
 

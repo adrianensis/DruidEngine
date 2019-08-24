@@ -31,7 +31,7 @@ private:
       mChildren = nullptr;
     };
 
-    ~Node(){
+    virtual ~Node(){
       mParent = nullptr;
       Memory::free<Array<Node*>>(mChildren);
     };

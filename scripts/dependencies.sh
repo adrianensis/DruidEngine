@@ -28,13 +28,13 @@ unzip $tmpDir/soil.zip -d $destiny
 
 mv "$destiny/Simple OpenGL Image Library" $destiny/SOIL
 
-cd $destiny/SOIL/projects/makefile
+# cd $destiny/SOIL/projects/makefile
 
-mkdir "obj"
-make
-sudo make install
+# mkdir "obj"
+# make
+# sudo make install
 
-cd $projectDir
+# cd $projectDir
 
 # ------------------------------------------------------------------------
 

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Vector3.h"
+#include "Time.h"
 
 namespace DE {
 
@@ -28,7 +29,7 @@ void Script::init(){
 void Script::step(){
   //ECHO("CUSTOM SCRIPT STEP")
 
-  getGameObject()->getTransform()->translate(Vector3(1.0f,0,0));
+  //getGameObject()->getTransform()->translate(Vector3(0.2f*Time::getDeltaTimeSeconds(),0,0));
   //getGameObject()->getTransform()->rotate(Vector3(0,0.5f,0.0f));
   //getGameObject()->getTransform()->lookAt(Vector3(0,0,100));
 

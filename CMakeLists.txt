@@ -40,6 +40,12 @@ include_directories("${DEPENDENCIES_DIR}/glad/include")
 set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
+# SOIL
+include_directories("${DEPENDENCIES_DIR}/SOIL/src")
+link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
+file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
+# file(GLOB SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
+
 # packages
 file(GLOB PACKAGES_PATHS "code/source/*")
 set(PACKAGES "")
@@ -50,7 +56,6 @@ foreach(PACKAGE_PATH ${PACKAGES_PATHS})
 endforeach()
 
 # include directory
-
 file(GLOB INCLUDE_PATHS "code/include/*")
 
 foreach(INCLUDE_PATH ${INCLUDE_PATHS})
@@ -72,7 +77,7 @@ foreach(PACKAGE ${PACKAGES})
 endforeach()
 
 # single library
-add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE})
+add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
 
 # link libraries with druid library
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
@@ -82,9 +87,7 @@ target_link_libraries( ${DRUID} glfw)
 # SOIL
 target_link_libraries( ${DRUID} SOIL )
 
-
 # compile tests
-
 if(BUILD_TESTS)
 
 # unit tests
