@@ -18,7 +18,7 @@ private:
 
 public:
 
-	DE_CLASS(Camera);
+	DE_CLASS(Camera, Component);
 
 	virtual void init() override;
 

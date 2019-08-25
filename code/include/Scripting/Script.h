@@ -11,12 +11,12 @@ private:
   f32 x = 0;
 public:
 
-  DE_CLASS(Script);
+  DE_CLASS(Script, Component);
 
-  void init();
-  void update();
-  void step();
-  void terminate();
+  virtual void init();
+  virtual void update();
+  virtual void step();
+  virtual void terminate();
 };
 
 } /* namespace DE */

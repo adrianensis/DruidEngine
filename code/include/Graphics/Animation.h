@@ -19,7 +19,7 @@ private:
 	f32 mTimeAccumulator;
 
 public:
-	DE_CLASS(Animation);
+	DE_CLASS(Animation, DE_Class);
 
 	/**
 	* Static method that creates an animation.

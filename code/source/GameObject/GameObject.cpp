@@ -22,10 +22,10 @@ GameObject::~GameObject() {
 
 // ---------------------------------------------------------------------------
 
-void GameObject::addComponent(Component* component) {
+void GameObject::addComponent(Component* component, ClassId classId) {
 	List<Component*>* list = nullptr;
 
-	ClassId classId = component->getClassId();
+	//ClassId classId = component->getParentClassId();
 
 	if(! mComponents->contains(classId)){
 		list = Memory::allocate<List<Component*>>();
@@ -33,7 +33,7 @@ void GameObject::addComponent(Component* component) {
 		mComponents->set(classId,list);
 	}
 
-	list->pushBack(component);
+	mComponents->get(classId)->pushBack(component);
 
 	component->setGameObject(this);
 	component->init();

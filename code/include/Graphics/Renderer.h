@@ -28,7 +28,7 @@ private:
 
 public:
 
-	DE_CLASS(Renderer);
+	DE_CLASS(Renderer, Component);
 
 	virtual void init() override;
 

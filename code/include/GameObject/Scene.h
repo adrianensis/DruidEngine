@@ -17,7 +17,7 @@ private:
 
 public:
 
-	DE_CLASS(Scene);
+	DE_CLASS(Scene, DE_Class);
 
 	void init();
 	List<GameObject*>* getGameObjects();

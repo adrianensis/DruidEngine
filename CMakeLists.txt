@@ -1,23 +1,39 @@
+# ----------------------------------------------------------------------------
+# DRUID ENGINE
+# ----------------------------------------------------------------------------
+
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 # project name
 set(DRUID druid)
 project(${DRUID})
 
+# ----------------------------------------------------------------------------
+# CPP TARGETS
+# ----------------------------------------------------------------------------
 # We need c++14 because it defines the auto type.
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG -std=c++14 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -Wall -O3 -ffast-math -mavx")
 
-# output directories
+# ----------------------------------------------------------------------------
+# OUTPUT DIRECTORIES
+# ----------------------------------------------------------------------------
+
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libOutput")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/testOutput")
+
+# ----------------------------------------------------------------------------
 
 message("Compiler: ${CMAKE_CXX_COMPILER}")
 message("Release: ${CMAKE_CXX_FLAGS_RELEASE}")
 message("Debug: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 message("Selected Build target: ${CMAKE_BUILD_TYPE}")
+
+# ----------------------------------------------------------------------------
+# DEPENDENCIES
+# ----------------------------------------------------------------------------
 
 # third party libraries
 set(DEPENDENCIES_DIR "dependencies")
@@ -46,7 +62,10 @@ link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
 file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
 
-# packages
+# ----------------------------------------------------------------------------
+# ENGINE PACKAGES
+# ----------------------------------------------------------------------------
+
 file(GLOB PACKAGES_PATHS "code/source/*")
 set(PACKAGES "")
 
@@ -55,13 +74,20 @@ foreach(PACKAGE_PATH ${PACKAGES_PATHS})
   list(APPEND PACKAGES ${PACKAGE_NAME})
 endforeach()
 
-# include directory
+# ----------------------------------------------------------------------------
+# PACKAGES INCLUDE DIRECTORIES
+# ----------------------------------------------------------------------------
+
 file(GLOB INCLUDE_PATHS "code/include/*")
 
 foreach(INCLUDE_PATH ${INCLUDE_PATHS})
   get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
   include_directories("code/include/${INCLUDE_NAME}")
 endforeach()
+
+# ----------------------------------------------------------------------------
+# LIBRARY OBJECTS
+# ----------------------------------------------------------------------------
 
 # object libraries
 # Alternative: CMakeLists.txt with this code into source directory.
@@ -76,8 +102,16 @@ foreach(PACKAGE ${PACKAGES})
   list(APPEND OBJS $<TARGET_OBJECTS:${PACKAGE}>)
 endforeach()
 
+# ----------------------------------------------------------------------------
+# DRUID ENGINE LIBRARY
+# ----------------------------------------------------------------------------
+
 # single library
 add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
+
+# ----------------------------------------------------------------------------
+# LINK LIBRARIES
+# ----------------------------------------------------------------------------
 
 # link libraries with druid library
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
@@ -87,10 +121,13 @@ target_link_libraries( ${DRUID} glfw)
 # SOIL
 target_link_libraries( ${DRUID} SOIL )
 
-# compile tests
+# ----------------------------------------------------------------------------
+# TESTS
+# ----------------------------------------------------------------------------
+
 if(BUILD_TESTS)
 
-# unit tests
+# UNIT TESTS
 
 file(GLOB TEST_PATHS "test/unit/*")
 
@@ -110,7 +147,9 @@ foreach(TEST_PATH ${TEST_PATHS})
 
 endforeach()
 
-# integration tests
+# ----------------------------------------------------------------------------
+
+# INTEGRATION TESTS
 
 file(GLOB TEST_PATHS "test/integration/*")
 
@@ -131,3 +170,5 @@ foreach(TEST_PATH ${TEST_PATHS})
 endforeach()
 
 endif(BUILD_TESTS)
+
+# ----------------------------------------------------------------------------

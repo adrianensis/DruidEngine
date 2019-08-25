@@ -17,8 +17,8 @@ private:
 	u32 mProgram;
 
 public:
-	
-	DE_CLASS(Shader);
+
+	DE_CLASS(Shader, DE_Class);
 
 	void init();
 	void use();

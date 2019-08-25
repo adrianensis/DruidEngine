@@ -1,4 +1,5 @@
 #include "Druid.h"
+#include "CustomScript.h"
 
 using namespace DE;
 
@@ -24,10 +25,10 @@ int main() {
 	// script
 
 	//Script* script = Memory::allocate<Script>();
-	//cameraGameObject->addComponent(script);
+	//cameraGameObject->addComponent<Script>(script);
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
-	cameraGameObject->addComponent(cameraComponent);
+	cameraGameObject->addComponent<Camera>(cameraComponent);
 	cameraComponent->setOrtho(-1024, 1024, -768, 768, 1000, -1000);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
@@ -75,11 +76,11 @@ int main() {
 
 	// script
 
-	Script* script = Memory::allocate<Script>();
-	gameObject->addComponent(script);
+	Script* script = Memory::allocate<CustomScript>();
+	gameObject->addComponent<Script>(script);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
-	gameObject->addComponent(renderer);
+	gameObject->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(mesh);
 	renderer->setMaterial(material);
@@ -117,10 +118,10 @@ int main() {
 		// script
 
 		// Script* script2 = Memory::allocate<Script>();
-		// gameObject2->addComponent(script2);
+		// gameObject2->addComponent<Script>(script2);
 
 		Renderer* renderer2 = Memory::allocate<Renderer>();
-		gameObject2->addComponent(renderer2);
+		gameObject2->addComponent<Renderer>(renderer2);
 
 		renderer2->setMesh(mesh);
 		renderer2->setMaterial(material2);

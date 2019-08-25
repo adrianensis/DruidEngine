@@ -34,7 +34,7 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	DE_CLASS(Transform);
+	DE_CLASS(Transform, Component);
 
 	virtual void init() override;
 

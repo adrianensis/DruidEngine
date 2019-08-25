@@ -15,7 +15,7 @@ private:
 	f32 mHeight;
 
 public:
-	DE_CLASS(AnimationFrame);
+	DE_CLASS(AnimationFrame, DE_Class);
 
 	void init(const Vector2& position, f32 width, f32 height);
 

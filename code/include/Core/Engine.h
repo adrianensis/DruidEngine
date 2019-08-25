@@ -28,7 +28,7 @@ private:
 
 public:
 
-  DE_CLASS(Engine);
+  DE_CLASS(Engine, DE_Class);
 
   void init();
   void run();

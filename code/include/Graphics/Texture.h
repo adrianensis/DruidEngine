@@ -14,7 +14,7 @@ class Texture : public DE_Class{
 	byte* data;
 
 public:
-	DE_CLASS(Texture);
+	DE_CLASS(Texture, DE_Class);
 
 	void init(std::string path);
 

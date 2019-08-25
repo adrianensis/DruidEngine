@@ -15,7 +15,7 @@ private:
 
 public:
 
-	DE_CLASS(Component);
+	DE_CLASS(Component, DE_Class);
 
 	virtual void init() = 0;
 

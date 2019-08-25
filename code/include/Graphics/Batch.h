@@ -32,7 +32,7 @@ private:
 
 public:
 
-	DE_CLASS(Batch);
+	DE_CLASS(Batch, DE_Class);
 
 	void init(RenderEngine* renderEngine, Mesh* mesh, Material* material);
 	void bind();

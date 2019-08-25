@@ -1,52 +1,44 @@
-#include "ScriptEngine.h"
-
-#include "Memory.h"
-#include "Script.h"
-
+#include "CustomScript.h"
 #include "Debug.h"
+
+#include "GameObject.h"
+#include "Transform.h"
+#include "Vector3.h"
+#include "Time.h"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ScriptEngine::ScriptEngine() : DE_Class() {
-  mScripts = nullptr;
-}
+CustomScript::CustomScript() : Script(){
 
-ScriptEngine::~ScriptEngine() = default;
-
-// ---------------------------------------------------------------------------
-
-void ScriptEngine::init(){
-  mScripts = Memory::allocate<List<Script*>>();
-  mScripts->init();
 }
 
 // ---------------------------------------------------------------------------
 
-void ScriptEngine::addScript(Script* newScript){
-  mScripts->pushBack(newScript);
+CustomScript::~CustomScript() = default;
+
+// ---------------------------------------------------------------------------
+
+void CustomScript::init(){
+
 }
 
 // ---------------------------------------------------------------------------
 
-void ScriptEngine::step(){
-  auto it = mScripts->getIterator();
-
-  for (; !it.isNull(); it.next()){
-    ECHO("ENGINE SCRIPT STEP");
-    it.get()->step();
-  }
+void CustomScript::step(){
+  ECHO("CUSTOM SCRIPT STEP");
 }
 
 // ---------------------------------------------------------------------------
 
-void ScriptEngine::update() {
+void CustomScript::update() {
+
 }
 
 // ---------------------------------------------------------------------------
 
-void ScriptEngine::terminate() {
+void CustomScript::terminate() {
 
 }
 
