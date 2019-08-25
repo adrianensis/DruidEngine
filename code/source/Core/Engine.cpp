@@ -13,6 +13,7 @@
 #include "Script.h"
 #include "Camera.h"
 #include "Debug.h"
+#include "Input.h"
 
 #include <string>
 
@@ -61,7 +62,7 @@ void Engine::loadScene(Scene* scene){
 
 	mRenderEngine->setCamera((Camera*)scene->getCameraGameObject()->getComponents<Camera>()->get(0));
 
-	List<GameObject*>* gameObjects = scene->getGameObjects();
+	List<GameObject*>* gameObjects = scene->getNewGameObjects();
 
 	for (auto itGameObjects = gameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
 		GameObject* gameObject = itGameObjects.get();
@@ -80,6 +81,8 @@ void Engine::loadScene(Scene* scene){
 			mRenderEngine->addRenderer(renderer);
 		}
 	}
+
+	scene->flushNewGameObjects();
 }
 
 // ---------------------------------------------------------------------------
@@ -88,22 +91,19 @@ void Engine::run(){
 
 	Time::init();
 
-	loadScene(mScenes->get(mCurrentSceneIndex));
-
-	mRenderEngine->bind();
-
 	f32 accumulator = 0.0f;
 
-	f32 FPS = 60.0f;
+	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
 
 	while(! RenderContext::isClosed()) {
 
-		Time::tick();
-		// ECHO("START FRAME");
-		// VAR(f32,Time::getElapsedTime());
+		if(mScenes->get(mCurrentSceneIndex)->thereAreNewGameObjects()){
+			loadScene(mScenes->get(mCurrentSceneIndex));
+			mRenderEngine->bind();
+		}
 
-		accumulator += Time::getDeltaTimeMillis();
+		Time::tick();
 
 		while(accumulator >= inverseFPS){
 			mScriptEngine->step();
@@ -113,9 +113,9 @@ void Engine::run(){
 		mRenderEngine->update();
 		mRenderEngine->step();
 
-		// VAR(f32,Time::getDeltaTimeMillis());
-		// VAR(f32,Time::getElapsedTime());
-		// ECHO("END FRAME");
+		accumulator += Time::getDeltaTimeMillis();
+
+		Input::pollEvents();
 	}
 
 	mScriptEngine->terminate();

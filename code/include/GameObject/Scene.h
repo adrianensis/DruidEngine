@@ -13,6 +13,7 @@ class Scene : public DE_Class {
 private:
 
 	List<GameObject*>* mGameObjects;
+	List<GameObject*>* mNewGameObjects;
 	GameObject* mCameraGameObject;
 
 public:
@@ -21,11 +22,15 @@ public:
 
 	void init();
 	List<GameObject*>* getGameObjects();
+	List<GameObject*>* getNewGameObjects();
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
 
 	void setCameraGameObject(GameObject* cameraGameObject);
 	GameObject* getCameraGameObject();
+
+	bool thereAreNewGameObjects();
+	void flushNewGameObjects();
 };
 
 } /* namespace DE */

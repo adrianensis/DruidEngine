@@ -56,8 +56,8 @@ void RenderContext::init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL); // Near things obscure far things
-	//glEnable(GL_CULL_FACE); // BACK by default
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE); // BACK by default
+	glCullFace(GL_BACK);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -80,8 +80,7 @@ void RenderContext::clear() {
 // ---------------------------------------------------------------------------
 
 void RenderContext::swap() {
-	glfwSwapBuffers(mWindow);
-	glfwPollEvents();
+  glfwSwapBuffers(mWindow);
 	RenderContext::clear();
 }
 

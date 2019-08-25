@@ -21,6 +21,8 @@ private:
 
 public:
 
+	friend class Input;
+
 	RenderContext();
 	~RenderContext() override;
 

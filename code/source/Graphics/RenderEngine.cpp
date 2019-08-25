@@ -69,7 +69,6 @@ void RenderEngine::update() {
 void RenderEngine::terminate() {
 
 	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
-		ECHO("REMOVE BATCH");
 		Memory::free<Batch>(it.get());
 	}
 

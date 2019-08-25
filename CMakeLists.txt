@@ -151,23 +151,14 @@ endforeach()
 
 # INTEGRATION TESTS
 
-file(GLOB TEST_PATHS "test/integration/*")
+#get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
 
-foreach(TEST_PATH ${TEST_PATHS})
+include_directories("test/integration")
 
-	file(GLOB TEST_SOURCES "${TEST_PATH}/*.cpp")
-
-	foreach(TEST_PATH ${TEST_SOURCES})
-
-	  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
-
-	  set(TEST_FINAL_NAME "test_integration_${TEST_NAME}" )
-	  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
-	  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
-	  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-	endforeach()
-
-endforeach()
+set(TEST_FINAL_NAME "test_integration" )
+add_executable( ${TEST_FINAL_NAME} "test/integration/main.cpp" "test/integration/CustomScript.h" "test/integration/CustomScript.cpp" )
+target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
+install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 endif(BUILD_TESTS)
 

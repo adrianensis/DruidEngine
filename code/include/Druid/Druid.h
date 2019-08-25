@@ -29,6 +29,7 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "RenderContext.h"
+#include "Input.h"
 #include "RenderEngine.h"
 #include "Renderer.h"
 #include "Shader.h"

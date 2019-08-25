@@ -34,7 +34,7 @@ void ScriptEngine::step(){
   auto it = mScripts->getIterator();
 
   for (; !it.isNull(); it.next()){
-    ECHO("ENGINE SCRIPT STEP");
+    //ECHO("ENGINE SCRIPT STEP");
     it.get()->step();
   }
 }

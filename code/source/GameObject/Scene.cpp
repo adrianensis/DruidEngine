@@ -13,6 +13,7 @@ Scene::Scene() : DE_Class(){
 
 Scene::~Scene() {
 	Memory::free<List<GameObject*>>(mGameObjects);
+	Memory::free<List<GameObject*>>(mNewGameObjects);
 }
 
 // ---------------------------------------------------------------------------
@@ -20,12 +21,15 @@ Scene::~Scene() {
 void Scene::init() {
 	mGameObjects = Memory::allocate<List<GameObject*>>();
 	mGameObjects->init();
+
+	mNewGameObjects = Memory::allocate<List<GameObject*>>();
+	mNewGameObjects->init();
 }
 
 // ---------------------------------------------------------------------------
 
 void Scene::addGameObject(GameObject* gameObject) {
-	mGameObjects->pushBack(gameObject);
+	mNewGameObjects->pushBack(gameObject);
 }
 
 // ---------------------------------------------------------------------------
@@ -37,9 +41,21 @@ void Scene::removeGameObject(GameObject* gameObject) {
 
 // ---------------------------------------------------------------------------
 
+void Scene::flushNewGameObjects(){
+	for (auto itGameObjects = mNewGameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
+		mGameObjects->pushBack(itGameObjects.get());
+	}
+
+	mNewGameObjects->clear();
+}
+
+// ---------------------------------------------------------------------------
+
 List<GameObject*>* Scene::getGameObjects() { return mGameObjects; }
+List<GameObject*>* Scene::getNewGameObjects() { return mNewGameObjects; }
 void Scene::setCameraGameObject(GameObject* cameraGameObject){ mCameraGameObject = cameraGameObject; }
 GameObject* Scene::getCameraGameObject(){ return mCameraGameObject; }
+bool Scene::thereAreNewGameObjects() { return mNewGameObjects->getLength() > 0; }
 
 // ---------------------------------------------------------------------------
 
