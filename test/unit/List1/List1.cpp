@@ -1,4 +1,7 @@
-#include "Druid.h"
+#include "Test.h"
+#include "Memory.h"
+#include "List.h"
+#include "Array.h"
 
 using namespace DE;
 

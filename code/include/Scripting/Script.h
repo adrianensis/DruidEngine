@@ -14,7 +14,6 @@ public:
   DE_CLASS(Script, Component);
 
   virtual void init();
-  virtual void update();
   virtual void step();
   virtual void terminate();
 };

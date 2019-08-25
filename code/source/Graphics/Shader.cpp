@@ -90,9 +90,16 @@ void Shader::addMatrix(const Matrix4& matrix, std::string name){
 
 // ---------------------------------------------------------------------------
 
-void Shader::addInt(u32 value, std::string name){
+void Shader::addInt(i32 value, std::string name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform1i(location, value);
+};
+
+// ---------------------------------------------------------------------------
+
+void Shader::addUInt(u32 value, std::string name){
+  u32 location = glGetUniformLocation(mProgram, name.c_str());
+  glUniform1ui(location, value);
 };
 
 // ---------------------------------------------------------------------------

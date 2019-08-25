@@ -1,11 +1,14 @@
-#include "Druid.h"
+#include "Test.h"
+#include "Memory.h"
+#include "Matrix4.h"
+#include "Array.h"
 
 using namespace DE;
 
 int main() {
 
 	DE::Memory::init();
-	
+
 	DE_test(DE::Matrix4);
 
 	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();

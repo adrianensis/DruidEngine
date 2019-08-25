@@ -8,6 +8,8 @@ out vec4 FragColor;
 varying vec2 vTexcoord;
 varying lowp vec4 vColor;
 
+uniform uint invertXAxis;
+
 uniform float regionX;
 uniform float regionY;
 uniform float regionWidth;
@@ -30,6 +32,10 @@ void main()
 
     t.x = t.x * animationWidth + animationX;
     t.y = t.y * animationHeight + animationY;
+
+    if(invertXAxis != 0){
+      t.x = (1.0 - t.x);
+    }
 
     FragColor = texture2D(uSampler, t);
 }

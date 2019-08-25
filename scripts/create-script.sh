@@ -47,7 +47,6 @@ appendHeader
 appendHeader "  DE_CLASS($scriptClassName);"
 appendHeader
 appendHeader "  void init() override;"
-appendHeader "  void update() override;"
 appendHeader "  void step() override;"
 appendHeader "  void terminate() override;"
 appendHeader "};"
@@ -85,12 +84,6 @@ appendSource
 appendSource "// ---------------------------------------------------------------------------"
 appendSource
 appendSource "void $scriptClassName::step(){"
-appendSource
-appendSource "}"
-appendSource
-appendSource "// ---------------------------------------------------------------------------"
-appendSource
-appendSource "void $scriptClassName::update() {"
 appendSource
 appendSource "}"
 appendSource

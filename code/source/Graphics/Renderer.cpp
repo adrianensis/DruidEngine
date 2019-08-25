@@ -21,6 +21,8 @@ Renderer::Renderer() : Component() {
   mRegionPosition = Vector2(0.0,0.0);
   mRegionWidth = 1.0;
   mRegionHeight = 1.0;
+
+  mInvertXAxis = false;
 }
 
 Renderer::~Renderer() {
@@ -40,7 +42,7 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
 {
   mRegionPosition.x = u;
   mRegionPosition.y = v;
-  
+
   mRegionWidth = width;
   mRegionHeight = height;
 }
@@ -77,6 +79,8 @@ void Renderer::updateMaterial(Material* material) {
 
     Shader* shader = mMaterial->getShader();
 
+    shader->addUInt(mInvertXAxis, "invertXAxis");
+
     //shader.addFloatVector(this.alphaColor.toArray(),"alphacolor");
 
     shader->addFloat(mRegionPosition.x, "regionX");
@@ -107,6 +111,7 @@ void Renderer::setMesh(Mesh* mesh){ mMesh = mesh; }
 Mesh* Renderer::getMesh(){ return mMesh; }
 void Renderer::setMaterial(Material* material){ mMaterial = material; }
 Material* Renderer::getMaterial(){ return mMaterial; }
+void Renderer::setInvertXAxis(bool invertXAxis) { mInvertXAxis = invertXAxis; }
 
 // ---------------------------------------------------------------------------
 

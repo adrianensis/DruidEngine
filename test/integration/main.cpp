@@ -1,4 +1,14 @@
-#include "Druid.h"
+#include "Engine.h"
+#include "Scene.h"
+#include "GameObject.h"
+#include "Camera.h"
+#include "Mesh.h"
+#include "Script.h"
+#include "Transform.h"
+#include "Animation.h"
+#include "Renderer.h"
+#include "Material.h"
+#include "Texture.h"
 #include "CustomScript.h"
 
 using namespace DE;
@@ -60,7 +70,7 @@ int main() {
 	// Material
 
 	Texture* texture = Memory::allocate<Texture>();
-	texture->init("resources/terrain.png");
+	texture->init("resources/mage.bmp");
 
 	Material* material = Memory::allocate<Material>();
 	material->init();
@@ -74,22 +84,23 @@ int main() {
 	gameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 	gameObject->getTransform()->setScale(Vector3(300,300,1));
 
-	// script
-
-	Script* script = Memory::allocate<CustomScript>();
-	gameObject->addComponent<Script>(script);
-
 	Renderer* renderer = Memory::allocate<Renderer>();
 	gameObject->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(mesh);
 	renderer->setMaterial(material);
 
-	f32 tileSize = (1.0f/16.0f);
-	renderer->setRegion(0*tileSize,2*tileSize,(1.0f),tileSize);
+	// f32 tileSize = (1.0f/16.0f);
+	// renderer->setRegion(0*tileSize,2*tileSize,(1.0f),tileSize);
 
-	renderer->addAnimation("testAnimation", Animation::create(16, true, false, Vector2(0,0), 1.0f/16.0f, 1.0f, 1));
-	renderer->setAnimation("testAnimation");
+	renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+	renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+	renderer->setAnimation("idle");
+
+	// script
+
+	Script* script = Memory::allocate<CustomScript>();
+	gameObject->addComponent<Script>(script);
 
 	scene->setCameraGameObject(cameraGameObject);
 
@@ -115,16 +126,16 @@ int main() {
 		gameObject2->getTransform()->setScale(Vector3(200,200,1));
 		gameObject2->getTransform()->setRotation(Vector3(0,0,0));
 
-		// script
-
-		// Script* script2 = Memory::allocate<Script>();
-		// gameObject2->addComponent<Script>(script2);
-
 		Renderer* renderer2 = Memory::allocate<Renderer>();
 		gameObject2->addComponent<Renderer>(renderer2);
 
 		renderer2->setMesh(mesh);
 		renderer2->setMaterial(material2);
+
+		// script
+
+		// Script* script2 = Memory::allocate<Script>();
+		// gameObject2->addComponent<Script>(script2);
 
 		//scene->addGameObject(gameObject2);
 

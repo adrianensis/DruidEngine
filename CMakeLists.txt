@@ -107,7 +107,7 @@ endforeach()
 # ----------------------------------------------------------------------------
 
 # single library
-add_library(${DRUID} "code/include/Druid/Druid.h" ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
+add_library(${DRUID} ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
 
 # ----------------------------------------------------------------------------
 # LINK LIBRARIES

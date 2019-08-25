@@ -19,7 +19,6 @@ public:
 
   void init();
   void addScript(Script* newScript);
-  void update();
   void step();
   void terminate();
 };

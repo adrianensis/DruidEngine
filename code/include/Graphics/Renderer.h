@@ -26,6 +26,8 @@ private:
   f32 mRegionWidth;
   f32 mRegionHeight;
 
+	bool mInvertXAxis;
+
 public:
 
 	DE_CLASS(Renderer, Component);
@@ -43,6 +45,8 @@ public:
 
 	void setMaterial(Material* material);
 	Material* getMaterial();
+
+	void setInvertXAxis(bool invertXAxis);
 };
 
 } /* namespace DE */

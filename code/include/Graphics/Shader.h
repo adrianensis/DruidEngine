@@ -24,7 +24,8 @@ public:
 	void use();
 
 	void addMatrix(const Matrix4& matrix, std::string name);
-	void addInt(u32 value, std::string name);
+	void addInt(i32 value, std::string name);
+	void addUInt(u32 value, std::string name);
 	void addFloat(f32 value, std::string name);
 };
 
