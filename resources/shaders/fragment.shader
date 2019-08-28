@@ -38,4 +38,8 @@ void main()
     }
 
     FragColor = texture2D(uSampler, t);
+
+    if((FragColor.r + FragColor.g + FragColor.b) == 0){
+      FragColor.a = 0;
+    }
 }

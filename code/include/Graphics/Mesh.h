@@ -24,6 +24,8 @@ private:
 
 	u32 mVerticesIndex, mColorsIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
 
+	static Mesh* smRectangle;
+
 public:
 
 	Mesh();
@@ -43,6 +45,8 @@ public:
 	const Array<f32>* getNormalsData() const;
 	const Array<f32>* getTexureCoordinatesData() const;
 	const Array<u32>* getFacesData() const;
+
+	static Mesh* getRectangle();
 };
 
 } /* namespace DE */

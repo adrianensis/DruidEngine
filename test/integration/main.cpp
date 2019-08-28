@@ -44,29 +44,6 @@ int main() {
 
 	// render
 
-	Mesh* mesh = Memory::allocate<Mesh>();
-	mesh->init(4);
-
-	mesh->open()->
-		addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
-		addVertex(Vector3(-0.5f, -0.5f, 0.0f))-> // bottom left
-		addVertex(Vector3(0.5f, -0.5f, 0.0f))-> // bottom right
-		addVertex(Vector3(0.5f, 0.5f, 0.0f))-> // top right
-
-		addTexCoord(0.0f, 1.0f)-> // top left
-		addTexCoord(0.0f, 0.0f)-> // bottom left
-		addTexCoord(1.0f, 0.0f)-> // bottom right
-		addTexCoord(1.0f, 1.0f)-> // top right
-
-		addColor(Vector4(0, 1, 1, 1))-> // top left
-		addColor(Vector4(1, 0, 0, 1))-> // bottom left
-		addColor(Vector4(1, 1, 0, 1))-> // bottom right
-		addColor(Vector4(0, 0, 1, 1))-> // top right
-
-		addFace(0,1,3)->
-		addFace(1,2,3)->
-		close();
-
 	// Material
 
 	Texture* texture = Memory::allocate<Texture>();
@@ -87,7 +64,7 @@ int main() {
 	Renderer* renderer = Memory::allocate<Renderer>();
 	gameObject->addComponent<Renderer>(renderer);
 
-	renderer->setMesh(mesh);
+	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(material);
 
 	// f32 tileSize = (1.0f/16.0f);
@@ -129,7 +106,7 @@ int main() {
 		Renderer* renderer2 = Memory::allocate<Renderer>();
 		gameObject2->addComponent<Renderer>(renderer2);
 
-		renderer2->setMesh(mesh);
+		renderer2->setMesh(Mesh::getRectangle());
 		renderer2->setMaterial(material2);
 
 		// script

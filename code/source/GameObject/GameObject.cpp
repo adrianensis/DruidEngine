@@ -13,6 +13,7 @@ namespace DE {
 GameObject::GameObject() : DE_Class(){
 	mComponents = nullptr;
 	mTransform = nullptr;
+	mScene = nullptr;
 }
 
 GameObject::~GameObject() {
@@ -58,6 +59,8 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 }
 
 Transform* GameObject::getTransform(){ return mTransform; }
+Scene* GameObject::getScene(){ return mScene; }
+void GameObject::setScene(Scene* scene) { mScene = scene; }
 
 // ---------------------------------------------------------------------------
 

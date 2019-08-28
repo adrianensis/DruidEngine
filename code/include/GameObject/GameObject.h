@@ -10,6 +10,7 @@ namespace DE {
 	template <class T> class List;
 	class Component;
 	class Transform;
+	class Scene;
 
 // ---------------------------------------------------------------------------
 
@@ -22,6 +23,8 @@ private:
 	Transform* mTransform;
 
 	List<Component*>* getComponents(ClassId classId);
+
+	Scene* mScene;
 
 public:
 
@@ -42,6 +45,8 @@ public:
 	}
 
 	Transform* getTransform();
+	Scene* getScene();
+	void setScene(Scene* scene);
 };
 
 // ---------------------------------------------------------------------------

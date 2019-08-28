@@ -5,6 +5,7 @@
 
 #include "Renderer.h"
 #include "Transform.h"
+#include "GameObject.h"
 
 namespace DE {
 
@@ -13,6 +14,9 @@ private:
 
   Renderer* mRenderer;
   Transform* mTransform;
+
+  GameObject* obj;
+  bool mTestObjCreated;
 
 public:
 

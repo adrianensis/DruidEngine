@@ -29,6 +29,7 @@ void Scene::init() {
 // ---------------------------------------------------------------------------
 
 void Scene::addGameObject(GameObject* gameObject) {
+	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
 }
 

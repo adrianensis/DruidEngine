@@ -5,6 +5,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
+Mesh* Mesh::smRectangle = nullptr;
+
 Mesh::Mesh() : DE_Class() {
 
 	mVertexCount = 0;
@@ -127,6 +129,36 @@ const Array<f32>* Mesh::getColorsData() const { return mColors; }
 const Array<f32>* Mesh::getNormalsData() const { return mNormals; }
 const Array<f32>* Mesh::getTexureCoordinatesData() const { return mTextureCoordinates; }
 const Array<u32>* Mesh::getFacesData() const { return mFaces; }
+
+Mesh* Mesh::getRectangle() {
+	if( ! smRectangle) {
+		smRectangle = Memory::allocate<Mesh>();
+		smRectangle->init(4);
+
+		smRectangle->open()->
+			addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
+			addVertex(Vector3(-0.5f, -0.5f, 0.0f))-> // bottom left
+			addVertex(Vector3(0.5f, -0.5f, 0.0f))-> // bottom right
+			addVertex(Vector3(0.5f, 0.5f, 0.0f))-> // top right
+
+			addTexCoord(0.0f, 1.0f)-> // top left
+			addTexCoord(0.0f, 0.0f)-> // bottom left
+			addTexCoord(1.0f, 0.0f)-> // bottom right
+			addTexCoord(1.0f, 1.0f)-> // top right
+
+			addColor(Vector4(0, 1, 1, 1))-> // top left
+			addColor(Vector4(1, 0, 0, 1))-> // bottom left
+			addColor(Vector4(1, 1, 0, 1))-> // bottom right
+			addColor(Vector4(0, 0, 1, 1))-> // top right
+
+			addFace(0,1,3)->
+			addFace(1,2,3)->
+			close();
+	}
+
+	return smRectangle;
+}
+
 
 // ---------------------------------------------------------------------------
 
