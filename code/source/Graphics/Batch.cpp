@@ -92,6 +92,7 @@ void Batch::render() {
 
 	shader->use();
 	RenderContext::enableVAO(mVAO);
+	glBindTexture(GL_TEXTURE_2D, mTextureId);
 
 	const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
 	const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
@@ -113,8 +114,6 @@ void Batch::render() {
 		shader->addMatrix(translationMatrix, "translationMatrix");
 		shader->addMatrix(rotationMatrix, "rotationMatrix");
 		shader->addMatrix(scaleMatrix, "scaleMatrix");
-
-		glBindTexture(GL_TEXTURE_2D, mTextureId);
 
 		it.get()->updateMaterial(mMaterial);
 

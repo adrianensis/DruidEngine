@@ -96,18 +96,18 @@ int main() {
 
 	for (size_t i = 0; i < 200; i++) {
 
-		GameObject* gameObject2 = Memory::allocate<GameObject>();
-	  gameObject2->init();
-
-		gameObject2->getTransform()->setLocalPosition(Vector3((rand() * 100) % 1000,(rand() * 100) % 1000,20));
-		gameObject2->getTransform()->setScale(Vector3(200,200,1));
-		gameObject2->getTransform()->setRotation(Vector3(0,0,0));
-
-		Renderer* renderer2 = Memory::allocate<Renderer>();
-		gameObject2->addComponent<Renderer>(renderer2);
-
-		renderer2->setMesh(Mesh::getRectangle());
-		renderer2->setMaterial(material2);
+		// GameObject* gameObject2 = Memory::allocate<GameObject>();
+	  // gameObject2->init();
+		//
+		// gameObject2->getTransform()->setLocalPosition(Vector3((rand() * 100) % 1000,(rand() * 100) % 1000,20));
+		// gameObject2->getTransform()->setScale(Vector3(200,200,1));
+		// gameObject2->getTransform()->setRotation(Vector3(0,0,0));
+		//
+		// Renderer* renderer2 = Memory::allocate<Renderer>();
+		// gameObject2->addComponent<Renderer>(renderer2);
+		//
+		// renderer2->setMesh(Mesh::getRectangle());
+		// renderer2->setMaterial(material2);
 
 		// script
 

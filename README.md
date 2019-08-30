@@ -28,4 +28,19 @@ This command will print the results in terminal.
 
 ## Integration Tests
 
-Run intgration tests by executing `./testOutput/test_integration_<NAME OF THE TEST>`. Results are stored in **testOutput/output**.
+Run intgration test by executing `./testOutput/test_integration`. Result is stored in **testOutput/output**.
+
+## TODO
+
+* UI
+  * Fonts
+  * Buttons
+  * TextBox
+  * Labels
+* Input - Mouse coordinates
+* File I/O
+* Texture Atlas renderer, only for maps. Just an array of tiles (position, collider).
+* Map Loader
+* Sprite Editor
+* Sprite Loader
+* Physics Engine
