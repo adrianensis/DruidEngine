@@ -102,7 +102,7 @@ void RenderEngine::setCamera(Camera* camera){
 
 // ---------------------------------------------------------------------------
 
-Camera* RenderEngine::getCamera(){
+Camera* RenderEngine::getCamera() const {
  	return mCamera;
 }
 

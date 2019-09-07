@@ -20,7 +20,7 @@ public:
 
 	DE_CLASS(Camera, Component);
 
-	virtual void init() override;
+	void init() override;
 
 	const Matrix4& getProjectionMatrix() const;
 	const Matrix4& getViewTranslationMatrix();

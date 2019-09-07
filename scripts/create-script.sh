@@ -44,7 +44,7 @@ appendHeader "private:"
 appendHeader
 appendHeader "public:"
 appendHeader
-appendHeader "  DE_CLASS($scriptClassName);"
+appendHeader "  DE_CLASS($scriptClassName, Script);"
 appendHeader
 appendHeader "  void init() override;"
 appendHeader "  void step() override;"

@@ -21,15 +21,15 @@ public:
 	DE_CLASS(Scene, DE_Class);
 
 	void init();
-	List<GameObject*>* getGameObjects();
-	List<GameObject*>* getNewGameObjects();
+	List<GameObject*>* getGameObjects() const;
+	List<GameObject*>* getNewGameObjects() const;
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
 
 	void setCameraGameObject(GameObject* cameraGameObject);
-	GameObject* getCameraGameObject();
+	GameObject* getCameraGameObject() const;
 
-	bool thereAreNewGameObjects();
+	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();
 };
 

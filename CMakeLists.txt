@@ -53,9 +53,6 @@ include_directories("${DEPENDENCIES_DIR}/glfw-3.2.1/include")
 set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
-set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
-include_directories("${DEPENDENCIES_DIR}/glad/include")
-
 # SOIL
 include_directories("${DEPENDENCIES_DIR}/SOIL/src")
 link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
@@ -149,7 +146,7 @@ endforeach()
 
 # ----------------------------------------------------------------------------
 
-# INTEGRATION TESTS
+# INTEGRATION TEST
 
 #get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
 

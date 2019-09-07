@@ -52,11 +52,11 @@ void Scene::flushNewGameObjects(){
 
 // ---------------------------------------------------------------------------
 
-List<GameObject*>* Scene::getGameObjects() { return mGameObjects; }
-List<GameObject*>* Scene::getNewGameObjects() { return mNewGameObjects; }
+List<GameObject*>* Scene::getGameObjects() const { return mGameObjects; }
+List<GameObject*>* Scene::getNewGameObjects() const { return mNewGameObjects; }
 void Scene::setCameraGameObject(GameObject* cameraGameObject){ mCameraGameObject = cameraGameObject; }
-GameObject* Scene::getCameraGameObject(){ return mCameraGameObject; }
-bool Scene::thereAreNewGameObjects() { return mNewGameObjects->getLength() > 0; }
+GameObject* Scene::getCameraGameObject() const { return mCameraGameObject; }
+bool Scene::thereAreNewGameObjects() const { return mNewGameObjects->getLength() > 0; }
 
 // ---------------------------------------------------------------------------
 

@@ -58,8 +58,8 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 	return mComponents->contains(classId) ? mComponents->get(classId) : nullptr;
 }
 
-Transform* GameObject::getTransform(){ return mTransform; }
-Scene* GameObject::getScene(){ return mScene; }
+Transform* GameObject::getTransform() const{ return mTransform; }
+Scene* GameObject::getScene() const { return mScene; }
 void GameObject::setScene(Scene* scene) { mScene = scene; }
 
 // ---------------------------------------------------------------------------

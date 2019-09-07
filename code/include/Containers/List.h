@@ -33,7 +33,7 @@ private:
       Node::init();
     }
 
-    virtual ~Node() {
+    ~Node() {
       Node::init();
     }
 
@@ -148,7 +148,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    bool hasNext() {
+    bool hasNext() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       if(mReverse)
@@ -170,7 +170,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    Iterator getNext(){
+    Iterator getNext() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       Iterator it;
@@ -185,7 +185,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    bool hasPrev(){
+    bool hasPrev() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       if(mReverse)
@@ -207,7 +207,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    Iterator getPrev(){
+    Iterator getPrev() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       Iterator it;
@@ -450,13 +450,13 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  Iterator getIterator() const{
+  Iterator getIterator() const {
     return List::getFirst();
   }
 
   // ---------------------------------------------------------------------------
 
-  Iterator getRevIterator() const{
+  Iterator getRevIterator() const {
     Iterator it;
     it.init(this->mLast);
     it.setReverse(true);
@@ -481,7 +481,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  bool isEmpty() const{
+  bool isEmpty() const {
     return BaseContainer::mLength == 0;
   }
 

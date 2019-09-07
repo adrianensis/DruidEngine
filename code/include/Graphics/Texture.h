@@ -18,12 +18,12 @@ public:
 
 	void init(std::string path);
 
-	u32 getTextureId();
+	u32 getTextureId() const;
 	u32 setTextureId(u32 id);
-	bool isLoaded();
-	byte* getData();
-	u32 getWidth();
-	u32 getHeight();
+	bool isLoaded() const;
+	byte* getData() const;
+	u32 getWidth() const;
+	u32 getHeight() const;
 };
 
 } /* namespace DE */

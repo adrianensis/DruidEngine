@@ -32,7 +32,7 @@ public:
 
 	DE_CLASS(Renderer, Component);
 
-	virtual void init() override;
+	void init() override;
 
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 

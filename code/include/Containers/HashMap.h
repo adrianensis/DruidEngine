@@ -29,7 +29,7 @@ private:
     V mElement;
 
     Node() = default;
-    virtual ~Node() = default;
+    ~Node() = default;
 
     void init(const K key, const V element) {
       mKey = key;

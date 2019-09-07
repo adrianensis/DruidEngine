@@ -20,8 +20,8 @@ public:
 
 	void init();
 
-	Shader* getShader();
-	Texture* getTexture();
+	Shader* getShader() const;
+	Texture* getTexture() const;
 
 	//void setShader(Shader* shader);
 	void setTexture(Texture* texture);

@@ -40,8 +40,8 @@ public:
 
 	void addFrame(AnimationFrame* frame);
 
-	u32 getNumberOfFrames();
-	u32 getCurrentFrameNumber();
+	u32 getNumberOfFrames() const;
+	u32 getCurrentFrameNumber() const;
 	const AnimationFrame* getNextFrame();
 };
 

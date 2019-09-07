@@ -36,7 +36,7 @@ public:
 
 	DE_CLASS(Transform, Component);
 
-	virtual void init() override;
+	void init() override;
 
 	// ---------------------------------------------------------------------------
 

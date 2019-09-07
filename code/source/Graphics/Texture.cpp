@@ -24,12 +24,12 @@ void Texture::init(std::string path){
 
 // ---------------------------------------------------------------------------
 
-u32 Texture::getTextureId(){ return mTextureId; }
+u32 Texture::getTextureId() const { return mTextureId; }
 u32 Texture::setTextureId(u32 id){ mTextureId = id; }
-bool Texture::isLoaded(){ return data != nullptr;}
-byte* Texture::getData(){ return data; }
-u32 Texture::getWidth(){ return mWidth; }
-u32 Texture::getHeight(){ return mHeight; }
+bool Texture::isLoaded() const { return data != nullptr;}
+byte* Texture::getData() const { return data; }
+u32 Texture::getWidth() const { return mWidth; }
+u32 Texture::getHeight() const { return mHeight; }
 
 // ---------------------------------------------------------------------------
 
