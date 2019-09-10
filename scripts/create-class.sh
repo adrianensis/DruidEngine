@@ -9,12 +9,24 @@ sourceFile="$className.cpp"
 exitRequest=false
 
 
-# Funtions
+# Functions
 
 appendHeader()
 {
   str=$1
   echo $str >> $headerFile
+}
+
+appendHeaderProperties()
+{
+  str=$1
+  echo $str >> $headerFile"Properties"
+}
+
+appendHeaderMethods()
+{
+  str=$1
+  echo $str >> $headerFile"Methods"
 }
 
 appendSource()
@@ -23,51 +35,32 @@ appendSource()
   echo $str >> $sourceFile
 }
 
+appendSourceMethods()
+{
+  str=$1
+  echo $str >> $sourceFile"Methods"
+}
+
+appendSourceGettersSetters()
+{
+  str=$1
+  echo $str >> $sourceFile"GettersSetters"
+}
+
+# main
+
 # Create files
 
 touch $headerFile
 touch $sourceFile
-
-appendHeader "#ifndef DE_${className^^}_H"
-appendHeader "#define DE_${className^^}_H"
-appendHeader
-appendHeader '#include "DE_Class.h"'
-appendHeader
-appendHeader "namespace DE {"
-appendHeader
-appendHeader "class $className : public DE_Class{"
-appendHeader "private:"
-appendHeader
-appendHeader "public:"
-appendHeader
-appendHeader "  DE_CLASS($className, DE_Class);"
-appendHeader
-
-
-appendSource '#include "'$className'.h"'
-appendSource
-appendSource "namespace DE {"
-appendSource
-appendSource "// ---------------------------------------------------------------------------"
-appendSource
-appendSource "$className::$className() : DE_Class(){"
-appendSource
-appendSource "}"
-appendSource
-appendSource "// ---------------------------------------------------------------------------"
-appendSource
-appendSource "$className::~$className() = default;"
-appendSource
-appendSource "// ---------------------------------------------------------------------------"
-appendSource
-
-# main
-
-# cd $outputDir
+touch $headerFile"Properties"
+touch $headerFile"Methods"
+touch $sourceFile"Methods"
+touch $sourceFile"GettersSetters"
 
 set -f # it disables the * wildcard expansion for multiline comments
 
-options="fmq"
+options="mpcsq"
 
 while [ $exitRequest = false ]
 do
@@ -75,52 +68,101 @@ do
 
   # while getopts $options opt; do
     case $opt in
-      f)
+      m) # method
         read -p "Return type: "  returnType
         read -p "Method name: "  methodName
         read -p "Method params: "  methodParams
 
-        appendHeader "$returnType $methodName($methodParams);"
+        appendHeaderMethods "$returnType $methodName($methodParams);"
 
-        appendSource
-        appendSource "$returnType $className::$methodName($methodParams){"
-        appendSource
-        appendSource "}"
-        appendSource
-        appendSource "// ---------------------------------------------------------------------------"
+        appendSourceMethods
+        appendSourceMethods "$returnType $className::$methodName($methodParams){"
+        appendSourceMethods
+        appendSourceMethods "}"
+        appendSourceMethods
+        appendSourceMethods "// ---------------------------------------------------------------------------"
 
-        # exit
         ;;
-      m)
-        read -p "Member type: "  memberType
-        read -p "Member name: "  memberName
+      p) # property
+        read -p "Property type: "  propertyType
+        read -p "Property name: "  propertyName
 
-        memberFinalName="m${memberName^}"
+        propertyFinalName="m${propertyName^}"
 
-        appendHeader "$memberType $memberFinalName;"
+        appendHeaderProperties "$propertyType $propertyFinalName;"
 
-        appendHeader "$memberType get${memberName^}() const ;"
-        appendHeader "void set${memberName^}($memberType $memberName);"
+        appendHeaderMethods "$propertyType get${propertyName^}() const ;"
+        appendHeaderMethods "void set${propertyName^}($propertyType $propertyName);"
 
-        appendSource "$memberType $className::get${memberName^}() const { return $memberFinalName; }"
-        appendSource "void $className::set${memberName^}($memberType $memberName) { $memberFinalName = $memberName; }"
-
-        # sed -E -i '/\/\/ methods/a '"HHHH" $headerFile
-
-        # exit
+        appendSourceGettersSetters "$propertyType $className::get${propertyName^}() const { return $propertyFinalName; }"
+        appendSourceGettersSetters "void $className::set${propertyName^}($propertyType $propertyName) { $propertyFinalName = $propertyName; }"
         ;;
       q)
         exitRequest=true
-      # exit
+        ;;
+	  c)
+		rm $headerFile"Properties"
+		rm $headerFile"Methods"
+		rm $sourceFile"Methods"
+		rm $sourceFile"GettersSetters"
+      ;;
+	  s)
+		appendHeader "#ifndef DE_${className^^}_H"
+		appendHeader "#define DE_${className^^}_H"
+		appendHeader
+		appendHeader '#include "DE_Class.h"'
+		appendHeader
+		appendHeader "namespace DE {"
+		appendHeader
+		appendHeader "class $className : public DE_Class{"
+		appendHeader "private:"
+		appendHeader
+
+		cat $headerFile"Properties" >> $headerFile
+
+		appendHeader
+		appendHeader "public:"
+		appendHeader
+		appendHeader "  DE_CLASS($className, DE_Class);"
+		appendHeader
+
+		cat $headerFile"Methods" >> $headerFile
+
+		appendHeader
+		appendHeader "};"
+		appendHeader "} /* namespace DE */"
+		appendHeader "#endif /* DE_${className^^}_H */"
+
+
+
+		appendSource '#include "'$className'.h"'
+		appendSource
+		appendSource "namespace DE {"
+		appendSource
+		appendSource "// ---------------------------------------------------------------------------"
+		appendSource
+		appendSource "$className::$className() : DE_Class(){"
+		appendSource
+		appendSource "}"
+		appendSource
+		appendSource "// ---------------------------------------------------------------------------"
+		appendSource
+		appendSource "$className::~$className() = default;"
+		appendSource
+		appendSource "// ---------------------------------------------------------------------------"
+		appendSource
+
+		cat $sourceFile"Methods" >> $sourceFile
+		
+		appendSource
+		appendSource "// ---------------------------------------------------------------------------"
+		appendSource
+		
+		cat $sourceFile"GettersSetters" >> $sourceFile
+
+		appendSource
+		appendSource "} /* namespace DE */"
       ;;
     esac
   # done
 done
-
-appendHeader
-appendHeader "};"
-appendHeader "} /* namespace DE */"
-appendHeader "#endif /* DE_${className^^}_H */"
-
-appendSource
-appendSource "} /* namespace DE */"
