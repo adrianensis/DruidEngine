@@ -9,9 +9,7 @@ uniform mat4 projectionMatrix;
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texcoord;
-layout (location = 2) in vec4 color;
 
-varying lowp vec4 vColor;
 varying vec2 vTexcoord;
 
 void main()
@@ -20,5 +18,4 @@ void main()
 
   // Pass the texcoord to the fragment shader.
   vTexcoord = texcoord;
-  vColor = color;
 }

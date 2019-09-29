@@ -3,16 +3,20 @@
 
 #include "Script.h"
 
-#include "Renderer.h"
-#include "Transform.h"
-#include "GameObject.h"
+
 
 namespace DE {
+
+class Renderer;
+class Transform;
+class RigidBody;
+class GameObject;
 
 class CustomScript : public Script{
 private:
 
   Renderer* mRenderer;
+  RigidBody* mRigidBody;
   Transform* mTransform;
 
   GameObject* obj;

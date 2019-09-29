@@ -22,7 +22,7 @@ Batch::Batch() : DE_Class() {
 	mVBOPosition = 0;
 	mEBO = 0;
 	mVBOTexture = 0;
-	mVBOColor = 0;
+	//mVBOColor = 0;
 	mVBONormal = 0;
 	mVAO = 0;
 	mMesh = nullptr;
@@ -56,7 +56,7 @@ void Batch::bind() {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(mMesh->getVerticesData(), 3, 0);
 	mVBOTexture = RenderContext::createVBO(mMesh->getTexureCoordinatesData(), 2, 1);
-	mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
+	//mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
 //	mVBONormal = RenderContext::createVBO(mMesh->getNormalsData(), 3, 3);
 	mEBO = RenderContext::createEBO(mMesh->getFacesData());
 

@@ -44,3 +44,6 @@ Run intgration test by executing `./testOutput/test_integration`. Result is stor
 * Sprite Editor
 * Sprite Loader
 * Physics Engine
+  * Rigid Bodies - Integration / forces
+  * Colliders. Use composition instead inheritance.
+    * collider->setShape(Box/Sphere)

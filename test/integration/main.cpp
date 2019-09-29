@@ -10,6 +10,9 @@
 #include "Material.h"
 #include "Texture.h"
 #include "CustomScript.h"
+#include "RigidBody.h"
+#include "Collider.h"
+#include "Vector4.h"
 
 using namespace DE;
 
@@ -58,8 +61,10 @@ int main() {
 	GameObject* gameObject = Memory::allocate<GameObject>();
   gameObject->init();
 
-	gameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
-	gameObject->getTransform()->setScale(Vector3(300,300,1));
+	Vector2 size(300,300);
+
+	gameObject->getTransform()->setLocalPosition(Vector3(-400,400,0));
+	gameObject->getTransform()->setScale(Vector3(size.x,size.y,1));
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	gameObject->addComponent<Renderer>(renderer);
@@ -73,6 +78,15 @@ int main() {
 	renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
 	renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
 	renderer->setAnimation("idle");
+
+	renderer->setColor(Vector4(1,0.5,0,1));
+
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
+	gameObject->addComponent<RigidBody>(rigidBody);
+
+	Collider* collider = Memory::allocate<Collider>();
+	gameObject->addComponent<Collider>(collider);
+	collider->setSize(size.x,size.y);
 
 	// script
 

@@ -10,6 +10,7 @@ namespace DE {
 template <class T> class List;
 class Scene;
 class RenderEngine;
+class PhysicsEngine;
 class ScriptEngine;
 
 // ---------------------------------------------------------------------------
@@ -22,6 +23,7 @@ private:
   u32 mCurrentSceneIndex;
   List<Scene*>* mScenes;
   RenderEngine* mRenderEngine;
+  PhysicsEngine* mPhysicsEngine;
   ScriptEngine* mScriptEngine;
 
   void loadScene(Scene* scene);

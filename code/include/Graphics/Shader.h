@@ -3,8 +3,11 @@
 
 #include "DE_Class.h"
 #include "BasicTypes.h"
+#include "Vector4.h"
 
 namespace DE {
+
+template <class T> class Array;
 
 class Matrix4;
 
@@ -27,6 +30,7 @@ public:
 	void addInt(i32 value, std::string name);
 	void addUInt(u32 value, std::string name);
 	void addFloat(f32 value, std::string name);
+	void addVector4(Array<f32>* value, std::string name);
 };
 
 // ---------------------------------------------------------------------------

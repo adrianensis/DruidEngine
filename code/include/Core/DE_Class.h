@@ -15,10 +15,10 @@ namespace DE {
 
 #define DE_GENERATE_NAME_STATIC(Class) static std::string getClassNameStatic() {static std::string className = #Class; return className;}
 
-#define DE_GENERATE_ID_VIRTUAL(Class) virtual ClassId getClassId() override { return Class::getClassIdStatic(); };
-#define DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass) virtual ClassId getParentClassId() override { return ParentClass::getClassIdStatic(); };
+#define DE_GENERATE_ID_VIRTUAL(Class) ClassId getClassId() { return Class::getClassIdStatic(); };
+#define DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass) ClassId getParentClassId() { return ParentClass::getClassIdStatic(); };
 
-#define DE_GENERATE_NAME_VIRTUAL(Class) virtual std::string getClassName() override { return Class::getClassNameStatic(); };
+#define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() { return Class::getClassNameStatic(); };
 
 #define DE_GENERATE_METADATA(Class, ParentClass) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_PARENT_ID_STATIC(ParentClass); DE_GENERATE_ID_VIRTUAL(Class); DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
 
@@ -38,9 +38,9 @@ public:
   DE_Class() = default;
   virtual ~DE_Class() = default;
 
-  virtual ClassId getClassId() { return 0; };
-  virtual ClassId getParentClassId() { return 0; };
-  virtual std::string getClassName() { return "DE_Class"; };
+  ClassId getClassId() { return 0; };
+  ClassId getParentClassId() { return 0; };
+  std::string getClassName() { return "DE_Class"; };
 };
 
 // ---------------------------------------------------------------------------

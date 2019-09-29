@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "RenderEngine.h"
+#include "PhysicsEngine.h"
 #include "ScriptEngine.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -14,6 +15,7 @@
 #include "Camera.h"
 #include "Debug.h"
 #include "Input.h"
+#include "RigidBody.h"
 
 #include <string>
 
@@ -37,10 +39,12 @@ void Engine::init(){
 
   mRenderEngine = Memory::allocate<RenderEngine>();
   mScriptEngine = Memory::allocate<ScriptEngine>();
+  mPhysicsEngine = Memory::allocate<PhysicsEngine>();
   mScenes = Memory::allocate<List<Scene*>>();
 
   mRenderEngine->init();
   mScriptEngine->init();
+  mPhysicsEngine->init();
   mScenes->init();
 }
 
@@ -69,9 +73,11 @@ void Engine::loadScene(Scene* scene){
 
 		List<Script*>* ScriptList = gameObject->getComponents<Script>();
 		List<Renderer*>* RendererList = gameObject->getComponents<Renderer>();
+		List<RigidBody*>* RigidBodyList = gameObject->getComponents<RigidBody>();
 
 		Script* script = ScriptList ? ScriptList->get(0) : nullptr;
 		Renderer* renderer = RendererList ? RendererList->get(0) : nullptr;
+		RigidBody* rigidBbody = RigidBodyList ? RigidBodyList->get(0) : nullptr;
 
 		if(script){
 			mScriptEngine->addScript(script);
@@ -79,6 +85,10 @@ void Engine::loadScene(Scene* scene){
 
 		if(renderer){
 			mRenderEngine->addRenderer(renderer);
+		}
+
+		if(rigidBbody){
+			mPhysicsEngine->addRigidBody(rigidBbody);
 		}
 	}
 
@@ -109,6 +119,8 @@ void Engine::run(){
 			mScriptEngine->step();
 			accumulator -= inverseFPS;
     }
+
+		mPhysicsEngine->step();
 
 		mRenderEngine->update();
 		mRenderEngine->step();

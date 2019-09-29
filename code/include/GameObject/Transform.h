@@ -78,6 +78,8 @@ public:
 	const Matrix4& getRotationMatrix() const;
 	const Matrix4& getScaleMatrix() const;
 
+	bool isDirtyTranslation() const;
+
 	// ---------------------------------------------------------------------------
 
 };

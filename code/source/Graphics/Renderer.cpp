@@ -6,6 +6,8 @@
 #include "Material.h"
 #include "HashMap.h"
 #include "Shader.h"
+#include "Array.h"
+#include "Debug.h"
 
 namespace DE {
 
@@ -16,6 +18,7 @@ Renderer::Renderer() : Component() {
   mMaterial = nullptr;
   mAnimations = nullptr;
   mCurrentAnimation = nullptr;
+  mColor = nullptr;
 
   // texture region
   mRegionPosition = Vector2(0.0,0.0);
@@ -34,6 +37,11 @@ Renderer::~Renderer() {
 void Renderer::init() {
   mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
   mAnimations->init();
+
+  mColor = Memory::allocate<Array<f32>>();
+  mColor->init(4);
+
+  setColor(Vector4(0,0,0,1));
 }
 
 // ---------------------------------------------------------------------------
@@ -81,7 +89,7 @@ void Renderer::updateMaterial(Material* material) {
 
     shader->addUInt(mInvertXAxis, "invertXAxis");
 
-    //shader.addFloatVector(this.alphaColor.toArray(),"alphacolor");
+    shader->addVector4(mColor,"color");
 
     shader->addFloat(mRegionPosition.x, "regionX");
     shader->addFloat(mRegionPosition.y, "regionY");
@@ -111,6 +119,7 @@ void Renderer::setMesh(Mesh* mesh){ mMesh = mesh; }
 Mesh* Renderer::getMesh(){ return mMesh; }
 void Renderer::setMaterial(Material* material){ mMaterial = material; }
 Material* Renderer::getMaterial(){ return mMaterial; }
+void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
 void Renderer::setInvertXAxis(bool invertXAxis) { mInvertXAxis = invertXAxis; }
 
 // ---------------------------------------------------------------------------

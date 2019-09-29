@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include "RenderContext.h"
 #include "Matrix4.h"
+#include "Array.h"
 #include <fstream> // std::ifstream
 #include <string>
 #include <iostream>
@@ -107,6 +108,13 @@ void Shader::addUInt(u32 value, std::string name){
 void Shader::addFloat(f32 value, std::string name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform1f(location, value);
+};
+
+// ---------------------------------------------------------------------------
+
+void Shader::addVector4(Array<f32>* value, std::string name){
+  u32 location = glGetUniformLocation(mProgram, name.c_str());
+  glUniform4fv(location, 1, value->getRawData());
 };
 
 // ---------------------------------------------------------------------------

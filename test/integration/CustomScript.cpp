@@ -14,6 +14,8 @@
 #include "Texture.h"
 #include "Animation.h"
 
+#include "RigidBody.h"
+
 #include "Scene.h"
 
 namespace DE {
@@ -31,6 +33,7 @@ CustomScript::~CustomScript() = default;
 // ---------------------------------------------------------------------------
 
 void CustomScript::init(){
+  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
   mTransform = getGameObject()->getTransform();
   mTestObjCreated = false;
@@ -51,6 +54,8 @@ void CustomScript::init(){
     Renderer* renderer = Memory::allocate<Renderer>();
     obj->addComponent<Renderer>(renderer);
 
+    renderer->setColor(Vector4(0,0,0,0.7));
+
     renderer->setMesh(Mesh::getRectangle());
     renderer->setMaterial(material);
 
@@ -63,31 +68,39 @@ void CustomScript::init(){
 
 void CustomScript::step(){
 
-  f32 movement = 1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 5;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
   if(Input::isKeyPressed(GLFW_KEY_UP))
   {
-    mTransform->translate(Vector3(0,movement,0));
+    // mTransform->translate(Vector3(0,movement,0));
+    mRigidBody->addForce(Vector3(0,movement,0));
+    // mRigidBody->setLinear(Vector3(0,movement,0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }
   else if(Input::isKeyPressed(GLFW_KEY_DOWN))
   {
-    mTransform->translate(Vector3(0,-movement,0));
+    // mTransform->translate(Vector3(0,-movement,0));
+    mRigidBody->addForce(Vector3(0,-movement,0));
+    // mRigidBody->setLinear(Vector3(0,-movement,0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }
   else if(Input::isKeyPressed(GLFW_KEY_LEFT))
   {
-    mTransform->translate(Vector3(-movement,0,0));
+    // mTransform->translate(Vector3(-movement,0,0));
+    mRigidBody->addForce(Vector3(-movement,0,0));
+    // mRigidBody->setLinear(Vector3(-movement,0,0));
     running = true;
     mRenderer->setInvertXAxis(true);
   }
   else if(Input::isKeyPressed(GLFW_KEY_RIGHT))
   {
-    mTransform->translate(Vector3(movement,0,0));
+    // mTransform->translate(Vector3(movement,0,0));
+    mRigidBody->addForce(Vector3(movement,0,0));
+    // mRigidBody->setLinear(Vector3(movement,0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
   }
@@ -98,7 +111,6 @@ void CustomScript::step(){
       mTestObjCreated = true;
     }
   }
-
 
   if(running){
     mRenderer->setAnimation("run");

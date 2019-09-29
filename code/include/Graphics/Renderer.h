@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Vector2.h"
+#include "Vector4.h"
 
 #include <string>
 
@@ -12,6 +13,7 @@ class Material;
 class Mesh;
 class Animation;
 template <class K, class V> class HashMap;
+template <class T> class Array;
 
 class Renderer : public Component{
 
@@ -21,6 +23,8 @@ private:
 	Animation* mCurrentAnimation;
 	Material* mMaterial;
 	Mesh* mMesh;
+
+	Array<f32>* mColor;
 
 	Vector2 mRegionPosition;
   f32 mRegionWidth;
@@ -45,6 +49,8 @@ public:
 
 	void setMaterial(Material* material);
 	Material* getMaterial();
+
+	void setColor(const Vector4& color);
 
 	void setInvertXAxis(bool invertXAxis);
 };

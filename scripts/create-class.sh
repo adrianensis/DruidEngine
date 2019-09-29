@@ -101,67 +101,67 @@ do
         exitRequest=true
         ;;
 	  c)
-		rm $headerFile"Properties"
-		rm $headerFile"Methods"
-		rm $sourceFile"Methods"
-		rm $sourceFile"GettersSetters"
+  		rm $headerFile"Properties"
+  		rm $headerFile"Methods"
+  		rm $sourceFile"Methods"
+  		rm $sourceFile"GettersSetters"
       ;;
 	  s)
-		appendHeader "#ifndef DE_${className^^}_H"
-		appendHeader "#define DE_${className^^}_H"
-		appendHeader
-		appendHeader '#include "DE_Class.h"'
-		appendHeader
-		appendHeader "namespace DE {"
-		appendHeader
-		appendHeader "class $className : public DE_Class{"
-		appendHeader "private:"
-		appendHeader
+  		appendHeader "#ifndef DE_${className^^}_H"
+  		appendHeader "#define DE_${className^^}_H"
+  		appendHeader
+  		appendHeader '#include "DE_Class.h"'
+  		appendHeader
+  		appendHeader "namespace DE {"
+  		appendHeader
+  		appendHeader "class $className : public DE_Class{"
+  		appendHeader "private:"
+  		appendHeader
 
-		cat $headerFile"Properties" >> $headerFile
+  		cat $headerFile"Properties" >> $headerFile
 
-		appendHeader
-		appendHeader "public:"
-		appendHeader
-		appendHeader "  DE_CLASS($className, DE_Class);"
-		appendHeader
+  		appendHeader
+  		appendHeader "public:"
+  		appendHeader
+  		appendHeader "  DE_CLASS($className, DE_Class);"
+  		appendHeader
 
-		cat $headerFile"Methods" >> $headerFile
+  		cat $headerFile"Methods" >> $headerFile
 
-		appendHeader
-		appendHeader "};"
-		appendHeader "} /* namespace DE */"
-		appendHeader "#endif /* DE_${className^^}_H */"
+  		appendHeader
+  		appendHeader "};"
+  		appendHeader "} /* namespace DE */"
+  		appendHeader "#endif /* DE_${className^^}_H */"
 
 
 
-		appendSource '#include "'$className'.h"'
-		appendSource
-		appendSource "namespace DE {"
-		appendSource
-		appendSource "// ---------------------------------------------------------------------------"
-		appendSource
-		appendSource "$className::$className() : DE_Class(){"
-		appendSource
-		appendSource "}"
-		appendSource
-		appendSource "// ---------------------------------------------------------------------------"
-		appendSource
-		appendSource "$className::~$className() = default;"
-		appendSource
-		appendSource "// ---------------------------------------------------------------------------"
-		appendSource
+  		appendSource '#include "'$className'.h"'
+  		appendSource
+  		appendSource "namespace DE {"
+  		appendSource
+  		appendSource "// ---------------------------------------------------------------------------"
+  		appendSource
+  		appendSource "$className::$className() : DE_Class(){"
+  		appendSource
+  		appendSource "}"
+  		appendSource
+  		appendSource "// ---------------------------------------------------------------------------"
+  		appendSource
+  		appendSource "$className::~$className() = default;"
+  		appendSource
+  		appendSource "// ---------------------------------------------------------------------------"
+  		appendSource
 
-		cat $sourceFile"Methods" >> $sourceFile
-		
-		appendSource
-		appendSource "// ---------------------------------------------------------------------------"
-		appendSource
-		
-		cat $sourceFile"GettersSetters" >> $sourceFile
+  		cat $sourceFile"Methods" >> $sourceFile
 
-		appendSource
-		appendSource "} /* namespace DE */"
+  		appendSource
+  		appendSource "// ---------------------------------------------------------------------------"
+  		appendSource
+
+  		cat $sourceFile"GettersSetters" >> $sourceFile
+
+  		appendSource
+  		appendSource "} /* namespace DE */"
       ;;
     esac
   # done

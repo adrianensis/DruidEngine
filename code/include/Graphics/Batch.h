@@ -24,7 +24,7 @@ private:
 	u32 mVBOPosition; // TODO: change u32 for GLuint
 	u32 mEBO;
 	u32 mVBOTexture;
-	u32 mVBOColor;
+	//u32 mVBOColor;
 	u32 mVBONormal;
 	u32 mVAO;
 

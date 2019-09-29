@@ -6,7 +6,6 @@ out vec4 FragColor;
 
 // Passed in from the vertex shader.
 varying vec2 vTexcoord;
-varying lowp vec4 vColor;
 
 uniform uint invertXAxis;
 
@@ -21,6 +20,8 @@ uniform float animationWidth;
 uniform float animationHeight;
 
 uniform sampler2D uSampler;
+
+uniform vec4 color;
 
 void main()
 {
@@ -41,5 +42,10 @@ void main()
 
     if((FragColor.r + FragColor.g + FragColor.b) == 0){
       FragColor.a = 0;
+    } else {
+      FragColor.r += color.r;
+      FragColor.g += color.g;
+      FragColor.b += color.b;
+      FragColor.a = color.a;
     }
 }
