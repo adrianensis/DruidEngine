@@ -10,18 +10,15 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Shader::Shader() : DE_Class(),
-	mVertexShader(-1),
-	mFragmentShader(-1),
-	mProgram(-1)
-{
+Shader::Shader() : DE_Class() {
+	mVertexShader = -1;
+	mFragmentShader = -1;
+	mProgram = -1;
 };
 
 // ---------------------------------------------------------------------------
 
-Shader::~Shader() {
-
-};
+Shader::~Shader() = default;
 
 // ---------------------------------------------------------------------------
 
@@ -34,7 +31,7 @@ void Shader::init() {
 
 	const char *c_str_vertex = vertexShaderSource.c_str();
 
-	glShaderSource(mVertexShader, 1, &c_str_vertex, NULL);
+	glShaderSource(mVertexShader, 1, &c_str_vertex, nullptr);
 	glCompileShader(mVertexShader);
 
 	int  success;
@@ -43,7 +40,7 @@ void Shader::init() {
 
 	if(!success)
 	{
-		glGetShaderInfoLog(mVertexShader, 512, NULL, infoLog);
+		glGetShaderInfoLog(mVertexShader, 512, nullptr, infoLog);
 		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl << vertexShaderSource << std::endl;
 	}
 
@@ -54,7 +51,7 @@ void Shader::init() {
 	std::string fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)), (std::istreambuf_iterator<char>()));
 	const char *c_str_fragment = fragmentShaderSource.c_str();
 
-	glShaderSource(mFragmentShader, 1, &c_str_fragment, NULL);
+	glShaderSource(mFragmentShader, 1, &c_str_fragment, nullptr);
 
 	glCompileShader(mFragmentShader);
 
@@ -66,7 +63,7 @@ void Shader::init() {
 
 	glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
 	if(!success) {
-	    glGetProgramInfoLog(mProgram, 512, NULL, infoLog);
+	    glGetProgramInfoLog(mProgram, 512, nullptr, infoLog);
 	    std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl << vertexShaderSource << std::endl;
 	}
 
@@ -82,8 +79,7 @@ void Shader::use() {
 
 // ---------------------------------------------------------------------------
 
-
-void Shader::addMatrix(const Matrix4& matrix, std::string name){
+void Shader::addMatrix(const Matrix4& matrix, const std::string& name){
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
@@ -91,28 +87,28 @@ void Shader::addMatrix(const Matrix4& matrix, std::string name){
 
 // ---------------------------------------------------------------------------
 
-void Shader::addInt(i32 value, std::string name){
+void Shader::addInt(i32 value, const std::string& name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform1i(location, value);
 };
 
 // ---------------------------------------------------------------------------
 
-void Shader::addUInt(u32 value, std::string name){
+void Shader::addUInt(u32 value, const std::string& name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform1ui(location, value);
 };
 
 // ---------------------------------------------------------------------------
 
-void Shader::addFloat(f32 value, std::string name){
+void Shader::addFloat(f32 value, const std::string& name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform1f(location, value);
 };
 
 // ---------------------------------------------------------------------------
 
-void Shader::addVector4(Array<f32>* value, std::string name){
+void Shader::addVector4(Array<f32>* value, const std::string& name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform4fv(location, 1, value->getRawData());
 };

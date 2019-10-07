@@ -11,11 +11,19 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 QuadTree::Node::Node() {
-  mTree = nullptr;
-  mColliders = nullptr;
-  mChildren = nullptr;
-  mLeftTopChildrenArray = nullptr;
-  mChildrenCount = 0;
+    mLeftTop = Vector2();
+    mWidth = 0.0f;
+    mHeight = 0.0f;
+    mMinWidth = 0.0f;
+    mMinHeight = 0.0f;
+    mHalfWidth = 0.0f;
+    mHalfHeight = 0.0f;
+    mIsDivisible = false;
+    mTree = nullptr;
+    mColliders = nullptr;
+    mChildren = nullptr;
+    mLeftTopChildrenArray = nullptr;
+    mChildrenCount = 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -54,19 +62,6 @@ void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 min
   mLeftTopChildrenArray->set(2, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight));
   mLeftTopChildrenArray->set(3, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y));
 }
-
-//----------------------------------------------------------------------
-
-
-bool QuadTree::Node::isLeaf() const {
-	return mChildrenCount == 0;
-};
-
-//----------------------------------------------------------------------
-
-u32 QuadTree::Node::getCollidersCount() const {
-  return mColliders->getLength();
-};
 
 //----------------------------------------------------------------------
 
@@ -114,7 +109,6 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider* collider)
 	return collision;
 };
 
-
 //----------------------------------------------------------------------
 
 QuadTree::Node* QuadTree::Node::createChildNode(u32 index){
@@ -130,7 +124,7 @@ void QuadTree::Node::addCollider(Collider* collider){
 
   //ECHO("addCollider");
   if(mIsDivisible){
-    //ECHO("Is Divisible");
+    ECHO("Is Divisible");
 
     // For each "posible" child node
     for (u32 i = 0; i < mLeftTopChildrenArray->getLength(); i++){
@@ -152,20 +146,20 @@ void QuadTree::Node::addCollider(Collider* collider){
       }
     }
   } else {
-    if ( /*( ! collider.isStatic()) || */ testPartialCollider(collider)) {
+    //if ( /*( ! collider.isStatic()) */) {
 
       ECHO("ADD");
       bool found = false;
 
-      // for (var i = 0; !found && i < mColliders->getLength(); i++) {
-      //   found = (mColliders->get(i).getId() == collider.getId());
-      // }
+      for (auto it = mColliders->getIterator(); !found && !it.isNull(); it.next()) {
+        found = (it.get() == collider);
+      }
 
       if(!found){
         mColliders->pushBack(collider);
         ECHO("ADDED COLLIDER");
       }
-    }
+    //}
   }
 }
 
@@ -173,33 +167,34 @@ void QuadTree::Node::addCollider(Collider* collider){
 
 void QuadTree::Node::update(/*contactManager*/){
 
-	// // this.draw();
-  //
 	// var exitColliders = []; // colliders which have left the node.
   //
-	// // If is leaf node.
-	// if(this.isLeaf()){
-  //
-	// 	// console.log(this.colliders.length);
-  //
-	// 	// FOR EACH COLLIDER
-	// 	for (var i = 0; i < this.colliders.length; i++){
-  //
-	// 		// if collider has left the node.
-	// 		if(this.checkExit(this.colliders[i]))
-	// 			exitColliders.push(this.colliders[i]);
-  //
-	// 		// if there are 2 or more colliders within the same node.
-	// 		if(this.colliders.length > 1){
-  //
-	// 			// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
-	// 			for (var j= 0; j < this.colliders.length; j++){
-  //
-	// 				// ifthey aren't the same collider
-	// 				if(this.colliders[i].getId() !== this.colliders[j].getId()){
-  //
-	// 					// check bounding radius
-	// 					if(this.colliders[i].checkCollisionRadius(this.colliders[j])){
+	// If is leaf node.
+	if(isLeaf()){
+    ECHO("IS LEAF");
+		// FOR EACH COLLIDER
+		for (auto itA = mColliders->getIterator(); !itA.isNull(); itA.next()){
+
+      Collider* colliderA = itA.get();
+
+			// if collider has left the node.
+			if(checkExit(colliderA)){
+				//exitColliders.push(colliderA);
+      }
+
+			// if there are 2 or more colliders within the same node.
+			if(mColliders->getLength() > 1){
+
+				// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
+        for (auto itB = mColliders->getIterator(); !itB.isNull(); itB.next()){
+
+          Collider* colliderB = itB.get();
+
+					// ifthey aren't the same collider
+					if(colliderA != colliderB){
+
+						// check bounding radius
+						if(colliderA->checkCollisionRadius(colliderB)){
   //
 	// 						// candidate vertices
 	// 						var vertices = this.colliders[i].getCandidateVertices(this.colliders[j]);
@@ -222,36 +217,37 @@ void QuadTree::Node::update(/*contactManager*/){
 	// 					// else{
 	// 					// 	contactManager.remove(this.colliders[i],this.colliders[j]);
 	// 					// }
-	// 				}
-	// 			}
-	// 		}
-	// 	}
+  					}
+          }
+				}
+			}
+		}
   //
   //
 	// 	this.manageExits(exitColliders);
   //
-	// }else{
-	// 	this.updateChildren(contactManager);
-	// }
+	}else{
+		updateChildren(/*contactManager*/);
+	}
 };
 
 //----------------------------------------------------------------------
+
 void QuadTree::Node::updateChildren(/*contactManager*/) {
 	// // for (var i = 0; i < this.children.length; i++)
-	// for (var i = 0; i < this.children.length; i++){
-  //
-	// 	var child = this.children[i];
-  //
-	// 	if(child !== null){
-  //
-	// 		if(child.isLeaf() && child.getCollidersCount() === 0){
-	// 			this.children[i] = null;
-	// 			this.enabledChildren--;
-	// 		}else{
-	// 			child.update(contactManager);
-	// 		}
-	// 	}
-	// }
+	for (u32 i = 0; i < mChildren->getLength(); i++){
+		Node* child = mChildren->get(i);
+
+		if(child){
+
+			if(child->isLeaf() && (child->getCollidersCount() == 0)){
+				//this.children[i] = null;
+				//this.enabledChildren--;
+			}else{
+        child->update(/*contactManager*/);
+			}
+		}
+	}
 };
 
 //----------------------------------------------------------------------
@@ -299,16 +295,26 @@ void QuadTree::Node::manageExits(/*exitColliders*/){
 // 	}
 };
 
+//----------------------------------------------------------------------
+
+bool QuadTree::Node::isLeaf() const { return mChildrenCount == 0; };
+u32 QuadTree::Node::getCollidersCount() const { return mColliders->getLength(); };
 
 // ---------------------------------------------------------------------------
 
 QuadTree::QuadTree() : DE_Class(){
   mRoot = nullptr;
+  mContactsManager = nullptr;
+  mWidth = 0.0f;
+  mHeight = 0.0f;
 }
 
 // ---------------------------------------------------------------------------
 
 QuadTree::~QuadTree(){
+
+  // TODO : First remove mRoot children
+
   Memory::free<Node>(mRoot);
 }
 
@@ -319,7 +325,13 @@ void QuadTree::init(f32 size){
   mHeight = size;
 
   mRoot = Memory::allocate<Node>();
-	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, 100.0f, 100.0f, this);
+	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth/2.0f, mHeight/2.0f, 2500.0f, 2500.0f, this);
+}
+
+// ---------------------------------------------------------------------------
+
+void QuadTree::update() {
+  mRoot->update();
 }
 
 // ---------------------------------------------------------------------------

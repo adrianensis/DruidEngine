@@ -8,14 +8,16 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "List.h"
+#include "Array.h"
 #include "HashMap.h"
 #include "Debug.h"
+#include "Shader.h"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::RenderEngine() : DE_Class() {
+RenderEngine::RenderEngine() : DE_Class(), Singleton() {
 	mBatches = nullptr;
 	mCamera = nullptr;
 }
@@ -93,7 +95,6 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
 	mBatches->get(texture)->addRenderer(renderer);
 }
-
 // ---------------------------------------------------------------------------
 
 void RenderEngine::setCamera(Camera* camera){

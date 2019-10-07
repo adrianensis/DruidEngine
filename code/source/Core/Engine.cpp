@@ -27,6 +27,7 @@ Engine::Engine() : DE_Class(), Singleton(){
 	mFPS = 60;
 	mScenes = nullptr;
 	mRenderEngine = nullptr;
+	mPhysicsEngine = nullptr;
 	mScriptEngine = nullptr;
 	mCurrentSceneIndex = 0;
 }
@@ -36,10 +37,9 @@ Engine::~Engine() = default;
 // ---------------------------------------------------------------------------
 
 void Engine::init(){
-
-  mRenderEngine = Memory::allocate<RenderEngine>();
-  mScriptEngine = Memory::allocate<ScriptEngine>();
-  mPhysicsEngine = Memory::allocate<PhysicsEngine>();
+  mRenderEngine = RenderEngine::getInstance(); //Memory::allocate<RenderEngine>();
+  mScriptEngine = ScriptEngine::getInstance(); //Memory::allocate<ScriptEngine>();
+  mPhysicsEngine = PhysicsEngine::getInstance(); //Memory::allocate<PhysicsEngine>();
   mScenes = Memory::allocate<List<Scene*>>();
 
   mRenderEngine->init();
@@ -138,8 +138,8 @@ void Engine::run(){
 
 void Engine::terminate() {
 
-	Memory::free<RenderEngine>(mRenderEngine);
-	Memory::free<ScriptEngine>(mScriptEngine);
+	// Memory::free<RenderEngine>(mRenderEngine);
+	//Memory::free<ScriptEngine>(mScriptEngine);
 	Memory::free<List<Scene*>>(mScenes);
 
 	Memory::free();

@@ -2,6 +2,7 @@
 #define DE_PHYSICSENGINE_H
 
 #include "DE_Class.h"
+#include "Singleton.h"
 
 namespace DE {
 
@@ -9,7 +10,7 @@ class RigidBody;
 class QuadTree;
 template<class T> class List;
 
-class PhysicsEngine : public DE_Class{
+class PhysicsEngine : public DE_Class, public Singleton<PhysicsEngine>{
 private:
 
   List<RigidBody*>* mRigidBodies;

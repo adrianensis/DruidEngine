@@ -2,6 +2,8 @@
 #define DE_RENDERENGINE_H
 
 #include "DE_Class.h"
+#include "Singleton.h"
+#include "Vector3.h"
 
 namespace DE {
 
@@ -10,17 +12,18 @@ class Texture;
 class RenderContext;
 class Camera;
 class Renderer;
+class Shader;
 template <class T> class List;
+template <class T> class Array;
 template <class K, class V> class HashMap;
 
-class RenderEngine : public DE_Class{
+class RenderEngine : public DE_Class, public Singleton<RenderEngine>{
 private:
 	HashMap<Texture*, Batch*>* mBatches;
 	Camera* mCamera;
 
 public:
-	RenderEngine();
-	~RenderEngine() override;
+	DE_CLASS(RenderEngine, DE_Class);
 
 	void init();
 	void bind();

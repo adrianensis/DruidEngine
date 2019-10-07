@@ -27,6 +27,8 @@ public:
   void setSize(f32 width, f32 height);
   Array<Vector2>* getBoundingBox();
 
+  bool checkCollisionRadius(Collider* otherCollider);
+
   static bool testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps);
 
 };

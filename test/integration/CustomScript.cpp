@@ -17,6 +17,7 @@
 #include "RigidBody.h"
 
 #include "Scene.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
@@ -110,6 +111,14 @@ void CustomScript::step(){
       getGameObject()->getScene()->addGameObject(obj);
       mTestObjCreated = true;
     }
+  }
+  else if(Input::isKeyPressed(GLFW_KEY_KP_ADD))
+  {
+    mRenderer->setLineMode(true);
+  }
+  else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT))
+  {
+    mRenderer->setLineMode(false);
   }
 
   if(running){

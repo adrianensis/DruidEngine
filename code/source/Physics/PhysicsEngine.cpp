@@ -11,7 +11,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-PhysicsEngine::PhysicsEngine() : DE_Class(){
+PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton(){
   mRigidBodies = nullptr;
   mQuadTree = nullptr;
 }
@@ -51,6 +51,8 @@ void PhysicsEngine::step(){
     //ECHO("ENGINE PHYSICS STEP");
     it.get()->integrate(Time::getDeltaTimeSeconds());
   }
+
+  mQuadTree->update();
 }
 
 // ---------------------------------------------------------------------------

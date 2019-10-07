@@ -3,12 +3,14 @@
 
 #include "DE_Class.h"
 #include "Vector2.h"
+#include "Vector3.h"
 
 namespace DE {
 
   class Collider;
   template<class T> class List;
   template<class T> class Array;
+  template <class K, class V> class HashMap;
 
 class QuadTree : public DE_Class{
 private:
@@ -50,7 +52,31 @@ private:
 
   };
 
+  class Contact {
+  public:
+
+    Collider* mColliderA;
+    Collider* mColliderB;
+
+    Vector3 mContactPoint;
+    Vector3 mNormal; // From B to A
+    Vector3 mRelativeVelocity;
+    f32 mDepth;
+    bool mSolved;
+    //mAlive = 0;
+  };
+
+  class ContactsManager {
+  public:
+    // ID = ContactID = ColliderA + Collider B
+    // HashMap<ID, Contact>
+
+    // TODO : ID should be just the pointer or hash
+  };
+
   Node* mRoot;
+
+  ContactsManager* mContactsManager;
 
   f32 mWidth;
   f32 mHeight;
@@ -62,6 +88,7 @@ public:
   void init(f32 size);
 
   void addCollider(Collider* collider);
+  void update();
 
 };
 } /* namespace DE */

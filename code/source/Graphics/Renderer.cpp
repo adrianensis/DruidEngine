@@ -26,6 +26,8 @@ Renderer::Renderer() : Component() {
   mRegionHeight = 1.0;
 
   mInvertXAxis = false;
+  mAlphaEnabled = true;
+  mLineMode = false;
 }
 
 Renderer::~Renderer() {
@@ -61,7 +63,7 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
 * Set the animation, by name.
 * @param {String} name The name.
 */
-void Renderer::setAnimation(std::string name){
+void Renderer::setAnimation(const std::string& name){
 	mCurrentAnimation = mAnimations->get(name);
 };
 
@@ -72,7 +74,7 @@ void Renderer::setAnimation(std::string name){
 * @param {String} name The name.
 * @param {Animation} animation The animation.
 */
-void Renderer::addAnimation(std::string name, Animation* animation){
+void Renderer::addAnimation(const std::string& name, Animation* animation){
 	mAnimations->set(name, animation);
 };
 
@@ -88,6 +90,7 @@ void Renderer::updateMaterial(Material* material) {
     Shader* shader = mMaterial->getShader();
 
     shader->addUInt(mInvertXAxis, "invertXAxis");
+    shader->addUInt(mAlphaEnabled && !mLineMode, "alphaEnabled");
 
     shader->addVector4(mColor,"color");
 
@@ -121,6 +124,9 @@ void Renderer::setMaterial(Material* material){ mMaterial = material; }
 Material* Renderer::getMaterial(){ return mMaterial; }
 void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
 void Renderer::setInvertXAxis(bool invertXAxis) { mInvertXAxis = invertXAxis; }
+void Renderer::setAlphaEnabled(bool alphaEnabled){ mAlphaEnabled = alphaEnabled; }
+void Renderer::setLineMode(bool lineMode) { mLineMode = lineMode; }
+bool Renderer::isLineMode() { return mLineMode; }
 
 // ---------------------------------------------------------------------------
 

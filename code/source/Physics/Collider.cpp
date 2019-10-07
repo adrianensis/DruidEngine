@@ -49,9 +49,9 @@ void Collider::setSize(f32 width, f32 height){
 
 Array<Vector2>* Collider::getBoundingBox() {
 
-Transform* t = getGameObject()->getTransform();
+  Transform* t = getGameObject()->getTransform();
 
-bool isEmpty = mBoxVertices->getLength() == 0;
+  bool isEmpty = mBoxVertices->getLength() == 0;
 
   if(t->isDirtyTranslation()){
     Vector3 center = t->getLocalPosition();
@@ -79,6 +79,12 @@ bool Collider::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height,
 
   return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&
   leftTop.x + width +eps > point.x && leftTop.y - height -eps < point.y);
+};
+
+// ---------------------------------------------------------------------------
+
+bool Collider::checkCollisionRadius(Collider* otherCollider){
+  return false; // TODO : CONTINUE HERE !!!!
 };
 
 // ---------------------------------------------------------------------------

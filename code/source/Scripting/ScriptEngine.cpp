@@ -9,7 +9,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ScriptEngine::ScriptEngine() : DE_Class() {
+ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
   mScripts = nullptr;
 }
 

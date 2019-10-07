@@ -28,6 +28,8 @@ Batch::Batch() : DE_Class() {
 	mMesh = nullptr;
 	mRenderers = nullptr;
 	mMaterial = nullptr;
+	mRenderEngine = nullptr;
+    mTextureId = 0;
 }
 
 Batch::~Batch() {
@@ -100,8 +102,9 @@ void Batch::render() {
 
 	u32 i=0;
 	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
-		//ECHO("RENDERER NUM")
-		//VAL(u32,i+1)
+		// ECHO("RENDERER NUM");
+		// VAL(u32,i);
+		// i++;
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
@@ -116,6 +119,10 @@ void Batch::render() {
 		shader->addMatrix(scaleMatrix, "scaleMatrix");
 
 		it.get()->updateMaterial(mMaterial);
+
+		bool lineMode = it.get()->isLineMode();
+
+		glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
 
 		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
 	}

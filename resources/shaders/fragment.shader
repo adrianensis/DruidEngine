@@ -8,6 +8,7 @@ out vec4 FragColor;
 varying vec2 vTexcoord;
 
 uniform uint invertXAxis;
+uniform uint alphaEnabled;
 
 uniform float regionX;
 uniform float regionY;
@@ -40,7 +41,7 @@ void main()
 
     FragColor = texture2D(uSampler, t);
 
-    if((FragColor.r + FragColor.g + FragColor.b) == 0){
+    if(alphaEnabled != 0 && (FragColor.r + FragColor.g + FragColor.b) == 0){
       FragColor.a = 0;
     } else {
       FragColor.r += color.r;

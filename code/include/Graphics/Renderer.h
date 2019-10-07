@@ -32,6 +32,9 @@ private:
 
 	bool mInvertXAxis;
 
+	bool mLineMode;
+	bool mAlphaEnabled;
+
 public:
 
 	DE_CLASS(Renderer, Component);
@@ -40,8 +43,8 @@ public:
 
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 
-	void setAnimation(std::string name);
-	void addAnimation(std::string name, Animation* animation);
+	void setAnimation(const std::string& name);
+	void addAnimation(const std::string& name, Animation* animation);
 	void updateMaterial(Material* material);
 
 	void setMesh(Mesh* mesh);
@@ -53,6 +56,10 @@ public:
 	void setColor(const Vector4& color);
 
 	void setInvertXAxis(bool invertXAxis);
+	void setAlphaEnabled(bool alphaEnabled);
+
+	void setLineMode(bool lineMode);
+	bool isLineMode();
 };
 
 } /* namespace DE */
