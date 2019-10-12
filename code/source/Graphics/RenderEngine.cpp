@@ -115,7 +115,6 @@ void RenderEngine::stepDebug() {
   const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
   const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
 
-  u32 i=0;
 	for (auto it = mLineRenderers->getIterator(); !it.isNull(); it.next()){
 
     it.get()->bind();
