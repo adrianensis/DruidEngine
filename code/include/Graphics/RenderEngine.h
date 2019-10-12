@@ -16,11 +16,30 @@ class Shader;
 template <class T> class List;
 template <class T> class Array;
 template <class K, class V> class HashMap;
+class Vector3;
 
 class RenderEngine : public DE_Class, public Singleton<RenderEngine>{
 private:
 	HashMap<Texture*, Batch*>* mBatches;
 	Camera* mCamera;
+
+	class LineRenderer : public DE_Class
+  {
+    public:
+      DE_CLASS(LineRenderer, DE_Class);
+
+      Array<f32>* mVertices; // A line is composed by 2 vertices.
+      u32 mVAO;
+      u32 mVBOPosition;
+      u32 mEBO;
+
+      void init(const Vector3& start, const Vector3& end, const Array<u32>* indices);
+      void bind();
+  };
+
+	  Shader* mShaderLine;
+    Array<u32>* mLineRendererIndices; // [0,1]
+    List<LineRenderer*>* mLineRenderers;
 
 public:
 	DE_CLASS(RenderEngine, DE_Class);
@@ -29,9 +48,11 @@ public:
 	void bind();
 	void update();
 	void step(); // render
+	void stepDebug(); // debug render
 	void terminate();
 
 	void addRenderer(Renderer* renderer);
+	void drawLine(const Vector3& start, const Vector3& end);
 
 	void setCamera(Camera* camera);
 	Camera* getCamera() const;

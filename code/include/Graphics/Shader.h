@@ -19,11 +19,14 @@ private:
 	u32 mFragmentShader;
 	u32 mProgram;
 
+	void initInternal(const std::string& vertex, const std::string& fragment);
+
 public:
 
 	DE_CLASS(Shader, DE_Class);
 
 	void init();
+	void initDebug();
 	void use();
 
 	void addMatrix(const Matrix4& matrix, const std::string& name);

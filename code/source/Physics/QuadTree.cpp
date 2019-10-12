@@ -124,7 +124,7 @@ void QuadTree::Node::addCollider(Collider* collider){
 
   //ECHO("addCollider");
   if(mIsDivisible){
-    ECHO("Is Divisible");
+    //ECHO("Is Divisible");
 
     // For each "posible" child node
     for (u32 i = 0; i < mLeftTopChildrenArray->getLength(); i++){
@@ -148,7 +148,7 @@ void QuadTree::Node::addCollider(Collider* collider){
   } else {
     //if ( /*( ! collider.isStatic()) */) {
 
-      ECHO("ADD");
+      //ECHO("ADD");
       bool found = false;
 
       for (auto it = mColliders->getIterator(); !found && !it.isNull(); it.next()) {
@@ -157,7 +157,7 @@ void QuadTree::Node::addCollider(Collider* collider){
 
       if(!found){
         mColliders->pushBack(collider);
-        ECHO("ADDED COLLIDER");
+        //ECHO("ADDED COLLIDER");
       }
     //}
   }
@@ -171,7 +171,7 @@ void QuadTree::Node::update(/*contactManager*/){
   //
 	// If is leaf node.
 	if(isLeaf()){
-    ECHO("IS LEAF");
+    //ECHO("IS LEAF");
 		// FOR EACH COLLIDER
 		for (auto itA = mColliders->getIterator(); !itA.isNull(); itA.next()){
 
@@ -190,33 +190,30 @@ void QuadTree::Node::update(/*contactManager*/){
 
           Collider* colliderB = itB.get();
 
-					// ifthey aren't the same collider
+					// if they aren't the same collider
 					if(colliderA != colliderB){
 
 						// check bounding radius
 						if(colliderA->checkCollisionRadius(colliderB)){
-  //
-	// 						// candidate vertices
-	// 						var vertices = this.colliders[i].getCandidateVertices(this.colliders[j]);
-  //
-	// 						// Compute candidates and generate contacts
-	// 						// var contacts = [];// FIXME: DEPRECATED
-	// 						var status = this.colliders[i].generateContacts(vertices, this.colliders[j], contactManager);
-  //
-  //
-	// 						// this.tree.addContacts(contacts);
-  //
-	// 						// console.log(this.tree.getStatus());
-	// 						if(this.tree.getStatus() !== Collider.STATUS_PENETRATION && status !== Collider.STATUS_NONE)
-	// 							this.tree.setStatus(status);
-  //
-	// 						// if(status === Collider.STATUS_NONE)
-	// 						// 	contactManager.remove(this.colliders[i],this.colliders[j]);
-  //
-	// 					}
-	// 					// else{
-	// 					// 	contactManager.remove(this.colliders[i],this.colliders[j]);
-	// 					// }
+
+	 						// candidate vertices
+	 						// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
+	 						Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
+
+	 						// Compute candidates and generate contacts
+	 						ColliderStatus status = colliderA->generateContacts(/*candidateVertices, colliderB, contactManager*/);
+
+	 						// console.log(this.tree.getStatus());
+	 						if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE)
+	 							mTree->setStatus(status);
+
+	 						// if(status === Collider.STATUS_NONE)
+	 						// 	contactManager.remove(this.colliders[i],this.colliders[j]);
+
+//	 					}
+//	 					// else{
+//	 					// 	contactManager.remove(this.colliders[i],this.colliders[j]);
+//	 					// }
   					}
           }
 				}
@@ -339,6 +336,11 @@ void QuadTree::update() {
 void QuadTree::addCollider(Collider* collider) {
   mRoot->addCollider(collider);
 }
+
+// ---------------------------------------------------------------------------
+
+ColliderStatus QuadTree::getStatus() const { return mStatus; }
+void QuadTree::setStatus(ColliderStatus status) { mStatus = status; }
 
 // ---------------------------------------------------------------------------
 

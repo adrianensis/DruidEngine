@@ -29,7 +29,7 @@ Batch::Batch() : DE_Class() {
 	mRenderers = nullptr;
 	mMaterial = nullptr;
 	mRenderEngine = nullptr;
-    mTextureId = 0;
+	mTextureId = 0;
 }
 
 Batch::~Batch() {

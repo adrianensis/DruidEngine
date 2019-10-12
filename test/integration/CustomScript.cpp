@@ -110,6 +110,8 @@ void CustomScript::step(){
     if(!mTestObjCreated) {
       getGameObject()->getScene()->addGameObject(obj);
       mTestObjCreated = true;
+
+      RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
   }
   else if(Input::isKeyPressed(GLFW_KEY_KP_ADD))

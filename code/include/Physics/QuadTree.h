@@ -8,6 +8,7 @@
 namespace DE {
 
   class Collider;
+  enum class ColliderStatus;
   template<class T> class List;
   template<class T> class Array;
   template <class K, class V> class HashMap;
@@ -81,6 +82,8 @@ private:
   f32 mWidth;
   f32 mHeight;
 
+  ColliderStatus mStatus;
+
 public:
 
   DE_CLASS(QuadTree, DE_Class);
@@ -89,6 +92,9 @@ public:
 
   void addCollider(Collider* collider);
   void update();
+
+  ColliderStatus getStatus() const;
+  void setStatus(ColliderStatus status);
 
 };
 } /* namespace DE */

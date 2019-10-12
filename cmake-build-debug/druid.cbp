@@ -1,0 +1,1427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="druid"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\dependencies\;CMake Files\dependencies\glfw-3.2.1\;CMake Files\dependencies\glfw-3.2.1\CMake\;CMake Files\dependencies\glfw-3.2.1\CMake\modules\;CMake Files\dependencies\glfw-3.2.1\src\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Graphics">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/Graphics.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Graphics"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Graphics/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/Graphics.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Graphics/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Debug">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Debug.dir/Debug.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Debug"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Debug/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Debug.dir/Debug.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Debug/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Scripting">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Scripting.dir/Scripting.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Scripting"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Scripting/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Scripting.dir/Scripting.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Scripting/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GameObject">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/GameObject.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 GameObject"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GameObject/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/GameObject.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 GameObject/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Core">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Core.dir/Core.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Core"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Core/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Core.dir/Core.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Core/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assert">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Assert.dir/Assert.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assert"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assert/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Assert.dir/Assert.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assert/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Containers">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Containers.dir/Containers.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Containers"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Containers/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Containers.dir/Containers.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Containers/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Input">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Input.dir/Input.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Input"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Input/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Input.dir/Input.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Input/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Math">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/Math.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Math"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Math/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/Math.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Math/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Memory">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/Memory.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Memory"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Memory/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/Memory.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Memory/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Physics">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/Physics.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Physics"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Physics/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/Physics.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 Physics/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="druid">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/libOutput/libdruid.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 druid"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="druid/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/libOutput/libdruid.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Assert"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Containers"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Core"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Debug"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/GameObject"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Graphics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Input"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Math"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Memory"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Physics"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Scripting"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/include/Test"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 druid/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="uninstall">
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/Makefile&quot;  VERBOSE=1 uninstall"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/libOutput/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="/home/adri/Dropbox/Projects/CPP/DruidEngine/libOutput/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src"/>
+					<Add directory="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Assert.dir/code/source/Assert/Assert.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Containers.dir/code/source/Containers/BaseContainer.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Core.dir/code/source/Core/DE_Class.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Core.dir/code/source/Core/Engine.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Core.dir/code/source/Core/Time.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Debug.dir/code/source/Debug/Debug.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/code/source/GameObject/Component.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/code/source/GameObject/GameObject.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/code/source/GameObject/Scene.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/GameObject.dir/code/source/GameObject/Transform.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Animation.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/AnimationFrame.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Batch.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Camera.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Material.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Mesh.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/RenderContext.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/RenderEngine.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Renderer.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Shader.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Graphics.dir/code/source/Graphics/Texture.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Input.dir/code/source/Input/Input.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/MathUtils.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/Matrix4.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/Quaternion.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/Vector2.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/Vector3.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Math.dir/code/source/Math/Vector4.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/Allocator.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/FreeListAllocator.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/LinearAllocator.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/Memory.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/PoolAllocator.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Memory.dir/code/source/Memory/StackAllocator.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/code/source/Physics/Collider.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/code/source/Physics/PhysicsEngine.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/code/source/Physics/QuadTree.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Physics.dir/code/source/Physics/RigidBody.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Scripting.dir/code/source/Scripting/Script.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/CMakeFiles/Scripting.dir/code/source/Scripting/ScriptEngine.cpp.o">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/cmake-build-debug/dependencies/glfw-3.2.1/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Assert/Assert.cpp">
+			<Option target="Assert"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Containers/BaseContainer.cpp">
+			<Option target="Containers"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Core/DE_Class.cpp">
+			<Option target="Core"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Core/Engine.cpp">
+			<Option target="Core"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Core/Time.cpp">
+			<Option target="Core"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Debug/Debug.cpp">
+			<Option target="Debug"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/GameObject/Component.cpp">
+			<Option target="GameObject"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/GameObject/GameObject.cpp">
+			<Option target="GameObject"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/GameObject/Scene.cpp">
+			<Option target="GameObject"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/GameObject/Transform.cpp">
+			<Option target="GameObject"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Animation.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/AnimationFrame.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Batch.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Camera.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Material.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Mesh.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/RenderContext.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/RenderEngine.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Renderer.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Shader.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Graphics/Texture.cpp">
+			<Option target="Graphics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Input/Input.cpp">
+			<Option target="Input"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/MathUtils.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/Matrix4.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/Quaternion.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/Vector2.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/Vector3.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Math/Vector4.cpp">
+			<Option target="Math"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/Allocator.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/FreeListAllocator.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/LinearAllocator.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/Memory.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/PoolAllocator.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Memory/StackAllocator.cpp">
+			<Option target="Memory"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Physics/Collider.cpp">
+			<Option target="Physics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Physics/PhysicsEngine.cpp">
+			<Option target="Physics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Physics/QuadTree.cpp">
+			<Option target="Physics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Physics/RigidBody.cpp">
+			<Option target="Physics"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Scripting/Script.cpp">
+			<Option target="Scripting"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/code/source/Scripting/ScriptEngine.cpp">
+			<Option target="Scripting"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/SOIL.c">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/SOIL.h">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/image_DXT.c">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/image_DXT.h">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/image_helper.c">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/image_helper.h">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/stb_image_aug.c">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/SOIL/src/stb_image_aug.h">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glad/src/glad.c">
+			<Option target="druid"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/egl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/egl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/glx_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/glx_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/linux_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/linux_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/posix_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/posix_time.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/posix_tls.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/posix_tls.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/vulkan.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/x11_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/x11_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/x11_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/x11_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/xkb_unicode.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/xkb_unicode.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/CMake/modules/FindVulkan.cmake">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\CMake\modules\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\src\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\src\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\src\"/>
+		</Unit>
+		<Unit filename="/home/adri/Dropbox/Projects/CPP/DruidEngine/dependencies/glfw-3.2.1/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\dependencies\glfw-3.2.1\src\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

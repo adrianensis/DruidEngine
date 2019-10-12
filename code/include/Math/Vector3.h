@@ -11,6 +11,8 @@
 
 namespace DE {
 
+class Vector2;
+
 /*!
   \brief 3D Vector.
 */
@@ -31,6 +33,7 @@ public:
 	Vector3();
 	Vector3(f32 x, f32 y, f32 z);
 	Vector3(const Vector3& other);
+	Vector3(const Vector2& other);
 	~Vector3();
 
 	//-------------------------------------------------------------------
