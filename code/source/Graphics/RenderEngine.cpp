@@ -74,14 +74,7 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton() {
 }
 
 RenderEngine::~RenderEngine(){
-  Memory::free<HashMap<Texture*, Batch*>>(mBatches);
-  Memory::free<Array<LineRenderer*>>(mLineRenderers);
-  Memory::free<Array<u32>>(mLineRendererIndices);
-  Memory::free<Shader>(mShaderLine);
 
-  for (u32 i = 0; i < mLineRenderersCount; ++i){
-    Memory::free<LineRenderer>(mLineRenderers->get(i));
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -181,6 +174,15 @@ void RenderEngine::terminate() {
 	}
 
 	Memory::free<HashMap<Texture*, Batch*>>(mBatches);
+
+  Memory::free<Array<u32>>(mLineRendererIndices);
+  Memory::free<Shader>(mShaderLine);
+
+  for (u32 i = 0; i < mLineRenderersCount; ++i){
+    Memory::free<LineRenderer>(mLineRenderers->get(i));
+  }
+  
+  Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
 	RenderContext::terminate();
 }

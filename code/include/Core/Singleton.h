@@ -13,12 +13,9 @@ protected:
   static T* mInstance;
 
 public:
-  Singleton(){
-  };
+  Singleton() = default;
 
-  ~Singleton(){
-  	Memory::free<T>(mInstance);
-  };
+  ~Singleton() = default;
 
   static T* getInstance(){
   	if( ! mInstance){

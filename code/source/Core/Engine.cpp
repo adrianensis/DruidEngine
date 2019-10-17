@@ -138,8 +138,8 @@ void Engine::run(){
 
 void Engine::terminate() {
 
-	// Memory::free<RenderEngine>(mRenderEngine);
-	//Memory::free<ScriptEngine>(mScriptEngine);
+	Memory::free<RenderEngine>(mRenderEngine);
+	Memory::free<ScriptEngine>(mScriptEngine);
 	Memory::free<List<Scene*>>(mScenes);
 
 	Memory::free();

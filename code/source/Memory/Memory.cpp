@@ -39,6 +39,10 @@ Allocator& Memory::getGlobal(){
 // ---------------------------------------------------------------------------
 
 void Memory::free(){
+
+	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
+	VAL(f32,(smGlobal.getAllocatedSize() / (1024.0f*1024.0)));
+
   smGlobal.reset();
 }
 

@@ -42,7 +42,11 @@ void ScriptEngine::step(){
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::terminate() {
+  for (auto it = mScripts->getIterator(); !it.isNull(); it.next()){
+		Memory::free<Script>(it.get());
+	}
 
+  Memory::free<List<Script*>>(mScripts);
 }
 
 // ---------------------------------------------------------------------------
