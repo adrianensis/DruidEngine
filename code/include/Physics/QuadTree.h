@@ -30,6 +30,7 @@ private:
     bool mIsDivisible;
 
     List<Collider*>* mColliders;
+    List<Collider*>* mExitingColliders;
     Array<Node*>* mChildren;
     Array<Vector2>* mLeftTopChildrenArray;
 
@@ -41,15 +42,15 @@ private:
     Node* createChildNode(u32 index);
     void addCollider(Collider* collider);
     void update(/*contactManager*/);
-    void updateChildren(/*contactManager*/) ;
-    bool checkExit(Collider* collider) const ;
-    void manageExits(/*exitColliders*/);
+    void updateChildren(/*contactManager*/);
+    bool checkExit(Collider* collider) const;
+    void manageExits(List<Collider*>* exitingColliders);
 
-    bool isLeaf() const ;
-    u32 getCollidersCount() const ;
-    bool testCompleteCollider(Collider* collider) const ;
-    bool testPartialCollider(Collider* collider) const ;
-    bool childNodeTestPartialCollider(u32 index, Collider* collider) const ;
+    bool isLeaf() const;
+    u32 getCollidersCount() const;
+    bool testCompleteCollider(Collider* collider) const;
+    bool testPartialCollider(Collider* collider) const;
+    bool childNodeTestPartialCollider(u32 index, Collider* collider) const;
 
   };
 

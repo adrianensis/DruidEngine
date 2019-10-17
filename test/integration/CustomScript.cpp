@@ -69,7 +69,7 @@ void CustomScript::init(){
 
 void CustomScript::step(){
 
-  f32 movement = 5;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 1;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
@@ -108,7 +108,7 @@ void CustomScript::step(){
   else if(Input::isKeyPressed(GLFW_KEY_ENTER))
   {
     if(!mTestObjCreated) {
-      getGameObject()->getScene()->addGameObject(obj);
+      //getGameObject()->getScene()->addGameObject(obj);
       mTestObjCreated = true;
 
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));

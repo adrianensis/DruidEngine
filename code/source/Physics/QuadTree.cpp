@@ -3,8 +3,10 @@
 #include "List.h"
 #include "Array.h"
 #include "Vector2.h"
+#include "Vector3.h"
 #include "Memory.h"
 #include "Debug.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
@@ -50,6 +52,9 @@ void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 min
   mColliders = Memory::allocate<List<Collider*>>();
   mColliders->init();
 
+  mExitingColliders = Memory::allocate<List<Collider*>>();
+  mExitingColliders->init();
+
   mChildren = Memory::allocate<Array<Node*>>();
   mChildren->init(4);
 
@@ -61,6 +66,7 @@ void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 min
   mLeftTopChildrenArray->set(1, Vector2(mLeftTop.x, mLeftTop.y - mHalfHeight));
   mLeftTopChildrenArray->set(2, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight));
   mLeftTopChildrenArray->set(3, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y));
+
 }
 
 //----------------------------------------------------------------------
@@ -122,11 +128,11 @@ QuadTree::Node* QuadTree::Node::createChildNode(u32 index){
 
 void QuadTree::Node::addCollider(Collider* collider){
 
-  //ECHO("addCollider");
+  // ECHO("addCollider");
   if(mIsDivisible){
-    //ECHO("Is Divisible");
+    // ECHO("Is Divisible");
 
-    // For each "posible" child node
+    // For each "possible" child node
     for (u32 i = 0; i < mLeftTopChildrenArray->getLength(); i++){
 
       bool isPartiallyInChildren = childNodeTestPartialCollider(i,collider);
@@ -134,10 +140,11 @@ void QuadTree::Node::addCollider(Collider* collider){
       if( /*( ! collider.isStatic()) ||*/ isPartiallyInChildren){
         if(isPartiallyInChildren){
 
-          //ECHO("Collider isPartiallyInChildren");
+          // ECHO("Collider isPartiallyInChildren");
 
           // If child doesn't exist, create it.
           if(! mChildren->get(i)){
+            // ECHO("createChildNode");
             mChildren->set(i, createChildNode(i));
           }
 
@@ -167,19 +174,25 @@ void QuadTree::Node::addCollider(Collider* collider){
 
 void QuadTree::Node::update(/*contactManager*/){
 
-	// var exitColliders = []; // colliders which have left the node.
-  //
+  mExitingColliders->clear(); // colliders which have left the node.
+
+  // DEBUG DRAW
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+
 	// If is leaf node.
 	if(isLeaf()){
-    //ECHO("IS LEAF");
+
 		// FOR EACH COLLIDER
 		for (auto itA = mColliders->getIterator(); !itA.isNull(); itA.next()){
 
       Collider* colliderA = itA.get();
 
 			// if collider has left the node.
-			if(checkExit(colliderA)){
-				//exitColliders.push(colliderA);
+			if(checkExit(colliderA)) {
+        mExitingColliders->pushBack(colliderA);
       }
 
 			// if there are 2 or more colliders within the same node.
@@ -219,10 +232,10 @@ void QuadTree::Node::update(/*contactManager*/){
 				}
 			}
 		}
-  //
-  //
-	// 	this.manageExits(exitColliders);
-  //
+
+
+	 	manageExits(mExitingColliders);
+
 	}else{
 		updateChildren(/*contactManager*/);
 	}
@@ -252,44 +265,27 @@ void QuadTree::Node::updateChildren(/*contactManager*/) {
 bool QuadTree::Node::checkExit(Collider* collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
-	//return ( ! collider.isStatic() && ! this.testCompleteCollider(collider));
-
-  return false;
+	return ( /*! collider.isStatic() &&*/ ! testCompleteCollider(collider));
 };
 
 //----------------------------------------------------------------------
 
-void QuadTree::Node::manageExits(/*exitColliders*/){
-//
-// 	// If any collider has left the node
-// 	if(exitColliders.length > 0){
-//
-// 		var remainingColliders = [];
-//
-// 		// for each collider
-// 		for (var i = 0; i < this.colliders.length; i++) {
-//
-// 			var erased = false;
-//
-// 			// check if the collider has left the nodes
-// 			for (var j = 0; j < exitColliders.length && !erased ; j++) {
-// 				if(exitColliders[j].getId() === this.colliders[i].getId()){
-// 					erased = true;
-// 				}
-// 			}
-//
-// 			if(!erased){
-// 				remainingColliders.push(this.colliders[i]);
-// 			}
-// 		}
-//
-// 		this.colliders = remainingColliders;
-//
-// 		// RE-INSERT
-// 		for (var i = 0; i < exitColliders.length; i++) {
-// 			this.tree.addCollider(exitColliders[i]);
-// 		}
-// 	}
+void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
+
+ 	// If any collider has left the node
+ 	if(exitingColliders->getLength() > 0){
+
+    // FOR EACH COLLIDER
+    for (auto itExiting = exitingColliders->getIterator(); !itExiting.isNull(); itExiting.next()){
+      mColliders->remove(mColliders->find(itExiting.get()));
+    }
+
+
+    // RE-INSERT
+    for (auto itExiting = exitingColliders->getIterator(); !itExiting.isNull(); itExiting.next()){
+ 			mTree->addCollider(itExiting.get());
+ 		}
+ 	}
 };
 
 //----------------------------------------------------------------------
@@ -322,7 +318,7 @@ void QuadTree::init(f32 size){
   mHeight = size;
 
   mRoot = Memory::allocate<Node>();
-	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth/2.0f, mHeight/2.0f, 2500.0f, 2500.0f, this);
+	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, 500.0f, 500.0f, this);
 }
 
 // ---------------------------------------------------------------------------

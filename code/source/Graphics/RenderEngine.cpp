@@ -20,6 +20,7 @@ namespace DE {
 
 RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
   mVertices = nullptr;
+  mActive = false;
 }
 
 RenderEngine::LineRenderer::~LineRenderer() {
@@ -28,10 +29,20 @@ RenderEngine::LineRenderer::~LineRenderer() {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::LineRenderer::init(const Vector3& start, const Vector3& end, const Array<u32>* indices) {
-  mVertices = Memory::allocate<Array<f32>>();
+void RenderEngine::LineRenderer::init() {
+  if(!mVertices){
+    mVertices = Memory::allocate<Array<f32>>();
+    mVertices->init(2*3); // 1 vertex = 3 floats
+  }
 
-  mVertices->init(2*3); // 1 vertex = 3 floats
+  glDeleteVertexArrays(1, &mVAO);
+	glDeleteBuffers(1, &mVBOPosition);
+	glDeleteBuffers(1, &mEBO);
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::LineRenderer::set(const Vector3& start, const Vector3& end){
 
   mVertices->set(0,start.x);
   mVertices->set(1,start.y);
@@ -39,16 +50,15 @@ void RenderEngine::LineRenderer::init(const Vector3& start, const Vector3& end, 
   mVertices->set(3,end.x);
   mVertices->set(4,end.y);
   mVertices->set(5,end.z);
-
-  mVAO = RenderContext::createVAO();
-  mVBOPosition = (u32) RenderContext::createVBO(mVertices, 3, 0);
-  mEBO = (u32) RenderContext::createEBO(indices);
-  RenderContext::enableVAO(0);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::LineRenderer::bind() {
+void RenderEngine::LineRenderer::bind(const Array<u32>* indices) {
+  mVAO = RenderContext::createVAO();
+  mVBOPosition = RenderContext::createVBO(mVertices, 3, 0);
+  mEBO = RenderContext::createEBO(indices);
+
   RenderContext::enableVAO(mVAO);
 }
 
@@ -60,13 +70,18 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton() {
   mLineRenderers = nullptr;
   mLineRendererIndices = nullptr;
   mShaderLine = nullptr;
+  mLineRenderersCount = 50;
 }
 
 RenderEngine::~RenderEngine(){
   Memory::free<HashMap<Texture*, Batch*>>(mBatches);
-  Memory::free<List<LineRenderer*>>(mLineRenderers);
+  Memory::free<Array<LineRenderer*>>(mLineRenderers);
   Memory::free<Array<u32>>(mLineRendererIndices);
   Memory::free<Shader>(mShaderLine);
+
+  for (u32 i = 0; i < mLineRenderersCount; ++i){
+    Memory::free<LineRenderer>(mLineRenderers->get(i));
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -74,34 +89,39 @@ RenderEngine::~RenderEngine(){
 void RenderEngine::init() {
 
 	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
-  mLineRenderers = Memory::allocate<List<LineRenderer*>>();
+  mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
   mLineRendererIndices = Memory::allocate<Array<u32>>();
   mShaderLine = Memory::allocate<Shader>();
 
   RenderContext::init();
   mBatches->init();
 
-  mLineRenderers->init();
+  mLineRenderers->init(mLineRenderersCount);
 
   mLineRendererIndices->init(2);
   mLineRendererIndices->set(0,0.0f);
   mLineRendererIndices->set(1,1.0f);
 
   mShaderLine->initDebug();
+
+  for (u32 i = 0; i < mLineRenderersCount; ++i){
+    LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
+    lineRenderer->init();
+    lineRenderer->mActive = false;
+
+    mLineRenderers->set(i,lineRenderer);
+  }
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
 
-  stepDebug();
-
-	u32 i=0;
 	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
-		//ECHO("BATCH NUM")
-		//VAL(u32,i+1)
 		it.get()->render();
 	}
+
+  stepDebug();
 
 	RenderContext::swap();
 
@@ -115,17 +135,22 @@ void RenderEngine::stepDebug() {
   const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
   const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
 
-	for (auto it = mLineRenderers->getIterator(); !it.isNull(); it.next()){
+  mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
+  mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+  mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-    it.get()->bind();
+  for (u32 i = 0; i < mLineRenderersCount; ++i){
+    LineRenderer* lineRenderer = mLineRenderers->get(i);
 
-    mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
-    mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-    mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+    if(lineRenderer->mActive){
+      lineRenderer->bind(mLineRendererIndices);
 
-    glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+      glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
 
-    RenderContext::enableVAO(0);
+      RenderContext::enableVAO(0);
+
+      lineRenderer->mActive = false;
+    }
   }
 }
 
@@ -163,7 +188,6 @@ void RenderEngine::terminate() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::addRenderer(Renderer* renderer) {
-
 	Texture* texture = renderer->getMaterial()->getTexture();
 
 	if( ! mBatches->contains(texture)) {
@@ -179,10 +203,18 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::drawLine(const Vector3& start, const Vector3& end){
-  LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
-  lineRenderer->init(start, end, mLineRendererIndices);
+  bool found = false;
 
-  mLineRenderers->pushBack(lineRenderer);
+  for (u32 i = 0; i < mLineRenderersCount && !found; ++i) {
+    LineRenderer* lineRenderer = mLineRenderers->get(i);
+
+    if(! lineRenderer->mActive){
+      found = true;
+      lineRenderer->init();
+      lineRenderer->set(start, end);
+      lineRenderer->mActive = true;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

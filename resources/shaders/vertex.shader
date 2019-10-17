@@ -1,4 +1,4 @@
-#version 450
+#version 420
 
 uniform mat4 translationMatrix;
 uniform mat4 rotationMatrix;

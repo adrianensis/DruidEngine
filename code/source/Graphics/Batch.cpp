@@ -96,23 +96,19 @@ void Batch::render() {
 	RenderContext::enableVAO(mVAO);
 	glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-	const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
-	const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
-	const Matrix4& viewRotationMatrix = mRenderEngine->getCamera()->getViewRotationMatrix();
+  const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
+  const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
+  const Matrix4& viewRotationMatrix = mRenderEngine->getCamera()->getViewRotationMatrix();
 
-	u32 i=0;
+  shader->addMatrix(projectionMatrix, "projectionMatrix");
+  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+
 	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
-		// ECHO("RENDERER NUM");
-		// VAL(u32,i);
-		// i++;
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
 		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
-
-		shader->addMatrix(projectionMatrix, "projectionMatrix");
-		shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-		shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
 		shader->addMatrix(translationMatrix, "translationMatrix");
 		shader->addMatrix(rotationMatrix, "rotationMatrix");

@@ -33,7 +33,7 @@ void RenderContext::init() {
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	mWindow = glfwCreateWindow(1024, 768, "DruidEngine", NULL, NULL);
@@ -53,7 +53,7 @@ void RenderContext::init() {
 
 	glViewport(0, 0, 1024, 768);
 
-	glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL); // Near things obscure far things
 	glEnable(GL_CULL_FACE); // BACK by default

@@ -41,14 +41,13 @@ void PhysicsEngine::init(){
   mRigidBodies->init();
 
   mQuadTree = Memory::allocate<QuadTree>();
-  mQuadTree->init(10000);
+  mQuadTree->init(2000);
 }
 
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::step(){
   for (auto it = mRigidBodies->getIterator(); !it.isNull(); it.next()){
-    //ECHO("ENGINE PHYSICS STEP");
     it.get()->integrate(Time::getDeltaTimeSeconds());
   }
 

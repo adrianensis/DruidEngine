@@ -32,14 +32,17 @@ private:
       u32 mVAO;
       u32 mVBOPosition;
       u32 mEBO;
+      bool mActive;
 
-      void init(const Vector3& start, const Vector3& end, const Array<u32>* indices);
-      void bind();
+      void init();
+			void set(const Vector3& start, const Vector3& end);
+      void bind(const Array<u32>* indices);
   };
 
 	  Shader* mShaderLine;
     Array<u32>* mLineRendererIndices; // [0,1]
-    List<LineRenderer*>* mLineRenderers;
+    Array<LineRenderer*>* mLineRenderers;
+    u32 mLineRenderersCount;
 
 public:
 	DE_CLASS(RenderEngine, DE_Class);
