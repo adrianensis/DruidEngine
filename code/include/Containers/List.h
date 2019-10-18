@@ -386,7 +386,7 @@ public:
     List::init();
     const T* typedArray = static_cast<const T*>(rawArray);
 
-    for (u32 i = 0; i < length; i++)
+    FOR_RANGE(i, 0, length)
       List::pushBack(typedArray[i]);
   }
 
@@ -489,9 +489,9 @@ public:
 
   void clear() override {
     if( ! List::isEmpty()){
-      Iterator it = List::getIterator();
-      for (; !it.isNull(); it.next())
+      FOR_LIST(it, this){
         List::remove(it);
+      }
     }
 
     mFirst = nullptr;
@@ -736,11 +736,10 @@ public:
     \brief Finds with custom comparator.
   */
   Iterator find(T element, u8 (*comparator)(const T& a, const T& b)){
-    auto it = getIterator();
     Iterator selectedIt;
     bool found = false;
 
-    for (; !it.isNull() && !found; it.next()){
+    FOR_LIST_COND(it, this, !found){
     	if(comparator(element, it.get()) == 0){
     		found = true;
     		selectedIt = it;

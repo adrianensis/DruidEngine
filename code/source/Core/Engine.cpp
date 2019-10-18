@@ -68,7 +68,7 @@ void Engine::loadScene(Scene* scene){
 
 	List<GameObject*>* gameObjects = scene->getNewGameObjects();
 
-	for (auto itGameObjects = gameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
+	FOR_LIST (itGameObjects, gameObjects){
 		GameObject* gameObject = itGameObjects.get();
 
 		List<Script*>* ScriptList = gameObject->getComponents<Script>();

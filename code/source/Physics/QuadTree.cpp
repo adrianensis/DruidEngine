@@ -77,7 +77,7 @@ bool QuadTree::Node::testCompleteCollider(Collider* collider) const {
 
 	bool collision = true;
 
-	for (u32 i = 0; i < vertices->getLength(); i++) {
+	FOR_ARRAY (i, vertices) {
 		collision = collision && Collider::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
 	}
 
@@ -92,7 +92,7 @@ bool QuadTree::Node::testPartialCollider(Collider* collider) const {
 
 	bool collision = false;
 
-	for (u32 i = 0; i < vertices->getLength() && ! collision; i++) {
+	FOR_ARRAY_COND(i, vertices, !collision){
 		collision = Collider::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
 	}
 
@@ -108,7 +108,7 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider* collider)
 	bool collision = false;
 
 	// For each collider vertex
-	for (u32 i = 0; i < vertices->getLength() && ! collision; i++) {
+	FOR_ARRAY_COND(i, vertices, !collision){
 		collision = Collider::testRectanglePoint(mLeftTopChildrenArray->get(index),mHalfWidth,mHalfHeight,vertices->get(i),0);
 	}
 
@@ -133,7 +133,7 @@ void QuadTree::Node::addCollider(Collider* collider){
     // ECHO("Is Divisible");
 
     // For each "possible" child node
-    for (u32 i = 0; i < mLeftTopChildrenArray->getLength(); i++){
+    FOR_ARRAY (i, mLeftTopChildrenArray){
 
       bool isPartiallyInChildren = childNodeTestPartialCollider(i,collider);
 
@@ -158,7 +158,7 @@ void QuadTree::Node::addCollider(Collider* collider){
       //ECHO("ADD");
       bool found = false;
 
-      for (auto it = mColliders->getIterator(); !found && !it.isNull(); it.next()) {
+      FOR_LIST_COND (it, mColliders, !found) {
         found = (it.get() == collider);
       }
 
@@ -186,7 +186,7 @@ void QuadTree::Node::update(/*contactManager*/){
 	if(isLeaf()){
 
 		// FOR EACH COLLIDER
-		for (auto itA = mColliders->getIterator(); !itA.isNull(); itA.next()){
+		FOR_LIST(itA, mColliders){
 
       Collider* colliderA = itA.get();
 
@@ -199,7 +199,7 @@ void QuadTree::Node::update(/*contactManager*/){
 			if(mColliders->getLength() > 1){
 
 				// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
-        for (auto itB = mColliders->getIterator(); !itB.isNull(); itB.next()){
+        FOR_LIST(itB, mColliders){
 
           Collider* colliderB = itB.get();
 
@@ -244,8 +244,7 @@ void QuadTree::Node::update(/*contactManager*/){
 //----------------------------------------------------------------------
 
 void QuadTree::Node::updateChildren(/*contactManager*/) {
-	// // for (var i = 0; i < this.children.length; i++)
-	for (u32 i = 0; i < mChildren->getLength(); i++){
+	FOR_ARRAY (i, mChildren){
 		Node* child = mChildren->get(i);
 
 		if(child){
@@ -276,15 +275,10 @@ void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
  	if(exitingColliders->getLength() > 0){
 
     // FOR EACH COLLIDER
-    for (auto itExiting = exitingColliders->getIterator(); !itExiting.isNull(); itExiting.next()){
+    FOR_LIST (itExiting, exitingColliders){
       mColliders->remove(mColliders->find(itExiting.get()));
+      mTree->addCollider(itExiting.get());
     }
-
-
-    // RE-INSERT
-    for (auto itExiting = exitingColliders->getIterator(); !itExiting.isNull(); itExiting.next()){
- 			mTree->addCollider(itExiting.get());
- 		}
  	}
 };
 
@@ -332,11 +326,6 @@ void QuadTree::update() {
 void QuadTree::addCollider(Collider* collider) {
   mRoot->addCollider(collider);
 }
-
-// ---------------------------------------------------------------------------
-
-ColliderStatus QuadTree::getStatus() const { return mStatus; }
-void QuadTree::setStatus(ColliderStatus status) { mStatus = status; }
 
 // ---------------------------------------------------------------------------
 

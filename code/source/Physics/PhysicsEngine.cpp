@@ -47,7 +47,7 @@ void PhysicsEngine::init(){
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::step(){
-  for (auto it = mRigidBodies->getIterator(); !it.isNull(); it.next()){
+  FOR_LIST (it, mRigidBodies){
     it.get()->integrate(Time::getDeltaTimeSeconds());
   }
 

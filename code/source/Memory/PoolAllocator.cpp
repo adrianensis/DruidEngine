@@ -80,7 +80,7 @@ void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, void* mem, u32 al
   void* next = nullptr;
 
   // iterate over all blocks
-  for (u32 i = 1; i < numBlocks; i++) {
+  FOR_RANGE (i, 1, numBlocks) {
     // store the next pointer in the first position of the block
     next = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
     storePointer(current, next);

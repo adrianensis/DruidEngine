@@ -124,12 +124,6 @@ void Mesh::close() {
 
 // ---------------------------------------------------------------------------
 
-const Array<f32>* Mesh::getVerticesData() const { return mVertices; }
-const Array<f32>* Mesh::getColorsData() const { return mColors; }
-const Array<f32>* Mesh::getNormalsData() const { return mNormals; }
-const Array<f32>* Mesh::getTexureCoordinatesData() const { return mTextureCoordinates; }
-const Array<u32>* Mesh::getFacesData() const { return mFaces; }
-
 Mesh* Mesh::getRectangle() {
 	if( ! smRectangle) {
 		smRectangle = Memory::allocate<Mesh>();

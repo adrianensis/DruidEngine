@@ -41,30 +41,30 @@ void Matrix4::setRows(const Array<f32>& row0, const Array<f32>& row1, const Arra
 
   Array<f32> rows[4] = {row0,row1,row2,row3};
 
-  for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
+  FOR_RANGE(row, 0, 4)
+    FOR_RANGE(col, 0, 4)
       Matrix4::set(row,col,rows[row][col]);
 };
 
 void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3){
   const f32* rows[4] = {row0,row1,row2,row3};
 
-  for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
+  FOR_RANGE(row, 0, 4)
+    FOR_RANGE(col, 0, 4)
       Matrix4::set(row,col,rows[row][col]);
 };
 
 void Matrix4::setRows(u32 n){
-  for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
+  FOR_RANGE(row, 0, 4)
+    FOR_RANGE(col, 0, 4)
       Matrix4::set(row,col,n);
 };
 
 void Matrix4::setRows(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3){
   Vector4 rows[4] = {row0,row1,row2,row3};
 
-  for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
+  FOR_RANGE(row, 0, 4)
+    FOR_RANGE(col, 0, 4)
       Matrix4::set(row,col,rows[row][col]);
 };
 
@@ -117,8 +117,8 @@ void Matrix4::transpose(){
   Matrix4 copy;
   copy.init((*this));
 
-  for (u8 row = 0; row < 4; row++)
-    for (u8 col = 0; col < 4; col++)
+  FOR_RANGE(row, 0, 4)
+    FOR_RANGE(col, 0, 4)
       this->set(col,row,copy.get(row,col));
 };
 
@@ -128,9 +128,9 @@ void Matrix4::mul(const Matrix4& other){
 
   this->setRows(0);
 
-  for (u32 i = 0; i < 4; i++)
-      for (u32 j = 0; j < 4; j++)
-          for (u32 k = 0; k < 4; k++)
+  FOR_RANGE (i, 0, 4)
+    FOR_RANGE (j, 0, 4)
+        FOR_RANGE (k, 0, 4)
               this->set(i,j,this->get(i,j) + copy.get(i,k) * other.get(k,j));
 };
 
@@ -138,9 +138,9 @@ void Matrix4::mul(const Matrix4& other){
 Vector4 Matrix4::mulVector(const Vector4& vector){
   Vector4 result(0,0,0,0);
 
-  for (u32 row = 0; row < 4; row++){
-      result[row] = 0;
-      for (u32 col = 0; col < 4; col++)
+  FOR_RANGE (row, 0, 4){
+    result[row] = 0;
+    FOR_RANGE (col, 0, 4)
           result[row] += this->get(row,col) * vector[col];
   }
 
@@ -168,9 +168,9 @@ void Matrix4::translation(const Vector3& vector){
 };
 
 void Matrix4::rotation(const Vector3& vector){
-	
+
   this->identity();
-	
+
   f32 radians, cos, sin;
 
   if(vector.x != 0){

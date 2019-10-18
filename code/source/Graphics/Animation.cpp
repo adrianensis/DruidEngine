@@ -28,10 +28,10 @@ void Animation::init(){
 
 // ---------------------------------------------------------------------------
 
-void Animation::setSpeed(f32 speed) { mSpeed = speed; }
 void Animation::addFrame(AnimationFrame* frame) { mFrames->pushBack(frame); }
 u32 Animation::getNumberOfFrames() const { return mFrames->getLength(); }
-u32 Animation::getCurrentFrameNumber() const { return mCurrentFrameNumber; }
+
+// ---------------------------------------------------------------------------
 
 Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2& startPosition, f32 width, f32 height, f32 speed) {
 

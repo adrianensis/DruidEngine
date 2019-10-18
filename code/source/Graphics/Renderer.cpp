@@ -118,14 +118,7 @@ void Renderer::updateMaterial(Material* material) {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::setMesh(Mesh* mesh){ mMesh = mesh; }
-Mesh* Renderer::getMesh(){ return mMesh; }
-void Renderer::setMaterial(Material* material){ mMaterial = material; }
-Material* Renderer::getMaterial(){ return mMaterial; }
 void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
-void Renderer::setInvertXAxis(bool invertXAxis) { mInvertXAxis = invertXAxis; }
-void Renderer::setAlphaEnabled(bool alphaEnabled){ mAlphaEnabled = alphaEnabled; }
-void Renderer::setLineMode(bool lineMode) { mLineMode = lineMode; }
 bool Renderer::isLineMode() { return mLineMode; }
 
 // ---------------------------------------------------------------------------

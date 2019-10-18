@@ -43,7 +43,7 @@ void Scene::removeGameObject(GameObject* gameObject) {
 // ---------------------------------------------------------------------------
 
 void Scene::flushNewGameObjects(){
-	for (auto itGameObjects = mNewGameObjects->getIterator(); !itGameObjects.isNull(); itGameObjects.next()){
+	FOR_LIST (itGameObjects, mNewGameObjects){
 		mGameObjects->pushBack(itGameObjects.get());
 	}
 
@@ -52,10 +52,6 @@ void Scene::flushNewGameObjects(){
 
 // ---------------------------------------------------------------------------
 
-List<GameObject*>* Scene::getGameObjects() const { return mGameObjects; }
-List<GameObject*>* Scene::getNewGameObjects() const { return mNewGameObjects; }
-void Scene::setCameraGameObject(GameObject* cameraGameObject){ mCameraGameObject = cameraGameObject; }
-GameObject* Scene::getCameraGameObject() const { return mCameraGameObject; }
 bool Scene::thereAreNewGameObjects() const { return mNewGameObjects->getLength() > 0; }
 
 // ---------------------------------------------------------------------------

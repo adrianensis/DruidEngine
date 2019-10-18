@@ -47,19 +47,16 @@ public:
 	void addAnimation(const std::string& name, Animation* animation);
 	void updateMaterial(Material* material);
 
-	void setMesh(Mesh* mesh);
-	Mesh* getMesh();
-
-	void setMaterial(Material* material);
-	Material* getMaterial();
-
 	void setColor(const Vector4& color);
-
-	void setInvertXAxis(bool invertXAxis);
-	void setAlphaEnabled(bool alphaEnabled);
-
-	void setLineMode(bool lineMode);
 	bool isLineMode();
+
+	DE_GET_SET(Mesh*, Mesh);
+
+	DE_GET_SET(Material*, Material);
+
+	DE_SET(bool, InvertXAxis);
+	DE_SET(bool, AlphaEnabled);
+	DE_SET(bool, LineMode);
 };
 
 } /* namespace DE */

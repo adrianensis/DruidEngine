@@ -24,6 +24,10 @@ namespace DE {
 
 #define DE_CLASS(Class, ParentClass) Class(); ~Class() override; DE_GENERATE_METADATA(Class, ParentClass)
 
+#define DE_GET(Class, BaseName) Class get ## BaseName() const { return m ## BaseName; }
+#define DE_SET(Class, BaseName) void set ## BaseName (Class new ## BaseName) { m ## BaseName = new ## BaseName; }
+#define DE_GET_SET(Class, BaseName) DE_GET(Class, BaseName) DE_SET(Class, BaseName)
+
 // ---------------------------------------------------------------------------
 
 /*!

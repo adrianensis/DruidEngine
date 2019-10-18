@@ -50,11 +50,6 @@ void Transform::init(){
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
 }
 
-const Vector3& Transform::getWorldPosition() const { return mWorldPosition; }
-const Vector3& Transform::getLocalPosition() const { return mLocalPosition; }
-const Vector3& Transform::getRotation() const { return mRotation; }
-const Vector3& Transform::getScale() const { return mScale; }
-
 bool Transform::isDirtyTranslation() const { mIsDirtyTranslation; }
 
 void Transform::setWorldPosition(const Vector3& vector){

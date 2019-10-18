@@ -39,9 +39,10 @@ public:
 	void update();
 	void render();
 
-	void setMesh(Mesh* mesh);
-	void setMaterial(Material* material);
 	void addRenderer(Renderer* renderer);
+
+	DE_SET(Mesh*, Mesh);
+	DE_SET(Material*, Material);
 };
 
 } /* namespace DE */

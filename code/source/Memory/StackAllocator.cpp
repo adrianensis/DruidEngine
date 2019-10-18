@@ -86,7 +86,7 @@ void StackAllocator::free(){
 
   u32 size = u32Array[-1];
 
-  // reduce mAllocated
+  // reduce mAllocatedSize
   Allocator::setAllocatedSize(Allocator::getAllocatedSize() - smHeaderSize - size);
 
   // clean memory block

@@ -69,10 +69,10 @@ public:
 	void setRotation(const Vector3& vector);
 	void setScale(const Vector3& vector);
 
-	const Vector3& getWorldPosition() const;
-	const Vector3& getLocalPosition() const;
-	const Vector3& getRotation() const;
-	const Vector3& getScale() const;
+	DE_GET(const Vector3&, WorldPosition);
+	DE_GET(const Vector3&, LocalPosition);
+	DE_GET(const Vector3&, Rotation);
+	DE_GET(const Vector3&, Scale);
 
 	const Matrix4& getTranslationMatrix() const;
 	const Matrix4& getRotationMatrix() const;

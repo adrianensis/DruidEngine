@@ -36,13 +36,13 @@ public:
 
 	void init();
 
-	void setSpeed(f32 speed);
-
 	void addFrame(AnimationFrame* frame);
 
 	u32 getNumberOfFrames() const;
-	u32 getCurrentFrameNumber() const;
 	const AnimationFrame* getNextFrame();
+
+	DE_SET(f32, Speed);
+	DE_GET(u32, CurrentFrameNumber);
 };
 
 } /* namespace DE */

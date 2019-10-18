@@ -4,6 +4,14 @@
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
 
+#define FOR_RANGE(it, start, size) for (u32 it = start; it < size; ++it)
+
+#define FOR_ARRAY(it, array) FOR_RANGE(it, 0, array->getLength())
+#define FOR_ARRAY_COND(it, array, condition) for (u32 it = 0; it < array->getLength() && condition; ++it)
+
+#define FOR_LIST(it, list) for (auto it = list->getIterator(); !it.isNull(); it.next())
+#define FOR_LIST_COND(it, list, cond) for (auto it = list->getIterator(); (!it.isNull()) && cond; it.next())
+
 namespace DE {
 
 using ptr = std::uintptr_t;

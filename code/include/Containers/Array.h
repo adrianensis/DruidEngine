@@ -129,8 +129,9 @@ public:
 
 
   void fill(const T element) override {
-    for (u32 i = 0; i < SequentialContainer<T>::mLength; i++)
-    mTStart[i] = element;
+    FOR_RANGE(i, 0, SequentialContainer<T>::mLength){
+      mTStart[i] = element;
+    }
   }
 
   // ---------------------------------------------------------------------------

@@ -56,11 +56,11 @@ void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
 
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
-	mVBOPosition = RenderContext::createVBO(mMesh->getVerticesData(), 3, 0);
-	mVBOTexture = RenderContext::createVBO(mMesh->getTexureCoordinatesData(), 2, 1);
-	//mVBOColor = RenderContext::createVBO(mMesh->getColorsData(), 4, 2);
-//	mVBONormal = RenderContext::createVBO(mMesh->getNormalsData(), 3, 3);
-	mEBO = RenderContext::createEBO(mMesh->getFacesData());
+	mVBOPosition = RenderContext::createVBO(mMesh->getVertices(), 3, 0);
+	mVBOTexture = RenderContext::createVBO(mMesh->getTextureCoordinates(), 2, 1);
+	//mVBOColor = RenderContext::createVBO(mMesh->getColors(), 4, 2);
+//	mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
+	mEBO = RenderContext::createEBO(mMesh->getFaces());
 
 	glGenTextures(1, &mTextureId);
 
@@ -104,7 +104,7 @@ void Batch::render() {
   shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
   shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-	for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
+	FOR_LIST(it, mRenderers){
 
 		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
@@ -120,7 +120,7 @@ void Batch::render() {
 
 		glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
 
-		glDrawElements(GL_TRIANGLES, mMesh->getFacesData()->getLength(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
 	}
 
 	RenderContext::enableVAO(0);
@@ -129,14 +129,9 @@ void Batch::render() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::setMesh(Mesh* mesh){ mMesh = mesh; }
-void Batch::setMaterial(Material* material){ mMaterial = material; }
-
-// ---------------------------------------------------------------------------
-
 void Batch::addRenderer(Renderer* renderer) {
 	// u32 layerIndex=0;
-	// for (auto it = mRenderers->getIterator(); !it.isNull(); it.next()){
+	// FOR_LIST (it, mRenderers){
 	// 	u32 layer = it.get()->getGameObject()->getLayer();
 	// 	if(layer == layerIndex){
 	// 		// INSERT

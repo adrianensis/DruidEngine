@@ -19,8 +19,7 @@ public:
 
 	virtual void init() = 0;
 
-	void setGameObject(GameObject* gameObject);
-	GameObject* getGameObject() const;
+	DE_GET_SET(GameObject*, GameObject);
 };
 
 } /* namespace DE */

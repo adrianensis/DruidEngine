@@ -22,12 +22,10 @@ void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
 // ---------------------------------------------------------------------------
 
 FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
-  auto it = mFreeBlocks->getIterator();
-
   bool found = false;
   List<Block>::Iterator selectedIt;
 
-  for (; !it.isNull() && !found; it.next()){
+  FOR_LIST_COND (it, mFreeBlocks, !found){
 
     Block b = it.get();
 
@@ -55,12 +53,10 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 // ---------------------------------------------------------------------------
 
 u32 FreeListAllocator::freeBlock(void* unalignedAddress){
-  auto it = mUsedBlocks->getIterator();
-
   bool found = false;
   List<Block>::Iterator selectedIt;
 
-  for (; !it.isNull() && !found; it.next()){
+  FOR_LIST_COND (it, mUsedBlocks, !found){
 
     Block b = it.get();
 
@@ -119,7 +115,7 @@ void FreeListAllocator::free(const void* pointer){
   void* unalignedAddress = calculateUnalignedAddress(pointer);
   u32 freeSize = freeBlock(unalignedAddress);
 
-  // reduce mAllocated
+  // reduce mAllocatedSize
   Allocator::setAllocatedSize(Allocator::getAllocatedSize() - freeSize);
 }
 

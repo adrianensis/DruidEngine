@@ -34,7 +34,7 @@ public:
 
   void setSize(f32 width, f32 height);
   Array<Vector2>* getBoundingBox();
-  f32 getRadius() const;
+  DE_GET(f32, Radius);
 
   bool checkCollisionRadius(Collider* otherCollider) const;
 

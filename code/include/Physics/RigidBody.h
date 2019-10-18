@@ -21,13 +21,12 @@ public:
 
   void init() override;
 
-  Vector3 getLinear() const;
-  Vector3 getForceAccumulator() const;
-  f32 getMass() const;
-  void setLinear(Vector3 linear);
   void addForce(const Vector3& force);
-  void setMass(f32 mass);
+  
+  DE_GET(Vector3, ForceAccumulator);
 
+  DE_GET_SET(f32, Mass);
+  DE_GET_SET(Vector3, Linear);
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

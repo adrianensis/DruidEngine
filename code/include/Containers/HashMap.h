@@ -116,11 +116,10 @@ public:
       mArray->set(hashIndex, list);
     }
 
-    auto it = list->getIterator();
     bool found = false;
     Node* node = nullptr;
 
-    for (; !it.isNull() && !found; it.next()){
+    FOR_LIST_COND(it, list, !found){
       if(it.get()->mKey == key){
         found = true;
         node = it.get();
@@ -155,11 +154,9 @@ public:
     bool found = false;
     V element;
 
-    if(list != nullptr){
+    if(list){
 
-      auto it = list->getIterator();
-
-      for (; !it.isNull() && !found; it.next()){
+      FOR_LIST_COND(it, list, !found){
         if(it.get()->mKey == key){
           found = true;
           element = it.get()->mElement;
@@ -185,11 +182,9 @@ public:
 
     bool found = false;
 
-    if(list != nullptr){
+    if(list){
 
-      auto it = list->getIterator();
-
-      for (; !it.isNull() && !found; it.next()){
+      FOR_LIST_COND(it, list, !found){
         if(it.get()->mKey == key){
           found = true;
         }
@@ -209,12 +204,11 @@ public:
 
     bool found = false;
     u32 index = 0;
-    auto it = list->getIterator();
     typename List<Node*>::Iterator selectedIt;
 
-    if(list != nullptr){
+    if(list){
       // iterate over list to find element.
-      for (; !it.isNull() && !found; it.next()){
+      FOR_LIST_COND(it, list, !found){
         if(it.get()->mKey == key){
           found = true;
           selectedIt = it;
@@ -240,33 +234,22 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  const List<K>* getKeys() const{
-	  return mKeys;
-  }
-
-  // ---------------------------------------------------------------------------
-
-  const List<V>* getValues() const{
-	return mValues;
-  }
+  DE_GET(const List<K>*, Keys);
+  DE_GET(const List<V>*, Values);
 
   // ---------------------------------------------------------------------------
 
   void clear() override {
 
-    if(mArray != nullptr){
+    if(mArray){
 
-      for (u32 i = 0; i < mArray->getLength(); i++) {
+      FOR_ARRAY(i, mArray) {
 
         List<Node*>* list = mArray->get(i);
-        if(list != nullptr && ! list->isEmpty()){
+        if(list && ! list->isEmpty()){
 
-          auto it = list->getIterator();
-
-          if(list != nullptr){
-            for (; !it.isNull(); it.next()){
-              freeNode(it.get());
-            }
+          FOR_LIST(it, list){
+            freeNode(it.get());
           }
 
           Memory::free<List<Node*>>(list);

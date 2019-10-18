@@ -20,11 +20,8 @@ public:
 
 	void init();
 
-	Shader* getShader() const;
-	Texture* getTexture() const;
-
-	//void setShader(Shader* shader);
-	void setTexture(Texture* texture);
+	DE_GET(Shader*, Shader);
+	DE_GET_SET(Texture*, Texture);
 };
 
 } /* namespace DE */

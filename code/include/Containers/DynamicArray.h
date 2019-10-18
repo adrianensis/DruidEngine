@@ -80,10 +80,10 @@ public:
   */
   ~DynamicArray(){
     if(mArrays != nullptr){
-      auto it = mArrays->getIterator();
 
-      for (; !it.isNull(); it.next())
+      FOR_LIST (it, mArrays){
         Memory::free<Array<T>>(it.get());
+      }
 
       Memory::free<List<Array<T>*>>(mArrays);
     }
@@ -100,9 +100,7 @@ public:
     mArrays = Memory::allocate< List<Array<T>*> >();
     mArrays->init();
 
-    auto it = other.mArrays->getIterator();
-
-    for (; !it.isNull(); it.next()){
+    FOR_LIST (it, other.mArrays){
       Array<T>* otherArray = it.get();
       Array<T>* array = Memory::allocate<Array<T>>();
       array->init(*otherArray);
@@ -122,9 +120,7 @@ public:
 
     DynamicArray::init(otherLength, other.getAlignment());
 
-    auto it = mArrays->getIterator();
-
-    for (; (!it.isNull()) && otherOffset < otherLength; it.next()){
+    FOR_LIST_COND(it, mArrays, otherOffset < otherLength){
       Array<T>* array = it.get();
 
       if(otherLength < smMinSize)
@@ -198,7 +194,7 @@ public:
     // how many arrays are needed.
     u32 arrayCount = ceil(length/smMinSize) + 1;
 
-    for (u32 i = 0; i < arrayCount; i++) {
+    FOR_RANGE(i, 0, arrayCount) {
       Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
       newArray->init(smMinSize);
 
@@ -214,9 +210,7 @@ public:
   */
   void fill(const T element){
 
-    auto it = mArrays->getIterator();
-
-    for (; !it.isNull(); it.next()){
+    FOR_LIST(it, mArrays){
       Array<T>* array = it.get();
       array->fill(element);
     }
@@ -258,10 +252,9 @@ public:
   void clear() override {
     BaseContainer::clear();
 
-    auto it = mArrays->getIterator();
-
-    for (; !it.isNull(); it.next())
+    FOR_LIST(it, mArrays){
       it.get()->clear();
+    }
 
     mArrays->clear();
 

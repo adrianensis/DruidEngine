@@ -44,9 +44,8 @@ public:
 		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
-	Transform* getTransform() const;
-	Scene* getScene() const;
-	void setScene(Scene* scene);
+	DE_GET_SET(Scene*, Scene);
+	DE_GET(Transform*, Transform);
 };
 
 // ---------------------------------------------------------------------------

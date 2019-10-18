@@ -14,10 +14,4 @@ Component::~Component() = default;
 
 // ---------------------------------------------------------------------------
 
-GameObject* Component::getGameObject() const{ return mGameObject; }
-
-void Component::setGameObject(GameObject* gameObject){ mGameObject = gameObject; }
-
-// ---------------------------------------------------------------------------
-
 } /* namespace DE */

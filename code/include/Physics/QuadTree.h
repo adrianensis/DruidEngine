@@ -94,8 +94,7 @@ public:
   void addCollider(Collider* collider);
   void update();
 
-  ColliderStatus getStatus() const;
-  void setStatus(ColliderStatus status);
+  DE_GET_SET(ColliderStatus, Status);
 
 };
 } /* namespace DE */

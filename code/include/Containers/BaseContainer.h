@@ -24,26 +24,10 @@ public:
 
   DE_CLASS(BaseContainer, DE_Class)
 
-  /*!
-    \return Container length.
-  */
-  u32 getLength() const;
-
-  /*!
-    \return Container element size.
-  */
-  u32 getElementSize() const;
-
-  /*!
-    \return Container alignment.
-  */
-  u32 getAlignment() const;
-
-  /*!
-    \brief Sets the allocator.
-    \param allocator Pointer to Allocator.
-  */
-  void setAllocator(Allocator* allocator);
+  DE_GET(u32, Length);
+  DE_GET(u32, ElementSize);
+  DE_GET(u32, Alignment);
+  DE_SET(Allocator*, Allocator);
 
   /*!
     \brief Clear the container.

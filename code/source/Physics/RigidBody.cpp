@@ -42,11 +42,7 @@ void RigidBody::integrate(f32 deltaTime){
 
 // ---------------------------------------------------------------------------
 
-Vector3 RigidBody::getLinear() const { return mLinear; }
-void RigidBody::setLinear(Vector3 linear) { mLinear = linear; }
-Vector3 RigidBody::getForceAccumulator() const { return mForceAccumulator; }
 void RigidBody::addForce(const Vector3& force) { mForceAccumulator.add(force); }
-f32 RigidBody::getMass() const { return mMass; }
-void RigidBody::setMass(f32 mass) { mMass = mass; }
+
 
 } /* namespace DE */

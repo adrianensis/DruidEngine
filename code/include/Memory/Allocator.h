@@ -14,7 +14,7 @@ class Allocator : public DE_Class {
 protected:
 
   u32 mTotalSize;
-  u32 mAllocated;
+  u32 mAllocatedSize;
   void* mStart;
 
   void checkAllocate(u32 size) const;
@@ -41,15 +41,8 @@ public:
   */
   ~Allocator() override;
 
-  /*!
-    \return Total size.
-  */
-  u32 getSize() const;
-
-  /*!
-    \return Amount of used memory.
-  */
-  u32 getAllocatedSize() const;
+  DE_GET(u32, TotalSize);
+  DE_GET(u32, AllocatedSize);
 
   /*!
     \return True if space is enough.

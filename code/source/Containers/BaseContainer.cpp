@@ -26,30 +26,6 @@ void BaseContainer::init(u32 length, u32 elementSize, u32 alignment) {
 
 // ---------------------------------------------------------------------------
 
-u32 BaseContainer::getLength() const {
-  return mLength;
-}
-
-// ---------------------------------------------------------------------------
-
-u32 BaseContainer::getElementSize() const {
-  return mElementSize;
-}
-
-// ---------------------------------------------------------------------------
-
-u32 BaseContainer::getAlignment() const {
-  return mAlignment;
-}
-
-// ---------------------------------------------------------------------------
-
-void BaseContainer::setAllocator(Allocator* allocator){
-  mAllocator = allocator;
-}
-
-// ---------------------------------------------------------------------------
-
 void BaseContainer::clear(){
   mLength = 0;
 }

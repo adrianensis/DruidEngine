@@ -115,10 +115,6 @@ ColliderStatus Collider::testVertexEdge(/*candidateVertices, otherCollider, cont
 
 // ---------------------------------------------------------------------------
 
-f32 Collider::getRadius() const { return mRadius; }
-
-// ---------------------------------------------------------------------------
-
 bool Collider::checkCollisionRadius(Collider* otherCollider) const {
   Vector2 thisPosition = Vector2(this->getGameObject()->getTransform()->getLocalPosition());
   Vector2 otherPosition = Vector2(otherCollider->getGameObject()->getTransform()->getLocalPosition());

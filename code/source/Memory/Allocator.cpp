@@ -14,7 +14,7 @@ namespace DE {
  */
 
 void Allocator::checkAllocate(u32 size) const {
-  DE_ASSERT(mAllocated + size <= mTotalSize, "Total memory size exceeded.");
+  DE_ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
 }
 
 // ---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ void Allocator::checkAlignment(u32 alignment) const {
 // ---------------------------------------------------------------------------
 
 void Allocator::checkFree() const {
-  DE_ASSERT(mAllocated > 0, "Allocated memory is 0.");
+  DE_ASSERT(mAllocatedSize > 0, "Allocated memory is 0.");
 }
 
 // ---------------------------------------------------------------------------
@@ -139,7 +139,7 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 al
 // ---------------------------------------------------------------------------
 
 void Allocator::setAllocatedSize(u32 size){
-  mAllocated = size;
+  mAllocatedSize = size;
 }
 
 // ---------------------------------------------------------------------------
@@ -164,20 +164,8 @@ Allocator::~Allocator(){
 
 // ---------------------------------------------------------------------------
 
-u32 Allocator::getSize() const {
-  return mTotalSize;
-}
-
-// ---------------------------------------------------------------------------
-
-u32 Allocator::getAllocatedSize() const {
-  return mAllocated;
-}
-
-// ---------------------------------------------------------------------------
-
 bool Allocator::hasSpace(u32 size) const {
-  return (mTotalSize-mAllocated) >= size;
+  return (mTotalSize-mAllocatedSize) >= size;
 }
 
 // ---------------------------------------------------------------------------
@@ -207,7 +195,7 @@ void Allocator::initFromMemory(u32 size, void* mem) {
 // ---------------------------------------------------------------------------
 
 void Allocator::reset() {
-  mAllocated = 0;
+  mAllocatedSize = 0;
   Allocator::clean(mStart, mTotalSize);
 }
 

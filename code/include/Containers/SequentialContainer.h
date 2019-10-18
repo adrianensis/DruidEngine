@@ -128,8 +128,9 @@ public:
   virtual void put(const SequentialContainer<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) {
     this->checkPut(other, destinyIndex, sourceIndex, length);
 
-    for (u32 i = 0; i < length; ++i)
+    FOR_RANGE(i,0,length){
       (*this)[destinyIndex + i] = other[sourceIndex + i];
+    }
   }
 
   // ---------------------------------------------------------------------------

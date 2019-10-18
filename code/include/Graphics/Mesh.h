@@ -40,11 +40,11 @@ public:
 	Mesh* open();
 	void close();
 
-	const Array<f32>* getVerticesData() const;
-	const Array<f32>* getColorsData() const;
-	const Array<f32>* getNormalsData() const;
-	const Array<f32>* getTexureCoordinatesData() const;
-	const Array<u32>* getFacesData() const;
+	DE_GET(const Array<f32>*, Vertices);
+	DE_GET(const Array<f32>*, Colors);
+	DE_GET(const Array<f32>*, Normals);
+	DE_GET(const Array<f32>*, TextureCoordinates);
+	DE_GET(const Array<u32>*, Faces);
 
 	static Mesh* getRectangle();
 };

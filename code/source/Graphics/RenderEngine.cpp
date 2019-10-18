@@ -97,7 +97,7 @@ void RenderEngine::init() {
 
   mShaderLine->initDebug();
 
-  for (u32 i = 0; i < mLineRenderersCount; ++i){
+  FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
     LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
     lineRenderer->init();
     lineRenderer->mActive = false;
@@ -110,7 +110,7 @@ void RenderEngine::init() {
 
 void RenderEngine::step() {
 
-	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
+	FOR_LIST(it, mBatches->getValues()){
 		it.get()->render();
 	}
 
@@ -132,7 +132,7 @@ void RenderEngine::stepDebug() {
   mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
   mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-  for (u32 i = 0; i < mLineRenderersCount; ++i){
+  FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
     LineRenderer* lineRenderer = mLineRenderers->get(i);
 
     if(lineRenderer->mActive){
@@ -151,7 +151,7 @@ void RenderEngine::stepDebug() {
 
 void RenderEngine::bind() {
 
-	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
+	FOR_LIST(it, mBatches->getValues()){
 		it.get()->bind();
 	}
 }
@@ -160,7 +160,7 @@ void RenderEngine::bind() {
 
 void RenderEngine::update() {
 
-	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
+	FOR_LIST(it, mBatches->getValues()){
 		it.get()->update();
 	}
 }
@@ -169,7 +169,7 @@ void RenderEngine::update() {
 
 void RenderEngine::terminate() {
 
-	for (auto it = mBatches->getValues()->getIterator(); !it.isNull(); it.next()){
+	FOR_LIST(it, mBatches->getValues()){
 		Memory::free<Batch>(it.get());
 	}
 
@@ -178,10 +178,10 @@ void RenderEngine::terminate() {
   Memory::free<Array<u32>>(mLineRendererIndices);
   Memory::free<Shader>(mShaderLine);
 
-  for (u32 i = 0; i < mLineRenderersCount; ++i){
+  FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
     Memory::free<LineRenderer>(mLineRenderers->get(i));
   }
-  
+
   Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
 	RenderContext::terminate();
@@ -207,7 +207,7 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 void RenderEngine::drawLine(const Vector3& start, const Vector3& end){
   bool found = false;
 
-  for (u32 i = 0; i < mLineRenderersCount && !found; ++i) {
+  FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found){
     LineRenderer* lineRenderer = mLineRenderers->get(i);
 
     if(! lineRenderer->mActive){

@@ -24,11 +24,4 @@ void Material::init(){
 
 // ---------------------------------------------------------------------------
 
-Shader* Material::getShader() const { return mShader; }
-Texture* Material::getTexture() const { return mTexture; }
-//void Material::setShader(Shader* shader){ mShader = shader; }
-void Material::setTexture(Texture* texture){ mTexture = texture; }
-
-// ---------------------------------------------------------------------------
-
 } /* namespace DE */

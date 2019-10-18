@@ -31,9 +31,7 @@ void ScriptEngine::addScript(Script* newScript){
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::step(){
-  auto it = mScripts->getIterator();
-
-  for (; !it.isNull(); it.next()){
+  FOR_LIST (it, mScripts){
     //ECHO("ENGINE SCRIPT STEP");
     it.get()->step();
   }
@@ -42,7 +40,7 @@ void ScriptEngine::step(){
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::terminate() {
-  for (auto it = mScripts->getIterator(); !it.isNull(); it.next()){
+  FOR_LIST (it, mScripts){
 		Memory::free<Script>(it.get());
 	}
 
