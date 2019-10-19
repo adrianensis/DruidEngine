@@ -4,6 +4,8 @@
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
 
+// FOR LOOPS
+
 #define FOR_RANGE(it, start, size) for (u32 it = start; it < size; ++it)
 
 #define FOR_ARRAY(it, array) FOR_RANGE(it, 0, array->getLength())

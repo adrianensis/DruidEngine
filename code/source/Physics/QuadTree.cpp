@@ -211,28 +211,24 @@ void QuadTree::Node::update(/*contactManager*/){
 
 	 						// candidate vertices
 	 						// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
-	 						Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
+	 						//Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
 
 	 						// Compute candidates and generate contacts
-	 						ColliderStatus status = colliderA->generateContacts(/*candidateVertices, colliderB, contactManager*/);
+	 						//ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
+
+	 						ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
 
 	 						// console.log(this.tree.getStatus());
-	 						if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE)
-	 							mTree->setStatus(status);
+	 						if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
+                ECHO("STATUS_PENETRATION");
+                mTree->setStatus(status);
+              }
 
-	 						// if(status === Collider.STATUS_NONE)
-	 						// 	contactManager.remove(this.colliders[i],this.colliders[j]);
-
-//	 					}
-//	 					// else{
-//	 					// 	contactManager.remove(this.colliders[i],this.colliders[j]);
-//	 					// }
   					}
           }
 				}
 			}
 		}
-
 
 	 	manageExits(mExitingColliders);
 

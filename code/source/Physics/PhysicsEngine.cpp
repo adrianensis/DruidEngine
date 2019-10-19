@@ -47,11 +47,16 @@ void PhysicsEngine::init(){
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::step(){
-  FOR_LIST (it, mRigidBodies){
-    it.get()->integrate(Time::getDeltaTimeSeconds());
+
+  if(mQuadTree->getStatus() == ColliderStatus::STATUS_NONE){
+    FOR_LIST (it, mRigidBodies){
+      it.get()->integrate(Time::getDeltaTimeSeconds());
+    }
+
+    mQuadTree->update();
   }
 
-  mQuadTree->update();
+
 }
 
 // ---------------------------------------------------------------------------

@@ -10,6 +10,8 @@
 
 namespace DE {
 
+f32 Collider::msDepthEpsilon = 0.01f;
+
 // ---------------------------------------------------------------------------
 
 Collider::Collider() : Component(){
@@ -71,47 +73,131 @@ Array<Vector2>* Collider::getBoundingBox() {
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::generateContacts(/*candidateVertices, otherCollider, contactManager*/) {
+ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
+
+  bool found = false;
+
+  FOR_RANGE(i, 0, 4) { // TODO : add stop condition
+    if(testPoint(otherCollider->getBoundingBox()->get(i))) { found = true; }
+  }
+
+  return found ? ColliderStatus::STATUS_PENETRATION : ColliderStatus::STATUS_NONE;
+}
+
+// ---------------------------------------------------------------------------
+
+ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	ColliderStatus resultVertexVertex = testVertexVertex(/*candidateVertices, otherCollider, contactManager*/);
-
-	ColliderStatus resultVertexEdge = ColliderStatus::STATUS_NONE;
-
-	// if penetration/collision has been detected in vertex-vertex phase, we don't need to check vertex-edge.
-
-	if(resultVertexVertex == ColliderStatus::STATUS_NONE){
-		resultVertexEdge = testVertexEdge(/*candidateVertices, otherCollider, contactManager*/);
-	}
-
-	// if one test has detected something.
-	if((resultVertexVertex != ColliderStatus::STATUS_NONE) || (resultVertexEdge != ColliderStatus::STATUS_NONE)){
-
-	  bool hasInterpenetration = (resultVertexVertex == ColliderStatus::STATUS_PENETRATION) || (resultVertexEdge == ColliderStatus::STATUS_PENETRATION);
-		bool hasCollision = (resultVertexVertex == ColliderStatus::STATUS_COLLISION) || (resultVertexEdge == ColliderStatus::STATUS_COLLISION);
-
-		if(hasInterpenetration){
-			result = ColliderStatus::STATUS_PENETRATION;
-		}else if(hasCollision){
-			result = ColliderStatus::STATUS_COLLISION;
-		}
-	}
+	// ColliderStatus resultVertexVertex = testVertexVertex(candidateVertices, otherCollider/*, contactManager*/);
+  //
+	// ColliderStatus resultVertexEdge = ColliderStatus::STATUS_NONE;
+  //
+	// // if penetration/collision has been detected in vertex-vertex phase, we don't need to check vertex-edge.
+  //
+	// if(resultVertexVertex == ColliderStatus::STATUS_NONE){
+	// 	resultVertexEdge = testVertexEdge(candidateVertices, otherCollider/*, contactManager*/);
+	// }
+  //
+	// // if one test has detected something.
+	// if((resultVertexVertex != ColliderStatus::STATUS_NONE) || (resultVertexEdge != ColliderStatus::STATUS_NONE)){
+  //
+	//   bool hasInterpenetration = (resultVertexVertex == ColliderStatus::STATUS_PENETRATION) || (resultVertexEdge == ColliderStatus::STATUS_PENETRATION);
+	// 	bool hasCollision = (resultVertexVertex == ColliderStatus::STATUS_COLLISION) || (resultVertexEdge == ColliderStatus::STATUS_COLLISION);
+  //
+	// 	if(hasInterpenetration){
+	// 		result = ColliderStatus::STATUS_PENETRATION;
+	// 	}else if(hasCollision){
+	// 		result = ColliderStatus::STATUS_COLLISION;
+	// 	}
+	// }
 
 	return result;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexVertex(/*candidateVertices, otherCollider, contactManager*/) {
+ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
+
+  ColliderStatus result = ColliderStatus::STATUS_NONE;
+
+  // f32 eps = Collider::msDepthEpsilon; // Error
+  //
+	// Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
+  // //var normals = otherCollider.getNormals(); // the normals of the other collider
+  //
+	// // VERTEX - VERTEX
+  //
+	// bool foundVertexVertex = false; // true if d< eps
+  //
+  // f32 maxDistance = -9999999.0f; // distance = -INFINITY
+  // Vector3 normal; // the collision normal
+  // Vector3 selectedVertex;
+  //
+	// // var center = this.getCenter().cpy();
+  //
+  // // for all vertices
+  // FOR_ARRAY_COND (i, candidateVertices, !foundVertexVertex) {
+  //   Vector2 vertex = candidateVertices->get(i);
+  //
+  //   // flag interior vertex -> 1 , -1
+  //   i32 interior = otherCollider->testPoint(vertex) ? -1 : 1;
+  //
+  //   //maxDistance = -9999999.0f; // distance
+  //   //normal = null; // the collision normal
+  //
+	// 	// vertex - vertex
+	//   FOR_ARRAY_COND (j, otherVertices, !foundVertexVertex) {
+  //
+	// 		Vector2 otherVertex = otherVertices->get(j);
+  //
+	//     f32 d = vertex.dst(otherVertex);
+  //
+  //     if(d < eps*1000){
+  //       ECHO("d < eps*10");
+  //       // this.pair.push(otherVertex);
+  //
+  //       // max
+  //       if(d > maxDistance){
+  //         ECHO("found VertexVertex");
+  //         foundVertexVertex = true;
+  //         // selectedVertex = vertex.cpy();
+  //         // maxDistance = d;
+	// 				// normal = center.sub(otherCollider.getCenter()).nor();
+  //
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // if(foundVertexVertex){
+  //
+  //     //result = this.checkCollision(selectedVertex, eps, maxDistance, normal, otherCollider, contactManager);
+  // }
+
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+
+ColliderStatus Collider::testVertexEdge(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
   return ColliderStatus::STATUS_NONE;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexEdge(/*candidateVertices, otherCollider, contactManager*/) {
-  return ColliderStatus::STATUS_NONE;
-}
+bool Collider::testPoint(Vector2 point) {
+
+  getBoundingBox(); // generate bounding box
+
+  // if(this.LT === null){
+  //   var center = this.getCenter();
+  // 	this.LT = new Vector3(center.x-(this.width/2),center.y+(this.height/2), center.z);
+  // }
+
+	return Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0);
+};
 
 // ---------------------------------------------------------------------------
 
@@ -124,14 +210,6 @@ bool Collider::checkCollisionRadius(Collider* otherCollider) const {
 // ---------------------------------------------------------------------------
 
 bool Collider::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps) {
-  // ECHO("testRectanglePoint");
-  // VAR(f32, leftTop.x);
-  // VAR(f32, leftTop.y);
-  // VAR(f32, width);
-  // VAR(f32, height);
-  // VAR(f32, point.x);
-  // VAR(f32, point.y);
-
   return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&
           leftTop.x + width +eps > point.x && leftTop.y - height -eps < point.y);
 }

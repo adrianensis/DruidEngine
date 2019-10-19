@@ -26,6 +26,8 @@ private:
   f32 mHalfHeight;
   f32 mRadius;
 
+  static f32 msDepthEpsilon;
+
 public:
 
   DE_CLASS(Collider, Component);
@@ -38,9 +40,13 @@ public:
 
   bool checkCollisionRadius(Collider* otherCollider) const;
 
-  ColliderStatus generateContacts(/*candidateVertices, otherCollider, contactManager*/);
-  ColliderStatus testVertexVertex(/*candidateVertices, otherCollider, contactManager*/);
-  ColliderStatus testVertexEdge(/*candidateVertices, otherCollider, contactManager*/);
+  ColliderStatus generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/*, contactManager*/);
+  ColliderStatus testVertexVertex(Array<Vector2>* candidateVertices, Collider* otherCollider/*, contactManager*/);
+  ColliderStatus testVertexEdge(Array<Vector2>* candidateVertices, Collider* otherCollider/*, contactManager*/);
+
+  ColliderStatus testRectangleRectangle(Collider* otherCollider);
+
+  bool testPoint(Vector2 point);
 
   static bool testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps);
   static bool testSphereSphere(const Vector2& centerA, const Vector2& centerB, f32 radiusA, f32 radiusB);

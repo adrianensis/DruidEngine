@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "Animation.h"
 
+#include "Collider.h"
 #include "RigidBody.h"
 
 #include "Scene.h"
@@ -39,6 +40,8 @@ void CustomScript::init(){
   mTransform = getGameObject()->getTransform();
   mTestObjCreated = false;
 
+    Vector2 size(300,300);
+
     Texture* texture = Memory::allocate<Texture>();
   	texture->init("resources/mage.bmp");
 
@@ -50,7 +53,7 @@ void CustomScript::init(){
     obj->init();
 
     obj->getTransform()->setLocalPosition(Vector3(0,0,0));
-    obj->getTransform()->setScale(Vector3(300,300,1));
+    obj->getTransform()->setScale(Vector3(size.x,size.y,1));
 
     Renderer* renderer = Memory::allocate<Renderer>();
     obj->addComponent<Renderer>(renderer);
@@ -63,13 +66,22 @@ void CustomScript::init(){
     renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
   	renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
   	renderer->setAnimation("idle");
+
+    renderer->setLineMode(true);
+
+    RigidBody* rigidBody = Memory::allocate<RigidBody>();
+    obj->addComponent<RigidBody>(rigidBody);
+
+    Collider* collider = Memory::allocate<Collider>();
+    obj->addComponent<Collider>(collider);
+    collider->setSize(size.x,size.y);
 }
 
 // ---------------------------------------------------------------------------
 
 void CustomScript::step(){
 
-  f32 movement = 1;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 0.5;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
@@ -108,7 +120,7 @@ void CustomScript::step(){
   else if(Input::isKeyPressed(GLFW_KEY_ENTER))
   {
     if(!mTestObjCreated) {
-      //getGameObject()->getScene()->addGameObject(obj);
+      getGameObject()->getScene()->addGameObject(obj);
       mTestObjCreated = true;
 
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));

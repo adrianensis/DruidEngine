@@ -53,7 +53,7 @@ void RenderContext::init() {
 
 	glViewport(0, 0, 1024, 768);
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL); // Near things obscure far things
 	glEnable(GL_CULL_FACE); // BACK by default
