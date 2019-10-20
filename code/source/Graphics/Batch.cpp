@@ -33,6 +33,11 @@ Batch::Batch() : DE_Class() {
 }
 
 Batch::~Batch() {
+
+	FOR_LIST(it, mRenderers){
+    Memory::free<Renderer>(it.get());
+  }
+
 	Memory::free<List<Renderer*>>(mRenderers); // TODO : sorted by layers, or use a hashmap
 
 	glDeleteVertexArrays(1, &mVAO);

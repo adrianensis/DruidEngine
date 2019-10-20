@@ -120,7 +120,7 @@ void Engine::run(){
 			accumulator -= inverseFPS;
     }
 
-		mPhysicsEngine->step();
+		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
 
 		mRenderEngine->update();
 		mRenderEngine->step();

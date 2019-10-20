@@ -1,6 +1,8 @@
 #include "Collider.h"
 #include "Array.h"
+#include "List.h"
 #include "GameObject.h"
+#include "RigidBody.h"
 #include "Transform.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -21,6 +23,7 @@ Collider::Collider() : Component(){
   mHeight = 0.0f;
   mHalfHeight = 0.0f;
   mRadius = 0.0f;
+  mRigidBody = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -39,6 +42,8 @@ void Collider::init(){
   mBoxVertices->set(1, Vector2(0,0)); // LEFT BOTTOM
   mBoxVertices->set(2, Vector2(0,0)); // RIGHT BOTTOM
   mBoxVertices->set(3, Vector2(0,0)); // RIGHT TOP
+
+  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
 }
 
 // ---------------------------------------------------------------------------
@@ -73,15 +78,47 @@ Array<Vector2>* Collider::getBoundingBox() {
 
 // ---------------------------------------------------------------------------
 
+Vector3 Collider::getRelativeVelocity(Collider* otherCollider){
+  Vector3 velA = mRigidBody->getLinear();
+	Vector3 velB = otherCollider->getRigidBody()->getLinear();
+
+	return velA.sub(velB);
+}
+
+// ---------------------------------------------------------------------------
+
 ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
-  bool found = false;
+  ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-  FOR_RANGE(i, 0, 4) { // TODO : add stop condition
-    if(testPoint(otherCollider->getBoundingBox()->get(i))) { found = true; }
+  Transform* t = getGameObject()->getTransform();
+  Vector3 center = t->getLocalPosition();
+
+  Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
+
+  Vector3 normal = center.sub(otherCollider->getGameObject()->getTransform()->getLocalPosition()).nor();
+  f32 vrn = relativeVelocity.dot(normal);
+
+  bool penetration = false;
+
+  VAR(f32, vrn);
+
+  if(vrn <= 0){
+    FOR_RANGE(i, 0, 4) { // TODO : add stop condition
+      if(testPoint(otherCollider->getBoundingBox()->get(i))) { penetration = true; }
+    }
   }
 
-  return found ? ColliderStatus::STATUS_PENETRATION : ColliderStatus::STATUS_NONE;
+  if(penetration && vrn <= 0){
+    result = ColliderStatus::STATUS_PENETRATION;
+
+    // mRigidBody->stopMovement();
+    // otherCollider->getRigidBody()->stopMovement();
+    mRigidBody->setLinear(mRigidBody->getLinear().nor() * -20.0f);
+    otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear().nor() * -20.0f);
+  }
+
+  return result;
 }
 
 // ---------------------------------------------------------------------------

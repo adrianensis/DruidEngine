@@ -23,7 +23,7 @@ public:
   void addRigidBody(RigidBody* rigidBody);
 
   void init();
-  void step();
+  void step(f32 deltaTime);
   void terminate();
 
 };

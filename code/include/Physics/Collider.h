@@ -7,6 +7,7 @@
 namespace DE {
 
   template<class T> class Array;
+  class RigidBody;
 
 enum class ColliderStatus
 {
@@ -28,6 +29,8 @@ private:
 
   static f32 msDepthEpsilon;
 
+  RigidBody* mRigidBody;
+
 public:
 
   DE_CLASS(Collider, Component);
@@ -36,7 +39,9 @@ public:
 
   void setSize(f32 width, f32 height);
   Array<Vector2>* getBoundingBox();
+  Vector3 getRelativeVelocity(Collider* otherCollider);
   DE_GET(f32, Radius);
+  DE_GET_SET(RigidBody*, RigidBody);
 
   bool checkCollisionRadius(Collider* otherCollider) const;
 

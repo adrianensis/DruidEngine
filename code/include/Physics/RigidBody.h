@@ -13,6 +13,18 @@ private:
   Vector3 mForceAccumulator;
   f32 mMass;
 
+  class State {
+  public:
+    Vector3 mPosition;
+    Vector3 mLinear;
+    Vector3 mForceAccumulator;
+    f32 mMass;
+
+    State();
+  };
+
+  State mState;
+
 public:
 
   DE_CLASS(RigidBody, Component);
@@ -22,7 +34,12 @@ public:
   void init() override;
 
   void addForce(const Vector3& force);
-  
+
+  void stopMovement();
+
+  void saveState();
+  void restoreState();
+
   DE_GET(Vector3, ForceAccumulator);
 
   DE_GET_SET(f32, Mass);

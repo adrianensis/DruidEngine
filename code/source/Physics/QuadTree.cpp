@@ -32,6 +32,11 @@ QuadTree::Node::Node() {
 
 QuadTree::Node::~Node() {
   mTree = nullptr;
+
+  FOR_ARRAY(i, mChildren){
+    Memory::free<Node>(mChildren->get(i));
+  }
+
   Memory::free<List<Collider*>>(mColliders);
 }
 
@@ -218,9 +223,12 @@ void QuadTree::Node::update(/*contactManager*/){
 
 	 						ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
 
+              // if(status == ColliderStatus::STATUS_PENETRATION) ECHO("penetration");
+
 	 						// console.log(this.tree.getStatus());
-	 						if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
-                ECHO("STATUS_PENETRATION");
+	 						// if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
+	 						if(mTree->getStatus() == ColliderStatus::STATUS_NONE){
+                //ECHO("STATUS_PENETRATION");
                 mTree->setStatus(status);
               }
 
@@ -290,14 +298,12 @@ QuadTree::QuadTree() : DE_Class(){
   mContactsManager = nullptr;
   mWidth = 0.0f;
   mHeight = 0.0f;
+  mStatus = ColliderStatus::STATUS_NONE;
 }
 
 // ---------------------------------------------------------------------------
 
 QuadTree::~QuadTree(){
-
-  // TODO : First remove mRoot children
-
   Memory::free<Node>(mRoot);
 }
 
@@ -314,6 +320,7 @@ void QuadTree::init(f32 size){
 // ---------------------------------------------------------------------------
 
 void QuadTree::update() {
+  mStatus = ColliderStatus::STATUS_NONE;
   mRoot->update();
 }
 

@@ -6,10 +6,21 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
+RigidBody::State::State(){
+  mPosition = Vector3(0,0,0);
+  mLinear = Vector3(0,0,0);
+  mForceAccumulator = Vector3(0,0,0);
+  mMass = 0.0f;
+}
+
+// ---------------------------------------------------------------------------
+
 RigidBody::RigidBody() : Component(){
   mLinear = Vector3(0,0,0);
   mForceAccumulator = Vector3(0,0,0);
   mMass = 1.0f;
+
+  mState = State();
 }
 
 // ---------------------------------------------------------------------------
@@ -19,7 +30,7 @@ RigidBody::~RigidBody() = default;
 // ---------------------------------------------------------------------------
 
 void RigidBody::init(){
-
+  saveState();
 }
 
 // ---------------------------------------------------------------------------
@@ -43,6 +54,26 @@ void RigidBody::integrate(f32 deltaTime){
 // ---------------------------------------------------------------------------
 
 void RigidBody::addForce(const Vector3& force) { mForceAccumulator.add(force); }
+
+// ---------------------------------------------------------------------------
+
+void RigidBody::stopMovement() { mForceAccumulator.set(0,0,0); mLinear.set(0,0,0); }
+
+// ---------------------------------------------------------------------------
+
+void RigidBody::saveState() {
+  mState.mPosition = getGameObject()->getTransform()->getLocalPosition();
+  mState.mLinear = mLinear;
+  mState.mForceAccumulator = mForceAccumulator;
+  mState.mMass = mMass;
+}
+
+void RigidBody::restoreState() {
+  getGameObject()->getTransform()->setLocalPosition(mState.mPosition);
+  mLinear = mState.mLinear;
+  mForceAccumulator = mState.mForceAccumulator;
+  mMass = mState.mMass;
+}
 
 
 } /* namespace DE */
