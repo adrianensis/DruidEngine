@@ -36,7 +36,7 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	mWindow = glfwCreateWindow(1024, 768, "DruidEngine", NULL, NULL);
+	mWindow = glfwCreateWindow(800, 600, "DruidEngine", NULL, NULL);
 	if (!mWindow){
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -51,7 +51,7 @@ void RenderContext::init() {
 
 	glfwSetFramebufferSizeCallback(mWindow, RenderContext::onResize);
 
-	glViewport(0, 0, 1024, 768);
+	glViewport(0, 0, 800, 600);
 
 	glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing

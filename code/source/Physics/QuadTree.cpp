@@ -179,7 +179,6 @@ void QuadTree::Node::addCollider(Collider* collider){
 
 void QuadTree::Node::update(/*contactManager*/){
 
-  mExitingColliders->clear(); // colliders which have left the node.
 
   // DEBUG DRAW
   RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
@@ -190,7 +189,9 @@ void QuadTree::Node::update(/*contactManager*/){
 	// If is leaf node.
 	if(isLeaf()){
 
-		// FOR EACH COLLIDER
+    mExitingColliders->clear(); // colliders which have left the node.
+
+    // FOR EACH COLLIDER
 		FOR_LIST(itA, mColliders){
 
       Collider* colliderA = itA.get();
@@ -268,7 +269,7 @@ void QuadTree::Node::updateChildren(/*contactManager*/) {
 bool QuadTree::Node::checkExit(Collider* collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
-	return ( /*! collider.isStatic() &&*/ ! testCompleteCollider(collider));
+	return ( /*! collider.isStatic() &&*/ ! testPartialCollider(collider));
 };
 
 //----------------------------------------------------------------------

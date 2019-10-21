@@ -12,7 +12,7 @@
 
 namespace DE {
 
-f32 Collider::msDepthEpsilon = 0.01f;
+f32 Collider::msDepthEpsilon = 1.0f;
 
 // ---------------------------------------------------------------------------
 
@@ -96,26 +96,31 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
   Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
 
-  Vector3 normal = center.sub(otherCollider->getGameObject()->getTransform()->getLocalPosition()).nor();
+  Vector3 normal = Vector3(center).sub(otherCollider->getGameObject()->getTransform()->getLocalPosition()).nor();
   f32 vrn = relativeVelocity.dot(normal);
-
-  bool penetration = false;
-
-  VAR(f32, vrn);
 
   if(vrn <= 0){
     FOR_RANGE(i, 0, 4) { // TODO : add stop condition
-      if(testPoint(otherCollider->getBoundingBox()->get(i))) { penetration = true; }
+      ColliderStatus pointStatus = testPoint(otherCollider->getBoundingBox()->get(i));
+
+      if(pointStatus != ColliderStatus::STATUS_NONE){
+        if(result != ColliderStatus::STATUS_PENETRATION){
+          result = pointStatus;
+        }
+      }
     }
   }
 
-  if(penetration && vrn <= 0){
-    result = ColliderStatus::STATUS_PENETRATION;
-
-    // mRigidBody->stopMovement();
-    // otherCollider->getRigidBody()->stopMovement();
-    mRigidBody->setLinear(mRigidBody->getLinear().nor() * -20.0f);
-    otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear().nor() * -20.0f);
+  if(vrn <= 0){
+    if(result == ColliderStatus::STATUS_PENETRATION){
+      // ECHO("PENETRATION");
+      mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
+      otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
+    }else if(result == ColliderStatus::STATUS_COLLISION){
+      // ECHO("COLLISION");
+      mRigidBody->stopMovement();
+      otherCollider->getRigidBody()->stopMovement();
+    }
   }
 
   return result;
@@ -224,16 +229,30 @@ ColliderStatus Collider::testVertexEdge(Array<Vector2>* candidateVertices, Colli
 
 // ---------------------------------------------------------------------------
 
-bool Collider::testPoint(Vector2 point) {
+ColliderStatus Collider::testPoint(Vector2 point) {
 
-  getBoundingBox(); // generate bounding box
+  //getBoundingBox(); // generate bounding box
 
   // if(this.LT === null){
   //   var center = this.getCenter();
   // 	this.LT = new Vector3(center.x-(this.width/2),center.y+(this.height/2), center.z);
   // }
 
-	return Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0);
+  ColliderStatus result = ColliderStatus::STATUS_NONE;
+
+	bool testDepthEpsilon = Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
+
+  if(testDepthEpsilon) {
+    result = ColliderStatus::STATUS_COLLISION;
+
+    bool testZeroDepthEpsilonEpsilon = Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
+
+    if(testZeroDepthEpsilonEpsilon){
+      result = ColliderStatus::STATUS_PENETRATION;
+    }
+  }
+
+  return result;
 };
 
 // ---------------------------------------------------------------------------

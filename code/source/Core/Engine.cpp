@@ -127,6 +127,8 @@ void Engine::run(){
 
 		accumulator += Time::getDeltaTimeMillis();
 
+		VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+
 		Input::pollEvents();
 	}
 

@@ -81,39 +81,39 @@ void CustomScript::init(){
 
 void CustomScript::step(){
 
-  f32 movement = 0.5;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 500.0f;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
   if(Input::isKeyPressed(GLFW_KEY_UP))
   {
     // mTransform->translate(Vector3(0,movement,0));
-    mRigidBody->addForce(Vector3(0,movement,0));
-    // mRigidBody->setLinear(Vector3(0,movement,0));
+    // mRigidBody->addForce(Vector3(0,movement,0));
+    mRigidBody->setLinear(Vector3(0,movement,0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }
   else if(Input::isKeyPressed(GLFW_KEY_DOWN))
   {
     // mTransform->translate(Vector3(0,-movement,0));
-    mRigidBody->addForce(Vector3(0,-movement,0));
-    // mRigidBody->setLinear(Vector3(0,-movement,0));
+    // mRigidBody->addForce(Vector3(0,-movement,0));
+    mRigidBody->setLinear(Vector3(0,-movement,0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }
   else if(Input::isKeyPressed(GLFW_KEY_LEFT))
   {
     // mTransform->translate(Vector3(-movement,0,0));
-    mRigidBody->addForce(Vector3(-movement,0,0));
-    // mRigidBody->setLinear(Vector3(-movement,0,0));
+    // mRigidBody->addForce(Vector3(-movement,0,0));
+    mRigidBody->setLinear(Vector3(-movement,0,0));
     running = true;
     mRenderer->setInvertXAxis(true);
   }
   else if(Input::isKeyPressed(GLFW_KEY_RIGHT))
   {
     // mTransform->translate(Vector3(movement,0,0));
-    mRigidBody->addForce(Vector3(movement,0,0));
-    // mRigidBody->setLinear(Vector3(movement,0,0));
+    // mRigidBody->addForce(Vector3(movement,0,0));
+    mRigidBody->setLinear(Vector3(movement,0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
   }
@@ -133,6 +133,10 @@ void CustomScript::step(){
   else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT))
   {
     mRenderer->setLineMode(false);
+  }
+  else
+  {
+    mRigidBody->setLinear(Vector3(0,0,0));
   }
 
   if(running){
