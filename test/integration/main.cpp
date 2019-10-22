@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "Material.h"
 #include "Texture.h"
+#include "Shader.h"
 #include "CustomScript.h"
 #include "RigidBody.h"
 #include "Collider.h"
@@ -49,11 +50,15 @@ int main() {
 
 	// Material
 
+	Shader* shader = Memory::allocate<Shader>();
+	shader->init();
+
 	Texture* texture = Memory::allocate<Texture>();
 	texture->init("resources/mage.bmp");
 
 	Material* material = Memory::allocate<Material>();
 	material->init();
+	material->setShader(shader);
 	material->setTexture(texture);
 
 	// OBJECT 1
@@ -107,6 +112,8 @@ int main() {
 	Material* material2 = Memory::allocate<Material>();
 	material2->init();
 	material2->setTexture(texture2);
+	material2->setShader(shader);
+
 
 	for (size_t i = 0; i < 200; i++) {
 

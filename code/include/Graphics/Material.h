@@ -20,7 +20,7 @@ public:
 
 	void init();
 
-	DE_GET(Shader*, Shader);
+	DE_GET_SET(Shader*, Shader);
 	DE_GET_SET(Texture*, Texture);
 };
 

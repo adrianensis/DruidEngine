@@ -17,9 +17,7 @@ Material::~Material() {
   Memory::free<Shader>(mShader);
 }
 
-void Material::init(){
-  mShader = Memory::allocate<Shader>(); // TODO : Share the same shader !!
-	mShader->init();
+void Material::init(){	
 }
 
 // ---------------------------------------------------------------------------

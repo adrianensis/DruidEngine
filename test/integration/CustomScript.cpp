@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Renderer.h"
+#include "Shader.h"
 #include "Vector3.h"
 #include "Time.h"
 #include "Input.h"
@@ -48,6 +49,7 @@ void CustomScript::init(){
   	Material* material = Memory::allocate<Material>();
   	material->init();
   	material->setTexture(texture);
+  	material->setShader(mRenderer->getMaterial()->getShader());
 
     obj = Memory::allocate<GameObject>();
     obj->init();
