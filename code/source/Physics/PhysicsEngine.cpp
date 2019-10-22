@@ -50,7 +50,7 @@ void PhysicsEngine::step(f32 deltaTime){
 
   f32 dt = deltaTime;
 
-  f32 maxIterations = 3.0f;
+  f32 maxIterations = 5.0f;
 
   f32 minDeltaTime = deltaTime/maxIterations;
   bool tryAgain = true;
@@ -59,13 +59,17 @@ void PhysicsEngine::step(f32 deltaTime){
     it.get()->saveState();
   }
 
+  bool firstIteration = true;
+
   while(tryAgain && dt > minDeltaTime){
 
     tryAgain = false;
 
     FOR_LIST (it, mRigidBodies){
-      it.get()->restoreState();
-      it.get()->integrate(dt);
+      if(firstIteration || (it.get()->getCollider()->getStatus() == ColliderStatus::STATUS_PENETRATION)){
+        it.get()->restoreState();
+        it.get()->integrate(dt);
+      }
     }
 
     mQuadTree->update();
@@ -74,6 +78,8 @@ void PhysicsEngine::step(f32 deltaTime){
       dt = dt/2.0f;
       tryAgain = true;
     }
+
+    firstIteration = false;
   }
 
   if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){

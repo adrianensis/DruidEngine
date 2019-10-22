@@ -6,6 +6,8 @@
 
 namespace DE {
 
+  class Collider;
+
 class RigidBody : public Component{
 private:
 
@@ -24,6 +26,8 @@ private:
   };
 
   State mState;
+
+  Collider* mCollider;
 
 public:
 
@@ -44,6 +48,8 @@ public:
 
   DE_GET_SET(f32, Mass);
   DE_GET_SET(Vector3, Linear);
+  
+  DE_GET(Collider*, Collider);
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

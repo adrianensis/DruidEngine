@@ -1,6 +1,8 @@
 #include "RigidBody.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Collider.h"
+#include "List.h"
 
 namespace DE {
 
@@ -21,6 +23,8 @@ RigidBody::RigidBody() : Component(){
   mMass = 1.0f;
 
   mState = State();
+
+  mCollider = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -36,6 +40,9 @@ void RigidBody::init(){
 // ---------------------------------------------------------------------------
 
 void RigidBody::integrate(f32 deltaTime){
+
+  mCollider = mCollider ? mCollider : getGameObject()->getComponents<Collider>()->get(0);
+
   Transform* t = getGameObject()->getTransform();
 
   // Symplectic Euler

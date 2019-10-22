@@ -12,7 +12,7 @@
 
 namespace DE {
 
-f32 Collider::msDepthEpsilon = 1.0f;
+f32 Collider::msDepthEpsilon = 10.0f;
 
 // ---------------------------------------------------------------------------
 
@@ -99,29 +99,34 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
   Vector3 normal = Vector3(center).sub(otherCollider->getGameObject()->getTransform()->getLocalPosition()).nor();
   f32 vrn = relativeVelocity.dot(normal);
 
-  if(vrn <= 0){
-    FOR_RANGE(i, 0, 4) { // TODO : add stop condition
-      ColliderStatus pointStatus = testPoint(otherCollider->getBoundingBox()->get(i));
+  Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
-      if(pointStatus != ColliderStatus::STATUS_NONE){
-        if(result != ColliderStatus::STATUS_PENETRATION){
-          result = pointStatus;
-        }
+  FOR_ARRAY_COND(i, otherVertices, result != ColliderStatus::STATUS_PENETRATION) {
+    ColliderStatus pointStatus = testPoint(otherVertices->get(i));
+
+    if(pointStatus != ColliderStatus::STATUS_NONE){
+      if(result != ColliderStatus::STATUS_PENETRATION){
+        result = pointStatus;
       }
     }
   }
 
-  if(vrn <= 0){
-    if(result == ColliderStatus::STATUS_PENETRATION){
-      // ECHO("PENETRATION");
+  if(result == ColliderStatus::STATUS_PENETRATION){
+    // ECHO("PENETRATION");
+    if(vrn <= 0){
       mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
       otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
-    }else if(result == ColliderStatus::STATUS_COLLISION){
-      // ECHO("COLLISION");
+    }
+  }else if(result == ColliderStatus::STATUS_COLLISION){
+    // ECHO("COLLISION");
+    if(vrn <= 0){
       mRigidBody->stopMovement();
       otherCollider->getRigidBody()->stopMovement();
     }
   }
+
+  setStatus(result);
+  otherCollider->setStatus(result);
 
   return result;
 }

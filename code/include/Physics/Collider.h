@@ -31,6 +31,8 @@ private:
 
   RigidBody* mRigidBody;
 
+  ColliderStatus mStatus;
+
 public:
 
   DE_CLASS(Collider, Component);
@@ -42,6 +44,7 @@ public:
   Vector3 getRelativeVelocity(Collider* otherCollider);
   DE_GET(f32, Radius);
   DE_GET_SET(RigidBody*, RigidBody);
+  DE_GET_SET(ColliderStatus, Status);
 
   bool checkCollisionRadius(Collider* otherCollider) const;
 
