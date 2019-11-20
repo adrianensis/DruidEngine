@@ -39,10 +39,12 @@ mv "$destiny/Simple OpenGL Image Library" $destiny/SOIL
 # ------------------------------------------------------------------------
 
 # glad
-pip install --user glad
+#pip install --user glad
 
 # generate glad source
-python -m glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=$destiny/glad
+#python -m glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=$destiny/glad
+
+unzip scripts/glad.zip -d $destiny/glad
 
 # ------------------------------------------------------------------------
 
