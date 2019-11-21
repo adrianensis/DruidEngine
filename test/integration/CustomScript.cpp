@@ -21,6 +21,8 @@
 #include "Scene.h"
 #include "RenderEngine.h"
 
+#include "File.h"
+
 namespace DE {
 
 // ---------------------------------------------------------------------------
@@ -41,7 +43,7 @@ void CustomScript::init(){
   mTransform = getGameObject()->getTransform();
   mTestObjCreated = false;
 
-    Vector2 size(300,300);
+    Vector2 size(100,100);
 
     Texture* texture = Memory::allocate<Texture>();
   	texture->init("resources/mage.bmp");
@@ -127,6 +129,12 @@ void CustomScript::step(){
 
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
+
+    // Vector2 mouse(Input::getMousePosition());
+    // VAR(f32, mouse.x);
+    // VAR(f32, mouse.y);
+
+    File::readFile("resources/shaders/vertex.shader");
   }
   else if(Input::isKeyPressed(GLFW_KEY_KP_ADD))
   {

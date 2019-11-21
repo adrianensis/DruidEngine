@@ -4,6 +4,7 @@
 #include "DE_Class.h"
 
 #include "RenderContext.h"
+#include "Vector2.h"
 
 namespace DE {
 
@@ -16,6 +17,7 @@ public:
 	static void init();
 	static void pollEvents();
 	static bool isKeyPressed(u32 key);
+	static Vector2 getMousePosition();
 };
 
 } /* namespace DE */

@@ -5,6 +5,7 @@
 #include "GLFW/glfw3.h"
 
 #include "DE_Class.h"
+#include "Vector2.h"
 
 namespace DE {
 
@@ -15,7 +16,9 @@ class RenderContext : public DE_Class{
 
 private:
 
-	static GLFWwindow* mWindow;
+	static GLFWwindow* smWindow;
+
+	static Vector2 smWindowSize;
 
 	static void onResize(GLFWwindow* window, int width, int height);
 

@@ -11,7 +11,8 @@
 
 namespace DE {
 
-GLFWwindow* RenderContext::mWindow = nullptr;
+GLFWwindow* RenderContext::smWindow = nullptr;
+Vector2 RenderContext::smWindowSize;
 
 // ---------------------------------------------------------------------------
 
@@ -25,6 +26,8 @@ RenderContext::~RenderContext() = default;
 
 void RenderContext::onResize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
+
+    smWindowSize.set(width, height);
 }
 
 // ---------------------------------------------------------------------------
@@ -36,12 +39,14 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	mWindow = glfwCreateWindow(800, 600, "DruidEngine", NULL, NULL);
-	if (!mWindow){
+  smWindowSize.set(800, 600);
+
+	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
+	if (!smWindow){
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 	}else{
-		glfwMakeContextCurrent(mWindow);
+		glfwMakeContextCurrent(smWindow);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -49,9 +54,9 @@ void RenderContext::init() {
 		}
 	}
 
-	glfwSetFramebufferSizeCallback(mWindow, RenderContext::onResize);
+	glfwSetFramebufferSizeCallback(smWindow, RenderContext::onResize);
 
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
 
 	glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
@@ -68,7 +73,7 @@ void RenderContext::init() {
 // ---------------------------------------------------------------------------
 
 bool RenderContext::isClosed() {
-	return glfwWindowShouldClose(mWindow);
+	return glfwWindowShouldClose(smWindow);
 }
 
 // ---------------------------------------------------------------------------
@@ -80,14 +85,14 @@ void RenderContext::clear() {
 // ---------------------------------------------------------------------------
 
 void RenderContext::swap() {
-  glfwSwapBuffers(mWindow);
+  glfwSwapBuffers(smWindow);
 	RenderContext::clear();
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderContext::terminate() {
-  glfwDestroyWindow(mWindow);
+  glfwDestroyWindow(smWindow);
 	glfwTerminate();
 }
 

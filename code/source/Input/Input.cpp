@@ -27,7 +27,16 @@ void Input::pollEvents() {
 // ---------------------------------------------------------------------------
 
 bool Input::isKeyPressed(u32 key) {
-  return glfwGetKey(RenderContext::mWindow, key) == GLFW_PRESS;
+  return glfwGetKey(RenderContext::smWindow, key) == GLFW_PRESS;
+}
+
+// ---------------------------------------------------------------------------
+
+Vector2 Input::getMousePosition() {
+  f64 xPos, yPos;
+  glfwGetCursorPos(RenderContext::smWindow, &xPos, &yPos);
+
+  return Vector2(static_cast<f32>(xPos) - (RenderContext::smWindowSize.x/2.0f), (RenderContext::smWindowSize.y/2.0f) - static_cast<f32>(yPos));
 }
 
 

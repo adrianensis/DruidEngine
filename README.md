@@ -37,8 +37,8 @@ Run intgration test by executing `./testOutput/test_integration`. Result is stor
   * Buttons
   * TextBox
   * Labels
-* Input - Mouse coordinates
-* File I/O
+* Matrix - Inverse matrix
+* Input - Mouse coordinates - to world space
 * Texture Atlas renderer, only for maps. Just an array of tiles (position, collider).
 * Map Loader
 * Sprite Editor
@@ -47,3 +47,4 @@ Run intgration test by executing `./testOutput/test_integration`. Result is stor
   * Rigid Bodies - Integration / forces
   * Colliders. Use composition instead inheritance.
     * collider->setShape(Box/Sphere)
+* Write in files
