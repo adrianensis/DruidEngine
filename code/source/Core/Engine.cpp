@@ -142,6 +142,11 @@ void Engine::terminate() {
 
 	Memory::free<RenderEngine>(mRenderEngine);
 	Memory::free<ScriptEngine>(mScriptEngine);
+
+	FOR_LIST (it, mScenes){
+		Memory::free<Scene>(it.get());
+	}
+
 	Memory::free<List<Scene*>>(mScenes);
 
 	Memory::free();

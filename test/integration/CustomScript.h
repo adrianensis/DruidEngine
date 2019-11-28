@@ -19,12 +19,14 @@ private:
   RigidBody* mRigidBody;
   Transform* mTransform;
 
-  GameObject* obj;
-  bool mTestObjCreated;
+  GameObject* mTestObj;
 
 public:
 
 DE_CLASS(CustomScript, Script);
+
+void createTestObj();
+void createTestMap();
 
 void init() override;
 void step() override;

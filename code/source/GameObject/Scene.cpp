@@ -12,6 +12,11 @@ Scene::Scene() : DE_Class(){
 }
 
 Scene::~Scene() {
+
+	FOR_LIST (it, mGameObjects){
+		Memory::free<GameObject>(it.get());
+	}
+
 	Memory::free<List<GameObject*>>(mGameObjects);
 	Memory::free<List<GameObject*>>(mNewGameObjects);
 }
