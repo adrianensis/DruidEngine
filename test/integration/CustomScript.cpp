@@ -87,18 +87,18 @@ void CustomScript::createTestMap() {
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
 
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/terrain.png");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(mRenderer->getMaterial()->getShader());
+
   FOR_RANGE(i, 0, tilesCount){
     FOR_RANGE(j, 0, tilesCount){
 
       Vector2 size(100,100);
-
-      Texture* texture = Memory::allocate<Texture>();
-      texture->init("resources/terrain.png");
-
-      Material* material = Memory::allocate<Material>();
-      material->init();
-      material->setTexture(texture);
-      material->setShader(mRenderer->getMaterial()->getShader());
 
       tile = Memory::allocate<GameObject>();
       tile->init();
