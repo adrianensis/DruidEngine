@@ -1,5 +1,5 @@
 #include "Script.h"
-#include "Debug.h"
+#include "Log.h"
 
 #include "GameObject.h"
 #include "Transform.h"

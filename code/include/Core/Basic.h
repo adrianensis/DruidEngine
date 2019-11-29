@@ -5,7 +5,7 @@
 #include "DE_Class.h"
 #include "Hash.h"
 #include "Assert.h"
-#include "Debug.h"
+#include "Log.h"
 #include "MathUtils.h"
 
 #endif /* DE_BASIC_H */

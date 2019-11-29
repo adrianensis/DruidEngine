@@ -3,7 +3,7 @@
 #include "Matrix4.h"
 #include "Quaternion.h"
 #include "Memory.h"
-#include "Debug.h"
+#include "Log.h"
 #include "RenderEngine.h"
 
 namespace DE {

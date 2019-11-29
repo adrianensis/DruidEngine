@@ -5,7 +5,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Memory.h"
-#include "Debug.h"
+#include "Log.h"
 #include "RenderEngine.h"
 
 namespace DE {

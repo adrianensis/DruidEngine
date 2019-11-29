@@ -1,5 +1,5 @@
 #include "CustomScript.h"
-#include "Debug.h"
+#include "Log.h"
 
 #include "GameObject.h"
 #include "Transform.h"
@@ -84,10 +84,13 @@ void CustomScript::createTestMap() {
 
   GameObject* tile;
 
-  FOR_RANGE(i, 0, 16){
-    FOR_RANGE(j, 0, 16){
+  f32 tilesCount = 16;
+  f32 tileTextureSize = 1.0f/tilesCount;
 
-      Vector2 size(200,200);
+  FOR_RANGE(i, 0, tilesCount){
+    FOR_RANGE(j, 0, tilesCount){
+
+      Vector2 size(100,100);
 
       Texture* texture = Memory::allocate<Texture>();
       texture->init("resources/terrain.png");
@@ -100,25 +103,18 @@ void CustomScript::createTestMap() {
       tile = Memory::allocate<GameObject>();
       tile->init();
 
-      tile->getTransform()->setLocalPosition(Vector3(i * size.x, j * size.y,0));
+      tile->getTransform()->setLocalPosition(Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0));
       tile->getTransform()->setScale(Vector3(size.x,size.y,1));
 
       Renderer* renderer = Memory::allocate<Renderer>();
       tile->addComponent<Renderer>(renderer);
 
-      renderer->setColor(Vector4(0,0,0,0.7f));
+      //renderer->setColor(Vector4(0,0,0,0.7f));
 
       renderer->setMesh(Mesh::getRectangle());
       renderer->setMaterial(material);
 
-      renderer->setRegion(i/16.0f, j/16.0f, 1.0f/16.0f, 1.0f/16.0f);
-
-      // RigidBody* rigidBody = Memory::allocate<RigidBody>();
-      // tile->addComponent<RigidBody>(rigidBody);
-      //
-      // Collider* collider = Memory::allocate<Collider>();
-      // tile->addComponent<Collider>(collider);
-      // collider->setSize(size.x,size.y);
+      renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
 
       getGameObject()->getScene()->addGameObject(tile);
     }
@@ -133,6 +129,7 @@ void CustomScript::init(){
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
   mTransform = getGameObject()->getTransform();
   mTestObj = nullptr;
+  mTestCreated = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -169,9 +166,11 @@ void CustomScript::step(){
     running = true;
     mRenderer->setInvertXAxis(false);
   }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
-    if(!mTestObj) {
+    if(!mTestCreated) {
       createTestMap();
-      createTestObj();
+      //createTestObj();
+
+      mTestCreated = true;
 
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
@@ -180,7 +179,8 @@ void CustomScript::step(){
     // VAR(f32, mouse.x);
     // VAR(f32, mouse.y);
 
-    File::readFile("resources/shaders/vertex.shader");
+    //File::readFile("resources/shaders/vertex.shader");
+
   }else if(Input::isKeyPressed(GLFW_KEY_KP_ADD)){
     mRenderer->setLineMode(true);
   }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){

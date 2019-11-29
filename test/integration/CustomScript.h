@@ -21,6 +21,8 @@ private:
 
   GameObject* mTestObj;
 
+  bool mTestCreated;
+
 public:
 
 DE_CLASS(CustomScript, Script);

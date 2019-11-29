@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "RenderContext.h"
 #include "List.h"
-#include "Debug.h"
+#include "Log.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Matrix4.h"

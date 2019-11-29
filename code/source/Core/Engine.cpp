@@ -13,7 +13,7 @@
 #include "Transform.h"
 #include "Script.h"
 #include "Camera.h"
-#include "Debug.h"
+#include "Log.h"
 #include "Input.h"
 #include "RigidBody.h"
 
@@ -37,6 +37,7 @@ Engine::~Engine() = default;
 // ---------------------------------------------------------------------------
 
 void Engine::init(){
+
   mRenderEngine = RenderEngine::getInstance(); //Memory::allocate<RenderEngine>();
   mScriptEngine = ScriptEngine::getInstance(); //Memory::allocate<ScriptEngine>();
   mPhysicsEngine = PhysicsEngine::getInstance(); //Memory::allocate<PhysicsEngine>();

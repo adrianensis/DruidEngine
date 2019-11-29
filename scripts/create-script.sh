@@ -56,7 +56,7 @@ appendHeader
 appendHeader "#endif /* DE_${scriptClassName^^}_H */"
 
 appendSource '#include "'$scriptClassName'.h"'
-appendSource '#include "Debug.h"'
+appendSource '#include "Log.h"'
 appendSource
 appendSource '#include "GameObject.h"'
 appendSource '#include "Transform.h"'

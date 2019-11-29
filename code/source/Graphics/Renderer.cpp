@@ -7,7 +7,7 @@
 #include "HashMap.h"
 #include "Shader.h"
 #include "Array.h"
-#include "Debug.h"
+#include "Log.h"
 
 namespace DE {
 

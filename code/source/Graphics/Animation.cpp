@@ -4,7 +4,7 @@
 #include "AnimationFrame.h"
 #include "Time.h"
 #include "List.h"
-#include "Debug.h"
+#include "Log.h"
 
 namespace DE {
 

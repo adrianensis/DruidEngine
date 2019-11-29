@@ -3,7 +3,7 @@
 #include "Memory.h"
 #include "Script.h"
 
-#include "Debug.h"
+#include "Log.h"
 
 namespace DE {
 

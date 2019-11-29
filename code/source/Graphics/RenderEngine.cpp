@@ -10,7 +10,7 @@
 #include "List.h"
 #include "Array.h"
 #include "HashMap.h"
-#include "Debug.h"
+#include "Log.h"
 #include "Shader.h"
 #include "Vector3.h"
 
