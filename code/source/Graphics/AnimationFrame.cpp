@@ -1,4 +1,5 @@
 #include "AnimationFrame.h"
+#include "Log.h"
 
 namespace DE {
 
@@ -14,6 +15,8 @@ AnimationFrame::~AnimationFrame() {
 }
 
 void AnimationFrame::init(const Vector2& position, f32 width, f32 height) {
+	TRACE();
+
     mPosition = position;
     mWidth = width;
     mHeight = height;

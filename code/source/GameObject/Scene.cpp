@@ -24,6 +24,8 @@ Scene::~Scene() {
 // ---------------------------------------------------------------------------
 
 void Scene::init() {
+	TRACE();
+
 	mGameObjects = Memory::allocate<List<GameObject*>>();
 	mGameObjects->init();
 

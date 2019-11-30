@@ -1,5 +1,5 @@
 #include "Texture.h"
-
+#include "Log.h"
 #include "SOIL.h"
 
 namespace DE {
@@ -18,6 +18,8 @@ Texture::~Texture() {
 // ---------------------------------------------------------------------------
 
 void Texture::init(std::string path){
+	TRACE();
+
   // data = SOIL_load_image("resources/char.png", &mWidth, &mHeight, 0, SOIL_LOAD_RGB);
   mData = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGBA);
 }

@@ -35,6 +35,8 @@ Collider::~Collider(){
 // ---------------------------------------------------------------------------
 
 void Collider::init(){
+	TRACE();
+
   mBoxVertices = Memory::allocate<Array<Vector2>>();
   mBoxVertices->init(4);
 

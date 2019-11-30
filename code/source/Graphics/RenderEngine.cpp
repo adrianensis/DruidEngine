@@ -30,6 +30,8 @@ RenderEngine::LineRenderer::~LineRenderer() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::LineRenderer::init() {
+	//TRACE();
+
   if(!mVertices){
     mVertices = Memory::allocate<Array<f32>>();
     mVertices->init(2*3); // 1 vertex = 3 floats
@@ -80,13 +82,15 @@ RenderEngine::~RenderEngine(){
 // ---------------------------------------------------------------------------
 
 void RenderEngine::init() {
+	TRACE();
+
 
 	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
   mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
   mLineRendererIndices = Memory::allocate<Array<u32>>();
   mShaderLine = Memory::allocate<Shader>();
 
-  RenderContext::init();
+  RenderContext::init(); TRACE()
   mBatches->init();
 
   mLineRenderers->init(mLineRenderersCount);

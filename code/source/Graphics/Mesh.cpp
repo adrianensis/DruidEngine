@@ -39,6 +39,8 @@ Mesh::~Mesh() {
 // ---------------------------------------------------------------------------
 
 void Mesh::init(u32 vertexCount) {
+	TRACE();
+
 	mVertexCount = vertexCount;
 
 	mVertices = Memory::allocate<Array<f32>>();

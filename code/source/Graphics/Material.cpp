@@ -17,7 +17,7 @@ Material::~Material() {
   Memory::free<Shader>(mShader);
 }
 
-void Material::init(){	
+void Material::init(){	 TRACE()
 }
 
 // ---------------------------------------------------------------------------

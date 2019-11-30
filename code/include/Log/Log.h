@@ -28,9 +28,9 @@ void error(const std::string& message);
 
 void brline();
 
-#ifdef DE_DEBUG
-  #define LOG(x) log(__FILE__, __LINE__, __FUNCTION__, x);
-  #define TRACE() log(__FILE__, __LINE__, __FUNCTION__);
+#ifdef DE_ENABLE_LOGS
+  #define LOG(x) log(__FILE__, __LINE__, __PRETTY_FUNCTION__, x);
+  #define TRACE() log(__FILE__, __LINE__, __PRETTY_FUNCTION__);
   #define TO_STR(s) #s
   #define ECHO(x) echo(x);
   #define VAR(T,x) var<T>(#x, x);

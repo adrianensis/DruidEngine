@@ -38,14 +38,18 @@ void* StackAllocator::getTop(){
 // ---------------------------------------------------------------------------
 
 void StackAllocator::init(u32 size){
-  LinearAllocator::init(size);
+	TRACE();
+
+  LinearAllocator::init(size); TRACE()
   mTop = mStart;
 }
 
 // ---------------------------------------------------------------------------
 
 void StackAllocator::initFromMemory(u32 size, void* mem){
-  LinearAllocator::initFromMemory(size, mem);
+	TRACE();
+
+  LinearAllocator::initFromMemory(size, mem); TRACE()
   mTop = mStart;
 }
 

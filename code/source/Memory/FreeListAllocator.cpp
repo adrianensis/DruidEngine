@@ -90,7 +90,9 @@ FreeListAllocator::~FreeListAllocator(){
 // ---------------------------------------------------------------------------
 
 void FreeListAllocator::init(u32 size){
-  Allocator::init(size);
+	TRACE();
+
+  Allocator::init(size); TRACE()
   FreeListAllocator::reset();
 }
 

@@ -43,6 +43,8 @@ QuadTree::Node::~Node() {
 // ---------------------------------------------------------------------------
 
 void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree* tree) {
+	TRACE();
+
   mLeftTop = leftTop;
   mWidth = width;
   mHeight = height;
@@ -311,6 +313,8 @@ QuadTree::~QuadTree(){
 // ---------------------------------------------------------------------------
 
 void QuadTree::init(f32 size){
+	TRACE();
+
   mWidth = size;
   mHeight = size;
 

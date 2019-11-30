@@ -37,6 +37,8 @@ void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::init(){
+	TRACE();
+
   mRigidBodies = Memory::allocate<List<RigidBody*>>();
   mRigidBodies->init();
 

@@ -38,6 +38,8 @@ Engine::~Engine() = default;
 
 void Engine::init(){
 
+	TRACE()
+
   mRenderEngine = RenderEngine::getInstance(); //Memory::allocate<RenderEngine>();
   mScriptEngine = ScriptEngine::getInstance(); //Memory::allocate<ScriptEngine>();
   mPhysicsEngine = PhysicsEngine::getInstance(); //Memory::allocate<PhysicsEngine>();
@@ -100,7 +102,7 @@ void Engine::loadScene(Scene* scene){
 
 void Engine::run(){
 
-	Time::init();
+	Time::init(); TRACE()
 
 	f32 accumulator = 0.0f;
 

@@ -15,7 +15,9 @@ LinearAllocator::~LinearAllocator(){
 // ---------------------------------------------------------------------------
 
 void LinearAllocator::init(u32 size){
-  Allocator::init(size);
+	TRACE();
+
+  Allocator::init(size); TRACE()
 }
 
 // ---------------------------------------------------------------------------

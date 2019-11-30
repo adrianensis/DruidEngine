@@ -18,6 +18,8 @@ ScriptEngine::~ScriptEngine() = default;
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::init(){
+	TRACE();
+
   mScripts = Memory::allocate<List<Script*>>();
   mScripts->init();
 }

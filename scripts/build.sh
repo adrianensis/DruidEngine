@@ -3,8 +3,9 @@
 buildDir="build"
 buildType="Debug"
 buildTests=false
+enableLogs=false
 
-while getopts ":rtch" opt; do
+while getopts ":rtlch" opt; do
   case $opt in
     h)
       echo
@@ -13,6 +14,7 @@ while getopts ":rtch" opt; do
       echo "-h Show help."
       echo "-r Compile Release, Debug by default."
       echo "-t Compile Tests suite."
+      echo "-l Enable Logs."
       echo "-c Clean the project."
       echo
       exit
@@ -26,6 +28,9 @@ while getopts ":rtch" opt; do
       ;;
     t)
       buildTests=true
+      ;;
+    l)
+      enableLogs=true
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -42,6 +47,6 @@ done
 
 mkdir $buildDir 2> /dev/null
 cd $buildDir 2> /dev/null
-cmake -DCMAKE_BUILD_TYPE=$buildType -DBUILD_TESTS=$buildTests ..
+cmake -DCMAKE_BUILD_TYPE=$buildType -DBUILD_TESTS=$buildTests -DENABLE_LOGS=$enableLogs ..
 
 make -j8

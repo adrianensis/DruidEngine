@@ -1,4 +1,5 @@
 #include "Time.h"
+#include "Log.h"
 
 namespace DE {
 
@@ -15,6 +16,8 @@ namespace DE {
   // ---------------------------------------------------------------------------
 
   void Time::init(){
+	  TRACE();
+
     Time::mDeltaTimeMillis = 0.0;
     Time::mDeltaTimeSeconds = 0.0;
     Time::mLastTime = std::chrono::high_resolution_clock::now();

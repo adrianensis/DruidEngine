@@ -23,6 +23,8 @@ Shader::~Shader() = default;
 // ---------------------------------------------------------------------------
 
 void Shader::initInternal(const std::string& vertex, const std::string& fragment) {
+	TRACE();
+
   mVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
   std::ifstream vertex_ifs;
@@ -74,10 +76,14 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 // ---------------------------------------------------------------------------
 
 void Shader::init() {
+	TRACE();
+
 	initInternal("resources/shaders/vertex.shader", "resources/shaders/fragment.shader");
 }
 
 void Shader::initDebug() {
+	TRACE();
+
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }
 

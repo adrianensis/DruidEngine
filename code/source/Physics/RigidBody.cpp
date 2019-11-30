@@ -34,6 +34,8 @@ RigidBody::~RigidBody() = default;
 // ---------------------------------------------------------------------------
 
 void RigidBody::init(){
+	TRACE();
+
   saveState();
 }
 

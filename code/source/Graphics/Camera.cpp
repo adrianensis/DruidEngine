@@ -17,6 +17,8 @@ Camera::~Camera() {
 }
 
 void Camera::init(){
+	TRACE();
+
 	mViewTranslationMatrix = Memory::allocate<Matrix4>();
 	mViewTranslationMatrix->identity();
 };

@@ -32,6 +32,8 @@ Transform::~Transform() {
 // ---------------------------------------------------------------------------
 
 void Transform::init(){
+	TRACE();
+
 	// mModelMatrix = Memory::allocate<Matrix4>();
 	// mModelMatrix->identity();
 

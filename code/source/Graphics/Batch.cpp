@@ -48,6 +48,8 @@ Batch::~Batch() {
 // ---------------------------------------------------------------------------
 
 void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
+	TRACE();
+
 	mRenderEngine = renderEngine;
 
 	mRenderers = Memory::allocate<List<Renderer*>>();

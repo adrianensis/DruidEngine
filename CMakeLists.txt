@@ -14,7 +14,12 @@ project(${DRUID})
 # We need c++14 because it defines the auto type.
 
 set(CMAKE_CXX_FLAGS_ALL "-std=c++17 -Wall") # this macro was invented by me
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D DE_DEBUG ${CMAKE_CXX_FLAGS_ALL}")
+
+if(ENABLE_LOGS)
+  set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -D DE_ENABLE_LOGS")
+endif(ENABLE_LOGS)
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -ffast-math -mavx")
 
 # ----------------------------------------------------------------------------

@@ -179,12 +179,16 @@ void Allocator::setMemoryChunk(void* mem) {
 // ---------------------------------------------------------------------------
 
 void Allocator::init(u32 size) {
+	TRACE();
+
   initFromMemory(size, ::operator new (size));
 }
 
 // ---------------------------------------------------------------------------
 
 void Allocator::initFromMemory(u32 size, void* mem) {
+	TRACE();
+
   mTotalSize = size;
 
   setMemoryChunk(mem);

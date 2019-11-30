@@ -78,7 +78,7 @@ void Matrix4::init(u32 n){
 };
 
 void Matrix4::init(const Matrix4& other){
-  Matrix4::init(other.mData);
+  Matrix4::init(other.mData); //TRACE()
 };
 
 void Matrix4::init(Array<f32>& data){
