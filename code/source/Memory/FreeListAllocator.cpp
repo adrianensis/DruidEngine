@@ -17,37 +17,55 @@ FreeListAllocator::Block::~Block(){
 void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
-  this->used = false;
+  this->blockStatus = BlockStatus::FREE;
+  next = nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
-FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
+void FreeListAllocator::pushBackBlock(Block* block) {
+  lastBlock->next = block;
+  lastBlock = block;
+}
+
+// ---------------------------------------------------------------------------
+
+void FreeListAllocator::pushFrontBlock(Block* block) {
+  block->next = firstBlock;
+  firstBlock = block;
+}
+
+// ---------------------------------------------------------------------------
+
+FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
   bool found = false;
-  List<Block>::Iterator selectedIt;
 
-  FOR_LIST_COND (it, mFreeBlocks, !found){
+  Block* it = firstBlock;
+  Block* selectedBlock = nullptr;
 
-    Block b = it.get();
+  while(it && !found){
 
-    if(b.size >= size && ! b.used){
+    if(it->size >= size && it->blockStatus == BlockStatus::FREE){
       found = true;
-      selectedIt = it;
+      selectedBlock = it;
     }
+
+    it = it->next;
   }
 
-  Block selectedBlock = selectedIt.get();
-  selectedBlock->used = true;
+  selectedBlock->blockStatus = BlockStatus::INVALID;
 
-  mFreeBlocks->remove(selectedIt);
+  Block* usedBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+  usedBlock->init(selectedBlock->unalignedAddress, size);
+  usedBlock->blockStatus = BlockStatus::USED;
 
-  Block usedBlock;
-  usedBlock.init(selectedBlock.unalignedAddress, size);
-  mUsedBlocks->pushBack(usedBlock);
+  pushBackBlock(usedBlock); // NOTE : Free blocks are pushed BACK
 
-  Block newFreeBlock;
-  newFreeBlock.init(selectedBlock.unalignedAddress + size, selectedBlock.size - size);
-  mFreeBlocks->pushBack(newFreeBlock);
+  Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+  newFreeBlock->init(selectedBlock->unalignedAddress + size, selectedBlock->size - size);
+  newFreeBlock->blockStatus = BlockStatus::FREE;
+
+  pushFrontBlock(newFreeBlock); // NOTE : Free blocks are pushed FRONT
 
   return selectedBlock;
 }
@@ -56,25 +74,23 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 
 u32 FreeListAllocator::freeBlock(void* unalignedAddress){
   bool found = false;
-  List<Block>::Iterator selectedIt;
 
-  FOR_LIST_COND (it, mUsedBlocks, !found){
+  Block* it = firstBlock;
+  Block* selectedBlock = nullptr;
 
-    Block b = it.get();
+  while(it && !found){
 
-    if(b.unalignedAddress == unalignedAddress){
+    if(it->unalignedAddress == unalignedAddress && it->blockStatus == BlockStatus::USED){
       found = true;
-      selectedIt = it;
+      selectedBlock = it;
     }
+
+    it = it->next;
   }
 
-  Block selectedBlock = selectedIt.get();
+  selectedBlock->blockStatus = BlockStatus::FREE;
 
-  mUsedBlocks->remove(selectedIt);
-
-  mFreeBlocks->pushBack(selectedBlock);
-
-  return selectedBlock.size;
+  return selectedBlock->size;
 }
 
 // ---------------------------------------------------------------------------
@@ -107,8 +123,8 @@ void* FreeListAllocator::allocate(u32 size){
 // ---------------------------------------------------------------------------
 
 void* FreeListAllocator::allocate(u32 size, u32 alignment){
-  Block block = allocateBlock(size+alignment);
-  void* unalignedAddress = block.unalignedAddress;
+  Block* block = allocateBlock(size+alignment);
+  void* unalignedAddress = block->unalignedAddress;
   return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
 
@@ -125,20 +141,40 @@ void FreeListAllocator::free(const void* pointer){
 
 // ---------------------------------------------------------------------------
 
+void FreeListAllocator::flush() {
+  Block* lastValid = nullptr;
+  Block* it = firstBlock;
+
+  while(it){
+
+    Block* next = it->next;
+
+    // If block is VALID
+    if(it->blockStatus != BlockStatus::INVALID){
+      if(lastValid){
+        lastValid->next = it;
+      }
+
+      lastValid = it;
+    } else {
+      Allocator::internalFree(it, &mLinearAllocator);
+    }
+
+    it = next;
+  }
+}
+
+// ---------------------------------------------------------------------------
+
 void FreeListAllocator::reset(){
   Allocator::reset();
 
   mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.01f));
-  mUsedBlocks = Allocator::internalAllocate<List<Block>>(&mLinearAllocator);
-  mFreeBlocks = Allocator::internalAllocate<List<Block>>(&mLinearAllocator);
-  mFreeBlocks->init();
-  mUsedBlocks->init();
-  mFreeBlocks->setAllocator(&mLinearAllocator);
-  mUsedBlocks->setAllocator(&mLinearAllocator);
 
-  Block block;
-  block.init(mStart, mTotalSize);
-  mFreeBlocks->pushBack(block);
+  firstBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+  firstBlock->init(mStart, mTotalSize);
+
+  lastBlock = firstBlock;
 }
 
 // ---------------------------------------------------------------------------

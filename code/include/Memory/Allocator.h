@@ -85,6 +85,11 @@ public:
   virtual void free(const void* pointer) = 0;
 
   /*!
+    \brief Cleaning step. Used by FreeListAllocator to remove invalid blocks.
+  */
+  virtual void flush();
+
+  /*!
     \brief Frees aligned memory.
   */
   virtual void reset();

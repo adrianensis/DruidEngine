@@ -57,3 +57,5 @@ Run intgration test by executing `./testOutput/test_integration`. Result is stor
   * Colliders. Use composition instead inheritance.
     * collider->setShape(Box/Sphere)
 * Write in files
+* Put a limit for FreeListAllocator.
+  * How many blocks can it free every frame?

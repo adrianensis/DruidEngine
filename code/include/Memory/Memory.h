@@ -40,6 +40,8 @@ public:
 
   static void init(u32 size);
 
+  static void flush();
+
   static Allocator& getGlobal();
 
   template<class T>

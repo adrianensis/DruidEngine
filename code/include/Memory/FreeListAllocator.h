@@ -14,11 +14,18 @@ class FreeListAllocator : public Allocator {
 
 private:
 
+  enum class BlockStatus {
+    INVALID,
+    FREE,
+    USED
+  };
+
   class Block{
   public:
     void* unalignedAddress;
     u32 size;
-    bool used;
+    BlockStatus blockStatus;
+    Block* next;
 
     Block();
     ~Block();
@@ -28,15 +35,22 @@ private:
       if (this == &rhs) return *this; // handle self assignment
       this->unalignedAddress = rhs.unalignedAddress;
       this->size = rhs.size;
+      this->blockStatus = rhs.blockStatus;
       return (*this);
     }
   };
 
   LinearAllocator mLinearAllocator; // TODO: change for Memory::allocate()
-  List<Block>* mFreeBlocks; // TODO: change to Block*
-  List<Block>* mUsedBlocks;
+  // List<Block>* mFreeBlocks; // TODO: change to Block*
+  // List<Block>* mUsedBlocks;
 
-  Block allocateBlock(u32 size);
+  Block* firstBlock;
+  Block* lastBlock;
+
+  void pushBackBlock(Block* block);
+  void pushFrontBlock(Block* block);
+
+  Block* allocateBlock(u32 size);
   u32 freeBlock(void* unalignedAddress);
 
 public:
@@ -55,6 +69,7 @@ public:
   void* allocate(u32 size) override;
   void* allocate(u32 size, u32 alignment) override;
   void free(const void* pointer) override;
+  virtual void flush() override;
   void reset() override;
 
 };

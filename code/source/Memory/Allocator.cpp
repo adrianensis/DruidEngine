@@ -198,6 +198,12 @@ void Allocator::initFromMemory(u32 size, void* mem) {
 
 // ---------------------------------------------------------------------------
 
+void Allocator::flush() {
+
+}
+
+// ---------------------------------------------------------------------------
+
 void Allocator::reset() {
   mAllocatedSize = 0;
   Allocator::clean(mStart, mTotalSize);
