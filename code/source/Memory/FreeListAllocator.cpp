@@ -17,6 +17,7 @@ FreeListAllocator::Block::~Block(){
 void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
+  this->used = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -29,13 +30,14 @@ FreeListAllocator::Block FreeListAllocator::allocateBlock(u32 size){
 
     Block b = it.get();
 
-    if(b.size >= size){
+    if(b.size >= size && ! b.used){
       found = true;
       selectedIt = it;
     }
   }
 
   Block selectedBlock = selectedIt.get();
+  selectedBlock->used = true;
 
   mFreeBlocks->remove(selectedIt);
 

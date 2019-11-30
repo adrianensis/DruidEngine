@@ -18,6 +18,7 @@ private:
   public:
     void* unalignedAddress;
     u32 size;
+    bool used;
 
     Block();
     ~Block();
