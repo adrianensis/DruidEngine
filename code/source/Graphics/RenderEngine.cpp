@@ -118,7 +118,7 @@ void RenderEngine::step() {
 		it.get()->render();
 	}
 
-  stepDebug();
+  //stepDebug();
 
 	RenderContext::swap();
 

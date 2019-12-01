@@ -59,10 +59,10 @@ const Matrix4& Camera::getProjectionMatrix() const{
 
 const Matrix4& Camera::getViewTranslationMatrix(){
 
-	// TODO : optimization, if transform hasn't changed, directly return mViewTranslationMatrix
-
-	Vector3 position = getGameObject()->getTransform()->getLocalPosition();
-	mViewTranslationMatrix->translation(position * -1);
+	if(getGameObject()->getTransform()->isDirtyTranslation()){
+		Vector3 position = getGameObject()->getTransform()->getLocalPosition();
+		mViewTranslationMatrix->translation(position * -1);
+	}
 
 	return *mViewTranslationMatrix;
 };
