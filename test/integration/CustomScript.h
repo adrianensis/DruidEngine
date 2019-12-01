@@ -11,6 +11,7 @@ class Renderer;
 class Transform;
 class RigidBody;
 class GameObject;
+class Camera;
 
 class CustomScript : public Script{
 private:
@@ -18,6 +19,9 @@ private:
   Renderer* mRenderer;
   RigidBody* mRigidBody;
   Transform* mTransform;
+  Camera* mCamera;
+
+  u32 counter = 0;
 
   GameObject* mTestObj;
 

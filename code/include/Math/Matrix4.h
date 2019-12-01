@@ -37,6 +37,7 @@ public:
   void set(u8 row, u8 col, f32 value);
 
   void transpose();
+  void invert();
 
   void mul(const Matrix4& other);
   Vector4 mulVector(const Vector4& vector);

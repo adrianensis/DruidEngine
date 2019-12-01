@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include "Matrix4.h"
+#include "Vector3.h"
 #include "GameObject.h"
 #include "Transform.h"
 
@@ -21,6 +22,9 @@ void Camera::init(){
 
 	mViewTranslationMatrix = Memory::allocate<Matrix4>();
 	mViewTranslationMatrix->identity();
+
+	mInversePVMatrix = Memory::allocate<Matrix4>();
+	mInversePVMatrix->identity();
 };
 
 // ---------------------------------------------------------------------------
@@ -70,6 +74,35 @@ const Matrix4& Camera::getViewTranslationMatrix(){
 const Matrix4& Camera::getViewRotationMatrix(){
 	return getGameObject()->getTransform()->getRotationMatrix();
 };
+
+// ---------------------------------------------------------------------------
+
+Vector3 Camera::screenToWorld(Vector2 screenPosition){
+	if(getGameObject()->getTransform()->isDirtyTranslation()){
+		Matrix4 inverseProjectionMatrix;
+		Matrix4 viewTranslationMatrix;
+		Matrix4 viewRotationMatrix;
+
+		inverseProjectionMatrix.init(getProjectionMatrix());
+		viewTranslationMatrix.init(getViewTranslationMatrix());
+		viewRotationMatrix.init(getViewRotationMatrix());
+
+		viewTranslationMatrix.mul(viewRotationMatrix);
+		inverseProjectionMatrix.mul(viewTranslationMatrix);
+
+		inverseProjectionMatrix.invert();
+
+		mInversePVMatrix->init(inverseProjectionMatrix);
+	}
+
+	Vector4 v = mInversePVMatrix->mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
+
+	v.x = v.x / v.w;
+	v.y = v.y / v.w;
+	v.z = v.z / v.w;
+
+	return Vector3(v.x, v.y, v.z);
+}
 
 // ---------------------------------------------------------------------------
 

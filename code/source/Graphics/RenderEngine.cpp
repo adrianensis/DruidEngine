@@ -84,13 +84,12 @@ RenderEngine::~RenderEngine(){
 void RenderEngine::init() {
 	TRACE();
 
-
 	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
   mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
   mLineRendererIndices = Memory::allocate<Array<u32>>();
   mShaderLine = Memory::allocate<Shader>();
 
-  RenderContext::init(); TRACE()
+  RenderContext::init();
   mBatches->init();
 
   mLineRenderers->init(mLineRenderersCount);

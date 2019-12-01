@@ -29,6 +29,8 @@ public:
 	RenderContext();
 	~RenderContext() override;
 
+	static Vector2 getWindowSize();
+
 	static void init();
 	static bool isClosed();
 	static void swap();

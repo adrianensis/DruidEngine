@@ -8,6 +8,7 @@
 
 #include "Array.h"
 #include "Camera.h"
+#include "Input.h"
 
 namespace DE {
 
@@ -24,6 +25,12 @@ RenderContext::~RenderContext() = default;
 
 // ---------------------------------------------------------------------------
 
+Vector2 RenderContext::getWindowSize() {
+  return smWindowSize;
+}
+
+// ---------------------------------------------------------------------------
+
 void RenderContext::onResize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
 
@@ -34,7 +41,6 @@ void RenderContext::onResize(GLFWwindow* window, int width, int height){
 
 void RenderContext::init() {
 	TRACE();
-
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -68,6 +74,8 @@ void RenderContext::init() {
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+
+  Input::init();
 
 	RenderContext::clear();
 }

@@ -34,7 +34,7 @@ int main() {
 	GameObject* cameraGameObject = Memory::allocate<GameObject>();
 	cameraGameObject->init();
 
-	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,-100));
+	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 
 	// script
 

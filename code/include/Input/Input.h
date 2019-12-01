@@ -17,6 +17,7 @@ public:
 	static void init();
 	static void pollEvents();
 	static bool isKeyPressed(u32 key);
+	static bool isMouseButtonPressed(u32 key);
 	static Vector2 getMousePosition();
 };
 

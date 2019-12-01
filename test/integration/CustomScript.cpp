@@ -2,10 +2,14 @@
 #include "Log.h"
 
 #include "GameObject.h"
+#include "Scene.h"
 #include "Transform.h"
+#include "Camera.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Vector3.h"
+#include "Vector4.h"
+#include "Matrix4.h"
 #include "Time.h"
 #include "Input.h"
 #include "List.h"
@@ -20,6 +24,7 @@
 
 #include "Scene.h"
 #include "RenderEngine.h"
+#include "RenderContext.h"
 
 #include "File.h"
 
@@ -135,6 +140,10 @@ void CustomScript::init(){
 
 void CustomScript::step(){
 
+  if(! mCamera){
+    mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+  }
+
   f32 movement = 500.0f;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
@@ -164,19 +173,28 @@ void CustomScript::step(){
     mRigidBody->setLinear(Vector3(movement,0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
-    if(!mTestCreated) {
-      createTestMap();
-      //createTestObj();
+  // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
+  }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+    // if(!mTestCreated) {
+    //   // createTestMap();
+    //   //createTestObj();
+    //
+    //   mTestCreated = true;
+    //
+    //   RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
+    // }
 
-      mTestCreated = true;
+    Vector2 mouse(Input::getMousePosition());
 
-      RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
-    }
-
-    // Vector2 mouse(Input::getMousePosition());
     // VAR(f32, mouse.x);
     // VAR(f32, mouse.y);
+
+    Vector3 world = mCamera->screenToWorld(mouse);
+
+    // VAR(f32, world.x);
+    // VAR(f32, world.y);
+
+    mTransform->setLocalPosition(world);
 
     //File::readFile("resources/shaders/vertex.shader");
 
@@ -193,6 +211,8 @@ void CustomScript::step(){
   }else{
     mRenderer->setAnimation("idle");
   }
+
+  counter++;
 }
 
 // ---------------------------------------------------------------------------

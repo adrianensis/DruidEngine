@@ -33,11 +33,23 @@ bool Input::isKeyPressed(u32 key) {
 
 // ---------------------------------------------------------------------------
 
-Vector2 Input::getMousePosition() {
-  f64 xPos, yPos;
-  glfwGetCursorPos(RenderContext::smWindow, &xPos, &yPos);
+bool Input::isMouseButtonPressed(u32 key) {
+  return glfwGetMouseButton(RenderContext::smWindow, key) == GLFW_PRESS;
+}
 
-  return Vector2(static_cast<f32>(xPos) - (RenderContext::smWindowSize.x/2.0f), (RenderContext::smWindowSize.y/2.0f) - static_cast<f32>(yPos));
+// ---------------------------------------------------------------------------
+
+Vector2 Input::getMousePosition() {
+  f64 mouseCoordX, mouseCoordY;
+  glfwGetCursorPos(RenderContext::smWindow, &mouseCoordX, &mouseCoordY);
+
+	mouseCoordX = mouseCoordX - (RenderContext::smWindowSize.x/2.0f);
+	mouseCoordY = (RenderContext::smWindowSize.y/2.0f) - mouseCoordY;
+
+	mouseCoordX = mouseCoordX / (RenderContext::smWindowSize.x / 2.0f);
+	mouseCoordY = mouseCoordY / (RenderContext::smWindowSize.y / 2.0f);
+
+  return Vector2(mouseCoordX, mouseCoordY);
 }
 
 

@@ -48,8 +48,6 @@ Run intgration test by executing `./testOutput/test_integration`. Result is stor
   * Labels
 * Matrix - Inverse matrix
 * Input - Mouse coordinates - to world space
-* Texture Atlas renderer, only for maps. Just an array of tiles (position, collider).
-  * Renderer: add a PositionOffsetMatrix.
 * Map Loader
 * Sprite Editor
 * Sprite Loader
