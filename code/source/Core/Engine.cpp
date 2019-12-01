@@ -74,20 +74,22 @@ void Engine::loadScene(Scene* scene){
 	FOR_LIST (itGameObjects, gameObjects){
 		GameObject* gameObject = itGameObjects.get();
 
-		List<Script*>* ScriptList = gameObject->getComponents<Script>();
-		List<Renderer*>* RendererList = gameObject->getComponents<Renderer>();
-		List<RigidBody*>* RigidBodyList = gameObject->getComponents<RigidBody>();
+		List<Script*>* scriptList = gameObject->getComponents<Script>();
+		List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
+		List<RigidBody*>* rigidBodyList = gameObject->getComponents<RigidBody>();
 
-		Script* script = ScriptList ? ScriptList->get(0) : nullptr;
-		Renderer* renderer = RendererList ? RendererList->get(0) : nullptr;
-		RigidBody* rigidBbody = RigidBodyList ? RigidBodyList->get(0) : nullptr;
+		Script* script = scriptList ? scriptList->get(0) : nullptr;
+		Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
+		RigidBody* rigidBbody = rigidBodyList ? rigidBodyList->get(0) : nullptr;
 
 		if(script){
 			mScriptEngine->addScript(script);
 		}
 
-		if(renderer){
-			mRenderEngine->addRenderer(renderer);
+		if(rendererList){
+			FOR_LIST (it, rendererList){
+				mRenderEngine->addRenderer(it.get());
+			}
 		}
 
 		if(rigidBbody){

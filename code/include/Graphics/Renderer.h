@@ -3,7 +3,9 @@
 
 #include "Component.h"
 #include "Vector2.h"
+#include "Vector3.h"
 #include "Vector4.h"
+#include "Matrix4.h"
 
 #include <string>
 
@@ -25,6 +27,9 @@ private:
 	Mesh* mMesh;
 
 	Array<f32>* mColor;
+
+	Vector3 mPositionOffset;
+	Matrix4* mPositionOffsetMatrix;
 
 	Vector2 mRegionPosition;
   f32 mRegionWidth;
@@ -49,6 +54,10 @@ public:
 
 	void setColor(const Vector4& color);
 	bool isLineMode();
+
+	DE_GET_SET(Vector3, PositionOffset);
+
+	const Matrix4& getPositionOffsetMatrix();
 
 	DE_GET_SET(Mesh*, Mesh);
 

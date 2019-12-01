@@ -126,6 +126,12 @@ void Shader::addVector4(Array<f32>* value, const std::string& name){
   u32 location = glGetUniformLocation(mProgram, name.c_str());
   glUniform4fv(location, 1, value->getRawData());
 };
+// ---------------------------------------------------------------------------
+
+void Shader::addVector3(Array<f32>* value, const std::string& name){
+  u32 location = glGetUniformLocation(mProgram, name.c_str());
+  glUniform3fv(location, 1, value->getRawData());
+};
 
 // ---------------------------------------------------------------------------
 

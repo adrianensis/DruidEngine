@@ -82,7 +82,14 @@ void CustomScript::createTestObj() {
 
 void CustomScript::createTestMap() {
 
-  GameObject* tile;
+  Vector2 size(100.0f,100.0f);
+
+  GameObject* map = Memory::allocate<GameObject>();
+  map->init();
+
+  // map->getTransform()->setLocalPosition(Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0));
+  map->getTransform()->setLocalPosition(Vector3(0,0,0));
+  map->getTransform()->setScale(Vector3(size.x, size.y,1));
 
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
@@ -98,28 +105,20 @@ void CustomScript::createTestMap() {
   FOR_RANGE(i, 0, tilesCount){
     FOR_RANGE(j, 0, tilesCount){
 
-      Vector2 size(100,100);
-
-      tile = Memory::allocate<GameObject>();
-      tile->init();
-
-      tile->getTransform()->setLocalPosition(Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0));
-      tile->getTransform()->setScale(Vector3(size.x,size.y,1));
-
       Renderer* renderer = Memory::allocate<Renderer>();
-      tile->addComponent<Renderer>(renderer);
+      map->addComponent<Renderer>(renderer);
 
       //renderer->setColor(Vector4(0,0,0,0.7f));
+      renderer->setPositionOffset(Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0));
 
       renderer->setMesh(Mesh::getRectangle());
       renderer->setMaterial(material);
 
       renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
-
-      getGameObject()->getScene()->addGameObject(tile);
     }
   }
 
+  getGameObject()->getScene()->addGameObject(map);
 }
 
 // ---------------------------------------------------------------------------

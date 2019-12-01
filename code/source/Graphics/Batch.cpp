@@ -118,6 +118,7 @@ void Batch::render() {
 		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
 
 		shader->addMatrix(translationMatrix, "translationMatrix");
+		shader->addMatrix(it.get()->getPositionOffsetMatrix(), "positionOffsetMatrix");
 		shader->addMatrix(rotationMatrix, "rotationMatrix");
 		shader->addMatrix(scaleMatrix, "scaleMatrix");
 

@@ -20,6 +20,9 @@ Renderer::Renderer() : Component() {
   mCurrentAnimation = nullptr;
   mColor = nullptr;
 
+  mPositionOffset = Vector3(0.0,0.0,0.0);
+  mPositionOffsetMatrix = nullptr;
+
   // texture region
   mRegionPosition = Vector2(0.0,0.0);
   mRegionWidth = 1.0;
@@ -32,6 +35,10 @@ Renderer::Renderer() : Component() {
 
 Renderer::~Renderer() {
   Memory::free<HashMap<std::string, Animation*>>(mAnimations);
+  Memory::free<Array<f32>>(mColor);
+
+  if(mPositionOffsetMatrix)
+    Memory::free<Matrix4>(mPositionOffsetMatrix);
 }
 
 // ---------------------------------------------------------------------------
@@ -119,6 +126,16 @@ void Renderer::updateMaterial(Material* material) {
 };
 
 // ---------------------------------------------------------------------------
+
+const Matrix4& Renderer::getPositionOffsetMatrix(){
+  if(! mPositionOffsetMatrix){
+    mPositionOffsetMatrix = Memory::allocate<Matrix4>();
+    mPositionOffsetMatrix->translation(mPositionOffset);
+  }
+
+  return *mPositionOffsetMatrix;
+}
+
 
 void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
 bool Renderer::isLineMode() { return mLineMode; }
