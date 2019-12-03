@@ -44,6 +44,9 @@ private:
     Array<LineRenderer*>* mLineRenderers;
     u32 mLineRenderersCount;
 
+		u32 mMaxLayersCount;
+		u32 mMaxLayerUsed;
+
 public:
 	DE_CLASS(RenderEngine, DE_Class);
 

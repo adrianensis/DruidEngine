@@ -95,7 +95,7 @@ void Batch::update() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::render() {
+void Batch::render(u32 render) {
 
 	Shader* shader = mMaterial->getShader();
 

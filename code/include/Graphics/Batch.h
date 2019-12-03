@@ -37,7 +37,7 @@ public:
 	void init(RenderEngine* renderEngine, Mesh* mesh, Material* material);
 	void bind();
 	void update();
-	void render();
+	void render(u32 layer);
 
 	void addRenderer(Renderer* renderer);
 

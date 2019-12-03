@@ -31,6 +31,8 @@ Renderer::Renderer() : Component() {
   mInvertXAxis = false;
   mAlphaEnabled = true;
   mLineMode = false;
+
+  mLayer = 0;
 }
 
 Renderer::~Renderer() {
@@ -68,31 +70,18 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
 
 // ---------------------------------------------------------------------------
 
-/**
-* Set the animation, by name.
-* @param {String} name The name.
-*/
 void Renderer::setAnimation(const std::string& name){
 	mCurrentAnimation = mAnimations->get(name);
 };
 
 //----------------------------------------------------------------------
 
-/**
-* Add an animation, by name.
-* @param {String} name The name.
-* @param {Animation} animation The animation.
-*/
 void Renderer::addAnimation(const std::string& name, Animation* animation){
 	mAnimations->set(name, animation);
 };
 
 // ---------------------------------------------------------------------------
 
-/**
-* Update de material with information about the region, the alphacolor and the animation.
-* @param {Material} material The material.
-*/
 void Renderer::updateMaterial(Material* material) {
   if(mMaterial->getTexture()) {
 

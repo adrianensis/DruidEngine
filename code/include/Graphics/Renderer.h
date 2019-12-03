@@ -40,6 +40,8 @@ private:
 	bool mLineMode;
 	bool mAlphaEnabled;
 
+	u32 mLayer;
+
 public:
 
 	DE_CLASS(Renderer, Component);
@@ -48,8 +50,23 @@ public:
 
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 
+	/**
+	* Set the animation, by name.
+	* \param string name The name.
+	*/
 	void setAnimation(const std::string& name);
+
+	/**
+	* Add an animation, by name.
+	* \param string name The name.
+	* \param Animation animation The animation.
+	*/
 	void addAnimation(const std::string& name, Animation* animation);
+
+	/**
+	* Update de material with information about the region, the alphacolor and the animation.
+	* \param Material material The material.
+	*/
 	void updateMaterial(Material* material);
 
 	void setColor(const Vector4& color);
@@ -66,6 +83,8 @@ public:
 	DE_SET(bool, InvertXAxis);
 	DE_SET(bool, AlphaEnabled);
 	DE_SET(bool, LineMode);
+
+	DE_GET_SET(u32, Layer);
 };
 
 } /* namespace DE */

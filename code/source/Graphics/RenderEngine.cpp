@@ -13,6 +13,7 @@
 #include "Log.h"
 #include "Shader.h"
 #include "Vector3.h"
+#include "MathUtils.h"
 
 namespace DE {
 
@@ -107,14 +108,19 @@ void RenderEngine::init() {
 
     mLineRenderers->set(i,lineRenderer);
   }
+
+  mMaxLayersCount = 10;
+  mMaxLayersCount = 0;
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
 
-	FOR_LIST(it, mBatches->getValues()){
-		it.get()->render();
+  FOR_RANGE(layer, 0, mMaxLayersCount){
+  	FOR_LIST(it, mBatches->getValues()){
+  		it.get()->render(layer);
+  	}
 	}
 
   //stepDebug();
@@ -204,6 +210,8 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 	}
 
 	mBatches->get(texture)->addRenderer(renderer);
+
+  mMaxLayerUsed = std::max(mMaxLayerUsed, renderer->getLayer());
 }
 // ---------------------------------------------------------------------------
 
