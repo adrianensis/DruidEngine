@@ -175,14 +175,14 @@ void CustomScript::step(){
     mRenderer->setInvertXAxis(false);
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-    // if(!mTestCreated) {
-    //   // createTestMap();
-    //   //createTestObj();
-    //
-    //   mTestCreated = true;
-    //
-    //   RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
-    // }
+    if(!mTestCreated) {
+      createTestMap();
+      createTestObj();
+
+      mTestCreated = true;
+
+      RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
+    }
 
     Vector2 mouse(Input::getMousePosition());
 

@@ -3,6 +3,10 @@
 
 namespace DE {
 
+Vector2 Input::smMouseCoordinates = Vector2();
+Vector2 Input::smHalfWindowSize = Vector2();
+u32 Input::smMouseButton = 0;
+
 // ---------------------------------------------------------------------------
 
 Input::Input() : DE_Class() {
@@ -17,6 +21,8 @@ Input::~Input() {
 
 void Input::init() {
 	TRACE();
+
+	smHalfWindowSize.set((RenderContext::smWindowSize.x/2.0f), (RenderContext::smWindowSize.y/2.0f));
 }
 
 // ---------------------------------------------------------------------------
@@ -40,16 +46,16 @@ bool Input::isMouseButtonPressed(u32 key) {
 // ---------------------------------------------------------------------------
 
 Vector2 Input::getMousePosition() {
-  f64 mouseCoordX, mouseCoordY;
+
+	f64 mouseCoordX, mouseCoordY;
   glfwGetCursorPos(RenderContext::smWindow, &mouseCoordX, &mouseCoordY);
 
-	mouseCoordX = mouseCoordX - (RenderContext::smWindowSize.x/2.0f);
-	mouseCoordY = (RenderContext::smWindowSize.y/2.0f) - mouseCoordY;
+	mouseCoordX = mouseCoordX - smHalfWindowSize.x;
+	mouseCoordY = smHalfWindowSize.y - mouseCoordY;
 
-	mouseCoordX = mouseCoordX / (RenderContext::smWindowSize.x / 2.0f);
-	mouseCoordY = mouseCoordY / (RenderContext::smWindowSize.y / 2.0f);
+	smMouseCoordinates.set(mouseCoordX / smHalfWindowSize.x, mouseCoordY / smHalfWindowSize.y);
 
-  return Vector2(mouseCoordX, mouseCoordY);
+  return smMouseCoordinates;
 }
 
 

@@ -10,6 +10,13 @@ namespace DE {
 
 class Input : public DE_Class{
 
+private:
+
+	static Vector2 smMouseCoordinates;
+	static Vector2 smHalfWindowSize;
+
+	static u32 smMouseButton;
+
 public:
 
 	DE_CLASS(Input, DE_Class);

@@ -52,7 +52,7 @@ void Transform::init(){
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
 }
 
-bool Transform::isDirtyTranslation() const { mIsDirtyTranslation; }
+bool Transform::isDirtyTranslation() const { return mIsDirtyTranslation; }
 void Transform::setDirtyTranslation(bool dirty) { mIsDirtyTranslation = dirty; }
 
 

@@ -113,24 +113,26 @@ void Engine::run(){
 
 	while(! RenderContext::isClosed()) {
 
+		Time::tick();
+
 		if(mScenes->get(mCurrentSceneIndex)->thereAreNewGameObjects()){
 			loadScene(mScenes->get(mCurrentSceneIndex));
 			mRenderEngine->bind();
 		}
 
-		Time::tick();
+		mScriptEngine->step();
 
-		while(accumulator >= inverseFPS){
-			mScriptEngine->step();
-			accumulator -= inverseFPS;
-    }
+		// while(accumulator >= inverseFPS){
+		// 	mScriptEngine->step();
+		// 	accumulator -= inverseFPS;
+    // }
 
 		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
 
 		mRenderEngine->update();
 		mRenderEngine->step();
 
-		accumulator += Time::getDeltaTimeMillis();
+		// accumulator += Time::getDeltaTimeMillis();
 
 		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
