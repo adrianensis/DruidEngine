@@ -53,6 +53,8 @@ void Transform::init(){
 }
 
 bool Transform::isDirtyTranslation() const { mIsDirtyTranslation; }
+void Transform::setDirtyTranslation(bool dirty) { mIsDirtyTranslation = dirty; }
+
 
 void Transform::setWorldPosition(const Vector3& vector){
 	mIsDirtyTranslation = true;

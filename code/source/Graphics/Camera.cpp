@@ -93,6 +93,8 @@ Vector3 Camera::screenToWorld(Vector2 screenPosition){
 		inverseProjectionMatrix.invert();
 
 		mInversePVMatrix->init(inverseProjectionMatrix);
+        
+        getGameObject()->getTransform()->setDirtyTranslation(false);
 	}
 
 	Vector4 v = mInversePVMatrix->mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));

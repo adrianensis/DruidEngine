@@ -79,6 +79,7 @@ public:
 	const Matrix4& getScaleMatrix() const;
 
 	bool isDirtyTranslation() const;
+	void setDirtyTranslation(bool dirty);
 
 	// ---------------------------------------------------------------------------
 
