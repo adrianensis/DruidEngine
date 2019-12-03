@@ -45,7 +45,7 @@ private:
     u32 mLineRenderersCount;
 
 		u32 mMaxLayersCount;
-		u32 mMaxLayerUsed;
+		u32 mMaxLayersUsed;
 
 public:
 	DE_CLASS(RenderEngine, DE_Class);

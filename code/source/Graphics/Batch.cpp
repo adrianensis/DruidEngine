@@ -95,7 +95,7 @@ void Batch::update() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::render(u32 render) {
+void Batch::render(u32 layer) {
 
 	Shader* shader = mMaterial->getShader();
 
@@ -113,22 +113,24 @@ void Batch::render(u32 render) {
 
 	FOR_LIST(it, mRenderers){
 
-		const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
-		const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
-		const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
+		if(it.get()->getLayer() == layer){
+			const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
+			const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
+			const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
 
-		shader->addMatrix(translationMatrix, "translationMatrix");
-		shader->addMatrix(it.get()->getPositionOffsetMatrix(), "positionOffsetMatrix");
-		shader->addMatrix(rotationMatrix, "rotationMatrix");
-		shader->addMatrix(scaleMatrix, "scaleMatrix");
+			shader->addMatrix(translationMatrix, "translationMatrix");
+			shader->addMatrix(it.get()->getPositionOffsetMatrix(), "positionOffsetMatrix");
+			shader->addMatrix(rotationMatrix, "rotationMatrix");
+			shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-		it.get()->updateMaterial(mMaterial);
+			it.get()->updateMaterial(mMaterial);
 
-		bool lineMode = it.get()->isLineMode();
+			bool lineMode = it.get()->isLineMode();
 
-		glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
 
-		glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+		}
 	}
 
 	RenderContext::enableVAO(0);
@@ -138,17 +140,20 @@ void Batch::render(u32 render) {
 // ---------------------------------------------------------------------------
 
 void Batch::addRenderer(Renderer* renderer) {
-	// u32 layerIndex=0;
-	// FOR_LIST (it, mRenderers){
-	// 	u32 layer = it.get()->getGameObject()->getLayer();
-	// 	if(layer == layerIndex){
-	// 		// INSERT
-	// 	}
-	//
-	// 	layerIndex++;
-	// }
+	if(mRenderers->isEmpty()){
+		mRenderers->pushBack(renderer);
+	} else {
 
-	mRenderers->pushBack(renderer);
+		u32 layerIndex=0;
+		FOR_LIST (it, mRenderers){
+			u32 layer = it.get()->getLayer();
+			if(layer == layerIndex){
+				mRenderers->insert(it,renderer);
+			}
+
+			layerIndex++;
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------

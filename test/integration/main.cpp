@@ -86,6 +86,8 @@ int main() {
 
 	renderer->setColor(Vector4(0,0,0,1));
 
+	renderer->setLayer(1);
+
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	gameObject->addComponent<RigidBody>(rigidBody);
 

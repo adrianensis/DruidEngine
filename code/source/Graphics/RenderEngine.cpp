@@ -110,7 +110,7 @@ void RenderEngine::init() {
   }
 
   mMaxLayersCount = 10;
-  mMaxLayersCount = 0;
+  mMaxLayersUsed = 1;
 }
 
 // ---------------------------------------------------------------------------
@@ -119,7 +119,7 @@ void RenderEngine::step() {
 
   FOR_RANGE(layer, 0, mMaxLayersCount){
   	FOR_LIST(it, mBatches->getValues()){
-  		it.get()->render(layer);
+  		it.get()->render(layer-1);
   	}
 	}
 
@@ -211,7 +211,7 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
 	mBatches->get(texture)->addRenderer(renderer);
 
-  mMaxLayerUsed = std::max(mMaxLayerUsed, renderer->getLayer());
+  mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
 }
 // ---------------------------------------------------------------------------
 
