@@ -130,7 +130,7 @@ target_link_libraries( ${DRUID} SOIL )
 # TESTS
 # ----------------------------------------------------------------------------
 
-if(BUILD_TESTS)
+if(BUILD_UNIT_TESTS)
 
 # UNIT TESTS
 
@@ -152,9 +152,13 @@ foreach(TEST_PATH ${TEST_PATHS})
 
 endforeach()
 
+endif(BUILD_UNIT_TESTS)
+
 # ----------------------------------------------------------------------------
 
 # INTEGRATION TEST
+
+if(BUILD_INTEGRATION_TESTS)
 
 #get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
 
@@ -165,7 +169,7 @@ add_executable( ${TEST_FINAL_NAME} "test/integration/main.cpp" "test/integration
 target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
 install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
-endif(BUILD_TESTS)
+endif(BUILD_INTEGRATION_TESTS)
 
 # ----------------------------------------------------------------------------
 # TOOLS

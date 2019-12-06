@@ -71,7 +71,7 @@ void CustomScript::createTestObj() {
   renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
   renderer->setAnimation("idle");
 
-  renderer->setLineMode(true);
+  //renderer->setLineMode(true);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   mTestObj->addComponent<RigidBody>(rigidBody);
@@ -81,6 +81,44 @@ void CustomScript::createTestObj() {
   collider->setSize(size.x,size.y);
 
   getGameObject()->getScene()->addGameObject(mTestObj);
+}
+
+
+// ---------------------------------------------------------------------------
+
+void CustomScript::createTestButton() {
+  Vector2 size(400,100);
+
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/button.bmp");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(mRenderer->getMaterial()->getShader());
+
+  mTestButton = Memory::allocate<GameObject>();
+  mTestButton->init();
+
+  mTestButton->getTransform()->setLocalPosition(Vector3(400,0,0));
+  mTestButton->getTransform()->setScale(Vector3(size.x,size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  mTestButton->addComponent<Renderer>(renderer);
+
+  renderer->setColor(Vector4(0,0,0,0.7f));
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  RigidBody* rigidBody = Memory::allocate<RigidBody>();
+  mTestButton->addComponent<RigidBody>(rigidBody);
+
+  Collider* collider = Memory::allocate<Collider>();
+  mTestButton->addComponent<Collider>(collider);
+  collider->setSize(size.x,size.y);
+
+  getGameObject()->getScene()->addGameObject(mTestButton);
 }
 
 // ---------------------------------------------------------------------------
@@ -129,9 +167,11 @@ void CustomScript::createTestMap() {
 
 void CustomScript::init(){
   mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+  mCollider = getGameObject()->getComponents<Collider>()->get(0);
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
   mTransform = getGameObject()->getTransform();
   mTestObj = nullptr;
+  mTestButton = nullptr;
   mTestCreated = false;
 }
 
@@ -175,7 +215,7 @@ void CustomScript::step(){
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
     if(!mTestCreated) {
-      createTestMap();
+      createTestButton();
       createTestObj();
 
       mTestCreated = true;
@@ -193,7 +233,11 @@ void CustomScript::step(){
     // VAR(f32, world.x);
     // VAR(f32, world.y);
 
-    mTransform->setLocalPosition(world);
+    if(mTestButton->getComponents<Collider>()->get(0)->testPoint(world) != ColliderStatus::STATUS_NONE){
+      mRenderer->setLineMode(true);
+      mTestObj->getComponents<Renderer>()->get(0)->setLineMode(true);
+      mTestButton->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
+    }
 
     //File::readFile("resources/shaders/vertex.shader");
 

@@ -2,11 +2,12 @@
 
 buildDir="build"
 buildType="Debug"
-buildTests=false
+buildUnitTests=false
+buildIntegrationTests=false
 buildTools=false
 enableLogs=false
 
-while getopts ":rtxlch" opt; do
+while getopts ":ruixlch" opt; do
   case $opt in
     h)
       echo
@@ -14,7 +15,8 @@ while getopts ":rtxlch" opt; do
       echo
       echo "-h Show help."
       echo "-r Compile Release, Debug by default."
-      echo "-t Compile Tests suite."
+      echo "-u Compile Unit Tests suite."
+      echo "-i Compile Integration Tests suite."
       echo "-x Compile Tools."
       echo "-l Enable Logs."
       echo "-c Clean the project."
@@ -28,8 +30,11 @@ while getopts ":rtxlch" opt; do
     r)
       buildType="Release"
       ;;
-    t)
-      buildTests=true
+    u)
+      buildUnitTests=true
+      ;;
+    i)
+      buildIntegrationTests=true
       ;;
     x)
       buildTools=true
@@ -52,6 +57,6 @@ done
 
 mkdir $buildDir 2> /dev/null
 cd $buildDir 2> /dev/null
-cmake -DCMAKE_BUILD_TYPE=$buildType -DBUILD_TESTS=$buildTests -DBUILD_TOOLS=$buildTools -DENABLE_LOGS=$enableLogs ..
+cmake -DCMAKE_BUILD_TYPE=$buildType -DBUILD_UNIT_TESTS=$buildUnitTests -DBUILD_INTEGRATION_TESTS=$buildIntegrationTests -DBUILD_TOOLS=$buildTools -DENABLE_LOGS=$enableLogs ..
 
 make -j8
