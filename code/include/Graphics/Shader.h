@@ -19,11 +19,17 @@ private:
 	u32 mFragmentShader;
 	u32 mProgram;
 
+	static Shader* msShaderDefault;
+	static Shader* msShaderDebug;
+
 	void initInternal(const std::string& vertex, const std::string& fragment);
 
 public:
 
 	DE_CLASS(Shader, DE_Class);
+
+	static Shader* getDefaultShader();
+	static Shader* getDebugShader();
 
 	void init();
 	void initDebug();

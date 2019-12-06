@@ -1,12 +1,16 @@
 #include "Shader.h"
 #include "RenderContext.h"
 #include "Matrix4.h"
+#include "Memory.h"
 #include "Array.h"
 #include <fstream> // std::ifstream
 #include <string>
 #include <iostream>
 
 namespace DE {
+
+Shader* Shader::msShaderDefault = nullptr;
+Shader* Shader::msShaderDebug = nullptr;
 
 // ---------------------------------------------------------------------------
 
@@ -19,6 +23,24 @@ Shader::Shader() : DE_Class() {
 // ---------------------------------------------------------------------------
 
 Shader::~Shader() = default;
+
+// ---------------------------------------------------------------------------
+
+Shader* Shader::getDefaultShader() {
+	if( ! msShaderDefault){
+		msShaderDefault = Memory::allocate<Shader>();
+		msShaderDefault->init();
+	}
+	return msShaderDefault;
+}
+
+Shader* Shader::getDebugShader() {
+	if( ! msShaderDebug){
+		msShaderDebug = Memory::allocate<Shader>();
+		msShaderDebug->initDebug();
+	}
+	return msShaderDebug;
+}
 
 // ---------------------------------------------------------------------------
 

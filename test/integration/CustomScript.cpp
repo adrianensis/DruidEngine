@@ -27,6 +27,7 @@
 #include "RenderContext.h"
 
 #include "File.h"
+#include "UI.h"
 
 namespace DE {
 
@@ -87,37 +88,7 @@ void CustomScript::createTestObj() {
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestButton() {
-  Vector2 size(400,100);
-
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/button.bmp");
-
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(mRenderer->getMaterial()->getShader());
-
-  mTestButton = Memory::allocate<GameObject>();
-  mTestButton->init();
-
-  mTestButton->getTransform()->setLocalPosition(Vector3(400,0,0));
-  mTestButton->getTransform()->setScale(Vector3(size.x,size.y,1));
-
-  Renderer* renderer = Memory::allocate<Renderer>();
-  mTestButton->addComponent<Renderer>(renderer);
-
-  renderer->setColor(Vector4(0,0,0,0.7f));
-
-  renderer->setMesh(Mesh::getRectangle());
-  renderer->setMaterial(material);
-
-  RigidBody* rigidBody = Memory::allocate<RigidBody>();
-  mTestButton->addComponent<RigidBody>(rigidBody);
-
-  Collider* collider = Memory::allocate<Collider>();
-  mTestButton->addComponent<Collider>(collider);
-  collider->setSize(size.x,size.y);
-
+  mTestButton = UI::createButton(Vector3(400,0,0), Vector2(400,100));
   getGameObject()->getScene()->addGameObject(mTestButton);
 }
 

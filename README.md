@@ -61,3 +61,4 @@ Run integration test by executing `./binaries/test_integration`. Result is store
 * Write in files
 * Put a limit for FreeListAllocator.
   * How many blocks can it free every frame?
+* Free shaders.

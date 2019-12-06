@@ -50,15 +50,12 @@ int main() {
 
 	// Material
 
-	Shader* shader = Memory::allocate<Shader>();
-	shader->init();
-
 	Texture* texture = Memory::allocate<Texture>();
 	texture->init("resources/mage.bmp");
 
 	Material* material = Memory::allocate<Material>();
 	material->init();
-	material->setShader(shader);
+	material->setShader(Shader::getDefaultShader());
 	material->setTexture(texture);
 
 	// OBJECT 1
@@ -114,7 +111,7 @@ int main() {
 	Material* material2 = Memory::allocate<Material>();
 	material2->init();
 	material2->setTexture(texture2);
-	material2->setShader(shader);
+	material2->setShader(Shader::getDefaultShader());
 
 
 	for (size_t i = 0; i < 200; i++) {
