@@ -84,11 +84,15 @@ void CustomScript::createTestObj() {
   getGameObject()->getScene()->addGameObject(mTestObj);
 }
 
-
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestButton() {
   mTestButton = UI::createButton(Vector3(400,0,0), Vector2(400,100));
+
+  mTestButton->setOnPressedCallback([&]() {
+    mRenderer->setLineMode(true);
+  });
+
   getGameObject()->getScene()->addGameObject(mTestButton);
 }
 
@@ -187,7 +191,7 @@ void CustomScript::step(){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
     if(!mTestCreated) {
       createTestButton();
-      createTestObj();
+      //createTestObj();
 
       mTestCreated = true;
 
@@ -204,9 +208,10 @@ void CustomScript::step(){
     // VAR(f32, world.x);
     // VAR(f32, world.y);
 
+    // TODO : Move this into a UI system, which should detect clicks on buttons.
     if(mTestButton->getComponents<Collider>()->get(0)->testPoint(world) != ColliderStatus::STATUS_NONE){
-      mRenderer->setLineMode(true);
-      mTestObj->getComponents<Renderer>()->get(0)->setLineMode(true);
+
+      mTestButton->onPressed();
       mTestButton->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
     }
 

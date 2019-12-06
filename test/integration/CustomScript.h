@@ -11,6 +11,7 @@ class RigidBody;
 class Collider;
 class GameObject;
 class Camera;
+class UIButton;
 
 class CustomScript : public Script{
 private:
@@ -24,7 +25,7 @@ private:
   u32 counter = 0;
 
   GameObject* mTestObj;
-  GameObject* mTestButton;
+  UIButton* mTestButton;
 
   bool mTestCreated;
 

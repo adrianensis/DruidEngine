@@ -17,7 +17,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-GameObject* UI::createButton(const Vector2& position, const Vector2& size) {
+UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
 
   if( ! smTexture){
     smTexture = Memory::allocate<Texture>();
@@ -29,7 +29,7 @@ GameObject* UI::createButton(const Vector2& position, const Vector2& size) {
     smMaterial->setShader(Shader::getDefaultShader());
   }
 
-  GameObject* button = Memory::allocate<GameObject>();
+  UIButton* button = Memory::allocate<UIButton>();
   button->init();
 
   button->getTransform()->setLocalPosition(Vector3(400,0,0));

@@ -2,6 +2,7 @@
 #define DE_UI_H
 
 #include "DE_Class.h"
+#include "UIButton.h"
 #include "Vector2.h"
 
 namespace DE {
@@ -20,7 +21,7 @@ public:
 
 DE_CLASS(UI, DE_Class);
 
-static GameObject* createButton(const Vector2& position, const Vector2& size);
+static UIButton* createButton(const Vector2& position, const Vector2& size);
 
 };
 
