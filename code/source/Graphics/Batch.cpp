@@ -114,6 +114,7 @@ void Batch::render(u32 layer) {
 	FOR_LIST(it, mRenderers){
 
 		if(it.get()->getLayer() == layer){
+
 			const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
 			const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
 			const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();

@@ -1,7 +1,5 @@
-bin/
 build/
 doc/
-libs/
-libOutput/
-testOutput/
+compiledLibs/
+binaries/
 dependencies/

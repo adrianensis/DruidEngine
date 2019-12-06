@@ -26,8 +26,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -
 # OUTPUT DIRECTORIES
 # ----------------------------------------------------------------------------
 
-set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/libOutput")
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/testOutput")
+set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/compiledLibs")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/binaries")
 
 # ----------------------------------------------------------------------------
 
@@ -168,3 +168,26 @@ install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 endif(BUILD_TESTS)
 
 # ----------------------------------------------------------------------------
+# TOOLS
+# ----------------------------------------------------------------------------
+
+if(BUILD_TOOLS)
+
+file(GLOB TOOL_PATHS "tools/*")
+
+foreach(TOOL_PATH ${TOOL_PATHS})
+
+  file(GLOB TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.h")
+
+  include_directories("${TOOL_PATH}")
+
+  get_filename_component(TOOL_NAME ${TOOL_PATH} NAME_WE) # NAME_WE = name with extension
+
+  set(TOOL_FINAL_NAME "tool_${TOOL_NAME}" )
+  add_executable( ${TOOL_FINAL_NAME} ${TOOL_SOURCES} )
+  target_link_libraries( ${TOOL_FINAL_NAME} ${DRUID})
+  install(TARGETS ${TOOL_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+
+endforeach()
+
+endif(BUILD_TOOLS)
