@@ -16,6 +16,7 @@
 #include "Log.h"
 #include "Input.h"
 #include "RigidBody.h"
+#include "UI.h"
 
 #include <string>
 
@@ -49,6 +50,8 @@ void Engine::init(){
   mScriptEngine->init();
   mPhysicsEngine->init();
   mScenes->init();
+
+	UI::getInstance()->init();
 }
 
 // ---------------------------------------------------------------------------
@@ -67,7 +70,9 @@ void Engine::setScene(u32 i){
 
 void Engine::loadScene(Scene* scene){
 
-	mRenderEngine->setCamera((Camera*)scene->getCameraGameObject()->getComponents<Camera>()->get(0));
+	Camera* camera = scene->getCameraGameObject()->getComponents<Camera>()->get(0);
+
+	mRenderEngine->setCamera(camera);
 
 	List<GameObject*>* gameObjects = scene->getNewGameObjects();
 
@@ -119,6 +124,8 @@ void Engine::run(){
 			loadScene(mScenes->get(mCurrentSceneIndex));
 			mRenderEngine->bind();
 		}
+
+		UI::getInstance()->step();
 
 		mScriptEngine->step();
 

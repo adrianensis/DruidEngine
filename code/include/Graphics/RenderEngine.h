@@ -60,8 +60,7 @@ public:
 	void addRenderer(Renderer* renderer);
 	void drawLine(const Vector3& start, const Vector3& end);
 
-	void setCamera(Camera* camera);
-	Camera* getCamera() const;
+	DE_GET_SET(Camera*, Camera);
 };
 
 } /* namespace DE */

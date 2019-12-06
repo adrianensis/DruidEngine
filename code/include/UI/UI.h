@@ -2,26 +2,35 @@
 #define DE_UI_H
 
 #include "DE_Class.h"
+#include "Singleton.h"
 #include "UIButton.h"
 #include "Vector2.h"
 
 namespace DE {
 
-class GameObject;
+class UIElement;
 class Texture;
 class Material;
 
-class UI : public DE_Class {
+template <class T> class List;
+
+class UI : public DE_Class, public Singleton<UI> {
 private:
 
-static Texture* smTexture;
-static Material* smMaterial;
+Texture* mTexture;
+Material* mMaterial;
+
+List<UIElement*>* mUIElements;
 
 public:
 
 DE_CLASS(UI, DE_Class);
 
-static UIButton* createButton(const Vector2& position, const Vector2& size);
+UIButton* createButton(const Vector2& position, const Vector2& size);
+
+void init();
+void step();
+void terminate();
 
 };
 

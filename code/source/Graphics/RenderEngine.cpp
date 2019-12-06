@@ -76,9 +76,7 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton() {
   mLineRenderersCount = 50;
 }
 
-RenderEngine::~RenderEngine(){
-
-}
+RenderEngine::~RenderEngine() = default;
 
 // ---------------------------------------------------------------------------
 
@@ -228,18 +226,6 @@ void RenderEngine::drawLine(const Vector3& start, const Vector3& end){
       lineRenderer->mActive = true;
     }
   }
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::setCamera(Camera* camera){
-	mCamera = camera;
-}
-
-// ---------------------------------------------------------------------------
-
-Camera* RenderEngine::getCamera() const {
- 	return mCamera;
 }
 
 // ---------------------------------------------------------------------------

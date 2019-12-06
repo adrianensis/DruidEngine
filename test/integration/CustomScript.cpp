@@ -87,7 +87,7 @@ void CustomScript::createTestObj() {
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestButton() {
-  mTestButton = UI::createButton(Vector3(400,0,0), Vector2(400,100));
+  mTestButton = UI::getInstance()->createButton(Vector3(400,0,0), Vector2(400,100));
 
   mTestButton->setOnPressedCallback([&]() {
     mRenderer->setLineMode(true);
@@ -198,22 +198,15 @@ void CustomScript::step(){
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
 
-    Vector2 mouse(Input::getMousePosition());
+    //Vector2 mouse(Input::getMousePosition());
 
     // VAR(f32, mouse.x);
     // VAR(f32, mouse.y);
 
-    Vector3 world = mCamera->screenToWorld(mouse);
+    //Vector3 world = mCamera->screenToWorld(mouse);
 
     // VAR(f32, world.x);
     // VAR(f32, world.y);
-
-    // TODO : Move this into a UI system, which should detect clicks on buttons.
-    if(mTestButton->getComponents<Collider>()->get(0)->testPoint(world) != ColliderStatus::STATUS_NONE){
-
-      mTestButton->onPressed();
-      mTestButton->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
-    }
 
     //File::readFile("resources/shaders/vertex.shader");
 
