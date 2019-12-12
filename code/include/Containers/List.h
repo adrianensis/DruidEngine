@@ -727,7 +727,19 @@ public:
     \brief Finds with default comparator.
   */
   Iterator find(T element){
-	  return find(element, defaultComparator);
+	  //return find(element, defaultComparator);
+
+    Iterator selectedIt;
+    bool found = false;
+
+    FOR_LIST_COND(it, this, !found){
+    	if(element == it.get()){
+    		found = true;
+    		selectedIt = it;
+    	}
+    }
+
+    return selectedIt;
   }
 
   // ---------------------------------------------------------------------------

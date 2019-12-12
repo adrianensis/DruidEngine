@@ -79,7 +79,7 @@ public:
   };
 
   // for strings
-  static u64 hash(const std::string key) {
+  static u64 hash(const std::string& key) {
     std::hash<std::string> hash_fn;
     u64 hashString = hash_fn(key);
     return hash(hashString); // calls hash(const u64 key) const.

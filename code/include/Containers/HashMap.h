@@ -71,7 +71,7 @@ public:
 
 	  // check class
 	  bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value || std::is_arithmetic<K>::value || std::is_pointer<K>::value;
-	  DE_ASSERT(class_ok, "K must be integer, pointer or extend Hash class.");
+	  DE_ASSERT(class_ok, "K must be integer, std::string, pointer or extend Hash class.");
   }
 
   /*!

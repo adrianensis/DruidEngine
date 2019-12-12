@@ -97,7 +97,11 @@ void UI::step() {
 // ---------------------------------------------------------------------------
 
 void UI::terminate() {
+  FOR_LIST(it, mUIElements){
+    Memory::free<UIElement>(it.get());
+  }
 
+  Memory::free<List<UIElement*>>(mUIElements);
 }
 
 // ---------------------------------------------------------------------------

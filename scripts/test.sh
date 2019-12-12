@@ -22,7 +22,7 @@ function readTest() {
 	printf "\t\t$output\t\t$f\n"
 }
 
-cd "testOutput"
+cd "binaries"
 
 echo -e "\n-----------------------------------------------------\n"
 echo -e "  RESULT \t TIME(ms)/OK/FAIL \t TEST NAME\n"

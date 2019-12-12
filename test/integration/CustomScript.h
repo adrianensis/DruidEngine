@@ -2,6 +2,7 @@
 #define DE_CUSTOMSCRIPT_H
 
 #include "Script.h"
+#include "Vector2.h"
 
 namespace DE {
 
@@ -12,6 +13,7 @@ class Collider;
 class GameObject;
 class Camera;
 class UIButton;
+template <class K, class V> class HashMap;
 
 class CustomScript : public Script{
 private:
@@ -36,6 +38,8 @@ DE_CLASS(CustomScript, Script);
 void createTestObj();
 void createTestButton();
 void createTestMap();
+void createFont();
+HashMap<c8, Vector2>* mCharMap;
 
 void init() override;
 void step() override;

@@ -13,6 +13,7 @@
 #include "Time.h"
 #include "Input.h"
 #include "List.h"
+#include "HashMap.h"
 
 #include "Mesh.h"
 #include "Material.h"
@@ -138,6 +139,73 @@ void CustomScript::createTestMap() {
   getGameObject()->getScene()->addGameObject(map);
 }
 
+void CustomScript::createFont() {
+
+  f32 tilesCount = 16;
+  f32 tileTextureSize = 1.0f/tilesCount;
+
+  mCharMap = Memory::allocate<HashMap<c8, Vector2>>();
+  mCharMap->init();
+
+  mCharMap->set('0',Vector2(0/tilesCount, 3/tilesCount));
+  mCharMap->set('1',Vector2(1/tilesCount, 3/tilesCount));
+  mCharMap->set('2',Vector2(2/tilesCount, 3/tilesCount));
+  mCharMap->set('3',Vector2(3/tilesCount, 3/tilesCount));
+  mCharMap->set('4',Vector2(4/tilesCount, 3/tilesCount));
+  mCharMap->set('5',Vector2(5/tilesCount, 3/tilesCount));
+  mCharMap->set('6',Vector2(6/tilesCount, 3/tilesCount));
+  mCharMap->set('7',Vector2(7/tilesCount, 3/tilesCount));
+  mCharMap->set('8',Vector2(8/tilesCount, 3/tilesCount));
+  mCharMap->set('9',Vector2(9/tilesCount, 3/tilesCount));
+
+  // ---------------
+
+  Vector2 size(100.0f,100.0f);
+
+  GameObject* map = Memory::allocate<GameObject>();
+  map->init();
+
+  map->getTransform()->setLocalPosition(Vector3(0,0,0));
+  map->getTransform()->setScale(Vector3(size.x, size.y,1));
+
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/font16x16.png");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(mRenderer->getMaterial()->getShader());
+
+  // Renderer* renderer = Memory::allocate<Renderer>();
+  // map->addComponent<Renderer>(renderer);
+  //
+  // //renderer->setColor(Vector4(0,0,0,0.7f));
+  // renderer->setPositionOffset(Vector3(0,0,0));
+  //
+  // renderer->setMesh(Mesh::getRectangle());
+  // renderer->setMaterial(material);
+  //
+  // renderer->setRegion(mCharMap->get('0').x, mCharMap->get('0').y, tileTextureSize, tileTextureSize);
+
+  FOR_RANGE(i, 0, 9){
+    //FOR_RANGE(j, 0, 3){
+
+      Renderer* renderer = Memory::allocate<Renderer>();
+      map->addComponent<Renderer>(renderer);
+
+      //renderer->setColor(Vector4(0,0,0,0.7f));
+      renderer->setPositionOffset(Vector3((i - tilesCount/2.0f) * size.x, (5 - tilesCount/2.0f) * size.y,0));
+
+      renderer->setMesh(Mesh::getRectangle());
+      renderer->setMaterial(material);
+
+      renderer->setRegion(mCharMap->get('0'+i).x, mCharMap->get('0'+i).y, tileTextureSize, tileTextureSize);
+    //}
+  }
+
+  getGameObject()->getScene()->addGameObject(map);
+}
+
 // ---------------------------------------------------------------------------
 
 void CustomScript::init(){
@@ -148,6 +216,7 @@ void CustomScript::init(){
   mTestObj = nullptr;
   mTestButton = nullptr;
   mTestCreated = false;
+  mCharMap = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -193,6 +262,7 @@ void CustomScript::step(){
       createTestButton();
       //createTestObj();
 
+      createFont();
       mTestCreated = true;
 
       RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
