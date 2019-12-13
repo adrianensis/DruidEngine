@@ -39,7 +39,6 @@ void createTestObj();
 void createTestButton();
 void createTestMap();
 void createFont();
-HashMap<c8, Vector2>* mCharMap;
 
 void init() override;
 void step() override;
