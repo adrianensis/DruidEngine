@@ -9,6 +9,7 @@
 namespace DE {
 
 class Matrix4;
+class Frustum;
 
 class Camera : public Component{
 
@@ -17,7 +18,7 @@ private:
 	Matrix4* mProjectionMatrix;
 	Matrix4* mViewTranslationMatrix;
 	Matrix4* mInversePVMatrix; // used in screen to world calculations.
-	//Frustum* mFrustum;
+	Frustum* mFrustum;
 
 public:
 
@@ -33,6 +34,8 @@ public:
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
 
 	Vector3 screenToWorld(Vector2 screenPosition);
+
+	DE_GET(const Frustum*, Frustum);
 };
 
 } /* namespace DE */

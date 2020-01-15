@@ -43,7 +43,7 @@ int main() {
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent<Camera>(cameraComponent);
-	cameraComponent->setOrtho(-1024, 1024, -768, 768, 1000, -1000);
+	cameraComponent->setOrtho(-800, 800, -600, 600, 1000, -1000);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
 	// render
@@ -51,7 +51,7 @@ int main() {
 	// Material
 
 	Texture* texture = Memory::allocate<Texture>();
-	texture->init("resources/mage.bmp");
+	texture->init("resources/mage.png");
 
 	Material* material = Memory::allocate<Material>();
 	material->init();
@@ -65,7 +65,7 @@ int main() {
 
 	Vector2 size(300,300);
 
-	gameObject->getTransform()->setLocalPosition(Vector3(-200,200,0));
+	gameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 	gameObject->getTransform()->setScale(Vector3(size.x,size.y,1));
 
 	Renderer* renderer = Memory::allocate<Renderer>();

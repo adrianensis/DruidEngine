@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "RenderEngine.h"
 #include "Camera.h"
+#include "Frustum.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "RenderContext.h"
@@ -13,6 +14,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Matrix4.h"
+#include "MathUtils.h"
+#include "Time.h"
 
 namespace DE {
 
@@ -95,7 +98,7 @@ void Batch::update() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::render(u32 layer) {
+u32 Batch::render(u32 layer) {
 
 	Shader* shader = mMaterial->getShader();
 
@@ -103,39 +106,55 @@ void Batch::render(u32 layer) {
 	RenderContext::enableVAO(mVAO);
 	glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-  const Matrix4& projectionMatrix = mRenderEngine->getCamera()->getProjectionMatrix();
-  const Matrix4& viewTranslationMatrix = mRenderEngine->getCamera()->getViewTranslationMatrix();
-  const Matrix4& viewRotationMatrix = mRenderEngine->getCamera()->getViewRotationMatrix();
+	Camera* camera = mRenderEngine->getCamera();
+
+  const Matrix4& projectionMatrix = camera->getProjectionMatrix();
+  const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
+  const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
 
   shader->addMatrix(projectionMatrix, "projectionMatrix");
   shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
   shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
+	u32 drawCallCounter = 0;
+
 	FOR_LIST(it, mRenderers){
 
-		if(it.get()->getLayer() == layer){
+		Renderer* renderer = it.get();
+		Transform* t = renderer->getGameObject()->getTransform();
 
-			const Matrix4& translationMatrix = it.get()->getGameObject()->getTransform()->getTranslationMatrix();
-			const Matrix4& rotationMatrix = it.get()->getGameObject()->getTransform()->getRotationMatrix();
-			const Matrix4& scaleMatrix = it.get()->getGameObject()->getTransform()->getScaleMatrix();
+		Vector3 scale = t->getScale();
+		f32 maxRadius = std::max(scale.x, scale.y); // TODO: if 3D, compare also with z
+
+		if(camera->getFrustum()->testSphere(Vector3(t->getLocalPosition()).add(renderer->getPositionOffset()), maxRadius) && renderer->getLayer() == layer){
+
+			ECHO("##################### DRAW #####################");
+			const Matrix4& translationMatrix = t->getTranslationMatrix();
+			const Matrix4& rotationMatrix = t->getRotationMatrix();
+			const Matrix4& scaleMatrix = t->getScaleMatrix();
 
 			shader->addMatrix(translationMatrix, "translationMatrix");
-			shader->addMatrix(it.get()->getPositionOffsetMatrix(), "positionOffsetMatrix");
+			shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
 			shader->addMatrix(rotationMatrix, "rotationMatrix");
 			shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-			it.get()->updateMaterial(mMaterial);
+			shader->addFloat(Time::getDeltaTimeSeconds(), "time");
+
+			renderer->updateMaterial(mMaterial);
 
 			bool lineMode = it.get()->isLineMode();
 
 			glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
 
 			glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+
+			drawCallCounter++;
 		}
 	}
 
 	RenderContext::enableVAO(0);
 
+	return drawCallCounter;
 }
 
 // ---------------------------------------------------------------------------

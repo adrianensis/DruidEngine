@@ -1,4 +1,4 @@
-#include "CustomScript.h"
+#include "TestTool.h"
 #include "Log.h"
 
 #include "GameObject.h"
@@ -36,17 +36,17 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-CustomScript::CustomScript() : Script(){
+TestTool::TestTool() : Script(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-CustomScript::~CustomScript() = default;
+TestTool::~TestTool() = default;
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::createTestObj() {
+void TestTool::createTestObj() {
   Vector2 size(100,100);
 
   Texture* texture = Memory::allocate<Texture>();
@@ -55,7 +55,7 @@ void CustomScript::createTestObj() {
   Material* material = Memory::allocate<Material>();
   material->init();
   material->setTexture(texture);
-  material->setShader(mRenderer->getMaterial()->getShader());
+  material->setShader(Shader::getDefaultShader());
 
   mTestObj = Memory::allocate<GameObject>();
   mTestObj->init();
@@ -89,11 +89,11 @@ void CustomScript::createTestObj() {
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::createTestButton() {
+void TestTool::createTestButton() {
   mTestButton = UI::getInstance()->createButton(Vector3(600,0,0), Vector2(400,100));
 
   mTestButton->setOnPressedCallback([&]() {
-    mRenderer->setLineMode(true);
+
   });
 
   getGameObject()->getScene()->addGameObject(mTestButton);
@@ -101,46 +101,53 @@ void CustomScript::createTestButton() {
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::createTestMap() {
+void TestTool::createTile() {
 
   Vector2 size(100.0f,100.0f);
 
-  GameObject* map = Memory::allocate<GameObject>();
-  map->init();
+  GameObject* tile = Memory::allocate<GameObject>();
+  tile->init();
 
-  map->getTransform()->setLocalPosition(Vector3(0,0,0));
-  map->getTransform()->setScale(Vector3(size.x, size.y,1));
+  tile->getTransform()->setLocalPosition(Vector3(0,0,0));
+  tile->getTransform()->setScale(Vector3(size.x, size.y,1));
 
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/terrain.png");
+  if(!mTexture){
+    mTexture = Memory::allocate<Texture>();
+    mTexture->init("resources/terrain.png");
 
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(mRenderer->getMaterial()->getShader());
-
-  FOR_RANGE(i, 0, tilesCount){
-    FOR_RANGE(j, 0, tilesCount){
-
-      Renderer* renderer = Memory::allocate<Renderer>();
-      map->addComponent<Renderer>(renderer);
-
-      renderer->setPositionOffset(Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0));
-
-      renderer->setMesh(Mesh::getRectangle());
-      renderer->setMaterial(material);
-
-      renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
-    }
+    mMaterial = Memory::allocate<Material>();
+    mMaterial->init();
+    mMaterial->setTexture(mTexture);
+    mMaterial->setShader(Shader::getDefaultShader());
   }
 
-  getGameObject()->getScene()->addGameObject(map);
+  Renderer* renderer = Memory::allocate<Renderer>();
+  tile->addComponent<Renderer>(renderer);
+
+  Vector2 mouse(Input::getMousePosition());
+
+  VAR(f32, mouse.x);
+  VAR(f32, mouse.y);
+
+  Vector3 world = mCamera->screenToWorld(mouse);
+
+  VAR(f32, world.x);
+  VAR(f32, world.y);
+
+  renderer->setPositionOffset(world/*Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0)*/);
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(mMaterial);
+
+  renderer->setRegion(mTileIndex/tilesCount, mTileIndex/tilesCount, tileTextureSize, tileTextureSize);
+
+  getGameObject()->getScene()->addGameObject(tile);
 }
 
-void CustomScript::createFont() {
+void TestTool::createFont() {
 
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
@@ -152,66 +159,51 @@ void CustomScript::createFont() {
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::init(){
-  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
-  mCollider = getGameObject()->getComponents<Collider>()->get(0);
-  mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+void TestTool::init(){
   mTransform = getGameObject()->getTransform();
   mTestObj = nullptr;
   mTestButton = nullptr;
   mTestCreated = false;
+  mTexture = nullptr;
+  mMaterial = nullptr;
+
+  mCamera = nullptr;
+
+  mTileIndex = 0;
 }
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::step(){
+void TestTool::step(){
 
   if(! mCamera){
     mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
   }
 
-  f32 movement = 500.0f;//1.0f*Time::getDeltaTimeSeconds();
+  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
+    mTileIndex++;
+    mTileIndex = mTileIndex % 16;
+  }
 
-  bool running = false;
-
-  if(Input::isKeyPressed(GLFW_KEY_UP))
-  {
-    // mTransform->translate(Vector3(0,movement,0));
-    // mRigidBody->addForce(Vector3(0,movement,0));
-    mRigidBody->setLinear(Vector3(0,movement,0));
-    running = true;
-    // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
-    // mTransform->translate(Vector3(0,-movement,0));
-    // mRigidBody->addForce(Vector3(0,-movement,0));
-    mRigidBody->setLinear(Vector3(0,-movement,0));
-    running = true;
-    // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
-    // mTransform->translate(Vector3(-movement,0,0));
-    // mRigidBody->addForce(Vector3(-movement,0,0));
-    mRigidBody->setLinear(Vector3(-movement,0,0));
-    running = true;
-    mRenderer->setInvertXAxis(true);
-  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
-    // mTransform->translate(Vector3(movement,0,0));
-    // mRigidBody->addForce(Vector3(movement,0,0));
-    mRigidBody->setLinear(Vector3(movement,0,0));
-    running = true;
-    mRenderer->setInvertXAxis(false);
-  // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
-  }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
     if(!mTestCreated) {
       //createTestButton();
       //createTestObj();
-      createTestMap();
+      //createTestMap();
       // createFont();
       mTestCreated = true;
+
+      // createTile();
+
 
       //RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
 
-    createFont();
+
+
+    createTile();
+
+    //createFont();
 
     //Vector2 mouse(Input::getMousePosition());
 
@@ -225,24 +217,14 @@ void CustomScript::step(){
 
     //File::readFile("resources/shaders/vertex.shader");
 
-  }else if(Input::isKeyPressed(GLFW_KEY_KP_ADD)){
-    mRenderer->setLineMode(true);
-  }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){
-    mRenderer->setLineMode(false);
-  }else{
-    mRigidBody->setLinear(Vector3(0,0,0));
-  }
 
-  if(running){
-    mRenderer->setAnimation("run");
-  }else{
-    mRenderer->setAnimation("idle");
+
   }
 }
 
 // ---------------------------------------------------------------------------
 
-void CustomScript::terminate() {
+void TestTool::terminate() {
 
 }
 

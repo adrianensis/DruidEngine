@@ -56,7 +56,7 @@ public:
 
   template<class T>
   static void free(T* pointer){
-    Allocator::internalFree<T>(pointer, (Allocator*)(&smGlobal));
+   Allocator::internalFree<T>(pointer, (Allocator*)(&smGlobal));
   }
 
   static void free();

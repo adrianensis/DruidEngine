@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Frustum.h"
 
 namespace DE {
 
@@ -15,16 +16,22 @@ Camera::Camera() : Component() {
 
 Camera::~Camera() {
 	Memory::free<Matrix4>(mViewTranslationMatrix);
+	Memory::free<Frustum>(mFrustum);
 }
 
 void Camera::init(){
 	TRACE();
+
+	mProjectionMatrix = nullptr;
 
 	mViewTranslationMatrix = Memory::allocate<Matrix4>();
 	mViewTranslationMatrix->identity();
 
 	mInversePVMatrix = Memory::allocate<Matrix4>();
 	mInversePVMatrix->identity();
+
+	mFrustum = Memory::allocate<Frustum>();
+	mFrustum->init(this);
 };
 
 // ---------------------------------------------------------------------------
@@ -43,6 +50,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	Memory::free<Matrix4>(mProjectionMatrix);
 	mProjectionMatrix = Memory::allocate<Matrix4>();
 	mProjectionMatrix->ortho(left, right, bottom, top, near, far);
+
+	mFrustum->build();
 };
 
 // ---------------------------------------------------------------------------
@@ -51,6 +60,8 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
 	Memory::free<Matrix4>(mProjectionMatrix);
 	mProjectionMatrix = Memory::allocate<Matrix4>();
 	mProjectionMatrix->perspective(near, far, aspect, fov);
+
+	mFrustum->build();
 };
 
 // ---------------------------------------------------------------------------

@@ -115,11 +115,15 @@ void RenderEngine::init() {
 
 void RenderEngine::step() {
 
+  u32 drawCallCounter = 0;
+
   FOR_RANGE(layer, 0, mMaxLayersCount){
   	FOR_LIST(it, mBatches->getValues()){
-  		it.get()->render(layer-1);
+  		drawCallCounter += it.get()->render(layer-1);
   	}
 	}
+
+  //VAR(u32,drawCallCounter);
 
   //stepDebug();
 

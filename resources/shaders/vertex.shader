@@ -1,5 +1,7 @@
 #version 420
 
+uniform float time;
+
 uniform mat4 translationMatrix;
 uniform mat4 positionOffsetMatrix;
 uniform mat4 rotationMatrix;

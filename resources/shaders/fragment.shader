@@ -7,6 +7,8 @@ out vec4 FragColor;
 // Passed in from the vertex shader.
 varying vec2 vTexcoord;
 
+uniform float time;
+
 uniform uint invertXAxis;
 uniform uint alphaEnabled;
 
@@ -23,6 +25,10 @@ uniform float animationHeight;
 uniform sampler2D uSampler;
 
 uniform vec4 color;
+
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
 
 void main()
 {
@@ -44,9 +50,12 @@ void main()
     if(alphaEnabled != 0 && (FragColor.r + FragColor.g + FragColor.b) == 0){
       FragColor.a = 0;
     } else {
-      FragColor.r += color.r;
-      FragColor.g += color.g;
-      FragColor.b += color.b;
+
+      float rnd = 0; //(rand(t)/5);
+
+      FragColor.r += color.r + rnd;
+      FragColor.g += color.g + rnd;
+      FragColor.b += color.b + rnd;
       FragColor.a = color.a;
     }
 }

@@ -36,7 +36,9 @@ public:
 	void init(RenderEngine* renderEngine, Mesh* mesh, Material* material);
 	void bind();
 	void update();
-	void render(u32 layer);
+
+	// it returns the count of draw calls
+	u32 render(u32 layer);
 
 	void addRenderer(Renderer* renderer);
 

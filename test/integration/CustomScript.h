@@ -23,9 +23,7 @@ private:
   Collider* mCollider;
   Transform* mTransform;
   Camera* mCamera;
-
-  u32 counter = 0;
-
+  
   GameObject* mTestObj;
   UIButton* mTestButton;
 

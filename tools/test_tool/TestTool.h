@@ -2,37 +2,44 @@
 #define DE_CUSTOMSCRIPT_H
 
 #include "Script.h"
-
-
+#include "Vector2.h"
 
 namespace DE {
 
 class Renderer;
 class Transform;
 class RigidBody;
+class Collider;
 class GameObject;
 class Camera;
+class UIButton;
+class Texture;
+class Material;
+template <class K, class V> class HashMap;
 
-class CustomScript : public Script{
+class TestTool : public Script{
 private:
 
-  Renderer* mRenderer;
-  RigidBody* mRigidBody;
   Transform* mTransform;
   Camera* mCamera;
 
-  u32 counter = 0;
-
   GameObject* mTestObj;
+  UIButton* mTestButton;
+
+  Texture* mTexture;
+  Material* mMaterial;
 
   bool mTestCreated;
+  u32 mTileIndex;
 
 public:
 
-DE_CLASS(CustomScript, Script);
+DE_CLASS(TestTool, Script);
 
 void createTestObj();
-void createTestMap();
+void createTestButton();
+void createTile();
+void createFont();
 
 void init() override;
 void step() override;
