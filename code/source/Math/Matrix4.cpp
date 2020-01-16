@@ -39,11 +39,11 @@ namespace DE {
 
 void Matrix4::setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3){
 
-  Array<f32> rows[4] = {row0,row1,row2,row3};
+  const Array<f32>* rows[4] = {&row0,&row1,&row2,&row3};
 
   FOR_RANGE(row, 0, 4)
     FOR_RANGE(col, 0, 4)
-      Matrix4::set(row,col,rows[row][col]);
+      Matrix4::set(row,col,(*(rows[row]))[col]);
 };
 
 void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f32* row3){
@@ -55,9 +55,8 @@ void Matrix4::setRows(const f32* row0, const f32* row1, const f32* row2, const f
 };
 
 void Matrix4::setRows(u32 n){
-  FOR_RANGE(row, 0, 4)
-    FOR_RANGE(col, 0, 4)
-      Matrix4::set(row,col,n);
+  FOR_RANGE(i, 0, 4*4)
+    mData[i] = n;
 };
 
 void Matrix4::setRows(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3){
