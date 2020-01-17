@@ -3,7 +3,7 @@
 namespace DE{
 
 void Functor::execute(){
-  mCallback();
+  if(mCallback) mCallback();
 }
 
 }

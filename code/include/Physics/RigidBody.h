@@ -14,6 +14,7 @@ private:
   Vector3 mLinear;
   Vector3 mForceAccumulator;
   f32 mMass;
+  bool mSimulate;
 
   class State {
   public:
@@ -21,6 +22,7 @@ private:
     Vector3 mLinear;
     Vector3 mForceAccumulator;
     f32 mMass;
+    bool mSimulate;
 
     State();
   };
@@ -48,7 +50,8 @@ public:
 
   DE_GET_SET(f32, Mass);
   DE_GET_SET(Vector3, Linear);
-  
+  DE_GET_SET(bool, Simulate);
+
   DE_GET(Collider*, Collider);
 };
 } /* namespace DE */

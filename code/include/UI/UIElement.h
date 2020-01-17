@@ -6,12 +6,18 @@
 
 namespace DE {
 
+  class Collider;
+  class Renderer;
+
 class UIElement : public GameObject {
 
 private:
 
   Functor mOnPressedFunctor;
   Functor mOnReleasedFunctor;
+
+  Collider* mCollider;
+  Renderer* mRenderer;
 
 public:
 
@@ -22,6 +28,11 @@ void onReleased();
 
 void setOnPressedCallback(std::function<void()> callback);
 void setOnReleasedCallback(std::function<void()> callback);
+
+DE_GET(Collider*, Collider);
+DE_GET(Renderer*, Renderer);
+
+void setComponentsCache();
 
 };
 

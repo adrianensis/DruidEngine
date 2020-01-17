@@ -1,11 +1,16 @@
 #include "UIElement.h"
 
+#include "Collider.h"
+#include "Renderer.h"
+#include "List.h"
+
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
 UIElement::UIElement() : GameObject(){
-
+  mCollider = nullptr;
+  mRenderer = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -34,6 +39,13 @@ void UIElement::setOnPressedCallback(std::function<void()> callback){
 
 void UIElement::setOnReleasedCallback(std::function<void()> callback){
   mOnReleasedFunctor.setCallback(callback);
+}
+
+// ---------------------------------------------------------------------------
+
+void UIElement::setComponentsCache(){
+  mRenderer = getComponents<Renderer>()->get(0);
+  mCollider = getComponents<Collider>()->get(0);
 }
 
 // ---------------------------------------------------------------------------

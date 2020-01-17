@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "RenderContext.h"
 #include "Camera.h"
+#include "Frustum.h"
 #include "Renderer.h"
 #include "List.h"
 #include "Array.h"
@@ -123,7 +124,7 @@ void RenderEngine::step() {
   	}
 	}
 
-  //VAR(u32,drawCallCounter);
+  VAR(u32,drawCallCounter);
 
   //stepDebug();
 
@@ -170,6 +171,8 @@ void RenderEngine::bind() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::update() {
+
+  mCamera->getFrustum()->build();
 
 	FOR_LIST(it, mBatches->getValues()){
 		it.get()->update();

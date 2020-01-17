@@ -62,10 +62,14 @@ UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   uiButton->addComponent<RigidBody>(rigidBody);
+  rigidBody->setSimulate(false);
 
   Collider* collider = Memory::allocate<Collider>();
   uiButton->addComponent<Collider>(collider);
   collider->setSize(size.x,size.y);
+  collider->getBoundingBox();
+
+  uiButton->setComponentsCache();
 
   mUIElements->pushBack(uiButton);
 
@@ -103,6 +107,8 @@ UIText* UI::createText(const Vector2& position, const Vector2& size, const std::
 
       renderer->setRegion(mCharMap->get(text.at(i)).x, mCharMap->get(text.at(i)).y, mFontTileTextureSize, mFontTileTextureSize);
   }
+
+  uiText->setComponentsCache();
 
   mUIElements->pushBack(uiText);
 
@@ -236,12 +242,12 @@ void UI::step() {
 
       UIElement* element = it.get();
 
-      List<Collider*>* colliders = element->getComponents<Collider>();
+      Collider* collider = element->getCollider();
 
-      if(colliders && colliders->get(0)->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
+      if(collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
 
         element->onPressed();
-        element->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
+        element->getRenderer()->setColor(Vector4(0.25f,0.25f,0.25f,1.0f));
       }
     }
   }
@@ -250,9 +256,11 @@ void UI::step() {
 // ---------------------------------------------------------------------------
 
 void UI::terminate() {
-  FOR_LIST(it, mUIElements){
-    Memory::free<UIElement>(it.get());
-  }
+//  FOR_LIST(it, mUIElements){
+//    Memory::free<UIElement>(it.get());
+//  }
+
+	Memory::free<HashMap<c8, Vector2>>(mCharMap);
 
   Memory::free<List<UIElement*>>(mUIElements);
 }

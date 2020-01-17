@@ -14,6 +14,7 @@
 #include "Input.h"
 #include "List.h"
 #include "HashMap.h"
+#include "Array.h"
 
 #include "Mesh.h"
 #include "Material.h"
@@ -168,8 +169,11 @@ void TestTool::init(){
   mMaterial = nullptr;
 
   mCamera = nullptr;
+  mCameraTransform = nullptr;
 
   mTileIndex = 0;
+
+  mGridSize = 50;
 }
 
 // ---------------------------------------------------------------------------
@@ -178,6 +182,33 @@ void TestTool::step(){
 
   if(! mCamera){
     mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+    mCameraTransform = mCamera->getGameObject()->getTransform();
+  }
+
+  if(! mGrid){
+    mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
+    mGrid->init(mGridSize);
+
+    f32 halfGridSize = mGridSize/2.0f;
+
+    FOR_RANGE(i, 0, mGridSize){
+      mGrid->set(i, Memory::allocate<Array<UIButton*>>());
+      mGrid->get(i)->init(mGridSize);
+      FOR_RANGE(j, 0, mGridSize){
+
+        UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*100,(j - halfGridSize)*100,0), Vector2(100,100));
+        getGameObject()->getScene()->addGameObject(cellButton);
+
+        Renderer* renderer = cellButton->getRenderer();
+
+        cellButton->setOnPressedCallback([&, r = renderer]() {
+
+        });
+
+        mGrid->get(i)->set(j, cellButton);
+
+      }
+    }
   }
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
@@ -187,21 +218,8 @@ void TestTool::step(){
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
     if(!mTestCreated) {
-      //createTestButton();
-      //createTestObj();
-      //createTestMap();
-      // createFont();
       mTestCreated = true;
-
-      // createTile();
-
-
-      //RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
     }
-
-
-
-    createTile();
 
     //createFont();
 
@@ -216,8 +234,21 @@ void TestTool::step(){
     // VAR(f32, world.y);
 
     //File::readFile("resources/shaders/vertex.shader");
+  }
 
+  f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
 
+  if(Input::isKeyPressed(GLFW_KEY_UP)){
+    mCameraTransform->translate(Vector3(0,movement,0));
+
+  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
+    mCameraTransform->translate(Vector3(0,-movement,0));
+
+  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
+    mCameraTransform->translate(Vector3(-movement,0,0));
+
+  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
+    mCameraTransform->translate(Vector3(movement,0,0));
 
   }
 }
@@ -226,6 +257,14 @@ void TestTool::step(){
 
 void TestTool::terminate() {
 
+  FOR_RANGE(i, 0, mGridSize){
+    FOR_RANGE(j, 0, mGridSize){
+      Memory::free<UIButton>(mGrid->get(i)->get(j));
+    }
+    Memory::free<Array<UIButton*>>(mGrid->get(i));
+  }
+
+  mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
 }
 
 // ---------------------------------------------------------------------------

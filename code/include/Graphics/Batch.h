@@ -9,6 +9,7 @@ class Material;
 class Mesh;
 class Renderer;
 class RenderEngine;
+class Camera;
 template <class T> class List;
 
 class Batch : public DE_Class{
@@ -28,6 +29,9 @@ private:
 	u32 mVAO;
 
 	u32 mTextureId;
+
+	bool checkInFrustum(Camera* cam, Renderer* renderer);
+	bool checkDistance(Camera* cam, Renderer* renderer);
 
 public:
 

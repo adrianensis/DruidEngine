@@ -42,6 +42,9 @@ private:
 
 	u32 mLayer;
 
+	f32 mRenderDistance;
+	bool mOutOfCamera;
+
 public:
 
 	DE_CLASS(Renderer, Component);
@@ -85,6 +88,8 @@ public:
 	DE_SET(bool, LineMode);
 
 	DE_GET_SET(u32, Layer);
+	DE_GET_SET(f32, RenderDistance);
+	DE_GET_SET(bool, OutOfCamera);
 };
 
 } /* namespace DE */

@@ -16,12 +16,17 @@ class UIButton;
 class Texture;
 class Material;
 template <class K, class V> class HashMap;
+template <class T> class Array;
 
 class TestTool : public Script{
 private:
 
+  u32 mGridSize;
+  Array<Array<UIButton*>*>* mGrid;
+
   Transform* mTransform;
   Camera* mCamera;
+  Transform* mCameraTransform;
 
   GameObject* mTestObj;
   UIButton* mTestButton;

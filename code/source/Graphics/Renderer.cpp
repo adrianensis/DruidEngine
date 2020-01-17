@@ -33,6 +33,9 @@ Renderer::Renderer() : Component() {
   mLineMode = false;
 
   mLayer = 0;
+
+  mRenderDistance = 1500;
+  mOutOfCamera = false;
 }
 
 Renderer::~Renderer() {

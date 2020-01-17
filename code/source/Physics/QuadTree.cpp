@@ -135,45 +135,49 @@ QuadTree::Node* QuadTree::Node::createChildNode(u32 index){
 
 void QuadTree::Node::addCollider(Collider* collider){
 
-  // ECHO("addCollider");
-  if(mIsDivisible){
-    // ECHO("Is Divisible");
+  if(collider->getSimulate()){
+    // ECHO("addCollider");
+    if(mIsDivisible){
+      // ECHO("Is Divisible");
 
-    // For each "possible" child node
-    FOR_ARRAY (i, mLeftTopChildrenArray){
+      // For each "possible" child node
+      FOR_ARRAY (i, mLeftTopChildrenArray){
 
-      bool isPartiallyInChildren = childNodeTestPartialCollider(i,collider);
+        bool isPartiallyInChildren = childNodeTestPartialCollider(i,collider);
 
-      if( /*( ! collider.isStatic()) ||*/ isPartiallyInChildren){
-        if(isPartiallyInChildren){
+        if( /*( ! collider.isStatic()) ||*/ isPartiallyInChildren){
+          if(isPartiallyInChildren){
 
-          // ECHO("Collider isPartiallyInChildren");
+            // ECHO("Collider isPartiallyInChildren");
 
-          // If child doesn't exist, create it.
-          if(! mChildren->get(i)){
-            // ECHO("createChildNode");
-            mChildren->set(i, createChildNode(i));
+            // If child doesn't exist, create it.
+            if(! mChildren->get(i)){
+              // ECHO("createChildNode");
+              mChildren->set(i, createChildNode(i));
+            }
+
+            mChildren->get(i)->addCollider(collider);
           }
-
-          mChildren->get(i)->addCollider(collider);
         }
       }
+    } else {
+      //if ( /*( ! collider.isStatic()) */) {
+
+        //ECHO("ADD");
+        bool found = false;
+
+        FOR_LIST_COND (it, mColliders, !found) {
+          found = (it.get() == collider);
+        }
+
+        if(!found){
+          mColliders->pushBack(collider);
+          //ECHO("ADDED COLLIDER");
+        }
+      //}
     }
   } else {
-    //if ( /*( ! collider.isStatic()) */) {
-
-      //ECHO("ADD");
-      bool found = false;
-
-      FOR_LIST_COND (it, mColliders, !found) {
-        found = (it.get() == collider);
-      }
-
-      if(!found){
-        mColliders->pushBack(collider);
-        //ECHO("ADDED COLLIDER");
-      }
-    //}
+    // TODO : put in a "inactive" colliders so they can be also controlled and garbage collected.
   }
 }
 

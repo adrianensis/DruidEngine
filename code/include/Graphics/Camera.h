@@ -35,7 +35,7 @@ public:
 
 	Vector3 screenToWorld(Vector2 screenPosition);
 
-	DE_GET(const Frustum*, Frustum);
+	DE_GET(Frustum*, Frustum);
 };
 
 } /* namespace DE */

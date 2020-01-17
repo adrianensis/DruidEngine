@@ -46,6 +46,8 @@ public:
   DE_GET_SET(RigidBody*, RigidBody);
   DE_GET_SET(ColliderStatus, Status);
 
+  bool getSimulate();
+
   bool checkCollisionRadius(Collider* otherCollider) const;
 
   ColliderStatus generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/*, contactManager*/);

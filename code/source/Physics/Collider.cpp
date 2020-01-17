@@ -89,6 +89,11 @@ Vector3 Collider::getRelativeVelocity(Collider* otherCollider){
 
 // ---------------------------------------------------------------------------
 
+bool Collider::getSimulate(){
+  return mRigidBody->getSimulate();
+}
+// ---------------------------------------------------------------------------
+
 ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;

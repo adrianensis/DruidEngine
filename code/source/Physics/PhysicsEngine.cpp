@@ -31,7 +31,6 @@ void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
   if(collider){
     mQuadTree->addCollider(collider);
   }
-
 }
 
 // ---------------------------------------------------------------------------
@@ -69,8 +68,10 @@ void PhysicsEngine::step(f32 deltaTime){
 
     FOR_LIST (it, mRigidBodies){
       if(firstIteration || (it.get()->getCollider()->getStatus() == ColliderStatus::STATUS_PENETRATION)){
-        it.get()->restoreState();
-        it.get()->integrate(dt);
+        if(it.get()->getSimulate()){
+          it.get()->restoreState();
+          it.get()->integrate(dt);
+        }
       }
     }
 
@@ -86,7 +87,9 @@ void PhysicsEngine::step(f32 deltaTime){
 
   if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
     FOR_LIST (it, mRigidBodies){
-      it.get()->restoreState();
+      if(it.get()->getSimulate()){
+        it.get()->restoreState();
+      }
     }
   }
 }

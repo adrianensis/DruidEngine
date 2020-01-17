@@ -141,7 +141,7 @@ void Engine::run(){
 
 		// accumulator += Time::getDeltaTimeMillis();
 
-		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+		VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
 		Input::pollEvents();
 
@@ -150,6 +150,7 @@ void Engine::run(){
 
 	mScriptEngine->terminate();
 	mRenderEngine->terminate();
+	UI::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------

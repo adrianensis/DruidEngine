@@ -69,16 +69,8 @@ void Frustum::build(){
 	  u32 NEAR = 4;
 	  u32 FAR = 5;
 
-		// var camPos = t.position;
-
-	  // mVPmatrix = Matrix4.mulMM(mCamera->getProjectionMatrix(),mCamera->getViewMatrix());
-	  // mVPmatrix->init(Matrix4.mulMM(mCamera->getViewMatrix().transpose(),mCamera->getProjectionMatrix().transpose()));
 	  mVPmatrix->init(mCamera->getViewTranslationMatrix());
-		// mVPmatrix->transpose();
 	  mVPmatrix->mul(mCamera->getProjectionMatrix()/*.transpose()*/);
-		// mVPmatrix->transpose();
-
-		// mVPmatrix = Matrix4.mulMM(Matrix4.translation(new Vector3(-3,0,0)),mVPmatrix)
 
 		/*
 		* LEFT

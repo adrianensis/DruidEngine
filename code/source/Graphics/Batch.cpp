@@ -98,6 +98,30 @@ void Batch::update() {
 
 // ---------------------------------------------------------------------------
 
+bool Batch::checkInFrustum(Camera* cam, Renderer* renderer){
+	Transform* t = renderer->getGameObject()->getTransform();
+
+	Vector3 scale = t->getScale();
+	f32 maxRadius = std::max(scale.x, scale.y); // TODO: if 3D, compare also with z
+
+	Vector3 position(Vector3(t->getLocalPosition()).add(renderer->getPositionOffset()));
+
+	return cam->getFrustum()->testSphere(position, maxRadius);
+}
+
+// ---------------------------------------------------------------------------
+
+bool Batch::checkDistance(Camera* cam, Renderer* renderer){
+	Transform* t = renderer->getGameObject()->getTransform();
+
+	Vector3 camPosition(cam->getGameObject()->getTransform()->getLocalPosition());
+	Vector3 rendererPosition(t->getLocalPosition());
+
+	return rendererPosition.dst(camPosition) < renderer->getRenderDistance();
+}
+
+// ---------------------------------------------------------------------------
+
 u32 Batch::render(u32 layer) {
 
 	Shader* shader = mMaterial->getShader();
@@ -107,6 +131,8 @@ u32 Batch::render(u32 layer) {
 	glBindTexture(GL_TEXTURE_2D, mTextureId);
 
 	Camera* camera = mRenderEngine->getCamera();
+
+	bool isCameraDirtyTranslation = camera->getGameObject()->getTransform()->isDirtyTranslation();
 
   const Matrix4& projectionMatrix = camera->getProjectionMatrix();
   const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
@@ -123,12 +149,18 @@ u32 Batch::render(u32 layer) {
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
 
-		Vector3 scale = t->getScale();
-		f32 maxRadius = std::max(scale.x, scale.y); // TODO: if 3D, compare also with z
+		if(!renderer->getOutOfCamera()){
+			bool d = checkDistance(camera, renderer);
+			//bool f = checkInFrustum(camera, renderer);
+			renderer->setOutOfCamera(!(d /*&& f*/));
+		}else if(isCameraDirtyTranslation){
+			bool d = checkDistance(camera, renderer);
+			//bool f = checkInFrustum(camera, renderer);
+			renderer->setOutOfCamera(!(d /*&& f*/));
+		}
 
-		if(camera->getFrustum()->testSphere(Vector3(t->getLocalPosition()).add(renderer->getPositionOffset()), maxRadius) && renderer->getLayer() == layer){
+		if(!renderer->getOutOfCamera() && renderer->getLayer() == layer){
 
-			ECHO("##################### DRAW #####################");
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();
 			const Matrix4& scaleMatrix = t->getScaleMatrix();
