@@ -122,6 +122,23 @@ bool Batch::checkDistance(Camera* cam, Renderer* renderer){
 
 // ---------------------------------------------------------------------------
 
+bool Batch::checkOutOfCamera(Camera* cam, bool isCameraDirtyTranslation, Renderer* renderer){
+
+	if(!renderer->getOutOfCamera()){
+		bool d = checkDistance(cam, renderer);
+		//bool f = checkInFrustum(cam, renderer);
+		renderer->setOutOfCamera(!(d /*&& f*/));
+	}else if(isCameraDirtyTranslation){
+		bool d = checkDistance(cam, renderer);
+		//bool f = checkInFrustum(cam, renderer);
+		renderer->setOutOfCamera(!(d /*&& f*/));
+	}
+
+	return renderer->getOutOfCamera();
+}
+
+// ---------------------------------------------------------------------------
+
 u32 Batch::render(u32 layer) {
 
 	Shader* shader = mMaterial->getShader();
@@ -149,17 +166,7 @@ u32 Batch::render(u32 layer) {
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
 
-		if(!renderer->getOutOfCamera()){
-			bool d = checkDistance(camera, renderer);
-			//bool f = checkInFrustum(camera, renderer);
-			renderer->setOutOfCamera(!(d /*&& f*/));
-		}else if(isCameraDirtyTranslation){
-			bool d = checkDistance(camera, renderer);
-			//bool f = checkInFrustum(camera, renderer);
-			renderer->setOutOfCamera(!(d /*&& f*/));
-		}
-
-		if(!renderer->getOutOfCamera() && renderer->getLayer() == layer){
+		if(renderer->getLayer() == layer && !checkOutOfCamera(camera,isCameraDirtyTranslation,renderer)){
 
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();

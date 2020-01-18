@@ -19,6 +19,9 @@
 #include "UI.h"
 
 #include <string>
+#include <iostream>
+
+#include <thread>
 
 namespace DE {
 

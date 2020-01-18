@@ -220,20 +220,6 @@ void TestTool::step(){
     if(!mTestCreated) {
       mTestCreated = true;
     }
-
-    //createFont();
-
-    //Vector2 mouse(Input::getMousePosition());
-
-    // VAR(f32, mouse.x);
-    // VAR(f32, mouse.y);
-
-    //Vector3 world = mCamera->screenToWorld(mouse);
-
-    // VAR(f32, world.x);
-    // VAR(f32, world.y);
-
-    //File::readFile("resources/shaders/vertex.shader");
   }
 
   f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
