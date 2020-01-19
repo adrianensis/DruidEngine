@@ -47,12 +47,13 @@ private:
 		u32 mMaxLayersCount;
 		u32 mMaxLayersUsed;
 
+		bool mCameraDirtyTranslation;
+
 public:
 	DE_CLASS(RenderEngine, DE_Class);
 
 	void init();
 	void bind();
-	void update();
 	void step(); // render
 	void stepDebug(); // debug render
 	void terminate();
@@ -61,6 +62,7 @@ public:
 	void drawLine(const Vector3& start, const Vector3& end);
 
 	DE_GET_SET(Camera*, Camera);
+	DE_GET(bool, CameraDirtyTranslation);
 };
 
 } /* namespace DE */

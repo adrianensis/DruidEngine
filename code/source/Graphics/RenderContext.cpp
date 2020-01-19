@@ -47,7 +47,7 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  smWindowSize.set(800, 600);
+  smWindowSize.set(1280, 720);
 
 	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
 	if (!smWindow){

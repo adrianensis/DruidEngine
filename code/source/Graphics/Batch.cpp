@@ -122,17 +122,20 @@ bool Batch::checkDistance(Camera* cam, Renderer* renderer){
 
 // ---------------------------------------------------------------------------
 
-bool Batch::checkOutOfCamera(Camera* cam, bool isCameraDirtyTranslation, Renderer* renderer){
+bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 
-	if(!renderer->getOutOfCamera()){
-		bool d = checkDistance(cam, renderer);
-		//bool f = checkInFrustum(cam, renderer);
-		renderer->setOutOfCamera(!(d /*&& f*/));
-	}else if(isCameraDirtyTranslation){
-		bool d = checkDistance(cam, renderer);
-		//bool f = checkInFrustum(cam, renderer);
-		renderer->setOutOfCamera(!(d /*&& f*/));
-	}
+	// if(!renderer->getOutOfCamera()){
+	// 	bool d = checkDistance(cam, renderer);
+	// 	//bool f = checkInFrustum(cam, renderer);
+	// 	renderer->setOutOfCamera(!(d /*&& f*/));
+	// }else if(isCameraDirtyTranslation){
+	// 	bool d = checkDistance(cam, renderer);
+	// 	//bool f = checkInFrustum(cam, renderer);
+	// 	renderer->setOutOfCamera(!(d /*&& f*/));
+	// }
+
+	if(mRenderEngine->getCameraDirtyTranslation())
+		renderer->setOutOfCamera(!checkDistance(cam, renderer));
 
 	return renderer->getOutOfCamera();
 }
@@ -149,8 +152,6 @@ u32 Batch::render(u32 layer) {
 
 	Camera* camera = mRenderEngine->getCamera();
 
-	bool isCameraDirtyTranslation = camera->getGameObject()->getTransform()->isDirtyTranslation();
-
   const Matrix4& projectionMatrix = camera->getProjectionMatrix();
   const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
   const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
@@ -161,12 +162,14 @@ u32 Batch::render(u32 layer) {
 
 	u32 drawCallCounter = 0;
 
-	FOR_LIST(it, mRenderers){
+	u32 lastLayer = 0;
+
+	FOR_LIST_COND(it, mRenderers, lastLayer <= layer){
 
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
 
-		if(renderer->getLayer() == layer && !checkOutOfCamera(camera,isCameraDirtyTranslation,renderer)){
+		if(renderer->getLayer() == layer && !checkOutOfCamera(camera,renderer)){
 
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();
@@ -189,6 +192,8 @@ u32 Batch::render(u32 layer) {
 
 			drawCallCounter++;
 		}
+
+		lastLayer = renderer->getLayer();
 	}
 
 	RenderContext::enableVAO(0);
@@ -208,6 +213,7 @@ void Batch::addRenderer(Renderer* renderer) {
 			u32 layer = it.get()->getLayer();
 			if(layer == layerIndex){
 				mRenderers->insert(it,renderer);
+				renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
 			}
 
 			layerIndex++;

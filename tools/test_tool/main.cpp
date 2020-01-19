@@ -43,7 +43,7 @@ int main() {
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent<Camera>(cameraComponent);
-	cameraComponent->setOrtho(-800, 800, -600, 600, 1, -1);
+	cameraComponent->setOrtho(-1280, 1280, -720, 720, 1, -1);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
 	// render

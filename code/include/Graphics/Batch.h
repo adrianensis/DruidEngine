@@ -32,7 +32,7 @@ private:
 
 	bool checkInFrustum(Camera* cam, Renderer* renderer);
 	bool checkDistance(Camera* cam, Renderer* renderer);
-	bool checkOutOfCamera(Camera* cam, bool isCameraDirtyTranslation, Renderer* renderer);
+	bool checkOutOfCamera(Camera* cam, Renderer* renderer);
 
 public:
 

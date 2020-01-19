@@ -19,6 +19,8 @@ private:
   Collider* mCollider;
   Renderer* mRenderer;
 
+  bool mPressed;
+
 public:
 
 DE_CLASS(UIElement, GameObject);
@@ -31,6 +33,8 @@ void setOnReleasedCallback(std::function<void()> callback);
 
 DE_GET(Collider*, Collider);
 DE_GET(Renderer*, Renderer);
+
+DE_GET(bool, Pressed);
 
 void setComponentsCache();
 

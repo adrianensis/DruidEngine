@@ -247,7 +247,6 @@ void UI::step() {
       if(collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
 
         element->onPressed();
-        element->getRenderer()->setColor(Vector4(0.25f,0.25f,0.25f,1.0f));
       }
     }
   }

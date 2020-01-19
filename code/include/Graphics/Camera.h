@@ -34,6 +34,7 @@ public:
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
 
 	Vector3 screenToWorld(Vector2 screenPosition);
+	void calculateInverseMatrix();
 
 	DE_GET(Frustum*, Frustum);
 };

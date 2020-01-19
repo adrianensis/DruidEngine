@@ -119,6 +119,8 @@ void Engine::run(){
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
 
+	u32 itCounter = 0;
+
 	while(! RenderContext::isClosed()) {
 
 		Time::tick();
@@ -128,9 +130,9 @@ void Engine::run(){
 			mRenderEngine->bind();
 		}
 
-		UI::getInstance()->step();
+		/*if(itCounter % 2 == 0) */UI::getInstance()->step();
 
-		mScriptEngine->step();
+		/*if(itCounter % 2 == 0) */mScriptEngine->step();
 
 		// while(accumulator >= inverseFPS){
 		// 	mScriptEngine->step();
@@ -139,12 +141,11 @@ void Engine::run(){
 
 		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
 
-		mRenderEngine->update();
 		mRenderEngine->step();
 
 		// accumulator += Time::getDeltaTimeMillis();
 
-		VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
 		Input::pollEvents();
 

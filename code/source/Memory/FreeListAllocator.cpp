@@ -145,7 +145,10 @@ void FreeListAllocator::flush() {
   Block* lastValid = nullptr;
   Block* it = firstBlock;
 
-  while(it){
+  u32 counter = 0;
+  const u32 max = 10;
+
+  while(it && counter < max){
 
     Block* next = it->next;
 
@@ -161,6 +164,7 @@ void FreeListAllocator::flush() {
     }
 
     it = next;
+    counter++;
   }
 }
 
@@ -169,7 +173,7 @@ void FreeListAllocator::flush() {
 void FreeListAllocator::reset(){
   Allocator::reset();
 
-  mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.01f));
+  mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.1f));
 
   firstBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
   firstBlock->init(mStart, mTotalSize);

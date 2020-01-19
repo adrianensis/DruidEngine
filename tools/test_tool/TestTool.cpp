@@ -47,45 +47,47 @@ TestTool::~TestTool() = default;
 
 // ---------------------------------------------------------------------------
 
-void TestTool::createTestObj() {
+void TestTool::createBrush() {
   Vector2 size(100,100);
 
   Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/mage.bmp");
+  texture->init("resources/terrain.png");
 
   Material* material = Memory::allocate<Material>();
   material->init();
   material->setTexture(texture);
   material->setShader(Shader::getDefaultShader());
 
-  mTestObj = Memory::allocate<GameObject>();
-  mTestObj->init();
+  mBrush = Memory::allocate<GameObject>();
+  mBrush->init();
 
-  mTestObj->getTransform()->setLocalPosition(Vector3(400,-400,0));
-  mTestObj->getTransform()->setScale(Vector3(size.x,size.y,1));
+  mBrush->getTransform()->setLocalPosition(Vector3(0,0,0));
+  mBrush->getTransform()->setScale(Vector3(size.x,size.y,1));
 
   Renderer* renderer = Memory::allocate<Renderer>();
-  mTestObj->addComponent<Renderer>(renderer);
+  mBrush->addComponent<Renderer>(renderer);
 
-  renderer->setColor(Vector4(0,0,0,0.7f));
+  renderer->setLayer(1);
+
+  //renderer->setColor(Vector4(0,0,0,0.7f));
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(material);
 
-  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer->setAnimation("idle");
+  // renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+  // renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  // renderer->setAnimation("idle");
 
   //renderer->setLineMode(true);
 
-  RigidBody* rigidBody = Memory::allocate<RigidBody>();
-  mTestObj->addComponent<RigidBody>(rigidBody);
+  // RigidBody* rigidBody = Memory::allocate<RigidBody>();
+  // mBrush->addComponent<RigidBody>(rigidBody);
+  //
+  // Collider* collider = Memory::allocate<Collider>();
+  // mBrush->addComponent<Collider>(collider);
+  // collider->setSize(size.x,size.y);
 
-  Collider* collider = Memory::allocate<Collider>();
-  mTestObj->addComponent<Collider>(collider);
-  collider->setSize(size.x,size.y);
-
-  getGameObject()->getScene()->addGameObject(mTestObj);
+  getGameObject()->getScene()->addGameObject(mBrush);
 }
 
 // ---------------------------------------------------------------------------
@@ -102,15 +104,17 @@ void TestTool::createTestButton() {
 
 // ---------------------------------------------------------------------------
 
-void TestTool::createTile() {
+void TestTool::createAtlas(){
 
-  Vector2 size(100.0f,100.0f);
+  f32 size = 50.0f;
 
-  GameObject* tile = Memory::allocate<GameObject>();
-  tile->init();
+  f32 screenOffset = 300;
 
-  tile->getTransform()->setLocalPosition(Vector3(0,0,0));
-  tile->getTransform()->setScale(Vector3(size.x, size.y,1));
+  // GameObject* tile = Memory::allocate<GameObject>();
+  // tile->init();
+  //
+  // tile->getTransform()->setLocalPosition(Vector3(0,0,0));
+  // tile->getTransform()->setScale(Vector3(size.x, size.y,1));
 
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
@@ -125,27 +129,50 @@ void TestTool::createTile() {
     mMaterial->setShader(Shader::getDefaultShader());
   }
 
-  Renderer* renderer = Memory::allocate<Renderer>();
-  tile->addComponent<Renderer>(renderer);
+  u32 atlasSzie = tilesCount;
 
-  Vector2 mouse(Input::getMousePosition());
+  FOR_RANGE(i, 0, atlasSzie){
+    //mGrid->set(i, Memory::allocate<Array<UIButton*>>());
+    //mGrid->get(i)->init(mGridSize);
+    FOR_RANGE(j, 0, atlasSzie){
 
-  VAR(f32, mouse.x);
-  VAR(f32, mouse.y);
+      UIButton* tile = UI::getInstance()->createButton(Vector3((i - (atlasSzie/2.0f))*size + screenOffset*2.7f,(j - (atlasSzie/2.0f))*size - screenOffset,0), Vector2(size,size));
+      getGameObject()->getScene()->addGameObject(tile);
 
-  Vector3 world = mCamera->screenToWorld(mouse);
+      Renderer* renderer = tile->getRenderer();
+      renderer->setMaterial(mMaterial);
+      renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
 
-  VAR(f32, world.x);
-  VAR(f32, world.y);
+      tile->setOnPressedCallback([=, brush = mBrush]() {
+        brush->getComponents<Renderer>()->get(0)->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
+      });
 
-  renderer->setPositionOffset(world/*Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0)*/);
+      //mGrid->get(i)->set(j, cellButton);
 
-  renderer->setMesh(Mesh::getRectangle());
-  renderer->setMaterial(mMaterial);
+    }
+  }
 
-  renderer->setRegion(mTileIndex/tilesCount, mTileIndex/tilesCount, tileTextureSize, tileTextureSize);
+  //Renderer* renderer = Memory::allocate<Renderer>();
+  //tile->addComponent<Renderer>(renderer);
 
-  getGameObject()->getScene()->addGameObject(tile);
+  // Vector2 mouse(Input::getMousePosition());
+  //
+  // VAR(f32, mouse.x);
+  // VAR(f32, mouse.y);
+  //
+  // Vector3 world = mCamera->screenToWorld(mouse);
+  //
+  // VAR(f32, world.x);
+  // VAR(f32, world.y);
+
+  //renderer->setPositionOffset(world/*Vector3((i - tilesCount/2.0f) * size.x, (j - tilesCount/2.0f) * size.y,0)*/);
+
+  //renderer->setMesh(Mesh::getRectangle());
+  //renderer->setMaterial(mMaterial);
+
+  //renderer->setRegion(mTileIndex/tilesCount, mTileIndex/tilesCount, tileTextureSize, tileTextureSize);
+
+  //getGameObject()->getScene()->addGameObject(tile);
 }
 
 void TestTool::createFont() {
@@ -162,7 +189,7 @@ void TestTool::createFont() {
 
 void TestTool::init(){
   mTransform = getGameObject()->getTransform();
-  mTestObj = nullptr;
+  mBrush = nullptr;
   mTestButton = nullptr;
   mTestCreated = false;
   mTexture = nullptr;
@@ -187,25 +214,27 @@ void TestTool::step(){
 
   if(! mGrid){
     mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
-    mGrid->init(mGridSize);
+    //mGrid->init(mGridSize);
 
     f32 halfGridSize = mGridSize/2.0f;
 
+    f32 size = 100;
+
     FOR_RANGE(i, 0, mGridSize){
-      mGrid->set(i, Memory::allocate<Array<UIButton*>>());
-      mGrid->get(i)->init(mGridSize);
+      //mGrid->set(i, Memory::allocate<Array<UIButton*>>());
+      //mGrid->get(i)->init(mGridSize);
       FOR_RANGE(j, 0, mGridSize){
 
-        UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*100,(j - halfGridSize)*100,0), Vector2(100,100));
-        getGameObject()->getScene()->addGameObject(cellButton);
+        // UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*size,(j - halfGridSize)*size,0), Vector2(size,size));
+        // getGameObject()->getScene()->addGameObject(cellButton);
+        //
+        // Renderer* renderer = cellButton->getRenderer();
+        //
+        // cellButton->setOnPressedCallback([&, r = renderer]() {
+        //
+        // });
 
-        Renderer* renderer = cellButton->getRenderer();
-
-        cellButton->setOnPressedCallback([&, r = renderer]() {
-
-        });
-
-        mGrid->get(i)->set(j, cellButton);
+        //mGrid->get(i)->set(j, cellButton);
 
       }
     }
@@ -219,6 +248,8 @@ void TestTool::step(){
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
     if(!mTestCreated) {
       mTestCreated = true;
+      createBrush();
+      createAtlas();
     }
   }
 
@@ -237,20 +268,32 @@ void TestTool::step(){
     mCameraTransform->translate(Vector3(movement,0,0));
 
   }
+
+  Vector2 mouse(Input::getMousePosition());
+
+  // VAR(f32, mouse.x);
+  // VAR(f32, mouse.y);
+
+  Vector3 world = mCamera->screenToWorld(mouse);
+
+  // VAR(f32, world.x);
+  // VAR(f32, world.y);
+
+  if(mBrush) mBrush->getTransform()->setLocalPosition(world);
 }
 
 // ---------------------------------------------------------------------------
 
 void TestTool::terminate() {
 
-  FOR_RANGE(i, 0, mGridSize){
-    FOR_RANGE(j, 0, mGridSize){
-      Memory::free<UIButton>(mGrid->get(i)->get(j));
-    }
-    Memory::free<Array<UIButton*>>(mGrid->get(i));
-  }
+  // FOR_RANGE(i, 0, mGridSize){
+  //   FOR_RANGE(j, 0, mGridSize){
+  //     Memory::free<UIButton>(mGrid->get(i)->get(j));
+  //   }
+  //   Memory::free<Array<UIButton*>>(mGrid->get(i));
+  // }
 
-  mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
+  //mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
 }
 
 // ---------------------------------------------------------------------------

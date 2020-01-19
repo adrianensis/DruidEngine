@@ -15,6 +15,8 @@
 #include "Shader.h"
 #include "Vector3.h"
 #include "MathUtils.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 namespace DE {
 
@@ -109,22 +111,31 @@ void RenderEngine::init() {
   }
 
   mMaxLayersCount = 10;
-  mMaxLayersUsed = 1;
+  mMaxLayersUsed = 0;
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
 
+  mCameraDirtyTranslation = mCamera->getGameObject()->getTransform()->isDirtyTranslation();
+
+  mCamera->calculateInverseMatrix();
+  //mCamera->getFrustum()->build();
+
   u32 drawCallCounter = 0;
 
-  FOR_RANGE(layer, 0, mMaxLayersCount){
+  //VAR(u32,mMaxLayersUsed);
+
+  FOR_RANGE(layer, 0, mMaxLayersUsed){
   	FOR_LIST(it, mBatches->getValues()){
-  		drawCallCounter += it.get()->render(layer-1);
+      //it.get()->update();
+  		//drawCallCounter += it.get()->render(0);
+  		drawCallCounter += it.get()->render(layer);
   	}
 	}
 
-  VAR(u32,drawCallCounter);
+  //VAR(u32,drawCallCounter);
 
   //stepDebug();
 
@@ -165,17 +176,6 @@ void RenderEngine::bind() {
 
 	FOR_LIST(it, mBatches->getValues()){
 		it.get()->bind();
-	}
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::update() {
-
-  mCamera->getFrustum()->build();
-
-	FOR_LIST(it, mBatches->getValues()){
-		it.get()->update();
 	}
 }
 

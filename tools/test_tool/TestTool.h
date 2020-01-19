@@ -28,7 +28,7 @@ private:
   Camera* mCamera;
   Transform* mCameraTransform;
 
-  GameObject* mTestObj;
+  GameObject* mBrush;
   UIButton* mTestButton;
 
   Texture* mTexture;
@@ -41,9 +41,9 @@ public:
 
 DE_CLASS(TestTool, Script);
 
-void createTestObj();
+void createBrush();
 void createTestButton();
-void createTile();
+void createAtlas();
 void createFont();
 
 void init() override;
