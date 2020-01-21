@@ -145,10 +145,10 @@ void FreeListAllocator::flush() {
   Block* lastValid = nullptr;
   Block* it = firstBlock;
 
-  u32 counter = 0;
+  u32 freeCounter = 0;
   const u32 max = 10;
 
-  while(it && counter < max){
+  while(it && freeCounter < max){
 
     Block* next = it->next;
 
@@ -161,10 +161,10 @@ void FreeListAllocator::flush() {
       lastValid = it;
     } else {
       Allocator::internalFree(it, &mLinearAllocator);
+      freeCounter++;
     }
 
     it = next;
-    counter++;
   }
 }
 

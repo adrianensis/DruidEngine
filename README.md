@@ -45,12 +45,8 @@ Run integration test by executing `./binaries/test_integration`. Result is store
 ## TODO
 
 * UI
-  * Fonts
-  * Buttons
   * TextBox
   * Labels
-* Matrix - Inverse matrix
-* Input - Mouse coordinates - to world space
 * Map Loader
 * Sprite Editor
 * Sprite Loader
@@ -59,6 +55,4 @@ Run integration test by executing `./binaries/test_integration`. Result is store
   * Colliders. Use composition instead inheritance.
     * collider->setShape(Box/Sphere)
 * Write in files
-* Put a limit for FreeListAllocator.
-  * How many blocks can it free every frame?
 * Free shaders.
