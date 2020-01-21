@@ -17,6 +17,7 @@
 #include "MathUtils.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Settings.h"
 
 namespace DE {
 
@@ -70,13 +71,58 @@ void RenderEngine::LineRenderer::bind(const Array<u32>* indices) {
 
 // ---------------------------------------------------------------------------
 
+RenderEngine::Chunk::Chunk() : DE_Class() {
+  mLeftTop = Vector2(0,0);
+  mRadius = 0;
+  mSize = 0;
+}
+
+RenderEngine::Chunk::~Chunk() {
+  Memory::free<List<Renderer*>>(mRenderers);
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::Chunk::init(){
+  mRenderers = Memory::allocate<List<Renderer*>>();
+  mRenderers->init();
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::Chunk::set(const Vector3& leftTop, f32 size){
+  mLeftTop = leftTop;
+  mSize = size;
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::Chunk::load(RenderEngine* renderEngine){
+
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
+
+}
+
+// ---------------------------------------------------------------------------
+
+bool RenderEngine::Chunk::containsRenderer(const Renderer* renderer){
+  Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getLocalPosition();
+  return MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, 0);
+}
+
+// ---------------------------------------------------------------------------
+
 RenderEngine::RenderEngine() : DE_Class(), Singleton() {
 	mBatches = nullptr;
 	mCamera = nullptr;
   mLineRenderers = nullptr;
   mLineRendererIndices = nullptr;
   mShaderLine = nullptr;
-  mLineRenderersCount = 50;
+  mLineRenderersCount = 50; // TODO : move to Settings
 }
 
 RenderEngine::~RenderEngine() = default;
@@ -94,6 +140,8 @@ void RenderEngine::init() {
   RenderContext::init();
   mBatches->init();
 
+  // Line Renderers
+
   mLineRenderers->init(mLineRenderersCount);
 
   mLineRendererIndices->init(2);
@@ -109,6 +157,24 @@ void RenderEngine::init() {
 
     mLineRenderers->set(i,lineRenderer);
   }
+
+  // Chunks
+
+  mChunks = Memory::allocate<Array<Chunk*>>();
+  mChunks->init(4); // TODO : define how many chunks to create. Move to Settings.
+
+  f32 halfSceneSize = Settings::getInstance()->mSceneSize / 2.0f;
+
+  FOR_ARRAY(i, mChunks){
+    Chunk* chunk = Memory::allocate<Chunk>();
+    mChunks->set(i, chunk);
+    chunk->init();
+  }
+
+  mChunks->get(0)->set(Vector2(-halfSceneSize, halfSceneSize), halfSceneSize);
+  mChunks->get(1)->set(Vector2(-halfSceneSize, 0), halfSceneSize);
+  mChunks->get(2)->set(Vector2(0, 0), halfSceneSize);
+  mChunks->get(3)->set(Vector2(0, halfSceneSize), halfSceneSize);
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
@@ -198,12 +264,29 @@ void RenderEngine::terminate() {
 
   Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
+  FOR_ARRAY(i, mChunks){
+    Memory::free<Chunk>(mChunks->get(i));
+  }
+
+  Memory::free<Array<Chunk*>>(mChunks);
+
 	RenderContext::terminate();
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::addRenderer(Renderer* renderer) {
+
+  FOR_ARRAY(i, mChunks){
+    Chunk* chunk = mChunks->get(i);
+    if(chunk->containsRenderer(renderer)){
+      chunk->mRenderers->pushBack(renderer);
+    }
+  }
+
+  // TODO : CONTINUE HERE ↓↓↓↓ Move this code into chunk
+  // TODO : load chunk's renderers only when is in camera range.
+
 	Texture* texture = renderer->getMaterial()->getTexture();
 
 	if( ! mBatches->contains(texture)) {

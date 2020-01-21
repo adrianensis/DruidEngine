@@ -3,6 +3,8 @@
 
 #include <cmath> /* ceil, max */
 #include "BasicTypes.h"
+#include "Vector2.h"
+#include "Vector3.h"
 
 namespace DE {
 
@@ -38,6 +40,10 @@ public:
 
 	static f32 clamp(f32 n, f32 lower, f32 upper);
 
+	// Geometry tests
+
+	static bool testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps);
+	static bool testSphereSphere(const Vector2& centerA, const Vector2& centerB, f32 radiusA, f32 radiusB);
 };
 }
 

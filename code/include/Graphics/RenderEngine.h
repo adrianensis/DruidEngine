@@ -23,8 +23,7 @@ private:
 	HashMap<Texture*, Batch*>* mBatches;
 	Camera* mCamera;
 
-	class LineRenderer : public DE_Class
-  {
+	class LineRenderer : public DE_Class {
     public:
       DE_CLASS(LineRenderer, DE_Class);
 
@@ -39,10 +38,33 @@ private:
       void bind(const Array<u32>* indices);
   };
 
+	class Chunk : public DE_Class {
+    public:
+      DE_CLASS(Chunk, DE_Class);
+
+      List<Renderer*>* mRenderers;
+
+			Vector2 mLeftTop;
+			f32 mRadius;
+			f32 mSize;
+
+      void init();
+			void set(const Vector3& leftTop, f32 size);
+      void load(RenderEngine* renderEngine);
+      void unload(RenderEngine* renderEngine);
+			bool containsRenderer(const Renderer* renderer);
+
+			DE_GET_SET(Vector3, LeftTop);
+			DE_GET(f32, Radius);
+			DE_GET_SET(f32, Size);
+  };
+
 	  Shader* mShaderLine;
     Array<u32>* mLineRendererIndices; // [0,1]
     Array<LineRenderer*>* mLineRenderers;
     u32 mLineRenderersCount;
+
+		Array<Chunk*>* mChunks;
 
 		u32 mMaxLayersCount;
 		u32 mMaxLayersUsed;

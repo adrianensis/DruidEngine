@@ -6,6 +6,7 @@
 #include "Memory.h"
 #include "Time.h"
 #include "List.h"
+#include "Settings.h"
 
 namespace DE {
 
@@ -42,7 +43,7 @@ void PhysicsEngine::init(){
   mRigidBodies->init();
 
   mQuadTree = Memory::allocate<QuadTree>();
-  mQuadTree->init(2000);
+  mQuadTree->init(Settings::getInstance()->mSceneSize);
 }
 
 // ---------------------------------------------------------------------------

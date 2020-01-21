@@ -17,6 +17,7 @@
 #include "Input.h"
 #include "RigidBody.h"
 #include "UI.h"
+#include "Settings.h"
 
 #include <string>
 #include <iostream>
@@ -43,6 +44,8 @@ Engine::~Engine() = default;
 void Engine::init(){
 
 	TRACE()
+
+	Settings::getInstance()->init();
 
   mRenderEngine = RenderEngine::getInstance(); //Memory::allocate<RenderEngine>();
   mScriptEngine = ScriptEngine::getInstance(); //Memory::allocate<ScriptEngine>();

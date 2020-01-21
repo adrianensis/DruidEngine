@@ -7,6 +7,7 @@
 #include "Memory.h"
 #include "Log.h"
 #include "RenderEngine.h"
+#include "Settings.h"
 
 namespace DE {
 
@@ -85,7 +86,7 @@ bool QuadTree::Node::testCompleteCollider(Collider* collider) const {
 	bool collision = true;
 
 	FOR_ARRAY (i, vertices) {
-		collision = collision && Collider::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
+		collision = collision && MathUtils::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
 	}
 
 	return collision;
@@ -100,7 +101,7 @@ bool QuadTree::Node::testPartialCollider(Collider* collider) const {
 	bool collision = false;
 
 	FOR_ARRAY_COND(i, vertices, !collision){
-		collision = Collider::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
+		collision = MathUtils::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
 	}
 
 	return collision;
@@ -116,7 +117,7 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider* collider)
 
 	// For each collider vertex
 	FOR_ARRAY_COND(i, vertices, !collision){
-		collision = Collider::testRectanglePoint(mLeftTopChildrenArray->get(index),mHalfWidth,mHalfHeight,vertices->get(i),0);
+		collision = MathUtils::testRectanglePoint(mLeftTopChildrenArray->get(index),mHalfWidth,mHalfHeight,vertices->get(i),0);
 	}
 
 	return collision;
@@ -322,8 +323,11 @@ void QuadTree::init(f32 size){
   mWidth = size;
   mHeight = size;
 
+  f32 minSize = Settings::getInstance()->mQuadTreeMinSize;
+
+
   mRoot = Memory::allocate<Node>();
-	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, 500.0f, 500.0f, this);
+	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, minSize, minSize, this);
 }
 
 // ---------------------------------------------------------------------------

@@ -57,9 +57,6 @@ public:
   ColliderStatus testRectangleRectangle(Collider* otherCollider);
 
   ColliderStatus testPoint(Vector2 point);
-
-  static bool testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps);
-  static bool testSphereSphere(const Vector2& centerA, const Vector2& centerB, f32 radiusA, f32 radiusB);
 };
 } /* namespace DE */
 #endif /* DE_COLLIDER_H */

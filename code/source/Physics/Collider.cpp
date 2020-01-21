@@ -252,12 +252,12 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	bool testDepthEpsilon = Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
+	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
 
   if(testDepthEpsilon) {
     result = ColliderStatus::STATUS_COLLISION;
 
-    bool testZeroDepthEpsilonEpsilon = Collider::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
+    bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
 
     if(testZeroDepthEpsilonEpsilon){
       result = ColliderStatus::STATUS_PENETRATION;
@@ -272,24 +272,9 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 bool Collider::checkCollisionRadius(Collider* otherCollider) const {
   Vector2 thisPosition = Vector2(this->getGameObject()->getTransform()->getLocalPosition());
   Vector2 otherPosition = Vector2(otherCollider->getGameObject()->getTransform()->getLocalPosition());
-  return testSphereSphere(thisPosition, otherPosition, getRadius(), otherCollider->getRadius());
+  return MathUtils::testSphereSphere(thisPosition, otherPosition, getRadius(), otherCollider->getRadius());
 }
 
 // ---------------------------------------------------------------------------
-
-bool Collider::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps) {
-  return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&
-          leftTop.x + width +eps > point.x && leftTop.y - height -eps < point.y);
-}
-
-// ---------------------------------------------------------------------------
-
-bool Collider::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB) {
-  f32 distance = centerA.dst(centerB);
-  return (distance < radiusA+radiusB);
-}
-
-// ---------------------------------------------------------------------------
-
 
 } /* namespace DE */

@@ -42,4 +42,19 @@ f32 MathUtils::clamp(f32 n, f32 lower, f32 upper) {
   return std::max(lower, std::min(n, upper));
 }
 
+bool MathUtils::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps) {
+  return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&
+          leftTop.x + width +eps > point.x && leftTop.y - height -eps < point.y);
+}
+
+// ---------------------------------------------------------------------------
+
+bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB) {
+  f32 distance = centerA.dst(centerB);
+  return (distance < radiusA+radiusB);
+}
+
+// ---------------------------------------------------------------------------
+
+
 }
