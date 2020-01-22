@@ -16,6 +16,8 @@ private:
 	List<GameObject*>* mNewGameObjects;
 	GameObject* mCameraGameObject;
 
+	u32 mMaxNewGameObjectsToSpawn;
+
 public:
 
 	DE_CLASS(Scene, DE_Class);
@@ -29,6 +31,8 @@ public:
 	DE_GET(List<GameObject*>* ,NewGameObjects);
 	DE_GET(GameObject* ,CameraGameObject);
 	DE_SET(GameObject*, CameraGameObject);
+
+	DE_GET(u32, MaxNewGameObjectsToSpawn);
 
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();

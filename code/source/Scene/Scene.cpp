@@ -31,6 +31,8 @@ void Scene::init() {
 
 	mNewGameObjects = Memory::allocate<List<GameObject*>>();
 	mNewGameObjects->init();
+
+	mMaxNewGameObjectsToSpawn = 20; // TODO ; move to Settings.
 }
 
 // ---------------------------------------------------------------------------

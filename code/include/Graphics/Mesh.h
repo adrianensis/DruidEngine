@@ -20,7 +20,6 @@ private:
 	Array<f32>* mNormals;
 	Array<f32>* mTextureCoordinates;
 	Array<u32>* mFaces;
-	DynamicArray<u32>* mFacesTmp;
 
 	u32 mVerticesIndex, mColorsIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
 
@@ -31,14 +30,12 @@ public:
 	Mesh();
 	~Mesh() override;
 
-	void init(const  u32 vertexCount);
-	Mesh* addVertex(const Vector3 vec);
-	Mesh* addColor(const Vector4 vec);
-	Mesh* addNormal(const Vector3 vec);
+	void init(u32 vertexCount, u32 facesCount);
+	Mesh* addVertex(const Vector3& vec);
+	Mesh* addColor(const Vector4& vec);
+	Mesh* addNormal(const Vector3& vec);
 	Mesh* addTexCoord(u32 u,u32 v);
 	Mesh* addFace(u32 v1,u32 v2,u32 v3);
-	Mesh* open();
-	void close();
 
 	DE_GET(const Array<f32>*, Vertices);
 	DE_GET(const Array<f32>*, Colors);

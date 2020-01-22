@@ -14,7 +14,6 @@ Mesh::Mesh() : DE_Class() {
 	mColors = nullptr;
 	mNormals = nullptr;
 	mFaces = nullptr;
-	mFacesTmp = nullptr;
 	mTextureCoordinates = nullptr;
 	mVerticesIndex = 0;
 	mColorsIndex = 0;
@@ -29,16 +28,11 @@ Mesh::~Mesh() {
 	Memory::free<Array<f32>>(mNormals);
 	Memory::free<Array<f32>>(mTextureCoordinates);
 	Memory::free<Array<u32>>(mFaces);
-
-	if(mFacesTmp != nullptr)
-	{
-		Memory::free<DynamicArray<u32>>(mFacesTmp);
-	}
 }
 
 // ---------------------------------------------------------------------------
 
-void Mesh::init(u32 vertexCount) {
+void Mesh::init(u32 vertexCount, u32 facesCount) {
 	TRACE();
 
 	mVertexCount = vertexCount;
@@ -53,6 +47,7 @@ void Mesh::init(u32 vertexCount) {
 	mTextureCoordinates->init(vertexCount*3);
 	mColors->init(vertexCount*4);
 	mNormals->init(vertexCount*3);
+	mFaces->init(facesCount*3);
 
 	mVerticesIndex = 0; // Vertices index
 	mNormalsIndex = 0; // Normals index
@@ -62,7 +57,7 @@ void Mesh::init(u32 vertexCount) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addVertex(const Vector3 vector) {
+Mesh* Mesh::addVertex(const Vector3& vector) {
 	mVertices->set(mVerticesIndex,vector.x); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.y); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.z); mVerticesIndex++;
@@ -71,7 +66,7 @@ Mesh* Mesh::addVertex(const Vector3 vector) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addColor(const Vector4 vector) {
+Mesh* Mesh::addColor(const Vector4& vector) {
 	mColors->set(mColorsIndex,vector.x); mColorsIndex++;
 	mColors->set(mColorsIndex,vector.y); mColorsIndex++;
 	mColors->set(mColorsIndex,vector.z); mColorsIndex++;
@@ -81,7 +76,7 @@ Mesh* Mesh::addColor(const Vector4 vector) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addNormal(const Vector3 vector) {
+Mesh* Mesh::addNormal(const Vector3& vector) {
 	mNormals->set(mNormalsIndex,vector.x); mNormalsIndex++;
 	mNormals->set(mNormalsIndex,vector.y); mNormalsIndex++;
 	mNormals->set(mNormalsIndex,vector.z); mNormalsIndex++;
@@ -99,29 +94,10 @@ Mesh* Mesh::addTexCoord(u32 u,u32 v) {
 // ---------------------------------------------------------------------------
 
 Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3) {
-  mFacesTmp->set(mFacesIndex,v1); mFacesIndex++;
-  mFacesTmp->set(mFacesIndex,v2); mFacesIndex++;
-  mFacesTmp->set(mFacesIndex,v3); mFacesIndex++;
+  mFaces->set(mFacesIndex,v1); mFacesIndex++;
+  mFaces->set(mFacesIndex,v2); mFacesIndex++;
+  mFaces->set(mFacesIndex,v3); mFacesIndex++;
   return this;
-}
-
-// ---------------------------------------------------------------------------
-
-Mesh* Mesh::open() {
-	mFacesTmp = Memory::allocate<DynamicArray<u32>>();
-	mFacesTmp->init();
-	return this;
-}
-
-// ---------------------------------------------------------------------------
-
-void Mesh::close() {
-	// move data from dynamic array to fixed array.
-	mFaces->init(mFacesTmp->getLength());
-	mFaces->put(*mFacesTmp,0,0);
-
-	Memory::free<DynamicArray<u32>>(mFacesTmp);
-	mFacesTmp = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -129,9 +105,9 @@ void Mesh::close() {
 Mesh* Mesh::getRectangle() {
 	if( ! smRectangle) {
 		smRectangle = Memory::allocate<Mesh>();
-		smRectangle->init(4);
+		smRectangle->init(4, 2);
 
-		smRectangle->open()->
+		smRectangle->
 			addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
 			addVertex(Vector3(-0.5f, -0.5f, 0.0f))-> // bottom left
 			addVertex(Vector3(0.5f, -0.5f, 0.0f))-> // bottom right
@@ -148,8 +124,7 @@ Mesh* Mesh::getRectangle() {
 			addColor(Vector4(0, 0, 1, 1))-> // top right
 
 			addFace(0,1,3)->
-			addFace(1,2,3)->
-			close();
+			addFace(1,2,3);
 	}
 
 	return smRectangle;

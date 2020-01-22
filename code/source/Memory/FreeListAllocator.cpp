@@ -146,7 +146,7 @@ void FreeListAllocator::flush() {
   Block* it = firstBlock;
 
   u32 freeCounter = 0;
-  const u32 max = 10;
+  const u32 max = 10; // TODO : Move to Settings
 
   while(it && freeCounter < max){
 

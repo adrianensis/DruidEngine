@@ -75,12 +75,16 @@ void Engine::setScene(u32 i){
 // ---------------------------------------------------------------------------
 
 void Engine::loadScene(Scene* scene){
+	TRACE();
 
 	Camera* camera = scene->getCameraGameObject()->getComponents<Camera>()->get(0);
 
 	mRenderEngine->setCamera(camera);
 
 	List<GameObject*>* gameObjects = scene->getNewGameObjects();
+	u32 maxToSpawn = scene->getMaxNewGameObjectsToSpawn();
+
+	VAR(f32, gameObjects->getLength());
 
 	FOR_LIST (itGameObjects, gameObjects){
 		GameObject* gameObject = itGameObjects.get();
@@ -148,7 +152,7 @@ void Engine::run(){
 
 		// accumulator += Time::getDeltaTimeMillis();
 
-		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+		VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
 		Input::pollEvents();
 
