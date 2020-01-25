@@ -20,6 +20,8 @@ public:
 	virtual void init() = 0;
 
 	DE_GET_SET(GameObject*, GameObject);
+
+	bool getIsStatic();
 };
 
 } /* namespace DE */

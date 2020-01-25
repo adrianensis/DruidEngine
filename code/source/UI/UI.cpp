@@ -71,6 +71,8 @@ UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
 
   uiButton->setComponentsCache();
 
+  uiButton->setIsStatic(true);
+
   mUIElements->pushBack(uiButton);
 
   return uiButton;
@@ -109,6 +111,8 @@ UIText* UI::createText(const Vector2& position, const Vector2& size, const std::
   }
 
   uiText->setComponentsCache();
+
+  uiText->setIsStatic(true);
 
   mUIElements->pushBack(uiText);
 

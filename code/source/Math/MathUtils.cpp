@@ -22,25 +22,37 @@ f32 MathUtils::LN10      = log1p(10.0f); // log_e(10)
 f32 MathUtils::PI_180    = PI/180.0f;
 f32 MathUtils::INV_PI_180    = 180.0f/PI;
 
+// ---------------------------------------------------------------------------
+
 f32 MathUtils::rad(f32 deg){
   return deg * PI_180;
 }
+
+// ---------------------------------------------------------------------------
 
 f32 MathUtils::deg(f32 rad){
   return rad * INV_PI_180;
 }
 
+// ---------------------------------------------------------------------------
+
 bool MathUtils::eqf(f32 a, f32 b, f32 epsilon){
   return fabsf(a-b) < epsilon;
 }
+
+// ---------------------------------------------------------------------------
 
 bool MathUtils::eqf(f32 a, f32 b){
   return eqf(a, b, FLOAT_EPSILON);
 }
 
+// ---------------------------------------------------------------------------
+
 f32 MathUtils::clamp(f32 n, f32 lower, f32 upper) {
   return std::max(lower, std::min(n, upper));
 }
+
+// ---------------------------------------------------------------------------
 
 bool MathUtils::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps) {
   return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&

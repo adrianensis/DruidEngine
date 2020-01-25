@@ -26,6 +26,8 @@ private:
 
 	Scene* mScene;
 
+	bool mIsStatic;
+
 public:
 
 	DE_CLASS(GameObject, DE_Class);
@@ -45,6 +47,7 @@ public:
 	}
 
 	DE_GET_SET(Scene*, Scene);
+	DE_GET_SET(bool, IsStatic);
 	DE_GET(Transform*, Transform);
 };
 

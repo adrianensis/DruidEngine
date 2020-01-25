@@ -92,6 +92,51 @@ void TestTool::createBrush() {
 
 // ---------------------------------------------------------------------------
 
+void TestTool::createTile() {
+  Vector2 size(100,100);
+
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/mage.png");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(Shader::getDefaultShader());
+
+  mTestTile = Memory::allocate<GameObject>();
+  mTestTile->init();
+
+  mTestTile->getTransform()->setLocalPosition(Vector3(0,0,0));
+  mTestTile->getTransform()->setScale(Vector3(size.x,size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  mTestTile->addComponent<Renderer>(renderer);
+
+  //renderer->setLayer(0);
+
+  //renderer->setColor(Vector4(0,0,0,0.7f));
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer->setAnimation("idle");
+
+  renderer->setLineMode(true);
+
+  RigidBody* rigidBody = Memory::allocate<RigidBody>();
+  mTestTile->addComponent<RigidBody>(rigidBody);
+
+  Collider* collider = Memory::allocate<Collider>();
+  mTestTile->addComponent<Collider>(collider);
+  collider->setSize(size.x,size.y);
+
+  getGameObject()->getScene()->addGameObject(mTestTile);
+}
+
+// ---------------------------------------------------------------------------
+
 void TestTool::createTestButton() {
   mTestButton = UI::getInstance()->createButton(Vector3(600,0,0), Vector2(400,100));
 
@@ -201,6 +246,8 @@ void TestTool::init(){
   mTileIndex = 0;
 
   mGridSize = 50;
+
+  mTestTile = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -250,6 +297,10 @@ void TestTool::step(){
       mTestCreated = true;
       createBrush();
       createAtlas();
+    }
+
+    if(!mTestTile){
+      createTile();
     }
   }
 

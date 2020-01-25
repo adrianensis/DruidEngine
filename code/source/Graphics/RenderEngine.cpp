@@ -203,7 +203,7 @@ void RenderEngine::step() {
 
   //VAR(u32,drawCallCounter);
 
-  //stepDebug();
+  stepDebug();
 
 	RenderContext::swap();
 
@@ -279,7 +279,7 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
   FOR_ARRAY(i, mChunks){
     Chunk* chunk = mChunks->get(i);
-    if(chunk->containsRenderer(renderer)){
+    if(renderer->getIsStatic() && chunk->containsRenderer(renderer)){
       chunk->mRenderers->pushBack(renderer);
     }
   }

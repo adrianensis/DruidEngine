@@ -29,6 +29,7 @@ private:
   Transform* mCameraTransform;
 
   GameObject* mBrush;
+  GameObject* mTestTile;
   UIButton* mTestButton;
 
   Texture* mTexture;
@@ -45,6 +46,7 @@ void createBrush();
 void createTestButton();
 void createAtlas();
 void createFont();
+void createTile();
 
 void init() override;
 void step() override;

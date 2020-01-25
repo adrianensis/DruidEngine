@@ -27,6 +27,7 @@ QuadTree::Node::Node() {
     mChildren = nullptr;
     mLeftTopChildrenArray = nullptr;
     mChildrenCount = 0;
+    mDynamicCollidersCount = 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -146,19 +147,17 @@ void QuadTree::Node::addCollider(Collider* collider){
 
         bool isPartiallyInChildren = childNodeTestPartialCollider(i,collider);
 
-        if( /*( ! collider.isStatic()) ||*/ isPartiallyInChildren){
-          if(isPartiallyInChildren){
+        if(isPartiallyInChildren){
 
-            // ECHO("Collider isPartiallyInChildren");
+          // ECHO("Collider isPartiallyInChildren");
 
-            // If child doesn't exist, create it.
-            if(! mChildren->get(i)){
-              // ECHO("createChildNode");
-              mChildren->set(i, createChildNode(i));
-            }
-
-            mChildren->get(i)->addCollider(collider);
+          // If child doesn't exist, create it.
+          if(! mChildren->get(i)){
+            // ECHO("createChildNode");
+            mChildren->set(i, createChildNode(i));
           }
+
+          mChildren->get(i)->addCollider(collider);
         }
       }
     } else {
@@ -173,7 +172,10 @@ void QuadTree::Node::addCollider(Collider* collider){
 
         if(!found){
           mColliders->pushBack(collider);
-          //ECHO("ADDED COLLIDER");
+
+          if(!collider->getIsStatic()){
+            mDynamicCollidersCount++;
+          }
         }
       //}
     }
@@ -188,36 +190,41 @@ void QuadTree::Node::update(/*contactManager*/){
 
 
   // DEBUG DRAW
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 	// If is leaf node.
 	if(isLeaf()){
 
     mExitingColliders->clear(); // colliders which have left the node.
 
+    // if there are 2 or more colliders within the same node.
+    if(mDynamicCollidersCount > 1){
+
     // FOR EACH COLLIDER
 		FOR_LIST(itA, mColliders){
 
       Collider* colliderA = itA.get();
 
+      bool isStaticA = colliderA->getIsStatic();
+
 			// if collider has left the node.
-			if(checkExit(colliderA)) {
+			if((!isStaticA) && checkExit(colliderA)) {
         mExitingColliders->pushBack(colliderA);
       }
-
-			// if there are 2 or more colliders within the same node.
-			if(mColliders->getLength() > 1){
 
 				// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
         FOR_LIST(itB, mColliders){
 
           Collider* colliderB = itB.get();
 
+          bool isStaticB = colliderA->getIsStatic();
+
 					// if they aren't the same collider
-					if(colliderA != colliderB){
+          // if both are static, do not check anything.
+					if((colliderA != colliderB) && !(isStaticA && isStaticB)){
 
 						// check bounding radius
 						if(colliderA->checkCollisionRadius(colliderB)){
@@ -288,7 +295,13 @@ void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
 
     // FOR EACH COLLIDER
     FOR_LIST (itExiting, exitingColliders){
-      mColliders->remove(mColliders->find(itExiting.get()));
+      Collider* collider = itExiting.get();
+      mColliders->remove(mColliders->find(collider));
+
+      if(!collider->getIsStatic()){
+        mDynamicCollidersCount--;
+      }
+
       mTree->addCollider(itExiting.get());
     }
  	}
