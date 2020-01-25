@@ -46,6 +46,7 @@ public:
 	u32 render(u32 layer);
 
 	void addRenderer(Renderer* renderer);
+	void removeRenderer(Renderer* renderer);
 
 	DE_SET(Mesh*, Mesh);
 	DE_SET(Material*, Material);

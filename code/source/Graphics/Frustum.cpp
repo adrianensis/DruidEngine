@@ -38,7 +38,7 @@ void Frustum::init(Camera* camera){
 
 //----------------------------------------------------------------------
 
-bool Frustum::testSphere(Vector3 center, f32 radius) const{
+bool Frustum::testSphere(Vector3 center, f32 radius) const {
 
 	for (u32 i = 0; i < mPlanes->getLength(); i++) {
 
@@ -140,9 +140,9 @@ void Frustum::build(){
 
 			if(v3.len() > 0) {
 
-				v4.w = v4.w/v3.len();
+				//v4.w = v4.w/v3.len();
 
-				v3.nor();
+				//v3.nor();
 				v4.set(v3.x, v3.y, v3.z ,v4.w);
 
 				mPlanes->set(i, v4);

@@ -55,8 +55,8 @@ f32 MathUtils::clamp(f32 n, f32 lower, f32 upper) {
 // ---------------------------------------------------------------------------
 
 bool MathUtils::testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps) {
-  return (leftTop.x-eps < point.x && leftTop.y+eps > point.y &&
-          leftTop.x + width +eps > point.x && leftTop.y - height -eps < point.y);
+  return (leftTop.x-eps <= point.x && leftTop.y+eps >= point.y &&
+          leftTop.x + width +eps >= point.x && leftTop.y - height -eps <= point.y);
 }
 
 // ---------------------------------------------------------------------------

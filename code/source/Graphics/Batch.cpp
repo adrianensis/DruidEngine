@@ -165,7 +165,7 @@ u32 Batch::render(u32 layer) {
 
 	u32 lastLayer = 0;
 
-	FOR_LIST_COND(it, mRenderers, lastLayer <= layer){
+	FOR_LIST(it, mRenderers){
 
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
@@ -209,6 +209,11 @@ void Batch::addRenderer(Renderer* renderer) {
 		renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
 
 		// TODO insert sorted
+}
+// ---------------------------------------------------------------------------
+
+void Batch::removeRenderer(Renderer* renderer) {
+		mRenderers->remove(mRenderers->find(renderer));
 }
 
 // ---------------------------------------------------------------------------

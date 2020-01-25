@@ -39,24 +39,26 @@ private:
   };
 
 	class Chunk : public DE_Class {
+		private:
+			List<Renderer*>* mRenderers;
     public:
       DE_CLASS(Chunk, DE_Class);
 
-      List<Renderer*>* mRenderers;
+      List<Renderer*>* mNewRenderers;
 
-			Vector2 mLeftTop;
+			Vector3 mLeftTop;
+			Vector3 mCenter;
 			f32 mRadius;
 			f32 mSize;
+
+			bool mIsLoaded;
 
       void init();
 			void set(const Vector3& leftTop, f32 size);
       void load(RenderEngine* renderEngine);
       void unload(RenderEngine* renderEngine);
 			bool containsRenderer(const Renderer* renderer);
-
-			DE_GET_SET(Vector3, LeftTop);
-			DE_GET(f32, Radius);
-			DE_GET_SET(f32, Size);
+			void addRenderer(Renderer* renderer);
   };
 
 	  Shader* mShaderLine;
@@ -85,6 +87,9 @@ public:
 
 	DE_GET_SET(Camera*, Camera);
 	DE_GET(bool, CameraDirtyTranslation);
+
+	using MapBatches = HashMap<Texture*, Batch*>*;
+	DE_GET(MapBatches, Batches);
 };
 
 } /* namespace DE */

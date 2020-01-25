@@ -75,10 +75,12 @@ RenderEngine::Chunk::Chunk() : DE_Class() {
   mLeftTop = Vector2(0,0);
   mRadius = 0;
   mSize = 0;
+  mIsLoaded = false;
 }
 
 RenderEngine::Chunk::~Chunk() {
   Memory::free<List<Renderer*>>(mRenderers);
+  Memory::free<List<Renderer*>>(mNewRenderers);
 }
 
 // ---------------------------------------------------------------------------
@@ -86,6 +88,11 @@ RenderEngine::Chunk::~Chunk() {
 void RenderEngine::Chunk::init(){
   mRenderers = Memory::allocate<List<Renderer*>>();
   mRenderers->init();
+
+  mNewRenderers = Memory::allocate<List<Renderer*>>();
+  mNewRenderers->init();
+
+  mLeftTop.set(0,0,0);
 }
 
 // ---------------------------------------------------------------------------
@@ -93,18 +100,57 @@ void RenderEngine::Chunk::init(){
 void RenderEngine::Chunk::set(const Vector3& leftTop, f32 size){
   mLeftTop = leftTop;
   mSize = size;
+  f32 halfSize = mSize / 2.0f;
+  mCenter.set(mLeftTop.x + halfSize, mLeftTop.y - halfSize, 0);
+
+  mRadius = mCenter.dst(mLeftTop);
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::Chunk::load(RenderEngine* renderEngine){
 
+
+  bool thereAreNewRenderers = mNewRenderers->getLength() > 0;
+
+  if(thereAreNewRenderers){
+    FOR_LIST(it, mNewRenderers){
+      mRenderers->pushBack(it.get());
+    }
+
+    mNewRenderers->clear();
+  }
+
+  if(! mIsLoaded || thereAreNewRenderers){
+    TRACE();
+    FOR_LIST(it, mRenderers){
+      renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->addRenderer(it.get());
+    }
+
+    mIsLoaded = true;
+  }
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
+  if(mIsLoaded){
+    TRACE();
+    VAR(u32,mRenderers->getLength());
+    FOR_LIST(it, mRenderers){
+      renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->removeRenderer(it.get());
+      it.get()->setIsInChunk(false);
+    }
 
+    mIsLoaded = false;
+  }
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::Chunk::addRenderer(Renderer* renderer) {
+  mNewRenderers->pushBack(renderer);
+  renderer->setIsInChunk(true);
 }
 
 // ---------------------------------------------------------------------------
@@ -186,8 +232,26 @@ void RenderEngine::step() {
 
   mCameraDirtyTranslation = mCamera->getGameObject()->getTransform()->isDirtyTranslation();
 
+  mCamera->getFrustum()->build();
   mCamera->calculateInverseMatrix();
-  //mCamera->getFrustum()->build();
+
+  //check Chunks
+  FOR_ARRAY(i, mChunks){
+    Chunk* chunk = mChunks->get(i);
+
+    // bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius);
+    // TODO : move chunk draw distance into Settings.
+    bool chunkInCameraView = mCamera->getGameObject()->getTransform()->getLocalPosition().dst(chunk->mCenter) < chunk->mRadius * 2.0f;
+
+    if(chunkInCameraView){
+      chunk->load(this);
+    } else {
+      chunk->unload(this);
+    }
+  }
+
+  // Chunk* chunk = mChunks->get(0);
+  // chunk->load(this);
 
   u32 drawCallCounter = 0;
 
@@ -195,8 +259,6 @@ void RenderEngine::step() {
 
   FOR_RANGE(layer, 0, mMaxLayersUsed){
   	FOR_LIST(it, mBatches->getValues()){
-      //it.get()->update();
-  		//drawCallCounter += it.get()->render(0);
   		drawCallCounter += it.get()->render(layer);
   	}
 	}
@@ -277,16 +339,7 @@ void RenderEngine::terminate() {
 
 void RenderEngine::addRenderer(Renderer* renderer) {
 
-  FOR_ARRAY(i, mChunks){
-    Chunk* chunk = mChunks->get(i);
-    if(renderer->getIsStatic() && chunk->containsRenderer(renderer)){
-      chunk->mRenderers->pushBack(renderer);
-    }
-  }
-
-  // TODO : CONTINUE HERE ↓↓↓↓ Move this code into chunk
-  // TODO : load chunk's renderers only when is in camera range.
-
+  // Create batches
 	Texture* texture = renderer->getMaterial()->getTexture();
 
 	if( ! mBatches->contains(texture)) {
@@ -297,10 +350,18 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 		mBatches->set(texture, batch);
 	}
 
-	mBatches->get(texture)->addRenderer(renderer);
-
   mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
+
+  FOR_ARRAY(i, mChunks){
+    Chunk* chunk = mChunks->get(i);
+    if(renderer->getIsStatic() && (! renderer->getIsInChunk()) && chunk->containsRenderer(renderer)){
+      chunk->addRenderer(renderer);
+    } else if(! renderer->getIsStatic()) {
+      mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
+    }
+  }
 }
+
 // ---------------------------------------------------------------------------
 
 void RenderEngine::drawLine(const Vector3& start, const Vector3& end){

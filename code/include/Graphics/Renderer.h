@@ -45,6 +45,8 @@ private:
 	f32 mRenderDistance;
 	bool mOutOfCamera;
 
+	bool mIsInChunk;
+
 public:
 
 	DE_CLASS(Renderer, Component);
@@ -90,6 +92,7 @@ public:
 	DE_GET_SET(u32, Layer);
 	DE_GET_SET(f32, RenderDistance);
 	DE_GET_SET(bool, OutOfCamera);
+	DE_GET_SET(bool, IsInChunk);
 };
 
 } /* namespace DE */

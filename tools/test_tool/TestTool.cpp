@@ -293,15 +293,15 @@ void TestTool::step(){
   }
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-    if(!mTestCreated) {
-      mTestCreated = true;
-      createBrush();
-      createAtlas();
-    }
-
-    if(!mTestTile){
-      //createTile();
-    }
+    // if(!mTestCreated) {
+    //   mTestCreated = true;
+    //   createBrush();
+    //   createAtlas();
+    // }
+    //
+    // if(!mTestTile){
+    //   //createTile();
+    // }
   }
 
   f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
