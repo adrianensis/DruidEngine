@@ -50,12 +50,9 @@ void main()
     if(alphaEnabled != 0 && (FragColor.r + FragColor.g + FragColor.b) == 0){
       FragColor.a = 0;
     } else {
-
-      float rnd = 0; //(rand(t)/5);
-
-      FragColor.r += color.r + rnd;
-      FragColor.g += color.g + rnd;
-      FragColor.b += color.b + rnd;
+      FragColor.r += color.r;
+      FragColor.g += color.g;
+      FragColor.b += color.b;
       FragColor.a = color.a;
     }
 }

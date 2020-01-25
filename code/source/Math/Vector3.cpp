@@ -1,5 +1,6 @@
 #include "Vector3.h"
 #include "Vector2.h"
+#include "Vector4.h"
 
 #include <algorithm>  // std::max
 
@@ -17,6 +18,9 @@ Vector3::Vector3(const Vector3& other):x(other.x),y(other.y),z(other.z){
 }
 
 Vector3::Vector3(const Vector2& other):x(other.x),y(other.y),z(0.0f){
+}
+
+Vector3::Vector3(const Vector4& other):x(other.x),y(other.y),z(other.z){
 }
 
 Vector3& Vector3::set(f32 x, f32 y, f32 z) {
@@ -127,7 +131,7 @@ Vector3& Vector3::nor() {
 	//DE_ASSERT(len > 0, "Length is zero.");
 
 	if(len > 0){
-		this->div(len);	
+		this->div(len);
 	}
 
 	return *this;

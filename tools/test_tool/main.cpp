@@ -46,8 +46,6 @@ int main() {
 	cameraComponent->setOrtho(-1280, 1280, -720, 720, 1, -1);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
-	// render
-
 	GameObject* gameObject = Memory::allocate<GameObject>();
   gameObject->init();
 

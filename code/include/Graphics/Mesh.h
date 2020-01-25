@@ -16,29 +16,25 @@ private:
 	u32 mVertexCount;
 
 	Array<f32>* mVertices;
-	Array<f32>* mColors;
 	Array<f32>* mNormals;
 	Array<f32>* mTextureCoordinates;
 	Array<u32>* mFaces;
 
-	u32 mVerticesIndex, mColorsIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
+	u32 mVerticesIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
 
 	static Mesh* smRectangle;
 
 public:
 
-	Mesh();
-	~Mesh() override;
+	DE_CLASS(Mesh, DE_Class);
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh* addVertex(const Vector3& vec);
-	Mesh* addColor(const Vector4& vec);
 	Mesh* addNormal(const Vector3& vec);
 	Mesh* addTexCoord(u32 u,u32 v);
 	Mesh* addFace(u32 v1,u32 v2,u32 v3);
 
 	DE_GET(const Array<f32>*, Vertices);
-	DE_GET(const Array<f32>*, Colors);
 	DE_GET(const Array<f32>*, Normals);
 	DE_GET(const Array<f32>*, TextureCoordinates);
 	DE_GET(const Array<u32>*, Faces);

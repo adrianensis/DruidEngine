@@ -49,8 +49,8 @@ void UIElement::setOnReleasedCallback(std::function<void()> callback){
 // ---------------------------------------------------------------------------
 
 void UIElement::setComponentsCache(){
-  mRenderer = getComponents<Renderer>()->get(0);
-  mCollider = getComponents<Collider>()->get(0);
+  mRenderer = getComponents<Renderer>() ? getComponents<Renderer>()->get(0) : nullptr;
+  mCollider = getComponents<Collider>() ? getComponents<Collider>()->get(0) : nullptr;
 }
 
 // ---------------------------------------------------------------------------

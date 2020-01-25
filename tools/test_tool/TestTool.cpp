@@ -272,8 +272,8 @@ void TestTool::step(){
       //mGrid->get(i)->init(mGridSize);
       FOR_RANGE(j, 0, mGridSize){
 
-        // UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*size,(j - halfGridSize)*size,0), Vector2(size,size));
-        // getGameObject()->getScene()->addGameObject(cellButton);
+        UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*size,(j - halfGridSize)*size,0), Vector2(size,size));
+        getGameObject()->getScene()->addGameObject(cellButton);
         //
         // Renderer* renderer = cellButton->getRenderer();
         //
@@ -300,7 +300,7 @@ void TestTool::step(){
     }
 
     if(!mTestTile){
-      createTile();
+      //createTile();
     }
   }
 

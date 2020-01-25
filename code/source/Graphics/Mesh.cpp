@@ -11,12 +11,10 @@ Mesh::Mesh() : DE_Class() {
 
 	mVertexCount = 0;
 	mVertices = nullptr;
-	mColors = nullptr;
 	mNormals = nullptr;
 	mFaces = nullptr;
 	mTextureCoordinates = nullptr;
 	mVerticesIndex = 0;
-	mColorsIndex = 0;
 	mNormalsIndex = 0;
 	mFacesIndex = 0;
 	mTextureCoordinatesIndex = 0;
@@ -24,7 +22,6 @@ Mesh::Mesh() : DE_Class() {
 
 Mesh::~Mesh() {
 	Memory::free<Array<f32>>(mVertices);
-	Memory::free<Array<f32>>(mColors);
 	Memory::free<Array<f32>>(mNormals);
 	Memory::free<Array<f32>>(mTextureCoordinates);
 	Memory::free<Array<u32>>(mFaces);
@@ -39,13 +36,11 @@ void Mesh::init(u32 vertexCount, u32 facesCount) {
 
 	mVertices = Memory::allocate<Array<f32>>();
 	mTextureCoordinates = Memory::allocate<Array<f32>>();
-	mColors = Memory::allocate<Array<f32>>();
 	mNormals = Memory::allocate<Array<f32>>();
 	mFaces = Memory::allocate<Array<u32>>();
 
 	mVertices->init(vertexCount*3);
 	mTextureCoordinates->init(vertexCount*3);
-	mColors->init(vertexCount*4);
 	mNormals->init(vertexCount*3);
 	mFaces->init(facesCount*3);
 
@@ -61,16 +56,6 @@ Mesh* Mesh::addVertex(const Vector3& vector) {
 	mVertices->set(mVerticesIndex,vector.x); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.y); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.z); mVerticesIndex++;
-	return this;
-}
-
-// ---------------------------------------------------------------------------
-
-Mesh* Mesh::addColor(const Vector4& vector) {
-	mColors->set(mColorsIndex,vector.x); mColorsIndex++;
-	mColors->set(mColorsIndex,vector.y); mColorsIndex++;
-	mColors->set(mColorsIndex,vector.z); mColorsIndex++;
-	mColors->set(mColorsIndex,vector.w); mColorsIndex++;
 	return this;
 }
 
@@ -117,11 +102,6 @@ Mesh* Mesh::getRectangle() {
 			addTexCoord(0.0f, 0.0f)-> // bottom left
 			addTexCoord(1.0f, 0.0f)-> // bottom right
 			addTexCoord(1.0f, 1.0f)-> // top right
-
-			addColor(Vector4(0, 1, 1, 1))-> // top left
-			addColor(Vector4(1, 0, 0, 1))-> // bottom left
-			addColor(Vector4(1, 1, 0, 1))-> // bottom right
-			addColor(Vector4(0, 0, 1, 1))-> // top right
 
 			addFace(0,1,3)->
 			addFace(1,2,3);

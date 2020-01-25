@@ -134,8 +134,9 @@ bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 	// 	renderer->setOutOfCamera(!(d /*&& f*/));
 	// }
 
-	if(mRenderEngine->getCameraDirtyTranslation())
+	if(mRenderEngine->getCameraDirtyTranslation()){
 		renderer->setOutOfCamera(!checkDistance(cam, renderer));
+	}
 
 	return renderer->getOutOfCamera();
 }
@@ -204,21 +205,10 @@ u32 Batch::render(u32 layer) {
 // ---------------------------------------------------------------------------
 
 void Batch::addRenderer(Renderer* renderer) {
-	if(mRenderers->isEmpty()){
 		mRenderers->pushBack(renderer);
-	} else {
+		renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
 
-		u32 layerIndex=0;
-		FOR_LIST (it, mRenderers){
-			u32 layer = it.get()->getLayer();
-			if(layer == layerIndex){
-				mRenderers->insert(it,renderer);
-				renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
-			}
-
-			layerIndex++;
-		}
-	}
+		// TODO insert sorted
 }
 
 // ---------------------------------------------------------------------------

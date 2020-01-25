@@ -247,9 +247,9 @@ void UI::step() {
       UIElement* element = it.get();
 
       Collider* collider = element->getCollider();
+      Renderer* renderer = element->getRenderer();
 
-      if(collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
-
+      if(collider && !renderer->getOutOfCamera() && collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
         element->onPressed();
       }
     }
