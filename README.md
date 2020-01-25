@@ -41,18 +41,3 @@ This command will print the results in terminal.
 Run integration test by executing `./binaries/test_integration`. Result is stored in **binaries/output**.
 
 ---
-
-## TODO
-
-* UI
-  * TextBox
-  * Labels
-* Map Loader
-* Sprite Editor
-* Sprite Loader
-* Physics Engine
-  * Rigid Bodies - Integration / forces
-  * Colliders. Use composition instead inheritance.
-    * collider->setShape(Box/Sphere)
-* Write in files
-* Free shaders.
