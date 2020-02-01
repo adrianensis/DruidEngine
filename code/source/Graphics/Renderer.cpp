@@ -36,6 +36,9 @@ Renderer::Renderer() : Component() {
 
   mRenderDistance = 1500;
   mOutOfCamera = false;
+
+  mIsInChunk = false;
+  mIsChunkLoaded = false;
 }
 
 Renderer::~Renderer() {

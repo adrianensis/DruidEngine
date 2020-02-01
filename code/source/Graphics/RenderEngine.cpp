@@ -124,7 +124,9 @@ void RenderEngine::Chunk::load(RenderEngine* renderEngine){
   if(! mIsLoaded || thereAreNewRenderers){
     TRACE();
     FOR_LIST(it, mRenderers){
-      renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->addRenderer(it.get());
+      //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->addRenderer(it.get());
+      it.get()->setOutOfCamera(false);
+      it.get()->setIsChunkLoaded(true);
     }
 
     mIsLoaded = true;
@@ -138,8 +140,11 @@ void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
     TRACE();
     VAR(u32,mRenderers->getLength());
     FOR_LIST(it, mRenderers){
-      renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->removeRenderer(it.get());
-      it.get()->setIsInChunk(false);
+      //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->removeRenderer(it.get());
+      //it.get()->setIsInChunk(false);
+      it.get()->setIsChunkLoaded(false);
+
+      it.get()->setOutOfCamera(true);
     }
 
     mIsLoaded = false;
@@ -350,15 +355,17 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 		mBatches->set(texture, batch);
 	}
 
+  mBatches->get(texture)->addRenderer(renderer);
+
   mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
 
   FOR_ARRAY(i, mChunks){
     Chunk* chunk = mChunks->get(i);
     if(renderer->getIsStatic() && (! renderer->getIsInChunk()) && chunk->containsRenderer(renderer)){
       chunk->addRenderer(renderer);
-    } else if(! renderer->getIsStatic()) {
+    } /*else if(! renderer->getIsStatic()) {
       mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
-    }
+    }*/
   }
 }
 

@@ -46,6 +46,7 @@ private:
 	bool mOutOfCamera;
 
 	bool mIsInChunk;
+	bool mIsChunkLoaded;
 
 public:
 
@@ -93,6 +94,7 @@ public:
 	DE_GET_SET(f32, RenderDistance);
 	DE_GET_SET(bool, OutOfCamera);
 	DE_GET_SET(bool, IsInChunk);
+	DE_GET_SET(bool, IsChunkLoaded);
 };
 
 } /* namespace DE */
