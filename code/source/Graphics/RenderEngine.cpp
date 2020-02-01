@@ -154,8 +154,8 @@ void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
 // ---------------------------------------------------------------------------
 
 void RenderEngine::Chunk::addRenderer(Renderer* renderer) {
+  TRACE();
   mNewRenderers->pushBack(renderer);
-  renderer->setIsInChunk(true);
 }
 
 // ---------------------------------------------------------------------------
@@ -315,6 +315,7 @@ void RenderEngine::bind() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
+  TRACE();
 
 	FOR_LIST(it, mBatches->getValues()){
 		Memory::free<Batch>(it.get());
@@ -363,6 +364,8 @@ void RenderEngine::addRenderer(Renderer* renderer) {
     Chunk* chunk = mChunks->get(i);
     if(renderer->getIsStatic() && (! renderer->getIsInChunk()) && chunk->containsRenderer(renderer)){
       chunk->addRenderer(renderer);
+      renderer->setIsInChunk(true);
+      renderer->setIsChunkLoaded(false);
     } /*else if(! renderer->getIsStatic()) {
       mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
     }*/

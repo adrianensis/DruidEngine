@@ -42,6 +42,7 @@ void ScriptEngine::step(){
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::terminate() {
+  TRACE();
   FOR_LIST (it, mScripts){
 		Memory::free<Script>(it.get());
 	}

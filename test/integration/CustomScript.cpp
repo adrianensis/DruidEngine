@@ -50,23 +50,23 @@ void CustomScript::createTestObj() {
   Vector2 size(100,100);
 
   Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/mage.bmp");
+  texture->init("resources/mage.png");
 
   Material* material = Memory::allocate<Material>();
   material->init();
   material->setTexture(texture);
-  material->setShader(mRenderer->getMaterial()->getShader());
+  material->setShader(Shader::getDefaultShader());
 
   mTestObj = Memory::allocate<GameObject>();
   mTestObj->init();
 
-  mTestObj->getTransform()->setLocalPosition(Vector3(400,-400,0));
+  mTestObj->getTransform()->setLocalPosition(Vector3(0,0,0));
   mTestObj->getTransform()->setScale(Vector3(size.x,size.y,1));
 
   Renderer* renderer = Memory::allocate<Renderer>();
   mTestObj->addComponent<Renderer>(renderer);
 
-  renderer->setColor(Vector4(0,0,0,0.7f));
+  //renderer->setColor(Vector4(0,0,0,0.7f));
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(material);
@@ -76,6 +76,7 @@ void CustomScript::createTestObj() {
   renderer->setAnimation("idle");
 
   //renderer->setLineMode(true);
+  renderer->setLayer(1);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   mTestObj->addComponent<RigidBody>(rigidBody);
@@ -120,7 +121,7 @@ void CustomScript::createTestMap() {
   Material* material = Memory::allocate<Material>();
   material->init();
   material->setTexture(texture);
-  material->setShader(mRenderer->getMaterial()->getShader());
+  material->setShader(Shader::getDefaultShader());
 
   FOR_RANGE(i, 0, tilesCount){
     FOR_RANGE(j, 0, tilesCount){
@@ -136,6 +137,8 @@ void CustomScript::createTestMap() {
       renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
     }
   }
+
+  map->setIsStatic(true);
 
   getGameObject()->getScene()->addGameObject(map);
 }
@@ -153,10 +156,10 @@ void CustomScript::createFont() {
 // ---------------------------------------------------------------------------
 
 void CustomScript::init(){
-  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
-  mCollider = getGameObject()->getComponents<Collider>()->get(0);
-  mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
-  mTransform = getGameObject()->getTransform();
+  mRigidBody = nullptr;
+  mCollider = nullptr;
+  mRenderer = nullptr;
+  mTransform = nullptr;
   mTestObj = nullptr;
   mTestButton = nullptr;
   mTestCreated = false;
@@ -168,6 +171,16 @@ void CustomScript::step(){
 
   if(! mCamera){
     mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+  }
+
+  if(!mTestCreated) {
+    createTestObj();
+    createTestMap();
+    mTestCreated = true;
+    mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
+    mCollider = mTestObj->getComponents<Collider>()->get(0);
+    mRenderer = mTestObj->getComponents<Renderer>()->get(0);
+    mTransform = mTestObj->getTransform();
   }
 
   f32 movement = 500.0f;//1.0f*Time::getDeltaTimeSeconds();
@@ -201,17 +214,8 @@ void CustomScript::step(){
     mRenderer->setInvertXAxis(false);
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-    if(!mTestCreated) {
-      //createTestButton();
-      //createTestObj();
-      createTestMap();
-      // createFont();
-      mTestCreated = true;
 
-      //RenderEngine::getInstance()->drawLine(Vector3(0,0,0), Vector3(100,100,0));
-    }
-
-    createFont();
+    // createFont();
 
     //Vector2 mouse(Input::getMousePosition());
 

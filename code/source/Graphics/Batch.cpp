@@ -170,7 +170,9 @@ u32 Batch::render(u32 layer) {
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
 
-		if(renderer->getLayer() == layer && renderer->getIsChunkLoaded() && !checkOutOfCamera(camera,renderer)){
+		bool chunkOk = (! renderer->getIsInChunk()) || (renderer->getIsInChunk() && renderer->getIsChunkLoaded());
+
+		if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();

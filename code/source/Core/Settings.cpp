@@ -18,7 +18,7 @@ Settings::~Settings(){
 // ---------------------------------------------------------------------------
 
 void Settings::init(){
-  mSceneSize = 2000;
+  mSceneSize = 4000;
   mQuadTreeMinSize = 500;
 }
 

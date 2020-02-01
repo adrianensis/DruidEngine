@@ -259,6 +259,7 @@ void UI::step() {
 // ---------------------------------------------------------------------------
 
 void UI::terminate() {
+  TRACE();
 //  FOR_LIST(it, mUIElements){
 //    Memory::free<UIElement>(it.get());
 //  }

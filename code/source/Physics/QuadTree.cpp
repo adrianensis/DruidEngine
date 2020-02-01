@@ -325,6 +325,7 @@ QuadTree::QuadTree() : DE_Class(){
 // ---------------------------------------------------------------------------
 
 QuadTree::~QuadTree(){
+  TRACE();
   Memory::free<Node>(mRoot);
 }
 
