@@ -242,7 +242,9 @@ void UI::step() {
     Vector2 mouse(Input::getMousePosition());
     Vector3 world = RenderEngine::getInstance()->getCamera()->screenToWorld(mouse);
 
-    FOR_LIST(it, mUIElements){
+    bool pressed = false;
+
+    FOR_LIST_COND(it, mUIElements, !pressed){
 
       UIElement* element = it.get();
 
@@ -251,6 +253,7 @@ void UI::step() {
 
       if(collider && !renderer->getOutOfCamera() && collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
         element->onPressed();
+        pressed = true;
       }
     }
   }

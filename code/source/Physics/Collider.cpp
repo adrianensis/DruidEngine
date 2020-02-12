@@ -119,13 +119,13 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
   }
 
   if(result == ColliderStatus::STATUS_PENETRATION){
-    // ECHO("PENETRATION");
+    ECHO("PENETRATION");
     if(vrn <= 0){
       mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
       otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
     }
   }else if(result == ColliderStatus::STATUS_COLLISION){
-    // ECHO("COLLISION");
+    ECHO("COLLISION");
     if(vrn <= 0){
       mRigidBody->stopMovement();
       otherCollider->getRigidBody()->stopMovement();

@@ -37,6 +37,7 @@ private:
     u32 mChildrenCount;
 
     u32 mDynamicCollidersCount;
+    u32 mStaticCollidersCount;
 
     Node();
     ~Node();
@@ -45,7 +46,7 @@ private:
     void addCollider(Collider* collider);
     void update(/*contactManager*/);
     void updateChildren(/*contactManager*/);
-    bool checkExit(Collider* collider) const;
+    void checkExit(Collider* collider) const;
     void manageExits(List<Collider*>* exitingColliders);
 
     bool isLeaf() const;

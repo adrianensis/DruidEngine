@@ -92,6 +92,8 @@ void PhysicsEngine::step(f32 deltaTime){
         it.get()->restoreState();
       }
     }
+
+    mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
   }
 }
 
@@ -99,7 +101,7 @@ void PhysicsEngine::step(f32 deltaTime){
 
 void PhysicsEngine::terminate(){
   TRACE();
-  
+
   FOR_LIST(it, mRigidBodies){
     Memory::free<RigidBody>(it.get());
   }

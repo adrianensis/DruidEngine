@@ -60,7 +60,7 @@ void CustomScript::createTestObj() {
   mTestObj = Memory::allocate<GameObject>();
   mTestObj->init();
 
-  mTestObj->getTransform()->setLocalPosition(Vector3(0,0,0));
+  mTestObj->getTransform()->setLocalPosition(Vector3(-200,-200,0));
   mTestObj->getTransform()->setScale(Vector3(size.x,size.y,1));
 
   Renderer* renderer = Memory::allocate<Renderer>();
@@ -143,6 +143,8 @@ void CustomScript::createTestMap() {
   getGameObject()->getScene()->addGameObject(map);
 }
 
+// ---------------------------------------------------------------------------
+
 void CustomScript::createFont() {
 
   Vector2 mouse(Input::getMousePosition());
@@ -151,6 +153,75 @@ void CustomScript::createFont() {
   UIText* text = UI::getInstance()->createText(Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
 
   getGameObject()->getScene()->addGameObject(text);
+}
+
+// ---------------------------------------------------------------------------
+
+void CustomScript::createTestScene() {
+
+  // Vector2 size(100.0f,100.0f);
+
+
+
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/terrain.png");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(Shader::getDefaultShader());
+
+  FOR_RANGE(i, 0, 6){
+    createTestTile((i*100.0f) - 500.0f, 0, material);
+  }
+
+  FOR_RANGE(i, 5, 10){
+    createTestTile((i*100.0f) - 500.0f, 100, material);
+  }
+
+  FOR_RANGE(i, 0, 6){
+    createTestTile((i*100.0f) - 500.0f, -400, material);
+  }
+
+  FOR_RANGE(i, 5, 10){
+    createTestTile((i*100.0f) - 500.0f, -300, material);
+  }
+
+
+}
+
+// ---------------------------------------------------------------------------
+
+void CustomScript::createTestTile(float x, float y, Material* material) {
+  Vector2 size(100.0f,100.0f);
+
+  f32 tilesCount = 16;
+  f32 tileTextureSize = 1.0f/tilesCount;
+
+  GameObject* tile = Memory::allocate<GameObject>();
+  tile->init();
+
+  tile->getTransform()->setLocalPosition(Vector3(x, y,0));
+  tile->getTransform()->setScale(Vector3(size.x, size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  tile->addComponent<Renderer>(renderer);
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  renderer->setRegion(4/tilesCount, 1/tilesCount, tileTextureSize, tileTextureSize);
+
+  RigidBody* rigidBody = Memory::allocate<RigidBody>();
+  tile->addComponent<RigidBody>(rigidBody);
+
+  Collider* collider = Memory::allocate<Collider>();
+  tile->addComponent<Collider>(collider);
+  collider->setSize(size.x,size.y);
+
+  tile->setIsStatic(true);
+
+  getGameObject()->getScene()->addGameObject(tile);
 }
 
 // ---------------------------------------------------------------------------
@@ -175,7 +246,8 @@ void CustomScript::step(){
 
   if(!mTestCreated) {
     createTestObj();
-    createTestMap();
+    //createTestMap();
+    createTestScene();
     mTestCreated = true;
     mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
     mCollider = mTestObj->getComponents<Collider>()->get(0);
@@ -233,8 +305,10 @@ void CustomScript::step(){
     mRenderer->setLineMode(true);
   }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){
     mRenderer->setLineMode(false);
-  }else{
-    mRigidBody->setLinear(Vector3(0,0,0));
+  }else if(Input::isKeyPressed(GLFW_KEY_SPACE)){
+    mRigidBody->addForce(Vector3(0,1100.0f,0));
+  }else if(Input::isKeyPressed(GLFW_KEY_LEFT_SHIFT)){
+    mRigidBody->addForce(Vector3(0,-1000.0f,0));
   }
 
   if(running){
@@ -242,6 +316,8 @@ void CustomScript::step(){
   }else{
     mRenderer->setAnimation("idle");
   }
+
+  //mRigidBody->addForce(Vector3(0,-980.0f,0));
 }
 
 // ---------------------------------------------------------------------------

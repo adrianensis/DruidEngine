@@ -270,7 +270,7 @@ void RenderEngine::step() {
 
   //VAR(u32,drawCallCounter);
 
-  //stepDebug();
+  stepDebug();
 
 	RenderContext::swap();
 

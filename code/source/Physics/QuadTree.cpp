@@ -28,6 +28,7 @@ QuadTree::Node::Node() {
     mLeftTopChildrenArray = nullptr;
     mChildrenCount = 0;
     mDynamicCollidersCount = 0;
+    mStaticCollidersCount = 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -173,7 +174,9 @@ void QuadTree::Node::addCollider(Collider* collider){
         if(!found){
           mColliders->pushBack(collider);
 
-          if(!collider->getIsStatic()){
+          if(collider->getIsStatic()){
+            mStaticCollidersCount++;
+          }else{
             mDynamicCollidersCount++;
           }
         }
@@ -200,9 +203,6 @@ void QuadTree::Node::update(/*contactManager*/){
 
     mExitingColliders->clear(); // colliders which have left the node.
 
-    // if there are 2 or more colliders within the same node.
-    if(mDynamicCollidersCount > 1){
-
     // FOR EACH COLLIDER
 		FOR_LIST(itA, mColliders){
 
@@ -210,47 +210,47 @@ void QuadTree::Node::update(/*contactManager*/){
 
       bool isStaticA = colliderA->getIsStatic();
 
-			// if collider has left the node.
-			if((!isStaticA) && checkExit(colliderA)) {
-        mExitingColliders->pushBack(colliderA);
-      }
+			// check if collider has left the node.
+			checkExit(colliderA);
 
-				// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
+      // if there are 2 or more colliders within the same node
+      if(mDynamicCollidersCount + mStaticCollidersCount > 1){
+        // CHECK COLLISIONS WITH THE OTHERS COLLIDERS
         FOR_LIST(itB, mColliders){
 
           Collider* colliderB = itB.get();
 
           bool isStaticB = colliderA->getIsStatic();
 
-					// if they aren't the same collider
+          // if they aren't the same collider
           // if both are static, do not check anything.
-					if((colliderA != colliderB) && !(isStaticA && isStaticB)){
+          if((colliderA != colliderB) && !(isStaticA && isStaticB)){
 
-						// check bounding radius
-						if(colliderA->checkCollisionRadius(colliderB)){
+            // check bounding radius
+            if(colliderA->checkCollisionRadius(colliderB)){
 
-	 						// candidate vertices
-	 						// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
-	 						//Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
+              // candidate vertices
+              // Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
+              //Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
 
-	 						// Compute candidates and generate contacts
-	 						//ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
+              // Compute candidates and generate contacts
+              //ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
-	 						ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
+              ColliderStatus newStatus = colliderA->testRectangleRectangle(colliderB);
 
               // if(status == ColliderStatus::STATUS_PENETRATION) ECHO("penetration");
 
-	 						// console.log(this.tree.getStatus());
-	 						// if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
-	 						if(mTree->getStatus() == ColliderStatus::STATUS_NONE){
+              // console.log(this.tree.getStatus());
+              // if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
+              if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION){
                 //ECHO("STATUS_PENETRATION");
-                mTree->setStatus(status);
+                mTree->setStatus(newStatus);
               }
 
-  					}
+            }
           }
-				}
-			}
+        }
+  		}
 		}
 
 	 	manageExits(mExitingColliders);
@@ -280,10 +280,31 @@ void QuadTree::Node::updateChildren(/*contactManager*/) {
 
 //----------------------------------------------------------------------
 
-bool QuadTree::Node::checkExit(Collider* collider) const {
+void QuadTree::Node::checkExit(Collider* collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
-	return ( /*! collider.isStatic() &&*/ ! testPartialCollider(collider));
+
+  if(! collider->getIsStatic()){
+    Array<Vector2>* vertices = collider->getBoundingBox();
+
+    u32 verticesOutOfNode = 0;
+
+    FOR_ARRAY(i, vertices){
+      bool collision = MathUtils::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
+
+      if(!collision){
+        verticesOutOfNode++;
+      }
+    }
+
+    if(verticesOutOfNode == 4){
+      mExitingColliders->pushBack(collider);
+    }
+
+    if(verticesOutOfNode > 0){
+      mTree->addCollider(collider);
+    }
+  }
 };
 
 //----------------------------------------------------------------------
@@ -298,11 +319,10 @@ void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
       Collider* collider = itExiting.get();
       mColliders->remove(mColliders->find(collider));
 
+      // Note: Only dynamic colliders can leave the node!
       if(!collider->getIsStatic()){
         mDynamicCollidersCount--;
       }
-
-      mTree->addCollider(itExiting.get());
     }
  	}
 };
@@ -347,7 +367,7 @@ void QuadTree::init(f32 size){
 // ---------------------------------------------------------------------------
 
 void QuadTree::update() {
-  mStatus = ColliderStatus::STATUS_NONE;
+  //mStatus = ColliderStatus::STATUS_NONE;
   mRoot->update();
 }
 

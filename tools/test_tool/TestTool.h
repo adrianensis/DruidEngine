@@ -22,7 +22,7 @@ class TestTool : public Script{
 private:
 
   u32 mGridSize;
-  Array<Array<UIButton*>*>* mGrid;
+  Array<Array<bool>*>* mGrid;
 
   Transform* mTransform;
   Camera* mCamera;
@@ -42,11 +42,14 @@ public:
 
 DE_CLASS(TestTool, Script);
 
+u32 mAtlasIndexX;
+u32 mAtlasIndexY;
+
 void createBrush();
 void createTestButton();
 void createAtlas();
 void createFont();
-void createTile();
+void createTile(f32 x, f32 y);
 
 void init() override;
 void step() override;

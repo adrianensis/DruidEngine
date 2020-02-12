@@ -48,7 +48,7 @@ TestTool::~TestTool() = default;
 // ---------------------------------------------------------------------------
 
 void TestTool::createBrush() {
-  Vector2 size(100,100);
+  Vector2 size(50,50);
 
   Texture* texture = Memory::allocate<Texture>();
   texture->init("resources/terrain.png");
@@ -67,7 +67,7 @@ void TestTool::createBrush() {
   Renderer* renderer = Memory::allocate<Renderer>();
   mBrush->addComponent<Renderer>(renderer);
 
-  renderer->setLayer(1);
+  renderer->setLayer(2);
 
   //renderer->setColor(Vector4(0,0,0,0.7f));
 
@@ -92,47 +92,42 @@ void TestTool::createBrush() {
 
 // ---------------------------------------------------------------------------
 
-void TestTool::createTile() {
-  Vector2 size(100,100);
+void TestTool::createTile(f32 x, f32 y) {
+  if(mBrush){
+    Vector2 size(100,100);
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/mage.png");
+    mTestTile = Memory::allocate<GameObject>();
+    mTestTile->init();
 
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+    mTestTile->getTransform()->setLocalPosition(Vector3(x,y,0));
+    mTestTile->getTransform()->setScale(Vector3(size.x,size.y,1));
 
-  mTestTile = Memory::allocate<GameObject>();
-  mTestTile->init();
+    Renderer* renderer = Memory::allocate<Renderer>();
+    mTestTile->addComponent<Renderer>(renderer);
 
-  mTestTile->getTransform()->setLocalPosition(Vector3(0,0,0));
-  mTestTile->getTransform()->setScale(Vector3(size.x,size.y,1));
+    renderer->setLayer(1);
 
-  Renderer* renderer = Memory::allocate<Renderer>();
-  mTestTile->addComponent<Renderer>(renderer);
+    //renderer->setColor(Vector4(0,0,0,0.7f));
 
-  //renderer->setLayer(0);
+    renderer->setMesh(Mesh::getRectangle());
+    renderer->setMaterial(mMaterial);
 
-  //renderer->setColor(Vector4(0,0,0,0.7f));
+    f32 tilesCount = 16;
+    f32 tileTextureSize = 1.0f/tilesCount;
 
-  renderer->setMesh(Mesh::getRectangle());
-  renderer->setMaterial(material);
+    renderer->setRegion(mAtlasIndexX/tilesCount, mAtlasIndexY/tilesCount, tileTextureSize, tileTextureSize);
 
-  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer->setAnimation("idle");
+    // renderer->setLineMode(true);
 
-  renderer->setLineMode(true);
+    // RigidBody* rigidBody = Memory::allocate<RigidBody>();
+    // mTestTile->addComponent<RigidBody>(rigidBody);
+    //
+    // Collider* collider = Memory::allocate<Collider>();
+    // mTestTile->addComponent<Collider>(collider);
+    // collider->setSize(size.x,size.y);
 
-  RigidBody* rigidBody = Memory::allocate<RigidBody>();
-  mTestTile->addComponent<RigidBody>(rigidBody);
-
-  Collider* collider = Memory::allocate<Collider>();
-  mTestTile->addComponent<Collider>(collider);
-  collider->setSize(size.x,size.y);
-
-  getGameObject()->getScene()->addGameObject(mTestTile);
+    getGameObject()->getScene()->addGameObject(mTestTile);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -187,9 +182,13 @@ void TestTool::createAtlas(){
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
       renderer->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
+      renderer->setLayer(1);
 
       tile->setOnPressedCallback([=, brush = mBrush]() {
         brush->getComponents<Renderer>()->get(0)->setRegion(i/tilesCount, j/tilesCount, tileTextureSize, tileTextureSize);
+        mAtlasIndexX = i;
+        mAtlasIndexY = j;
+
       });
 
       //mGrid->get(i)->set(j, cellButton);
@@ -259,29 +258,38 @@ void TestTool::step(){
     mCameraTransform = mCamera->getGameObject()->getTransform();
   }
 
+  if(!mTestCreated) {
+    mTestCreated = true;
+    createBrush();
+    createAtlas();
+  }
+
   if(! mGrid){
-    mGrid = Memory::allocate<Array<Array<UIButton*>*>>();
-    //mGrid->init(mGridSize);
+    mGrid = Memory::allocate<Array<Array<bool>*>>();
+    mGrid->init(mGridSize);
 
     f32 halfGridSize = mGridSize/2.0f;
 
     f32 size = 100;
 
     FOR_RANGE(i, 0, mGridSize){
-      //mGrid->set(i, Memory::allocate<Array<UIButton*>>());
-      //mGrid->get(i)->init(mGridSize);
+      mGrid->set(i, Memory::allocate<Array<bool>>());
+      mGrid->get(i)->init(mGridSize);
       FOR_RANGE(j, 0, mGridSize){
 
         UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*size,(j - halfGridSize)*size,0), Vector2(size,size));
         getGameObject()->getScene()->addGameObject(cellButton);
-        //
-        // Renderer* renderer = cellButton->getRenderer();
-        //
-        // cellButton->setOnPressedCallback([&, r = renderer]() {
-        //
-        // });
 
-        //mGrid->get(i)->set(j, cellButton);
+        Vector3 cellPosition = cellButton->getTransform()->getLocalPosition();
+
+        cellButton->setOnPressedCallback([self = this, x = cellPosition.x, y = cellPosition.y, grid = mGrid, i=i, j=j ]() {
+          if(!grid->get(i)->get(j)){
+            self->createTile(x,y);
+            grid->get(i)->set(j, true);
+          }
+        });
+
+        mGrid->get(i)->set(j, false);
 
       }
     }
@@ -293,11 +301,7 @@ void TestTool::step(){
   }
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-    // if(!mTestCreated) {
-    //   mTestCreated = true;
-    //   createBrush();
-    //   createAtlas();
-    // }
+
     //
     // if(!mTestTile){
     //   //createTile();

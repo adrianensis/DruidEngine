@@ -22,7 +22,7 @@ UIElement::~UIElement() = default;
 
 void UIElement::onPressed(){
   mPressed = true;
-  mRenderer->setColor(Vector4(1.0f,1.0f,0.0f,1.0f));
+  //mRenderer->setColor(Vector4(1.0f,1.0f,0.0f,1.0f));
   mOnPressedFunctor.execute();
 }
 
@@ -30,7 +30,7 @@ void UIElement::onPressed(){
 
 void UIElement::onReleased(){
   mPressed = false;
-  mRenderer->setColor(Vector4(0.0f,0.0f,0.0f,1.0f));
+  //mRenderer->setColor(Vector4(0.0f,0.0f,0.0f,1.0f));
   mOnReleasedFunctor.execute();
 }
 

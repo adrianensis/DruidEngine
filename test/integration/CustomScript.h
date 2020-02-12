@@ -13,6 +13,7 @@ class Collider;
 class GameObject;
 class Camera;
 class UIButton;
+class Material;
 template <class K, class V> class HashMap;
 
 class CustomScript : public Script{
@@ -23,7 +24,7 @@ private:
   Collider* mCollider;
   Transform* mTransform;
   Camera* mCamera;
-  
+
   GameObject* mTestObj;
   UIButton* mTestButton;
 
@@ -36,6 +37,8 @@ DE_CLASS(CustomScript, Script);
 void createTestObj();
 void createTestButton();
 void createTestMap();
+void createTestScene();
+void createTestTile(float x, float y, Material* material);
 void createFont();
 
 void init() override;

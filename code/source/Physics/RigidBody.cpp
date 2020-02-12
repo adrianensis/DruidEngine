@@ -53,7 +53,7 @@ void RigidBody::integrate(f32 deltaTime){
     // Symplectic Euler
 
     // v += (1/m * F) * dt
-    mLinear.add(Vector3(mForceAccumulator).mul(1/mMass).mul(deltaTime));
+    mLinear.add(Vector3(mForceAccumulator).mul(1.0f/mMass).mul(deltaTime));
     //mLinear.add(this.counterPenetrationAccumulator.cpy().mulScl(1/this.mass).mulScl(dt));
 
     // x += v * dt
