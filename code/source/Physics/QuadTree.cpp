@@ -138,7 +138,7 @@ QuadTree::Node* QuadTree::Node::createChildNode(u32 index){
 
 void QuadTree::Node::addCollider(Collider* collider){
 
-  if(collider->getSimulate()){
+  if(collider->isSimulate()){
     // ECHO("addCollider");
     if(mIsDivisible){
       // ECHO("Is Divisible");
@@ -174,7 +174,7 @@ void QuadTree::Node::addCollider(Collider* collider){
         if(!found){
           mColliders->pushBack(collider);
 
-          if(collider->getIsStatic()){
+          if(collider->isStatic()){
             mStaticCollidersCount++;
           }else{
             mDynamicCollidersCount++;
@@ -208,7 +208,7 @@ void QuadTree::Node::update(/*contactManager*/){
 
       Collider* colliderA = itA.get();
 
-      bool isStaticA = colliderA->getIsStatic();
+      bool isStaticA = colliderA->isStatic();
 
 			// check if collider has left the node.
 			checkExit(colliderA);
@@ -220,7 +220,7 @@ void QuadTree::Node::update(/*contactManager*/){
 
           Collider* colliderB = itB.get();
 
-          bool isStaticB = colliderA->getIsStatic();
+          bool isStaticB = colliderA->isStatic();
 
           // if they aren't the same collider
           // if both are static, do not check anything.
@@ -284,7 +284,7 @@ void QuadTree::Node::checkExit(Collider* collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
 
-  if(! collider->getIsStatic()){
+  if(! collider->isStatic()){
     Array<Vector2>* vertices = collider->getBoundingBox();
 
     u32 verticesOutOfNode = 0;
@@ -320,7 +320,7 @@ void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
       mColliders->remove(mColliders->find(collider));
 
       // Note: Only dynamic colliders can leave the node!
-      if(!collider->getIsStatic()){
+      if(!collider->isStatic()){
         mDynamicCollidersCount--;
       }
     }
@@ -359,7 +359,6 @@ void QuadTree::init(f32 size){
 
   f32 minSize = Settings::getInstance()->mQuadTreeMinSize;
 
-
   mRoot = Memory::allocate<Node>();
 	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, minSize, minSize, this);
 }
@@ -367,7 +366,6 @@ void QuadTree::init(f32 size){
 // ---------------------------------------------------------------------------
 
 void QuadTree::update() {
-  //mStatus = ColliderStatus::STATUS_NONE;
   mRoot->update();
 }
 
@@ -378,6 +376,5 @@ void QuadTree::addCollider(Collider* collider) {
 }
 
 // ---------------------------------------------------------------------------
-
 
 } /* namespace DE */

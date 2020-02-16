@@ -27,6 +27,7 @@ RigidBody::RigidBody() : Component(){
   mState = State();
 
   mCollider = nullptr;
+  mLastCollisionPosition = Vector3(0,0,0);
 }
 
 // ---------------------------------------------------------------------------
@@ -46,7 +47,6 @@ void RigidBody::init(){
 void RigidBody::integrate(f32 deltaTime){
 
   if(mSimulate){
-    mCollider = mCollider ? mCollider : getGameObject()->getComponents<Collider>()->get(0);
 
     Transform* t = getGameObject()->getTransform();
 
@@ -82,12 +82,20 @@ void RigidBody::saveState() {
   mState.mSimulate = mSimulate;
 }
 
+// ---------------------------------------------------------------------------
+
 void RigidBody::restoreState() {
   getGameObject()->getTransform()->setLocalPosition(mState.mPosition);
   mLinear = mState.mLinear;
   mForceAccumulator = mState.mForceAccumulator;
   mMass = mState.mMass;
   mSimulate = mState.mSimulate;
+}
+// ---------------------------------------------------------------------------
+
+Collider* RigidBody::initCollider() {
+  mCollider = mCollider ? mCollider : getGameObject()->getComponents<Collider>()->get(0);
+  return mCollider;
 }
 
 

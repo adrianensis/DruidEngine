@@ -26,8 +26,7 @@ PhysicsEngine::~PhysicsEngine() = default;
 void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
   mRigidBodies->pushBack(rigidBody);
 
-  List<Collider*>* ColliderList = rigidBody->getGameObject()->getComponents<Collider>();
-  Collider* collider = ColliderList ? ColliderList->get(0) : nullptr;
+  Collider* collider = rigidBody->initCollider();
 
   if(collider){
     mQuadTree->addCollider(collider);
@@ -69,10 +68,14 @@ void PhysicsEngine::step(f32 deltaTime){
 
     FOR_LIST (it, mRigidBodies){
       if(firstIteration || (it.get()->getCollider()->getStatus() == ColliderStatus::STATUS_PENETRATION)){
-        if(it.get()->getSimulate()){
+        if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
           it.get()->restoreState();
           it.get()->integrate(dt);
         }
+      }
+
+      if(it.get()->getCollider()->getStatus() == ColliderStatus::STATUS_NONE){
+        it.get()->addForce(Vector3(0,-98.0f,0));
       }
     }
 
@@ -88,8 +91,9 @@ void PhysicsEngine::step(f32 deltaTime){
 
   if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
     FOR_LIST (it, mRigidBodies){
-      if(it.get()->getSimulate()){
+      if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
         it.get()->restoreState();
+        //it.get()->integrate(-deltaTime);
       }
     }
 

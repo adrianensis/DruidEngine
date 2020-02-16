@@ -12,7 +12,7 @@
 
 namespace DE {
 
-f32 Collider::msDepthEpsilon = 10.0f;
+f32 Collider::msDepthEpsilon = 1.0f;
 
 // ---------------------------------------------------------------------------
 
@@ -89,9 +89,10 @@ Vector3 Collider::getRelativeVelocity(Collider* otherCollider){
 
 // ---------------------------------------------------------------------------
 
-bool Collider::getSimulate(){
-  return mRigidBody->getSimulate();
+bool Collider::isSimulate(){
+  return mRigidBody->isSimulate();
 }
+
 // ---------------------------------------------------------------------------
 
 ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
@@ -121,14 +122,14 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
   if(result == ColliderStatus::STATUS_PENETRATION){
     ECHO("PENETRATION");
     if(vrn <= 0){
-      mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
-      otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
+      //mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
+      //otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
     }
   }else if(result == ColliderStatus::STATUS_COLLISION){
     ECHO("COLLISION");
     if(vrn <= 0){
-      mRigidBody->stopMovement();
-      otherCollider->getRigidBody()->stopMovement();
+      //mRigidBody->stopMovement();
+      //otherCollider->getRigidBody()->stopMovement();
     }
   }
 

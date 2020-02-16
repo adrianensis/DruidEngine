@@ -34,10 +34,10 @@ public:
 	Mesh* addTexCoord(u32 u,u32 v);
 	Mesh* addFace(u32 v1,u32 v2,u32 v3);
 
-	DE_GET(const Array<f32>*, Vertices);
-	DE_GET(const Array<f32>*, Normals);
-	DE_GET(const Array<f32>*, TextureCoordinates);
-	DE_GET(const Array<u32>*, Faces);
+	const Array<f32>* getVertices() const { return mVertices; };
+	const Array<f32>* getNormals() const { return mNormals; };
+	const Array<f32>* getTextureCoordinates() const { return mTextureCoordinates; };
+	const Array<u32>* getFaces() const { return mFaces; };
 
 	static Mesh* getRectangle();
 };

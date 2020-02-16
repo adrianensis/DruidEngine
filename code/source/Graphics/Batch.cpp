@@ -170,7 +170,7 @@ u32 Batch::render(u32 layer) {
 		Renderer* renderer = it.get();
 		Transform* t = renderer->getGameObject()->getTransform();
 
-		bool chunkOk = (! renderer->getIsInChunk()) || (renderer->getIsInChunk() && renderer->getIsChunkLoaded());
+		bool chunkOk = (! renderer->isInChunk()) || (renderer->isInChunk() && renderer->isChunkLoaded());
 
 		if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 

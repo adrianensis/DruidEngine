@@ -46,9 +46,11 @@ public:
 		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
-	DE_GET_SET(Scene*, Scene);
-	DE_GET_SET(bool, IsStatic);
-	DE_GET(Transform*, Transform);
+	Scene* getScene() const { return mScene;};
+	void setScene(Scene* newScene ) { mScene = newScene; };
+	bool isStatic() const { return mIsStatic;};
+	void setIsStatic(bool newIsStatic ) { mIsStatic = newIsStatic; };
+	Transform* getTransform() const { return mTransform; };
 };
 
 // ---------------------------------------------------------------------------

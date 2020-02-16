@@ -20,7 +20,7 @@ public:
 
   void execute();
 
-  DE_SET(voidFunction, Callback);
+  void setCallback(voidFunction newCallback ) { mCallback = newCallback; };
 };
 
 } /* namespace DE */

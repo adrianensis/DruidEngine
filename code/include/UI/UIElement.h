@@ -31,10 +31,10 @@ void onReleased();
 void setOnPressedCallback(std::function<void()> callback);
 void setOnReleasedCallback(std::function<void()> callback);
 
-DE_GET(Collider*, Collider);
-DE_GET(Renderer*, Renderer);
+Collider* getCollider() const { return mCollider; };
+Renderer* getRenderer() const { return mRenderer; };
 
-DE_GET(bool, Pressed);
+bool getPressed() const { return mPressed; };
 
 void setComponentsCache();
 

@@ -362,11 +362,11 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
   FOR_ARRAY(i, mChunks){
     Chunk* chunk = mChunks->get(i);
-    if(renderer->getIsStatic() && (! renderer->getIsInChunk()) && chunk->containsRenderer(renderer)){
+    if(renderer->isStatic() && (! renderer->isInChunk()) && chunk->containsRenderer(renderer)){
       chunk->addRenderer(renderer);
       renderer->setIsInChunk(true);
       renderer->setIsChunkLoaded(false);
-    } /*else if(! renderer->getIsStatic()) {
+    } /*else if(! renderer->isStatic()) {
       mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
     }*/
   }

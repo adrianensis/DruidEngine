@@ -20,10 +20,11 @@ public:
 
 	bool isLoaded() const;
 
-	DE_GET_SET(u32, TextureId);
-	DE_GET(byte*, Data);
-	DE_GET(u32, Width);
-	DE_GET(u32, Height);
+	u32 getTextureId() const { return mTextureId;};
+	void setTextureId(u32 newTextureId ) { mTextureId = newTextureId; };
+	byte* getData() const { return mData; };
+	u32 getWidth() const { return mWidth; };
+	u32 getHeight() const { return mHeight; };
 };
 
 } /* namespace DE */

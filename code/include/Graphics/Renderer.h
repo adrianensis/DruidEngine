@@ -78,23 +78,31 @@ public:
 	void setColor(const Vector4& color);
 	bool isLineMode();
 
-	DE_GET_SET(Vector3, PositionOffset);
+	Vector3 getPositionOffset() const { return mPositionOffset;};
+	void setPositionOffset(Vector3 newPositionOffset ) { mPositionOffset = newPositionOffset; };
 
 	const Matrix4& getPositionOffsetMatrix();
 
-	DE_GET_SET(Mesh*, Mesh);
+	Mesh* getMesh() const { return mMesh;};
+	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
 
-	DE_GET_SET(Material*, Material);
+	Material* getMaterial() const { return mMaterial;};
+	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };
 
-	DE_SET(bool, InvertXAxis);
-	DE_SET(bool, AlphaEnabled);
-	DE_SET(bool, LineMode);
+	void setInvertXAxis(bool newInvertXAxis ) { mInvertXAxis = newInvertXAxis; };
+	void setAlphaEnabled(bool newAlphaEnabled ) { mAlphaEnabled = newAlphaEnabled; };
+	void setLineMode(bool newLineMode ) { mLineMode = newLineMode; };
 
-	DE_GET_SET(u32, Layer);
-	DE_GET_SET(f32, RenderDistance);
-	DE_GET_SET(bool, OutOfCamera);
-	DE_GET_SET(bool, IsInChunk);
-	DE_GET_SET(bool, IsChunkLoaded);
+	u32 getLayer() const { return mLayer;};
+	void setLayer(u32 newLayer ) { mLayer = newLayer; };
+	f32 getRenderDistance() const { return mRenderDistance;};
+	void setRenderDistance(f32 newRenderDistance ) { mRenderDistance = newRenderDistance; };
+	bool getOutOfCamera() const { return mOutOfCamera;};
+	void setOutOfCamera(bool newOutOfCamera ) { mOutOfCamera = newOutOfCamera; };
+	bool isInChunk() const { return mIsInChunk;};
+	void setIsInChunk(bool newIsInChunk ) { mIsInChunk = newIsInChunk; };
+	bool isChunkLoaded() const { return mIsChunkLoaded;};
+	void setIsChunkLoaded(bool newIsChunkLoaded ) { mIsChunkLoaded = newIsChunkLoaded; };
 };
 
 } /* namespace DE */

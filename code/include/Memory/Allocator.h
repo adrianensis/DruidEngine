@@ -41,8 +41,8 @@ public:
   */
   ~Allocator() override;
 
-  DE_GET(u32, TotalSize);
-  DE_GET(u32, AllocatedSize);
+  u32 getTotalSize() const { return mTotalSize; };
+  u32 getAllocatedSize() const { return mAllocatedSize; };
 
   /*!
     \return True if space is enough.

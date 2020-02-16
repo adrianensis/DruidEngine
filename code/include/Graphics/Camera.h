@@ -36,7 +36,7 @@ public:
 	Vector3 screenToWorld(Vector2 screenPosition);
 	void calculateInverseMatrix();
 
-	DE_GET(Frustum*, Frustum);
+	Frustum* getFrustum() const { return mFrustum; };
 };
 
 } /* namespace DE */

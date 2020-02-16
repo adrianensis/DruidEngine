@@ -42,11 +42,13 @@ public:
   void setSize(f32 width, f32 height);
   Array<Vector2>* getBoundingBox();
   Vector3 getRelativeVelocity(Collider* otherCollider);
-  DE_GET(f32, Radius);
-  DE_GET_SET(RigidBody*, RigidBody);
-  DE_GET_SET(ColliderStatus, Status);
+  f32 getRadius() const { return mRadius; };
+  RigidBody* getRigidBody() const { return mRigidBody;};
+	void setRigidBody(RigidBody* newRigidBody ) { mRigidBody = newRigidBody; };
+  ColliderStatus getStatus() const { return mStatus;};
+	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
 
-  bool getSimulate();
+  bool isSimulate();
 
   bool checkCollisionRadius(Collider* otherCollider) const;
 

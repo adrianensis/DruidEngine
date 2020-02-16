@@ -30,6 +30,7 @@ private:
   State mState;
 
   Collider* mCollider;
+  Vector3 mLastCollisionPosition;
 
 public:
 
@@ -46,13 +47,15 @@ public:
   void saveState();
   void restoreState();
 
-  DE_GET(Vector3, ForceAccumulator);
-
-  DE_GET_SET(f32, Mass);
-  DE_GET_SET(Vector3, Linear);
-  DE_GET_SET(bool, Simulate);
-
-  DE_GET(Collider*, Collider);
+  Vector3 getForceAccumulator() const { return mForceAccumulator; };
+  f32 getMass() const { return mMass;};
+	void setMass(f32 newMass ) { mMass = newMass; };
+  Vector3 getLinear() const { return mLinear;};
+	void setLinear(Vector3 newLinear ) { mLinear = newLinear; };
+  bool isSimulate() const { return mSimulate;};
+	void setSimulate(bool newSimulate ) { mSimulate = newSimulate; };
+  Collider* getCollider() const { return mCollider; };
+  Collider* initCollider();
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

@@ -234,8 +234,8 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  DE_GET(const List<K>*, Keys);
-  DE_GET(const List<V>*, Values);
+  const List<K>* getKeys() const { return mKeys; };
+  const List<V>* getValues() const { return mValues; };
 
   // ---------------------------------------------------------------------------
 

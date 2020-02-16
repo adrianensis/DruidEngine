@@ -171,21 +171,21 @@ void CustomScript::createTestScene() {
   material->setTexture(texture);
   material->setShader(Shader::getDefaultShader());
 
-  FOR_RANGE(i, 0, 6){
-    createTestTile((i*100.0f) - 500.0f, 0, material);
-  }
-
-  FOR_RANGE(i, 5, 10){
-    createTestTile((i*100.0f) - 500.0f, 100, material);
-  }
+  // FOR_RANGE(i, 0, 6){
+  //   createTestTile((i*100.0f) - 500.0f, 0, material);
+  // }
+  //
+  // FOR_RANGE(i, 5, 10){
+  //   createTestTile((i*100.0f) - 500.0f, 100, material);
+  // }
 
   FOR_RANGE(i, 0, 6){
     createTestTile((i*100.0f) - 500.0f, -400, material);
   }
 
-  FOR_RANGE(i, 5, 10){
-    createTestTile((i*100.0f) - 500.0f, -300, material);
-  }
+  // FOR_RANGE(i, 5, 10){
+  //   createTestTile((i*100.0f) - 500.0f, -300, material);
+  // }
 
 
 }
@@ -305,19 +305,17 @@ void CustomScript::step(){
     mRenderer->setLineMode(true);
   }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){
     mRenderer->setLineMode(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_SPACE)){
+  }/*else if(Input::isKeyPressed(GLFW_KEY_SPACE)){
     mRigidBody->addForce(Vector3(0,1100.0f,0));
   }else if(Input::isKeyPressed(GLFW_KEY_LEFT_SHIFT)){
     mRigidBody->addForce(Vector3(0,-1000.0f,0));
-  }
+  }*/
 
   if(running){
     mRenderer->setAnimation("run");
   }else{
     mRenderer->setAnimation("idle");
   }
-
-  //mRigidBody->addForce(Vector3(0,-980.0f,0));
 }
 
 // ---------------------------------------------------------------------------

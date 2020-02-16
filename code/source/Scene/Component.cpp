@@ -14,8 +14,8 @@ Component::~Component() = default;
 
 // ---------------------------------------------------------------------------
 
-bool Component::getIsStatic() {
-	mGameObject->getIsStatic();
+bool Component::isStatic() {
+	mGameObject->isStatic();
 }
 
 // ---------------------------------------------------------------------------

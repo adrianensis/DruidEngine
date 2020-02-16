@@ -47,8 +47,8 @@ public:
 
 	void addRenderer(Renderer* renderer);
 
-	DE_SET(Mesh*, Mesh);
-	DE_SET(Material*, Material);
+	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
+	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };
 };
 
 } /* namespace DE */

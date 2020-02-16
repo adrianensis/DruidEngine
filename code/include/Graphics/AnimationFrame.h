@@ -19,9 +19,9 @@ public:
 
 	void init(const Vector2& position, f32 width, f32 height);
 
-	DE_GET(const Vector2&, Position);
-	DE_GET(f32, Width);
-	DE_GET(f32, Height);
+	const Vector2& getPosition() const { return mPosition; };
+	f32 getWidth() const { return mWidth; };
+	f32 getHeight() const { return mHeight; };
 };
 
 } /* namespace DE */

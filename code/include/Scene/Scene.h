@@ -27,12 +27,12 @@ public:
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
 
-	DE_GET(List<GameObject*>* ,GameObjects);
-	DE_GET(List<GameObject*>* ,NewGameObjects);
-	DE_GET(GameObject* ,CameraGameObject);
-	DE_SET(GameObject*, CameraGameObject);
+	List<GameObject*>* getGameObjects() const { return mGameObjects; };
+	List<GameObject*>* getNewGameObjects() const { return mNewGameObjects; };
+	GameObject* getCameraGameObject() const { return mCameraGameObject; };
+	void setCameraGameObject(GameObject* newCameraGameObject ) { mCameraGameObject = newCameraGameObject; };
 
-	DE_GET(u32, MaxNewGameObjectsToSpawn);
+	u32 getMaxNewGameObjectsToSpawn() const { return mMaxNewGameObjectsToSpawn; };
 
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();

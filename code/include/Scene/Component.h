@@ -19,9 +19,10 @@ public:
 
 	virtual void init() = 0;
 
-	DE_GET_SET(GameObject*, GameObject);
+	GameObject* getGameObject() const { return mGameObject;};
+	void setGameObject(GameObject* newGameObject ) { mGameObject = newGameObject; };
 
-	bool getIsStatic();
+	bool isStatic();
 };
 
 } /* namespace DE */

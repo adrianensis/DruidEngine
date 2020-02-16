@@ -85,11 +85,12 @@ public:
 	void addRenderer(Renderer* renderer);
 	void drawLine(const Vector3& start, const Vector3& end);
 
-	DE_GET_SET(Camera*, Camera);
-	DE_GET(bool, CameraDirtyTranslation);
+	Camera* getCamera() const { return mCamera;};
+	void setCamera(Camera* newCamera ) { mCamera = newCamera; };
+	bool getCameraDirtyTranslation() const { return mCameraDirtyTranslation; };
 
 	using MapBatches = HashMap<Texture*, Batch*>*;
-	DE_GET(MapBatches, Batches);
+	MapBatches getBatches() const { return mBatches; };
 };
 
 } /* namespace DE */
