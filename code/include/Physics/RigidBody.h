@@ -32,6 +32,8 @@ private:
   Collider* mCollider;
   Vector3 mLastCollisionPosition;
 
+  Vector3 mAntiPenetrationForce;
+
 public:
 
   DE_CLASS(RigidBody, Component);
@@ -56,6 +58,9 @@ public:
 	void setSimulate(bool newSimulate ) { mSimulate = newSimulate; };
   Collider* getCollider() const { return mCollider; };
   Collider* initCollider();
+
+  void setAntiPenetrationForce(Vector3 newAntiPenetrationForce ) { mAntiPenetrationForce.add(newAntiPenetrationForce); };
+  void resetAntiPenetrationForce(Vector3 newAntiPenetrationForce ) { mAntiPenetrationForce.set(0,0,0); };
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

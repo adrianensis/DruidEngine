@@ -203,6 +203,9 @@ void QuadTree::Node::update(/*contactManager*/){
 
     mExitingColliders->clear(); // colliders which have left the node.
 
+    ColliderStatus newTreeStatus = ColliderStatus::STATUS_NONE;
+
+
     // FOR EACH COLLIDER
 		FOR_LIST(itA, mColliders){
 
@@ -212,6 +215,8 @@ void QuadTree::Node::update(/*contactManager*/){
 
 			// check if collider has left the node.
 			checkExit(colliderA);
+
+			colliderA->setStatus(ColliderStatus::STATUS_NONE);
 
       // if there are 2 or more colliders within the same node
       if(mDynamicCollidersCount + mStaticCollidersCount > 1){
@@ -236,22 +241,25 @@ void QuadTree::Node::update(/*contactManager*/){
               // Compute candidates and generate contacts
               //ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
-              ColliderStatus newStatus = colliderA->testRectangleRectangle(colliderB);
+              ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
+              ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
 
-              // if(status == ColliderStatus::STATUS_PENETRATION) ECHO("penetration");
-
-              // console.log(this.tree.getStatus());
-              // if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION && status != ColliderStatus::STATUS_NONE){
-              if(mTree->getStatus() != ColliderStatus::STATUS_PENETRATION){
-                //ECHO("STATUS_PENETRATION");
-                mTree->setStatus(newStatus);
+              if(status > newTreeStatus){
+                newTreeStatus = status;
               }
-
+              if(status2 > newTreeStatus){
+                newTreeStatus = status2;
+              }
             }
           }
         }
   		}
 		}
+
+    if(newTreeStatus > mTree->getStatus()){
+      //ECHO("STATUS_PENETRATION");
+      mTree->setStatus(newTreeStatus);
+    }
 
 	 	manageExits(mExitingColliders);
 

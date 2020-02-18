@@ -28,6 +28,8 @@ RigidBody::RigidBody() : Component(){
 
   mCollider = nullptr;
   mLastCollisionPosition = Vector3(0,0,0);
+
+  mAntiPenetrationForce = Vector3(0,0,0);
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +53,8 @@ void RigidBody::integrate(f32 deltaTime){
     Transform* t = getGameObject()->getTransform();
 
     // Symplectic Euler
+
+    mForceAccumulator.add(mAntiPenetrationForce);
 
     // v += (1/m * F) * dt
     mLinear.add(Vector3(mForceAccumulator).mul(1.0f/mMass).mul(deltaTime));

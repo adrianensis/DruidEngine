@@ -12,8 +12,8 @@ namespace DE {
 enum class ColliderStatus
 {
   STATUS_NONE,
-  STATUS_PENETRATION,
-  STATUS_COLLISION
+  STATUS_COLLISION,
+  STATUS_PENETRATION
 };
 
 class Collider : public Component{
@@ -33,6 +33,8 @@ private:
 
   ColliderStatus mStatus;
 
+  bool mIsPenetrated = false;
+
 public:
 
   DE_CLASS(Collider, Component);
@@ -47,6 +49,10 @@ public:
 	void setRigidBody(RigidBody* newRigidBody ) { mRigidBody = newRigidBody; };
   ColliderStatus getStatus() const { return mStatus;};
 	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
+
+  void markPenetrated() { mIsPenetrated = true; }
+  void unmarkPenetrated() { mIsPenetrated = false; }
+  bool isPenetrated() const { return mIsPenetrated; }
 
   bool isSimulate();
 

@@ -12,7 +12,7 @@
 
 namespace DE {
 
-f32 Collider::msDepthEpsilon = 1.0f;
+f32 Collider::msDepthEpsilon = 5.0f;
 
 // ---------------------------------------------------------------------------
 
@@ -97,39 +97,51 @@ bool Collider::isSimulate(){
 
 ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
+
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
   Transform* t = getGameObject()->getTransform();
   Vector3 center = t->getLocalPosition();
 
   Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
+  relativeVelocity.nor();
 
   Vector3 normal = Vector3(center).sub(otherCollider->getGameObject()->getTransform()->getLocalPosition()).nor();
   f32 vrn = relativeVelocity.dot(normal);
 
-  Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
+  if(vrn < 0){
 
-  FOR_ARRAY_COND(i, otherVertices, result != ColliderStatus::STATUS_PENETRATION) {
-    ColliderStatus pointStatus = testPoint(otherVertices->get(i));
+    Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
-    if(pointStatus != ColliderStatus::STATUS_NONE){
-      if(result != ColliderStatus::STATUS_PENETRATION){
-        result = pointStatus;
+    FOR_ARRAY_COND(i, otherVertices, result != ColliderStatus::STATUS_PENETRATION) {
+      ColliderStatus pointStatus = testPoint(otherVertices->get(i));
+
+      if(pointStatus != ColliderStatus::STATUS_NONE){
+        if(result != ColliderStatus::STATUS_PENETRATION){
+          result = pointStatus;
+        }
       }
     }
-  }
 
-  if(result == ColliderStatus::STATUS_PENETRATION){
-    ECHO("PENETRATION");
-    if(vrn <= 0){
-      //mRigidBody->setLinear(mRigidBody->getLinear() * -1.0f);
-      //otherCollider->getRigidBody()->setLinear(otherCollider->getRigidBody()->getLinear() * -1.0f);
+    if(result == ColliderStatus::STATUS_PENETRATION){
+
+      markPenetrated();
+      otherCollider->markPenetrated();
+      //ECHO("PENETRATION");
+      // if(vrn < -0.99f){
+        //mRigidBody->restoreState();
+        //f32 dst = Vector3(center).dst(otherCollider->getGameObject()->getTransform()->getLocalPosition());
+        //mRigidBody->addForce(relativeVelocity * -100000.0f/* * dst*/);
+        //otherCollider->getRigidBody()->setLinear(relativeVelocity * -1.0f);
+      // }
+      //mRigidBody->setAntiPenetrationForce(Vector3(relativeVelocity * -10.0f));
     }
-  }else if(result == ColliderStatus::STATUS_COLLISION){
-    ECHO("COLLISION");
-    if(vrn <= 0){
-      //mRigidBody->stopMovement();
-      //otherCollider->getRigidBody()->stopMovement();
+    else if(result == ColliderStatus::STATUS_COLLISION){
+      //ECHO("COLLISION");
+      // if(vrn < -0.99f){
+        //mRigidBody->stopMovement();
+        //otherCollider->getRigidBody()->stopMovement();
+      // }
     }
   }
 

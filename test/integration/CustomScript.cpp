@@ -47,7 +47,7 @@ CustomScript::~CustomScript() = default;
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestObj() {
-  Vector2 size(100,100);
+  Vector2 size(100/3.0f,100/3.0f);
 
   Texture* texture = Memory::allocate<Texture>();
   texture->init("resources/mage.png");
@@ -178,15 +178,16 @@ void CustomScript::createTestScene() {
   // FOR_RANGE(i, 5, 10){
   //   createTestTile((i*100.0f) - 500.0f, 100, material);
   // }
-
-  FOR_RANGE(i, 0, 6){
-    createTestTile((i*100.0f) - 500.0f, -400, material);
-  }
-
+  //
+  // FOR_RANGE(i, 0, 6){
+  //   createTestTile((i*100.0f) - 500.0f, -400, material);
+  // }
+  //
   // FOR_RANGE(i, 5, 10){
   //   createTestTile((i*100.0f) - 500.0f, -300, material);
   // }
 
+  createTestTile((100.0f) - 300.0f, -350, material);
 
 }
 
@@ -255,7 +256,7 @@ void CustomScript::step(){
     mTransform = mTestObj->getTransform();
   }
 
-  f32 movement = 500.0f;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 150.0f;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
@@ -311,11 +312,18 @@ void CustomScript::step(){
     mRigidBody->addForce(Vector3(0,-1000.0f,0));
   }*/
 
+  else{
+    mRigidBody->setLinear(Vector3(0,0,0));
+
+  }
+
   if(running){
     mRenderer->setAnimation("run");
   }else{
     mRenderer->setAnimation("idle");
   }
+
+  // mRigidBody->addForce(Vector3(0,-400.0f,0));
 }
 
 // ---------------------------------------------------------------------------
