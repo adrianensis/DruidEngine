@@ -30,6 +30,11 @@ private:
 
   bool mTestCreated;
 
+  Renderer* mRendererMountain;
+  Renderer* mRendererMountain2;
+  Renderer* mRendererForest;
+  Renderer* mRendererForest2;
+
 public:
 
 DE_CLASS(CustomScript, Script);
@@ -38,6 +43,7 @@ void createTestObj();
 void createTestButton();
 void createTestMap();
 void createTestScene();
+void createTestBackground(float x, float y);
 void createTestTile(float x, float y, Material* material);
 void createFont();
 

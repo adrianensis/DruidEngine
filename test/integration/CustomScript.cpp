@@ -47,7 +47,7 @@ CustomScript::~CustomScript() = default;
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestObj() {
-  Vector2 size(100/3.0f,100/3.0f);
+  Vector2 size(100*1.5f,100*1.5f);
 
   Texture* texture = Memory::allocate<Texture>();
   texture->init("resources/mage.png");
@@ -187,7 +187,7 @@ void CustomScript::createTestScene() {
   //   createTestTile((i*100.0f) - 500.0f, -300, material);
   // }
 
-  createTestTile((100.0f) - 300.0f, -350, material);
+  //createTestTile((100.0f) - 300.0f, -350, material);
 
 }
 
@@ -227,6 +227,101 @@ void CustomScript::createTestTile(float x, float y, Material* material) {
 
 // ---------------------------------------------------------------------------
 
+void CustomScript::createTestBackground(float x, float y){
+  Vector2 size(2200.0f,750.0f);
+
+  GameObject* mountain = Memory::allocate<GameObject>();
+  mountain->init();
+
+  mountain->getTransform()->setLocalPosition(Vector3(0,100,0));
+  mountain->getTransform()->setScale(Vector3(size.x, size.y,1));
+
+  Texture* texture = Memory::allocate<Texture>();
+  texture->init("resources/mountain.png");
+
+  Material* material = Memory::allocate<Material>();
+  material->init();
+  material->setTexture(texture);
+  material->setShader(Shader::getDefaultShader());
+
+  Renderer* mRendererMountain3 = Memory::allocate<Renderer>();
+  mountain->addComponent<Renderer>(mRendererMountain3);
+
+  mRendererMountain3->setPositionOffset(Vector3(0,300,0));
+
+  mRendererMountain3->setMesh(Mesh::getRectangle());
+  mRendererMountain3->setMaterial(material);
+  mRendererMountain3->setColor(Vector4(-0.25f,-0.25f,-0.3f,0.3f));
+
+  // renderer 1
+  mRendererMountain = Memory::allocate<Renderer>();
+  mountain->addComponent<Renderer>(mRendererMountain);
+
+  mRendererMountain->setPositionOffset(Vector3(-200,200,0));
+
+  mRendererMountain->setMesh(Mesh::getRectangle());
+  mRendererMountain->setMaterial(material);
+  mRendererMountain->setColor(Vector4(-0.2f,-0.3f,-0.3f,1.0f));
+
+  // renderer 2
+  mRendererMountain2 = Memory::allocate<Renderer>();
+  mountain->addComponent<Renderer>(mRendererMountain2);
+
+  mRendererMountain2->setPositionOffset(Vector3(150,0,0));
+
+  mRendererMountain2->setMesh(Mesh::getRectangle());
+  mRendererMountain2->setMaterial(material);
+  mRendererMountain2->setColor(Vector4(-0.1f,-0.1f,-0.1f,1.0f));
+
+
+  //mountain->setIsStatic(true);
+
+  getGameObject()->getScene()->addGameObject(mountain);
+
+  Vector2 size2(1700.0f,800.0f);
+
+  GameObject* forest = Memory::allocate<GameObject>();
+  forest->init();
+
+  forest->getTransform()->setLocalPosition(Vector3(0,-270,0));
+  forest->getTransform()->setScale(Vector3(size2.x, size2.y,1));
+
+  Texture* texture2 = Memory::allocate<Texture>();
+  texture2->init("resources/forest.png");
+
+  Material* material2 = Memory::allocate<Material>();
+  material2->init();
+  material2->setTexture(texture2);
+  material2->setShader(Shader::getDefaultShader());
+
+  // renderer 1
+  mRendererForest = Memory::allocate<Renderer>();
+  forest->addComponent<Renderer>(mRendererForest);
+
+  mRendererForest->setPositionOffset(Vector3(100,50,0));
+
+  mRendererForest->setMesh(Mesh::getRectangle());
+  mRendererForest->setMaterial(material2);
+  mRendererForest->setColor(Vector4(-0.15f,-0.15f,-0.00f,1.0f));
+
+  // renderer 2
+  mRendererForest2 = Memory::allocate<Renderer>();
+  forest->addComponent<Renderer>(mRendererForest2);
+
+  mRendererForest2->setPositionOffset(Vector3(0,0,0));
+
+  mRendererForest2->setMesh(Mesh::getRectangle());
+  mRendererForest2->setMaterial(material2);
+  mRendererForest2->setColor(Vector4(-0.05f,-0.05f,-0.05f,1.0f));
+
+
+  //mountain->setIsStatic(true);
+
+  getGameObject()->getScene()->addGameObject(forest);
+}
+
+// ---------------------------------------------------------------------------
+
 void CustomScript::init(){
   mRigidBody = nullptr;
   mCollider = nullptr;
@@ -235,6 +330,11 @@ void CustomScript::init(){
   mTestObj = nullptr;
   mTestButton = nullptr;
   mTestCreated = false;
+
+  mRendererMountain = nullptr;
+  mRendererMountain2 = nullptr;
+  mRendererForest = nullptr;
+  mRendererForest2 = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -246,6 +346,7 @@ void CustomScript::step(){
   }
 
   if(!mTestCreated) {
+    createTestBackground(0,0);
     createTestObj();
     //createTestMap();
     createTestScene();
@@ -277,12 +378,20 @@ void CustomScript::step(){
     // mTransform->translate(Vector3(-movement,0,0));
     // mRigidBody->addForce(Vector3(-movement,0,0));
     mRigidBody->setLinear(Vector3(-movement,0,0));
+    mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(true);
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
     // mRigidBody->addForce(Vector3(movement,0,0));
     mRigidBody->setLinear(Vector3(movement,0,0));
+    mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((-movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((-movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((-movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((-movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){

@@ -125,8 +125,10 @@ void Renderer::updateMaterial(Material* material) {
 const Matrix4& Renderer::getPositionOffsetMatrix(){
   if(! mPositionOffsetMatrix){
     mPositionOffsetMatrix = Memory::allocate<Matrix4>();
-    mPositionOffsetMatrix->translation(mPositionOffset);
+
   }
+
+  mPositionOffsetMatrix->translation(mPositionOffset);
 
   return *mPositionOffsetMatrix;
 }

@@ -53,7 +53,7 @@ void PhysicsEngine::step(f32 deltaTime){
   f32 maxIterations = 5.0f;
 
   FOR_LIST (it, mRigidBodies){
-    if(   !   it.get()->getCollider()->isPenetrated()/*getStatus() != ColliderStatus::STATUS_PENETRATION*/){
+    if( ! it.get()->getCollider()->isPenetrated()){
       if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
         it.get()->saveState();
         it.get()->integrate(dt);
@@ -73,7 +73,7 @@ void PhysicsEngine::step(f32 deltaTime){
       tryAgain = false;
 
       FOR_LIST (it, mRigidBodies){
-        if((it.get()->getCollider()->isPenetrated()/*getStatus() == ColliderStatus::STATUS_PENETRATION*/)){
+        if((it.get()->getCollider()->isPenetrated())){
           if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
             it.get()->restoreState();
             it.get()->integrate(dt);
