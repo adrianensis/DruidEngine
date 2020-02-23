@@ -365,7 +365,7 @@ void QuadTree::init(f32 size){
   mWidth = size;
   mHeight = size;
 
-  f32 minSize = Settings::getInstance()->mQuadTreeMinSize;
+  f32 minSize = Settings::getInstance()->getF32("scene.quadTreeMinSize");
 
   mRoot = Memory::allocate<Node>();
 	mRoot->init(Vector2(-mWidth/2.0f, mHeight/2.0f), mWidth, mHeight, minSize, minSize, this);

@@ -409,8 +409,6 @@ void CustomScript::step(){
     // VAR(f32, world.x);
     // VAR(f32, world.y);
 
-    //File::readFile("resources/shaders/vertex.shader");
-
   }else if(Input::isKeyPressed(GLFW_KEY_KP_ADD)){
     mRenderer->setLineMode(true);
   }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){

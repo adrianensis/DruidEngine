@@ -21,16 +21,30 @@ void File::init() {
 
 // ---------------------------------------------------------------------------
 
-void File::readFile(const std::string& path) {
+void File::readFile(const std::string& path, std::function<void(std::ifstream& file)> callback) {
 
-  // Test method.
+  std::ifstream file;
+	file.open(path);
 
-  std::ifstream file(path);
-  std::string str;
+	if(callback){
+		callback(file);
+	}
 
-  while(std::getline(file,str)){
-    std::cout << str << std::endl;
-  }
+	file.close();
+}
+
+// ---------------------------------------------------------------------------
+
+void File::writeFile(const std::string& path, std::function<void(std::ofstream& file)> callback) {
+
+  std::ofstream file;
+  file.open(path);
+
+	if(callback){
+		callback(file);
+	}
+
+	file.close();
 }
 
 // ---------------------------------------------------------------------------

@@ -214,7 +214,7 @@ void RenderEngine::init() {
   mChunks = Memory::allocate<Array<Chunk*>>();
   mChunks->init(4); // TODO : define how many chunks to create. Move to Settings.
 
-  f32 halfSceneSize = Settings::getInstance()->mSceneSize / 2.0f;
+  f32 halfSceneSize = Settings::getInstance()->getF32("scene.size") / 2.0f;
 
   FOR_ARRAY(i, mChunks){
     Chunk* chunk = Memory::allocate<Chunk>();

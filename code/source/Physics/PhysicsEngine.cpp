@@ -42,7 +42,7 @@ void PhysicsEngine::init(){
   mRigidBodies->init();
 
   mQuadTree = Memory::allocate<QuadTree>();
-  mQuadTree->init(Settings::getInstance()->mSceneSize);
+  mQuadTree->init(Settings::getInstance()->getF32("scene.size"));
 }
 
 // ---------------------------------------------------------------------------
