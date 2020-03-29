@@ -13,8 +13,6 @@ class Input : public DE_Class{
 private:
 
 	static Vector2 smMouseCoordinates;
-	static Vector2 smHalfWindowSize;
-
 	static u32 smMouseButton;
 
 public:
