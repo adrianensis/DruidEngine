@@ -91,13 +91,11 @@ void CustomScript::createTestObj() {
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestButton() {
-  mTestButton = UI::getInstance()->createButton(Vector3(600,0,0), Vector2(400,100));
+  mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(600,0,0), Vector2(400,100));
 
   mTestButton->setOnPressedCallback([&]() {
     mRenderer->setLineMode(true);
   });
-
-  getGameObject()->getScene()->addGameObject(mTestButton);
 }
 
 // ---------------------------------------------------------------------------
@@ -150,9 +148,7 @@ void CustomScript::createFont() {
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
 
-  UIText* text = UI::getInstance()->createText(Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
-
-  getGameObject()->getScene()->addGameObject(text);
+  UIText* text = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
 }
 
 // ---------------------------------------------------------------------------

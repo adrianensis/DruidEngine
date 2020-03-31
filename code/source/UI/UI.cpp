@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Material.h"
 #include "GameObject.h"
+#include "Scene.h"
 #include "Renderer.h"
 #include "RigidBody.h"
 #include "Collider.h"
@@ -14,11 +15,6 @@
 #include "RenderEngine.h"
 #include "List.h"
 #include "HashMap.h"
-
-#include "UIElement.h"
-#include "UIElement.h"
-#include "UIButton.h"
-#include "UIText.h"
 
 namespace DE {
 
@@ -36,7 +32,7 @@ UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
+UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size) {
 
   if( ! mButtonTexture){
     mButtonTexture = Memory::allocate<Texture>();
@@ -73,6 +69,8 @@ UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
 
   uiButton->setIsStatic(true);
 
+  scene->addGameObject(uiButton);
+
   mUIElements->pushBack(uiButton);
 
   return uiButton;
@@ -80,7 +78,7 @@ UIButton* UI::createButton(const Vector2& position, const Vector2& size) {
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(const Vector2& position, const Vector2& size, const std::string& text) {
+UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text) {
 
   if( ! mFontTexture){
     mFontTexture = Memory::allocate<Texture>();
@@ -114,9 +112,63 @@ UIText* UI::createText(const Vector2& position, const Vector2& size, const std::
 
   uiText->setIsStatic(true);
 
+  scene->addGameObject(uiText);
+
   mUIElements->pushBack(uiText);
 
   return uiText;
+}
+
+// ---------------------------------------------------------------------------
+
+UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size) {
+
+  UIList* uiList = Memory::allocate<UIList>();
+  uiList->init();
+
+  uiList->getTransform()->setLocalPosition(position);
+  uiList->getTransform()->setScale(Vector3(size.x, size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  uiList->addComponent<Renderer>(renderer);
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(mButtonMaterial);
+
+  uiList->setComponentsCache();
+
+  uiList->setIsStatic(true);
+
+  f32 halfWidth = size.x/2.0f;
+  f32 halfHeight = size.y/2.0f;
+
+  f32 margin = 50;
+  f32 itemOffset = 50;
+
+  FOR_RANGE(i, 0, 3){
+    createText(scene, position + Vector3(-halfWidth + margin,halfHeight - margin + -itemOffset*i,0), Vector2(40,40), "list item");
+  }
+
+  scene->addGameObject(uiList);
+
+  // scrollbar
+
+  f32 scrollbarMargin = 20;
+  UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,-halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin));
+
+  upButton->setOnPressedCallback([&]() {
+
+  });
+
+  UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin));
+
+  downButton->setOnPressedCallback([&]() {
+
+  });
+
+  mUIElements->pushBack(uiList);
+
+  return uiList;
 }
 
 // ---------------------------------------------------------------------------

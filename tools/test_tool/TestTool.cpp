@@ -48,7 +48,7 @@ TestTool::~TestTool() = default;
 // ---------------------------------------------------------------------------
 
 void TestTool::createBrush() {
-  Vector2 size(50,50);
+  Vector2 size(mTileSize,mTileSize);
 
   Texture* texture = Memory::allocate<Texture>();
   texture->init("resources/terrain.png");
@@ -94,7 +94,7 @@ void TestTool::createBrush() {
 
 void TestTool::createTile(f32 x, f32 y) {
   if(mBrush){
-    Vector2 size(100,100);
+    Vector2 size(mTileSize,mTileSize);
 
     mTestTile = Memory::allocate<GameObject>();
     mTestTile->init();
@@ -133,22 +133,20 @@ void TestTool::createTile(f32 x, f32 y) {
 // ---------------------------------------------------------------------------
 
 void TestTool::createTestButton() {
-  mTestButton = UI::getInstance()->createButton(Vector3(600,0,0), Vector2(400,100));
+  mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(600,0,0), Vector2(400,100));
 
   mTestButton->setOnPressedCallback([&]() {
 
   });
-
-  getGameObject()->getScene()->addGameObject(mTestButton);
 }
 
 // ---------------------------------------------------------------------------
 
 void TestTool::createAtlas(){
 
-  f32 size = 50.0f;
+  f32 size = mTileSize;
 
-  f32 screenOffset = 300;
+  f32 screenOffset = 500;
 
   // GameObject* tile = Memory::allocate<GameObject>();
   // tile->init();
@@ -176,8 +174,7 @@ void TestTool::createAtlas(){
     //mGrid->get(i)->init(mGridSize);
     FOR_RANGE(j, 0, atlasSzie){
 
-      UIButton* tile = UI::getInstance()->createButton(Vector3((i - (atlasSzie/2.0f))*size + screenOffset*2.7f,(j - (atlasSzie/2.0f))*size - screenOffset,0), Vector2(size,size));
-      getGameObject()->getScene()->addGameObject(tile);
+      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSzie/2.0f))*size + screenOffset*2.7f,(j - (atlasSzie/2.0f))*size - screenOffset,0), Vector2(size,size));
 
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
@@ -224,9 +221,7 @@ void TestTool::createFont() {
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
 
-  UIText* text = UI::getInstance()->createText(Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
-
-  getGameObject()->getScene()->addGameObject(text);
+  UIText* text = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
 }
 
 // ---------------------------------------------------------------------------
@@ -244,7 +239,8 @@ void TestTool::init(){
 
   mTileIndex = 0;
 
-  mGridSize = 50;
+  mGridSize = 25;
+  mTileSize = 50;
 
   mTestTile = nullptr;
 }
@@ -265,34 +261,63 @@ void TestTool::step(){
   }
 
   if(! mGrid){
-    mGrid = Memory::allocate<Array<Array<bool>*>>();
+    mGrid = Memory::allocate<Array<Array<CellData*>*>>();
     mGrid->init(mGridSize);
 
     f32 halfGridSize = mGridSize/2.0f;
 
-    f32 size = 100;
-
     FOR_RANGE(i, 0, mGridSize){
-      mGrid->set(i, Memory::allocate<Array<bool>>());
+      mGrid->set(i, Memory::allocate<Array<CellData*>>());
       mGrid->get(i)->init(mGridSize);
       FOR_RANGE(j, 0, mGridSize){
 
-        UIButton* cellButton = UI::getInstance()->createButton(Vector3((i - halfGridSize)*size,(j - halfGridSize)*size,0), Vector2(size,size));
-        getGameObject()->getScene()->addGameObject(cellButton);
+        CellData* cellData = Memory::allocate<CellData>();
+        mGrid->get(i)->set(j, cellData);
 
-        Vector3 cellPosition = cellButton->getTransform()->getLocalPosition();
+        cellData->button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - halfGridSize)*mTileSize,(j - halfGridSize)*mTileSize,0), Vector2(mTileSize,mTileSize));
 
-        cellButton->setOnPressedCallback([self = this, x = cellPosition.x, y = cellPosition.y, grid = mGrid, i=i, j=j ]() {
-          if(!grid->get(i)->get(j)){
+        Vector3 cellPosition = cellData->button->getTransform()->getLocalPosition();
+
+        cellData->button->setOnPressedCallback([self = this, x = cellPosition.x, y = cellPosition.y, grid = mGrid, i=i, j=j ]() {
+          if(!grid->get(i)->get(j)->isSet){
             self->createTile(x,y);
-            grid->get(i)->set(j, true);
+            grid->get(i)->get(j)->isSet = true;
+            grid->get(i)->get(j)->textureRegion = Vector2(self->mAtlasIndexX, self->mAtlasIndexY);
           }
         });
-
-        mGrid->get(i)->set(j, false);
-
       }
     }
+
+    File::readFile("config/map.conf", [&](std::ifstream& file) {
+
+      std::string lineString;
+
+      std::regex regexTile("([0-9]+),([0-9]+) ([0-9]+),([0-9]+)");
+
+      while(std::getline(file,lineString)){
+
+        std::smatch matchTile;
+
+        std::regex_search(lineString, matchTile, regexTile);
+
+        if(!matchTile.empty()){
+
+          u32 i = std::stoi(matchTile[1]);
+          u32 j = std::stoi(matchTile[2]);
+          u32 atlasIndexX = std::stoi(matchTile[3]);
+          u32 atlasIndexY = std::stoi(matchTile[4]);
+
+          mGrid->get(i)->get(j)->isSet = true;
+          mGrid->get(i)->get(j)->textureRegion = Vector2(atlasIndexX, atlasIndexY);
+          mAtlasIndexX = atlasIndexX;
+          mAtlasIndexY = atlasIndexY;
+
+          Vector3 cellPosition = mGrid->get(i)->get(j)->button->getTransform()->getLocalPosition();
+          createTile(cellPosition.x,cellPosition.y);
+
+        }
+      }
+    });
   }
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
@@ -321,6 +346,21 @@ void TestTool::step(){
 
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     mCameraTransform->translate(Vector3(movement,0,0));
+
+  }else if(Input::isKeyPressed(GLFW_KEY_S)){
+
+    File::writeFile("config/map.conf", [&](std::ofstream& file) {
+
+      FOR_RANGE(i, 0, mGridSize){
+        FOR_RANGE(j, 0, mGridSize){
+
+          if(mGrid->get(i)->get(j)->isSet){
+            file << i << "," << j << " ";
+            file << mGrid->get(i)->get(j)->textureRegion.x << "," << mGrid->get(i)->get(j)->textureRegion.y << std::endl;
+          }
+        }
+      }
+    });
 
   }
 

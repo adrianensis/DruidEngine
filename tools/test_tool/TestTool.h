@@ -1,5 +1,5 @@
-#ifndef DE_CUSTOMSCRIPT_H
-#define DE_CUSTOMSCRIPT_H
+#ifndef DE_TESTTOOL_H
+#define DE_TESTTOOL_H
 
 #include "Script.h"
 #include "Vector2.h"
@@ -21,8 +21,15 @@ template <class T> class Array;
 class TestTool : public Script{
 private:
 
+  class CellData {
+  public:
+    Vector2 textureRegion;
+    bool isSet = false;
+    UIButton* button = nullptr;
+  };
+
   u32 mGridSize;
-  Array<Array<bool>*>* mGrid;
+  Array<Array<CellData*>*>* mGrid;
 
   Transform* mTransform;
   Camera* mCamera;
@@ -37,6 +44,7 @@ private:
 
   bool mTestCreated;
   u32 mTileIndex;
+  u32 mTileSize;
 
 public:
 
@@ -58,4 +66,4 @@ void terminate() override;
 
 } /* namespace DE */
 
-#endif /* DE_CUSTOMSCRIPT_H */
+#endif /* DE_TESTTOOL_H */

@@ -2,7 +2,6 @@
 #include "HashMap.h"
 #include "List.h"
 #include "Memory.h"
-#include <regex>
 
 namespace DE{
 

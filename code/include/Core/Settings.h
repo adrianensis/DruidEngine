@@ -4,7 +4,6 @@
 #include "Basic.h"
 #include "Singleton.h"
 #include "File.h"
-#include <string>
 
 namespace DE{
 

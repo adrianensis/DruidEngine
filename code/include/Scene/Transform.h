@@ -28,6 +28,8 @@ private:
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
+	Transform* mParent;
+
 public:
 
 	static const Vector3 smRight;
@@ -80,6 +82,9 @@ public:
 
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
+
+	void setParent(Transform* parent);
+	Transform* getParent();
 
 	// ---------------------------------------------------------------------------
 

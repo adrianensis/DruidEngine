@@ -4,15 +4,18 @@
 #include "DE_Class.h"
 #include "Singleton.h"
 #include "Vector2.h"
+#include "UIElement.h"
+#include "UIButton.h"
+#include "UIText.h"
+#include "UIList.h"
+
 #include <string>
 
 namespace DE {
 
-class UIElement;
-class UIButton;
-class UIText;
 class Texture;
 class Material;
+class Scene;
 
 template <class T> class List;
 template <class K, class V> class HashMap;
@@ -36,8 +39,9 @@ public:
 
 DE_CLASS(UI, DE_Class);
 
-UIButton* createButton(const Vector2& position, const Vector2& size);
-UIText* createText(const Vector2& position, const Vector2& size, const std::string& text);
+UIButton* createButton(Scene* scene, const Vector2& position, const Vector2& size);
+UIText* createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text);
+UIList* createList(Scene* scene, const Vector2& position, const Vector2& size);
 
 void init();
 void step();

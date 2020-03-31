@@ -20,6 +20,8 @@ Transform::Transform() : Component()
 	mIsDirtyTranslation = true;
 	mIsDirtyRotation = true;
 	mIsDirtyScale = true;
+
+	mParent = nullptr;
 }
 
 Transform::~Transform() {
@@ -155,6 +157,12 @@ const Matrix4& Transform::getScaleMatrix() const{
 
 	return *mScaleMatrix;
 }
+
+// ---------------------------------------------------------------------------
+
+void Transform::setParent(Transform* parent){ mParent = parent; }
+
+Transform* Transform::getParent(){ return mParent; }
 
 // ---------------------------------------------------------------------------
 

@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <functional>
+#include <regex>
 
 namespace DE {
 
