@@ -20,6 +20,9 @@ Vector3::Vector3(const Vector3& other):x(other.x),y(other.y),z(other.z){
 Vector3::Vector3(const Vector2& other):x(other.x),y(other.y),z(0.0f){
 }
 
+Vector3::Vector3(const Vector2& other, f32 z):x(other.x),y(other.y),z(z){
+}
+
 Vector3::Vector3(const Vector4& other):x(other.x),y(other.y),z(other.z){
 }
 

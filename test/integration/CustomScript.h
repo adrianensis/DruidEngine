@@ -20,12 +20,14 @@ class CustomScript : public Script{
 private:
 
   Renderer* mRenderer;
+  Renderer* mRendererMinion;
   RigidBody* mRigidBody;
   Collider* mCollider;
   Transform* mTransform;
   Camera* mCamera;
 
   GameObject* mTestObj;
+  GameObject* mTestMinion;
   UIButton* mTestButton;
 
   bool mTestCreated;

@@ -66,17 +66,17 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void setWorldPosition(const Vector3& vector);
+	// void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3& vector);
 	void setRotation(const Vector3& vector);
 	void setScale(const Vector3& vector);
 
-	const Vector3& getWorldPosition() const { return mWorldPosition; };
+	const Vector3& getWorldPosition();
 	const Vector3& getLocalPosition() const { return mLocalPosition; };
 	const Vector3& getRotation() const { return mRotation; };
 	const Vector3& getScale() const { return mScale; };
 
-	const Matrix4& getTranslationMatrix() const;
+	const Matrix4& getTranslationMatrix();
 	const Matrix4& getRotationMatrix() const;
 	const Matrix4& getScaleMatrix() const;
 

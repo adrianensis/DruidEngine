@@ -190,22 +190,10 @@ void Matrix4::invert(){
   f32 out_33 = d * ((tmp_22 * this->get(2,2) + tmp_16 * this->get(0,2) + tmp_21 * this->get(1,2)) -
         (tmp_20 * this->get(1,2) + tmp_23 * this->get(2,2) + tmp_17 * this->get(0,2)));
 
-  set(0,0,out_00);
-  set(0,1,out_01);
-  set(0,2,out_02);
-  set(0,3,out_03);
-  set(1,0,out_10);
-  set(1,1,out_11);
-  set(1,2,out_12);
-  set(1,3,out_13);
-  set(2,0,out_20);
-  set(2,1,out_21);
-  set(2,2,out_22);
-  set(2,3,out_23);
-  set(3,0,out_30);
-  set(3,1,out_31);
-  set(3,2,out_32);
-  set(3,3,out_33);
+  set(0,0,out_00); set(0,1,out_01); set(0,2,out_02); set(0,3,out_03);
+  set(1,0,out_10); set(1,1,out_11); set(1,2,out_12); set(1,3,out_13);
+  set(2,0,out_20); set(2,1,out_21); set(2,2,out_22); set(2,3,out_23);
+  set(3,0,out_30); set(3,1,out_31); set(3,2,out_32); set(3,3,out_33);
 };
 
 void Matrix4::mul(const Matrix4& other){

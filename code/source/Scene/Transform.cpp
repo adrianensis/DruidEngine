@@ -58,10 +58,10 @@ bool Transform::isDirtyTranslation() const { return mIsDirtyTranslation; }
 void Transform::setDirtyTranslation(bool dirty) { mIsDirtyTranslation = dirty; }
 
 
-void Transform::setWorldPosition(const Vector3& vector){
-	mIsDirtyTranslation = true;
-	mWorldPosition = vector;
-}
+// void Transform::setWorldPosition(const Vector3& vector){
+// 	mIsDirtyTranslation = true;
+// 	mWorldPosition = vector;
+// }
 
 void Transform::setLocalPosition(const Vector3& vector){
 	mIsDirtyTranslation = true;
@@ -76,6 +76,23 @@ void Transform::setRotation(const Vector3& vector){
 void Transform::setScale(const Vector3& vector){
 	mIsDirtyScale = true;
 	mScale = vector;
+};
+
+const Vector3& Transform::getWorldPosition() {
+
+	mWorldPosition = mLocalPosition;
+
+	if(mParent){
+		Matrix4 rotationMatrix;
+		rotationMatrix.init(mParent->getRotationMatrix());
+
+		//translationMatrix.mul(mParent->getScaleMatrix());
+		rotationMatrix.mul(mParent->getTranslationMatrix());
+
+		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
+	}
+
+	return mWorldPosition;
 };
 
 // ---------------------------------------------------------------------------
@@ -127,9 +144,9 @@ void Transform::lookAt(const Vector3& targetPosition) {
 
 // ---------------------------------------------------------------------------
 
-const Matrix4& Transform::getTranslationMatrix() const{
-	if(mIsDirtyTranslation){
-		mTranslationMatrix->translation(mLocalPosition);
+const Matrix4& Transform::getTranslationMatrix(){
+	if(mIsDirtyTranslation || mParent){
+		mTranslationMatrix->translation(getWorldPosition());
 		mIsDirtyTranslation = false;
 	}
 

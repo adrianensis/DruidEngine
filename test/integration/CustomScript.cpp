@@ -85,6 +85,25 @@ void CustomScript::createTestObj() {
   mTestObj->addComponent<Collider>(collider);
   collider->setSize(size.x,size.y);
 
+  mTestMinion = Memory::allocate<GameObject>();
+  mTestMinion->init();
+
+  mTestMinion->getTransform()->setLocalPosition(Vector3(-200,-30,0));
+  mTestMinion->getTransform()->setScale(Vector3(size.x/2.0f,size.y/2.0f,1));
+
+  Renderer* renderer2 = Memory::allocate<Renderer>();
+  mTestMinion->addComponent<Renderer>(renderer2);
+
+  renderer2->setMesh(Mesh::getRectangle());
+  renderer2->setMaterial(material);
+
+  renderer2->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer2->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer2->setAnimation("idle");
+
+  mTestMinion->getTransform()->setParent(mTestObj->getTransform());
+
+  getGameObject()->getScene()->addGameObject(mTestMinion);
   getGameObject()->getScene()->addGameObject(mTestObj);
 }
 
@@ -350,6 +369,7 @@ void CustomScript::step(){
     mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
     mCollider = mTestObj->getComponents<Collider>()->get(0);
     mRenderer = mTestObj->getComponents<Renderer>()->get(0);
+    mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
     mTransform = mTestObj->getTransform();
   }
 
@@ -380,6 +400,7 @@ void CustomScript::step(){
     mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(true);
+    mRendererMinion->setInvertXAxis(true);
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
     // mRigidBody->addForce(Vector3(movement,0,0));
@@ -390,6 +411,7 @@ void CustomScript::step(){
     mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((-movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
+    mRendererMinion->setInvertXAxis(false);
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
 
@@ -422,8 +444,10 @@ void CustomScript::step(){
 
   if(running){
     mRenderer->setAnimation("run");
+    mRendererMinion->setAnimation("run");
   }else{
     mRenderer->setAnimation("idle");
+    mRendererMinion->setAnimation("idle");
   }
 
   // mRigidBody->addForce(Vector3(0,-400.0f,0));
