@@ -47,6 +47,14 @@ bool Frustum::testSphere(Vector3 center, f32 radius) const {
 		f32 C = mPlanes->get(i).z;
 		f32 D = mPlanes->get(i).w;
 
+		// VAR(f32, (A*center.x));
+		// VAR(f32, (B*center.y));
+		// VAR(f32, (C*center.z));
+		// VAR(f32, D);
+		// VAR(f32, (A*center.x)+(B*center.y)+(C*center.z)+D)
+		// VAR(f32, -radius)
+		// ECHO("--------")
+
 		if((A*center.x)+(B*center.y)+(C*center.z)+D <= -radius)
 			return false;
 	}
@@ -69,8 +77,8 @@ void Frustum::build(){
 	  u32 NEAR = 4;
 	  u32 FAR = 5;
 
-	  mVPmatrix->init(mCamera->getViewTranslationMatrix());
-	  mVPmatrix->mul(mCamera->getProjectionMatrix()/*.transpose()*/);
+	  mVPmatrix->init(mCamera->getProjectionMatrix()/*mCamera->getViewTranslationMatrix()*/);
+	  mVPmatrix->mul(mCamera->getViewTranslationMatrix()/*.transpose()*/);
 
 		/*
 		* LEFT
@@ -140,10 +148,13 @@ void Frustum::build(){
 
 			if(v3.len() > 0) {
 
-				//v4.w = v4.w/v3.len();
+				v4.x = v4.x/v3.len();
+				v4.y = v4.y/v3.len();
+				v4.z = v4.z/v3.len();
+				v4.w = v4.w/v3.len();
 
-				//v3.nor();
-				v4.set(v3.x, v3.y, v3.z ,v4.w);
+				// v3.nor();
+				// v4.set(v3.x, v3.y, v3.z ,v4.w);
 
 				mPlanes->set(i, v4);
 			}

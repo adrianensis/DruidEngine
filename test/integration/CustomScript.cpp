@@ -85,25 +85,25 @@ void CustomScript::createTestObj() {
   mTestObj->addComponent<Collider>(collider);
   collider->setSize(size.x,size.y);
 
-  mTestMinion = Memory::allocate<GameObject>();
-  mTestMinion->init();
+  // mTestMinion = Memory::allocate<GameObject>();
+  // mTestMinion->init();
+  //
+  // mTestMinion->getTransform()->setLocalPosition(Vector3(-200,-30,0));
+  // mTestMinion->getTransform()->setScale(Vector3(size.x/2.0f,size.y/2.0f,1));
+  //
+  // Renderer* renderer2 = Memory::allocate<Renderer>();
+  // mTestMinion->addComponent<Renderer>(renderer2);
+  //
+  // renderer2->setMesh(Mesh::getRectangle());
+  // renderer2->setMaterial(material);
+  //
+  // renderer2->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+  // renderer2->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  // renderer2->setAnimation("idle");
+  //
+  // mTestMinion->getTransform()->setParent(mTestObj->getTransform());
 
-  mTestMinion->getTransform()->setLocalPosition(Vector3(-200,-30,0));
-  mTestMinion->getTransform()->setScale(Vector3(size.x/2.0f,size.y/2.0f,1));
-
-  Renderer* renderer2 = Memory::allocate<Renderer>();
-  mTestMinion->addComponent<Renderer>(renderer2);
-
-  renderer2->setMesh(Mesh::getRectangle());
-  renderer2->setMaterial(material);
-
-  renderer2->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer2->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer2->setAnimation("idle");
-
-  mTestMinion->getTransform()->setParent(mTestObj->getTransform());
-
-  getGameObject()->getScene()->addGameObject(mTestMinion);
+  // getGameObject()->getScene()->addGameObject(mTestMinion);
   getGameObject()->getScene()->addGameObject(mTestObj);
 }
 
@@ -361,57 +361,58 @@ void CustomScript::step(){
   }
 
   if(!mTestCreated) {
-    createTestBackground(0,0);
+    // createTestBackground(0,0);
     createTestObj();
     //createTestMap();
-    createTestScene();
+    // createTestScene();
     mTestCreated = true;
     mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
     mCollider = mTestObj->getComponents<Collider>()->get(0);
     mRenderer = mTestObj->getComponents<Renderer>()->get(0);
-    mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
+    // mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
     mTransform = mTestObj->getTransform();
   }
 
-  f32 movement = 150.0f;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 400.0f;//1.0f*Time::getDeltaTimeSeconds();
 
   bool running = false;
 
   if(Input::isKeyPressed(GLFW_KEY_UP))
   {
     // mTransform->translate(Vector3(0,movement,0));
-    // mRigidBody->addForce(Vector3(0,movement,0));
-    mRigidBody->setLinear(Vector3(0,movement,0));
+    mRigidBody->addForce(Vector3(0,movement,0));
+    // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     // mTransform->translate(Vector3(0,-movement,0));
-    // mRigidBody->addForce(Vector3(0,-movement,0));
-    mRigidBody->setLinear(Vector3(0,-movement,0));
+    mRigidBody->addForce(Vector3(0,-movement,0));
+    // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,-movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     // mTransform->translate(Vector3(-movement,0,0));
-    // mRigidBody->addForce(Vector3(-movement,0,0));
-    mRigidBody->setLinear(Vector3(-movement,0,0));
-    mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRigidBody->addForce(Vector3(-movement,0,0));
+    // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(-movement*Time::getDeltaTimeSeconds(),0,0));
+    // mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(true);
-    mRendererMinion->setInvertXAxis(true);
+    // mRendererMinion->setInvertXAxis(true);
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
-    // mRigidBody->addForce(Vector3(movement,0,0));
-    mRigidBody->setLinear(Vector3(movement,0,0));
-    mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((-movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((-movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((-movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
-    mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((-movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    mRigidBody->addForce(Vector3(movement,0,0));
+    // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(movement*Time::getDeltaTimeSeconds(),0,0));
+    // mRigidBody->setLinear(Vector3(movement,0,0));
+    // mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((-movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((-movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererForest2->setPositionOffset(mRendererForest2->getPositionOffset() + Vector3((-movement/(2.0f))*Time::getDeltaTimeSeconds(), 0,0));
+    // mRendererForest->setPositionOffset(mRendererForest->getPositionOffset() + Vector3((-movement/(3.0f))*Time::getDeltaTimeSeconds(), 0,0));
     running = true;
     mRenderer->setInvertXAxis(false);
-    mRendererMinion->setInvertXAxis(false);
+    // mRendererMinion->setInvertXAxis(false);
   // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
   }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
 
@@ -444,10 +445,10 @@ void CustomScript::step(){
 
   if(running){
     mRenderer->setAnimation("run");
-    mRendererMinion->setAnimation("run");
+    // mRendererMinion->setAnimation("run");
   }else{
     mRenderer->setAnimation("idle");
-    mRendererMinion->setAnimation("idle");
+    // mRendererMinion->setAnimation("idle");
   }
 
   // mRigidBody->addForce(Vector3(0,-400.0f,0));

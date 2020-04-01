@@ -75,13 +75,7 @@ const Matrix4& Camera::getProjectionMatrix() const{
 
 const Matrix4& Camera::getViewTranslationMatrix(){
 
-	// if(getGameObject()->getTransform()->isDirtyTranslation()){
-	// 	Vector3 position = getGameObject()->getTransform()->getLocalPosition();
-	// 	mViewTranslationMatrix->translation(position * -1);
-	// }
-
-	Vector3 position = getGameObject()->getTransform()->getLocalPosition();
-
+	Vector3 position = getGameObject()->getTransform()->getWorldPosition();
 	mViewTranslationMatrix->translation(position * -1);
 
 	return *mViewTranslationMatrix;

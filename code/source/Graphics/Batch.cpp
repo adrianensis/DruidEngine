@@ -124,19 +124,7 @@ bool Batch::checkDistance(Camera* cam, Renderer* renderer){
 
 bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 
-	// if(!renderer->getOutOfCamera()){
-	// 	bool d = checkDistance(cam, renderer);
-	// 	//bool f = checkInFrustum(cam, renderer);
-	// 	renderer->setOutOfCamera(!(d /*&& f*/));
-	// }else if(isCameraDirtyTranslation){
-	// 	bool d = checkDistance(cam, renderer);
-	// 	//bool f = checkInFrustum(cam, renderer);
-	// 	renderer->setOutOfCamera(!(d /*&& f*/));
-	// }
-
-	if(mRenderEngine->getCameraDirtyTranslation()){
-		renderer->setOutOfCamera(!checkDistance(cam, renderer));
-	}
+	renderer->setOutOfCamera(!checkInFrustum(cam, renderer));
 
 	return renderer->getOutOfCamera();
 }
@@ -168,11 +156,14 @@ u32 Batch::render(u32 layer) {
 	FOR_LIST(it, mRenderers){
 
 		Renderer* renderer = it.get();
+
 		Transform* t = renderer->getGameObject()->getTransform();
 
 		bool chunkOk = (! renderer->isInChunk()) || (renderer->isInChunk() && renderer->isChunkLoaded());
 
-		if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
+		checkOutOfCamera(camera,renderer);
+
+		if(renderer->getLayer() == layer && chunkOk && !renderer->getOutOfCamera()){
 
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();
