@@ -289,7 +289,7 @@ void UI::init() {
 
 void UI::step() {
 
-  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+  if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     Vector2 mouse(Input::getMousePosition());
     Vector3 world = RenderEngine::getInstance()->getCamera()->screenToWorld(mouse);

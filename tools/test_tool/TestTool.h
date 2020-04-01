@@ -24,8 +24,8 @@ private:
   class CellData {
   public:
     Vector2 textureRegion;
-    bool isSet = false;
     UIButton* button = nullptr;
+    GameObject* tile = nullptr;
   };
 
   u32 mGridSize;

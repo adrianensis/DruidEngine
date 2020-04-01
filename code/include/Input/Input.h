@@ -13,7 +13,13 @@ class Input : public DE_Class{
 private:
 
 	static Vector2 smMouseCoordinates;
-	static u32 smMouseButton;
+	static u32 smLastMouseButtonPressed;
+	static u32 smLastKeyPressed;
+	static bool keyJustPressed;
+	static bool buttonJustPressed;
+
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 public:
 
@@ -21,7 +27,9 @@ public:
 
 	static void init();
 	static void pollEvents();
+	static bool isKeyPressedOnce(u32 key);
 	static bool isKeyPressed(u32 key);
+	static bool isMouseButtonPressedOnce(u32 key);
 	static bool isMouseButtonPressed(u32 key);
 	static Vector2 getMousePosition();
 };

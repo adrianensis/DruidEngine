@@ -161,9 +161,7 @@ u32 Batch::render(u32 layer) {
 
 		bool chunkOk = (! renderer->isInChunk()) || (renderer->isInChunk() && renderer->isChunkLoaded());
 
-		checkOutOfCamera(camera,renderer);
-
-		if(renderer->getLayer() == layer && chunkOk && !renderer->getOutOfCamera()){
+		if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 
 			const Matrix4& translationMatrix = t->getTranslationMatrix();
 			const Matrix4& rotationMatrix = t->getRotationMatrix();

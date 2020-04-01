@@ -62,11 +62,11 @@ void TestUI::step(){
     mCameraTransform = mCamera->getGameObject()->getTransform();
   }
 
-  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
+  if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)){
 
   }
 
-  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+  if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     //
     // if(!mTestTile){
@@ -92,19 +92,19 @@ void TestUI::step(){
 
   f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
 
-  if(Input::isKeyPressed(GLFW_KEY_UP)){
+  if(Input::isKeyPressedOnce(GLFW_KEY_UP)){
     mCameraTransform->translate(Vector3(0,movement,0));
 
-  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_DOWN)){
     mCameraTransform->translate(Vector3(0,-movement,0));
 
-  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT)){
     mCameraTransform->translate(Vector3(-movement,0,0));
 
-  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_RIGHT)){
     mCameraTransform->translate(Vector3(movement,0,0));
 
-  }else if(Input::isKeyPressed(GLFW_KEY_S)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_S)){
 
   }
 

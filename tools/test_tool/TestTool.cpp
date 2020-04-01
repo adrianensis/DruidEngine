@@ -239,8 +239,8 @@ void TestTool::init(){
 
   mTileIndex = 0;
 
-  mGridSize = 25;
-  mTileSize = 50;
+  mGridSize = 50;
+  mTileSize = 100;
 
   mTestTile = nullptr;
 }
@@ -279,11 +279,22 @@ void TestTool::step(){
         Vector3 cellPosition = cellData->button->getTransform()->getLocalPosition();
 
         cellData->button->setOnPressedCallback([self = this, x = cellPosition.x, y = cellPosition.y, grid = mGrid, i=i, j=j ]() {
-          if(!grid->get(i)->get(j)->isSet){
+
+          ECHO("Click")
+          if(!grid->get(i)->get(j)->tile){
             self->createTile(x,y);
-            grid->get(i)->get(j)->isSet = true;
-            grid->get(i)->get(j)->textureRegion = Vector2(self->mAtlasIndexX, self->mAtlasIndexY);
+            grid->get(i)->get(j)->tile = self->mTestTile;
+          }else{
+            ECHO("Already set")
           }
+
+          grid->get(i)->get(j)->textureRegion = Vector2(self->mAtlasIndexX, self->mAtlasIndexY);
+
+          f32 tilesCount = 16;
+          f32 tileTextureSize = 1.0f/tilesCount;
+
+          grid->get(i)->get(j)->tile->getComponents<Renderer>()->get(0)->setRegion(self->mAtlasIndexX/tilesCount, self->mAtlasIndexY/tilesCount, tileTextureSize, tileTextureSize);
+
         });
       }
     }
@@ -307,7 +318,6 @@ void TestTool::step(){
           u32 atlasIndexX = std::stoi(matchTile[3]);
           u32 atlasIndexY = std::stoi(matchTile[4]);
 
-          mGrid->get(i)->get(j)->isSet = true;
           mGrid->get(i)->get(j)->textureRegion = Vector2(atlasIndexX, atlasIndexY);
           mAtlasIndexX = atlasIndexX;
           mAtlasIndexY = atlasIndexY;
@@ -315,17 +325,19 @@ void TestTool::step(){
           Vector3 cellPosition = mGrid->get(i)->get(j)->button->getTransform()->getLocalPosition();
           createTile(cellPosition.x,cellPosition.y);
 
+          mGrid->get(i)->get(j)->tile = mTestTile;
+
         }
       }
     });
   }
 
-  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
+  if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)){
     mTileIndex++;
     mTileIndex = mTileIndex % 16;
   }
 
-  if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+  if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     //
     // if(!mTestTile){
@@ -347,14 +359,16 @@ void TestTool::step(){
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     mCameraTransform->translate(Vector3(movement,0,0));
 
-  }else if(Input::isKeyPressed(GLFW_KEY_S)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_S)){
 
     File::writeFile("config/map.conf", [&](std::ofstream& file) {
+
+      ECHO("Map saved!")
 
       FOR_RANGE(i, 0, mGridSize){
         FOR_RANGE(j, 0, mGridSize){
 
-          if(mGrid->get(i)->get(j)->isSet){
+          if(mGrid->get(i)->get(j)->tile){
             file << i << "," << j << " ";
             file << mGrid->get(i)->get(j)->textureRegion.x << "," << mGrid->get(i)->get(j)->textureRegion.y << std::endl;
           }

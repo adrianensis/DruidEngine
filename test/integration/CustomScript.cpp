@@ -377,20 +377,20 @@ void CustomScript::step(){
 
   bool running = false;
 
-  if(Input::isKeyPressed(GLFW_KEY_UP))
+  if(Input::isKeyPressedOnce(GLFW_KEY_UP))
   {
     // mTransform->translate(Vector3(0,movement,0));
     mRigidBody->addForce(Vector3(0,movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_DOWN)){
     // mTransform->translate(Vector3(0,-movement,0));
     mRigidBody->addForce(Vector3(0,-movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,-movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT)){
     // mTransform->translate(Vector3(-movement,0,0));
     mRigidBody->addForce(Vector3(-movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(-movement*Time::getDeltaTimeSeconds(),0,0));
@@ -401,7 +401,7 @@ void CustomScript::step(){
     running = true;
     mRenderer->setInvertXAxis(true);
     // mRendererMinion->setInvertXAxis(true);
-  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
     mRigidBody->addForce(Vector3(movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(movement*Time::getDeltaTimeSeconds(),0,0));
@@ -413,8 +413,8 @@ void CustomScript::step(){
     running = true;
     mRenderer->setInvertXAxis(false);
     // mRendererMinion->setInvertXAxis(false);
-  // }else if(Input::isKeyPressed(GLFW_KEY_ENTER)){
-  }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+  // }else if(Input::isKeyPressedOnce(GLFW_KEY_ENTER)){
+  }else if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     // createFont();
 
@@ -428,13 +428,13 @@ void CustomScript::step(){
     // VAR(f32, world.x);
     // VAR(f32, world.y);
 
-  }else if(Input::isKeyPressed(GLFW_KEY_KP_ADD)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_KP_ADD)){
     mRenderer->setLineMode(true);
-  }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)){
     mRenderer->setLineMode(false);
-  }/*else if(Input::isKeyPressed(GLFW_KEY_SPACE)){
+  }/*else if(Input::isKeyPressedOnce(GLFW_KEY_SPACE)){
     mRigidBody->addForce(Vector3(0,1100.0f,0));
-  }else if(Input::isKeyPressed(GLFW_KEY_LEFT_SHIFT)){
+  }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT_SHIFT)){
     mRigidBody->addForce(Vector3(0,-1000.0f,0));
   }*/
 
