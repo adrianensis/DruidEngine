@@ -19,6 +19,8 @@ private:
 	RenderEngine* mRenderEngine;
 
 	List<Renderer*>* mRenderers;
+	List<Renderer*>* mRenderersToRemove;
+	
 	Material* mMaterial;
 	Mesh* mMesh;
 
@@ -38,7 +40,7 @@ public:
 
 	DE_CLASS(Batch, DE_Class);
 
-	void init(RenderEngine* renderEngine, Mesh* mesh, Material* material);
+	void init(Mesh* mesh, Material* material);
 	void bind();
 	void update();
 

@@ -377,20 +377,20 @@ void CustomScript::step(){
 
   bool running = false;
 
-  if(Input::isKeyPressedOnce(GLFW_KEY_UP))
+  if(Input::isKeyPressed(GLFW_KEY_UP))
   {
     // mTransform->translate(Vector3(0,movement,0));
     mRigidBody->addForce(Vector3(0,movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_DOWN)){
+  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     // mTransform->translate(Vector3(0,-movement,0));
     mRigidBody->addForce(Vector3(0,-movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,-movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT)){
+  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     // mTransform->translate(Vector3(-movement,0,0));
     mRigidBody->addForce(Vector3(-movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(-movement*Time::getDeltaTimeSeconds(),0,0));
@@ -401,7 +401,7 @@ void CustomScript::step(){
     running = true;
     mRenderer->setInvertXAxis(true);
     // mRendererMinion->setInvertXAxis(true);
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_RIGHT)){
+  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
     mRigidBody->addForce(Vector3(movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(movement*Time::getDeltaTimeSeconds(),0,0));

@@ -7,6 +7,7 @@
 #include "HashMap.h"
 #include "Shader.h"
 #include "Array.h"
+#include "Chunk.h"
 #include "Log.h"
 
 namespace DE {
@@ -37,8 +38,6 @@ Renderer::Renderer() : Component() {
   mRenderDistance = 1500;
   mOutOfCamera = false;
 
-  mIsInChunk = false;
-  mIsChunkLoaded = false;
 }
 
 Renderer::~Renderer() {
@@ -136,6 +135,9 @@ const Matrix4& Renderer::getPositionOffsetMatrix(){
 
 void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
 bool Renderer::isLineMode() { return mLineMode; }
+
+void Renderer::setChunk(Chunk* chunk ) { mChunk = chunk; };
+Chunk* Renderer::getChunk() { return mChunk; };
 
 // ---------------------------------------------------------------------------
 

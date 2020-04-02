@@ -14,6 +14,7 @@ namespace DE {
 class Material;
 class Mesh;
 class Animation;
+class Chunk;
 template <class K, class V> class HashMap;
 template <class T> class Array;
 
@@ -45,8 +46,7 @@ private:
 	f32 mRenderDistance;
 	bool mOutOfCamera;
 
-	bool mIsInChunk;
-	bool mIsChunkLoaded;
+	Chunk* mChunk;
 
 public:
 
@@ -99,10 +99,8 @@ public:
 	void setRenderDistance(f32 newRenderDistance ) { mRenderDistance = newRenderDistance; };
 	bool getOutOfCamera() const { return mOutOfCamera;};
 	void setOutOfCamera(bool newOutOfCamera ) { mOutOfCamera = newOutOfCamera; };
-	bool isInChunk() const { return mIsInChunk;};
-	void setIsInChunk(bool newIsInChunk ) { mIsInChunk = newIsInChunk; };
-	bool isChunkLoaded() const { return mIsChunkLoaded;};
-	void setIsChunkLoaded(bool newIsChunkLoaded ) { mIsChunkLoaded = newIsChunkLoaded; };
+	void setChunk(Chunk* chunk );
+	Chunk* getChunk();
 };
 
 } /* namespace DE */

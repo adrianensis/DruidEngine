@@ -18,6 +18,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Settings.h"
+#include "Chunk.h"
 
 namespace DE {
 
@@ -71,97 +72,7 @@ void RenderEngine::LineRenderer::bind(const Array<u32>* indices) {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::Chunk::Chunk() : DE_Class() {
-  mLeftTop = Vector2(0,0);
-  mRadius = 0;
-  mSize = 0;
-  mIsLoaded = false;
-}
-
-RenderEngine::Chunk::~Chunk() {
-  Memory::free<List<Renderer*>>(mRenderers);
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::Chunk::init(){
-  mRenderers = Memory::allocate<List<Renderer*>>();
-  mRenderers->init();
-
-  // mNewRenderers = Memory::allocate<List<Renderer*>>();
-  // mNewRenderers->init();
-
-  mThereAreNewRenderers = false;
-
-  mLeftTop.set(0,0,0);
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::Chunk::set(const Vector3& leftTop, f32 size){
-  mLeftTop = leftTop;
-  mSize = size;
-  f32 halfSize = mSize / 2.0f;
-  mCenter.set(mLeftTop.x + halfSize, mLeftTop.y - halfSize, 0);
-
-  mRadius = mCenter.dst(mLeftTop);
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::Chunk::load(RenderEngine* renderEngine){
-
-  if(! mIsLoaded || mThereAreNewRenderers){
-    TRACE();
-    FOR_LIST(it, mRenderers){
-      //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->addRenderer(it.get());
-      it.get()->setOutOfCamera(false);
-      it.get()->setIsChunkLoaded(true);
-    }
-
-    mIsLoaded = true;
-    mThereAreNewRenderers = false;
-  }
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
-  if(mIsLoaded){
-    TRACE();
-    FOR_LIST(it, mRenderers){
-      //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->removeRenderer(it.get());
-      //it.get()->setIsInChunk(false);
-      it.get()->setIsChunkLoaded(false);
-
-      it.get()->setOutOfCamera(true);
-    }
-
-    mIsLoaded = false;
-  }
-}
-
-// ---------------------------------------------------------------------------
-
-void RenderEngine::Chunk::addRenderer(Renderer* renderer) {
-  // TRACE();
-  mRenderers->pushBack(renderer);
-  // mNewRenderers->pushBack(renderer);
-
-  mThereAreNewRenderers = true;
-}
-
-// ---------------------------------------------------------------------------
-
-bool RenderEngine::Chunk::containsRenderer(const Renderer* renderer){
-  Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getLocalPosition();
-  return MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, 0);
-}
-
-// ---------------------------------------------------------------------------
-
 RenderEngine::RenderEngine() : DE_Class(), Singleton() {
-	mBatches = nullptr;
 	mCamera = nullptr;
   mLineRenderers = nullptr;
   mLineRendererIndices = nullptr;
@@ -176,13 +87,11 @@ RenderEngine::~RenderEngine() = default;
 void RenderEngine::init() {
 	TRACE();
 
-	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
   mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
   mLineRendererIndices = Memory::allocate<Array<u32>>();
   mShaderLine = Memory::allocate<Shader>();
 
   RenderContext::init();
-  mBatches->init();
 
   // Line Renderers
 
@@ -202,13 +111,13 @@ void RenderEngine::init() {
     mLineRenderers->set(i,lineRenderer);
   }
 
-  // Chunks grid
+  // Static Chunks grid
 
   f32 chunksGridSize = 6;
   f32 chunksGridSizeHalf = chunksGridSize/2.0f;
 
-  mChunks = Memory::allocate<Array<Chunk*>>();
-  mChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
+  mStaticChunks = Memory::allocate<Array<Chunk*>>();
+  mStaticChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
 
   f32 sceneSize = Settings::getInstance()->getF32("scene.size");
   f32 chunkSize = sceneSize / ((f32) chunksGridSize);
@@ -221,10 +130,16 @@ void RenderEngine::init() {
       chunk->init();
       chunk->set(Vector2(i*chunkSize, j*chunkSize), chunkSize);
 
-      mChunks->set(count, chunk);
+      mStaticChunks->set(count, chunk);
       count++;
     }
   }
+
+  // Dynamic Chunk
+
+  mDynamicChunk = Memory::allocate<Chunk>();
+  mDynamicChunk->init();
+  mDynamicChunk->set(Vector2(0,0), sceneSize); // Size = The WHOLE scene
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
@@ -238,31 +153,42 @@ void RenderEngine::step() {
   mCamera->calculateInverseMatrix();
 
   //check Chunks
-  FOR_ARRAY(i, mChunks){
-    Chunk* chunk = mChunks->get(i);
+  FOR_ARRAY(i, mStaticChunks){
+    Chunk* chunk = mStaticChunks->get(i);
 
     // bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius);
     // TODO : move chunk draw distance into Settings.
     bool chunkInCameraView = mCamera->getGameObject()->getTransform()->getLocalPosition().dst(chunk->mCenter) < chunk->mRadius * 2.0f;
 
     if(chunkInCameraView){
-      chunk->load(this);
+      chunk->load();
     } else {
-      chunk->unload(this);
+      chunk->unload();
     }
   }
 
-  // Chunk* chunk = mChunks->get(0);
-  // chunk->load(this);
-
   u32 drawCallCounter = 0;
 
-  //VAR(u32,mMaxLayersUsed);
-
   FOR_RANGE(layer, 0, mMaxLayersUsed){
-  	FOR_LIST(it, mBatches->getValues()){
-  		drawCallCounter += it.get()->render(layer);
-  	}
+
+    FOR_ARRAY(i, mStaticChunks){
+      Chunk* chunk = mStaticChunks->get(i);
+
+      if(chunk->isLoaded()){
+        drawCallCounter += chunk->render(layer);
+      }
+    }
+
+    // NOTE : It only loads once.
+    if(!mDynamicChunk->isLoaded()){
+      mDynamicChunk->load();
+    }
+
+    drawCallCounter += mDynamicChunk->render(layer);
+
+  	// FOR_LIST(it, mBatches->getValues()){
+  	// 	drawCallCounter += it.get()->render(layer);
+  	// }
 	}
 
   //VAR(u32,drawCallCounter);
@@ -303,22 +229,17 @@ void RenderEngine::stepDebug() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::bind() {
+  FOR_ARRAY(i, mStaticChunks){
+    mStaticChunks->get(i)->bind();
+  }
 
-	FOR_LIST(it, mBatches->getValues()){
-		it.get()->bind();
-	}
+  mDynamicChunk->bind();
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
   TRACE();
-
-	FOR_LIST(it, mBatches->getValues()){
-		Memory::free<Batch>(it.get());
-	}
-
-	Memory::free<HashMap<Texture*, Batch*>>(mBatches);
 
   Memory::free<Array<u32>>(mLineRendererIndices);
   Memory::free<Shader>(mShaderLine);
@@ -329,11 +250,13 @@ void RenderEngine::terminate() {
 
   Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
-  FOR_ARRAY(i, mChunks){
-    Memory::free<Chunk>(mChunks->get(i));
+  FOR_ARRAY(i, mStaticChunks){
+    Memory::free<Chunk>(mStaticChunks->get(i));
   }
 
-  Memory::free<Array<Chunk*>>(mChunks);
+  Memory::free<Array<Chunk*>>(mStaticChunks);
+
+  Memory::free<Chunk>(mDynamicChunk);
 
 	RenderContext::terminate();
 }
@@ -342,33 +265,26 @@ void RenderEngine::terminate() {
 
 void RenderEngine::addRenderer(Renderer* renderer) {
 
-  // Create batches
-	Texture* texture = renderer->getMaterial()->getTexture();
+  if(renderer->isStatic()){
+    // Create batches
+  	Texture* texture = renderer->getMaterial()->getTexture();
 
-	if( ! mBatches->contains(texture)) {
-
-		Batch* batch = Memory::allocate<Batch>();
-		batch->init(this, renderer->getMesh(), renderer->getMaterial());
-
-		mBatches->set(texture, batch);
-	}
-
-  mBatches->get(texture)->addRenderer(renderer);
+    bool found = false;
+    FOR_ARRAY_COND(i, mStaticChunks, !found){
+      Chunk* chunk = mStaticChunks->get(i);
+      if((! renderer->getChunk()) && chunk->containsRenderer(renderer)){
+        chunk->addRenderer(renderer);
+        renderer->setChunk(chunk);
+        found = true;
+      }
+    }
+  }else{
+    mDynamicChunk->addRenderer(renderer);
+    renderer->setChunk(mDynamicChunk);
+  }
 
   mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
 
-  bool found = false;
-  FOR_ARRAY_COND(i, mChunks, !found){
-    Chunk* chunk = mChunks->get(i);
-    if(renderer->isStatic() && (! renderer->isInChunk()) && chunk->containsRenderer(renderer)){
-      chunk->addRenderer(renderer);
-      renderer->setIsInChunk(true);
-      renderer->setIsChunkLoaded(false);
-      found = true;
-    } /*else if(! renderer->isStatic()) {
-      mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
-    }*/
-  }
 }
 
 // ---------------------------------------------------------------------------

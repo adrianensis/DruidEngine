@@ -13,14 +13,16 @@ class RenderContext;
 class Camera;
 class Renderer;
 class Shader;
+class Chunk;
+class BatchesMap;
 template <class T> class List;
 template <class T> class Array;
 template <class K, class V> class HashMap;
 class Vector3;
 
 class RenderEngine : public DE_Class, public Singleton<RenderEngine>{
+
 private:
-	HashMap<Texture*, Batch*>* mBatches;
 	Camera* mCamera;
 
 	class LineRenderer : public DE_Class {
@@ -38,40 +40,18 @@ private:
       void bind(const Array<u32>* indices);
   };
 
-	class Chunk : public DE_Class {
-		private:
-			List<Renderer*>* mRenderers;
-    public:
-      DE_CLASS(Chunk, DE_Class);
+  Shader* mShaderLine;
+  Array<u32>* mLineRendererIndices; // [0,1]
+  Array<LineRenderer*>* mLineRenderers;
+  u32 mLineRenderersCount;
 
-			bool mThereAreNewRenderers;
+	Array<Chunk*>* mStaticChunks;
+	Chunk* mDynamicChunk;
 
-			Vector3 mLeftTop;
-			Vector3 mCenter;
-			f32 mRadius;
-			f32 mSize;
+	u32 mMaxLayersCount;
+	u32 mMaxLayersUsed;
 
-			bool mIsLoaded;
-
-      void init();
-			void set(const Vector3& leftTop, f32 size);
-      void load(RenderEngine* renderEngine);
-      void unload(RenderEngine* renderEngine);
-			bool containsRenderer(const Renderer* renderer);
-			void addRenderer(Renderer* renderer);
-  };
-
-	  Shader* mShaderLine;
-    Array<u32>* mLineRendererIndices; // [0,1]
-    Array<LineRenderer*>* mLineRenderers;
-    u32 mLineRenderersCount;
-
-		Array<Chunk*>* mChunks;
-
-		u32 mMaxLayersCount;
-		u32 mMaxLayersUsed;
-
-		bool mCameraDirtyTranslation;
+	bool mCameraDirtyTranslation;
 
 public:
 	DE_CLASS(RenderEngine, DE_Class);
@@ -88,9 +68,6 @@ public:
 	Camera* getCamera() const { return mCamera;};
 	void setCamera(Camera* newCamera ) { mCamera = newCamera; };
 	bool getCameraDirtyTranslation() const { return mCameraDirtyTranslation; };
-
-	using MapBatches = HashMap<Texture*, Batch*>*;
-	MapBatches getBatches() const { return mBatches; };
 };
 
 } /* namespace DE */

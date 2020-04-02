@@ -48,7 +48,7 @@ public:
 
 	Scene* getScene() const { return mScene;};
 	void setScene(Scene* newScene ) { mScene = newScene; };
-	bool isStatic() const { return mIsStatic;};
+	bool isStatic() const { return mIsStatic; };
 	void setIsStatic(bool newIsStatic ) { mIsStatic = newIsStatic; };
 	Transform* getTransform() const { return mTransform; };
 };

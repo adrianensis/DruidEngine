@@ -16,6 +16,7 @@
 #include "Matrix4.h"
 #include "MathUtils.h"
 #include "Time.h"
+#include "Chunk.h"
 
 namespace DE {
 
@@ -30,6 +31,7 @@ Batch::Batch() : DE_Class() {
 	mVAO = 0;
 	mMesh = nullptr;
 	mRenderers = nullptr;
+	mRenderersToRemove = nullptr;
 	mMaterial = nullptr;
 	mRenderEngine = nullptr;
 	mTextureId = 0;
@@ -42,6 +44,7 @@ Batch::~Batch() {
   }
 
 	Memory::free<List<Renderer*>>(mRenderers); // TODO : sorted by layers, or use a hashmap
+	Memory::free<List<Renderer*>>(mRenderersToRemove);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -50,13 +53,16 @@ Batch::~Batch() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::init(RenderEngine* renderEngine, Mesh* mesh, Material* material) {
+void Batch::init(Mesh* mesh, Material* material) {
 	TRACE();
 
-	mRenderEngine = renderEngine;
+	mRenderEngine = RenderEngine::getInstance();
 
 	mRenderers = Memory::allocate<List<Renderer*>>();
 	mRenderers->init();
+
+	mRenderersToRemove = Memory::allocate<List<Renderer*>>();
+	mRenderersToRemove->init();
 
 	mMesh = mesh;
 	mMaterial = material;
@@ -133,64 +139,68 @@ bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 
 u32 Batch::render(u32 layer) {
 
-	Shader* shader = mMaterial->getShader();
-
-	shader->use();
-	RenderContext::enableVAO(mVAO);
-	glBindTexture(GL_TEXTURE_2D, mTextureId);
-
-	Camera* camera = mRenderEngine->getCamera();
-
-  const Matrix4& projectionMatrix = camera->getProjectionMatrix();
-  const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
-  const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
-
-  shader->addMatrix(projectionMatrix, "projectionMatrix");
-  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-
 	u32 drawCallCounter = 0;
 
-	u32 lastLayer = 0;
+	if(mRenderers->getLength() > 0 && mRenderers->get(0)->getChunk() && mRenderers->get(0)->getChunk()->isLoaded()){
+		Shader* shader = mMaterial->getShader();
 
-	VAR(f32, mRenderers->getLength())
+		shader->use();
+		RenderContext::enableVAO(mVAO);
+		glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-	FOR_LIST(it, mRenderers){
+		Camera* camera = mRenderEngine->getCamera();
 
-		Renderer* renderer = it.get();
+	  const Matrix4& projectionMatrix = camera->getProjectionMatrix();
+	  const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
+	  const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
 
-		Transform* t = renderer->getGameObject()->getTransform();
+	  shader->addMatrix(projectionMatrix, "projectionMatrix");
+	  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+	  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-		bool chunkOk = (! renderer->isInChunk()) || (renderer->isInChunk() && renderer->isChunkLoaded());
 
-		if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
+		u32 lastLayer = 0;
 
-			const Matrix4& translationMatrix = t->getTranslationMatrix();
-			const Matrix4& rotationMatrix = t->getRotationMatrix();
-			const Matrix4& scaleMatrix = t->getScaleMatrix();
+		// VAR(f32, mRenderers->getLength())
 
-			shader->addMatrix(translationMatrix, "translationMatrix");
-			shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
-			shader->addMatrix(rotationMatrix, "rotationMatrix");
-			shader->addMatrix(scaleMatrix, "scaleMatrix");
+		FOR_LIST(it, mRenderers){
 
-			shader->addFloat(Time::getDeltaTimeSeconds(), "time");
+			Renderer* renderer = it.get();
 
-			renderer->updateMaterial(mMaterial);
+			Transform* t = renderer->getGameObject()->getTransform();
 
-			bool lineMode = it.get()->isLineMode();
+			bool chunkOk = (! renderer->getChunk()) || (renderer->getChunk() && renderer->getChunk()->isLoaded());
 
-			glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+			if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 
-			glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+				const Matrix4& translationMatrix = t->getTranslationMatrix();
+				const Matrix4& rotationMatrix = t->getRotationMatrix();
+				const Matrix4& scaleMatrix = t->getScaleMatrix();
 
-			drawCallCounter++;
+				shader->addMatrix(translationMatrix, "translationMatrix");
+				shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
+				shader->addMatrix(rotationMatrix, "rotationMatrix");
+				shader->addMatrix(scaleMatrix, "scaleMatrix");
+
+				shader->addFloat(Time::getDeltaTimeSeconds(), "time");
+
+				renderer->updateMaterial(mMaterial);
+
+				bool lineMode = it.get()->isLineMode();
+
+				glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+
+				glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+
+				drawCallCounter++;
+
+			}
+
+			lastLayer = renderer->getLayer();
 		}
 
-		lastLayer = renderer->getLayer();
+		RenderContext::enableVAO(0);
 	}
-
-	RenderContext::enableVAO(0);
 
 	return drawCallCounter;
 }
