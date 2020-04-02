@@ -153,6 +153,8 @@ u32 Batch::render(u32 layer) {
 
 	u32 lastLayer = 0;
 
+	VAR(f32, mRenderers->getLength())
+
 	FOR_LIST(it, mRenderers){
 
 		Renderer* renderer = it.get();
