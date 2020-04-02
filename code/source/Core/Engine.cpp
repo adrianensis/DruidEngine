@@ -81,12 +81,12 @@ void Engine::loadScene(Scene* scene){
 
 	mRenderEngine->setCamera(camera);
 
-	List<GameObject*>* gameObjects = scene->getNewGameObjects();
+	List<GameObject*>* newGameObjects = scene->getNewGameObjects();
 	u32 maxToSpawn = scene->getMaxNewGameObjectsToSpawn();
 
-	VAR(f32, gameObjects->getLength());
+	VAR(f32, newGameObjects->getLength());
 
-	FOR_LIST (itGameObjects, gameObjects){
+	FOR_LIST (itGameObjects, newGameObjects){
 		GameObject* gameObject = itGameObjects.get();
 
 		List<Script*>* scriptList = gameObject->getComponents<Script>();

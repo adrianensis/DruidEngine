@@ -35,7 +35,7 @@ Collider::~Collider(){
 // ---------------------------------------------------------------------------
 
 void Collider::init(){
-	TRACE();
+	// TRACE();
 
   mBoxVertices = Memory::allocate<Array<Vector2>>();
   mBoxVertices->init(4);
@@ -66,7 +66,7 @@ Array<Vector2>* Collider::getBoundingBox() {
   Transform* t = getGameObject()->getTransform();
 
   if(t->isDirtyTranslation()){
-    Vector3 center = t->getLocalPosition();
+    Vector3 center = t->getWorldPosition();
 
     mBoxVertices->set(0, Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
     const Vector2& LeftTop = mBoxVertices->get(0);

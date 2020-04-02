@@ -80,7 +80,6 @@ RenderEngine::Chunk::Chunk() : DE_Class() {
 
 RenderEngine::Chunk::~Chunk() {
   Memory::free<List<Renderer*>>(mRenderers);
-  Memory::free<List<Renderer*>>(mNewRenderers);
 }
 
 // ---------------------------------------------------------------------------
@@ -89,8 +88,10 @@ void RenderEngine::Chunk::init(){
   mRenderers = Memory::allocate<List<Renderer*>>();
   mRenderers->init();
 
-  mNewRenderers = Memory::allocate<List<Renderer*>>();
-  mNewRenderers->init();
+  // mNewRenderers = Memory::allocate<List<Renderer*>>();
+  // mNewRenderers->init();
+
+  mThereAreNewRenderers = false;
 
   mLeftTop.set(0,0,0);
 }
@@ -110,18 +111,7 @@ void RenderEngine::Chunk::set(const Vector3& leftTop, f32 size){
 
 void RenderEngine::Chunk::load(RenderEngine* renderEngine){
 
-
-  bool thereAreNewRenderers = mNewRenderers->getLength() > 0;
-
-  if(thereAreNewRenderers){
-    FOR_LIST(it, mNewRenderers){
-      mRenderers->pushBack(it.get());
-    }
-
-    mNewRenderers->clear();
-  }
-
-  if(! mIsLoaded || thereAreNewRenderers){
+  if(! mIsLoaded || mThereAreNewRenderers){
     TRACE();
     FOR_LIST(it, mRenderers){
       //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->addRenderer(it.get());
@@ -130,6 +120,7 @@ void RenderEngine::Chunk::load(RenderEngine* renderEngine){
     }
 
     mIsLoaded = true;
+    mThereAreNewRenderers = false;
   }
 }
 
@@ -138,7 +129,6 @@ void RenderEngine::Chunk::load(RenderEngine* renderEngine){
 void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
   if(mIsLoaded){
     TRACE();
-    VAR(u32,mRenderers->getLength());
     FOR_LIST(it, mRenderers){
       //renderEngine->getBatches()->get(it.get()->getMaterial()->getTexture())->removeRenderer(it.get());
       //it.get()->setIsInChunk(false);
@@ -154,8 +144,11 @@ void RenderEngine::Chunk::unload(RenderEngine* renderEngine){
 // ---------------------------------------------------------------------------
 
 void RenderEngine::Chunk::addRenderer(Renderer* renderer) {
-  TRACE();
-  mNewRenderers->pushBack(renderer);
+  // TRACE();
+  mRenderers->pushBack(renderer);
+  // mNewRenderers->pushBack(renderer);
+
+  mThereAreNewRenderers = true;
 }
 
 // ---------------------------------------------------------------------------
@@ -209,23 +202,29 @@ void RenderEngine::init() {
     mLineRenderers->set(i,lineRenderer);
   }
 
-  // Chunks
+  // Chunks grid
+
+  f32 chunksGridSize = 6;
+  f32 chunksGridSizeHalf = chunksGridSize/2.0f;
 
   mChunks = Memory::allocate<Array<Chunk*>>();
-  mChunks->init(4); // TODO : define how many chunks to create. Move to Settings.
+  mChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
 
-  f32 halfSceneSize = Settings::getInstance()->getF32("scene.size") / 2.0f;
+  f32 sceneSize = Settings::getInstance()->getF32("scene.size");
+  f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
-  FOR_ARRAY(i, mChunks){
-    Chunk* chunk = Memory::allocate<Chunk>();
-    mChunks->set(i, chunk);
-    chunk->init();
+  u32 count = 0;
+  for(i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i){
+    for(i32 j = -chunksGridSizeHalf; j < chunksGridSizeHalf; ++j){
+      VAR(u32, count);
+      Chunk* chunk = Memory::allocate<Chunk>();
+      chunk->init();
+      chunk->set(Vector2(i*chunkSize, j*chunkSize), chunkSize);
+
+      mChunks->set(count, chunk);
+      count++;
+    }
   }
-
-  mChunks->get(0)->set(Vector2(-halfSceneSize, halfSceneSize), halfSceneSize);
-  mChunks->get(1)->set(Vector2(-halfSceneSize, 0), halfSceneSize);
-  mChunks->get(2)->set(Vector2(0, 0), halfSceneSize);
-  mChunks->get(3)->set(Vector2(0, halfSceneSize), halfSceneSize);
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
@@ -234,8 +233,6 @@ void RenderEngine::init() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
-
-  mCameraDirtyTranslation = mCamera->getGameObject()->getTransform()->isDirtyTranslation();
 
   mCamera->getFrustum()->build();
   mCamera->calculateInverseMatrix();
@@ -360,12 +357,14 @@ void RenderEngine::addRenderer(Renderer* renderer) {
 
   mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
 
-  FOR_ARRAY(i, mChunks){
+  bool found = false;
+  FOR_ARRAY_COND(i, mChunks, !found){
     Chunk* chunk = mChunks->get(i);
     if(renderer->isStatic() && (! renderer->isInChunk()) && chunk->containsRenderer(renderer)){
       chunk->addRenderer(renderer);
       renderer->setIsInChunk(true);
       renderer->setIsChunkLoaded(false);
+      found = true;
     } /*else if(! renderer->isStatic()) {
       mBatches->get(texture)->addRenderer(renderer); // Dynamic objects are direcly moved into batches.
     }*/

@@ -118,7 +118,8 @@ void Camera::calculateInverseMatrix(){
 
 		mInversePVMatrix->init(inverseProjectionMatrix);
 
-    transform->setDirtyTranslation(false);
+		// HACK: set the dirty value again
+    transform->setDirtyTranslation(true);
 	}
 }
 

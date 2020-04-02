@@ -43,7 +43,7 @@ void GameObject::addComponent(Component* component, ClassId classId) {
 // ---------------------------------------------------------------------------
 
 void GameObject::init() {
-	TRACE();
+	// TRACE();
 
 	mComponents = Memory::allocate<HashMap<ClassId,List<Component*>*>>();
 	mComponents->init();

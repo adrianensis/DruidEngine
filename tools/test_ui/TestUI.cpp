@@ -74,10 +74,10 @@ void TestUI::step(){
     // }
 
     if(!mTestButton){
-      mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0,500,0), Vector2(200,100));
+      mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0,0,0), Vector2(200,100));
 
       mTestButton->setOnPressedCallback([&]() {
-
+        ECHO("BUTTON CLICK")
       });
     }
 
@@ -85,23 +85,23 @@ void TestUI::step(){
       mTestText = UI::getInstance()->createText(getGameObject()->getScene(), Vector3(-100,300,0), Vector2(40,40), "test text");
     }
 
-    if(!mTestList){
-      mTestList = UI::getInstance()->createList(getGameObject()->getScene(), Vector3(-500,200,0), Vector2(400,700));
-    }
+    // if(!mTestList){
+    //   mTestList = UI::getInstance()->createList(getGameObject()->getScene(), Vector3(-500,200,0), Vector2(400,700));
+    // }
   }
 
   f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
 
-  if(Input::isKeyPressedOnce(GLFW_KEY_UP)){
+  if(Input::isKeyPressed(GLFW_KEY_UP)){
     mCameraTransform->translate(Vector3(0,movement,0));
 
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_DOWN)){
+  }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     mCameraTransform->translate(Vector3(0,-movement,0));
 
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT)){
+  }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     mCameraTransform->translate(Vector3(-movement,0,0));
 
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_RIGHT)){
+  }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     mCameraTransform->translate(Vector3(movement,0,0));
 
   }else if(Input::isKeyPressedOnce(GLFW_KEY_S)){

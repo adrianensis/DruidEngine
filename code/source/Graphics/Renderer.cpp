@@ -52,7 +52,7 @@ Renderer::~Renderer() {
 // ---------------------------------------------------------------------------
 
 void Renderer::init() {
-	TRACE();
+	// TRACE();
 
   mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
   mAnimations->init();

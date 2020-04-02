@@ -44,7 +44,7 @@ private:
     public:
       DE_CLASS(Chunk, DE_Class);
 
-      List<Renderer*>* mNewRenderers;
+			bool mThereAreNewRenderers;
 
 			Vector3 mLeftTop;
 			Vector3 mCenter;

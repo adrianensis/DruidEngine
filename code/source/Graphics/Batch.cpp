@@ -104,7 +104,7 @@ bool Batch::checkInFrustum(Camera* cam, Renderer* renderer){
 	Vector3 scale = t->getScale();
 	f32 maxRadius = std::max(scale.x, scale.y); // TODO: if 3D, compare also with z
 
-	Vector3 position(Vector3(t->getLocalPosition()).add(renderer->getPositionOffset()));
+	Vector3 position(Vector3(t->getWorldPosition()).add(renderer->getPositionOffset()));
 
 	return cam->getFrustum()->testSphere(position, maxRadius);
 }
