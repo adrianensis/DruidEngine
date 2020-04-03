@@ -28,13 +28,14 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	Quaternion();
+	DE_CLASS(Quaternion, DE_Class)
+
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
 	Quaternion(const Vector3& v, f32 w);
 	Quaternion(f32 roll, f32 pitch, f32 yaw);
 	Quaternion(const Vector3& v);
 	Quaternion(const Quaternion& other);
-	~Quaternion();
+
 
 	//-------------------------------------------------------------------
 	// METHODS

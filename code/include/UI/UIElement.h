@@ -21,6 +21,8 @@ private:
 
   bool mPressed;
 
+  bool mConsumeInput;
+
 public:
 
 DE_CLASS(UIElement, GameObject);
@@ -35,6 +37,9 @@ Collider* getCollider() const { return mCollider; };
 Renderer* getRenderer() const { return mRenderer; };
 
 bool getPressed() const { return mPressed; };
+
+void setConsumeInput(bool consumeInput ) { mConsumeInput = consumeInput; };
+bool isConsumeInput() const { return mConsumeInput; };
 
 void setComponentsCache();
 

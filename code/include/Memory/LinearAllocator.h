@@ -13,15 +13,7 @@ class LinearAllocator : public Allocator {
 
 public:
 
-  /*!
-    \brief Default Constructor.
-  */
-  LinearAllocator();
-
-  /*!
-    \brief Destructor.
-  */
-  ~LinearAllocator() override;
+  DE_CLASS(LinearAllocator, Allocator)
 
   void init(u32 size) override;
   void* allocate(u32 size) override;

@@ -21,8 +21,8 @@ private:
 
 public:
 
-  Matrix4();
-  ~Matrix4();
+  DE_CLASS(Matrix4, DE_Class)
+
   void init(u32 n);
   void init(const Matrix4& other);
   void init(Array<f32>& data);

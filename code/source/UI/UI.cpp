@@ -301,6 +301,7 @@ void UI::init() {
 
 void UI::step() {
 
+  ECHO("UI STEP");
   if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     Vector2 mouse(Input::getMousePosition());
@@ -320,6 +321,10 @@ void UI::step() {
       if(collider && !renderer->getOutOfCamera() && collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
         element->onPressed();
         pressed = true;
+
+        if(element->isConsumeInput()){
+          Input::clearMouseButton();
+        }
       }
     }
   }

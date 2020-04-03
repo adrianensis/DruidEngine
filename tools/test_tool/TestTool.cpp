@@ -37,6 +37,18 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
+TestTool::CellData::CellData() : DE_Class(){
+
+}
+
+// ---------------------------------------------------------------------------
+
+TestTool::CellData::~CellData(){
+
+}
+
+// ---------------------------------------------------------------------------
+
 TestTool::TestTool() : Script(){
 
 }
@@ -212,7 +224,7 @@ void TestTool::init(){
 
   mTileIndex = 0;
 
-  mGridSize = 50;
+  mGridSize = 10;
   mTileSize = 50;
 
   mTestTile = nullptr;

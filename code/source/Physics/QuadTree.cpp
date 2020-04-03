@@ -13,7 +13,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-QuadTree::Node::Node() {
+QuadTree::Node::Node() : DE_Class() {
     mLeftTop = Vector2();
     mWidth = 0.0f;
     mHeight = 0.0f;

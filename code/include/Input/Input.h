@@ -32,6 +32,9 @@ public:
 	static bool isMouseButtonPressedOnce(u32 key);
 	static bool isMouseButtonPressed(u32 key);
 	static Vector2 getMousePosition();
+
+	static void clearMouseButton();
+	static void clearKey();
 };
 
 } /* namespace DE */

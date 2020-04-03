@@ -20,15 +20,7 @@ private:
 
 public:
 
-  /*!
-  \brief Default Constructor.
-  */
-  StackAllocator();
-
-  /*!
-  \brief Destructor.
-  */
-  ~StackAllocator() override;
+  DE_CLASS(StackAllocator, LinearAllocator)
 
   /*!
   \return Pointer to the top of the stack.

@@ -36,15 +36,7 @@ private:
 
 public:
 
-  /*!
-  \brief Default Constructor.
-  */
-  PoolAllocator();
-
-  /*!
-  \brief Destructor.
-  */
-  ~PoolAllocator() override;
+  DE_CLASS(PoolAllocator, LinearAllocator)
 
   /*!
   \return The count of free blocks.

@@ -4,8 +4,8 @@
 namespace DE {
 
 Vector2 Input::smMouseCoordinates = Vector2();
-u32 Input::smLastMouseButtonPressed = 0;
-u32 Input::smLastKeyPressed = 0;
+u32 Input::smLastMouseButtonPressed = -1;
+u32 Input::smLastKeyPressed = -1;
 bool Input::keyJustPressed = false;
 bool Input::buttonJustPressed = false;
 
@@ -16,8 +16,7 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
     	smLastKeyPressed = key;
 			keyJustPressed = true;
 		} else if (action == GLFW_RELEASE) {
-			smLastKeyPressed = 0;
-			keyJustPressed = false;
+			Input::clearKey();
 		}
 }
 
@@ -28,8 +27,7 @@ void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int 
 			smLastMouseButtonPressed = button;
 			buttonJustPressed = true;
 		} else if (action == GLFW_RELEASE) {
-			smLastMouseButtonPressed = 0;
-			buttonJustPressed = false;
+			Input::clearMouseButton();
 		}
 }
 
@@ -105,6 +103,11 @@ Vector2 Input::getMousePosition() {
   return smMouseCoordinates;
 }
 
+
+// ---------------------------------------------------------------------------
+
+void Input::clearMouseButton() { smLastMouseButtonPressed = -1; buttonJustPressed = false; }
+void Input::clearKey() { smLastKeyPressed = -1; keyJustPressed = false;  }
 
 // ---------------------------------------------------------------------------
 

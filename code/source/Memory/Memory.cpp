@@ -1,5 +1,6 @@
 #include "Memory.h"
 #include "FreeListAllocator.h"
+#include "Log.h"
 
 namespace DE {
 
@@ -20,10 +21,16 @@ Memory::~Memory(){
 // ---------------------------------------------------------------------------
 
 void Memory::init(){
+
+	// NOTE: Log stats here!!
+	Log::init();
+
 	TRACE();
 
-  u32 GB = 1024*1024*1024;
   smGlobal.init(1*GB);
+
+	ECHO("TOTAL MEMORY (IN MB)");
+	VAL(f32,(smGlobal.getTotalSize() / MB));
 }
 
 // ---------------------------------------------------------------------------
@@ -51,9 +58,12 @@ Allocator& Memory::getGlobal(){
 void Memory::free(){
 
 	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
-	VAL(f32,(smGlobal.getAllocatedSize() / (1024.0f*1024.0)));
+	VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
   smGlobal.reset();
+
+	// NOTE: Log ends here!!
+	Log::terminate();
 }
 
 // ---------------------------------------------------------------------------

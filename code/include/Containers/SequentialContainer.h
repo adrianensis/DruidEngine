@@ -32,6 +32,8 @@ protected:
 
 public:
 
+  DE_GENERATE_METADATA(SequentialContainer<T>, BaseContainer);
+
   /*!
     \brief Default Constructor.
   */

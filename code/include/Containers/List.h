@@ -22,19 +22,19 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  class Node {
+  class Node : public DE_Class {
 
   public:
     Node* mNext;
     Node* mPrev;
     T mElement;
 
-    Node() {
-      Node::init();
+    DE_GENERATE_METADATA(Node, DE_Class);
+
+    Node() : DE_Class() {
     }
 
     ~Node() {
-      Node::init();
     }
 
     void init() {
@@ -344,6 +344,8 @@ private:
   // ---------------------------------------------------------------------------
 
 public:
+
+  DE_GENERATE_METADATA(List<T>, SequentialContainer<T>);
 
   List() : SequentialContainer<T>() {
     mFirst = nullptr;

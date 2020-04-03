@@ -93,6 +93,8 @@ public:
 
   // ---------------------------------------------------------------------------
 
+  DE_GENERATE_METADATA(Array<T>, SequentialContainer<T>);
+
   /*!
   \brief Default Constructor.
   */

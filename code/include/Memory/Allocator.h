@@ -31,15 +31,7 @@ protected:
 
 public:
 
-  /*!
-    \brief Default Constructor.
-  */
-  Allocator();
-
-  /*!
-    \brief Destructor.
-  */
-  ~Allocator() override;
+  DE_CLASS(Allocator, DE_Class)
 
   u32 getTotalSize() const { return mTotalSize; };
   u32 getAllocatedSize() const { return mAllocatedSize; };

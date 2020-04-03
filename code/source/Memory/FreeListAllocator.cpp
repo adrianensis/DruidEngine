@@ -59,7 +59,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
   usedBlock->init(selectedBlock->unalignedAddress, size);
   usedBlock->blockStatus = BlockStatus::USED;
 
-  pushBackBlock(usedBlock); // NOTE : Free blocks are pushed BACK
+  pushBackBlock(usedBlock); // NOTE : Used blocks are pushed BACK
 
   Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
   newFreeBlock->init(selectedBlock->unalignedAddress + size, selectedBlock->size - size);

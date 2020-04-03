@@ -16,7 +16,7 @@ namespace DE {
 class QuadTree : public DE_Class{
 private:
 
-  class Node {
+  class Node : public DE_Class {
   public:
     Vector2 mLeftTop;
   	f32 mWidth;
@@ -38,6 +38,8 @@ private:
 
     u32 mDynamicCollidersCount;
     u32 mStaticCollidersCount;
+
+    DE_GENERATE_METADATA(Node, DE_Class);
 
     Node();
     ~Node();

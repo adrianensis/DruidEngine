@@ -2,8 +2,10 @@
 #define DE_MEMORY_H
 
 #include "Allocator.h"
-#include "Log.h"
-#include <string>
+
+#define KB (1024.0f)
+#define MB (KB*1024.0f)
+#define GB (MB*1024.0f)
 
 namespace DE {
 
@@ -46,17 +48,22 @@ public:
 
   template<class T>
   static T* allocate(u32 alignment){
+    // ECHO("ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
     return Allocator::internalAllocate<T>((Allocator*)(&smGlobal), alignment);
   }
 
   template<class T>
   static T* allocate(){
+    // ECHO("ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
     return Allocator::internalAllocate<T>((Allocator*)(&smGlobal));
   }
 
   template<class T>
   static void free(T* pointer){
-   Allocator::internalFree<T>(pointer, (Allocator*)(&smGlobal));
+    if(pointer){
+      // ECHO("FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
+      Allocator::internalFree<T>(pointer, (Allocator*)(&smGlobal));
+    }
   }
 
   static void free();

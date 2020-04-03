@@ -3,42 +3,57 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include "BasicTypes.h"
+#include "DE_Class.h"
 
 namespace DE {
 
-static const std::string emptyMessage = "";
+class Log : public DE_Class {
+  public:
 
-void log(const std::string file, u32 line, const std::string function, const std::string message = emptyMessage);
+  static const std::string emptyMessage;
+  static std::ofstream logFile;
 
-void echo(const std::string& message);
+  Log();
+  ~Log();
 
-template <class T>
-void var(const std::string& varname, T var) {
-  std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
+  static void init();
+  static void terminate();
+
+  static void log(const std::string& str);
+
+  static void trace(const std::string file, u32 line, const std::string function, const std::string message = emptyMessage);
+
+  static void echo(const std::string& message);
+
+  template <class T>
+  static void var(const std::string& varname, T var) {
+    // std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
+    log("DE_VAR > " + varname + " : " + std::to_string(var));
+  };
+
+  template <class T>
+  static void val(const T& var) {
+    // std::cout << "DE_VAL > " << var << std::endl;
+    log("DE_VAL > " + std::to_string(var));
+  };
+
+  static void error(const std::string& message);
+
+  static void brline();
 };
-
-template <class T>
-void val(const T& var) {
-  std::cout << "DE_VAL > " << var << std::endl;
-};
-
-void error(const std::string& message);
-
-void brline();
 
 #ifdef DE_ENABLE_LOGS
-  #define LOG(x) log(__FILE__, __LINE__, __PRETTY_FUNCTION__, x);
-  #define TRACE() log(__FILE__, __LINE__, __PRETTY_FUNCTION__);
+  #define TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
   #define TO_STR(s) #s
-  #define ECHO(x) echo(x);
-  #define VAR(T,x) var<T>(#x, x);
-  #define VAL(T,x) val<T>(x);
-  #define ERROR(x) error(x);
-  #define BRLINE() brline();
+  #define ECHO(x) Log::echo(x);
+  #define VAR(T,x) Log::var<T>(#x, x);
+  #define VAL(T,x) Log::val<T>(x);
+  #define ERROR(x) Log::error(x);
+  #define BRLINE() Log::brline();
 #else
-  #define LOG()
   #define TRACE()
   #define TO_STR(s)
   #define ECHO(x)

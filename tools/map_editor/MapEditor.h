@@ -1,5 +1,5 @@
-#ifndef DE_TESTTOOL_H
-#define DE_TESTTOOL_H
+#ifndef DE_MAPEDITOR_H
+#define DE_MAPEDITOR_H
 
 #include "Script.h"
 #include "Vector2.h"
@@ -18,15 +18,14 @@ class Material;
 template <class K, class V> class HashMap;
 template <class T> class Array;
 
-class TestTool : public Script{
+class MapEditor : public Script{
 private:
 
   class CellData : public DE_Class {
   public:
     DE_CLASS(CellData, DE_Class);
-    
+
     Vector2 textureRegion;
-    UIButton* button = nullptr;
     GameObject* tile = nullptr;
   };
 
@@ -38,27 +37,31 @@ private:
   Transform* mCameraTransform;
 
   GameObject* mBrush;
-  GameObject* mTestTile;
-  UIButton* mTestButton;
+  GameObject* mTile;
 
   Texture* mTexture;
   Material* mMaterial;
+
+  // f32 mTilesCount;
+  Vector2 mAtlasSize;
+  Vector2 mAtlasTextureSize;
+
+  f32 mTileTextureSize;
 
   bool mTestCreated;
   u32 mTileIndex;
   u32 mTileSize;
 
+
 public:
 
-DE_CLASS(TestTool, Script);
+DE_CLASS(MapEditor, Script);
 
 u32 mAtlasIndexX;
 u32 mAtlasIndexY;
 
 void createBrush();
-void createTestButton();
 void createAtlas();
-void createFont();
 void createTile(f32 x, f32 y);
 
 void init() override;
@@ -68,4 +71,4 @@ void terminate() override;
 
 } /* namespace DE */
 
-#endif /* DE_TESTTOOL_H */
+#endif /* DE_MAPEDITOR_H */

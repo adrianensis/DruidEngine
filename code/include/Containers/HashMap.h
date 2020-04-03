@@ -22,14 +22,16 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  class Node {
+  class Node : public DE_Class {
 
   public:
     K mKey;
     V mElement;
 
-    Node() = default;
-    ~Node() = default;
+    DE_GENERATE_METADATA(Node, DE_Class);
+
+    Node() : DE_Class() {};
+    ~Node() {};
 
     void init(const K key, const V element) {
       mKey = key;
@@ -59,6 +61,9 @@ private:
   List<V>* mValues;
 
 public:
+
+  using HashMapKV = HashMap<K,V>;
+  DE_GENERATE_METADATA(HashMapKV, BaseContainer);
 
   /*!
     \brief Default Constructor.

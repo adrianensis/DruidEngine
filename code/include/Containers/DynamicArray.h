@@ -65,6 +65,8 @@ private:
 
 public:
 
+  DE_GENERATE_METADATA(DynamicArray<T>, SequentialContainer<T>);
+
   /*!
     \brief Default Constructor.
   */

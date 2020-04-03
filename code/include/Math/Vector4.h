@@ -31,14 +31,14 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	Vector4();
+	DE_CLASS(Vector4, DE_Class)
+
 	Vector4(f32 x, f32 y, f32 z, f32 w);
 	Vector4(const Vector4& other);
 	Vector4(const Vector3& other);
 	Vector4(const Vector2& other);
 	Vector4(const Vector3& other, f32 w);
 	Vector4(const Vector2& other, f32 z, f32 w);
-	~Vector4();
 
 	//-------------------------------------------------------------------
 	// METHODS

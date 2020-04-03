@@ -55,15 +55,7 @@ private:
 
 public:
 
-  /*!
-  \brief Default Constructor.
-  */
-  FreeListAllocator();
-
-  /*!
-  \brief Destructor.
-  */
-  ~FreeListAllocator() override;
+  DE_CLASS(FreeListAllocator, Allocator)
 
   void init(u32 size) override;
   void* allocate(u32 size) override;

@@ -137,6 +137,8 @@ void Engine::run(){
 			mRenderEngine->bind();
 		}
 
+		Input::pollEvents();
+
 		/*if(itCounter % 2 == 0) */UI::getInstance()->step();
 
 		/*if(itCounter % 2 == 0) */mScriptEngine->step();
@@ -153,8 +155,6 @@ void Engine::run(){
 		// accumulator += Time::getDeltaTimeMillis();
 
 		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
-
-		Input::pollEvents();
 
 		Memory::flush();
 	}

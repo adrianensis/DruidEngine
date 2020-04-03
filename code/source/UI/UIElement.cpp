@@ -12,6 +12,7 @@ UIElement::UIElement() : GameObject(){
   mCollider = nullptr;
   mRenderer = nullptr;
   mPressed = false;
+  mConsumeInput = true;
 }
 
 // ---------------------------------------------------------------------------
