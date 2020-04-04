@@ -158,51 +158,46 @@ u32 Batch::render(u32 layer) {
 	  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 	  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-
-		u32 lastLayer = 0;
-
 		// VAR(f32, mRenderers->getLength())
 
 		FOR_LIST(it, mRenderers){
 
 			Renderer* renderer = it.get();
 
-			Transform* t = renderer->getGameObject()->getTransform();
+			if(renderer->isActive()){
+				
+				Transform* t = renderer->getGameObject()->getTransform();
 
-			bool chunkOk = (! renderer->getChunk()) || (renderer->getChunk() && renderer->getChunk()->isLoaded());
+				bool chunkOk = (! renderer->getChunk()) || (renderer->getChunk() && renderer->getChunk()->isLoaded());
 
-			if(renderer->isActive() && renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
+				if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 
-				const Matrix4& translationMatrix = t->getTranslationMatrix();
-				const Matrix4& rotationMatrix = t->getRotationMatrix();
-				const Matrix4& scaleMatrix = t->getScaleMatrix();
+					const Matrix4& translationMatrix = t->getTranslationMatrix();
+					const Matrix4& rotationMatrix = t->getRotationMatrix();
+					const Matrix4& scaleMatrix = t->getScaleMatrix();
 
-				shader->addMatrix(translationMatrix, "translationMatrix");
-				shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
-				shader->addMatrix(rotationMatrix, "rotationMatrix");
-				shader->addMatrix(scaleMatrix, "scaleMatrix");
+					shader->addMatrix(translationMatrix, "translationMatrix");
+					shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
+					shader->addMatrix(rotationMatrix, "rotationMatrix");
+					shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-				shader->addFloat(Time::getDeltaTimeSeconds(), "time");
+					shader->addFloat(Time::getDeltaTimeSeconds(), "time");
 
-				renderer->updateMaterial(mMaterial);
+					renderer->updateMaterial(mMaterial);
 
-				bool lineMode = it.get()->isLineMode();
+					bool lineMode = it.get()->isLineMode();
 
-				glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+					glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
 
-				glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
+					glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
 
-				drawCallCounter++;
+					drawCallCounter++;
 
-			} else {
-				if(renderer->isDestroyed()){
-					// destroy renderer and remove from list
-					mRenderers->remove(it);
-					Memory::free<Renderer>(renderer);
+				} else if(renderer->isPendingToBeDestroyed()) {
+						// destroy renderer and remove from list
+						internalRemoveRenderer(&it);
 				}
 			}
-
-			lastLayer = renderer->getLayer();
 		}
 
 		RenderContext::enableVAO(0);
@@ -219,10 +214,16 @@ void Batch::addRenderer(Renderer* renderer) {
 
 		// TODO insert sorted
 }
+
 // ---------------------------------------------------------------------------
 
-void Batch::removeRenderer(Renderer* renderer) {
-		mRenderers->remove(mRenderers->find(renderer));
+void Batch::internalRemoveRenderer(const Iterator* it){
+	auto castedIt = it->cast<Renderer*>();
+	mRenderers->remove(*castedIt);
+
+	Renderer* renderer = (*castedIt).get();
+	renderer->setDestroyed();
+	Memory::free<Renderer>(renderer);
 }
 
 // ---------------------------------------------------------------------------

@@ -12,6 +12,8 @@ class RenderEngine;
 class Camera;
 template <class T> class List;
 
+class Iterator;
+
 class Batch : public DE_Class{
 
 private:
@@ -20,7 +22,7 @@ private:
 
 	List<Renderer*>* mRenderers;
 	List<Renderer*>* mRenderersToRemove;
-	
+
 	Material* mMaterial;
 	Mesh* mMesh;
 
@@ -36,6 +38,8 @@ private:
 	bool checkDistance(Camera* cam, Renderer* renderer);
 	bool checkOutOfCamera(Camera* cam, Renderer* renderer);
 
+	void internalRemoveRenderer(const Iterator* it);
+
 public:
 
 	DE_CLASS(Batch, DE_Class);
@@ -48,7 +52,6 @@ public:
 	u32 render(u32 layer);
 
 	void addRenderer(Renderer* renderer);
-	void removeRenderer(Renderer* renderer);
 
 	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
 	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };

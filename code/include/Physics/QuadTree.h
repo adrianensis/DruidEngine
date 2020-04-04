@@ -10,6 +10,7 @@ namespace DE {
   class Collider;
   enum class ColliderStatus;
   template<class T> class List;
+  class Iterator;
   template<class T> class Array;
   template <class K, class V> class HashMap;
 
@@ -17,6 +18,10 @@ class QuadTree : public DE_Class{
 private:
 
   class Node : public DE_Class {
+  private:
+    void internalRemoveColliderFromList(const Iterator* it);
+    void internalFreeCollider(Collider* collider);
+
   public:
     Vector2 mLeftTop;
   	f32 mWidth;

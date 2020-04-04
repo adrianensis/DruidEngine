@@ -52,10 +52,10 @@ DE_VAR > count : 33
 DE_VAR > count : 34
 DE_VAR > count : 35
 DE_TRACE > [void DE::ScriptEngine::init():21] > 
-DE_TRACE > [void DE::PhysicsEngine::init():39] > 
-DE_TRACE > [void DE::QuadTree::init(DE::f32):363] > 
+DE_TRACE > [void DE::PhysicsEngine::init():50] > 
+DE_TRACE > [void DE::QuadTree::init(DE::f32):398] > 
 DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
-DE_TRACE > [void DE::Scene::init():27] > 
+DE_TRACE > [void DE::Scene::init():30] > 
 DE_TRACE > [virtual void DE::Camera::init():26] > 
 DE_TRACE > [void DE::Frustum::init(DE::Camera*):25] > 
 DE_TRACE > [static void DE::Time::init():19] > 
@@ -72,3 +72,94 @@ DE_TRACE > [void DE::Material::init():20] >
 DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
 DE_VAR > newGameObjects->getLength() : 163.000000
 DE_TRACE > [void DE::Batch::init(DE::Mesh*, DE::Material*):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Batch::init(DE::Mesh*, DE::Material*):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Batch::init(DE::Mesh*, DE::Material*):57] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Batch::init(DE::Mesh*, DE::Material*):57] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Batch::init(DE::Mesh*, DE::Material*):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):49] > 
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000
+DE_TRACE > [void DE::Engine::loadScene(DE::Scene*):78] > 
+DE_VAR > newGameObjects->getLength() : 1.000000

@@ -72,7 +72,7 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 // ---------------------------------------------------------------------------
 
 void GameObject::setIsActive( bool isActive ) {
-	mIsActive = isActive;
+	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
 	FOR_LIST(it, mComponents->getValues()) {
 		FOR_LIST(itComponent, it.get()) {
@@ -82,7 +82,7 @@ void GameObject::setIsActive( bool isActive ) {
 };
 
 void GameObject::destroy() {
-	mDestroy = true;
+	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
 	FOR_LIST(it, mComponents->getValues()) {

@@ -209,7 +209,7 @@ public:
 
     bool found = false;
     u32 index = 0;
-    typename List<Node*>::Iterator selectedIt;
+    typename List<Node*>::ListIterator selectedIt;
 
     if(list){
       // iterate over list to find element.

@@ -7,6 +7,23 @@
 
 namespace DE {
 
+template <class T>
+class List;
+
+class Iterator : public DE_Class {
+
+public:
+  DE_GENERATE_METADATA(Iterator, DE_Class);
+
+  Iterator() {};
+  ~Iterator() {};
+
+  template <class T>
+  const typename List<T>::ListIterator* cast() const {
+    return static_cast<const typename List<T>::ListIterator*>(this);
+  }
+};
+
 // ---------------------------------------------------------------------------
 
   /*
@@ -16,7 +33,7 @@ namespace DE {
 template <class T>
 class List : public SequentialContainer<T>{
 
-friend class Iterator;
+friend class ListIterator;
 
 private:
 
@@ -105,7 +122,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  class Iterator {
+  class ListIterator : public Iterator {
 
     friend class List;
 
@@ -125,17 +142,19 @@ public:
 
     public:
 
-    Iterator() {
+    DE_GENERATE_METADATA(ListIterator, Iterator);
+
+    ListIterator() : Iterator() {
       mNode = nullptr;
       mReverse = false;
     }
 
-    Iterator(const Iterator& other) {
+    ListIterator(const ListIterator& other) : Iterator() {
       mNode = other.mNode;
       mReverse = other.mReverse;
     }
 
-    ~Iterator() {
+    ~ListIterator() {
       mNode = nullptr;
       mReverse = false;
     }
@@ -170,10 +189,10 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    Iterator getNext() const {
+    ListIterator getNext() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
-      Iterator it;
+      ListIterator it;
 
       if(mReverse)
         it.init(mNode->mPrev);
@@ -207,10 +226,10 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    Iterator getPrev() const {
+    ListIterator getPrev() const {
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
-      Iterator it;
+      ListIterator it;
 
       if(mReverse)
         it.init(mNode->mNext);
@@ -248,20 +267,20 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    bool operator==(const Iterator& rhs) const {
+    bool operator==(const ListIterator& rhs) const {
       return this->mNode == rhs.mNode &&
       this->mReverse == rhs.mReverse;
     }
 
     // ---------------------------------------------------------------------------
 
-    bool operator!=(const Iterator& rhs) const {
+    bool operator!=(const ListIterator& rhs) const {
       return !((*this) == rhs);
     }
 
     // ---------------------------------------------------------------------------
 
-    Iterator& operator=(const Iterator& rhs) {
+    ListIterator& operator=(const ListIterator& rhs) {
       if (this == &rhs) return *this; // handle self assignment
       //assignment operator
       this->mNode = rhs.mNode;
@@ -290,7 +309,7 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  mutable Iterator mLastAccessedIt;
+  mutable ListIterator mLastAccessedIt;
   mutable i32 mLastAccessedIndex;
 
   void resetCache(){
@@ -365,7 +384,7 @@ public:
   */
   void init(const List& other){
     this->_init(other.mElementSize);
-    Iterator it = other.getIterator();
+    ListIterator it = other.getIterator();
 
     for (; it.hasNext(); it.next())
       this->pushBack(it.get());
@@ -414,7 +433,7 @@ public:
 
   void fill(const T element) override {
     if( ! List::isEmpty()){
-      Iterator it = List::getIterator();
+      ListIterator it = List::getIterator();
       for (; it.hasNext(); it.next())
         it.set(element);
 
@@ -429,7 +448,7 @@ public:
     this->checkPut(other, destinyIndex, sourceIndex, length);
 
     u32 i = 0;
-    Iterator it = List::getIterator();
+    ListIterator it = List::getIterator();
 
     if( ! List::isEmpty()){
       for (; i < destinyIndex && it.hasNext(); it.next())
@@ -452,14 +471,14 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  Iterator getIterator() const {
+  ListIterator getIterator() const {
     return List::getFirst();
   }
 
   // ---------------------------------------------------------------------------
 
-  Iterator getRevIterator() const {
-    Iterator it;
+  ListIterator getRevIterator() const {
+    ListIterator it;
     it.init(this->mLast);
     it.setReverse(true);
     return it;
@@ -467,16 +486,16 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  Iterator getFirst() const {
-    Iterator it;
+  ListIterator getFirst() const {
+    ListIterator it;
     it.init(this->mFirst);
     return it;
   }
 
   // ---------------------------------------------------------------------------
 
-  Iterator getLast() const {
-    Iterator it;
+  ListIterator getLast() const {
+    ListIterator it;
     it.init(this->mLast);
     return it;
   }
@@ -603,7 +622,7 @@ public:
     DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
     u32 i = 0;
-    Iterator it = List::getIterator();
+    ListIterator it = List::getIterator();
 
     for (; i < index && it.hasNext(); it.next())
       i++;
@@ -615,8 +634,8 @@ public:
 
   void swap(u32 index1, u32 index2){
     u32 i = 0;
-    Iterator it1 = List::getIterator();
-    Iterator it2 = List::getIterator();
+    ListIterator it1 = List::getIterator();
+    ListIterator it2 = List::getIterator();
 
     for (; i < index1 && it1.hasNext(); it1.next())
       i++;
@@ -643,7 +662,7 @@ public:
     if( ! List::isEmpty()){
 
       u32 i = 0;
-      Iterator it = List::getIterator();
+      ListIterator it = List::getIterator();
 
       for (; i < index && it.hasNext(); it.next())
         i++;
@@ -655,7 +674,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void remove(Iterator it){
+  void remove(ListIterator it){
     resetCache();
     if( ! List::isEmpty()){
       BaseContainer::mLength--;
@@ -696,7 +715,7 @@ public:
 
     // TODO refactor loop
     u32 i = 0;
-    Iterator it = List::getIterator();
+    ListIterator it = List::getIterator();
 
     for (; i < index && it.hasNext(); it.next())
       i++;
@@ -706,7 +725,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void insert(Iterator& it, T element){
+  void insert(ListIterator& it, T element){
     resetCache();
     if(it.mNode != mFirst){
       Node* node = newNode();
@@ -728,10 +747,10 @@ public:
   /*!
     \brief Finds with default comparator.
   */
-  Iterator find(T element){
+  ListIterator find(T element){
 	  //return find(element, defaultComparator);
 
-    Iterator selectedIt;
+    ListIterator selectedIt;
     bool found = false;
 
     FOR_LIST_COND(it, this, !found){
@@ -749,8 +768,8 @@ public:
   /*!
     \brief Finds with custom comparator.
   */
-  Iterator find(T element, u8 (*comparator)(const T& a, const T& b)){
-    Iterator selectedIt;
+  ListIterator find(T element, u8 (*comparator)(const T& a, const T& b)){
+    ListIterator selectedIt;
     bool found = false;
 
     FOR_LIST_COND(it, this, !found){

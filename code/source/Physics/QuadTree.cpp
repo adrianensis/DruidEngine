@@ -138,7 +138,7 @@ QuadTree::Node* QuadTree::Node::createChildNode(u32 index){
 
 void QuadTree::Node::addCollider(Collider* collider){
 
-  if(collider->isSimulate()){
+  // if(collider->isSimulate()){
     // ECHO("addCollider");
     if(mIsDivisible){
       // ECHO("Is Divisible");
@@ -182,9 +182,24 @@ void QuadTree::Node::addCollider(Collider* collider){
         }
       //}
     }
-  } else {
+  // } else {
     // TODO : put in a "inactive" colliders so they can be also controlled and garbage collected.
-  }
+  // }
+}
+
+//----------------------------------------------------------------------
+
+void QuadTree::Node::internalRemoveColliderFromList(const Iterator* it) {
+  auto castedIt = it->cast<Collider*>();
+	mColliders->remove(*castedIt);
+
+}
+
+//----------------------------------------------------------------------
+
+void QuadTree::Node::internalFreeCollider(Collider* collider) {
+  collider->setDestroyed();
+  Memory::free<Collider>(collider);
 }
 
 //----------------------------------------------------------------------
@@ -207,53 +222,73 @@ void QuadTree::Node::update(/*contactManager*/){
 
 
     // FOR EACH COLLIDER
-		FOR_LIST(itA, mColliders){
+		FOR_LIST(itA, mColliders) {
 
       Collider* colliderA = itA.get();
 
-      bool isStaticA = colliderA->isStatic();
+      if(colliderA->isActive()) {
+        if(colliderA->isSimulate()) {
 
-			// check if collider has left the node.
-			checkExit(colliderA);
+          bool isStaticA = colliderA->isStatic();
 
-			colliderA->setStatus(ColliderStatus::STATUS_NONE);
+    			// check if collider has left the node.
+    			checkExit(colliderA);
 
-      // if there are 2 or more colliders within the same node
-      if(mDynamicCollidersCount + mStaticCollidersCount > 1){
-        // CHECK COLLISIONS WITH THE OTHERS COLLIDERS
-        FOR_LIST(itB, mColliders){
+    			colliderA->setStatus(ColliderStatus::STATUS_NONE);
 
-          Collider* colliderB = itB.get();
+          // if there are 2 or more colliders within the same node
+          if(mDynamicCollidersCount + mStaticCollidersCount > 1){
+            // CHECK COLLISIONS WITH THE OTHERS COLLIDERS
+            FOR_LIST(itB, mColliders) {
 
-          bool isStaticB = colliderA->isStatic();
+              Collider* colliderB = itB.get();
 
-          // if they aren't the same collider
-          // if both are static, do not check anything.
-          if((colliderA != colliderB) && !(isStaticA && isStaticB)){
+              if(colliderB->isActive()) {
+                if(colliderB->isSimulate()) {
 
-            // check bounding radius
-            if(colliderA->checkCollisionRadius(colliderB)){
+                  bool isStaticB = colliderA->isStatic();
+                  
+                  // if they aren't the same collider
+                  // if both are static, do not check anything.
+                  if((colliderA != colliderB) && !(isStaticA && isStaticB)) {
 
-              // candidate vertices
-              // Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
-              //Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
+                    // check bounding radius
+                    if(colliderA->checkCollisionRadius(colliderB)) {
 
-              // Compute candidates and generate contacts
-              //ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
+                      // candidate vertices
+                      // Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
+                      //Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
 
-              ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
-              ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
+                      // Compute candidates and generate contacts
+                      //ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
-              if(status > newTreeStatus){
-                newTreeStatus = status;
-              }
-              if(status2 > newTreeStatus){
-                newTreeStatus = status2;
+                      ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
+                      ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
+
+                      if(status > newTreeStatus) {
+                        newTreeStatus = status;
+                      }
+                      if(status2 > newTreeStatus) {
+                        newTreeStatus = status2;
+                      }
+                    }
+                  }
+                }
+              } else if(colliderB->isPendingToBeDestroyed()) {
+                  internalRemoveColliderFromList(&itB);
+                  internalFreeCollider(colliderB);
+              } else if(colliderB->isDestroyed()) {
+                  internalRemoveColliderFromList(&itB);
               }
             }
-          }
+      		}
         }
-  		}
+      } else if(colliderA->isPendingToBeDestroyed()) {
+          internalRemoveColliderFromList(&itA);
+          internalFreeCollider(colliderA);
+      } else if(colliderA->isDestroyed()) {
+          internalRemoveColliderFromList(&itA);
+      }
 		}
 
     if(newTreeStatus > mTree->getStatus()){

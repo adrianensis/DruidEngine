@@ -9,7 +9,7 @@ namespace DE {
 Component::Component() : DE_Class(){
 	mGameObject = nullptr;
 	mIsActive = true;
-	mDestroy = false;
+	mIsDestroyed = false;
 }
 
 Component::~Component() = default;

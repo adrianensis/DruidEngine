@@ -110,12 +110,12 @@ void MapEditor::createTile(f32 x, f32 y) {
 
     // renderer->setLineMode(true);
 
-    // RigidBody* rigidBody = Memory::allocate<RigidBody>();
-    // mTile->addComponent<RigidBody>(rigidBody);
-    //
-    // Collider* collider = Memory::allocate<Collider>();
-    // mTile->addComponent<Collider>(collider);
-    // collider->setSize(size.x,size.y);
+    RigidBody* rigidBody = Memory::allocate<RigidBody>();
+    mTile->addComponent<RigidBody>(rigidBody);
+
+    Collider* collider = Memory::allocate<Collider>();
+    mTile->addComponent<Collider>(collider);
+    collider->setSize(size.x,size.y);
 
     mTile->setIsStatic(true);
 
@@ -243,36 +243,20 @@ void MapEditor::step(){
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
 
-    // VAR(f32, world.x);
-    // VAR(f32, world.y);
-
-
-
     if(std::fabs(clampedPosition.x) <= halfSize && std::fabs(clampedPosition.y) <= halfSize){
-      // VAR(f32, clampedPosition.x);
-      // VAR(f32, clampedPosition.y);
-
 
       if(! gridCell->tile){
 
         createTile(clampedPosition.x, clampedPosition.y);
-
         gridCell->tile = mTile;
       }
 
-
-
       gridCell->textureRegion = Vector2(mAtlasIndexX, mAtlasIndexY);
-
       gridCell->tile->getComponents<Renderer>()->get(0)->setRegion(gridCell->textureRegion.x/mAtlasSize.x, gridCell->textureRegion.y/mAtlasSize.y, mAtlasTextureSize.x, mAtlasTextureSize.y);
-
-
     }
   }
 
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
-    // TODO: REMOVE TILE
-
     if(gridCell->tile){
       getGameObject()->getScene()->removeGameObject(gridCell->tile);
       gridCell->tile = nullptr;
@@ -283,20 +267,13 @@ void MapEditor::step(){
 
   if(Input::isKeyPressed(GLFW_KEY_UP)){
     mCameraTransform->translate(Vector3(0,movement,0));
-
   }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     mCameraTransform->translate(Vector3(0,-movement,0));
-
   }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     mCameraTransform->translate(Vector3(-movement,0,0));
-
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     mCameraTransform->translate(Vector3(movement,0,0));
-
   }
-
-  // VAR(f32, world.x);
-  // VAR(f32, world.y);
 
   if(mBrush) mBrush->getTransform()->setLocalPosition(world);
 }

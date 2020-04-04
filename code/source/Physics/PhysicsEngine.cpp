@@ -35,6 +35,17 @@ void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
 
 // ---------------------------------------------------------------------------
 
+void PhysicsEngine::internalRemoveRigidBody(const Iterator* it){
+	auto castedIt = it->cast<RigidBody*>();
+	mRigidBodies->remove(*castedIt);
+
+  RigidBody* rigidBody = (*castedIt).get();
+  rigidBody->setDestroyed();
+	Memory::free<RigidBody>(rigidBody);
+}
+
+// ---------------------------------------------------------------------------
+
 void PhysicsEngine::init(){
 	TRACE();
 
@@ -53,11 +64,15 @@ void PhysicsEngine::step(f32 deltaTime){
   f32 maxIterations = 5.0f;
 
   FOR_LIST (it, mRigidBodies){
-    if( ! it.get()->getCollider()->isPenetrated()){
-      if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
-        it.get()->saveState();
-        it.get()->integrate(dt);
+    if(it.get()->isActive()){
+      if( ! it.get()->getCollider()->isPenetrated()){
+        if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
+          it.get()->saveState();
+          it.get()->integrate(dt);
+        }
       }
+    } else if(it.get()->isPendingToBeDestroyed()){
+      internalRemoveRigidBody(&it);
     }
   }
 
@@ -129,8 +144,6 @@ void PhysicsEngine::terminate(){
 
   Memory::free<QuadTree>(mQuadTree);
 }
-
-// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 

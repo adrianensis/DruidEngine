@@ -9,12 +9,15 @@ namespace DE {
 class RigidBody;
 class QuadTree;
 template<class T> class List;
+class Iterator;
 
 class PhysicsEngine : public DE_Class, public Singleton<PhysicsEngine>{
 private:
 
   List<RigidBody*>* mRigidBodies;
   QuadTree* mQuadTree;
+
+  void internalRemoveRigidBody(const Iterator* it);
 
 public:
 

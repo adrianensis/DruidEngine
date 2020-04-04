@@ -14,7 +14,10 @@ Scene::Scene() : DE_Class(){
 Scene::~Scene() {
 
 	FOR_LIST (it, mGameObjects){
-		Memory::free<GameObject>(it.get());
+		if(!it.get()->isDestroyed()){
+			it.get()->destroy();
+			Memory::free<GameObject>(it.get());
+		}
 	}
 
 	Memory::free<List<GameObject*>>(mGameObjects);
@@ -47,7 +50,12 @@ void Scene::addGameObject(GameObject* gameObject) {
 void Scene::removeGameObject(GameObject* gameObject) {
 	auto it = mGameObjects->find(gameObject);
 	mGameObjects->remove(it);
-	gameObject->destroy();
+
+	if(!gameObject->isDestroyed()){
+		gameObject->destroy();
+		gameObject->setDestroyed();
+		Memory::free<GameObject>(gameObject);
+	}
 }
 
 // ---------------------------------------------------------------------------

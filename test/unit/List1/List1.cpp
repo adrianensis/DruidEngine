@@ -116,7 +116,7 @@ int main() {
 
 	DE_test_expected_uint(list32->getLength(),3);
 
-	List<u32>::Iterator it32 = list32->getIterator();
+	List<u32>::ListIterator it32 = list32->getIterator();
 
 	DE_test_expected_uint((it32.get()),1);
 	it32.next();

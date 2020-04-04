@@ -28,7 +28,8 @@ private:
 
 	bool mIsStatic;
 	bool mIsActive;
-	bool mDestroy;
+	bool mIsDestroyed;
+	bool mIsPendingToBeDestroyed;
 
 	std::string mTag;
 
@@ -60,9 +61,11 @@ public:
 	const std::string& getTag() const { return mTag; };
 	void setTag(const std::string& tag) { mTag = tag; };
 
-	bool isActive() const { return mIsActive; };
+	bool isActive() const { return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive; };
 	void setIsActive( bool isActive );
-	bool isDestroyed() const { return mDestroy; };
+	bool isPendingToBeDestroyed() const { return mIsPendingToBeDestroyed; };
+	bool isDestroyed() const { return mIsDestroyed; };
+	void setDestroyed() { mIsDestroyed = true; mIsPendingToBeDestroyed = false; };
 	void destroy();
 };
 

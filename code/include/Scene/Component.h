@@ -13,7 +13,8 @@ private:
 
 	GameObject* mGameObject;
 	bool mIsActive;
-	bool mDestroy;
+	bool mIsDestroyed;
+	bool mIsPendingToBeDestroyed;
 
 public:
 
@@ -25,10 +26,12 @@ public:
 	void setGameObject(GameObject* newGameObject ) { mGameObject = newGameObject; };
 
 	bool isStatic();
-	bool isActive() const { return mIsActive; };
-	void setIsActive( bool isActive ) { mIsActive = isActive; };
-	bool isDestroyed() const { return mDestroy; };
-	void destroy() { mDestroy = true; mIsActive = false; };
+	bool isActive() const { return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive; };
+	void setIsActive( bool isActive ) { mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive; };
+	bool isPendingToBeDestroyed() const { return mIsPendingToBeDestroyed; };
+	bool isDestroyed() const { return mIsDestroyed; };
+	void setDestroyed() { mIsDestroyed = true; mIsPendingToBeDestroyed = false; }; // NOTE : only the systems must use this method!
+	void destroy() { mIsPendingToBeDestroyed = true; mIsActive = false; };
 };
 
 } /* namespace DE */
