@@ -14,6 +14,7 @@ GameObject::GameObject() : DE_Class(){
 	mComponents = nullptr;
 	mTransform = nullptr;
 	mScene = nullptr;
+	mIsActive = true;
 }
 
 GameObject::~GameObject() {
@@ -42,6 +43,12 @@ void GameObject::addComponent(Component* component, ClassId classId) {
 
 // ---------------------------------------------------------------------------
 
+void GameObject::removeComponent(Component* component) {
+	 component->destroy();
+}
+
+// ---------------------------------------------------------------------------
+
 void GameObject::init() {
 	// TRACE();
 
@@ -52,6 +59,8 @@ void GameObject::init() {
 	//mTransform->init();
 
 	addComponent(mTransform);
+
+	mTag = "";
 }
 
 // ---------------------------------------------------------------------------
@@ -59,6 +68,29 @@ void GameObject::init() {
 List<Component*>* GameObject::getComponents(ClassId classId) {
 	return mComponents->contains(classId) ? mComponents->get(classId) : nullptr;
 }
+
+// ---------------------------------------------------------------------------
+
+void GameObject::setIsActive( bool isActive ) {
+	mIsActive = isActive;
+
+	FOR_LIST(it, mComponents->getValues()) {
+		FOR_LIST(itComponent, it.get()) {
+			itComponent.get()->setIsActive(isActive);
+		}
+	}
+};
+
+void GameObject::destroy() {
+	mDestroy = true;
+	mIsActive = false;
+
+	FOR_LIST(it, mComponents->getValues()) {
+		FOR_LIST(itComponent, it.get()) {
+			removeComponent(itComponent.get());
+		}
+	}
+};
 
 // ---------------------------------------------------------------------------
 

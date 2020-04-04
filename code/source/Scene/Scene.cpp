@@ -47,6 +47,7 @@ void Scene::addGameObject(GameObject* gameObject) {
 void Scene::removeGameObject(GameObject* gameObject) {
 	auto it = mGameObjects->find(gameObject);
 	mGameObjects->remove(it);
+	gameObject->destroy();
 }
 
 // ---------------------------------------------------------------------------

@@ -27,6 +27,10 @@ private:
 	Scene* mScene;
 
 	bool mIsStatic;
+	bool mIsActive;
+	bool mDestroy;
+
+	std::string mTag;
 
 public:
 
@@ -35,6 +39,7 @@ public:
 	void init();
 
 	void addComponent(Component* component, ClassId classId);
+	void removeComponent(Component* component);
 
 	template<class T>
 	void addComponent(T* component){
@@ -51,6 +56,14 @@ public:
 	bool isStatic() const { return mIsStatic; };
 	void setIsStatic(bool newIsStatic ) { mIsStatic = newIsStatic; };
 	Transform* getTransform() const { return mTransform; };
+
+	const std::string& getTag() const { return mTag; };
+	void setTag(const std::string& tag) { mTag = tag; };
+
+	bool isActive() const { return mIsActive; };
+	void setIsActive( bool isActive );
+	bool isDestroyed() const { return mDestroy; };
+	void destroy();
 };
 
 // ---------------------------------------------------------------------------

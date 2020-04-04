@@ -12,6 +12,8 @@ class Component : public DE_Class{
 private:
 
 	GameObject* mGameObject;
+	bool mIsActive;
+	bool mDestroy;
 
 public:
 
@@ -23,6 +25,10 @@ public:
 	void setGameObject(GameObject* newGameObject ) { mGameObject = newGameObject; };
 
 	bool isStatic();
+	bool isActive() const { return mIsActive; };
+	void setIsActive( bool isActive ) { mIsActive = isActive; };
+	bool isDestroyed() const { return mDestroy; };
+	void destroy() { mDestroy = true; mIsActive = false; };
 };
 
 } /* namespace DE */

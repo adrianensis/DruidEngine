@@ -301,7 +301,6 @@ void UI::init() {
 
 void UI::step() {
 
-  ECHO("UI STEP");
   if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     Vector2 mouse(Input::getMousePosition());

@@ -171,7 +171,7 @@ u32 Batch::render(u32 layer) {
 
 			bool chunkOk = (! renderer->getChunk()) || (renderer->getChunk() && renderer->getChunk()->isLoaded());
 
-			if(renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
+			if(renderer->isActive() && renderer->getLayer() == layer && chunkOk && !checkOutOfCamera(camera,renderer)){
 
 				const Matrix4& translationMatrix = t->getTranslationMatrix();
 				const Matrix4& rotationMatrix = t->getRotationMatrix();
@@ -194,6 +194,12 @@ u32 Batch::render(u32 layer) {
 
 				drawCallCounter++;
 
+			} else {
+				if(renderer->isDestroyed()){
+					// destroy renderer and remove from list
+					mRenderers->remove(it);
+					Memory::free<Renderer>(renderer);
+				}
 			}
 
 			lastLayer = renderer->getLayer();

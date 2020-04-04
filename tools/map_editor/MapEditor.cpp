@@ -273,10 +273,10 @@ void MapEditor::step(){
   if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
     // TODO: REMOVE TILE
 
-    // if(gridCell->tile){
-    //   getGameObject()->getScene()->removeGameObject(gridCell->tile);
-    //   gridCell->tile = nullptr;
-    // }
+    if(gridCell->tile){
+      getGameObject()->getScene()->removeGameObject(gridCell->tile);
+      gridCell->tile = nullptr;
+    }
   }
 
   f32 movement = 1000.0f * Time::getDeltaTimeSeconds();
