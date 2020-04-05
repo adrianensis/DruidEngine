@@ -23,13 +23,13 @@ void LinearAllocator::init(u32 size){
 // ---------------------------------------------------------------------------
 
 void* LinearAllocator::allocate(u32 size){
-  LinearAllocator::allocate(size, 1);
+  return LinearAllocator::allocate(size, 1);
 }
 
 // ---------------------------------------------------------------------------
 
 void* LinearAllocator::allocate(u32 size, u32 alignment){
-  return Allocator::allocateAlignedAddress(mStart + Allocator::getAllocatedSize(), size, alignment);
+  return Allocator::allocateAlignedAddress((void*)(reinterpret_cast<byte*>(mStart) + Allocator::getAllocatedSize()), size, alignment);
 }
 
 // ---------------------------------------------------------------------------

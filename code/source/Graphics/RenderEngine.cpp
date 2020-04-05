@@ -77,7 +77,6 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton() {
   mLineRenderers = nullptr;
   mLineRendererIndices = nullptr;
   mShaderLine = nullptr;
-  mLineRenderersCount = 50; // TODO : move to Settings
 }
 
 RenderEngine::~RenderEngine() = default;
@@ -95,6 +94,7 @@ void RenderEngine::init() {
 
   // Line Renderers
 
+  mLineRenderersCount = Settings::getInstance()->getF32("line.renderers.count");
   mLineRenderers->init(mLineRenderersCount);
 
   mLineRendererIndices->init(2);
@@ -113,7 +113,7 @@ void RenderEngine::init() {
 
   // Static Chunks grid
 
-  f32 chunksGridSize = 6;
+  f32 chunksGridSize = Settings::getInstance()->getF32("scene.chunks.count");
   f32 chunksGridSizeHalf = chunksGridSize/2.0f;
 
   mStaticChunks = Memory::allocate<Array<Chunk*>>();
@@ -124,8 +124,7 @@ void RenderEngine::init() {
 
   u32 count = 0;
   for(i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i){
-    for(i32 j = -chunksGridSizeHalf; j < chunksGridSizeHalf; ++j){
-      VAR(u32, count);
+    for(i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j){
       Chunk* chunk = Memory::allocate<Chunk>();
       chunk->init();
       chunk->set(Vector2(i*chunkSize, j*chunkSize), chunkSize);
@@ -139,7 +138,7 @@ void RenderEngine::init() {
 
   mDynamicChunk = Memory::allocate<Chunk>();
   mDynamicChunk->init();
-  mDynamicChunk->set(Vector2(0,0), sceneSize); // Size = The WHOLE scene
+  mDynamicChunk->set(Vector2(-chunksGridSizeHalf*chunkSize, chunksGridSizeHalf*chunkSize), sceneSize); // Size = The WHOLE scene
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
@@ -156,9 +155,7 @@ void RenderEngine::step() {
   FOR_ARRAY(i, mStaticChunks){
     Chunk* chunk = mStaticChunks->get(i);
 
-    // bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius);
-    // TODO : move chunk draw distance into Settings.
-    bool chunkInCameraView = mCamera->getGameObject()->getTransform()->getLocalPosition().dst(chunk->mCenter) < chunk->mRadius * 2.0f;
+    bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
 
     if(chunkInCameraView){
       chunk->load();
@@ -186,12 +183,9 @@ void RenderEngine::step() {
 
     drawCallCounter += mDynamicChunk->render(layer);
 
-  	// FOR_LIST(it, mBatches->getValues()){
-  	// 	drawCallCounter += it.get()->render(layer);
-  	// }
 	}
 
-  //VAR(u32,drawCallCounter);
+  // VAR(u32,drawCallCounter);
 
   stepDebug();
 
@@ -217,6 +211,7 @@ void RenderEngine::stepDebug() {
     if(lineRenderer->mActive){
       lineRenderer->bind(mLineRendererIndices);
 
+      glLineWidth(1);
       glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
 
       RenderContext::enableVAO(0);
@@ -229,11 +224,11 @@ void RenderEngine::stepDebug() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::bind() {
-  FOR_ARRAY(i, mStaticChunks){
-    mStaticChunks->get(i)->bind();
-  }
-
-  mDynamicChunk->bind();
+  // FOR_ARRAY(i, mStaticChunks){
+  //   mStaticChunks->get(i)->bind();
+  // }
+  //
+  // mDynamicChunk->bind();
 }
 
 // ---------------------------------------------------------------------------

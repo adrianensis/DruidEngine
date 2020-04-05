@@ -247,7 +247,7 @@ void QuadTree::Node::update(/*contactManager*/){
                 if(colliderB->isSimulate()) {
 
                   bool isStaticB = colliderA->isStatic();
-                  
+
                   // if they aren't the same collider
                   // if both are static, do not check anything.
                   if((colliderA != colliderB) && !(isStaticA && isStaticB)) {

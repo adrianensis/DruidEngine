@@ -17,9 +17,11 @@ private:
 	static u32 smLastKeyPressed;
 	static bool keyJustPressed;
 	static bool buttonJustPressed;
+	static f32 scroll;
 
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 public:
 
@@ -32,6 +34,8 @@ public:
 	static bool isMouseButtonPressedOnce(u32 key);
 	static bool isMouseButtonPressed(u32 key);
 	static Vector2 getMousePosition();
+
+	static f32 getScroll();
 
 	static void clearMouseButton();
 	static void clearKey();

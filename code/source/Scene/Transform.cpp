@@ -1,6 +1,5 @@
 #include "Transform.h"
 #include "GameObject.h"
-#include "Matrix4.h"
 #include "Quaternion.h"
 #include "Memory.h"
 #include "Log.h"
@@ -12,10 +11,10 @@ namespace DE {
 
 Transform::Transform() : Component()
 {
-	mModelMatrix = nullptr;
-	mTranslationMatrix = nullptr;
-	mRotationMatrix = nullptr;
-	mScaleMatrix = nullptr;
+	// mModelMatrix = nullptr;
+	// mTranslationMatrix = nullptr;
+	// mRotationMatrix = nullptr;
+	// mScaleMatrix = nullptr;
 
 	mIsDirtyTranslation = true;
 	mIsDirtyRotation = true;
@@ -25,10 +24,10 @@ Transform::Transform() : Component()
 }
 
 Transform::~Transform() {
-	Memory::free<Matrix4>(mModelMatrix);
-	Memory::free<Matrix4>(mTranslationMatrix);
-	Memory::free<Matrix4>(mRotationMatrix);
-	Memory::free<Matrix4>(mScaleMatrix);
+	// Memory::free<Matrix4>(mModelMatrix);
+	// Memory::free<Matrix4>(mTranslationMatrix);
+	// Memory::free<Matrix4>(mRotationMatrix);
+	// Memory::free<Matrix4>(mScaleMatrix);
 }
 
 // ---------------------------------------------------------------------------
@@ -39,14 +38,14 @@ void Transform::init(){
 	// mModelMatrix = Memory::allocate<Matrix4>();
 	// mModelMatrix->identity();
 
-	mTranslationMatrix = Memory::allocate<Matrix4>();
-	mTranslationMatrix->identity();
+	// mTranslationMatrix = Memory::allocate<Matrix4>();
+	mTranslationMatrix.identity();
 
-	mRotationMatrix = Memory::allocate<Matrix4>();
-	mRotationMatrix->identity();
+	// mRotationMatrix = Memory::allocate<Matrix4>();
+	mRotationMatrix.identity();
 
-	mScaleMatrix = Memory::allocate<Matrix4>();
-	mScaleMatrix->identity();
+	// mScaleMatrix = Memory::allocate<Matrix4>();
+	mScaleMatrix.identity();
 
 	mWorldPosition = Vector3(0.0f, 0.0f, 0.0f);
 	mLocalPosition = Vector3(0.0f, 0.0f, 0.0f);
@@ -152,7 +151,7 @@ const Matrix4& Transform::getTranslationMatrix(){
 	// VAR(f32, wPos.z);
 
 	if(mIsDirtyTranslation || mParent){
-		mTranslationMatrix->translation(getWorldPosition());
+		mTranslationMatrix.translation(getWorldPosition());
 		mIsDirtyTranslation = false;
 	}
 
@@ -160,25 +159,25 @@ const Matrix4& Transform::getTranslationMatrix(){
   // RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y + 400.0f ,mLocalPosition.z));
   // RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y,mLocalPosition.z + 400.0f ));
 
-	return *mTranslationMatrix;
+	return mTranslationMatrix;
 }
 
 const Matrix4& Transform::getRotationMatrix() const{
 	if(mIsDirtyRotation){
-		mRotationMatrix->rotation(mRotation);
+		mRotationMatrix.rotation(mRotation);
 		mIsDirtyRotation = false;
 	}
 
-	return *mRotationMatrix;
+	return mRotationMatrix;
 }
 
 const Matrix4& Transform::getScaleMatrix() const{
 	if(mIsDirtyScale){
-		mScaleMatrix->scale(mScale);
+		mScaleMatrix.scale(mScale);
 		mIsDirtyScale = false;
 	}
 
-	return *mScaleMatrix;
+	return mScaleMatrix;
 }
 
 // ---------------------------------------------------------------------------

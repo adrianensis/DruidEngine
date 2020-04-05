@@ -44,11 +44,15 @@ private:
   // List<Block>* mFreeBlocks; // TODO: change to Block*
   // List<Block>* mUsedBlocks;
 
-  Block* firstBlock;
-  Block* lastBlock;
+  Block* firstBlockUsed;
+  Block* lastBlockUsed;
+  Block* firstBlockFree;
+  Block* lastBlockFree;
 
-  void pushBackBlock(Block* block);
-  void pushFrontBlock(Block* block);
+
+
+  void moveToUsedList(Block* block);
+  void moveToFreeList(Block* block);
 
   Block* allocateBlock(u32 size);
   u32 freeBlock(void* unalignedAddress);

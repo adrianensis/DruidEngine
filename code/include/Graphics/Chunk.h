@@ -27,6 +27,7 @@ class Chunk : public DE_Class {
 	private:
 		// List<Renderer*>* mRenderers;
 		BatchesMap* mBatchesMap;
+
   public:
     DE_CLASS(Chunk, DE_Class);
 

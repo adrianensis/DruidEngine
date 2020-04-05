@@ -30,7 +30,7 @@ private:
 	Array<f32>* mColor;
 
 	Vector3 mPositionOffset;
-	Matrix4* mPositionOffsetMatrix;
+	Matrix4 mPositionOffsetMatrix;
 
 	Vector2 mRegionPosition;
   f32 mRegionWidth;
@@ -47,6 +47,8 @@ private:
 	bool mOutOfCamera;
 
 	Chunk* mChunk;
+
+	bool mIsAffectedByProjection;
 
 public:
 
@@ -79,7 +81,7 @@ public:
 	bool isLineMode();
 
 	Vector3 getPositionOffset() const { return mPositionOffset;};
-	void setPositionOffset(Vector3 newPositionOffset ) { mPositionOffset = newPositionOffset; };
+	void setPositionOffset(Vector3 newPositionOffset );
 
 	const Matrix4& getPositionOffsetMatrix();
 
@@ -101,6 +103,9 @@ public:
 	void setOutOfCamera(bool newOutOfCamera ) { mOutOfCamera = newOutOfCamera; };
 	void setChunk(Chunk* chunk );
 	Chunk* getChunk();
+
+	bool isAffectedByProjection() { return mIsAffectedByProjection; }
+	void setAffectedByProjection(bool affectedByProjection) { mIsAffectedByProjection = affectedByProjection; }
 };
 
 } /* namespace DE */

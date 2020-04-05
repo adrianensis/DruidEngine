@@ -64,11 +64,11 @@ bool Frustum::testSphere(Vector3 center, f32 radius) const {
 
 //----------------------------------------------------------------------
 
-void Frustum::build(){
+void Frustum::build(bool forceBuild /* = false*/ ){
 
 	Transform* t = mCamera->getGameObject()->getTransform();
 
-	if(t->isDirtyTranslation()){
+	if(forceBuild || t->isDirtyTranslation()){
 
 	  u32 LEFT = 0;
 	  u32 RIGHT = 1;

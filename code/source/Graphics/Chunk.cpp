@@ -9,6 +9,7 @@
 #include "MathUtils.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
@@ -29,6 +30,7 @@ BatchesMap::~BatchesMap() {
 // ---------------------------------------------------------------------------
 
 void BatchesMap::init() {
+  TRACE();
   mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
   mBatches->init();
 }
@@ -88,6 +90,7 @@ Chunk::~Chunk() {
 // ---------------------------------------------------------------------------
 
 void Chunk::init(){
+  TRACE();
 
   mBatchesMap = Memory::allocate<BatchesMap>();
   mBatchesMap->init();
@@ -108,23 +111,9 @@ void Chunk::set(const Vector3& leftTop, f32 size){
 
 // ---------------------------------------------------------------------------
 
-void Chunk::load(){
-    mIsLoaded = true;
-}
-
-// ---------------------------------------------------------------------------
-
-void Chunk::unload(){
-  if(mIsLoaded){
-    mIsLoaded = false;
-  }
-}
-
-// ---------------------------------------------------------------------------
-
-bool Chunk::isLoaded() {
-  return mIsLoaded;
-}
+void Chunk::load(){ if(!mIsLoaded) {mIsLoaded = true; /*ECHO("load")*/} }
+void Chunk::unload(){ if(mIsLoaded) {mIsLoaded = false; /*ECHO("unload")*/} }
+bool Chunk::isLoaded() { return mIsLoaded; }
 
 // ---------------------------------------------------------------------------
 
@@ -141,6 +130,11 @@ void Chunk::bind() {
 // ---------------------------------------------------------------------------
 
 u32 Chunk::render(u32 layer) {
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+
   return mBatchesMap->render(layer);
 }
 

@@ -13,12 +13,13 @@
 #include "Log.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "Matrix4.h"
 #include "MathUtils.h"
 #include "Time.h"
 #include "Chunk.h"
 
 namespace DE {
+
+Matrix4 Batch::smMatrixIdentity;
 
 // ---------------------------------------------------------------------------
 
@@ -31,10 +32,11 @@ Batch::Batch() : DE_Class() {
 	mVAO = 0;
 	mMesh = nullptr;
 	mRenderers = nullptr;
-	mRenderersToRemove = nullptr;
 	mMaterial = nullptr;
 	mRenderEngine = nullptr;
 	mTextureId = 0;
+
+	mBinded = false;
 }
 
 Batch::~Batch() {
@@ -44,7 +46,6 @@ Batch::~Batch() {
   }
 
 	Memory::free<List<Renderer*>>(mRenderers); // TODO : sorted by layers, or use a hashmap
-	Memory::free<List<Renderer*>>(mRenderersToRemove);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -54,18 +55,19 @@ Batch::~Batch() {
 // ---------------------------------------------------------------------------
 
 void Batch::init(Mesh* mesh, Material* material) {
-	TRACE();
+	// TRACE();
 
 	mRenderEngine = RenderEngine::getInstance();
 
 	mRenderers = Memory::allocate<List<Renderer*>>();
 	mRenderers->init();
 
-	mRenderersToRemove = Memory::allocate<List<Renderer*>>();
-	mRenderersToRemove->init();
-
 	mMesh = mesh;
 	mMaterial = material;
+
+	smMatrixIdentity.identity();
+
+	bind();
 }
 
 // ---------------------------------------------------------------------------
@@ -130,9 +132,16 @@ bool Batch::checkDistance(Camera* cam, Renderer* renderer){
 
 bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 
-	renderer->setOutOfCamera(!checkInFrustum(cam, renderer));
+	bool isOutOfCamera = false;
 
-	return renderer->getOutOfCamera();
+	if(renderer->isAffectedByProjection()){
+		renderer->setOutOfCamera(!checkInFrustum(cam, renderer));
+		isOutOfCamera = renderer->getOutOfCamera();
+	} else {
+		isOutOfCamera = false;
+	}
+
+	return isOutOfCamera;
 }
 
 // ---------------------------------------------------------------------------
@@ -165,7 +174,7 @@ u32 Batch::render(u32 layer) {
 			Renderer* renderer = it.get();
 
 			if(renderer->isActive()){
-				
+
 				Transform* t = renderer->getGameObject()->getTransform();
 
 				bool chunkOk = (! renderer->getChunk()) || (renderer->getChunk() && renderer->getChunk()->isLoaded());
@@ -181,6 +190,12 @@ u32 Batch::render(u32 layer) {
 					shader->addMatrix(rotationMatrix, "rotationMatrix");
 					shader->addMatrix(scaleMatrix, "scaleMatrix");
 
+					if(! renderer->isAffectedByProjection()){
+						shader->addMatrix(smMatrixIdentity, "projectionMatrix");
+						shader->addMatrix(smMatrixIdentity, "viewTranslationMatrix");
+					 	shader->addMatrix(smMatrixIdentity, "viewRotationMatrix");
+					}
+
 					shader->addFloat(Time::getDeltaTimeSeconds(), "time");
 
 					renderer->updateMaterial(mMaterial);
@@ -195,7 +210,7 @@ u32 Batch::render(u32 layer) {
 
 				} else if(renderer->isPendingToBeDestroyed()) {
 						// destroy renderer and remove from list
-						internalRemoveRenderer(&it);
+						// internalRemoveRenderer(&it);
 				}
 			}
 		}
@@ -210,7 +225,8 @@ u32 Batch::render(u32 layer) {
 
 void Batch::addRenderer(Renderer* renderer) {
 		mRenderers->pushBack(renderer);
-		renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
+		// renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
+		checkOutOfCamera(mRenderEngine->getCamera(),renderer);
 
 		// TODO insert sorted
 }
@@ -219,7 +235,7 @@ void Batch::addRenderer(Renderer* renderer) {
 
 void Batch::internalRemoveRenderer(const Iterator* it){
 	auto castedIt = it->cast<Renderer*>();
-	mRenderers->remove(*castedIt);
+	// mRenderers->remove(*castedIt);
 
 	Renderer* renderer = (*castedIt).get();
 	renderer->setDestroyed();

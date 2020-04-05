@@ -75,7 +75,7 @@ void Engine::setScene(u32 i){
 // ---------------------------------------------------------------------------
 
 void Engine::loadScene(Scene* scene){
-	TRACE();
+	// TRACE();
 
 	Camera* camera = scene->getCameraGameObject()->getComponents<Camera>()->get(0);
 
@@ -84,7 +84,7 @@ void Engine::loadScene(Scene* scene){
 	List<GameObject*>* newGameObjects = scene->getNewGameObjects();
 	u32 maxToSpawn = scene->getMaxNewGameObjectsToSpawn();
 
-	VAR(f32, newGameObjects->getLength());
+	// VAR(f32, newGameObjects->getLength());
 
 	FOR_LIST (itGameObjects, newGameObjects){
 		GameObject* gameObject = itGameObjects.get();
@@ -126,37 +126,26 @@ void Engine::run(){
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
 
-	u32 itCounter = 0;
-
 	while(! RenderContext::isClosed()) {
 
 		Time::tick();
 
 		if(mScenes->get(mCurrentSceneIndex)->thereAreNewGameObjects()){
 			loadScene(mScenes->get(mCurrentSceneIndex));
-			mRenderEngine->bind();
 		}
 
 		Input::pollEvents();
 
-		/*if(itCounter % 2 == 0) */UI::getInstance()->step();
+		UI::getInstance()->step();
 
-		/*if(itCounter % 2 == 0) */mScriptEngine->step();
-
-		// while(accumulator >= inverseFPS){
-		// 	mScriptEngine->step();
-		// 	accumulator -= inverseFPS;
-    // }
+		mScriptEngine->step();
 
 		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
 
 		mRenderEngine->step();
 
-		// accumulator += Time::getDeltaTimeMillis();
-
-		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
-
-		Memory::flush();
+		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl; 
+		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 	}
 
 	mScriptEngine->terminate();

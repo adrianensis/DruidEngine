@@ -23,13 +23,15 @@ void* PoolAllocator::getNextIterator(void* it){
 // ---------------------------------------------------------------------------
 
 void* PoolAllocator::getBlock(const void* it){
-  return (void*)(it - mBlockSize);
+  ptr ptrValue = reinterpret_cast<ptr>(it);
+  return (void*)(ptrValue - mBlockSize);
 }
 
 // ---------------------------------------------------------------------------
 
 void* PoolAllocator::getIteratorFromBlock(const void* block){
-  return (void*)(block + mBlockSize);
+  ptr ptrValue = reinterpret_cast<ptr>(block);
+  return (void*)(ptrValue + mBlockSize);
 }
 
 // ---------------------------------------------------------------------------
@@ -75,14 +77,14 @@ void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, void* mem, u32 al
     LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem); TRACE()
   }
 
-  mFirst = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
+  mFirst = (void*)(reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize, mAlignment)) + mBlockSize);
   void* current = mFirst;
   void* next = nullptr;
 
   // iterate over all blocks
   FOR_RANGE (i, 1, numBlocks) {
     // store the next pointer in the first position of the block
-    next = LinearAllocator::allocate(mFullBlockSize, mAlignment) + mBlockSize;
+    next = (void*)(reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize, mAlignment)) + mBlockSize);
     storePointer(current, next);
     current = next;
   }

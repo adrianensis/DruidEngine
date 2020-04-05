@@ -68,8 +68,7 @@ public:
   /*!
     \brief Default Constructor.
   */
-  HashMap() : BaseContainer()
-  {
+  HashMap() : BaseContainer() {
     mArray = nullptr;
     mKeys = nullptr;
     mValues = nullptr;
@@ -97,12 +96,12 @@ public:
   void init() {
     BaseContainer::init(0, sizeof(V), 1);
     mArray = Memory::allocate<Array<List<Node*>*>>();
-    mArray->init(100);
+    mArray->init(20); // TODO : find a good number.
 
     mKeys = Memory::allocate<List<K>>();
-    mValues = Memory::allocate<List<V>>();
-
     mKeys->init();
+
+    mValues = Memory::allocate<List<V>>();
     mValues->init();
   }
 

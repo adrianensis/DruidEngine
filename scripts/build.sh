@@ -57,6 +57,7 @@ done
 
 mkdir $buildDir 2> /dev/null
 cd $buildDir 2> /dev/null
-cmake -DCMAKE_BUILD_TYPE=$buildType -DBUILD_UNIT_TESTS=$buildUnitTests -DBUILD_INTEGRATION_TESTS=$buildIntegrationTests -DBUILD_TOOLS=$buildTools -DENABLE_LOGS=$enableLogs ..
+# -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+cmake -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DCMAKE_BUILD_TYPE=$buildType -DBUILD_UNIT_TESTS=$buildUnitTests -DBUILD_INTEGRATION_TESTS=$buildIntegrationTests -DBUILD_TOOLS=$buildTools -DENABLE_LOGS=$enableLogs ..
 
 make -j8

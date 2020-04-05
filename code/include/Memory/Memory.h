@@ -10,7 +10,8 @@
 namespace DE {
 
 class Allocator;
-class FreeListAllocator;
+// class FreeListAllocator;
+class LinearAllocator;
 
 class Memory : public DE_Class {
 
@@ -24,7 +25,8 @@ private:
   * Debug memory Heap, only for allocations that will not be needed in final game.
   */
 
-  static FreeListAllocator smGlobal;
+  // static FreeListAllocator smGlobal;
+  static LinearAllocator smGlobal;
 
   // static DE::Array<bool>* mFlags;
   // static DE::Array<PoolAllocator>* mPools;

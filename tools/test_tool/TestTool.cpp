@@ -259,7 +259,7 @@ void TestTool::step(){
         CellData* cellData = Memory::allocate<CellData>();
         mGrid->get(i)->set(j, cellData);
 
-        cellData->button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - halfGridSize)*mTileSize,(j - halfGridSize)*mTileSize,0), Vector2(mTileSize,mTileSize), false);
+        cellData->button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - halfGridSize)*mTileSize,(j - halfGridSize)*mTileSize,0), Vector2(mTileSize,mTileSize));
 
         Vector3 cellPosition = cellData->button->getTransform()->getLocalPosition();
 

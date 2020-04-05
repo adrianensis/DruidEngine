@@ -52,7 +52,7 @@ private:
   u32 mTileIndex;
   u32 mTileSize;
 
-
+  f32 mZoom;
 public:
 
 DE_CLASS(MapEditor, Script);

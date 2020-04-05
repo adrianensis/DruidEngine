@@ -8,6 +8,7 @@ u32 Input::smLastMouseButtonPressed = -1;
 u32 Input::smLastKeyPressed = -1;
 bool Input::keyJustPressed = false;
 bool Input::buttonJustPressed = false;
+f32 Input::scroll = 0;
 
 // ---------------------------------------------------------------------------
 
@@ -33,6 +34,12 @@ void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int 
 
 // ---------------------------------------------------------------------------
 
+void Input::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+  scroll = yoffset;
+}
+
+// ---------------------------------------------------------------------------
+
 Input::Input() : DE_Class() {
 
 }
@@ -48,6 +55,7 @@ void Input::init() {
 
 	glfwSetKeyCallback(RenderContext::smWindow, keyCallback);
 	glfwSetMouseButtonCallback(RenderContext::smWindow, mouseButtonCallback);
+  glfwSetScrollCallback(RenderContext::smWindow, scrollCallback);
 }
 
 // ---------------------------------------------------------------------------
@@ -56,6 +64,7 @@ void Input::pollEvents() {
 
   keyJustPressed = false;
   buttonJustPressed = false;
+  scroll = 0;
 
   glfwPollEvents();
 }
@@ -103,6 +112,11 @@ Vector2 Input::getMousePosition() {
   return smMouseCoordinates;
 }
 
+// ---------------------------------------------------------------------------
+
+f32 Input::getScroll(){
+  return scroll;
+}
 
 // ---------------------------------------------------------------------------
 

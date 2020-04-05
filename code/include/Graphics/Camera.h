@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Vector3.h"
 #include "Vector2.h"
+#include "Matrix4.h"
 #include "Memory.h"
 
 namespace DE {
@@ -15,10 +16,22 @@ class Camera : public Component{
 
 private:
 
-	Matrix4* mProjectionMatrix;
-	Matrix4* mViewTranslationMatrix;
-	Matrix4* mInversePVMatrix; // used in screen to world calculations.
+	Matrix4 mProjectionMatrix;
+	Matrix4 mViewTranslationMatrix;
+	Matrix4 mInversePVMatrix; // used in screen to world calculations.
 	Frustum* mFrustum;
+
+	f32 mLeft;
+	f32 mRight;
+	f32 mBottom;
+	f32 mTop;
+	f32 mNear;
+	f32 mFar;
+
+	f32 mFov;
+
+	bool mIsOrtho;
+	f32 mZoom;
 
 public:
 
@@ -34,9 +47,13 @@ public:
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
 
 	Vector3 screenToWorld(Vector2 screenPosition);
-	void calculateInverseMatrix();
+	void calculateInverseMatrix(bool forceCalculate = false);
 
 	Frustum* getFrustum() const { return mFrustum; };
+
+	void setZoom(f32 zoom);
+	void resetZoom() { mZoom = 1; setZoom(mZoom); };
+	f32 getZoom() { return mZoom; };
 };
 
 } /* namespace DE */

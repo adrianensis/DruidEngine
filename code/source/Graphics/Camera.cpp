@@ -1,7 +1,5 @@
 #include "Camera.h"
 
-#include "Matrix4.h"
-#include "Vector3.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Frustum.h"
@@ -11,25 +9,28 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 Camera::Camera() : Component() {
-	mProjectionMatrix = nullptr;
-	mViewTranslationMatrix = nullptr;
-	mInversePVMatrix = nullptr;
+	// mProjectionMatrix = nullptr;
+	// mViewTranslationMatrix = nullptr;
+	// mInversePVMatrix = nullptr;
 	mFrustum = nullptr;
+
+	mIsOrtho = true;
+	mZoom = 1;
 }
 
 Camera::~Camera() {
-	Memory::free<Matrix4>(mViewTranslationMatrix);
+	// Memory::free<Matrix4>(mViewTranslationMatrix);
 	Memory::free<Frustum>(mFrustum);
 }
 
 void Camera::init(){
 	TRACE();
 
-	mViewTranslationMatrix = Memory::allocate<Matrix4>();
-	mViewTranslationMatrix->identity();
+	// mViewTranslationMatrix = Memory::allocate<Matrix4>();
+	mViewTranslationMatrix.identity();
 
-	mInversePVMatrix = Memory::allocate<Matrix4>();
-	mInversePVMatrix->identity();
+	// mInversePVMatrix = Memory::allocate<Matrix4>();
+	mInversePVMatrix.identity();
 
 	mFrustum = Memory::allocate<Frustum>();
 	mFrustum->init(this);
@@ -48,27 +49,39 @@ void Camera::init(){
 // ---------------------------------------------------------------------------
 
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far){
-	Memory::free<Matrix4>(mProjectionMatrix);
-	mProjectionMatrix = Memory::allocate<Matrix4>();
-	mProjectionMatrix->ortho(left, right, bottom, top, near, far);
+	mIsOrtho = true;
+	// Memory::free<Matrix4>(mProjectionMatrix);
+	// mProjectionMatrix = Memory::allocate<Matrix4>();
 
-	mFrustum->build();
+	mLeft = left;
+	mRight = right;
+	mBottom = bottom;
+	mTop = top;
+	mNear = near;
+	mFar = far;
+
+	mProjectionMatrix.ortho(mLeft, mRight, mBottom, mTop, mNear, mFar);
+
+	calculateInverseMatrix(true);
+	mFrustum->build(true);
 };
 
 // ---------------------------------------------------------------------------
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov){
-	Memory::free<Matrix4>(mProjectionMatrix);
-	mProjectionMatrix = Memory::allocate<Matrix4>();
-	mProjectionMatrix->perspective(near, far, aspect, fov);
+	mIsOrtho = false;
+	// Memory::free<Matrix4>(mProjectionMatrix);
+	// mProjectionMatrix = Memory::allocate<Matrix4>();
+	mProjectionMatrix.perspective(near, far, aspect, fov);
 
-	mFrustum->build();
+	calculateInverseMatrix(true);
+	mFrustum->build(true);
 };
 
 // ---------------------------------------------------------------------------
 
 const Matrix4& Camera::getProjectionMatrix() const{
-  return *mProjectionMatrix;
+  return mProjectionMatrix;
 };
 
 // ---------------------------------------------------------------------------
@@ -76,9 +89,9 @@ const Matrix4& Camera::getProjectionMatrix() const{
 const Matrix4& Camera::getViewTranslationMatrix(){
 
 	Vector3 position = getGameObject()->getTransform()->getWorldPosition();
-	mViewTranslationMatrix->translation(position * -1);
+	mViewTranslationMatrix.translation(position * -1);
 
-	return *mViewTranslationMatrix;
+	return mViewTranslationMatrix;
 };
 
 const Matrix4& Camera::getViewRotationMatrix(){
@@ -88,7 +101,7 @@ const Matrix4& Camera::getViewRotationMatrix(){
 // ---------------------------------------------------------------------------
 
 Vector3 Camera::screenToWorld(Vector2 screenPosition){
-	Vector4 v = mInversePVMatrix->mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
+	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
 	v.x = v.x / v.w;
 	v.y = v.y / v.w;
@@ -99,10 +112,10 @@ Vector3 Camera::screenToWorld(Vector2 screenPosition){
 
 // ---------------------------------------------------------------------------
 
-void Camera::calculateInverseMatrix(){
+void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/){
 	Transform* transform = getGameObject()->getTransform();
 
-	if(transform->isDirtyTranslation()){
+	if(forceCalculate || transform->isDirtyTranslation()){
 		Matrix4 inverseProjectionMatrix;
 		Matrix4 viewTranslationMatrix;
 		Matrix4 viewRotationMatrix;
@@ -116,10 +129,22 @@ void Camera::calculateInverseMatrix(){
 
 		inverseProjectionMatrix.invert();
 
-		mInversePVMatrix->init(inverseProjectionMatrix);
+		mInversePVMatrix.init(inverseProjectionMatrix);
 
 		// HACK: set the dirty value again
     transform->setDirtyTranslation(true);
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+void Camera::setZoom(f32 zoom) {
+	mZoom = zoom;
+
+	if(mIsOrtho){
+		setOrtho(mLeft*mZoom, mRight*mZoom, mBottom*mZoom, mTop*mZoom, mNear, mFar);
+	} else {
+		// setPerspective
 	}
 }
 

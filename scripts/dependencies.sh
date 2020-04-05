@@ -12,7 +12,7 @@ rm -R $destiny 2> /dev/null
 # ------------------------------------------------------------------------
 
 sudo apt-get -y update
-sudo apt-get -y install build-essential wget unzip cmake cmake-data python-pip libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev libsoil-dev doxygen graphviz zenity
+sudo apt-get -y install build-essential wget unzip cmake clang cmake-data python-pip libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev libsoil-dev doxygen graphviz zenity
 
 # ------------------------------------------------------------------------
 

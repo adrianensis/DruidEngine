@@ -32,7 +32,7 @@ UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size, bool attachToCamera /*= true*/) {
+UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size) {
 
   if( ! mButtonTexture){
     mButtonTexture = Memory::allocate<Texture>();
@@ -50,15 +50,13 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
   uiButton->getTransform()->setLocalPosition(position);
   uiButton->getTransform()->setScale(Vector3(size.x,size.y,1));
 
-  if(attachToCamera){
-    uiButton->getTransform()->setParent(scene->getCameraGameObject()->getTransform());
-  }
-
   Renderer* renderer = Memory::allocate<Renderer>();
   uiButton->addComponent<Renderer>(renderer);
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(mButtonMaterial);
+
+  renderer->setAffectedByProjection(false);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   uiButton->addComponent<RigidBody>(rigidBody);
@@ -71,7 +69,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
   uiButton->setComponentsCache();
 
-  uiButton->setIsStatic(!attachToCamera);
+  uiButton->setIsStatic(false);
 
   scene->addGameObject(uiButton);
 
@@ -82,7 +80,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, bool attachToCamera /*= true*/) {
+UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text) {
 
   if( ! mFontTexture){
     mFontTexture = Memory::allocate<Texture>();
@@ -100,10 +98,6 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
   uiText->getTransform()->setLocalPosition(position);
   uiText->getTransform()->setScale(Vector3(size.x, size.y,1));
 
-  if(attachToCamera){
-    uiText->getTransform()->setParent(scene->getCameraGameObject()->getTransform());
-  }
-
   FOR_RANGE(i, 0, text.length()){
       Renderer* renderer = Memory::allocate<Renderer>();
       uiText->addComponent<Renderer>(renderer);
@@ -118,7 +112,7 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
   uiText->setComponentsCache();
 
-  uiText->setIsStatic(!attachToCamera);
+  uiText->setIsStatic(false);
 
   scene->addGameObject(uiText);
 
@@ -129,17 +123,13 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
 // ---------------------------------------------------------------------------
 
-UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size, bool attachToCamera /*= true*/) {
+UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size) {
 
   UIList* uiList = Memory::allocate<UIList>();
   uiList->init();
 
   uiList->getTransform()->setLocalPosition(position);
   uiList->getTransform()->setScale(Vector3(size.x, size.y,1));
-
-  if(attachToCamera){
-    uiList->getTransform()->setParent(scene->getCameraGameObject()->getTransform());
-  }
 
   Renderer* renderer = Memory::allocate<Renderer>();
   uiList->addComponent<Renderer>(renderer);
@@ -149,7 +139,7 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
 
   uiList->setComponentsCache();
 
-  uiList->setIsStatic(!attachToCamera);
+  uiList->setIsStatic(false);
 
   f32 halfWidth = size.x/2.0f;
   f32 halfHeight = size.y/2.0f;
@@ -303,8 +293,8 @@ void UI::step() {
 
   if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
-    Vector2 mouse(Input::getMousePosition());
-    Vector3 world = RenderEngine::getInstance()->getCamera()->screenToWorld(mouse);
+    Vector2 screenMousePosition(Input::getMousePosition());
+    Vector2 worldMousePosition = Vector2(RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
 
     bool pressed = false;
 
@@ -317,7 +307,9 @@ void UI::step() {
 
       if(collider) collider->getBoundingBox(); // force regenerate bounding box
 
-      if(collider && !renderer->getOutOfCamera() && collider->testPoint(world) == ColliderStatus::STATUS_PENETRATION){
+      Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
+
+      if(collider && !renderer->getOutOfCamera() && collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION){
         element->onPressed();
         pressed = true;
 

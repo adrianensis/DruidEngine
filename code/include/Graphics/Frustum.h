@@ -31,7 +31,7 @@ public:
 	/**
 	* Builds the frustum planes.
 	*/
-	void build();
+	void build(bool forceBuild = false);
 
 	bool testSphere(Vector3 center, f32 radius) const;
 };

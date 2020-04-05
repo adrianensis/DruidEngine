@@ -96,7 +96,7 @@ void StackAllocator::free(){
   // clean memory block
   std::memset(mTop, 0, size);
 
-  mTop = calculateUnalignedAddress(mStart + Allocator::getAllocatedSize());
+  mTop = calculateUnalignedAddress((void*)(reinterpret_cast<ptr>(mStart) + Allocator::getAllocatedSize()));
 }
 
 // ---------------------------------------------------------------------------

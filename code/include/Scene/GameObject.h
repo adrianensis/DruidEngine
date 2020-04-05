@@ -18,7 +18,7 @@ class GameObject : public DE_Class{
 
 private:
 
-	HashMap<ClassId,List<Component*>*>* mComponents;
+	HashMap<ClassId,List<Component*>*>* mComponentsMap;
 
 	Transform* mTransform;
 

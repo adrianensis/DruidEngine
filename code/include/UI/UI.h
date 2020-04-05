@@ -39,9 +39,9 @@ public:
 
 DE_CLASS(UI, DE_Class);
 
-UIButton* createButton(Scene* scene, const Vector2& position, const Vector2& size, bool attachToCamera = true);
-UIText* createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, bool attachToCamera = true);
-UIList* createList(Scene* scene, const Vector2& position, const Vector2& size, bool attachToCamera = true);
+UIButton* createButton(Scene* scene, const Vector2& position, const Vector2& size);
+UIText* createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text);
+UIList* createList(Scene* scene, const Vector2& position, const Vector2& size);
 
 void init();
 void step();

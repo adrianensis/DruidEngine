@@ -1,4 +1,5 @@
 #include "FreeListAllocator.h"
+#include "MathUtils.h"
 
 namespace DE {
 
@@ -18,21 +19,21 @@ void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
   this->blockStatus = BlockStatus::FREE;
-  next = nullptr;
+  this->next = nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::pushBackBlock(Block* block) {
-  lastBlock->next = block;
-  lastBlock = block;
+void FreeListAllocator::moveToUsedList(Block* block) {
+  block->next = firstBlockUsed;
+  firstBlockUsed = block;
 }
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::pushFrontBlock(Block* block) {
-  block->next = firstBlock;
-  firstBlock = block;
+void FreeListAllocator::moveToFreeList(Block* block) {
+  block->next = firstBlockFree;
+  firstBlockFree = block;
 }
 
 // ---------------------------------------------------------------------------
@@ -40,32 +41,51 @@ void FreeListAllocator::pushFrontBlock(Block* block) {
 FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
   bool found = false;
 
-  Block* it = firstBlock;
+  Block* it = firstBlockFree;
   Block* selectedBlock = nullptr;
+  Block* previousBlock = nullptr;
+  Block* previousBlockTmp = nullptr;
 
+  u32 iterationsCounter = 0;
   while(it && !found){
 
-    if(it->size >= size && it->blockStatus == BlockStatus::FREE){
-      found = true;
+    if(it->size >= size){
       selectedBlock = it;
+      previousBlock = previousBlockTmp;
+      found = true;
     }
 
+    previousBlockTmp = it;
+
     it = it->next;
+    iterationsCounter++;
   }
 
-  selectedBlock->blockStatus = BlockStatus::INVALID;
+  if(selectedBlock->size == size){
 
-  Block* usedBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
-  usedBlock->init(selectedBlock->unalignedAddress, size);
-  usedBlock->blockStatus = BlockStatus::USED;
+    if(previousBlock) previousBlock->next = selectedBlock->next; // remove block
 
-  pushBackBlock(usedBlock); // NOTE : Used blocks are pushed BACK
+    if(!previousBlock) firstBlockFree = selectedBlock->next;
 
-  Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
-  newFreeBlock->init(selectedBlock->unalignedAddress + size, selectedBlock->size - size);
-  newFreeBlock->blockStatus = BlockStatus::FREE;
+    selectedBlock->blockStatus = BlockStatus::USED;
+    moveToUsedList(selectedBlock);
 
-  pushFrontBlock(newFreeBlock); // NOTE : Free blocks are pushed FRONT
+  } else {
+
+    if(previousBlock) previousBlock->next = selectedBlock->next; // remove block
+
+    Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+    newFreeBlock->init((void*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size), selectedBlock->size - size);
+    newFreeBlock->blockStatus = BlockStatus::FREE;
+
+    if(!previousBlock) firstBlockFree = selectedBlock->next;
+    moveToFreeList(newFreeBlock);
+
+    Block* newUsedBlock = selectedBlock;//Allocator::internalAllocate<Block>(&mLinearAllocator);
+    newUsedBlock->init((void*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
+    newUsedBlock->blockStatus = BlockStatus::USED;
+    moveToUsedList(newUsedBlock);
+  }
 
   return selectedBlock;
 }
@@ -75,20 +95,34 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
 u32 FreeListAllocator::freeBlock(void* unalignedAddress){
   bool found = false;
 
-  Block* it = firstBlock;
+  Block* it = firstBlockUsed;
+  Block* previousBlock = nullptr;
+  Block* previousBlockTmp = nullptr;
   Block* selectedBlock = nullptr;
 
+  u32 iterationsCounter = 0;
   while(it && !found){
 
-    if(it->unalignedAddress == unalignedAddress && it->blockStatus == BlockStatus::USED){
+    if(it->unalignedAddress == unalignedAddress){
       found = true;
       selectedBlock = it;
+      previousBlock = previousBlockTmp;
     }
 
+    previousBlockTmp = it;
+
     it = it->next;
+
+    iterationsCounter++;
   }
 
+  if(previousBlock) previousBlock->next = selectedBlock->next; // remove block
+
+  if(!previousBlock) firstBlockUsed = selectedBlock->next;
+
   selectedBlock->blockStatus = BlockStatus::FREE;
+
+  moveToFreeList(selectedBlock);
 
   return selectedBlock->size;
 }
@@ -142,30 +176,7 @@ void FreeListAllocator::free(const void* pointer){
 // ---------------------------------------------------------------------------
 
 void FreeListAllocator::flush() {
-  Block* lastValid = nullptr;
-  Block* it = firstBlock;
 
-  u32 freeCounter = 0;
-  const u32 max = 10; // TODO : Move to Settings
-
-  while(it && freeCounter < max){
-
-    Block* next = it->next;
-
-    // If block is VALID
-    if(it->blockStatus != BlockStatus::INVALID){
-      if(lastValid){
-        lastValid->next = it;
-      }
-
-      lastValid = it;
-    } else {
-      Allocator::internalFree(it, &mLinearAllocator);
-      freeCounter++;
-    }
-
-    it = next;
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -175,10 +186,12 @@ void FreeListAllocator::reset(){
 
   mLinearAllocator.init(std::max(1024.0f*10.0f, mTotalSize*0.1f));
 
-  firstBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
-  firstBlock->init(mStart, mTotalSize);
+  firstBlockFree = Allocator::internalAllocate<Block>(&mLinearAllocator);
+  firstBlockFree->init(mStart, mTotalSize);
 
-  lastBlock = firstBlock;
+  firstBlockUsed = nullptr;
+
+  // lastBlock = firstBlock;
 }
 
 // ---------------------------------------------------------------------------

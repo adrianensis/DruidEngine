@@ -2,6 +2,7 @@
 #define DE_BATCH_H
 
 #include "DE_Class.h"
+#include "Matrix4.h"
 
 namespace DE {
 
@@ -21,7 +22,6 @@ private:
 	RenderEngine* mRenderEngine;
 
 	List<Renderer*>* mRenderers;
-	List<Renderer*>* mRenderersToRemove;
 
 	Material* mMaterial;
 	Mesh* mMesh;
@@ -32,7 +32,11 @@ private:
 	u32 mVBONormal;
 	u32 mVAO;
 
+	bool mBinded;
+
 	u32 mTextureId;
+
+	static Matrix4 smMatrixIdentity;
 
 	bool checkInFrustum(Camera* cam, Renderer* renderer);
 	bool checkDistance(Camera* cam, Renderer* renderer);

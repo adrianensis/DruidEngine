@@ -3,12 +3,11 @@
 
 #include "Component.h"
 #include "Vector3.h"
+#include "Matrix4.h"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
-
-class Matrix4;
 
 class Transform : public Component{
 
@@ -19,10 +18,10 @@ private:
 	Vector3 mRotation;
 	Vector3 mScale;
 
-	mutable Matrix4* mModelMatrix;
-	mutable Matrix4* mTranslationMatrix;
-	mutable Matrix4* mRotationMatrix;
-	mutable Matrix4* mScaleMatrix;
+	mutable Matrix4 mModelMatrix;
+	mutable Matrix4 mTranslationMatrix;
+	mutable Matrix4 mRotationMatrix;
+	mutable Matrix4 mScaleMatrix;
 
 	mutable bool mIsDirtyTranslation;
 	mutable bool mIsDirtyRotation;
