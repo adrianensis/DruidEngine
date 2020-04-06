@@ -177,7 +177,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  bool contains(const K key){
+  bool contains(const K& key){
     u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
     // iterate over list to find element.

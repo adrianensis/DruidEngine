@@ -2,6 +2,7 @@
 #define DE_SCENE_H
 
 #include "DE_Class.h"
+#include "File.h"
 
 namespace DE {
 
@@ -24,11 +25,14 @@ public:
 
 	void init();
 
+	void loadScene(const std::string& path);
+	void saveScene(const std::string& path);
+
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
 
-	List<GameObject*>* getGameObjects() const { return mGameObjects; };
-	List<GameObject*>* getNewGameObjects() const { return mNewGameObjects; };
+	const List<GameObject*>* getGameObjects() const { return mGameObjects; };
+	const List<GameObject*>* getNewGameObjects() const { return mNewGameObjects; };
 	GameObject* getCameraGameObject() const { return mCameraGameObject; };
 	void setCameraGameObject(GameObject* newCameraGameObject ) { mCameraGameObject = newCameraGameObject; };
 

@@ -33,8 +33,7 @@ private:
 	Matrix4 mPositionOffsetMatrix;
 
 	Vector2 mRegionPosition;
-  f32 mRegionWidth;
-  f32 mRegionHeight;
+	Vector2 mRegionSize;
 
 	bool mInvertXAxis;
 
@@ -80,12 +79,15 @@ public:
 	void setColor(const Vector4& color);
 	bool isLineMode();
 
-	Vector3 getPositionOffset() const { return mPositionOffset;};
+	Vector2 getRegionPosition() const { return mRegionPosition; };
+	Vector2 getRegionSize() const { return mRegionSize; };
+
+	const Vector3& getPositionOffset() const { return mPositionOffset; };
 	void setPositionOffset(Vector3 newPositionOffset );
 
 	const Matrix4& getPositionOffsetMatrix();
 
-	Mesh* getMesh() const { return mMesh;};
+	const Mesh* getMesh() const { return mMesh;};
 	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
 
 	Material* getMaterial() const { return mMaterial;};

@@ -42,16 +42,17 @@ public:
 
   void init() override;
 
-  void addForce(const Vector3& force);
 
   void stopMovement();
 
   void saveState();
   void restoreState();
 
+  void addForce(const Vector3& force) { mForceAccumulator.add(force); }
   Vector3 getForceAccumulator() const { return mForceAccumulator; };
   f32 getMass() const { return mMass;};
 	void setMass(f32 newMass ) { mMass = newMass; };
+  void addLinear(const Vector3& linear) { mLinear.add(linear); }
   Vector3 getLinear() const { return mLinear;};
 	void setLinear(Vector3 newLinear ) { mLinear = newLinear; };
   bool isSimulate() const { return mSimulate;};

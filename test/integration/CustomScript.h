@@ -50,6 +50,7 @@ void createTestTile(float x, float y, Material* material);
 void createFont();
 
 void init() override;
+void firstStep() override;
 void step() override;
 void terminate() override;
 };

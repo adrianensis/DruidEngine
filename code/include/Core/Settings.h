@@ -3,6 +3,7 @@
 
 #include "Basic.h"
 #include "Singleton.h"
+#include "ConfigMap.h"
 #include "File.h"
 
 namespace DE{
@@ -12,7 +13,7 @@ namespace DE{
   class Settings : public DE_Class, public Singleton<Settings> {
 
   private:
-    HashMap<std::string, std::string>* mSettingsMap;
+    ConfigMap* mConfigMap;
 
   public:
 
@@ -20,10 +21,10 @@ namespace DE{
 
     void init();
     void readConfigFile(const std::string& path);
-    void writeConfigFile(const std::string& path, HashMap<std::string,std::string>* settinsMap);
     const std::string& getString(const std::string& key);
     u32 getU32(const std::string& key);
     f32 getF32(const std::string& key);
+    bool getBool(const std::string& key);
   };
 }
 

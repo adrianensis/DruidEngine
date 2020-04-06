@@ -17,16 +17,14 @@ Texture::~Texture() {
 
 // ---------------------------------------------------------------------------
 
-void Texture::init(std::string path){
+void Texture::init(const std::string& path){
 	TRACE();
 
-  // data = SOIL_load_image("resources/char.png", &mWidth, &mHeight, 0, SOIL_LOAD_RGB);
-  mData = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGBA);
+  if(! mData){
+    mPath = path;
+    mData = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGBA);
+  }
 }
-
-// ---------------------------------------------------------------------------
-
-bool Texture::isLoaded() const { return mData != nullptr;}
 
 // ---------------------------------------------------------------------------
 

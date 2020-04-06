@@ -26,8 +26,7 @@ Renderer::Renderer() : Component() {
 
   // texture region
   mRegionPosition = Vector2(0.0,0.0);
-  mRegionWidth = 1.0;
-  mRegionHeight = 1.0;
+  mRegionSize = Vector2(1.0,1.0);
 
   mInvertXAxis = false;
   mAlphaEnabled = true;
@@ -69,13 +68,12 @@ void Renderer::init() {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
-{
+void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height){
   mRegionPosition.x = u;
   mRegionPosition.y = v;
 
-  mRegionWidth = width;
-  mRegionHeight = height;
+  mRegionSize.x = width;
+  mRegionSize.y = height;
 }
 
 // ---------------------------------------------------------------------------
@@ -93,7 +91,7 @@ void Renderer::addAnimation(const std::string& name, Animation* animation){
     mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
     mAnimations->init();
   }
-  
+
   mAnimations->set(name, animation);
 };
 
@@ -111,8 +109,8 @@ void Renderer::updateMaterial(Material* material) {
 
     shader->addFloat(mRegionPosition.x, "regionX");
     shader->addFloat(mRegionPosition.y, "regionY");
-    shader->addFloat(mRegionWidth, "regionWidth");
-    shader->addFloat(mRegionHeight, "regionHeight");
+    shader->addFloat(mRegionSize.x, "regionWidth");
+    shader->addFloat(mRegionSize.y, "regionHeight");
 
     if(mAnimations && mAnimations->getLength() > 0) {
       const AnimationFrame* frame = mCurrentAnimation->getNextFrame();

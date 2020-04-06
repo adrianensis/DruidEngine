@@ -19,6 +19,7 @@
 #include "Transform.h"
 #include "Settings.h"
 #include "Chunk.h"
+#include "MaterialManager.h"
 
 namespace DE {
 
@@ -91,6 +92,7 @@ void RenderEngine::init() {
   mShaderLine = Memory::allocate<Shader>();
 
   RenderContext::init();
+  MaterialManager::getInstance()->init();
 
   // Line Renderers
 

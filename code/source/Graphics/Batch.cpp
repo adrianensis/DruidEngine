@@ -54,7 +54,7 @@ Batch::~Batch() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::init(Mesh* mesh, Material* material) {
+void Batch::init(const Mesh* mesh, Material* material) {
 	// TRACE();
 
 	mRenderEngine = RenderEngine::getInstance();

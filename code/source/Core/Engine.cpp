@@ -81,7 +81,7 @@ void Engine::loadScene(Scene* scene){
 
 	mRenderEngine->setCamera(camera);
 
-	List<GameObject*>* newGameObjects = scene->getNewGameObjects();
+	const List<GameObject*>* newGameObjects = scene->getNewGameObjects();
 	u32 maxToSpawn = scene->getMaxNewGameObjectsToSpawn();
 
 	// VAR(f32, newGameObjects->getLength());
@@ -144,7 +144,7 @@ void Engine::run(){
 
 		mRenderEngine->step();
 
-		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl; 
+		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 	}
 

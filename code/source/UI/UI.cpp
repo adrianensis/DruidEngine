@@ -1,6 +1,7 @@
 #include "UI.h"
 #include "Memory.h"
 #include "Texture.h"
+#include "MaterialManager.h"
 #include "Material.h"
 #include "GameObject.h"
 #include "Scene.h"
@@ -34,14 +35,8 @@ UI::~UI() = default;
 
 UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size) {
 
-  if( ! mButtonTexture){
-    mButtonTexture = Memory::allocate<Texture>();
-    mButtonTexture->init("resources/button.bmp");
-
-    mButtonMaterial = Memory::allocate<Material>();
-    mButtonMaterial->init();
-    mButtonMaterial->setTexture(mButtonTexture);
-    mButtonMaterial->setShader(Shader::getDefaultShader());
+  if( ! mButtonMaterial){
+    mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.bmp");
   }
 
   UIButton* uiButton = Memory::allocate<UIButton>();
@@ -82,14 +77,8 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
 UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text) {
 
-  if( ! mFontTexture){
-    mFontTexture = Memory::allocate<Texture>();
-    mFontTexture->init("resources/font16x16.png");
-
-    mFontMaterial = Memory::allocate<Material>();
-    mFontMaterial->init();
-    mFontMaterial->setTexture(mFontTexture);
-    mFontMaterial->setShader(Shader::getDefaultShader());
+  if( ! mFontMaterial){
+    mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
   }
 
   UIText* uiText = Memory::allocate<UIText>();

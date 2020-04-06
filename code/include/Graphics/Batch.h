@@ -24,7 +24,7 @@ private:
 	List<Renderer*>* mRenderers;
 
 	Material* mMaterial;
-	Mesh* mMesh;
+	const Mesh* mMesh;
 
 	u32 mVBOPosition; // TODO: change u32 for GLuint
 	u32 mEBO;
@@ -48,7 +48,7 @@ public:
 
 	DE_CLASS(Batch, DE_Class);
 
-	void init(Mesh* mesh, Material* material);
+	void init(const Mesh* mesh, Material* material);
 	void bind();
 	void update();
 
@@ -57,7 +57,7 @@ public:
 
 	void addRenderer(Renderer* renderer);
 
-	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
+	void setMesh(const Mesh* newMesh ) { mMesh = newMesh; };
 	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };
 };
 

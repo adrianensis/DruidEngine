@@ -12,7 +12,7 @@
 
 namespace DE {
 
-f32 Collider::msDepthEpsilon = 5.0f;
+f32 Collider::msDepthEpsilon = 1.0f;
 
 // ---------------------------------------------------------------------------
 

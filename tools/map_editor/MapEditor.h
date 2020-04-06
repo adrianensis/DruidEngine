@@ -25,9 +25,7 @@ private:
   public:
     DE_CLASS(CellData, DE_Class);
 
-    Vector2 textureRegion;
     GameObject* tile = nullptr;
-    Vector3 worldPosition;
   };
 
   u32 mGridSize;
@@ -43,31 +41,24 @@ private:
   Texture* mTexture;
   Material* mMaterial;
 
-  // f32 mTilesCount;
-  Vector2 mAtlasSize;
-  Vector2 mAtlasTextureSize;
-
-  f32 mTileTextureSize;
-
   bool mTestCreated;
   u32 mTileIndex;
   u32 mTileSize;
 
   f32 mZoom;
-  
+
 public:
 
 DE_CLASS(MapEditor, Script);
-
-u32 mAtlasIndexX;
-u32 mAtlasIndexY;
 
 void createBrush();
 void createAtlas();
 void createTile(f32 x, f32 y);
 
-void drawTile(CellData* cellData);
+void drawTile(CellData* cellData, const Vector3& worldPosition);
 void removeTile(CellData* cellData);
+
+void loadMapIntoGrid();
 
 void cameraMovement();
 

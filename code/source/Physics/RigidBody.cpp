@@ -70,10 +70,6 @@ void RigidBody::integrate(f32 deltaTime){
 
 // ---------------------------------------------------------------------------
 
-void RigidBody::addForce(const Vector3& force) { mForceAccumulator.add(force); }
-
-// ---------------------------------------------------------------------------
-
 void RigidBody::stopMovement() { mForceAccumulator.set(0,0,0); mLinear.set(0,0,0); }
 
 // ---------------------------------------------------------------------------

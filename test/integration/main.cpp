@@ -36,15 +36,9 @@ int main() {
 
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 
-	// script
-
-	//Script* script = Memory::allocate<Script>();
-	//cameraGameObject->addComponent<Script>(script);
-
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent<Camera>(cameraComponent);
-	cameraComponent->setOrtho(-800, 800, -600, 600, 1000, -1000);
-	//cameraComponent->setPerspective(100, -100, 800/600, 90);
+	cameraComponent->setOrtho(-720, 720, -720, 720, 1000, -1000);
 
 	// OBJECT 1
 

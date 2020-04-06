@@ -18,6 +18,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Texture.h"
+#include "MaterialManager.h"
 #include "Animation.h"
 
 #include "Collider.h"
@@ -49,18 +50,12 @@ CustomScript::~CustomScript() = default;
 void CustomScript::createTestObj() {
   Vector2 size(100*1.5f,100*1.5f);
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/mage.png");
-
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
   mTestObj = Memory::allocate<GameObject>();
   mTestObj->init();
 
-  mTestObj->getTransform()->setLocalPosition(Vector3(-200,-200,0));
+  mTestObj->getTransform()->setLocalPosition(Vector3(-300,-100,0));
   mTestObj->getTransform()->setScale(Vector3(size.x,size.y,1));
 
   Renderer* renderer = Memory::allocate<Renderer>();
@@ -83,7 +78,7 @@ void CustomScript::createTestObj() {
 
   Collider* collider = Memory::allocate<Collider>();
   mTestObj->addComponent<Collider>(collider);
-  collider->setSize(size.x,size.y);
+  collider->setSize(size.x/1.5f,size.y);
 
   // mTestMinion = Memory::allocate<GameObject>();
   // mTestMinion->init();
@@ -105,6 +100,8 @@ void CustomScript::createTestObj() {
 
   // getGameObject()->getScene()->addGameObject(mTestMinion);
   getGameObject()->getScene()->addGameObject(mTestObj);
+
+  getGameObject()->getScene()->getCameraGameObject()->getTransform()->setParent(mTestObj->getTransform());
 }
 
 // ---------------------------------------------------------------------------
@@ -132,13 +129,7 @@ void CustomScript::createTestMap() {
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/terrain.png");
-
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
 
   FOR_RANGE(i, 0, tilesCount){
     FOR_RANGE(j, 0, tilesCount){
@@ -176,31 +167,23 @@ void CustomScript::createTestScene() {
 
   // Vector2 size(100.0f,100.0f);
 
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
 
+  FOR_RANGE(i, 0, 6){
+    createTestTile((i*100.0f) - 500.0f, 100, material);
+  }
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/terrain.png");
+  FOR_RANGE(i, 5, 10){
+    createTestTile((i*100.0f) - 500.0f, 200, material);
+  }
 
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+  FOR_RANGE(i, 0, 6){
+    createTestTile((i*100.0f) - 500.0f, -300, material);
+  }
 
-  // FOR_RANGE(i, 0, 6){
-  //   createTestTile((i*100.0f) - 500.0f, 0, material);
-  // }
-  //
-  // FOR_RANGE(i, 5, 10){
-  //   createTestTile((i*100.0f) - 500.0f, 100, material);
-  // }
-  //
-  // FOR_RANGE(i, 0, 6){
-  //   createTestTile((i*100.0f) - 500.0f, -400, material);
-  // }
-  //
-  // FOR_RANGE(i, 5, 10){
-  //   createTestTile((i*100.0f) - 500.0f, -300, material);
-  // }
+  FOR_RANGE(i, 5, 10){
+    createTestTile((i*100.0f) - 500.0f, -200, material);
+  }
 
   //createTestTile((100.0f) - 300.0f, -350, material);
 
@@ -251,13 +234,7 @@ void CustomScript::createTestBackground(float x, float y){
   mountain->getTransform()->setLocalPosition(Vector3(0,100,0));
   mountain->getTransform()->setScale(Vector3(size.x, size.y,1));
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/mountain.png");
-
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/mountain.png");
 
   Renderer* mRendererMountain3 = Memory::allocate<Renderer>();
   mountain->addComponent<Renderer>(mRendererMountain3);
@@ -301,13 +278,7 @@ void CustomScript::createTestBackground(float x, float y){
   forest->getTransform()->setLocalPosition(Vector3(0,-270,0));
   forest->getTransform()->setScale(Vector3(size2.x, size2.y,1));
 
-  Texture* texture2 = Memory::allocate<Texture>();
-  texture2->init("resources/forest.png");
-
-  Material* material2 = Memory::allocate<Material>();
-  material2->init();
-  material2->setTexture(texture2);
-  material2->setShader(Shader::getDefaultShader());
+  Material* material2 = MaterialManager::getInstance()->loadMaterial("resources/forest.png");
 
   // renderer 1
   mRendererForest = Memory::allocate<Renderer>();
@@ -354,45 +325,48 @@ void CustomScript::init(){
 
 // ---------------------------------------------------------------------------
 
+void CustomScript::firstStep(){
+    if(! mCamera){
+      mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+    }
+
+    if(!mTestCreated) {
+      // createTestBackground(0,0);
+      createTestObj();
+      // createTestMap();
+      createTestScene();
+      mTestCreated = true;
+      mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
+      mCollider = mTestObj->getComponents<Collider>()->get(0);
+      mRenderer = mTestObj->getComponents<Renderer>()->get(0);
+      // mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
+      mTransform = mTestObj->getTransform();
+    }
+}
+
+// ---------------------------------------------------------------------------
+
 void CustomScript::step(){
-
-  if(! mCamera){
-    mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
-  }
-
-  if(!mTestCreated) {
-    // createTestBackground(0,0);
-    createTestObj();
-    //createTestMap();
-    // createTestScene();
-    mTestCreated = true;
-    mRigidBody = mTestObj->getComponents<RigidBody>()->get(0);
-    mCollider = mTestObj->getComponents<Collider>()->get(0);
-    mRenderer = mTestObj->getComponents<Renderer>()->get(0);
-    // mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
-    mTransform = mTestObj->getTransform();
-  }
-
-  f32 movement = 400.0f;//1.0f*Time::getDeltaTimeSeconds();
+  f32 movement = 650;
 
   bool running = false;
 
   if(Input::isKeyPressed(GLFW_KEY_UP))
   {
     // mTransform->translate(Vector3(0,movement,0));
-    mRigidBody->addForce(Vector3(0,movement,0));
+    mRigidBody->setLinear(Vector3(0,movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     // mTransform->translate(Vector3(0,-movement,0));
-    mRigidBody->addForce(Vector3(0,-movement,0));
+    mRigidBody->setLinear(Vector3(0,-movement,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(0,-movement*Time::getDeltaTimeSeconds(),0));
     running = true;
     // mRenderer->setInvertXAxis(false);
   }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     // mTransform->translate(Vector3(-movement,0,0));
-    mRigidBody->addForce(Vector3(-movement,0,0));
+    mRigidBody->setLinear(Vector3(-movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(-movement*Time::getDeltaTimeSeconds(),0,0));
     // mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));
     // mRendererMountain->setPositionOffset(mRendererMountain->getPositionOffset() + Vector3((movement/(10.0f))*Time::getDeltaTimeSeconds(), 0,0));
@@ -403,7 +377,7 @@ void CustomScript::step(){
     // mRendererMinion->setInvertXAxis(true);
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     // mTransform->translate(Vector3(movement,0,0));
-    mRigidBody->addForce(Vector3(movement,0,0));
+    mRigidBody->setLinear(Vector3(movement,0,0));
     // getGameObject()->getScene()->getCameraGameObject()->getTransform()->translate(Vector3(movement*Time::getDeltaTimeSeconds(),0,0));
     // mRigidBody->setLinear(Vector3(movement,0,0));
     // mRendererMountain2->setPositionOffset(mRendererMountain2->getPositionOffset() + Vector3((-movement/(6.0f))*Time::getDeltaTimeSeconds(), 0,0));

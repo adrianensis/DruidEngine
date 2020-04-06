@@ -19,6 +19,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Texture.h"
+#include "MaterialManager.h"
 #include "Animation.h"
 
 #include "Collider.h"
@@ -62,13 +63,7 @@ TestTool::~TestTool() = default;
 void TestTool::createBrush() {
   Vector2 size(mTileSize/2.0f,mTileSize/2.0f);
 
-  Texture* texture = Memory::allocate<Texture>();
-  texture->init("resources/terrain.png");
-
-  Material* material = Memory::allocate<Material>();
-  material->init();
-  material->setTexture(texture);
-  material->setShader(Shader::getDefaultShader());
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
 
   mBrush = Memory::allocate<GameObject>();
   mBrush->init();
@@ -157,14 +152,8 @@ void TestTool::createAtlas(){
   f32 tilesCount = 16;
   f32 tileTextureSize = 1.0f/tilesCount;
 
-  if(!mTexture){
-    mTexture = Memory::allocate<Texture>();
-    mTexture->init("resources/terrain.png");
-
-    mMaterial = Memory::allocate<Material>();
-    mMaterial->init();
-    mMaterial->setTexture(mTexture);
-    mMaterial->setShader(Shader::getDefaultShader());
+  if(!mMaterial){
+    mMaterial = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
   }
 
   u32 atlasSzie = tilesCount;
