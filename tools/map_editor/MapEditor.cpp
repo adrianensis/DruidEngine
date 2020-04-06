@@ -136,14 +136,14 @@ void MapEditor::createTile(f32 x, f32 y) {
 
 void MapEditor::createAtlas(){
 
-  f32 size = 0.04;
+  f32 size = 0.06;
 
-  f32 screenOffset = 0.5f;
+  f32 screenOffset = 0.4f;
 
   FOR_RANGE(i, 0, mAtlasSize.x){
     FOR_RANGE(j, 0, mAtlasSize.y){
 
-      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (mAtlasSize.x/2.0f))*size + screenOffset,((mAtlasSize.y/2.0f) - j)*size - screenOffset,0), Vector2(size,size));
+      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (mAtlasSize.x/2.0f))*size + screenOffset,((mAtlasSize.y/2.0f) - j)*size - screenOffset*1.5f,0), Vector2(size,size));
 
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
@@ -185,7 +185,7 @@ void MapEditor::init(){
 
   mTileIndex = 0;
 
-  mGridSize = 30;
+  mGridSize = 50;
   mTileSize = 100;
 
   mTile = nullptr;
@@ -198,67 +198,58 @@ void MapEditor::init(){
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::step(){
+void MapEditor::firstStep(){
 
   if(! mCamera){
     mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
     mCameraTransform = mCamera->getGameObject()->getTransform();
   }
 
-  if(!mTestCreated) {
+  if(!mTexture){
 
-    mTestCreated = true;
+    mTexture = Memory::allocate<Texture>();
+    mTexture->init("resources/tiles.png");
 
-    if(!mTexture){
+    mMaterial = Memory::allocate<Material>();
+    mMaterial->init();
+    mMaterial->setTexture(mTexture);
+    mMaterial->setShader(Shader::getDefaultShader());
+  }
 
-      mTexture = Memory::allocate<Texture>();
-      mTexture->init("resources/tiles.png");
+  createBrush();
+  createAtlas();
 
-      mMaterial = Memory::allocate<Material>();
-      mMaterial->init();
-      mMaterial->setTexture(mTexture);
-      mMaterial->setShader(Shader::getDefaultShader());
-    }
+  f32 textureCoord = 0;
 
-    createBrush();
-    createAtlas();
+  if(!mGrid){
+    mGrid = Memory::allocate<Array<Array<CellData*>*>>();
+    mGrid->init(mGridSize);
 
-    f32 textureCoord = 0;
+    f32 halfGridSize = mGridSize/2.0f;
 
-    if(!mGrid){
-      mGrid = Memory::allocate<Array<Array<CellData*>*>>();
-      mGrid->init(mGridSize);
+    FOR_RANGE(i, 0, mGridSize){
+      mGrid->set(i, Memory::allocate<Array<CellData*>>());
+      mGrid->get(i)->init(mGridSize);
+      FOR_RANGE(j, 0, mGridSize){
 
-      f32 halfGridSize = mGridSize/2.0f;
+        CellData* cellData = Memory::allocate<CellData>();
+        mGrid->get(i)->set(j, cellData);
 
-      FOR_RANGE(i, 0, mGridSize){
-        mGrid->set(i, Memory::allocate<Array<CellData*>>());
-        mGrid->get(i)->init(mGridSize);
-        FOR_RANGE(j, 0, mGridSize){
-
-          CellData* cellData = Memory::allocate<CellData>();
-          mGrid->get(i)->set(j, cellData);
-
-          if(! cellData->tile){
-            createTile((i-halfGridSize)*mTileSize, (j-halfGridSize)*mTileSize);
-            cellData->tile = mTile;
-          }
-
-          cellData->textureRegion = Vector2(mAtlasIndexX, mAtlasIndexY);
-          cellData->tile->getComponents<Renderer>()->get(0)->setRegion(textureCoord/mAtlasSize.x, textureCoord/mAtlasSize.y, mAtlasTextureSize.x, mAtlasTextureSize.y);
-
-          // UIText* text = UI::getInstance()->createText(getGameObject()->getScene(), Vector3((i-halfGridSize)*mTileSize, (j-halfGridSize)*mTileSize,0), Vector2(10,10), std::to_string(i)+","+std::to_string(j));
-          //
-          // text->setIsStatic(true);
-          //
-          // text->getRenderer()
-          // ->setAffectedByProjection(true);
-          // if(textureCoord == 0) textureCoord = 8;
-          // else textureCoord = 0;
+        if(! cellData->tile){
+          createTile((i-halfGridSize)*mTileSize, (j-halfGridSize)*mTileSize);
+          cellData->tile = mTile;
         }
+
+        cellData->textureRegion = Vector2(mAtlasIndexX, mAtlasIndexY);
+        cellData->tile->getComponents<Renderer>()->get(0)->setRegion(textureCoord/mAtlasSize.x, textureCoord/mAtlasSize.y, mAtlasTextureSize.x, mAtlasTextureSize.y);
       }
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::step(){
 
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
@@ -273,27 +264,49 @@ void MapEditor::step(){
 
     CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 
+    if(! cellData->tile){
+      cellData->worldPosition = clampedPosition;
+    }
+
     if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-
-        if(! cellData->tile){
-
-          createTile(clampedPosition.x, clampedPosition.y);
-          cellData->tile = mTile;
-        }
-
-        cellData->textureRegion = Vector2(mAtlasIndexX, mAtlasIndexY);
-        cellData->tile->getComponents<Renderer>()->get(0)->setRegion(cellData->textureRegion.x/mAtlasSize.x, cellData->textureRegion.y/mAtlasSize.y, mAtlasTextureSize.x, mAtlasTextureSize.y);
-
+      drawTile(cellData);
     }
 
     if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
-      if(cellData->tile){
-        getGameObject()->getScene()->removeGameObject(cellData->tile);
-        cellData->tile = nullptr;
-      }
+      removeTile(cellData);
     }
   }
 
+  cameraMovement();
+
+  if(mBrush) mBrush->getTransform()->setLocalPosition(world);
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::drawTile(CellData* cellData) {
+  if(! cellData->tile){
+    createTile(cellData->worldPosition.x, cellData->worldPosition.y);
+    cellData->tile = mTile;
+  }
+
+  cellData->textureRegion = Vector2(mAtlasIndexX, mAtlasIndexY);
+  cellData->tile->getComponents<Renderer>()->get(0)->setRegion(cellData->textureRegion.x/mAtlasSize.x, cellData->textureRegion.y/mAtlasSize.y, mAtlasTextureSize.x, mAtlasTextureSize.y);
+
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::removeTile(CellData* cellData) {
+  if(cellData->tile){
+    getGameObject()->getScene()->removeGameObject(cellData->tile);
+    cellData->tile = nullptr;
+  }
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::cameraMovement() {
   f32 scroll = Input::getScroll();
   mZoom += std::fabs(scroll)*0.5f*Time::getDeltaTimeSeconds();
 
@@ -303,7 +316,7 @@ void MapEditor::step(){
     mCamera->setZoom(1.0f/mZoom);
   }
 
-  f32 movement = 5000.0f * Time::getDeltaTimeSeconds();
+  f32 movement = 2000.0f * Time::getDeltaTimeSeconds();
 
   if(Input::isKeyPressed(GLFW_KEY_UP)){
     mCameraTransform->translate(Vector3(0,movement,0));
@@ -315,7 +328,6 @@ void MapEditor::step(){
     mCameraTransform->translate(Vector3(movement,0,0));
   }
 
-  if(mBrush) mBrush->getTransform()->setLocalPosition(world);
 }
 
 // ---------------------------------------------------------------------------

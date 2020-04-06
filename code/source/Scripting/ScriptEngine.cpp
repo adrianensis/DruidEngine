@@ -34,8 +34,14 @@ void ScriptEngine::addScript(Script* newScript){
 
 void ScriptEngine::step(){
   FOR_LIST (it, mScripts){
-    //ECHO("ENGINE SCRIPT STEP");
-    it.get()->step();
+    Script* script = it.get();
+
+    if(! script->isFirstStepDone()){
+      script->firstStep();
+      script->firstStepDone();
+    }
+
+    script->step();
   }
 }
 

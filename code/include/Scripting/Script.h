@@ -7,15 +7,19 @@ namespace DE {
 
 class Script : public Component{
 private:
+  bool mFirstStepDone;
 
-  f32 x = 0;
 public:
 
   DE_CLASS(Script, Component);
 
   virtual void init();
+  virtual void firstStep();
   virtual void step();
   virtual void terminate();
+
+  bool isFirstStepDone() const { return mFirstStepDone; }
+  void firstStepDone() {  mFirstStepDone = true; }
 };
 
 } /* namespace DE */

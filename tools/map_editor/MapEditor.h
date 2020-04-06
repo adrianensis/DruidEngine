@@ -27,6 +27,7 @@ private:
 
     Vector2 textureRegion;
     GameObject* tile = nullptr;
+    Vector3 worldPosition;
   };
 
   u32 mGridSize;
@@ -53,6 +54,7 @@ private:
   u32 mTileSize;
 
   f32 mZoom;
+  
 public:
 
 DE_CLASS(MapEditor, Script);
@@ -64,7 +66,13 @@ void createBrush();
 void createAtlas();
 void createTile(f32 x, f32 y);
 
+void drawTile(CellData* cellData);
+void removeTile(CellData* cellData);
+
+void cameraMovement();
+
 void init() override;
+void firstStep() override;
 void step() override;
 void terminate() override;
 };
