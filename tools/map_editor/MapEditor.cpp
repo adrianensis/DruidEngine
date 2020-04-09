@@ -130,13 +130,6 @@ void MapEditor::createTile(f32 x, f32 y) {
     mTile = Memory::allocate<GameObject>();
     mTile->init();
 
-    if(x >= Settings::getInstance()->getF32("scene.size")){
-      ECHO("")
-      ECHO("Out of scene")
-      VAR(f32, x)
-      ECHO("")
-    }
-
     mTile->getTransform()->setLocalPosition(Vector3(x,y,0));
     mTile->getTransform()->setScale(Vector3(size.x,size.y,1));
 
@@ -197,10 +190,12 @@ void MapEditor::createAtlas(){
 void MapEditor::init(){
   mTransform = getGameObject()->getTransform();
   mPlayer = nullptr;
-  mBrush = nullptr;
   mTestCreated = false;
   mTexture = nullptr;
   mMaterial = nullptr;
+
+  mBrush = nullptr;
+  mBrushSize = 0;
 
   mCamera = nullptr;
   mCameraTransform = nullptr;
@@ -230,8 +225,11 @@ void MapEditor::firstStep(){
 
   createBrush();
   createAtlas();
+}
 
-  f32 textureCoord = 0;
+// ---------------------------------------------------------------------------
+
+void MapEditor::step(){
 
   if(!mGrid){
     mGrid = Memory::allocate<Array<Array<CellData*>*>>();
@@ -247,50 +245,77 @@ void MapEditor::firstStep(){
         mGrid->get(i)->set(j, cellData);
       }
     }
+
+    loadMapIntoGrid();
   }
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::step(){
 
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
 
   Vector3 clampedPosition(std::roundf(world.x/mTileSize)*mTileSize, std::roundf(world.y/mTileSize)*mTileSize,0);
 
-  f32 halfSize = (mGridSize*mTileSize/2.0f);
+  click(clampedPosition);
 
-  Vector2 gridPosition(clampedPosition.x/mTileSize+mGridSize/2.0f,clampedPosition.y/mTileSize+mGridSize/2.0f);
+  FOR_RANGE(i, 0, mBrushSize){
+    f32 offset = mTileSize*i;
 
-  if(std::fabs(clampedPosition.x) < halfSize && std::fabs(clampedPosition.y) < halfSize){
-
-    CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-
-    if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
-      drawTile(cellData, clampedPosition);
-    }
-
-    if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
-      removeTile(cellData);
-    }
+    click(clampedPosition + Vector3(offset,0,0));
+    click(clampedPosition + Vector3(-offset,0,0));
+    click(clampedPosition + Vector3(0,offset,0));
+    click(clampedPosition + Vector3(0,-offset,0));
+    click(clampedPosition + Vector3(offset,offset,0));
+    click(clampedPosition + Vector3(-offset,-offset,0));
+    click(clampedPosition + Vector3(-offset,offset,0));
+    click(clampedPosition + Vector3(offset,-offset,0));
   }
-
-  cameraMovement();
 
   if(mBrush) mBrush->getTransform()->setLocalPosition(world);
 
+  cameraMovement();
+
   if(Input::isKeyPressedOnce(GLFW_KEY_S)){
-    getGameObject()->getScene()->saveScene("config/scene.conf");
+    getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
   }
 
-  if(Input::isKeyPressedOnce(GLFW_KEY_L)){
-    loadMapIntoGrid();
+  if(Input::isKeyPressedOnce(GLFW_KEY_KP_ADD)){
+    if(mBrushSize < 5) mBrushSize++;
+  }
+
+  if(Input::isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)){
+    if(mBrushSize > 0) mBrushSize--;
+  }
+
+  if(Input::isKeyPressedOnce(GLFW_KEY_S)){
+    getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
   }
 
   if(Input::isKeyPressedOnce(GLFW_KEY_P)){
     if(! mPlayer){
       createPlayer();
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::click(const Vector3& clampedPosition){
+
+  f32 halfSize = (mGridSize*mTileSize/2.0f);
+  if(std::fabs(clampedPosition.x) < halfSize && std::fabs(clampedPosition.y) < halfSize){
+
+    Vector2 gridPosition(clampedPosition.x/mTileSize+mGridSize/2.0f,clampedPosition.y/mTileSize+mGridSize/2.0f);
+
+    if(gridPosition.x >= 0 && gridPosition.x < mGridSize && gridPosition.y >= 0 && gridPosition.y < mGridSize){
+
+      CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
+
+      if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
+        drawTile(cellData, clampedPosition);
+      }
+
+      if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
+        removeTile(cellData);
+      }
     }
   }
 }
@@ -348,9 +373,9 @@ void MapEditor::cameraMovement() {
 // ---------------------------------------------------------------------------
 
 void MapEditor::loadMapIntoGrid() {
-  getGameObject()->getScene()->loadScene("config/scene.conf");
+  // getGameObject()->getScene()->loadScene("config/scene.conf");
 
-  const List<GameObject*>* gameObects = getGameObject()->getScene()->getNewGameObjects();
+  const List<GameObject*>* gameObects = getGameObject()->getScene()->getGameObjects();
 
   FOR_LIST (it, gameObects){
     GameObject* gameObject = it.get();

@@ -25,7 +25,7 @@ public:
 
   void addRigidBody(RigidBody* rigidBody);
 
-  void init();
+  void init(f32 sceneSize);
   void step(f32 deltaTime);
   void terminate();
 

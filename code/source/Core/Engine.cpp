@@ -18,6 +18,7 @@
 #include "RigidBody.h"
 #include "UI.h"
 #include "Settings.h"
+#include "MaterialManager.h"
 
 #include <string>
 #include <iostream>
@@ -45,18 +46,36 @@ void Engine::init(){
 
 	TRACE()
 
+	RenderContext::init();
 	Settings::getInstance()->init();
+	MaterialManager::getInstance()->init();
 
-  mRenderEngine = RenderEngine::getInstance(); //Memory::allocate<RenderEngine>();
-  mScriptEngine = ScriptEngine::getInstance(); //Memory::allocate<ScriptEngine>();
-  mPhysicsEngine = PhysicsEngine::getInstance(); //Memory::allocate<PhysicsEngine>();
   mScenes = Memory::allocate<List<Scene*>>();
-
-  mRenderEngine->init();
-  mScriptEngine->init();
-  mPhysicsEngine->init();
   mScenes->init();
+}
 
+// ---------------------------------------------------------------------------
+
+void Engine::initSubsystems(){
+
+	if(mScriptEngine) mScriptEngine->terminate();
+	if(mRenderEngine) mRenderEngine->terminate();
+	if(mPhysicsEngine) mPhysicsEngine->terminate();
+	if(UI::getInstance()) UI::getInstance()->terminate();
+
+	mRenderEngine = RenderEngine::getInstance();
+	mScriptEngine = ScriptEngine::getInstance();
+	mPhysicsEngine = PhysicsEngine::getInstance();
+
+	f32 sceneSize = mScenes->get(mCurrentSceneIndex)->getSize();
+
+	if(sceneSize == 0) {
+		sceneSize = Settings::getInstance()->getF32("scene.defaultSize");
+	}
+
+	mRenderEngine->init(sceneSize);
+	mScriptEngine->init();
+	mPhysicsEngine->init(sceneSize);
 	UI::getInstance()->init();
 }
 
@@ -70,6 +89,13 @@ void Engine::addScene(Scene* newScene){
 
 void Engine::setScene(u32 i){
 	mCurrentSceneIndex = i;
+
+	if(Settings::getInstance()->getU32("scenes.length") > 0){
+		std::string sceneName = Settings::getInstance()->getString("scenes["+std::to_string(mCurrentSceneIndex)+"]");
+
+		Scene* scene = mScenes->get(mCurrentSceneIndex);
+		scene->loadScene(sceneName);
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -118,13 +144,14 @@ void Engine::loadScene(Scene* scene){
 // ---------------------------------------------------------------------------
 
 void Engine::run(){
-
-	Time::init(); TRACE()
+	Time::init();
 
 	f32 accumulator = 0.0f;
 
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
+
+	initSubsystems();
 
 	while(! RenderContext::isClosed()) {
 
@@ -159,6 +186,8 @@ void Engine::run(){
 void Engine::terminate() {
 
 	Memory::free<RenderEngine>(mRenderEngine);
+	Memory::free<MaterialManager>(MaterialManager::getInstance());
+
 	Memory::free<ScriptEngine>(mScriptEngine);
 
 	FOR_LIST (it, mScenes){
@@ -166,6 +195,7 @@ void Engine::terminate() {
 	}
 
 	Memory::free<List<Scene*>>(mScenes);
+	Memory::free<Settings>(Settings::getInstance());
 
 	Memory::free();
 }

@@ -56,7 +56,7 @@ private:
 public:
 	DE_CLASS(RenderEngine, DE_Class);
 
-	void init();
+	void init(f32 sceneSize);
 	void bind();
 	void step(); // render
 	void stepDebug(); // debug render

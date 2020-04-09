@@ -12,6 +12,7 @@
 #include "Vector3.h"
 #include "ConfigMap.h"
 #include "MaterialManager.h"
+#include "MathUtils.h"
 
 namespace DE {
 
@@ -46,16 +47,22 @@ void Scene::init() {
 	mNewGameObjects->init();
 
 	mMaxNewGameObjectsToSpawn = 20; // TODO ; move to Settings.
+
+	mSize = 0;
 }
 
 // ---------------------------------------------------------------------------
 
 void Scene::loadScene(const std::string& path) {
 
+	mPath = path; // TODO: copy?
+
 	ConfigMap* configMap = Memory::allocate<ConfigMap>();
 	configMap->init();
 
 	configMap->readConfigFile(path);
+
+	mSize = configMap->getF32("scene.size");
 
 	u32 length = configMap->getU32("objects.length");
 
@@ -102,6 +109,8 @@ void Scene::saveScene(const std::string& path) {
 	ConfigMap* configMap = Memory::allocate<ConfigMap>();
 	configMap->init();
 
+	f32 maxSize = 0;
+
 	u32 counter = 0;
 	FOR_LIST(it, mGameObjects) {
 		if(it.get()->isStatic()) {
@@ -109,10 +118,14 @@ void Scene::saveScene(const std::string& path) {
 			std::string objectStr = "objects["+indexStr+"]";
 
 			Transform* t = it.get()->getTransform();
+			Vector3 worldPosition = t->getWorldPosition();
+
+			maxSize = std::max(std::max(maxSize, worldPosition.x), worldPosition.y);
+
+			Vector3 size = t->getScale();
+
 			Renderer* renderer = it.get()->getComponents<Renderer>()->get(0);
 			Texture* texture = renderer->getMaterial()->getTexture();
-			Vector3 worldPosition = t->getWorldPosition();
-			Vector3 size = t->getScale();
 
 			configMap->setF32(objectStr+".worldPosition.x", worldPosition.x);
 			configMap->setF32(objectStr+".worldPosition.y", worldPosition.y);
@@ -130,6 +143,7 @@ void Scene::saveScene(const std::string& path) {
 	}
 
 	configMap->setU32("objects.length", counter);
+	configMap->setF32("scene.size", maxSize*2.0f);
 
 	configMap->writeConfigFile(path);
 

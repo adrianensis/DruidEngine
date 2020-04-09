@@ -14,7 +14,7 @@ Settings::Settings() : DE_Class(), Singleton(){
 // ---------------------------------------------------------------------------
 
 Settings::~Settings(){
-  // TODO : REMOVE CONFIG MAP
+  Memory::free<ConfigMap>(mConfigMap);
 }
 
 // ---------------------------------------------------------------------------
@@ -30,12 +30,11 @@ void Settings::init(){
 	mConfigMap->init();
 
   mConfigMap->readConfigFile("config/engine.conf");
-  mConfigMap->readConfigFile("config/test.conf");
 }
 
 // ---------------------------------------------------------------------------
 
-const std::string& Settings::getString(const std::string& key){
+std::string Settings::getString(const std::string& key){
   return mConfigMap->getString(key);
 }
 

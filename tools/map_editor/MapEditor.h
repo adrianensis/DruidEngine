@@ -36,15 +36,17 @@ private:
   Transform* mCameraTransform;
 
   GameObject* mPlayer;
-  GameObject* mBrush;
   GameObject* mTile;
+
+  GameObject* mBrush;
+  u32 mBrushSize;
 
   Texture* mTexture;
   Material* mMaterial;
 
   bool mTestCreated;
   u32 mTileIndex;
-  u32 mTileSize;
+  f32 mTileSize;
 
   f32 mZoom;
 
@@ -57,6 +59,7 @@ void createAtlas();
 void createTile(f32 x, f32 y);
 void createPlayer();
 
+void click(const Vector3& clampedPosition);
 void drawTile(CellData* cellData, const Vector3& worldPosition);
 void removeTile(CellData* cellData);
 

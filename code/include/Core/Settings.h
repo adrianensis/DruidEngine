@@ -21,7 +21,7 @@ namespace DE{
 
     void init();
     void readConfigFile(const std::string& path);
-    const std::string& getString(const std::string& key);
+    std::string getString(const std::string& key);
     u32 getU32(const std::string& key);
     f32 getF32(const std::string& key);
     bool getBool(const std::string& key);

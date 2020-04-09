@@ -33,6 +33,7 @@ public:
   DE_CLASS(Engine, DE_Class);
 
   void init();
+  void initSubsystems();
   void run();
   void terminate();
 

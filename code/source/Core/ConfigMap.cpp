@@ -28,8 +28,9 @@ void ConfigMap::readConfigFile(const std::string& path){
 
     std::string lineString;
 
-    std::string regexVariableNameStr("([a-zA-Z\\-_\\.0-9\\[\\]]*)");
+    std::string regexVariableNameStr("([a-zA-Z\\-_\\.0-9\\[\\]]+)");
     std::regex regexPair(regexVariableNameStr+"\\s*=\\s*(.*)\\s*");
+    std::regex regexComment("\\s*#\\s*");
 
     while(std::getline(file,lineString)){
 
@@ -37,9 +38,13 @@ void ConfigMap::readConfigFile(const std::string& path){
       std::regex_search(lineString, matchPair, regexPair);
       bool isPair = !matchPair.empty();
 
-      if(isPair){
-        mMap->set(matchPair[1], matchPair[2]);
-        std::cout << matchPair[1] << " " <<  matchPair[2] << std::endl;
+      std::smatch matchComment;
+      std::regex_search(lineString, matchComment, regexComment);
+      bool isComment = !matchComment.empty();
+
+      if((! isComment) && isPair){
+        mMap->set(std::string(matchPair[1]), std::string(matchPair[2]));
+        std::cout << matchPair[1] << " " <<  mMap->get(matchPair[1]) << std::endl;
       }
 
     }
@@ -67,7 +72,7 @@ void ConfigMap::init(){
 
 // ---------------------------------------------------------------------------
 
-const std::string& ConfigMap::getString(const std::string& key){
+std::string ConfigMap::getString(const std::string& key){
   return mMap->get(key);
 }
 

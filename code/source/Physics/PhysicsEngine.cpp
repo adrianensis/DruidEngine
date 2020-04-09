@@ -46,14 +46,14 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator* it){
 
 // ---------------------------------------------------------------------------
 
-void PhysicsEngine::init(){
+void PhysicsEngine::init(f32 sceneSize){
 	TRACE();
 
   mRigidBodies = Memory::allocate<List<RigidBody*>>();
   mRigidBodies->init();
 
   mQuadTree = Memory::allocate<QuadTree>();
-  mQuadTree->init(Settings::getInstance()->getF32("scene.size"));
+  mQuadTree->init(sceneSize);
 }
 
 // ---------------------------------------------------------------------------

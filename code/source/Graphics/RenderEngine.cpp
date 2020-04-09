@@ -19,7 +19,7 @@
 #include "Transform.h"
 #include "Settings.h"
 #include "Chunk.h"
-#include "MaterialManager.h"
+#include "UI.h"
 
 namespace DE {
 
@@ -84,15 +84,13 @@ RenderEngine::~RenderEngine() = default;
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::init() {
+void RenderEngine::init(f32 sceneSize) {
 	TRACE();
 
   mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
   mLineRendererIndices = Memory::allocate<Array<u32>>();
   mShaderLine = Memory::allocate<Shader>();
 
-  RenderContext::init();
-  MaterialManager::getInstance()->init();
 
   // Line Renderers
 
@@ -121,7 +119,6 @@ void RenderEngine::init() {
   mStaticChunks = Memory::allocate<Array<Chunk*>>();
   mStaticChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
 
-  f32 sceneSize = Settings::getInstance()->getF32("scene.size");
   f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
   u32 count = 0;
@@ -238,8 +235,6 @@ void RenderEngine::bind() {
 void RenderEngine::terminate() {
   TRACE();
 
-  Memory::free<MaterialManager>(MaterialManager::getInstance());
-
   Memory::free<Array<u32>>(mLineRendererIndices);
   Memory::free<Shader>(mShaderLine);
 
@@ -256,6 +251,7 @@ void RenderEngine::terminate() {
   Memory::free<Array<Chunk*>>(mStaticChunks);
 
   Memory::free<Chunk>(mDynamicChunk);
+  Memory::free<UI>(UI::getInstance());
 
 	RenderContext::terminate();
 }

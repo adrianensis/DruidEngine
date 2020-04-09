@@ -19,14 +19,19 @@ private:
 
 	u32 mMaxNewGameObjectsToSpawn;
 
+	f32 mSize;
+	std::string mPath;
+
 public:
 
 	DE_CLASS(Scene, DE_Class);
 
 	void init();
+	f32 getSize() const { return mSize; };
 
 	void loadScene(const std::string& path);
 	void saveScene(const std::string& path);
+	const std::string& getPath() const { return mPath; }; 
 
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
