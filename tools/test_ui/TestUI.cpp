@@ -74,7 +74,7 @@ void TestUI::step(){
     // }
 
     if(!mTestButton){
-      mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0,0,0), Vector2(200,100));
+      mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0,0,0), Vector2(200,100), 5);
 
       mTestButton->setOnPressedCallback([&]() {
         ECHO("BUTTON CLICK")
@@ -82,7 +82,7 @@ void TestUI::step(){
     }
 
     if(!mTestText){
-      mTestText = UI::getInstance()->createText(getGameObject()->getScene(), Vector3(-100,300,0), Vector2(40,40), "test text");
+      mTestText = UI::getInstance()->createText(getGameObject()->getScene(), Vector3(-100,300,0), Vector2(40,40), "test text", 5);
     }
 
     // if(!mTestList){

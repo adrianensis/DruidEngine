@@ -46,9 +46,9 @@ void Scene::init() {
 	mNewGameObjects = Memory::allocate<List<GameObject*>>();
 	mNewGameObjects->init();
 
-	mMaxNewGameObjectsToSpawn = 20; // TODO ; move to Settings.
-
 	mSize = 0;
+
+	mPath="config/sceneTmp.conf";
 }
 
 // ---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ void Scene::loadScene(const std::string& path) {
     Renderer* renderer = Memory::allocate<Renderer>();
     gameObject->addComponent<Renderer>(renderer);
 
-    renderer->setLayer(1);
+		renderer->setLayer(configMap->getU32(objectStr+".layer"));
 
 		renderer->setMesh(Mesh::getRectangle());
     renderer->setMaterial(material);
@@ -114,13 +114,16 @@ void Scene::saveScene(const std::string& path) {
 	u32 counter = 0;
 	FOR_LIST(it, mGameObjects) {
 		if(it.get()->isStatic()) {
+			ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects["+indexStr+"]";
 
 			Transform* t = it.get()->getTransform();
 			Vector3 worldPosition = t->getWorldPosition();
+			Vector3 scale = t->getScale();
 
-			maxSize = std::max(std::max(maxSize, worldPosition.x), worldPosition.y);
+			f32 maxObjectScale = std::max(std::abs(scale.x), std::abs(scale.y));
+			maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale), std::abs(worldPosition.y) + maxObjectScale);
 
 			Vector3 size = t->getScale();
 
@@ -137,6 +140,7 @@ void Scene::saveScene(const std::string& path) {
 			configMap->setF32(objectStr+".texture.region.width", renderer->getRegionSize().x);
 			configMap->setF32(objectStr+".texture.region.height", renderer->getRegionSize().y);
 			configMap->setBool(objectStr+".isStatic", it.get()->isStatic());
+			configMap->setU32(objectStr+".layer", renderer->getLayer());
 
 			counter++;
 		}

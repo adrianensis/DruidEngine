@@ -39,9 +39,9 @@ public:
 
 DE_CLASS(UI, DE_Class);
 
-UIButton* createButton(Scene* scene, const Vector2& position, const Vector2& size);
-UIText* createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text);
-UIList* createList(Scene* scene, const Vector2& position, const Vector2& size);
+UIButton* createButton(Scene* scene, const Vector2& position, const Vector2& size, u32 layer);
+UIText* createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, u32 layer);
+UIList* createList(Scene* scene, const Vector2& position, const Vector2& size, u32 layer);
 
 void init();
 void step();

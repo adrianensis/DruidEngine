@@ -134,7 +134,7 @@ void TestTool::createTile(f32 x, f32 y) {
 // ---------------------------------------------------------------------------
 
 void TestTool::createTestButton() {
-  mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(600,0,0), Vector2(400,100));
+  mTestButton = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(600,0,0), Vector2(400,100), 5);
 
   mTestButton->setOnPressedCallback([&]() {
 
@@ -161,7 +161,7 @@ void TestTool::createAtlas(){
   FOR_RANGE(i, 0, atlasSzie){
     FOR_RANGE(j, 0, atlasSzie){
 
-      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSzie/2.0f))*size + screenOffset,(j - (atlasSzie/2.0f))*size - screenOffset,0), Vector2(size,size));
+      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSzie/2.0f))*size + screenOffset,(j - (atlasSzie/2.0f))*size - screenOffset,0), Vector2(size,size), 5);
 
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
@@ -177,13 +177,13 @@ void TestTool::createAtlas(){
     }
   }
 
-  UIButton* button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(-550,600,0), Vector2(300,80));
+  UIButton* button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(-550,600,0), Vector2(300,80), 5);
   Renderer* r = button->getRenderer();
   r->setMaterial(mMaterial);
   r->setRegion(1.0f/tilesCount, 11.0f/tilesCount, tileTextureSize, tileTextureSize);
   r->setLayer(2);
 
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(-550 + 350,600,0), Vector2(300,80));
+  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(-550 + 350,600,0), Vector2(300,80), 5);
   r = button->getRenderer();
   r->setMaterial(mMaterial);
   r->setRegion(1.0f/tilesCount, 11.0f/tilesCount, tileTextureSize, tileTextureSize);
@@ -195,7 +195,7 @@ void TestTool::createFont() {
   Vector2 mouse(Input::getMousePosition());
   Vector3 world = mCamera->screenToWorld(mouse);
 
-  UIText* text = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."));
+  UIText* text = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(world.x,world.y), Vector2(50,50), std::string("Hello stranger..."),5);
 }
 
 // ---------------------------------------------------------------------------
@@ -248,7 +248,7 @@ void TestTool::step(){
         CellData* cellData = Memory::allocate<CellData>();
         mGrid->get(i)->set(j, cellData);
 
-        cellData->button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - halfGridSize)*mTileSize,(j - halfGridSize)*mTileSize,0), Vector2(mTileSize,mTileSize));
+        cellData->button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - halfGridSize)*mTileSize,(j - halfGridSize)*mTileSize,0), Vector2(mTileSize,mTileSize), 5);
 
         Vector3 cellPosition = cellData->button->getTransform()->getLocalPosition();
 

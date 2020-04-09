@@ -108,7 +108,7 @@ void Engine::loadScene(Scene* scene){
 	mRenderEngine->setCamera(camera);
 
 	const List<GameObject*>* newGameObjects = scene->getNewGameObjects();
-	u32 maxToSpawn = scene->getMaxNewGameObjectsToSpawn();
+	u32 maxToSpawn = Settings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
 
 	// VAR(f32, newGameObjects->getLength());
 

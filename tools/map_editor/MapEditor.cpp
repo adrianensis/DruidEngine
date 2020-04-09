@@ -53,6 +53,37 @@ MapEditor::CellData::~CellData(){
 
 // ---------------------------------------------------------------------------
 
+void MapEditor::CellData::addGameObject(GameObject* gameObject, u32 layer) {
+  if(! layers){
+    layers = Memory::allocate<Array<GameObject*>>();
+    layers->init(10); // MAX LAYERS
+  }
+
+  if(layer >= 0 && layer < 10){
+    layers->set(layer, gameObject);
+  }
+}
+
+void MapEditor::CellData::removeGameObject(u32 layer) {
+  if(layers){
+    if(layer >= 0 && layer < 10){
+      layers->set(layer, nullptr);
+    }
+  }
+}
+
+GameObject* MapEditor::CellData::get(u32 layer){
+  GameObject* gameObject = nullptr;
+
+  if(layers){
+    gameObject = layers->get(layer);
+  }
+
+  return gameObject;
+}
+
+// ---------------------------------------------------------------------------
+
 MapEditor::MapEditor() : Script(){
 
 }
@@ -82,12 +113,13 @@ void MapEditor::createPlayer() {
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(material);
 
+  renderer->setLayer(mLayer);
+
   renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
   renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
   renderer->setAnimation("idle");
 
   //renderer->setLineMode(true);
-  renderer->setLayer(4);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   mPlayer->addComponent<RigidBody>(rigidBody);
@@ -136,10 +168,10 @@ void MapEditor::createTile(f32 x, f32 y) {
     Renderer* renderer = Memory::allocate<Renderer>();
     mTile->addComponent<Renderer>(renderer);
 
-    renderer->setLayer(1);
-
     renderer->setMesh(Mesh::getRectangle());
     renderer->setMaterial(mMaterial);
+
+    renderer->setLayer(mLayer);
 
     // renderer->setLineMode(true);
 
@@ -170,7 +202,7 @@ void MapEditor::createAtlas(){
   FOR_RANGE(i, 0, atlasSize.x){
     FOR_RANGE(j, 0, atlasSize.y){
 
-      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSize.x/2.0f))*size + screenOffset,((atlasSize.y/2.0f) - j)*size - screenOffset*1.5f,0), Vector2(size,size));
+      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSize.x/2.0f))*size + screenOffset,((atlasSize.y/2.0f) - j)*size - screenOffset*1.5f,0), Vector2(size,size),0);
 
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
@@ -191,11 +223,12 @@ void MapEditor::init(){
   mTransform = getGameObject()->getTransform();
   mPlayer = nullptr;
   mTestCreated = false;
-  mTexture = nullptr;
   mMaterial = nullptr;
 
   mBrush = nullptr;
   mBrushSize = 0;
+
+  mLayer = 0;
 
   mCamera = nullptr;
   mCameraTransform = nullptr;
@@ -285,8 +318,14 @@ void MapEditor::step(){
     if(mBrushSize > 0) mBrushSize--;
   }
 
-  if(Input::isKeyPressedOnce(GLFW_KEY_S)){
-    getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
+  if(Input::isKeyPressedOnce(GLFW_KEY_Z)){
+    if(mLayer < 10) mLayer++;
+    VAR(u32, mLayer)
+  }
+
+  if(Input::isKeyPressedOnce(GLFW_KEY_X)){
+    if(mLayer > 0) mLayer--;
+    VAR(u32, mLayer)
   }
 
   if(Input::isKeyPressedOnce(GLFW_KEY_P)){
@@ -323,12 +362,12 @@ void MapEditor::click(const Vector3& clampedPosition){
 // ---------------------------------------------------------------------------
 
 void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition) {
-  if(! cellData->tile){
+  if(! cellData->get(mLayer)){
     createTile(worldPosition.x, worldPosition.y);
-    cellData->tile = mTile;
+    cellData->addGameObject(mTile, mLayer);
   }
 
-  Renderer* renderer = cellData->tile->getComponents<Renderer>()->get(0);
+  Renderer* renderer = cellData->get(mLayer)->getComponents<Renderer>()->get(0);
   Renderer* brushRenderer = mBrush->getComponents<Renderer>()->get(0);
 
   renderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y, brushRenderer->getRegionSize().x, brushRenderer->getRegionSize().y);
@@ -338,9 +377,9 @@ void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition) {
 // ---------------------------------------------------------------------------
 
 void MapEditor::removeTile(CellData* cellData) {
-  if(cellData->tile){
-    getGameObject()->getScene()->removeGameObject(cellData->tile);
-    cellData->tile = nullptr;
+  if(cellData->get(mLayer)){
+    getGameObject()->getScene()->removeGameObject(cellData->get(mLayer));
+    cellData->removeGameObject(mLayer);
   }
 }
 
@@ -387,7 +426,7 @@ void MapEditor::loadMapIntoGrid() {
       Vector2 gridPosition(worldPosition.x/mTileSize+mGridSize/2.0f, worldPosition.y/mTileSize+mGridSize/2.0f);
 
       CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-      cellData->tile = gameObject;
+      cellData->addGameObject(gameObject, gameObject->getComponents<Renderer>()->get(0)->getLayer());
     }
 
   }

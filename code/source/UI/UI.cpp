@@ -33,7 +33,7 @@ UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size) {
+UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size, u32 layer) {
 
   if( ! mButtonMaterial){
     mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.bmp");
@@ -50,6 +50,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(mButtonMaterial);
+  renderer->setLayer(layer);
 
   renderer->setAffectedByProjection(false);
 
@@ -75,7 +76,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text) {
+UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, u32 layer) {
 
   if( ! mFontMaterial){
     mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
@@ -95,6 +96,7 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
       renderer->setMesh(Mesh::getRectangle());
       renderer->setMaterial(mFontMaterial);
+      renderer->setLayer(layer);
 
       renderer->setRegion(mCharMap->get(text.at(i)).x, mCharMap->get(text.at(i)).y, mFontTileTextureSize, mFontTileTextureSize);
   }
@@ -112,7 +114,7 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
 // ---------------------------------------------------------------------------
 
-UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size) {
+UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size, u32 layer) {
 
   UIList* uiList = Memory::allocate<UIList>();
   uiList->init();
@@ -125,6 +127,7 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(mButtonMaterial);
+  renderer->setLayer(layer);
 
   uiList->setComponentsCache();
 
@@ -137,7 +140,7 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
   f32 itemOffset = 50;
 
   FOR_RANGE(i, 0, 3){
-    createText(scene, position + Vector3(-halfWidth + margin,halfHeight - margin + -itemOffset*i,0), Vector2(40,40), "list item");
+    createText(scene, position + Vector3(-halfWidth + margin,halfHeight - margin + -itemOffset*i,0), Vector2(40,40), "list item", layer);
   }
 
   scene->addGameObject(uiList);
@@ -145,13 +148,13 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
   // scrollbar
 
   f32 scrollbarMargin = 20;
-  UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,-halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin));
+  UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,-halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin), layer);
 
   upButton->setOnPressedCallback([&]() {
 
   });
 
-  UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin));
+  UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin), layer);
 
   downButton->setOnPressedCallback([&]() {
 

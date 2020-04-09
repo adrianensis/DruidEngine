@@ -17,8 +17,6 @@ private:
 	List<GameObject*>* mNewGameObjects;
 	GameObject* mCameraGameObject;
 
-	u32 mMaxNewGameObjectsToSpawn;
-
 	f32 mSize;
 	std::string mPath;
 
@@ -31,7 +29,7 @@ public:
 
 	void loadScene(const std::string& path);
 	void saveScene(const std::string& path);
-	const std::string& getPath() const { return mPath; }; 
+	const std::string& getPath() const { return mPath; };
 
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
@@ -40,8 +38,6 @@ public:
 	const List<GameObject*>* getNewGameObjects() const { return mNewGameObjects; };
 	GameObject* getCameraGameObject() const { return mCameraGameObject; };
 	void setCameraGameObject(GameObject* newCameraGameObject ) { mCameraGameObject = newCameraGameObject; };
-
-	u32 getMaxNewGameObjectsToSpawn() const { return mMaxNewGameObjectsToSpawn; };
 
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();

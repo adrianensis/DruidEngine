@@ -26,6 +26,11 @@ private:
     DE_CLASS(CellData, DE_Class);
 
     GameObject* tile = nullptr;
+    Array<GameObject*>* layers = nullptr;
+
+    void addGameObject(GameObject* gameObject, u32 layer);
+    void removeGameObject(u32 layer);
+    GameObject* get(u32 layer);
   };
 
   u32 mGridSize;
@@ -40,8 +45,8 @@ private:
 
   GameObject* mBrush;
   u32 mBrushSize;
+  u32 mLayer;
 
-  Texture* mTexture;
   Material* mMaterial;
 
   bool mTestCreated;
