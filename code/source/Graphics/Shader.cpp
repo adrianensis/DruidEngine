@@ -42,6 +42,16 @@ Shader* Shader::getDebugShader() {
 	return msShaderDebug;
 }
 
+void Shader::freeStaticShaders(){
+	if(msShaderDefault){
+		Memory::free<Shader>(msShaderDefault);
+	}
+
+	if(msShaderDebug){
+		Memory::free<Shader>(msShaderDebug);
+	}
+}
+
 // ---------------------------------------------------------------------------
 
 void Shader::initInternal(const std::string& vertex, const std::string& fragment) {

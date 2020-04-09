@@ -238,6 +238,8 @@ void RenderEngine::bind() {
 void RenderEngine::terminate() {
   TRACE();
 
+  Memory::free<MaterialManager>(MaterialManager::getInstance());
+
   Memory::free<Array<u32>>(mLineRendererIndices);
   Memory::free<Shader>(mShaderLine);
 

@@ -67,6 +67,7 @@ public:
   void free(const void* pointer) override;
   virtual void flush() override;
   void reset() override;
+  void terminate() override;
 
 };
 

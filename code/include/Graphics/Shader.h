@@ -31,6 +31,8 @@ public:
 	static Shader* getDefaultShader();
 	static Shader* getDebugShader();
 
+	static void freeStaticShaders();
+
 	void init();
 	void initDebug();
 	void use();

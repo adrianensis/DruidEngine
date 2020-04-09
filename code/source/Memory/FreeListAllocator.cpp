@@ -190,10 +190,13 @@ void FreeListAllocator::reset(){
   firstBlockFree->init(mStart, mTotalSize);
 
   firstBlockUsed = nullptr;
-
-  // lastBlock = firstBlock;
 }
 
+// ---------------------------------------------------------------------------
+
+void FreeListAllocator::terminate() {
+
+}
 // ---------------------------------------------------------------------------
 
 } /* namespace DE */

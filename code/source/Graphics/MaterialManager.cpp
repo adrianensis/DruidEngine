@@ -14,9 +14,19 @@ MaterialManager::MaterialManager() : DE_Class() {
 }
 
 MaterialManager::~MaterialManager() {
-  // TODO : remove textures
-  // TODO : remove materials
-  // TODO : remove MAPs
+  FOR_LIST(it, mTexturesMap->getValues()){
+    Memory::free<Texture>(it.get());
+  }
+
+  Memory::free<HashMap<std::string, Texture*>>(mTexturesMap);
+
+  FOR_LIST(it, mMaterialsMap->getValues()){
+    Memory::free<Material>(it.get());
+  }
+
+  Memory::free<HashMap<std::string, Material*>>(mMaterialsMap);
+
+  Shader::freeStaticShaders();
 }
 
 // ---------------------------------------------------------------------------

@@ -35,6 +35,7 @@ private:
   Camera* mCamera;
   Transform* mCameraTransform;
 
+  GameObject* mPlayer;
   GameObject* mBrush;
   GameObject* mTile;
 
@@ -54,6 +55,7 @@ DE_CLASS(MapEditor, Script);
 void createBrush();
 void createAtlas();
 void createTile(f32 x, f32 y);
+void createPlayer();
 
 void drawTile(CellData* cellData, const Vector3& worldPosition);
 void removeTile(CellData* cellData);

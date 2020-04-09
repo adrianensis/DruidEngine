@@ -62,7 +62,7 @@ void Memory::free(){
 	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
 	VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
-  smGlobal.reset();
+  smGlobal.terminate();
 
 	// NOTE: Log ends here!!
 	Log::terminate();

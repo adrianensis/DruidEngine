@@ -45,6 +45,14 @@ public:
 
 	static bool testRectanglePoint(const Vector2& leftTop, f32 width, f32 height, const Vector2& point, f32 eps);
 	static bool testSphereSphere(const Vector2& centerA, const Vector2& centerB, f32 radiusA, f32 radiusB);
+	static bool testLineLine(const Vector2& lineAStart, const Vector2& lineAEnd, const Vector2& lineBStart, const Vector2& lineBEnd, Vector2& intersectionResult);
+	static bool testLineSphereNoIntersection(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& center, f32 radius, f32 eps);
+	static bool testLineSphere(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& center, f32 radius, f32 eps, Vector2& intersectionResult1, Vector2& intersectionResult2);
+	static bool testSpherePoint(const Vector2& point, const Vector2& center, f32 radius);
+	static bool testLinePoint(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& point, f32 eps);
+	static Vector2 closestPointInLine(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& point);
+	static Vector3 midPoint(const Vector3& a, const Vector3& b);
+
 };
 }
 

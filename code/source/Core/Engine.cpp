@@ -150,6 +150,7 @@ void Engine::run(){
 
 	mScriptEngine->terminate();
 	mRenderEngine->terminate();
+	mPhysicsEngine->terminate();
 	UI::getInstance()->terminate();
 }
 

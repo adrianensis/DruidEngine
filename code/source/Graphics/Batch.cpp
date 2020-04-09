@@ -224,11 +224,45 @@ u32 Batch::render(u32 layer) {
 // ---------------------------------------------------------------------------
 
 void Batch::addRenderer(Renderer* renderer) {
-		mRenderers->pushBack(renderer);
-		// renderer->setOutOfCamera(!checkDistance(mRenderEngine->getCamera(), renderer));
+
 		checkOutOfCamera(mRenderEngine->getCamera(),renderer);
 
-		// TODO insert sorted
+		// INSERT SORTED
+
+		// CASE 1 : IF LIST IS EMPTY
+		if(mRenderers->isEmpty()){
+			mRenderers->pushBack(renderer);
+
+		} else {
+
+			u32 layer = renderer->getLayer();
+
+			// CASE 2 : RENDERER IS IN THE LAST LAYER
+			if(layer >= mRenderers->getLast().get()->getLayer()){
+				mRenderers->pushBack(renderer);
+				
+			} else {
+
+				// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
+				bool foundBiggerLayer = false;
+
+				auto itBiggerLayer = mRenderers->getIterator();
+
+				FOR_LIST_COND(it, mRenderers, !foundBiggerLayer){
+					Renderer* otherRenderer = it.get();
+					u32 otherRendererLayer = otherRenderer->getLayer();
+
+					if(layer <= otherRendererLayer){
+						foundBiggerLayer = true;
+						itBiggerLayer = it;
+					}
+				}
+
+				if(foundBiggerLayer){
+					mRenderers->insert(itBiggerLayer, renderer); // this method inserts before the iterator
+				}
+			}
+		}
 }
 
 // ---------------------------------------------------------------------------

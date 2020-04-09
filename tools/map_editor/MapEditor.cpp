@@ -63,6 +63,44 @@ MapEditor::~MapEditor() = default;
 
 // ---------------------------------------------------------------------------
 
+void MapEditor::createPlayer() {
+  Vector2 size(100*1.5f,100*1.5f);
+
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
+
+  mPlayer = Memory::allocate<GameObject>();
+  mPlayer->init();
+
+  mPlayer->getTransform()->setLocalPosition(Vector3(-300,-100,0));
+  mPlayer->getTransform()->setScale(Vector3(size.x,size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  mPlayer->addComponent<Renderer>(renderer);
+
+  //renderer->setColor(Vector4(0,0,0,0.7f));
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  renderer->setAnimation("idle");
+
+  //renderer->setLineMode(true);
+  renderer->setLayer(4);
+
+  RigidBody* rigidBody = Memory::allocate<RigidBody>();
+  mPlayer->addComponent<RigidBody>(rigidBody);
+
+  Collider* collider = Memory::allocate<Collider>();
+  mPlayer->addComponent<Collider>(collider);
+  collider->setSize(size.x/1.5f,size.y);
+
+  getGameObject()->getScene()->addGameObject(mPlayer);
+}
+
+// ---------------------------------------------------------------------------
+
 void MapEditor::createBrush() {
   Vector2 size(mTileSize/2.0f,mTileSize/2.0f);
 
@@ -158,6 +196,7 @@ void MapEditor::createAtlas(){
 
 void MapEditor::init(){
   mTransform = getGameObject()->getTransform();
+  mPlayer = nullptr;
   mBrush = nullptr;
   mTestCreated = false;
   mTexture = nullptr;
@@ -247,6 +286,12 @@ void MapEditor::step(){
 
   if(Input::isKeyPressedOnce(GLFW_KEY_L)){
     loadMapIntoGrid();
+  }
+
+  if(Input::isKeyPressedOnce(GLFW_KEY_P)){
+    if(! mPlayer){
+      createPlayer();
+    }
   }
 }
 

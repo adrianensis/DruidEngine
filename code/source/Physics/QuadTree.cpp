@@ -40,7 +40,15 @@ QuadTree::Node::~Node() {
     Memory::free<Node>(mChildren->get(i));
   }
 
+  FOR_LIST(it, mColliders) {
+    // if(! (it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
+        Memory::free<Collider>(it.get());
+    // }
+  }
+
   Memory::free<List<Collider*>>(mColliders);
+  Memory::free<List<Collider*>>(mExitingColliders);
+  Memory::free<Array<Vector2>>(mLeftTopChildrenArray);
 }
 
 // ---------------------------------------------------------------------------

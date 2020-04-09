@@ -81,10 +81,12 @@ public:
   */
   virtual void flush();
 
+  virtual void reset();
+
   /*!
     \brief Frees aligned memory.
   */
-  virtual void reset();
+  virtual void terminate();
 
   /*!
     \brief Constructs objects. It is used like "new" keyword.

@@ -204,6 +204,12 @@ void Allocator::flush() {
 
 // ---------------------------------------------------------------------------
 
+void Allocator::terminate() {
+
+}
+
+// ---------------------------------------------------------------------------
+
 void Allocator::reset() {
   mAllocatedSize = 0;
   Allocator::clean(mStart, mTotalSize);

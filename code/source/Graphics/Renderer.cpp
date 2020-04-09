@@ -22,7 +22,6 @@ Renderer::Renderer() : Component() {
   mColor = nullptr;
 
   mPositionOffset = Vector3(0.0,0.0,0.0);
-  // mPositionOffsetMatrix = nullptr;
 
   // texture region
   mRegionPosition = Vector2(0.0,0.0);
@@ -42,21 +41,20 @@ Renderer::Renderer() : Component() {
 
 Renderer::~Renderer() {
   if(mAnimations){
+    FOR_LIST(it, mAnimations->getValues()){
+      Memory::free<Animation>(it.get());
+    }
+
     Memory::free<HashMap<std::string, Animation*>>(mAnimations);
   }
-  Memory::free<Array<f32>>(mColor);
 
-  // if(mPositionOffsetMatrix)
-  //   Memory::free<Matrix4>(mPositionOffsetMatrix);
+  Memory::free<Array<f32>>(mColor);
 }
 
 // ---------------------------------------------------------------------------
 
 void Renderer::init() {
 	// TRACE();
-
-  // mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
-  // mAnimations->init();
 
   mColor = Memory::allocate<Array<f32>>();
   mColor->init(4);
