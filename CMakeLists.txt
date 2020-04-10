@@ -168,7 +168,10 @@ if(BUILD_INTEGRATION_TESTS)
 include_directories("test/integration")
 
 set(TEST_FINAL_NAME "test_integration" )
-add_executable( ${TEST_FINAL_NAME} "test/integration/main.cpp" "test/integration/CustomScript.h" "test/integration/CustomScript.cpp" )
+
+file(GLOB TEST_INTEGRATION_SOURCES "test/integration/*.cpp" "test/integration/*.cpp")
+
+add_executable( ${TEST_FINAL_NAME} ${TEST_INTEGRATION_SOURCES} )
 target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
 install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 

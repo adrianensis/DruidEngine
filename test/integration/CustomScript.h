@@ -3,6 +3,7 @@
 
 #include "Script.h"
 #include "Vector2.h"
+#include "PlayerScript.h"
 
 namespace DE {
 
@@ -53,6 +54,7 @@ void init() override;
 void firstStep() override;
 void step() override;
 void terminate() override;
+
 };
 
 } /* namespace DE */

@@ -1,53 +1,52 @@
-#include "Script.h"
+#include "PlayerScript.h"
 #include "Log.h"
 
 #include "GameObject.h"
-#include "Transform.h"
-#include "Vector3.h"
-#include "Time.h"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Script::Script() : Component(){
-	mFirstStepDone = false;
-}
-
-// ---------------------------------------------------------------------------
-
-Script::~Script() = default;
-
-// ---------------------------------------------------------------------------
-
-void Script::init(){
+PlayerScript::PlayerScript() : Script(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Script::firstStep(){
+PlayerScript::~PlayerScript() = default;
+
+
+void PlayerScript::init(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Script::step(){
+void PlayerScript::firstStep(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Script::onEnterCollision(GameObject* otherGameObject) {
+void PlayerScript::step(){
 
 }
 
-void Script::onExitCollision(GameObject* otherGameObject) {
-	
-}
 // ---------------------------------------------------------------------------
 
-void Script::terminate() {
+void PlayerScript::onEnterCollision(GameObject* otherGameObject) {
+  TRACE();
+  otherGameObject->destroy();
+}
+
+void PlayerScript::onExitCollision(GameObject* otherGameObject) {
+  TRACE();
+}
+
+
+// ---------------------------------------------------------------------------
+
+void PlayerScript::terminate() {
 
 }
 

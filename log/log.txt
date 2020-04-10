@@ -12,11 +12,6 @@ DE_TRACE > [void DE::MaterialManager::init():35] >
 DE_TRACE > [void DE::Scene::init():41] > 
 DE_TRACE > [virtual void DE::Camera::init():27] > 
 DE_TRACE > [void DE::Frustum::init(DE::Camera *):25] > 
-DE_TRACE > [void DE::Material::init():20] > 
-DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
-DE_TRACE > [void DE::Shader::init():111] > 
-DE_TRACE > [void DE::Shader::initInternal(const std::string &, const std::string &):58] > 
-DE_TRACE > [void DE::Mesh::init(DE::u32, DE::u32):33] > 
 DE_TRACE > [static void DE::Time::init():19] > 
 DE_TRACE > [void DE::UI::terminate():319] > 
 DE_TRACE > [void DE::RenderEngine::init(DE::f32):88] > 
@@ -101,12 +96,10 @@ DE_TRACE > [void DE::PhysicsEngine::init(DE::f32):50] >
 DE_TRACE > [void DE::QuadTree::init(DE::f32):406] > 
 DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
 DE_TRACE > [void DE::Material::init():20] > 
-DE_TRACE > [void DE::Material::init():20] > 
 DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::Material::init():20] > 
-DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
+DE_TRACE > [void DE::Shader::init():111] > 
+DE_TRACE > [void DE::Shader::initInternal(const std::string &, const std::string &):58] > 
+DE_TRACE > [void DE::Mesh::init(DE::u32, DE::u32):33] > 
 DE_TRACE > [void DE::Animation::init():25] > 
 DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
 DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
@@ -121,3 +114,63 @@ DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32)
 DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
 DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
 DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::Material::init():20] > 
+DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 

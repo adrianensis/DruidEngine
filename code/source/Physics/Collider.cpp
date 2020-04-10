@@ -9,6 +9,7 @@
 #include "Memory.h"
 #include "Log.h"
 #include "MathUtils.h"
+#include "Script.h"
 
 namespace DE {
 
@@ -100,7 +101,9 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-  Transform* t = getGameObject()->getTransform();
+  GameObject* gameObject = getGameObject();
+
+  Transform* t = gameObject->getTransform();
   Vector3 center = t->getLocalPosition();
   Vector3 otherCenter = otherCollider->getGameObject()->getTransform()->getLocalPosition();
 
@@ -129,28 +132,28 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
     if(result != ColliderStatus::STATUS_NONE){
 
-      if(! getGameObject()->isStatic()){
+      if(! gameObject->isStatic()){
         Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
         Vector2 detectedVertex = vertices->get(detectedVertexIndex);
 
-        if(detectedVertex.x > (otherVertices->get(0).x + msDepthEpsilon) && detectedVertex.x < (otherVertices->get(3).x - msDepthEpsilon)){
-
-          if(detectedVertex.y > otherCenter.y){
-            ECHO("TOP - Vector2(0,1)");
-
-          }else if(detectedVertex.y < otherCenter.y){
-            ECHO("BOTTOM - Vector2(0,-1)");
-          }
-        } else if(detectedVertex.y < (otherVertices->get(0).y - msDepthEpsilon) && detectedVertex.y > (otherVertices->get(1).y + msDepthEpsilon)){
-
-          if(detectedVertex.x > otherCenter.x){
-            ECHO("RIGHT - Vector2(1,0)");
-
-          }else if(detectedVertex.x < otherCenter.x){
-            ECHO("LEFT - Vector2(-1,0)");
-          }
-        }
+        // if(detectedVertex.x > (otherVertices->get(0).x + msDepthEpsilon) && detectedVertex.x < (otherVertices->get(3).x - msDepthEpsilon)){
+        //
+        //   if(detectedVertex.y > otherCenter.y){
+        //     ECHO("TOP - Vector2(0,1)");
+        //
+        //   }else if(detectedVertex.y < otherCenter.y){
+        //     ECHO("BOTTOM - Vector2(0,-1)");
+        //   }
+        // } else if(detectedVertex.y < (otherVertices->get(0).y - msDepthEpsilon) && detectedVertex.y > (otherVertices->get(1).y + msDepthEpsilon)){
+        //
+        //   if(detectedVertex.x > otherCenter.x){
+        //     ECHO("RIGHT - Vector2(1,0)");
+        //
+        //   }else if(detectedVertex.x < otherCenter.x){
+        //     ECHO("LEFT - Vector2(-1,0)");
+        //   }
+        // }
       }
 
 
@@ -174,6 +177,20 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
           //mRigidBody->stopMovement();
           //otherCollider->getRigidBody()->stopMovement();
         // }
+      }
+    }
+
+    // TODO : CONTINUE HERE ↓↓↓↓↓
+    if(result != ColliderStatus::STATUS_NONE){
+
+      if(gameObject->getComponents<Script>() && gameObject->getComponents<Script>()->getLength() > 0){
+        Script* script = gameObject->getComponents<Script>()->get(0);
+        script->onEnterCollision(otherCollider->getGameObject());
+      }
+
+      if(otherCollider->getGameObject()->getComponents<Script>() && otherCollider->getGameObject()->getComponents<Script>()->getLength() > 0){
+        Script* script = otherCollider->getGameObject()->getComponents<Script>()->get(0);
+        script->onEnterCollision(gameObject);
       }
     }
   }

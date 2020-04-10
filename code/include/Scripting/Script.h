@@ -5,6 +5,8 @@
 
 namespace DE {
 
+class GameObject;
+
 class Script : public Component{
 private:
   bool mFirstStepDone;
@@ -17,6 +19,9 @@ public:
   virtual void firstStep();
   virtual void step();
   virtual void terminate();
+
+  virtual void onEnterCollision(GameObject* otherGameObject);
+  virtual void onExitCollision(GameObject* otherGameObject);
 
   bool isFirstStepDone() const { return mFirstStepDone; }
   void firstStepDone() {  mFirstStepDone = true; }

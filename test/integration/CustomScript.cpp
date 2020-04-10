@@ -80,6 +80,9 @@ void CustomScript::createTestObj() {
   mTestObj->addComponent<Collider>(collider);
   collider->setSize(size.x/1.5f,size.y);
 
+  Script* script = Memory::allocate<PlayerScript>();
+  mTestObj->addComponent<Script>(script);
+
   // mTestMinion = Memory::allocate<GameObject>();
   // mTestMinion->init();
   //
