@@ -1,5 +1,6 @@
 #include "MathUtils.h"
 #include <algorithm>
+#include "Log.h"
 
 namespace DE {
 
@@ -98,7 +99,7 @@ bool testLineLine(const Vector2& lineAStart, const Vector2& lineAEnd, const Vect
 
 // ---------------------------------------------------------------------------
 
-bool MathUtils::testLineSphereNoIntersection(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& center, f32 radius, f32 eps) {
+bool MathUtils::testLineSphereSimple(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& center, f32 radius, f32 eps) {
 
   bool lineIntersectsSphere = false;
 
@@ -106,12 +107,8 @@ bool MathUtils::testLineSphereNoIntersection(const Vector2& lineStart, const Vec
 
   if(testSpherePoint(lineStart, center, radius) || testSpherePoint(lineEnd, center, radius)){
     lineIntersectsSphere = true;
-  } else if(testLinePoint(lineStart, lineEnd, closestPoint, eps)) {
-    f32 distance = center.dst(closestPoint);
-
-    if (distance <= radius) {
-      lineIntersectsSphere = true;
-    }
+  } else{
+    lineIntersectsSphere = testSpherePoint(closestPoint, center, radius);
   }
 
   return lineIntersectsSphere;
@@ -185,8 +182,16 @@ bool MathUtils::testLinePoint(const Vector2& lineStart, const Vector2& lineEnd, 
 // ---------------------------------------------------------------------------
 
 Vector2 MathUtils::closestPointInLine(const Vector2& lineStart, const Vector2& lineEnd, const Vector2& point){
-  f32 dot = (point - lineStart).dot(lineEnd - lineStart);
-  return Vector2(lineStart.x + (dot * (lineEnd.x-lineStart.x)), lineStart.y + (dot * (lineEnd.y-lineStart.y)));
+
+  Vector2 pointStartVector = (point - lineStart)/*.nor()*/;
+  Vector2 lineVector = (lineEnd - lineStart)/*.nor()*/;
+
+  f32 t = pointStartVector.dot(lineVector) / lineVector.dot(lineVector);
+
+  t = std::fmaxf(t, 0.0f); // clamp to 0
+  t = std::fminf(t, 1.0f); // clampt to 1
+
+  return Vector2(lineStart + (lineVector.mul(t)));
 }
 
 // ---------------------------------------------------------------------------

@@ -80,7 +80,7 @@ public:
 	 */
 
 	Vector4& operator=(const Vector4& rhs) {
-		// if (this == &rhs) return *this; // handle self assignment
+		if (this == &rhs) return *this; // handle self assignment
 		//assignment operator
 		return this->set(rhs);
 	}

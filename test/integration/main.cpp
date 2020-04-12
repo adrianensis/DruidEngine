@@ -14,6 +14,7 @@
 #include "RigidBody.h"
 #include "Collider.h"
 #include "Vector4.h"
+#include "RenderContext.h"
 
 using namespace DE;
 
@@ -38,7 +39,16 @@ int main() {
 
 	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent<Camera>(cameraComponent);
-	cameraComponent->setOrtho(-720, 720, -720, 720, 1000, -1000);
+
+	/*
+	if (aspect >= 1.0)
+		ortho(-50.0 * aspect, 50.0 * aspect, -50.0, 50.0, 1.0, -1.0);
+	else
+		ortho(-50.0, 50.0, -50.0 / aspect, 50.0 / aspect, 1.0, -1.0);
+	*/
+	f32 aspect = RenderContext::getAspectRatio();
+	cameraComponent->setOrtho(-720*aspect, 720*aspect, -720, 720, 1, -1);
+	// cameraComponent->setOrtho(-720, 720, -720, 720, 1000, -1000);
 
 	// OBJECT 1
 

@@ -7,6 +7,8 @@
 #include "Time.h"
 #include "List.h"
 #include "Settings.h"
+#include "ContactsManager.h"
+#include "RenderEngine.h"
 
 namespace DE {
 
@@ -35,6 +37,14 @@ void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
 
 // ---------------------------------------------------------------------------
 
+void PhysicsEngine::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+  RenderEngine::getInstance()->drawLine(lineStart, lineEnd);
+  mQuadTree->rayCastQuery(lineStart, lineEnd, outList);
+}
+
+
+// ---------------------------------------------------------------------------
+
 void PhysicsEngine::internalRemoveRigidBody(const Iterator* it){
 	auto castedIt = it->cast<RigidBody*>();
 	mRigidBodies->remove(*castedIt);
@@ -49,11 +59,14 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator* it){
 void PhysicsEngine::init(f32 sceneSize){
 	TRACE();
 
+  ContactsManager::getInstance()->init();
+
   mRigidBodies = Memory::allocate<List<RigidBody*>>();
   mRigidBodies->init();
 
   mQuadTree = Memory::allocate<QuadTree>();
   mQuadTree->init(sceneSize);
+
 }
 
 // ---------------------------------------------------------------------------
@@ -62,6 +75,8 @@ void PhysicsEngine::step(f32 deltaTime){
 
   f32 dt = deltaTime;
   f32 maxIterations = 5.0f;
+
+  // ECHO("INTEGRATE")
 
   FOR_LIST (it, mRigidBodies){
     if(it.get()->isActive()){
@@ -76,6 +91,7 @@ void PhysicsEngine::step(f32 deltaTime){
     }
   }
 
+  // ECHO("UPDATE")
   mQuadTree->update();
 
   if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
@@ -96,6 +112,7 @@ void PhysicsEngine::step(f32 deltaTime){
         }
       }
 
+      // ECHO("UPDATE BC PENETRATION")
       mQuadTree->update();
 
       if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
@@ -118,6 +135,8 @@ void PhysicsEngine::step(f32 deltaTime){
   // }
 
   if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
+    // ECHO("RESTORE")
+
     FOR_LIST (it, mRigidBodies){
       if((it.get()->getCollider()->isPenetrated()/*getStatus() == ColliderStatus::STATUS_PENETRATION*/)){
 
@@ -130,9 +149,16 @@ void PhysicsEngine::step(f32 deltaTime){
       it.get()->getCollider()->unmarkPenetrated();
     }
   }
+
   mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
 }
 
+// ---------------------------------------------------------------------------
+
+void PhysicsEngine::updateContacts(){
+  // TRACE();
+  ContactsManager::getInstance()->updateContacts();
+}
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::terminate(){
@@ -143,6 +169,8 @@ void PhysicsEngine::terminate(){
   }
 
   Memory::free<QuadTree>(mQuadTree);
+
+  Memory::free<ContactsManager>(ContactsManager::getInstance());
 }
 
 // ---------------------------------------------------------------------------

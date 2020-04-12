@@ -100,49 +100,6 @@ void Engine::setScene(u32 i){
 
 // ---------------------------------------------------------------------------
 
-void Engine::loadScene(Scene* scene){
-	// TRACE();
-
-	Camera* camera = scene->getCameraGameObject()->getComponents<Camera>()->get(0);
-
-	mRenderEngine->setCamera(camera);
-
-	const List<GameObject*>* newGameObjects = scene->getNewGameObjects();
-	u32 maxToSpawn = Settings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
-
-	// VAR(f32, newGameObjects->getLength());
-
-	FOR_LIST (itGameObjects, newGameObjects){
-		GameObject* gameObject = itGameObjects.get();
-
-		List<Script*>* scriptList = gameObject->getComponents<Script>();
-		List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
-		List<RigidBody*>* rigidBodyList = gameObject->getComponents<RigidBody>();
-
-		Script* script = scriptList ? scriptList->get(0) : nullptr;
-		Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
-		RigidBody* rigidBbody = rigidBodyList ? rigidBodyList->get(0) : nullptr;
-
-		if(script){
-			mScriptEngine->addScript(script);
-		}
-
-		if(rendererList){
-			FOR_LIST (it, rendererList){
-				mRenderEngine->addRenderer(it.get());
-			}
-		}
-
-		if(rigidBbody){
-			mPhysicsEngine->addRigidBody(rigidBbody);
-		}
-	}
-
-	scene->flushNewGameObjects();
-}
-
-// ---------------------------------------------------------------------------
-
 void Engine::run(){
 	Time::init();
 
@@ -157,9 +114,7 @@ void Engine::run(){
 
 		Time::tick();
 
-		if(mScenes->get(mCurrentSceneIndex)->thereAreNewGameObjects()){
-			loadScene(mScenes->get(mCurrentSceneIndex));
-		}
+		mScenes->get(mCurrentSceneIndex)->step();
 
 		Input::pollEvents();
 
@@ -167,7 +122,12 @@ void Engine::run(){
 
 		mScriptEngine->step();
 
-		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
+		f32 dtHalf = Time::getDeltaTimeSeconds()/2.0f;
+
+		mPhysicsEngine->step(dtHalf);
+		mPhysicsEngine->step(dtHalf);
+		// mPhysicsEngine->step(Time::getDeltaTimeSeconds()/3.0f);
+		mPhysicsEngine->updateContacts();
 
 		mRenderEngine->step();
 

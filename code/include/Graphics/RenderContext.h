@@ -30,6 +30,7 @@ public:
 	~RenderContext() override;
 
 	static Vector2 getWindowSize();
+	static f32 getAspectRatio();
 
 	static void init();
 	static bool isClosed();

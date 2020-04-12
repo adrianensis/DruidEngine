@@ -1,22 +1,22 @@
 DE_TRACE > [static void DE::Memory::init():30] > 
 DE_TRACE > [virtual void DE::LinearAllocator::init(DE::u32):18] > 
 DE_TRACE > [virtual void DE::Allocator::init(DE::u32):182] > 
-DE_TRACE > [virtual void DE::Allocator::initFromMemory(DE::u32, void *):190] > 
+DE_TRACE > [virtual void DE::Allocator::initFromMemory(DE::u32, void*):190] > 
 DE_TRACE > [virtual void DE::LinearAllocator::init(DE::u32):20] > 
 DE_ECHO > TOTAL MEMORY (IN MB)
 DE_VAL > 2048.000000
 DE_TRACE > [void DE::Engine::init():47] > 
-DE_TRACE > [static void DE::RenderContext::init():43] > 
+DE_TRACE > [static void DE::RenderContext::init():49] > 
 DE_TRACE > [static void DE::Input::init():54] > 
 DE_TRACE > [void DE::MaterialManager::init():35] > 
-DE_TRACE > [void DE::Scene::init():41] > 
+DE_TRACE > [void DE::Scene::init():48] > 
 DE_TRACE > [virtual void DE::Camera::init():27] > 
-DE_TRACE > [void DE::Frustum::init(DE::Camera *):25] > 
+DE_TRACE > [void DE::Frustum::init(DE::Camera*):25] > 
 DE_TRACE > [static void DE::Time::init():19] > 
-DE_TRACE > [void DE::UI::terminate():319] > 
+DE_TRACE > [void DE::UI::terminate():316] > 
 DE_TRACE > [void DE::RenderEngine::init(DE::f32):88] > 
 DE_TRACE > [void DE::Shader::initDebug():117] > 
-DE_TRACE > [void DE::Shader::initInternal(const std::string &, const std::string &):58] > 
+DE_TRACE > [void DE::Shader::initInternal(const string&, const string&):58] > 
 DE_TRACE > [void DE::Chunk::init():93] > 
 DE_TRACE > [void DE::BatchesMap::init():33] > 
 DE_TRACE > [void DE::Chunk::init():93] > 
@@ -92,85 +92,1130 @@ DE_TRACE > [void DE::BatchesMap::init():33] >
 DE_TRACE > [void DE::Chunk::init():93] > 
 DE_TRACE > [void DE::BatchesMap::init():33] > 
 DE_TRACE > [void DE::ScriptEngine::init():21] > 
-DE_TRACE > [void DE::PhysicsEngine::init(DE::f32):50] > 
-DE_TRACE > [void DE::QuadTree::init(DE::f32):406] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
+DE_TRACE > [void DE::PhysicsEngine::init(DE::f32):60] > 
+DE_TRACE > [void DE::ContactsManager::init():73] > 
+DE_TRACE > [void DE::QuadTree::init(DE::f32):458] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
 DE_TRACE > [void DE::Material::init():20] > 
-DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
+DE_TRACE > [void DE::Texture::init(const string&):21] > 
 DE_TRACE > [void DE::Shader::init():111] > 
-DE_TRACE > [void DE::Shader::initInternal(const std::string &, const std::string &):58] > 
+DE_TRACE > [void DE::Shader::initInternal(const string&, const string&):58] > 
 DE_TRACE > [void DE::Mesh::init(DE::u32, DE::u32):33] > 
 DE_TRACE > [void DE::Animation::init():25] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
 DE_TRACE > [void DE::Animation::init():25] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
-DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2 &, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
+DE_TRACE > [void DE::AnimationFrame::init(const DE::Vector2&, DE::f32, DE::f32):18] > 
 DE_TRACE > [void DE::Material::init():20] > 
-DE_TRACE > [void DE::Texture::init(const std::string &):21] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2 &, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree *):57] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
-DE_TRACE > [virtual void DE::PlayerScript::onEnterCollision(DE::GameObject *):38] > 
+DE_TRACE > [void DE::Texture::init(const string&):21] > 
+DE_TRACE > [void DE::Material::init():20] > 
+DE_TRACE > [void DE::Texture::init(const string&):21] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_TRACE > [void DE::QuadTree::Node::init(const DE::Vector2&, DE::f32, DE::f32, DE::f32, DE::f32, DE::QuadTree*):61] > 
+DE_ECHO > onEnterCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_ECHO > onExitCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 6.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 6.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onEnterCollision player
+DE_ECHO > onExitCollision player
+DE_ECHO > onExitCollision player
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 5.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 4.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 3.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 2.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 1.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000
+DE_VAR > intersectedGameObjects->getLength() : 0.000000

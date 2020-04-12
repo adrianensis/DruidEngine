@@ -26,8 +26,6 @@ private:
   PhysicsEngine* mPhysicsEngine;
   ScriptEngine* mScriptEngine;
 
-  void loadScene(Scene* scene);
-
 public:
 
   DE_CLASS(Engine, DE_Class);

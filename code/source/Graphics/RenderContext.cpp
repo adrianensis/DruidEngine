@@ -31,6 +31,12 @@ Vector2 RenderContext::getWindowSize() {
 
 // ---------------------------------------------------------------------------
 
+f32 RenderContext::getAspectRatio() {
+  return smWindowSize.x / smWindowSize.y;
+}
+
+// ---------------------------------------------------------------------------
+
 void RenderContext::onResize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
 
@@ -47,7 +53,7 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  smWindowSize.set(720, 720);
+  smWindowSize.set(1080, 720);
 
 	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
 	if (!smWindow){

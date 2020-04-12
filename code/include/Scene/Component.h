@@ -15,6 +15,7 @@ private:
 	bool mIsActive;
 	bool mIsDestroyed;
 	bool mIsPendingToBeDestroyed;
+	bool mAlreadyAddedToEngine;
 
 public:
 
@@ -22,8 +23,11 @@ public:
 
 	virtual void init() = 0;
 
-	GameObject* getGameObject() const { return mGameObject;};
+	GameObject* getGameObject() const { return mGameObject; };
 	void setGameObject(GameObject* newGameObject ) { mGameObject = newGameObject; };
+
+	bool isAlreadyAddedToEngine() const { return mAlreadyAddedToEngine; };
+	void setAlreadyAddedToEngine(bool alreadyAddedToEngine ) { mAlreadyAddedToEngine = mAlreadyAddedToEngine; };
 
 	bool isStatic();
 	bool isActive() const { return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive; };

@@ -43,8 +43,12 @@ void GameObject::addComponent(Component* component, ClassId classId) {
 
 // ---------------------------------------------------------------------------
 
-void GameObject::removeComponent(Component* component) {
-	 component->destroy();
+void GameObject::removeComponent(Component* component, ClassId classId) {
+	if(mComponentsMap->contains(classId)){
+		List<Component*>* list = mComponentsMap->get(classId);
+		list->remove(list->find(component));
+		component->destroy();
+	}
 }
 
 // ---------------------------------------------------------------------------

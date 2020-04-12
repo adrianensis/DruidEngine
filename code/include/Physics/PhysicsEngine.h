@@ -8,6 +8,7 @@ namespace DE {
 
 class RigidBody;
 class QuadTree;
+class GameObject;
 template<class T> class List;
 class Iterator;
 
@@ -25,8 +26,11 @@ public:
 
   void addRigidBody(RigidBody* rigidBody);
 
+  void rayCastQuery(const Vector3& lineStart, const Vector3& lineSnd, List<GameObject*>* outList);
+
   void init(f32 sceneSize);
   void step(f32 deltaTime);
+  void updateContacts();
   void terminate();
 
 };

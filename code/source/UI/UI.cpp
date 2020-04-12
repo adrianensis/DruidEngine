@@ -88,18 +88,9 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
   uiText->getTransform()->setLocalPosition(position);
   uiText->getTransform()->setScale(Vector3(size.x, size.y,1));
 
-  FOR_RANGE(i, 0, text.length()){
-      Renderer* renderer = Memory::allocate<Renderer>();
-      uiText->addComponent<Renderer>(renderer);
-
-      renderer->setPositionOffset(Vector3(i * size.x, 0,0));
-
-      renderer->setMesh(Mesh::getRectangle());
-      renderer->setMaterial(mFontMaterial);
-      renderer->setLayer(layer);
-
-      renderer->setRegion(mCharMap->get(text.at(i)).x, mCharMap->get(text.at(i)).y, mFontTileTextureSize, mFontTileTextureSize);
-  }
+  uiText->setSize(size);
+  uiText->setLayer(layer);
+  uiText->setText(text);
 
   uiText->setComponentsCache();
 
@@ -277,6 +268,12 @@ void UI::init() {
   mCharMap->set('|',Vector2(12/mFontTilesCount, 7/mFontTilesCount));
   mCharMap->set('}',Vector2(13/mFontTilesCount, 7/mFontTilesCount));
   mCharMap->set('~',Vector2(14/mFontTilesCount, 7/mFontTilesCount));
+}
+
+// ---------------------------------------------------------------------------
+
+Vector2 UI::getCharTextureCoordinates(c8 character){
+  return mCharMap->get(character);
 }
 
 // ---------------------------------------------------------------------------

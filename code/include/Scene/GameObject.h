@@ -40,11 +40,16 @@ public:
 	void init();
 
 	void addComponent(Component* component, ClassId classId);
-	void removeComponent(Component* component);
+	void removeComponent(Component* component, ClassId classId);
 
 	template<class T>
 	void addComponent(T* component){
 		GameObject::addComponent(component, T::getClassIdStatic());
+	}
+
+	template<class T>
+	void removeComponent(T* component){
+		GameObject::removeComponent(component, T::getClassIdStatic());
 	}
 
 	template<class T>

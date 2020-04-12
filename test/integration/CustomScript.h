@@ -14,6 +14,7 @@ class Collider;
 class GameObject;
 class Camera;
 class UIButton;
+class UIText;
 class Material;
 template <class K, class V> class HashMap;
 
@@ -30,6 +31,8 @@ private:
   GameObject* mTestObj;
   GameObject* mTestMinion;
   UIButton* mTestButton;
+  UIText* mText;
+  u32 mTextCounter;
 
   bool mTestCreated;
 

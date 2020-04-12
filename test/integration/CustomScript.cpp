@@ -32,6 +32,7 @@
 #include "UI.h"
 #include "UIButton.h"
 #include "UIText.h"
+#include "PhysicsEngine.h"
 
 namespace DE {
 
@@ -48,14 +49,14 @@ CustomScript::~CustomScript() = default;
 // ---------------------------------------------------------------------------
 
 void CustomScript::createTestObj() {
-  Vector2 size(100*1.5f,100*1.5f);
+  Vector2 size(100,100);
 
   Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
   mTestObj = Memory::allocate<GameObject>();
   mTestObj->init();
 
-  mTestObj->getTransform()->setLocalPosition(Vector3(-300,-100,0));
+  mTestObj->getTransform()->setLocalPosition(Vector3(-350,-100,0));
   mTestObj->getTransform()->setScale(Vector3(size.x,size.y,1));
 
   Renderer* renderer = Memory::allocate<Renderer>();
@@ -172,23 +173,37 @@ void CustomScript::createTestScene() {
 
   Material* material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
 
-  FOR_RANGE(i, 0, 6){
-    createTestTile((i*100.0f) - 500.0f, 100, material);
+  // FOR_RANGE(i, 0, 6){
+  //   createTestTile((i*100.0f) - 500.0f, 100 + 200, material);
+  // }
+  //
+  // FOR_RANGE(i, 6, 10){
+  //   createTestTile((i*100.0f) - 500.0f, 200 + 200, material);
+  // }
+
+  // FOR_RANGE(i, 0, 6){
+  //   createTestTile((i*100.0f) - 500.0f, 100, material);
+  // }
+  //
+  // FOR_RANGE(i, 6, 10){
+  //   createTestTile((i*100.0f) - 500.0f, 200, material);
+  // }
+
+  FOR_RANGE(i, 0, 5){
+    createTestTile((i*100.0f) - 1000.0f, -400, material);
   }
 
   FOR_RANGE(i, 5, 10){
-    createTestTile((i*100.0f) - 500.0f, 200, material);
+    createTestTile((i*100.0f) - 1000.0f, -300, material);
   }
 
-  FOR_RANGE(i, 0, 6){
-    createTestTile((i*100.0f) - 500.0f, -300, material);
+  FOR_RANGE(i, 10, 30){
+    createTestTile((i*100.0f) - 1000.0f, -400, material);
   }
 
-  FOR_RANGE(i, 5, 10){
-    createTestTile((i*100.0f) - 500.0f, -200, material);
-  }
 
-  //createTestTile((100.0f) - 300.0f, -350, material);
+  // createTestTile(0, 0, material);
+  // createTestTile(-200.0f, -150, material);
 
 }
 
@@ -212,7 +227,7 @@ void CustomScript::createTestTile(float x, float y, Material* material) {
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(material);
 
-  renderer->setRegion(4/tilesCount, 1/tilesCount, tileTextureSize, tileTextureSize);
+  renderer->setRegion(0/tilesCount, 0/tilesCount, tileTextureSize, tileTextureSize);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   tile->addComponent<RigidBody>(rigidBody);
@@ -345,12 +360,16 @@ void CustomScript::firstStep(){
       // mRendererMinion = mTestMinion->getComponents<Renderer>()->get(0);
       mTransform = mTestObj->getTransform();
     }
+
+    mText = UI::getInstance()->createText(getGameObject()->getScene(), Vector3(-300,0,0), Vector2(60,60),"0", 5);
+    mTextCounter = 0;
+
 }
 
 // ---------------------------------------------------------------------------
 
 void CustomScript::step(){
-  f32 movement = 650;
+  f32 movement = 300;
 
   bool running = false;
 
@@ -391,24 +410,39 @@ void CustomScript::step(){
     mRenderer->setInvertXAxis(false);
     // mRendererMinion->setInvertXAxis(false);
   // }else if(Input::isKeyPressedOnce(GLFW_KEY_ENTER)){
-  }else if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
+  }else if(Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)){
 
-    // createFont();
+    Vector2 mouse(Input::getMousePosition());
+    Vector3 world = mCamera->screenToWorld(mouse);
 
-    //Vector2 mouse(Input::getMousePosition());
+    List<GameObject*>* intersectedGameObjects = Memory::allocate<List<GameObject*>>();
+    intersectedGameObjects->init();
 
-    // VAR(f32, mouse.x);
-    // VAR(f32, mouse.y);
+    PhysicsEngine::getInstance()->rayCastQuery(Vector3(0,0,0), world, intersectedGameObjects);
 
-    //Vector3 world = mCamera->screenToWorld(mouse);
+    VAR(f32, intersectedGameObjects->getLength())
 
-    // VAR(f32, world.x);
-    // VAR(f32, world.y);
+    FOR_LIST(it, intersectedGameObjects){
+      it.get()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
+    }
 
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_KP_ADD)){
-    mRenderer->setLineMode(true);
-  }else if(Input::isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)){
-    mRenderer->setLineMode(false);
+    intersectedGameObjects->clear();
+
+  }else if(Input::isKeyPressed(GLFW_KEY_KP_ADD)){
+
+    mTextCounter += 10;
+    mText->setText(std::to_string(mTextCounter));
+
+    if(mTextCounter >= 1100){
+      mText->setText("1100 FOLLOWERS THANKS!!");
+
+    }
+
+    // mRenderer->setLineMode(true);
+  }else if(Input::isKeyPressed(GLFW_KEY_KP_SUBTRACT)){
+    if(mTextCounter >= 10) mTextCounter -= 10;
+    mText->setText(std::to_string(mTextCounter));
+    // mRenderer->setLineMode(false);
   }/*else if(Input::isKeyPressedOnce(GLFW_KEY_SPACE)){
     mRigidBody->addForce(Vector3(0,1100.0f,0));
   }else if(Input::isKeyPressedOnce(GLFW_KEY_LEFT_SHIFT)){

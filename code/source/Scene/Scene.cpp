@@ -11,8 +11,15 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "ConfigMap.h"
+#include "Settings.h"
+#include "Camera.h"
+#include "Script.h"
+#include "RigidBody.h"
 #include "MaterialManager.h"
 #include "MathUtils.h"
+#include "ScriptEngine.h"
+#include "RenderEngine.h"
+#include "PhysicsEngine.h"
 
 namespace DE {
 
@@ -163,6 +170,37 @@ void Scene::addGameObject(GameObject* gameObject) {
 
 // ---------------------------------------------------------------------------
 
+void Scene::updateComponents(GameObject* gameObject) {
+	List<Script*>* scriptList = gameObject->getComponents<Script>();
+	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
+	List<RigidBody*>* rigidBodyList = gameObject->getComponents<RigidBody>();
+
+	Script* script = scriptList ? scriptList->get(0) : nullptr;
+	Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
+	RigidBody* rigidBbody = rigidBodyList ? rigidBodyList->get(0) : nullptr;
+
+	if(script && !script->isAlreadyAddedToEngine()){
+		ScriptEngine::getInstance()->addScript(script);
+		script->setAlreadyAddedToEngine(true);
+	}
+
+	if(rendererList){
+		FOR_LIST (it, rendererList){
+			if(!it.get()->isAlreadyAddedToEngine()){
+				RenderEngine::getInstance()->addRenderer(it.get());
+				it.get()->setAlreadyAddedToEngine(true);
+			}
+		}
+	}
+
+	if(rigidBbody && !rigidBbody->isAlreadyAddedToEngine()){
+		PhysicsEngine::getInstance()->addRigidBody(rigidBbody);
+		rigidBbody->setAlreadyAddedToEngine(true);
+	}
+}
+
+// ---------------------------------------------------------------------------
+
 void Scene::removeGameObject(GameObject* gameObject) {
 	auto it = mGameObjects->find(gameObject);
 	mGameObjects->remove(it);
@@ -174,6 +212,28 @@ void Scene::removeGameObject(GameObject* gameObject) {
 	}
 }
 
+// ---------------------------------------------------------------------------
+
+void Scene::step(){
+
+	if(thereAreNewGameObjects()){
+
+		RenderEngine::getInstance()->setCamera(getCameraGameObject()->getComponents<Camera>()->get(0));
+
+		const List<GameObject*>* newGameObjects = getNewGameObjects();
+		u32 maxToSpawn = Settings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
+
+		// VAR(f32, newGameObjects->getLength());
+
+		FOR_LIST (itGameObjects, newGameObjects){
+			GameObject* gameObject = itGameObjects.get();
+
+			updateComponents(gameObject);
+		}
+
+		flushNewGameObjects();
+	}
+}
 // ---------------------------------------------------------------------------
 
 void Scene::flushNewGameObjects(){

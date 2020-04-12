@@ -6,8 +6,14 @@
 
 namespace DE {
 
+  class UIText;
+
 class PlayerScript : public Script{
 public:
+
+  UIText* textCollision;
+  UIText* textExit;
+  UIText* textEnter;
 
 DE_CLASS(PlayerScript, Script);
 
@@ -17,6 +23,7 @@ void step() override;
 void terminate() override;
 
 void onEnterCollision(GameObject* otherGameObject) override;
+void onCollision(GameObject* otherGameObject) override;
 void onExitCollision(GameObject* otherGameObject) override;
 
 };

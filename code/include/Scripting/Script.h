@@ -21,6 +21,7 @@ public:
   virtual void terminate();
 
   virtual void onEnterCollision(GameObject* otherGameObject);
+  virtual void onCollision(GameObject* otherGameObject);
   virtual void onExitCollision(GameObject* otherGameObject);
 
   bool isFirstStepDone() const { return mFirstStepDone; }

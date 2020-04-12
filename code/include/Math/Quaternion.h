@@ -84,7 +84,7 @@ public:
 	 */
 
 	Quaternion& operator=(const Quaternion& rhs) {
-		// if (this == &rhs) return *this; // handle self assignment
+		if (this == &rhs) return *this; // handle self assignment
 		//assignment operator
 		return this->set(rhs);
 	}

@@ -32,12 +32,15 @@ public:
 	const std::string& getPath() const { return mPath; };
 
 	void addGameObject(GameObject* gameObject);
+	void updateComponents(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
 
 	const List<GameObject*>* getGameObjects() const { return mGameObjects; };
 	const List<GameObject*>* getNewGameObjects() const { return mNewGameObjects; };
 	GameObject* getCameraGameObject() const { return mCameraGameObject; };
 	void setCameraGameObject(GameObject* newCameraGameObject ) { mCameraGameObject = newCameraGameObject; };
+
+	void step();
 
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();

@@ -8,6 +8,7 @@ namespace DE {
 
   template<class T> class Array;
   class RigidBody;
+  class ContactsManager;
 
 enum class ColliderStatus
 {
@@ -26,6 +27,7 @@ private:
   f32 mHeight;
   f32 mHalfHeight;
   f32 mRadius;
+  bool mIsSolid;
 
   static f32 msDepthEpsilon;
 
@@ -33,7 +35,7 @@ private:
 
   ColliderStatus mStatus;
 
-  bool mIsPenetrated = false;
+  bool mIsPenetrated;
 
 public:
 
@@ -49,6 +51,10 @@ public:
 	void setRigidBody(RigidBody* newRigidBody ) { mRigidBody = newRigidBody; };
   ColliderStatus getStatus() const { return mStatus;};
 	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
+
+  bool isSolid() const { return mIsSolid; };
+  void setIsSolid(bool isSolid) { mIsSolid = isSolid; };
+
 
   void markPenetrated() { mIsPenetrated = true; }
   void unmarkPenetrated() { mIsPenetrated = false; }

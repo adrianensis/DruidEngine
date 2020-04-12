@@ -42,8 +42,12 @@ void Script::onEnterCollision(GameObject* otherGameObject) {
 
 }
 
+void Script::onCollision(GameObject* otherGameObject) {
+
+}
+
 void Script::onExitCollision(GameObject* otherGameObject) {
-	
+
 }
 // ---------------------------------------------------------------------------
 

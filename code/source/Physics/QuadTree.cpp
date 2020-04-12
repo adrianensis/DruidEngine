@@ -8,6 +8,10 @@
 #include "Log.h"
 #include "RenderEngine.h"
 #include "Settings.h"
+#include "ContactsManager.h"
+#include "MathUtils.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 namespace DE {
 
@@ -61,6 +65,7 @@ void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 min
   mHeight = height;
   mMinWidth = minWidth;
   mMinHeight = minHeight;
+  mRadius = sqrt(( mWidth * mWidth ) + (  mHeight * mHeight )) / 2.0f;
   mTree = tree;
 
   mHalfWidth = mWidth/2.0f;
@@ -273,12 +278,21 @@ void QuadTree::Node::update(/*contactManager*/){
                       ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
                       ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
 
+                      if(status == ColliderStatus::STATUS_NONE && status2 == ColliderStatus::STATUS_NONE){
+                        ContactsManager::getInstance()->removeContact(colliderA, colliderB);
+                      } else {
+                        ContactsManager::getInstance()->addContact(colliderA, colliderB);
+                      }
+
                       if(status > newTreeStatus) {
                         newTreeStatus = status;
                       }
                       if(status2 > newTreeStatus) {
                         newTreeStatus = status2;
                       }
+
+                    } else {
+                      ContactsManager::getInstance()->removeContact(colliderA, colliderB);
                     }
                   }
                 }
@@ -385,9 +399,47 @@ u32 QuadTree::Node::getCollidersCount() const { return mColliders->getLength(); 
 
 // ---------------------------------------------------------------------------
 
+void QuadTree::Node::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+
+  bool rayIntersectsNode = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd), Vector2(mLeftTop + Vector3(mHalfWidth, -mHalfHeight, 0)), mRadius, 0.0f);
+
+  if(rayIntersectsNode){
+    if(isLeaf()){
+
+      FOR_LIST(it, mColliders) {
+        Collider* collider = it.get();
+
+        GameObject* gameObject = collider->getGameObject();
+
+        // TODO : line vs rectangle
+        bool rayIntersectsCollider = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd), Vector2(gameObject->getTransform()->getWorldPosition()), collider->getRadius(), 0.0f);
+
+        if(rayIntersectsCollider){
+          List<GameObject*>::ListIterator it = outList->find(gameObject);
+
+          // If not found then add it
+          if(it.isNull()){
+            outList->pushBack(gameObject);
+          }
+        }
+      }
+
+    } else {
+      FOR_ARRAY (i, mChildren){
+    		Node* child = mChildren->get(i);
+
+    		if(child){
+    			child->rayCastQuery(lineStart, lineEnd, outList);
+    		}
+    	}
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+
 QuadTree::QuadTree() : DE_Class(){
   mRoot = nullptr;
-  mContactsManager = nullptr;
   mWidth = 0.0f;
   mHeight = 0.0f;
   mStatus = ColliderStatus::STATUS_NONE;
@@ -424,6 +476,12 @@ void QuadTree::update() {
 
 void QuadTree::addCollider(Collider* collider) {
   mRoot->addCollider(collider);
+}
+
+// ---------------------------------------------------------------------------
+
+void QuadTree::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+  mRoot->rayCastQuery(lineStart, lineEnd, outList);
 }
 
 // ---------------------------------------------------------------------------

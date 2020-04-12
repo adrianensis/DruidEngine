@@ -13,6 +13,7 @@ namespace DE {
   class Iterator;
   template<class T> class Array;
   template <class K, class V> class HashMap;
+  class GameObject;
 
 class QuadTree : public DE_Class{
 private:
@@ -28,6 +29,9 @@ private:
   	f32 mHeight;
   	f32 mMinWidth;
   	f32 mMinHeight;
+
+    f32 mRadius;
+
   	QuadTree* mTree;
 
     f32 mHalfWidth;
@@ -51,8 +55,8 @@ private:
     void init(const Vector2& leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree* tree);
     Node* createChildNode(u32 index);
     void addCollider(Collider* collider);
-    void update(/*contactManager*/);
-    void updateChildren(/*contactManager*/);
+    void update();
+    void updateChildren();
     void checkExit(Collider* collider) const;
     void manageExits(List<Collider*>* exitingColliders);
 
@@ -62,33 +66,11 @@ private:
     bool testPartialCollider(Collider* collider) const;
     bool childNodeTestPartialCollider(u32 index, Collider* collider) const;
 
-  };
+    void rayCastQuery(const Vector3& lineStart, const Vector3& lineSnd, List<GameObject*>* outList);
 
-  class Contact {
-  public:
-
-    Collider* mColliderA;
-    Collider* mColliderB;
-
-    Vector3 mContactPoint;
-    Vector3 mNormal; // From B to A
-    Vector3 mRelativeVelocity;
-    f32 mDepth;
-    bool mSolved;
-    //mAlive = 0;
-  };
-
-  class ContactsManager {
-  public:
-    // ID = ContactID = ColliderA + Collider B
-    // HashMap<ID, Contact>
-
-    // TODO : ID should be just the pointer or hash
   };
 
   Node* mRoot;
-
-  ContactsManager* mContactsManager;
 
   f32 mWidth;
   f32 mHeight;
@@ -106,6 +88,8 @@ public:
 
   ColliderStatus getStatus() const { return mStatus;};
 	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
+
+  void rayCastQuery(const Vector3& lineStart, const Vector3& lineSnd, List<GameObject*>* outList);
 
 };
 } /* namespace DE */

@@ -18,6 +18,8 @@ public:
   Iterator() {};
   ~Iterator() {};
 
+  virtual bool isNull() const = 0;
+
   template <class T>
   const typename List<T>::ListIterator* cast() const {
     return static_cast<const typename List<T>::ListIterator*>(this);
@@ -161,7 +163,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    bool isNull() const{
+    bool isNull() const override{
       return mNode == nullptr;
     }
 
