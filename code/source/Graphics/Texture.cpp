@@ -6,12 +6,12 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Texture::Texture() : DE_Class() {
+Texture::Texture() : DE_Class(){
   mTextureId = -1;
   mData = nullptr;
 }
 
-Texture::~Texture() {
+Texture::~Texture(){
   SOIL_free_image_data(mData);
 }
 

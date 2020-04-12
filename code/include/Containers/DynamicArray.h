@@ -165,7 +165,7 @@ public:
   /*!
     \brief Constructor.
   */
-  void init() {
+  void init(){
     DynamicArray::init(0);
   }
 
@@ -175,7 +175,7 @@ public:
     \brief Constructor.
     \param length Length of the array.
   */
-  void init(u32 length) {
+  void init(u32 length){
     DynamicArray::init(length, 1);
   }
 
@@ -186,7 +186,7 @@ public:
     \param length Length of the array.
     \param alignment Bytes alignment.
   */
-  void init(u32 length, u32 alignment) {
+  void init(u32 length, u32 alignment){
     BaseContainer::init(length, sizeof(T), alignment);
 
     // list of arrays
@@ -196,7 +196,7 @@ public:
     // how many arrays are needed.
     u32 arrayCount = ceil(length/smMinSize) + 1;
 
-    FOR_RANGE(i, 0, arrayCount) {
+    FOR_RANGE(i, 0, arrayCount){
       Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
       newArray->init(smMinSize);
 

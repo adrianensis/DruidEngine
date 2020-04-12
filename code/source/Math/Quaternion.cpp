@@ -27,7 +27,7 @@ Quaternion::Quaternion(const Quaternion& other):DE_Class(),v(other.v),w(other.w)
 Quaternion::~Quaternion() = default;
 
 
-Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
+Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w){
 	//if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	v.set(x,y,z);
@@ -35,7 +35,7 @@ Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
 	return *this;
 }
 
-Quaternion& Quaternion::set(const Vector3& v, f32 w) {
+Quaternion& Quaternion::set(const Vector3& v, f32 w){
 	//if (this->w == w ) return *this; // handle self assignment
 	//assignment operator
 	this->v.set(v);
@@ -43,57 +43,57 @@ Quaternion& Quaternion::set(const Vector3& v, f32 w) {
 	return *this;
 }
 
-Quaternion& Quaternion::set(const Quaternion& rhs) {
+Quaternion& Quaternion::set(const Quaternion& rhs){
 	//if (this == &rhs) return *this; // handle self assignment
 	//assignment operator
 	set(rhs.v, rhs.w);
 	return *this;
 }
 
-Quaternion& Quaternion::add(const Quaternion& rhs) {
+Quaternion& Quaternion::add(const Quaternion& rhs){
 	// can be parallelized with SIMD auto-vectorization
 	v.add(rhs.v);
 	w = w + rhs.w;
 	return *this;
 }
 
-Quaternion& Quaternion::sub(const Quaternion& rhs) {
+Quaternion& Quaternion::sub(const Quaternion& rhs){
 	v.sub(rhs.v);
 	w = w - rhs.w;
 	return *this;
 }
 
-Quaternion& Quaternion::mul(const Quaternion& rhs) {
+Quaternion& Quaternion::mul(const Quaternion& rhs){
 	f32 w_total = (w * rhs.w) - (v.dot(rhs.v));
 	v.set(rhs.v*w + v*w + Vector3(v).cross(rhs.v));
 	w = w_total;
 	return *this;
 }
 
-Quaternion& Quaternion::div(const Quaternion& rhs) {
+Quaternion& Quaternion::div(const Quaternion& rhs){
 	this->mul(Quaternion(rhs).inv());
 	return *this;
 }
 
-Quaternion& Quaternion::add(f32 rhs) {
+Quaternion& Quaternion::add(f32 rhs){
 	v.add(rhs);
 	w = w + rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::sub(f32 rhs) {
+Quaternion& Quaternion::sub(f32 rhs){
 	v.sub(rhs);
 	w = w - rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::mul(f32 rhs) {
+Quaternion& Quaternion::mul(f32 rhs){
 	v.mul(rhs);
 	w = w * rhs;
 	return *this;
 }
 
-Quaternion& Quaternion::div(f32 rhs) {
+Quaternion& Quaternion::div(f32 rhs){
 	DE_ASSERT(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
@@ -118,7 +118,7 @@ f32 Quaternion::len() const {
 	return sqrtf(this->sqrlen());
 }
 
-Quaternion& Quaternion::nor() {
+Quaternion& Quaternion::nor(){
 	f32 len = this->len();
 
 	DE_ASSERT(len > 0, "Length is zero.");
@@ -135,12 +135,12 @@ bool Quaternion::eq(const Quaternion& q) const {
 	return v.eq(q.v) && MathUtils::eqf(this->w, q.w);
 }
 
-Quaternion& Quaternion::conj() {
+Quaternion& Quaternion::conj(){
 	this->v.mul(-1);
 	return *this;
 }
 
-Quaternion& Quaternion::inv() {
+Quaternion& Quaternion::inv(){
 	this->conj().div(this->sqrlen());
 	return *this;
 }
@@ -156,7 +156,7 @@ f32 Quaternion::angle(const Quaternion& q) const{
 	return acosf(v.dot(q.v)/(v.len()*q.v.len()));
 }
 
-Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::lerp(const Quaternion& target, f32 t){
 
 	f32 tt = 1-t;
 	this->mul(tt);
@@ -164,12 +164,12 @@ Quaternion& Quaternion::lerp(const Quaternion& target, f32 t) {
 	return *this;
 }
 
-Quaternion& Quaternion::nlerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::nlerp(const Quaternion& target, f32 t){
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
+Quaternion& Quaternion::slerp(const Quaternion& target, f32 t){
 
 	f32 theta = angle(target);
 
@@ -180,7 +180,7 @@ Quaternion& Quaternion::slerp(const Quaternion& target, f32 t) {
 	return *this;
 }
 
-void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
+void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw){
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
@@ -224,7 +224,7 @@ void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
 	v.z = aux3 - aux7;
 }
 
-void Quaternion::fromEuler(const Vector3& v) {
+void Quaternion::fromEuler(const Vector3& v){
 	fromEuler(v.x, v.y, v.z);
 }
 
@@ -268,7 +268,7 @@ void Quaternion::fromMatrix(const Matrix4& m){
 	f32 t = m.get(0,0) + m.get(1,1) + m.get(2,2);
 
   // we protect the division by s by ensuring that s>=1
-  if (t >= 0) { // |w| >= .5
+  if (t >= 0){ // |w| >= .5
 
 		f32 s = sqrtf(t + 1); // |s|>=1 ...
 		w = 0.5f * s;
@@ -277,7 +277,7 @@ void Quaternion::fromMatrix(const Matrix4& m){
 		v.y = (m.get(2,0) - m.get(0,2)) * s;
 		v.z = (m.get(0,1) - m.get(1,0)) * s;
 
-  } else if ((m.get(0,0) > m.get(1,1)) && (m.get(0,0) > m.get(2,2))) {
+  } else if ((m.get(0,0) > m.get(1,1)) && (m.get(0,0) > m.get(2,2))){
 
 		f32 s = sqrtf(1.0f + m.get(0,0) - m.get(1,1) - m.get(2,2)); // |s|>=1
 		v.x = s * 0.5f; // |x| >= .5
@@ -286,7 +286,7 @@ void Quaternion::fromMatrix(const Matrix4& m){
 		v.z = (m.get(2,0) + m.get(0,2)) * s;
 		w = (m.get(1,2) - m.get(2,1)) * s;
 
-  } else if (m.get(1,1) > m.get(2,2)) {
+  } else if (m.get(1,1) > m.get(2,2)){
 
 		f32 s = sqrtf(1.0f + m.get(1,1) - m.get(0,0) - m.get(2,2)); // |s|>=1
 		v.y = s * 0.5f; // |y| >= .5

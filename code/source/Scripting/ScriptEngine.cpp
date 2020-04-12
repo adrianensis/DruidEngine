@@ -2,6 +2,8 @@
 
 #include "Memory.h"
 #include "Script.h"
+#include "ScenesManager.h"
+#include "GameObject.h"
 
 #include "Log.h"
 
@@ -9,7 +11,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
+ScriptEngine::ScriptEngine() : DE_Class(), Singleton(){
   mScripts = nullptr;
 }
 
@@ -33,6 +35,16 @@ void ScriptEngine::addScript(Script* newScript){
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::step(){
+
+  Script* controller = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
+
+  if(! controller->isFirstStepDone()){
+    controller->firstStep();
+    controller->firstStepDone();
+  }
+
+  controller->step();
+
   FOR_LIST (it, mScripts){
     Script* script = it.get();
 
@@ -47,13 +59,16 @@ void ScriptEngine::step(){
 
 // ---------------------------------------------------------------------------
 
-void ScriptEngine::terminate() {
+void ScriptEngine::terminate(){
   TRACE();
-  FOR_LIST (it, mScripts){
-		Memory::free<Script>(it.get());
-	}
+  if(mScripts){
+    FOR_LIST (it, mScripts){
+  		Memory::free<Script>(it.get());
+  	}
+    
+    Memory::free<List<Script*>>(mScripts);
+  }
 
-  Memory::free<List<Script*>>(mScripts);
 }
 
 // ---------------------------------------------------------------------------

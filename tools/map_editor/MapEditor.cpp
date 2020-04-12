@@ -53,7 +53,7 @@ MapEditor::CellData::~CellData(){
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::CellData::addGameObject(GameObject* gameObject, u32 layer) {
+void MapEditor::CellData::addGameObject(GameObject* gameObject, u32 layer){
   if(! layers){
     layers = Memory::allocate<Array<GameObject*>>();
     layers->init(10); // MAX LAYERS
@@ -64,7 +64,7 @@ void MapEditor::CellData::addGameObject(GameObject* gameObject, u32 layer) {
   }
 }
 
-void MapEditor::CellData::removeGameObject(u32 layer) {
+void MapEditor::CellData::removeGameObject(u32 layer){
   if(layers){
     if(layer >= 0 && layer < 10){
       layers->set(layer, nullptr);
@@ -94,7 +94,7 @@ MapEditor::~MapEditor() = default;
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::createPlayer() {
+void MapEditor::createPlayer(){
   Vector2 size(100*1.5f,100*1.5f);
 
   Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
@@ -133,7 +133,7 @@ void MapEditor::createPlayer() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::createBrush() {
+void MapEditor::createBrush(){
   Vector2 size(mTileSize/2.0f,mTileSize/2.0f);
 
   mBrush = Memory::allocate<GameObject>();
@@ -155,7 +155,7 @@ void MapEditor::createBrush() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::createTile(f32 x, f32 y) {
+void MapEditor::createTile(f32 x, f32 y){
   // if(mBrush){
     Vector2 size(mTileSize,mTileSize);
 
@@ -209,7 +209,7 @@ void MapEditor::createAtlas(){
       renderer->setRegion(i/atlasSize.x, j/atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
       renderer->setLayer(2);
 
-      tile->setOnPressedCallback([&, self = tile, brush = mBrush]() {
+      tile->setOnPressedCallback([&, self = tile, brush = mBrush](){
         Renderer* buttonRenderer = self->getRenderer();
         brush->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x, buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x, buttonRenderer->getRegionSize().y);
       });
@@ -361,7 +361,7 @@ void MapEditor::click(const Vector3& clampedPosition){
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition) {
+void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition){
   if(! cellData->get(mLayer)){
     createTile(worldPosition.x, worldPosition.y);
     cellData->addGameObject(mTile, mLayer);
@@ -376,7 +376,7 @@ void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition) {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::removeTile(CellData* cellData) {
+void MapEditor::removeTile(CellData* cellData){
   if(cellData->get(mLayer)){
     getGameObject()->getScene()->removeGameObject(cellData->get(mLayer));
     cellData->removeGameObject(mLayer);
@@ -385,7 +385,7 @@ void MapEditor::removeTile(CellData* cellData) {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::cameraMovement() {
+void MapEditor::cameraMovement(){
   f32 scroll = Input::getScroll();
   mZoom += std::fabs(scroll)*0.5f*Time::getDeltaTimeSeconds();
 
@@ -411,12 +411,13 @@ void MapEditor::cameraMovement() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::loadMapIntoGrid() {
+void MapEditor::loadMapIntoGrid(){
   // getGameObject()->getScene()->loadScene("config/scene.conf");
 
-  const List<GameObject*>* gameObects = getGameObject()->getScene()->getGameObjects();
+  const List<GameObject*>* gameObects = getGameObject()->getScene()->getNewGameObjects();
 
   FOR_LIST (it, gameObects){
+
     GameObject* gameObject = it.get();
 
     if(gameObject->isStatic()){
@@ -434,7 +435,7 @@ void MapEditor::loadMapIntoGrid() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::terminate() {
+void MapEditor::terminate(){
 
   // FOR_RANGE(i, 0, mGridSize){
   //   FOR_RANGE(j, 0, mGridSize){

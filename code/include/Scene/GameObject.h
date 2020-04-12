@@ -58,19 +58,19 @@ public:
 	}
 
 	Scene* getScene() const { return mScene;};
-	void setScene(Scene* newScene ) { mScene = newScene; };
+	void setScene(Scene* newScene ){ mScene = newScene; };
 	bool isStatic() const { return mIsStatic; };
-	void setIsStatic(bool newIsStatic ) { mIsStatic = newIsStatic; };
+	void setIsStatic(bool newIsStatic ){ mIsStatic = newIsStatic; };
 	Transform* getTransform() const { return mTransform; };
 
 	const std::string& getTag() const { return mTag; };
-	void setTag(const std::string& tag) { mTag = tag; };
+	void setTag(const std::string& tag){ mTag = tag; };
 
 	bool isActive() const { return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive; };
 	void setIsActive( bool isActive );
 	bool isPendingToBeDestroyed() const { return mIsPendingToBeDestroyed; };
 	bool isDestroyed() const { return mIsDestroyed; };
-	void setDestroyed() { mIsDestroyed = true; mIsPendingToBeDestroyed = false; };
+	void setDestroyed(){ mIsDestroyed = true; mIsPendingToBeDestroyed = false; };
 	void destroy();
 };
 

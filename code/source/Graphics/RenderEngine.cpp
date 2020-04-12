@@ -25,18 +25,18 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
+RenderEngine::LineRenderer::LineRenderer() : DE_Class(){
   mVertices = nullptr;
   mActive = false;
 }
 
-RenderEngine::LineRenderer::~LineRenderer() {
+RenderEngine::LineRenderer::~LineRenderer(){
   Memory::free<Array<f32>>(mVertices);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::LineRenderer::init() {
+void RenderEngine::LineRenderer::init(){
 	//TRACE();
 
   if(!mVertices){
@@ -63,7 +63,7 @@ void RenderEngine::LineRenderer::set(const Vector3& start, const Vector3& end){
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::LineRenderer::bind(const Array<u32>* indices) {
+void RenderEngine::LineRenderer::bind(const Array<u32>* indices){
   mVAO = RenderContext::createVAO();
   mVBOPosition = RenderContext::createVBO(mVertices, 3, 0);
   mEBO = RenderContext::createEBO(indices);
@@ -73,7 +73,7 @@ void RenderEngine::LineRenderer::bind(const Array<u32>* indices) {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::RenderEngine() : DE_Class(), Singleton() {
+RenderEngine::RenderEngine() : DE_Class(), Singleton(){
 	mCamera = nullptr;
   mLineRenderers = nullptr;
   mLineRendererIndices = nullptr;
@@ -84,7 +84,7 @@ RenderEngine::~RenderEngine() = default;
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::init(f32 sceneSize) {
+void RenderEngine::init(f32 sceneSize){
 	TRACE();
 
   mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
@@ -145,7 +145,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::step() {
+void RenderEngine::step(){
 
   mCamera->getFrustum()->build();
   mCamera->calculateInverseMatrix();
@@ -192,7 +192,7 @@ void RenderEngine::step() {
 
 }// ---------------------------------------------------------------------------
 
-void RenderEngine::stepDebug() {
+void RenderEngine::stepDebug(){
 
   mShaderLine->use();
 
@@ -222,7 +222,7 @@ void RenderEngine::stepDebug() {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::bind() {
+void RenderEngine::bind(){
   // FOR_ARRAY(i, mStaticChunks){
   //   mStaticChunks->get(i)->bind();
   // }
@@ -232,7 +232,7 @@ void RenderEngine::bind() {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::terminate() {
+void RenderEngine::terminate(){
   TRACE();
 
   Memory::free<Array<u32>>(mLineRendererIndices);
@@ -252,13 +252,11 @@ void RenderEngine::terminate() {
 
   Memory::free<Chunk>(mDynamicChunk);
   Memory::free<UI>(UI::getInstance());
-
-	RenderContext::terminate();
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::addRenderer(Renderer* renderer) {
+void RenderEngine::addRenderer(Renderer* renderer){
 
   if(renderer->isStatic()){
     // Create batches

@@ -20,7 +20,7 @@ UIText::~UIText() = default;
 
 // ---------------------------------------------------------------------------
 
-void UIText::setText(const std::string& text) {
+void UIText::setText(const std::string& text){
 
   if(mString != text){
     

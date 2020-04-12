@@ -24,14 +24,14 @@ void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::moveToUsedList(Block* block) {
+void FreeListAllocator::moveToUsedList(Block* block){
   block->next = firstBlockUsed;
   firstBlockUsed = block;
 }
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::moveToFreeList(Block* block) {
+void FreeListAllocator::moveToFreeList(Block* block){
   block->next = firstBlockFree;
   firstBlockFree = block;
 }
@@ -175,7 +175,7 @@ void FreeListAllocator::free(const void* pointer){
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::flush() {
+void FreeListAllocator::flush(){
 
 }
 
@@ -194,7 +194,7 @@ void FreeListAllocator::reset(){
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::terminate() {
+void FreeListAllocator::terminate(){
 
 }
 // ---------------------------------------------------------------------------

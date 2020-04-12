@@ -89,7 +89,7 @@ appendSource "}"
 appendSource
 appendSource "// ---------------------------------------------------------------------------"
 appendSource
-appendSource "void $scriptClassName::terminate() {"
+appendSource "void $scriptClassName::terminate(){"
 appendSource
 appendSource "}"
 appendSource

@@ -24,7 +24,7 @@ ConfigMap::~ConfigMap(){
 
 void ConfigMap::readConfigFile(const std::string& path){
 
-  File::readFile(path, [&](std::ifstream& file) {
+  File::readFile(path, [&](std::ifstream& file){
 
     std::string lineString;
 
@@ -44,7 +44,7 @@ void ConfigMap::readConfigFile(const std::string& path){
 
       if((! isComment) && isPair){
         mMap->set(std::string(matchPair[1]), std::string(matchPair[2]));
-        std::cout << matchPair[1] << " " <<  mMap->get(matchPair[1]) << std::endl;
+        // std::cout << matchPair[1] << " " <<  mMap->get(matchPair[1]) << std::endl;
       }
 
     }
@@ -54,7 +54,7 @@ void ConfigMap::readConfigFile(const std::string& path){
 // ---------------------------------------------------------------------------
 
 void ConfigMap::writeConfigFile(const std::string& path){
-  File::writeFile(path, [&](std::ofstream& file) {
+  File::writeFile(path, [&](std::ofstream& file){
 
     FOR_LIST(it, mMap->getKeys()){
       const std::string& key = it.get();

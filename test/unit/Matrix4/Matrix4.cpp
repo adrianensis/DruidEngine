@@ -5,7 +5,7 @@
 
 using namespace DE;
 
-int main() {
+int main(){
 
 	DE::Memory::init();
 

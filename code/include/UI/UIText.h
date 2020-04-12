@@ -19,8 +19,9 @@ DE_CLASS(UIText, UIElement);
 
 void setText(const std::string& text);
 
-void setLayer(u32 layer) { mLayer = layer; };
-void setSize(const Vector2& size) { mSize = size; };
+void setLayer(u32 layer){ mLayer = layer; };
+void setSize(const Vector2& size){ mSize = size; };
+std::string getText() const { return mString; };
 
 };
 

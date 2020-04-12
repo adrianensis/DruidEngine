@@ -66,7 +66,7 @@ public:
 	void drawLine(const Vector3& start, const Vector3& end);
 
 	Camera* getCamera() const { return mCamera;};
-	void setCamera(Camera* newCamera ) { mCamera = newCamera; };
+	void setCamera(Camera* newCamera ){ mCamera = newCamera; };
 	bool getCameraDirtyTranslation() const { return mCameraDirtyTranslation; };
 };
 

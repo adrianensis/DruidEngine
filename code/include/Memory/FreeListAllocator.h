@@ -31,7 +31,7 @@ private:
     ~Block();
     void init(void* unalignedAddress, u32 size);
 
-    Block& operator=(const Block& rhs) {
+    Block& operator=(const Block& rhs){
       if (this == &rhs) return *this; // handle self assignment
       this->unalignedAddress = rhs.unalignedAddress;
       this->size = rhs.size;

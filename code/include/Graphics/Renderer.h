@@ -88,26 +88,26 @@ public:
 	const Matrix4& getPositionOffsetMatrix();
 
 	const Mesh* getMesh() const { return mMesh;};
-	void setMesh(Mesh* newMesh ) { mMesh = newMesh; };
+	void setMesh(Mesh* newMesh ){ mMesh = newMesh; };
 
 	Material* getMaterial() const { return mMaterial;};
-	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };
+	void setMaterial(Material* newMaterial ){ mMaterial = newMaterial; };
 
-	void setInvertXAxis(bool newInvertXAxis ) { mInvertXAxis = newInvertXAxis; };
-	void setAlphaEnabled(bool newAlphaEnabled ) { mAlphaEnabled = newAlphaEnabled; };
-	void setLineMode(bool newLineMode ) { mLineMode = newLineMode; };
+	void setInvertXAxis(bool newInvertXAxis ){ mInvertXAxis = newInvertXAxis; };
+	void setAlphaEnabled(bool newAlphaEnabled ){ mAlphaEnabled = newAlphaEnabled; };
+	void setLineMode(bool newLineMode ){ mLineMode = newLineMode; };
 
 	u32 getLayer() const { return mLayer;};
-	void setLayer(u32 newLayer ) { mLayer = newLayer; };
+	void setLayer(u32 newLayer ){ mLayer = newLayer; };
 	f32 getRenderDistance() const { return mRenderDistance;};
-	void setRenderDistance(f32 newRenderDistance ) { mRenderDistance = newRenderDistance; };
+	void setRenderDistance(f32 newRenderDistance ){ mRenderDistance = newRenderDistance; };
 	bool getOutOfCamera() const { return mOutOfCamera;};
-	void setOutOfCamera(bool newOutOfCamera ) { mOutOfCamera = newOutOfCamera; };
+	void setOutOfCamera(bool newOutOfCamera ){ mOutOfCamera = newOutOfCamera; };
 	void setChunk(Chunk* chunk );
 	Chunk* getChunk();
 
-	bool isAffectedByProjection() { return mIsAffectedByProjection; }
-	void setAffectedByProjection(bool affectedByProjection) { mIsAffectedByProjection = affectedByProjection; }
+	bool isAffectedByProjection(){ return mIsAffectedByProjection; }
+	void setAffectedByProjection(bool affectedByProjection){ mIsAffectedByProjection = affectedByProjection; }
 };
 
 } /* namespace DE */

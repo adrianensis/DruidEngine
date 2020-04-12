@@ -19,6 +19,7 @@
 #include "MathUtils.h"
 #include "ScriptEngine.h"
 #include "RenderEngine.h"
+#include "RenderContext.h"
 #include "PhysicsEngine.h"
 
 namespace DE {
@@ -29,14 +30,9 @@ Scene::Scene() : DE_Class(){
 	mGameObjects = nullptr;
 }
 
-Scene::~Scene() {
+Scene::~Scene(){
 
-	FOR_LIST (it, mGameObjects){
-		if(!it.get()->isDestroyed()){
-			it.get()->destroy();
-			Memory::free<GameObject>(it.get());
-		}
-	}
+	destroyGameObjects();
 
 	Memory::free<List<GameObject*>>(mGameObjects);
 	Memory::free<List<GameObject*>>(mNewGameObjects);
@@ -44,7 +40,17 @@ Scene::~Scene() {
 
 // ---------------------------------------------------------------------------
 
-void Scene::init() {
+void Scene::destroyGameObjects(){
+	FOR_LIST (it, mGameObjects){
+		if(!it.get()->isDestroyed()){
+			it.get()->destroy();
+			Memory::free<GameObject>(it.get());
+		}
+	}
+}
+// ---------------------------------------------------------------------------
+
+void Scene::init(){
 	TRACE();
 
 	mGameObjects = Memory::allocate<List<GameObject*>>();
@@ -56,11 +62,31 @@ void Scene::init() {
 	mSize = 0;
 
 	mPath="config/sceneTmp.conf";
+
+	// CAMERA
+	GameObject* cameraGameObject = Memory::allocate<GameObject>();
+	cameraGameObject->init();
+
+	cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
+
+	Camera* cameraComponent = Memory::allocate<Camera>();
+	cameraGameObject->addComponent<Camera>(cameraComponent);
+
+	/*
+	if (aspect >= 1.0)
+		ortho(-50.0 * aspect, 50.0 * aspect, -50.0, 50.0, 1.0, -1.0);
+	else
+		ortho(-50.0, 50.0, -50.0 / aspect, 50.0 / aspect, 1.0, -1.0);
+	*/
+	// f32 aspect = RenderContext::getAspectRatio();
+	cameraComponent->setOrtho(-720, 720, -720, 720, 1, -1);
+
+	setCameraGameObject(cameraGameObject);
 }
 
 // ---------------------------------------------------------------------------
 
-void Scene::loadScene(const std::string& path) {
+void Scene::loadScene(const std::string& path){
 
 	mPath = path; // TODO: copy?
 
@@ -111,7 +137,13 @@ void Scene::loadScene(const std::string& path) {
 
 // ---------------------------------------------------------------------------
 
-void Scene::saveScene(const std::string& path) {
+void Scene::unloadScene(){
+	destroyGameObjects();
+}
+
+// ---------------------------------------------------------------------------
+
+void Scene::saveScene(const std::string& path){
 
 	ConfigMap* configMap = Memory::allocate<ConfigMap>();
 	configMap->init();
@@ -119,9 +151,9 @@ void Scene::saveScene(const std::string& path) {
 	f32 maxSize = 0;
 
 	u32 counter = 0;
-	FOR_LIST(it, mGameObjects) {
-		if(it.get()->isStatic()) {
-			ECHO("SAVE")
+	FOR_LIST(it, mGameObjects){
+		if(it.get()->isStatic()){
+			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects["+indexStr+"]";
 
@@ -163,14 +195,14 @@ void Scene::saveScene(const std::string& path) {
 
 // ---------------------------------------------------------------------------
 
-void Scene::addGameObject(GameObject* gameObject) {
+void Scene::addGameObject(GameObject* gameObject){
 	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
 }
 
 // ---------------------------------------------------------------------------
 
-void Scene::updateComponents(GameObject* gameObject) {
+void Scene::updateComponents(GameObject* gameObject){
 	List<Script*>* scriptList = gameObject->getComponents<Script>();
 	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
 	List<RigidBody*>* rigidBodyList = gameObject->getComponents<RigidBody>();
@@ -201,7 +233,7 @@ void Scene::updateComponents(GameObject* gameObject) {
 
 // ---------------------------------------------------------------------------
 
-void Scene::removeGameObject(GameObject* gameObject) {
+void Scene::removeGameObject(GameObject* gameObject){
 	auto it = mGameObjects->find(gameObject);
 	mGameObjects->remove(it);
 
@@ -217,8 +249,6 @@ void Scene::removeGameObject(GameObject* gameObject) {
 void Scene::step(){
 
 	if(thereAreNewGameObjects()){
-
-		RenderEngine::getInstance()->setCamera(getCameraGameObject()->getComponents<Camera>()->get(0));
 
 		const List<GameObject*>* newGameObjects = getNewGameObjects();
 		u32 maxToSpawn = Settings::getInstance()->getF32("scene.maxNewObjectsToSpawn");

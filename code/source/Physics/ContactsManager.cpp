@@ -11,15 +11,15 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Contact::Contact() : DE_Class() {
+Contact::Contact() : DE_Class(){
 	init();
 }
 
-Contact::~Contact() {
+Contact::~Contact(){
 
 }
 
-void Contact::init() {
+void Contact::init(){
 	colliderA = nullptr;
 	colliderB = nullptr;
 
@@ -31,11 +31,11 @@ void Contact::init() {
 }
 // ---------------------------------------------------------------------------
 
-ContactsManager::ContactsManager() : DE_Class(), Singleton() {
+ContactsManager::ContactsManager() : DE_Class(), Singleton(){
 	mContactsMap = nullptr;
 }
 
-ContactsManager::~ContactsManager() {
+ContactsManager::~ContactsManager(){
 	FOR_LIST (itSubHashMaps, mContactsMap->getValues()){
 		FOR_LIST (itContacts, itSubHashMaps.get()->getValues()){
 			Memory::free<Contact>(itContacts.get());
@@ -47,7 +47,7 @@ ContactsManager::~ContactsManager() {
 
 // ---------------------------------------------------------------------------
 
-void ContactsManager::removeContactFromMap(Collider* colliderA, Collider* colliderB) {
+void ContactsManager::removeContactFromMap(Collider* colliderA, Collider* colliderB){
 	Contact* contact = nullptr;
 
 	if(mContactsMap->contains(colliderA)){
@@ -69,7 +69,7 @@ void ContactsManager::removeContactFromMap(Collider* colliderA, Collider* collid
 
 // ---------------------------------------------------------------------------
 
-void ContactsManager::init() {
+void ContactsManager::init(){
 	TRACE();
 
 	mContactsMap = Memory::allocate<HashMap<Collider*, HashMap<Collider*, Contact*>* >>();
@@ -78,7 +78,7 @@ void ContactsManager::init() {
 
 // ---------------------------------------------------------------------------
 
-void ContactsManager::updateContacts() {
+void ContactsManager::updateContacts(){
 	FOR_LIST (itSubHashMaps, mContactsMap->getValues()){
 		FOR_LIST (itContacts, itSubHashMaps.get()->getValues()){
 
@@ -138,10 +138,10 @@ void ContactsManager::updateContacts() {
 
 // ---------------------------------------------------------------------------
 
-Contact* ContactsManager::addContact(Collider* colliderA, Collider* colliderB) {
+Contact* ContactsManager::addContact(Collider* colliderA, Collider* colliderB){
 	Contact* contact = findContact(colliderA, colliderB);
 
-	if(!contact) {
+	if(!contact){
 		Contact* newContact = Memory::allocate<Contact>();
 		newContact->init();
 
@@ -163,7 +163,7 @@ Contact* ContactsManager::addContact(Collider* colliderA, Collider* colliderB) {
 
 // ---------------------------------------------------------------------------
 
-// void ContactsManager::updateContact(Collider* colliderA, Collider* colliderB) {
+// void ContactsManager::updateContact(Collider* colliderA, Collider* colliderB){
 //
 // 	GameObject* gameObjectA = colliderA->getGameObject();
 // 	GameObject* gameObjectB = colliderB->getGameObject();
@@ -182,7 +182,7 @@ Contact* ContactsManager::addContact(Collider* colliderA, Collider* colliderB) {
 
 // ---------------------------------------------------------------------------
 
-void ContactsManager::removeContact(Collider* colliderA, Collider* colliderB) {
+void ContactsManager::removeContact(Collider* colliderA, Collider* colliderB){
 	Contact* contact = findContact(colliderA, colliderB);
 
 	if(contact){
@@ -192,7 +192,7 @@ void ContactsManager::removeContact(Collider* colliderA, Collider* colliderB) {
 
 // ---------------------------------------------------------------------------
 
-Contact* ContactsManager::findContact(Collider* colliderA, Collider* colliderB) {
+Contact* ContactsManager::findContact(Collider* colliderA, Collider* colliderB){
 	Contact* contact = nullptr;
 
 	if(mContactsMap->contains(colliderA)){

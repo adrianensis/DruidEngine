@@ -48,16 +48,16 @@ public:
   Vector3 getRelativeVelocity(Collider* otherCollider);
   f32 getRadius() const { return mRadius; };
   RigidBody* getRigidBody() const { return mRigidBody;};
-	void setRigidBody(RigidBody* newRigidBody ) { mRigidBody = newRigidBody; };
+	void setRigidBody(RigidBody* newRigidBody ){ mRigidBody = newRigidBody; };
   ColliderStatus getStatus() const { return mStatus;};
-	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
+	void setStatus(ColliderStatus newStatus ){ mStatus = newStatus; };
 
   bool isSolid() const { return mIsSolid; };
-  void setIsSolid(bool isSolid) { mIsSolid = isSolid; };
+  void setIsSolid(bool isSolid){ mIsSolid = isSolid; };
 
 
-  void markPenetrated() { mIsPenetrated = true; }
-  void unmarkPenetrated() { mIsPenetrated = false; }
+  void markPenetrated(){ mIsPenetrated = true; }
+  void unmarkPenetrated(){ mIsPenetrated = false; }
   bool isPenetrated() const { return mIsPenetrated; }
 
   bool isSimulate();

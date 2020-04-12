@@ -33,7 +33,7 @@ namespace DE {
 
 		void init();
 
-		Contact& operator=(const Contact& rhs) {
+		Contact& operator=(const Contact& rhs){
 			if (this == &rhs) return *this; // handle self assignment
 
 			colliderA = rhs.colliderA;

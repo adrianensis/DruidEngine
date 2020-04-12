@@ -21,9 +21,9 @@ public:
 	void init();
 
 	Shader* getShader() const { return mShader;};
-	void setShader(Shader* newShader ) { mShader = newShader; };
+	void setShader(Shader* newShader ){ mShader = newShader; };
 	Texture* getTexture() const { return mTexture;};
-	void setTexture(Texture* newTexture ) { mTexture = newTexture; };
+	void setTexture(Texture* newTexture ){ mTexture = newTexture; };
 };
 
 } /* namespace DE */

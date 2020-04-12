@@ -17,7 +17,7 @@ BaseContainer::~BaseContainer() = default;
 
 // ---------------------------------------------------------------------------
 
-void BaseContainer::init(u32 length, u32 elementSize, u32 alignment) {
+void BaseContainer::init(u32 length, u32 elementSize, u32 alignment){
   mLength = length;
   mElementSize = elementSize;
   mAlignment = alignment;

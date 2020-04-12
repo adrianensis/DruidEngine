@@ -25,7 +25,7 @@ public:
   virtual void onExitCollision(GameObject* otherGameObject);
 
   bool isFirstStepDone() const { return mFirstStepDone; }
-  void firstStepDone() {  mFirstStepDone = true; }
+  void firstStepDone(){  mFirstStepDone = true; }
 };
 
 } /* namespace DE */

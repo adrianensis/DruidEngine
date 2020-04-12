@@ -23,7 +23,7 @@ Transform::Transform() : Component()
 	mParent = nullptr;
 }
 
-Transform::~Transform() {
+Transform::~Transform(){
 	// Memory::free<Matrix4>(mModelMatrix);
 	// Memory::free<Matrix4>(mTranslationMatrix);
 	// Memory::free<Matrix4>(mRotationMatrix);
@@ -54,7 +54,7 @@ void Transform::init(){
 }
 
 bool Transform::isDirtyTranslation() const { return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation()); }
-void Transform::setDirtyTranslation(bool dirty) { mIsDirtyTranslation = dirty; }
+void Transform::setDirtyTranslation(bool dirty){ mIsDirtyTranslation = dirty; }
 
 
 // void Transform::setWorldPosition(const Vector3& vector){
@@ -77,7 +77,7 @@ void Transform::setScale(const Vector3& vector){
 	mScale = vector;
 };
 
-const Vector3& Transform::getWorldPosition() {
+const Vector3& Transform::getWorldPosition(){
 
 	mWorldPosition = mLocalPosition;
 
@@ -113,7 +113,7 @@ void Transform::rotate(const Vector3& vector){
 
 // ---------------------------------------------------------------------------
 
-void Transform::lookAt(const Vector3& targetPosition) {
+void Transform::lookAt(const Vector3& targetPosition){
 
 	mIsDirtyRotation = true;
 

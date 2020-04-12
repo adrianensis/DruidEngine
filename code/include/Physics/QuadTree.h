@@ -87,7 +87,7 @@ public:
   void update();
 
   ColliderStatus getStatus() const { return mStatus;};
-	void setStatus(ColliderStatus newStatus ) { mStatus = newStatus; };
+	void setStatus(ColliderStatus newStatus ){ mStatus = newStatus; };
 
   void rayCastQuery(const Vector3& lineStart, const Vector3& lineSnd, List<GameObject*>* outList);
 

@@ -17,14 +17,14 @@ GameObject::GameObject() : DE_Class(){
 	mIsActive = true;
 }
 
-GameObject::~GameObject() {
+GameObject::~GameObject(){
 	Memory::free<HashMap<ClassId,List<Component*>*>>(mComponentsMap);
 	Memory::free<Transform>(mTransform);
 }
 
 // ---------------------------------------------------------------------------
 
-void GameObject::addComponent(Component* component, ClassId classId) {
+void GameObject::addComponent(Component* component, ClassId classId){
 	List<Component*>* list = nullptr;
 
 	//ClassId classId = component->getParentClassId();
@@ -43,7 +43,7 @@ void GameObject::addComponent(Component* component, ClassId classId) {
 
 // ---------------------------------------------------------------------------
 
-void GameObject::removeComponent(Component* component, ClassId classId) {
+void GameObject::removeComponent(Component* component, ClassId classId){
 	if(mComponentsMap->contains(classId)){
 		List<Component*>* list = mComponentsMap->get(classId);
 		list->remove(list->find(component));
@@ -53,7 +53,7 @@ void GameObject::removeComponent(Component* component, ClassId classId) {
 
 // ---------------------------------------------------------------------------
 
-void GameObject::init() {
+void GameObject::init(){
 	// TRACE();
 
 	mComponentsMap = Memory::allocate<HashMap<ClassId,List<Component*>*>>();
@@ -69,29 +69,33 @@ void GameObject::init() {
 
 // ---------------------------------------------------------------------------
 
-List<Component*>* GameObject::getComponents(ClassId classId) {
+List<Component*>* GameObject::getComponents(ClassId classId){
 	return mComponentsMap->contains(classId) ? mComponentsMap->get(classId) : nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
-void GameObject::setIsActive( bool isActive ) {
+void GameObject::setIsActive( bool isActive ){
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
-	FOR_LIST(it, mComponentsMap->getValues()) {
-		FOR_LIST(itComponent, it.get()) {
+	FOR_LIST(it, mComponentsMap->getValues()){
+		FOR_LIST(itComponent, it.get()){
 			itComponent.get()->setIsActive(isActive);
 		}
 	}
 };
 
-void GameObject::destroy() {
+void GameObject::destroy(){
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
-	FOR_LIST(it, mComponentsMap->getValues()) {
-		FOR_LIST(itComponent, it.get()) {
-			removeComponent(itComponent.get());
+	FOR_LIST(it, mComponentsMap->getKeys()){
+
+		ClassId id = it.get();
+		auto list = mComponentsMap->get(id);
+
+		FOR_LIST(itComponent, list){
+			removeComponent(itComponent.get(), id);
 		}
 	}
 };

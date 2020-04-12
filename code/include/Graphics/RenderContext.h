@@ -20,6 +20,8 @@ private:
 
 	static Vector2 smWindowSize;
 
+	static Camera* mCamera;
+
 	static void onResize(GLFWwindow* window, int width, int height);
 
 public:
@@ -31,6 +33,8 @@ public:
 
 	static Vector2 getWindowSize();
 	static f32 getAspectRatio();
+	// static void setCamera(Camera* camera) { mCamera = camera; };
+	// static Camera* getCamera() const { return mCamera; };
 
 	static void init();
 	static bool isClosed();

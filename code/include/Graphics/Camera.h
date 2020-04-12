@@ -52,8 +52,8 @@ public:
 	Frustum* getFrustum() const { return mFrustum; };
 
 	void setZoom(f32 zoom);
-	void resetZoom() { mZoom = 1; setZoom(mZoom); };
-	f32 getZoom() { return mZoom; };
+	void resetZoom(){ mZoom = 1; setZoom(mZoom); };
+	f32 getZoom(){ return mZoom; };
 };
 
 } /* namespace DE */

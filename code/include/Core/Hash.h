@@ -28,64 +28,64 @@ public:
     return this->mHash == rhs.mHash;
   }
 
-  bool operator!=(const Hash& rhs) {
+  bool operator!=(const Hash& rhs){
     return !((*this) == rhs);
   }
 
   // generic function: arithmetic keys and pointers.
-  static u64 hash(u64 key) {
+  static u64 hash(u64 key){
     return key;
   };
 
-  static u64 hash(const void* key) {
+  static u64 hash(const void* key){
     return hash(reinterpret_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(f32 key) {
+  static u64 hash(f32 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(u8 key) {
+  static u64 hash(u8 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(u16 key) {
+  static u64 hash(u16 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(u32 key) {
+  static u64 hash(u32 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(i8 key) {
+  static u64 hash(i8 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(i16 key) {
+  static u64 hash(i16 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(i32 key) {
+  static u64 hash(i32 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(i64 key) {
+  static u64 hash(i64 key){
     return hash(static_cast<u64>(key)); // calls hash(const u64 key) const.
   };
 
   // for Hash objects
-  static u64 hash(const Hash key) {
+  static u64 hash(const Hash key){
     return hash(key.hash()); // calls hash(const u64 key) const.
   };
 
   // for strings
-  static u64 hash(const std::string& key) {
+  static u64 hash(const std::string& key){
     std::hash<std::string> hash_fn;
     u64 hashString = hash_fn(key);
     return hash(hashString); // calls hash(const u64 key) const.
   };
 
-  static u64 hash(const char* key) {
+  static u64 hash(const char* key){
     std::string str(key);
     std::hash<std::string> hash_fn;
     u64 hashString = hash_fn(str);

@@ -23,7 +23,7 @@ Matrix4 Batch::smMatrixIdentity;
 
 // ---------------------------------------------------------------------------
 
-Batch::Batch() : DE_Class() {
+Batch::Batch() : DE_Class(){
 	mVBOPosition = 0;
 	mEBO = 0;
 	mVBOTexture = 0;
@@ -39,7 +39,7 @@ Batch::Batch() : DE_Class() {
 	mBinded = false;
 }
 
-Batch::~Batch() {
+Batch::~Batch(){
 
 	FOR_LIST(it, mRenderers){
     Memory::free<Renderer>(it.get());
@@ -54,7 +54,7 @@ Batch::~Batch() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::init(const Mesh* mesh, Material* material) {
+void Batch::init(const Mesh* mesh, Material* material){
 	// TRACE();
 
 	mRenderEngine = RenderEngine::getInstance();
@@ -72,7 +72,7 @@ void Batch::init(const Mesh* mesh, Material* material) {
 
 // ---------------------------------------------------------------------------
 
-void Batch::bind() {
+void Batch::bind(){
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(mMesh->getVertices(), 3, 0);
 	mVBOTexture = RenderContext::createVBO(mMesh->getTextureCoordinates(), 2, 1);
@@ -100,7 +100,7 @@ void Batch::bind() {
 
 // ---------------------------------------------------------------------------
 
-void Batch::update() {
+void Batch::update(){
 
 }
 
@@ -146,7 +146,7 @@ bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 
 // ---------------------------------------------------------------------------
 
-u32 Batch::render(u32 layer) {
+u32 Batch::render(u32 layer){
 
 	u32 drawCallCounter = 0;
 
@@ -208,7 +208,7 @@ u32 Batch::render(u32 layer) {
 
 					drawCallCounter++;
 
-				} else if(renderer->isPendingToBeDestroyed()) {
+				} else if(renderer->isPendingToBeDestroyed()){
 						// destroy renderer and remove from list
 						// internalRemoveRenderer(&it);
 				}
@@ -223,7 +223,7 @@ u32 Batch::render(u32 layer) {
 
 // ---------------------------------------------------------------------------
 
-void Batch::addRenderer(Renderer* renderer) {
+void Batch::addRenderer(Renderer* renderer){
 
 		checkOutOfCamera(mRenderEngine->getCamera(),renderer);
 

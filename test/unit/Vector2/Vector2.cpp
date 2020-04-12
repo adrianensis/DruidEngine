@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include <cmath>
 
-int main() {
+int main(){
 
 	DE_test(DE::Vector2);
 

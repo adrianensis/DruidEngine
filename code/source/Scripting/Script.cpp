@@ -38,20 +38,20 @@ void Script::step(){
 
 // ---------------------------------------------------------------------------
 
-void Script::onEnterCollision(GameObject* otherGameObject) {
+void Script::onEnterCollision(GameObject* otherGameObject){
 
 }
 
-void Script::onCollision(GameObject* otherGameObject) {
+void Script::onCollision(GameObject* otherGameObject){
 
 }
 
-void Script::onExitCollision(GameObject* otherGameObject) {
+void Script::onExitCollision(GameObject* otherGameObject){
 
 }
 // ---------------------------------------------------------------------------
 
-void Script::terminate() {
+void Script::terminate(){
 
 }
 

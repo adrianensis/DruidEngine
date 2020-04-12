@@ -95,7 +95,7 @@ do
         appendHeaderMethods "void set${propertyName^}($propertyType $propertyName);"
 
         appendSourceGettersSetters "$propertyType $className::get${propertyName^}() const { return $propertyFinalName; }"
-        appendSourceGettersSetters "void $className::set${propertyName^}($propertyType $propertyName) { $propertyFinalName = $propertyName; }"
+        appendSourceGettersSetters "void $className::set${propertyName^}($propertyType $propertyName){ $propertyFinalName = $propertyName; }"
         ;;
       q)
         exitRequest=true

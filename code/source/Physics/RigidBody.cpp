@@ -70,11 +70,11 @@ void RigidBody::integrate(f32 deltaTime){
 
 // ---------------------------------------------------------------------------
 
-void RigidBody::stopMovement() { mForceAccumulator.set(0,0,0); mLinear.set(0,0,0); }
+void RigidBody::stopMovement(){ mForceAccumulator.set(0,0,0); mLinear.set(0,0,0); }
 
 // ---------------------------------------------------------------------------
 
-void RigidBody::saveState() {
+void RigidBody::saveState(){
   mState.mPosition = getGameObject()->getTransform()->getLocalPosition();
   mState.mLinear = mLinear;
   mState.mForceAccumulator = mForceAccumulator;
@@ -84,7 +84,7 @@ void RigidBody::saveState() {
 
 // ---------------------------------------------------------------------------
 
-void RigidBody::restoreState() {
+void RigidBody::restoreState(){
   getGameObject()->getTransform()->setLocalPosition(mState.mPosition);
   mLinear = mState.mLinear;
   mForceAccumulator = mState.mForceAccumulator;
@@ -93,7 +93,7 @@ void RigidBody::restoreState() {
 }
 // ---------------------------------------------------------------------------
 
-Collider* RigidBody::initCollider() {
+Collider* RigidBody::initCollider(){
   mCollider = mCollider ? mCollider : getGameObject()->getComponents<Collider>()->get(0);
   return mCollider;
 }

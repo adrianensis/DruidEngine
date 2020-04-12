@@ -2,7 +2,7 @@
 #include "Memory.h"
 #include "Time.h"
 
-int main() {
+int main(){
 
 	DE_test(DE::Time);
 
@@ -18,7 +18,7 @@ int main() {
 
 	// waste some time in this loop
 	int a = 0;
-	while (DE::Time::getElapsedTime() < 300) {
+	while (DE::Time::getElapsedTime() < 300){
 		a++;
 	}
 
@@ -33,7 +33,7 @@ int main() {
 	DE_test_tick(); // Starts measuring time for test
 
 	f32 msCount = 200.0f;
-	while (DE::Time::getElapsedTime() < msCount) {
+	while (DE::Time::getElapsedTime() < msCount){
 		//DE_test_show(DE::Time::getElapsedTime());
 	}
 

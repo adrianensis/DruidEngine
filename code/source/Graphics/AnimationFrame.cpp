@@ -10,11 +10,11 @@ AnimationFrame::AnimationFrame() : DE_Class(){
   mHeight = 0.0f;
 }
 
-AnimationFrame::~AnimationFrame() {
+AnimationFrame::~AnimationFrame(){
 
 }
 
-void AnimationFrame::init(const Vector2& position, f32 width, f32 height) {
+void AnimationFrame::init(const Vector2& position, f32 width, f32 height){
 	TRACE();
 
     mPosition = position;

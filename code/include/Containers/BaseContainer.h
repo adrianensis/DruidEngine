@@ -27,7 +27,7 @@ public:
   u32 getLength() const { return mLength; };
   u32 getElementSize() const { return mElementSize; };
   u32 getAlignment() const { return mAlignment; };
-  void setAllocator(Allocator* newAllocator ) { mAllocator = newAllocator; };
+  void setAllocator(Allocator* newAllocator ){ mAllocator = newAllocator; };
 
   /*!
     \brief Clear the container.

@@ -13,7 +13,7 @@ Material::Material() : DE_Class(){
   mTexture = nullptr;
 }
 
-Material::~Material() {
+Material::~Material(){
   // Memory::free<Shader>(mShader);
 }
 

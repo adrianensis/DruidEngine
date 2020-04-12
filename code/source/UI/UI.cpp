@@ -21,7 +21,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UI::UI() : DE_Class(), Singleton() {
+UI::UI() : DE_Class(), Singleton(){
   mButtonTexture = nullptr;
   mButtonMaterial = nullptr;
   mFontTexture = nullptr;
@@ -33,7 +33,7 @@ UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size, u32 layer) {
+UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2& size, u32 layer){
 
   if( ! mButtonMaterial){
     mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.bmp");
@@ -76,7 +76,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, u32 layer) {
+UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& size, const std::string& text, u32 layer){
 
   if( ! mFontMaterial){
     mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
@@ -105,7 +105,7 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
 // ---------------------------------------------------------------------------
 
-UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size, u32 layer) {
+UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& size, u32 layer){
 
   UIList* uiList = Memory::allocate<UIList>();
   uiList->init();
@@ -141,13 +141,13 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
   f32 scrollbarMargin = 20;
   UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,-halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin), layer);
 
-  upButton->setOnPressedCallback([&]() {
+  upButton->setOnPressedCallback([&](){
 
   });
 
   UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin,halfHeight/2.0f,0), Vector2(40,halfHeight - scrollbarMargin), layer);
 
-  downButton->setOnPressedCallback([&]() {
+  downButton->setOnPressedCallback([&](){
 
   });
 
@@ -158,7 +158,7 @@ UIList* UI::createList(Scene* scene, const Vector2& position, const Vector2& siz
 
 // ---------------------------------------------------------------------------
 
-void UI::init() {
+void UI::init(){
   mUIElements = Memory::allocate<List<UIElement*>>();
   mUIElements->init();
 
@@ -278,7 +278,7 @@ Vector2 UI::getCharTextureCoordinates(c8 character){
 
 // ---------------------------------------------------------------------------
 
-void UI::step() {
+void UI::step(){
 
   if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
@@ -312,7 +312,7 @@ void UI::step() {
 
 // ---------------------------------------------------------------------------
 
-void UI::terminate() {
+void UI::terminate(){
   TRACE();
 //  FOR_LIST(it, mUIElements){
 //    Memory::free<UIElement>(it.get());

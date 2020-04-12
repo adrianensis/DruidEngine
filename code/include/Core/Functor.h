@@ -15,12 +15,12 @@ private:
   std::function<void()> mCallback;
 
 public:
-  Functor() {};
-  ~Functor() {};
+  Functor(){};
+  ~Functor(){};
 
   void execute();
 
-  void setCallback(voidFunction newCallback ) { mCallback = newCallback; };
+  void setCallback(voidFunction newCallback ){ mCallback = newCallback; };
 };
 
 } /* namespace DE */

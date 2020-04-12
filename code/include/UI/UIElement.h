@@ -38,7 +38,7 @@ Renderer* getRenderer() const { return mRenderer; };
 
 bool getPressed() const { return mPressed; };
 
-void setConsumeInput(bool consumeInput ) { mConsumeInput = consumeInput; };
+void setConsumeInput(bool consumeInput ){ mConsumeInput = consumeInput; };
 bool isConsumeInput() const { return mConsumeInput; };
 
 void setComponentsCache();

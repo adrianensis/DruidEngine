@@ -15,8 +15,8 @@ class Iterator : public DE_Class {
 public:
   DE_GENERATE_METADATA(Iterator, DE_Class);
 
-  Iterator() {};
-  ~Iterator() {};
+  Iterator(){};
+  ~Iterator(){};
 
   virtual bool isNull() const = 0;
 
@@ -50,18 +50,18 @@ private:
 
     DE_GENERATE_METADATA(Node, DE_Class);
 
-    Node() : DE_Class() {
+    Node() : DE_Class(){
     }
 
-    ~Node() {
+    ~Node(){
     }
 
-    void init() {
+    void init(){
       mNext = nullptr;
       mPrev = nullptr;
     }
 
-    void init(const T element) {
+    void init(const T element){
       Node::init();
       mElement = element;
     }
@@ -135,7 +135,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    void init(Node* start) {
+    void init(Node* start){
       mNode = start;
       mReverse = false;
     }
@@ -146,17 +146,17 @@ public:
 
     DE_GENERATE_METADATA(ListIterator, Iterator);
 
-    ListIterator() : Iterator() {
+    ListIterator() : Iterator(){
       mNode = nullptr;
       mReverse = false;
     }
 
-    ListIterator(const ListIterator& other) : Iterator() {
+    ListIterator(const ListIterator& other) : Iterator(){
       mNode = other.mNode;
       mReverse = other.mReverse;
     }
 
-    ~ListIterator() {
+    ~ListIterator(){
       mNode = nullptr;
       mReverse = false;
     }
@@ -180,7 +180,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    void next() {
+    void next(){
       DE_ASSERT(mNode != nullptr, "Node is null.");
 
       if(mReverse)
@@ -282,7 +282,7 @@ public:
 
     // ---------------------------------------------------------------------------
 
-    ListIterator& operator=(const ListIterator& rhs) {
+    ListIterator& operator=(const ListIterator& rhs){
       if (this == &rhs) return *this; // handle self assignment
       //assignment operator
       this->mNode = rhs.mNode;
@@ -298,13 +298,13 @@ public:
 
 private:
 
-  void allocate(u32 elementSize, u32 alignment) {
+  void allocate(u32 elementSize, u32 alignment){
     BaseContainer::init(0, elementSize, alignment); // BaseContainer::mLength = 0
   }
 
   // ---------------------------------------------------------------------------
 
-  void _init(u32 elementSize) {
+  void _init(u32 elementSize){
     List::allocate(elementSize, 1);
     resetCache();
   }
@@ -368,13 +368,13 @@ public:
 
   DE_GENERATE_METADATA(List<T>, SequentialContainer<T>);
 
-  List() : SequentialContainer<T>() {
+  List() : SequentialContainer<T>(){
     mFirst = nullptr;
     mLast = nullptr;
     mLastAccessedIndex = -1;
   }
 
-  ~List() {
+  ~List(){
     List::clear();
   }
 
@@ -399,7 +399,7 @@ public:
   /*!
     \brief Constructor. Empty List.
   */
-  void init() {
+  void init(){
     List::_init(sizeof(T));
   }
 
@@ -466,7 +466,7 @@ public:
     }
 
     // create new nodes
-    for (; i < length; i++) {
+    for (; i < length; i++){
       List::pushBack(other.get(i));
     }
   }

@@ -31,7 +31,11 @@ Collider::Collider() : Component(){
 // ---------------------------------------------------------------------------
 
 Collider::~Collider(){
-  Memory::free<Array<Vector2>>(mBoxVertices);
+  TRACE();
+
+  if(mBoxVertices){
+    Memory::free<Array<Vector2>>(mBoxVertices);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -63,7 +67,7 @@ void Collider::setSize(f32 width, f32 height){
 
 // ---------------------------------------------------------------------------
 
-Array<Vector2>* Collider::getBoundingBox() {
+Array<Vector2>* Collider::getBoundingBox(){
 
   Transform* t = getGameObject()->getTransform();
 
@@ -97,7 +101,7 @@ bool Collider::isSimulate(){
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
+ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider){
 
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
@@ -124,7 +128,7 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
     // TEST Middle Vertex vs Edge
     u32 detectedVertexIndex = 0;
-    FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE) {
+    FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE){
 
       Vector2 midPoint = MathUtils::midPoint(vertices->get(i), vertices->get(i == 3 ? 0 : i+1));
 
@@ -142,7 +146,7 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
       // TEST Vertex vs Edge
       // u32 detectedVertexIndex = 0;
-      FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE) {
+      FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE){
         ColliderStatus pointStatus = otherCollider->testPoint(vertices->get(i));
 
         if(pointStatus > result2){
@@ -225,7 +229,7 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider) {
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
+ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
@@ -257,7 +261,7 @@ ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Col
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
+ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
 
   ColliderStatus result = ColliderStatus::STATUS_NONE;
 
@@ -277,7 +281,7 @@ ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Col
 	// // var center = this.getCenter().cpy();
   //
   // // for all vertices
-  // FOR_ARRAY_COND (i, candidateVertices, !foundVertexVertex) {
+  // FOR_ARRAY_COND (i, candidateVertices, !foundVertexVertex){
   //   Vector2 vertex = candidateVertices->get(i);
   //
   //   // flag interior vertex -> 1 , -1
@@ -287,7 +291,7 @@ ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Col
   //   //normal = null; // the collision normal
   //
 	// 	// vertex - vertex
-	//   FOR_ARRAY_COND (j, otherVertices, !foundVertexVertex) {
+	//   FOR_ARRAY_COND (j, otherVertices, !foundVertexVertex){
   //
 	// 		Vector2 otherVertex = otherVertices->get(j);
   //
@@ -320,13 +324,13 @@ ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Col
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexEdge(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/) {
+ColliderStatus Collider::testVertexEdge(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
   return ColliderStatus::STATUS_NONE;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testPoint(Vector2 point) {
+ColliderStatus Collider::testPoint(Vector2 point){
 
   //getBoundingBox(); // generate bounding box
 
@@ -339,7 +343,7 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 
 	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
 
-  if(testDepthEpsilon) {
+  if(testDepthEpsilon){
     result = ColliderStatus::STATUS_COLLISION;
 
     bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);

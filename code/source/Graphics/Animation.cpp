@@ -17,7 +17,7 @@ Animation::Animation() : DE_Class(){
 	mTimeAccumulator = 0.0f;
 }
 
-Animation::~Animation() {
+Animation::~Animation(){
   Memory::free<List<AnimationFrame*>>(mFrames);
 }
 
@@ -30,12 +30,12 @@ void Animation::init(){
 
 // ---------------------------------------------------------------------------
 
-void Animation::addFrame(AnimationFrame* frame) { mFrames->pushBack(frame); }
+void Animation::addFrame(AnimationFrame* frame){ mFrames->pushBack(frame); }
 u32 Animation::getNumberOfFrames() const { return mFrames->getLength(); }
 
 // ---------------------------------------------------------------------------
 
-Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2& startPosition, f32 width, f32 height, f32 speed) {
+Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2& startPosition, f32 width, f32 height, f32 speed){
 
     // TODO: check if coordinates are > 1 or < 0 !!!!!
 
@@ -66,7 +66,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
       delta = -1;
     }
 
-    for (u32 i = start; i != end; i+=delta) {
+    for (u32 i = start; i != end; i+=delta){
 
       Vector2 pos(0,0);
       pos.add(startPosition);
@@ -86,7 +86,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
     return animation;
 }
 
-const AnimationFrame* Animation::getNextFrame() {
+const AnimationFrame* Animation::getNextFrame(){
 
   const AnimationFrame* frame = nullptr;
 

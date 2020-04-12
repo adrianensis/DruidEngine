@@ -118,7 +118,7 @@ void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
 
 // ---------------------------------------------------------------------------
 
-void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 alignment) {
+void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 alignment){
   u32 expandedSize = size + alignment;
 
   Allocator::checkAllocate(expandedSize);
@@ -144,7 +144,7 @@ void Allocator::setAllocatedSize(u32 size){
 
 // ---------------------------------------------------------------------------
 
-void Allocator::clean(void *mem, u32 size) {
+void Allocator::clean(void *mem, u32 size){
   // clean memory block
   std::memset(mem, 0, size);
 }
@@ -170,7 +170,7 @@ bool Allocator::hasSpace(u32 size) const {
 
 // ---------------------------------------------------------------------------
 
-void Allocator::setMemoryChunk(void* mem) {
+void Allocator::setMemoryChunk(void* mem){
   // Only must delete when Allocator is destroyed. See ~Allocator()
 
   mStart = mem;
@@ -178,7 +178,7 @@ void Allocator::setMemoryChunk(void* mem) {
 
 // ---------------------------------------------------------------------------
 
-void Allocator::init(u32 size) {
+void Allocator::init(u32 size){
 	TRACE();
 
   initFromMemory(size, ::operator new (size));
@@ -186,7 +186,7 @@ void Allocator::init(u32 size) {
 
 // ---------------------------------------------------------------------------
 
-void Allocator::initFromMemory(u32 size, void* mem) {
+void Allocator::initFromMemory(u32 size, void* mem){
 	TRACE();
 
   mTotalSize = size;
@@ -198,19 +198,19 @@ void Allocator::initFromMemory(u32 size, void* mem) {
 
 // ---------------------------------------------------------------------------
 
-void Allocator::flush() {
+void Allocator::flush(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Allocator::terminate() {
+void Allocator::terminate(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Allocator::reset() {
+void Allocator::reset(){
   mAllocatedSize = 0;
   Allocator::clean(mStart, mTotalSize);
 }

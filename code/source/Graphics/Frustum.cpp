@@ -10,11 +10,11 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Frustum::Frustum() : DE_Class() {
+Frustum::Frustum() : DE_Class(){
 
 }
 
-Frustum::~Frustum() {
+Frustum::~Frustum(){
 	Memory::free<Array<Vector4>>(mPlanes);
 	Memory::free<Matrix4>(mVPmatrix);
 	mVPmatrix = nullptr;
@@ -28,7 +28,7 @@ void Frustum::init(Camera* camera){
 	mPlanes = Memory::allocate<Array<Vector4>>();
 	mPlanes->init(6);
 
-	for (u32 i = 0; i < mPlanes->getLength(); i++) {
+	for (u32 i = 0; i < mPlanes->getLength(); i++){
 			mPlanes->set(i, Vector4(0,0,0,0)); // x,y,z,w <=> A,B,C,D
 	}
 
@@ -40,7 +40,7 @@ void Frustum::init(Camera* camera){
 
 bool Frustum::testSphere(Vector3 center, f32 radius) const {
 
-	for (u32 i = 0; i < mPlanes->getLength(); i++) {
+	for (u32 i = 0; i < mPlanes->getLength(); i++){
 
 		f32 A = mPlanes->get(i).x;
 		f32 B = mPlanes->get(i).y;
@@ -141,12 +141,12 @@ void Frustum::build(bool forceBuild /* = false*/ ){
 		));
 
 
-    for (u32 i = 0; i < mPlanes->getLength(); i++) {
+    for (u32 i = 0; i < mPlanes->getLength(); i++){
 
 			Vector4 v4(mPlanes->get(i));
 			Vector3 v3(v4.x, v4.y, v4.z);
 
-			if(v3.len() > 0) {
+			if(v3.len() > 0){
 
 				v4.x = v4.x/v3.len();
 				v4.y = v4.y/v3.len();

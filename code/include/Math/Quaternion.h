@@ -83,42 +83,42 @@ public:
 	 * functions can not have constant qualification.
 	 */
 
-	Quaternion& operator=(const Quaternion& rhs) {
+	Quaternion& operator=(const Quaternion& rhs){
 		if (this == &rhs) return *this; // handle self assignment
 		//assignment operator
 		return this->set(rhs);
 	}
 
-	Quaternion& operator+=(const Quaternion& rhs) {
+	Quaternion& operator+=(const Quaternion& rhs){
 		// can be parallelized with SIMD auto-vectorization
 		return this->add(rhs);
 	}
 
-	Quaternion& operator-=(const Quaternion& rhs) {
+	Quaternion& operator-=(const Quaternion& rhs){
 		return this->sub(rhs);
 	}
 
-	Quaternion& operator*=(const Quaternion& rhs) {
+	Quaternion& operator*=(const Quaternion& rhs){
 		return this->mul(rhs);
 	}
 
-	Quaternion& operator/=(const Quaternion& rhs) {
+	Quaternion& operator/=(const Quaternion& rhs){
 		return this->div(rhs);
 	}
 
-	Quaternion& operator+=(f32 rhs) {
+	Quaternion& operator+=(f32 rhs){
 		return this->add(rhs);
 	}
 
-	Quaternion& operator-=(f32 rhs) {
+	Quaternion& operator-=(f32 rhs){
 		return this->sub(rhs);
 	}
 
-	Quaternion& operator*=(f32 rhs) {
+	Quaternion& operator*=(f32 rhs){
 		return this->mul(rhs);
 	}
 
-	Quaternion& operator/=(f32 rhs) {
+	Quaternion& operator/=(f32 rhs){
 		return this->div(rhs);
 	}
 
@@ -163,7 +163,7 @@ public:
 	}
 
 	// can be used for assignment
-	f32& operator[](size_t index) {
+	f32& operator[](size_t index){
 		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 		if(index == 3) return w;
 		return v[index];
@@ -176,7 +176,7 @@ public:
 		return v[index];
 	}
 
-	friend std::ostream& operator<<(std::ostream& out, const Quaternion& q) {
+	friend std::ostream& operator<<(std::ostream& out, const Quaternion& q){
 		out << "[(" << q.v.x << ", " << q.v.y << ", " << q.v.z << "), " << q.w << "]";
 		return out;
 	}

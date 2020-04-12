@@ -79,42 +79,42 @@ public:
 	 * functions can not have constant qualification.
 	 */
 
-	Vector4& operator=(const Vector4& rhs) {
+	Vector4& operator=(const Vector4& rhs){
 		if (this == &rhs) return *this; // handle self assignment
 		//assignment operator
 		return this->set(rhs);
 	}
 
-	Vector4& operator+=(const Vector4& rhs) {
+	Vector4& operator+=(const Vector4& rhs){
 		// can be parallelized with SIMD auto-vectorization
 		return this->add(rhs);
 	}
 
-	Vector4& operator-=(const Vector4& rhs) {
+	Vector4& operator-=(const Vector4& rhs){
 		return this->sub(rhs);
 	}
 
-	Vector4& operator*=(const Vector4& rhs) {
+	Vector4& operator*=(const Vector4& rhs){
 		return this->mul(rhs);
 	}
 
-	Vector4& operator/=(const Vector4& rhs) {
+	Vector4& operator/=(const Vector4& rhs){
 		return this->div(rhs);
 	}
 
-	Vector4& operator+=(f32 rhs) {
+	Vector4& operator+=(f32 rhs){
 		return this->add(rhs);
 	}
 
-	Vector4& operator-=(f32 rhs) {
+	Vector4& operator-=(f32 rhs){
 		return this->sub(rhs);
 	}
 
-	Vector4& operator*=(f32 rhs) {
+	Vector4& operator*=(f32 rhs){
 		return this->mul(rhs);
 	}
 
-	Vector4& operator/=(f32 rhs) {
+	Vector4& operator/=(f32 rhs){
 		return this->div(rhs);
 	}
 
@@ -163,7 +163,7 @@ public:
 	}
 
 	// can be used for assignment
-	f32& operator[](const size_t index) {
+	f32& operator[](const size_t index){
 		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 
 		return *(&x+index);
@@ -175,7 +175,7 @@ public:
 		return *(&x+index);
 	}
 
-	friend std::ostream& operator<<(std::ostream& out, const Vector4& v) {
+	friend std::ostream& operator<<(std::ostream& out, const Vector4& v){
 		out << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
 		return out;
 	}

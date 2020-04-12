@@ -7,7 +7,7 @@ namespace DE {
 
 Mesh* Mesh::smRectangle = nullptr;
 
-Mesh::Mesh() : DE_Class() {
+Mesh::Mesh() : DE_Class(){
 
 	mVertexCount = 0;
 	mVertices = nullptr;
@@ -20,7 +20,7 @@ Mesh::Mesh() : DE_Class() {
 	mTextureCoordinatesIndex = 0;
 }
 
-Mesh::~Mesh() {
+Mesh::~Mesh(){
 	Memory::free<Array<f32>>(mVertices);
 	Memory::free<Array<f32>>(mNormals);
 	Memory::free<Array<f32>>(mTextureCoordinates);
@@ -29,7 +29,7 @@ Mesh::~Mesh() {
 
 // ---------------------------------------------------------------------------
 
-void Mesh::init(u32 vertexCount, u32 facesCount) {
+void Mesh::init(u32 vertexCount, u32 facesCount){
 	TRACE();
 
 	mVertexCount = vertexCount;
@@ -52,7 +52,7 @@ void Mesh::init(u32 vertexCount, u32 facesCount) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addVertex(const Vector3& vector) {
+Mesh* Mesh::addVertex(const Vector3& vector){
 	mVertices->set(mVerticesIndex,vector.x); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.y); mVerticesIndex++;
 	mVertices->set(mVerticesIndex,vector.z); mVerticesIndex++;
@@ -61,7 +61,7 @@ Mesh* Mesh::addVertex(const Vector3& vector) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addNormal(const Vector3& vector) {
+Mesh* Mesh::addNormal(const Vector3& vector){
 	mNormals->set(mNormalsIndex,vector.x); mNormalsIndex++;
 	mNormals->set(mNormalsIndex,vector.y); mNormalsIndex++;
 	mNormals->set(mNormalsIndex,vector.z); mNormalsIndex++;
@@ -70,7 +70,7 @@ Mesh* Mesh::addNormal(const Vector3& vector) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addTexCoord(u32 u,u32 v) {
+Mesh* Mesh::addTexCoord(u32 u,u32 v){
   mTextureCoordinates->set(mTextureCoordinatesIndex,u); mTextureCoordinatesIndex++;
   mTextureCoordinates->set(mTextureCoordinatesIndex,v); mTextureCoordinatesIndex++;
   return this;
@@ -78,7 +78,7 @@ Mesh* Mesh::addTexCoord(u32 u,u32 v) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3) {
+Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3){
   mFaces->set(mFacesIndex,v1); mFacesIndex++;
   mFaces->set(mFacesIndex,v2); mFacesIndex++;
   mFaces->set(mFacesIndex,v3); mFacesIndex++;
@@ -87,8 +87,8 @@ Mesh* Mesh::addFace(u32 v1,u32 v2,u32 v3) {
 
 // ---------------------------------------------------------------------------
 
-Mesh* Mesh::getRectangle() {
-	if( ! smRectangle) {
+Mesh* Mesh::getRectangle(){
+	if( ! smRectangle){
 		smRectangle = Memory::allocate<Mesh>();
 		smRectangle->init(4, 2);
 

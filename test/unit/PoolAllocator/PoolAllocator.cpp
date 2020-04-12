@@ -4,7 +4,7 @@
 
 using namespace DE;
 
-int main() {
+int main(){
 
 
 	DE_test(DE::PoolAllocator);

@@ -3,7 +3,7 @@
 #include "Vector4.h"
 #include <cmath>
 
-int main() {
+int main(){
 
 	DE_test(DE::Vector4);
 

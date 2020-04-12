@@ -57,8 +57,8 @@ public:
 
 	void addRenderer(Renderer* renderer);
 
-	void setMesh(const Mesh* newMesh ) { mMesh = newMesh; };
-	void setMaterial(Material* newMaterial ) { mMaterial = newMaterial; };
+	void setMesh(const Mesh* newMesh ){ mMesh = newMesh; };
+	void setMaterial(Material* newMaterial ){ mMaterial = newMaterial; };
 };
 
 } /* namespace DE */

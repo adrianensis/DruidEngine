@@ -37,7 +37,7 @@ void PhysicsEngine::addRigidBody(RigidBody* rigidBody){
 
 // ---------------------------------------------------------------------------
 
-void PhysicsEngine::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+void PhysicsEngine::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList){
   RenderEngine::getInstance()->drawLine(lineStart, lineEnd);
   mQuadTree->rayCastQuery(lineStart, lineEnd, outList);
 }

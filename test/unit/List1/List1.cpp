@@ -11,7 +11,7 @@ public:
 	Test (){n = 3;};
 };
 
-int main() {
+int main(){
 
 	DE::Memory::init();
 

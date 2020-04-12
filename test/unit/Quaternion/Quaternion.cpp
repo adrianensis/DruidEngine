@@ -3,13 +3,13 @@
 #include "Quaternion.h"
 #include <cmath>
 
-DE::Quaternion mul(DE::Quaternion q1, DE::Quaternion q2) {
+DE::Quaternion mul(DE::Quaternion q1, DE::Quaternion q2){
 	float w = (q1.w * q2.w) - (q1.v.dot(q2.v));
 	DE::Vector3 v(q2.v*q1.w + q1.v*q1.w + DE::Vector3(q1.v).cross(q2.v));
 	return DE::Quaternion(v,w);
 }
 
-int main() {
+int main(){
 
 	DE::Memory::init();
 

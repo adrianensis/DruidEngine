@@ -3,12 +3,13 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Frustum.h"
+#include "RenderContext.h"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Camera::Camera() : Component() {
+Camera::Camera() : Component(){
 	// mProjectionMatrix = nullptr;
 	// mViewTranslationMatrix = nullptr;
 	// mInversePVMatrix = nullptr;
@@ -18,7 +19,7 @@ Camera::Camera() : Component() {
 	mZoom = 1;
 }
 
-Camera::~Camera() {
+Camera::~Camera(){
 	// Memory::free<Matrix4>(mViewTranslationMatrix);
 	Memory::free<Frustum>(mFrustum);
 }
@@ -60,7 +61,7 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mNear = near;
 	mFar = far;
 
-	mProjectionMatrix.ortho(mLeft, mRight, mBottom, mTop, mNear, mFar);
+	mProjectionMatrix.ortho(mLeft*RenderContext::getAspectRatio(), mRight*RenderContext::getAspectRatio(), mBottom, mTop, mNear, mFar);
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
@@ -138,7 +139,7 @@ void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/){
 
 // ---------------------------------------------------------------------------
 
-void Camera::setZoom(f32 zoom) {
+void Camera::setZoom(f32 zoom){
 	mZoom = zoom;
 
 	if(mIsOrtho){

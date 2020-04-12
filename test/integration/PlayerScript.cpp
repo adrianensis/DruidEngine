@@ -41,7 +41,7 @@ void PlayerScript::step(){
 
 // ---------------------------------------------------------------------------
 
-void PlayerScript::onEnterCollision(GameObject* otherGameObject) {
+void PlayerScript::onEnterCollision(GameObject* otherGameObject){
   // TRACE();
   // if(textEnter){
   //   textEnter->destroy();
@@ -64,7 +64,7 @@ void PlayerScript::onEnterCollision(GameObject* otherGameObject) {
   // otherGameObject->getComponents<Renderer>()->get(0)->setColor(Vector4(0,1,0,1));
 }
 
-void PlayerScript::onCollision(GameObject* otherGameObject) {
+void PlayerScript::onCollision(GameObject* otherGameObject){
   // TRACE();
   // if(textEnter){
   //   textEnter->destroy();
@@ -84,7 +84,7 @@ void PlayerScript::onCollision(GameObject* otherGameObject) {
   // ECHO(x);
 }
 
-void PlayerScript::onExitCollision(GameObject* otherGameObject) {
+void PlayerScript::onExitCollision(GameObject* otherGameObject){
   // TRACE();
 
 
@@ -112,7 +112,7 @@ void PlayerScript::onExitCollision(GameObject* otherGameObject) {
 
 // ---------------------------------------------------------------------------
 
-void PlayerScript::terminate() {
+void PlayerScript::terminate(){
 
 }
 

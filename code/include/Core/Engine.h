@@ -7,8 +7,6 @@
 
 namespace DE {
 
-template <class T> class List;
-class Scene;
 class RenderEngine;
 class PhysicsEngine;
 class ScriptEngine;
@@ -20,8 +18,6 @@ class Engine : public DE_Class, public Singleton<Engine> {
 private:
 
   f32 mFPS;
-  u32 mCurrentSceneIndex;
-  List<Scene*>* mScenes;
   RenderEngine* mRenderEngine;
   PhysicsEngine* mPhysicsEngine;
   ScriptEngine* mScriptEngine;
@@ -32,11 +28,9 @@ public:
 
   void init();
   void initSubsystems();
+  void terminateSubSystems();
   void run();
   void terminate();
-
-  void addScene(Scene* newScene);
-  void setScene(u32 i);
 };
 
 // ---------------------------------------------------------------------------

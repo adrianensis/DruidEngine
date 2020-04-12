@@ -30,10 +30,10 @@ private:
 
     DE_GENERATE_METADATA(Node, DE_Class);
 
-    Node() : DE_Class() {};
-    ~Node() {};
+    Node() : DE_Class(){};
+    ~Node(){};
 
-    void init(const K key, const V element) {
+    void init(const K key, const V element){
       mKey = key;
       mElement = element;
     }
@@ -68,7 +68,7 @@ public:
   /*!
     \brief Default Constructor.
   */
-  HashMap() : BaseContainer() {
+  HashMap() : BaseContainer(){
     mArray = nullptr;
     mKeys = nullptr;
     mValues = nullptr;
@@ -93,7 +93,7 @@ public:
   /*!
     \brief Constructor.
   */
-  void init() {
+  void init(){
     BaseContainer::init(0, sizeof(V), 1);
     mArray = Memory::allocate<Array<List<Node*>*>>();
     mArray->init(20); // TODO : find a good number.
@@ -107,7 +107,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void set(const K key, const V element) {
+  void set(const K key, const V element){
 
     u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
@@ -168,7 +168,7 @@ public:
       }
     }
 
-    if(found) {
+    if(found){
       return element;
     } else {
       DE_ASSERT(false, "Can't find the element with given key.");
@@ -200,7 +200,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  V remove(const K key) {
+  V remove(const K key){
 
     u64 hashIndex = Hash::hash(key) % mArray->BaseContainer::getLength();
 
@@ -247,7 +247,7 @@ public:
 
     if(mArray){
 
-      FOR_ARRAY(i, mArray) {
+      FOR_ARRAY(i, mArray){
 
         List<Node*>* list = mArray->get(i);
         if(list && ! list->isEmpty()){

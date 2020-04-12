@@ -21,37 +21,9 @@ template <class K, class V> class HashMap;
 class CustomScript : public Script{
 private:
 
-  Renderer* mRenderer;
-  Renderer* mRendererMinion;
-  RigidBody* mRigidBody;
-  Collider* mCollider;
-  Transform* mTransform;
-  Camera* mCamera;
-
-  GameObject* mTestObj;
-  GameObject* mTestMinion;
-  UIButton* mTestButton;
-  UIText* mText;
-  u32 mTextCounter;
-
-  bool mTestCreated;
-
-  Renderer* mRendererMountain;
-  Renderer* mRendererMountain2;
-  Renderer* mRendererForest;
-  Renderer* mRendererForest2;
-
 public:
 
 DE_CLASS(CustomScript, Script);
-
-void createTestObj();
-void createTestButton();
-void createTestMap();
-void createTestScene();
-void createTestBackground(float x, float y);
-void createTestTile(float x, float y, Material* material);
-void createFont();
 
 void init() override;
 void firstStep() override;

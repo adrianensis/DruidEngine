@@ -44,21 +44,21 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  void raw_init(const void* rawArray, u32 length, u32 elementSize) {
+  void raw_init(const void* rawArray, u32 length, u32 elementSize){
     raw_init(length, elementSize, 1);
     raw_set(rawArray);
   }
 
-  void raw_init(const void* rawArray, u32 length, u32 elementSize, u32 alignment) {
+  void raw_init(const void* rawArray, u32 length, u32 elementSize, u32 alignment){
     raw_init(length, elementSize, alignment);
     raw_set(rawArray);
   }
 
-  void raw_init(u32 length, u32 elementSize) {
+  void raw_init(u32 length, u32 elementSize){
     raw_allocate(length, elementSize, 1);
   }
 
-  void raw_init(u32 length, u32 elementSize, u32 alignment) {
+  void raw_init(u32 length, u32 elementSize, u32 alignment){
     raw_allocate(length, elementSize, alignment);
   }
 
@@ -72,7 +72,7 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  void raw_allocate(u32 length, u32 elementSize, u32 alignment) {
+  void raw_allocate(u32 length, u32 elementSize, u32 alignment){
     BaseContainer::init(length,elementSize,alignment);
     mStart = this->mAllocator->allocate(this->mLength*(this->mElementSize), this->mAlignment);
     // TODO allocate with Memory::allocate, create new function for raw allocation.
@@ -80,7 +80,7 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  void raw_clear() {
+  void raw_clear(){
     BaseContainer::clear();
     std::memset(mStart, 0, this->mLength*(this->mElementSize));
   }
@@ -108,7 +108,7 @@ public:
   /*!
   \brief Destructor.
   */
-  ~Array() {
+  ~Array(){
     if(mStart != nullptr){
       this->mAllocator->free(mStart);
       mStart = nullptr;
@@ -166,13 +166,13 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex) {
+  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex){
     Array::put(other, destinyIndex, sourceIndex, other.getLength());
   }
 
   // ---------------------------------------------------------------------------
 
-  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length) {
+  void put(const Array<T>& other, u32 destinyIndex, u32 sourceIndex, u32 length){
     this->checkPut(other, destinyIndex, sourceIndex, length);
     raw_put(other.mStart, destinyIndex, sourceIndex, length);
   }

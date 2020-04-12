@@ -26,7 +26,7 @@ Vector3::Vector3(const Vector2& other, f32 z):DE_Class(),x(other.x),y(other.y),z
 Vector3::Vector3(const Vector4& other):DE_Class(),x(other.x),y(other.y),z(other.z){
 }
 
-Vector3& Vector3::set(f32 x, f32 y, f32 z) {
+Vector3& Vector3::set(f32 x, f32 y, f32 z){
 	if (this->x == x && this->y == y && this->z == z) return *this; // handle self assignment
 	//assignment operator
 	this->x = x;
@@ -35,14 +35,14 @@ Vector3& Vector3::set(f32 x, f32 y, f32 z) {
 	return *this;
 }
 
-Vector3& Vector3::set(const Vector3& rhs) {
+Vector3& Vector3::set(const Vector3& rhs){
 	if (this == &rhs) return *this; // handle self assignment
 	//assignment operator
 	this->set(rhs.x,rhs.y,rhs.z);
 	return *this;
 }
 
-Vector3& Vector3::add(const Vector3& rhs) {
+Vector3& Vector3::add(const Vector3& rhs){
 	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
@@ -50,21 +50,21 @@ Vector3& Vector3::add(const Vector3& rhs) {
 	return *this;
 }
 
-Vector3& Vector3::sub(const Vector3& rhs) {
+Vector3& Vector3::sub(const Vector3& rhs){
 	x = x - rhs.x;
 	y = y - rhs.y;
 	z = z - rhs.z;
 	return *this;
 }
 
-Vector3& Vector3::mul(const Vector3& rhs) {
+Vector3& Vector3::mul(const Vector3& rhs){
 	x = x * rhs.x;
 	y = y * rhs.y;
 	z = z * rhs.z;
 	return *this;
 }
 
-Vector3& Vector3::div(const Vector3& rhs) {
+Vector3& Vector3::div(const Vector3& rhs){
 	DE_ASSERT(rhs.x != 0, "Division by zero.");
 	DE_ASSERT(rhs.y != 0, "Division by zero.");
 	DE_ASSERT(rhs.z != 0, "Division by zero.");
@@ -74,28 +74,28 @@ Vector3& Vector3::div(const Vector3& rhs) {
 	return *this;
 }
 
-Vector3& Vector3::add(f32 rhs) {
+Vector3& Vector3::add(f32 rhs){
 	x = x + rhs;
 	y = y + rhs;
 	z = z + rhs;
 	return *this;
 }
 
-Vector3& Vector3::sub(f32 rhs) {
+Vector3& Vector3::sub(f32 rhs){
 	x = x - rhs;
 	y = y - rhs;
 	z = z - rhs;
 	return *this;
 }
 
-Vector3& Vector3::mul(f32 rhs) {
+Vector3& Vector3::mul(f32 rhs){
 	x = x * rhs;
 	y = y * rhs;
 	z = z * rhs;
 	return *this;
 }
 
-Vector3& Vector3::div(f32 rhs) {
+Vector3& Vector3::div(f32 rhs){
 	DE_ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
@@ -128,7 +128,7 @@ f32 Vector3::min() const {
 	return std::min(x,std::min(y,z));
 }
 
-Vector3& Vector3::nor() {
+Vector3& Vector3::nor(){
 	f32 len = this->len();
 
 	//DE_ASSERT(len > 0, "Length is zero.");
@@ -168,19 +168,19 @@ Vector3& Vector3::cross(const Vector3& v){
 	return *this;
 }
 
-Vector3& Vector3::lerp(const Vector3& target, f32 t) {
+Vector3& Vector3::lerp(const Vector3& target, f32 t){
 	//start + percent*(end - start)
 	(*this) += (Vector3(target)-(*this))*t;
 	return *this;
 }
 
-Vector3& Vector3::nlerp(const Vector3& target, f32 t) {
+Vector3& Vector3::nlerp(const Vector3& target, f32 t){
 	//start + percent*(end - start)
 	this->lerp(target,t).nor();
 	return *this;
 }
 
-Vector3& Vector3::slerp(const Vector3& target, f32 t) {
+Vector3& Vector3::slerp(const Vector3& target, f32 t){
 
 	if (t == 0) return *this;
 
@@ -214,7 +214,7 @@ f32 Vector3::angle(const Vector3& v, const Vector3& n) const {
 	return radians;
 }
 
-Vector3& Vector3::clamp(f32 maxLength) {
+Vector3& Vector3::clamp(f32 maxLength){
 	if(this->sqrlen() > maxLength*maxLength){
 		this->nor();
 		this->mul(maxLength);

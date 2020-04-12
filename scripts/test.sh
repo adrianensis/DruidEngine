@@ -2,7 +2,7 @@
 
 outputDir="output"
 
-function readTest() {
+function readTest(){
 	f=$1
 
 	output=$(tail -1 "$outputDir/$f.txt")

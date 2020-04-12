@@ -9,6 +9,7 @@
 #include "Array.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Camera.h"
 
 namespace DE {
 
@@ -25,13 +26,13 @@ RenderContext::~RenderContext() = default;
 
 // ---------------------------------------------------------------------------
 
-Vector2 RenderContext::getWindowSize() {
+Vector2 RenderContext::getWindowSize(){
   return smWindowSize;
 }
 
 // ---------------------------------------------------------------------------
 
-f32 RenderContext::getAspectRatio() {
+f32 RenderContext::getAspectRatio(){
   return smWindowSize.x / smWindowSize.y;
 }
 
@@ -45,7 +46,7 @@ void RenderContext::onResize(GLFWwindow* window, int width, int height){
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::init() {
+void RenderContext::init(){
 	TRACE();
 
 	glfwInit();
@@ -88,33 +89,33 @@ void RenderContext::init() {
 
 // ---------------------------------------------------------------------------
 
-bool RenderContext::isClosed() {
+bool RenderContext::isClosed(){
 	return glfwWindowShouldClose(smWindow);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::clear() {
+void RenderContext::clear(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::swap() {
+void RenderContext::swap(){
   glfwSwapBuffers(smWindow);
 	RenderContext::clear();
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::terminate() {
+void RenderContext::terminate(){
   glfwDestroyWindow(smWindow);
 	glfwTerminate();
 }
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex) {
+GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex){
 
   DE_ASSERT(data != nullptr, "Data must be not null.");
 
@@ -133,7 +134,7 @@ GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 att
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVAO() {
+GLuint RenderContext::createVAO(){
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
 
@@ -144,7 +145,7 @@ GLuint RenderContext::createVAO() {
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createEBO(const Array<u32>* data) {
+GLuint RenderContext::createEBO(const Array<u32>* data){
 
   DE_ASSERT(data != nullptr, "Data must be not null.");
 
@@ -171,7 +172,7 @@ void RenderContext::disableAttribute(u32 attributeArrayIndex){
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::enableVAO(u32 VAO) {
+void RenderContext::enableVAO(u32 VAO){
 	glBindVertexArray(VAO);
 }
 

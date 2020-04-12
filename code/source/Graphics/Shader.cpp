@@ -14,7 +14,7 @@ Shader* Shader::msShaderDebug = nullptr;
 
 // ---------------------------------------------------------------------------
 
-Shader::Shader() : DE_Class() {
+Shader::Shader() : DE_Class(){
 	mVertexShader = -1;
 	mFragmentShader = -1;
 	mProgram = -1;
@@ -26,7 +26,7 @@ Shader::~Shader() = default;
 
 // ---------------------------------------------------------------------------
 
-Shader* Shader::getDefaultShader() {
+Shader* Shader::getDefaultShader(){
 	if( ! msShaderDefault){
 		msShaderDefault = Memory::allocate<Shader>();
 		msShaderDefault->init();
@@ -34,7 +34,7 @@ Shader* Shader::getDefaultShader() {
 	return msShaderDefault;
 }
 
-Shader* Shader::getDebugShader() {
+Shader* Shader::getDebugShader(){
 	if( ! msShaderDebug){
 		msShaderDebug = Memory::allocate<Shader>();
 		msShaderDebug->initDebug();
@@ -54,7 +54,7 @@ void Shader::freeStaticShaders(){
 
 // ---------------------------------------------------------------------------
 
-void Shader::initInternal(const std::string& vertex, const std::string& fragment) {
+void Shader::initInternal(const std::string& vertex, const std::string& fragment){
 	TRACE();
 
   mVertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -96,7 +96,7 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
   glLinkProgram(mProgram);
 
   glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
-  if(!success) {
+  if(!success){
     glGetProgramInfoLog(mProgram, 512, nullptr, infoLog);
     std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl << vertexShaderSource << std::endl;
   }
@@ -107,19 +107,19 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 
 // ---------------------------------------------------------------------------
 
-void Shader::init() {
+void Shader::init(){
 	TRACE();
 
 	initInternal("resources/shaders/vertex.shader", "resources/shaders/fragment.shader");
 }
 
-void Shader::initDebug() {
+void Shader::initDebug(){
 	TRACE();
 
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }
 
-void Shader::use() {
+void Shader::use(){
 	glUseProgram(mProgram);
 };
 

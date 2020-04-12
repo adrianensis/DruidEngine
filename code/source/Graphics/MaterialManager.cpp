@@ -8,12 +8,12 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-MaterialManager::MaterialManager() : DE_Class() {
+MaterialManager::MaterialManager() : DE_Class(){
   mTexturesMap = nullptr;
   mMaterialsMap = nullptr;
 }
 
-MaterialManager::~MaterialManager() {
+MaterialManager::~MaterialManager(){
   FOR_LIST(it, mTexturesMap->getValues()){
     Memory::free<Texture>(it.get());
   }
@@ -43,7 +43,7 @@ void MaterialManager::init(){
 
 // ---------------------------------------------------------------------------
 
-Texture* MaterialManager::loadTexture(const std::string& path) {
+Texture* MaterialManager::loadTexture(const std::string& path){
   Texture* texture = nullptr;
 
   if(mTexturesMap->contains(path)){
@@ -59,7 +59,7 @@ Texture* MaterialManager::loadTexture(const std::string& path) {
 
 // ---------------------------------------------------------------------------
 
-Material* MaterialManager::loadMaterial(const std::string& path) {
+Material* MaterialManager::loadMaterial(const std::string& path){
   Material* material = nullptr;
 
   if(mMaterialsMap->contains(path)){

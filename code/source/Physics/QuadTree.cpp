@@ -17,7 +17,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-QuadTree::Node::Node() : DE_Class() {
+QuadTree::Node::Node() : DE_Class(){
     mLeftTop = Vector2();
     mWidth = 0.0f;
     mHeight = 0.0f;
@@ -37,17 +37,26 @@ QuadTree::Node::Node() : DE_Class() {
 
 // ---------------------------------------------------------------------------
 
-QuadTree::Node::~Node() {
+QuadTree::Node::~Node(){
+  TRACE();
+
   mTree = nullptr;
 
-  FOR_ARRAY(i, mChildren){
-    Memory::free<Node>(mChildren->get(i));
+  if(!isLeaf() && mChildren && mChildrenCount > 0){
+    FOR_ARRAY(i, mChildren){
+      if(mChildren->get(i)){
+        Memory::free<Node>(mChildren->get(i));
+      }
+    }
+
+    Memory::free<Array<Node*>>(mChildren);
   }
 
-  FOR_LIST(it, mColliders) {
-    // if(! (it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
+  FOR_LIST(it, mColliders){
+    if(it.get() && ! (it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())){
+        it.get()->setDestroyed();
         Memory::free<Collider>(it.get());
-    // }
+    }
   }
 
   Memory::free<List<Collider*>>(mColliders);
@@ -57,7 +66,7 @@ QuadTree::Node::~Node() {
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree* tree) {
+void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree* tree){
 	TRACE();
 
   mLeftTop = leftTop;
@@ -80,6 +89,10 @@ void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 min
 
   mChildren = Memory::allocate<Array<Node*>>();
   mChildren->init(4);
+  mChildren->set(0,nullptr);
+  mChildren->set(1,nullptr);
+  mChildren->set(2,nullptr);
+  mChildren->set(3,nullptr);
 
   mLeftTopChildrenArray = Memory::allocate<Array<Vector2>>();
   mLeftTopChildrenArray->init(4);
@@ -100,7 +113,7 @@ bool QuadTree::Node::testCompleteCollider(Collider* collider) const {
 
 	bool collision = true;
 
-	FOR_ARRAY (i, vertices) {
+	FOR_ARRAY (i, vertices){
 		collision = collision && MathUtils::testRectanglePoint(mLeftTop,mWidth,mHeight,vertices->get(i),0);
 	}
 
@@ -175,12 +188,12 @@ void QuadTree::Node::addCollider(Collider* collider){
         }
       }
     } else {
-      //if ( /*( ! collider.isStatic()) */) {
+      //if ( /*( ! collider.isStatic()) */){
 
         //ECHO("ADD");
         bool found = false;
 
-        FOR_LIST_COND (it, mColliders, !found) {
+        FOR_LIST_COND (it, mColliders, !found){
           found = (it.get() == collider);
         }
 
@@ -202,7 +215,7 @@ void QuadTree::Node::addCollider(Collider* collider){
 
 //----------------------------------------------------------------------
 
-void QuadTree::Node::internalRemoveColliderFromList(const Iterator* it) {
+void QuadTree::Node::internalRemoveColliderFromList(const Iterator* it){
   auto castedIt = it->cast<Collider*>();
 	mColliders->remove(*castedIt);
 
@@ -210,7 +223,7 @@ void QuadTree::Node::internalRemoveColliderFromList(const Iterator* it) {
 
 //----------------------------------------------------------------------
 
-void QuadTree::Node::internalFreeCollider(Collider* collider) {
+void QuadTree::Node::internalFreeCollider(Collider* collider){
   collider->setDestroyed();
   Memory::free<Collider>(collider);
 }
@@ -235,12 +248,12 @@ void QuadTree::Node::update(/*contactManager*/){
 
 
     // FOR EACH COLLIDER
-		FOR_LIST(itA, mColliders) {
+		FOR_LIST(itA, mColliders){
 
       Collider* colliderA = itA.get();
 
-      if(colliderA->isActive()) {
-        if(colliderA->isSimulate()) {
+      if(colliderA->isActive()){
+        if(colliderA->isSimulate()){
 
           bool isStaticA = colliderA->isStatic();
 
@@ -252,21 +265,21 @@ void QuadTree::Node::update(/*contactManager*/){
           // if there are 2 or more colliders within the same node
           if(mDynamicCollidersCount + mStaticCollidersCount > 1){
             // CHECK COLLISIONS WITH THE OTHERS COLLIDERS
-            FOR_LIST(itB, mColliders) {
+            FOR_LIST(itB, mColliders){
 
               Collider* colliderB = itB.get();
 
-              if(colliderB->isActive()) {
-                if(colliderB->isSimulate()) {
+              if(colliderB->isActive()){
+                if(colliderB->isSimulate()){
 
                   bool isStaticB = colliderA->isStatic();
 
                   // if they aren't the same collider
                   // if both are static, do not check anything.
-                  if((colliderA != colliderB) && !(isStaticA && isStaticB)) {
+                  if((colliderA != colliderB) && !(isStaticA && isStaticB)){
 
                     // check bounding radius
-                    if(colliderA->checkCollisionRadius(colliderB)) {
+                    if(colliderA->checkCollisionRadius(colliderB)){
 
                       // candidate vertices
                       // Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
@@ -284,10 +297,10 @@ void QuadTree::Node::update(/*contactManager*/){
                         ContactsManager::getInstance()->addContact(colliderA, colliderB);
                       }
 
-                      if(status > newTreeStatus) {
+                      if(status > newTreeStatus){
                         newTreeStatus = status;
                       }
-                      if(status2 > newTreeStatus) {
+                      if(status2 > newTreeStatus){
                         newTreeStatus = status2;
                       }
 
@@ -296,19 +309,19 @@ void QuadTree::Node::update(/*contactManager*/){
                     }
                   }
                 }
-              } else if(colliderB->isPendingToBeDestroyed()) {
+              } else if(colliderB->isPendingToBeDestroyed()){
                   internalRemoveColliderFromList(&itB);
                   internalFreeCollider(colliderB);
-              } else if(colliderB->isDestroyed()) {
+              } else if(colliderB->isDestroyed()){
                   internalRemoveColliderFromList(&itB);
               }
             }
       		}
         }
-      } else if(colliderA->isPendingToBeDestroyed()) {
+      } else if(colliderA->isPendingToBeDestroyed()){
           internalRemoveColliderFromList(&itA);
           internalFreeCollider(colliderA);
-      } else if(colliderA->isDestroyed()) {
+      } else if(colliderA->isDestroyed()){
           internalRemoveColliderFromList(&itA);
       }
 		}
@@ -327,7 +340,7 @@ void QuadTree::Node::update(/*contactManager*/){
 
 //----------------------------------------------------------------------
 
-void QuadTree::Node::updateChildren(/*contactManager*/) {
+void QuadTree::Node::updateChildren(/*contactManager*/){
 	FOR_ARRAY (i, mChildren){
 		Node* child = mChildren->get(i);
 
@@ -374,7 +387,7 @@ void QuadTree::Node::checkExit(Collider* collider) const {
 
 //----------------------------------------------------------------------
 
-void QuadTree::Node::manageExits(List<Collider*>* exitingColliders) {
+void QuadTree::Node::manageExits(List<Collider*>* exitingColliders){
 
  	// If any collider has left the node
  	if(exitingColliders->getLength() > 0){
@@ -399,14 +412,14 @@ u32 QuadTree::Node::getCollidersCount() const { return mColliders->getLength(); 
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::Node::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+void QuadTree::Node::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList){
 
   bool rayIntersectsNode = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd), Vector2(mLeftTop + Vector3(mHalfWidth, -mHalfHeight, 0)), mRadius, 0.0f);
 
   if(rayIntersectsNode){
     if(isLeaf()){
 
-      FOR_LIST(it, mColliders) {
+      FOR_LIST(it, mColliders){
         Collider* collider = it.get();
 
         GameObject* gameObject = collider->getGameObject();
@@ -468,19 +481,19 @@ void QuadTree::init(f32 size){
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::update() {
+void QuadTree::update(){
   mRoot->update();
 }
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::addCollider(Collider* collider) {
+void QuadTree::addCollider(Collider* collider){
   mRoot->addCollider(collider);
 }
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList) {
+void QuadTree::rayCastQuery(const Vector3& lineStart, const Vector3& lineEnd, List<GameObject*>* outList){
   mRoot->rayCastQuery(lineStart, lineEnd, outList);
 }
 

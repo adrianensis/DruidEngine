@@ -14,7 +14,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Renderer::Renderer() : Component() {
+Renderer::Renderer() : Component(){
   mMesh = nullptr;
   mMaterial = nullptr;
   mAnimations = nullptr;
@@ -39,7 +39,7 @@ Renderer::Renderer() : Component() {
   mIsAffectedByProjection = true;
 }
 
-Renderer::~Renderer() {
+Renderer::~Renderer(){
   if(mAnimations){
     FOR_LIST(it, mAnimations->getValues()){
       Memory::free<Animation>(it.get());
@@ -53,7 +53,7 @@ Renderer::~Renderer() {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::init() {
+void Renderer::init(){
 	// TRACE();
 
   mColor = Memory::allocate<Array<f32>>();
@@ -95,8 +95,8 @@ void Renderer::addAnimation(const std::string& name, Animation* animation){
 
 // ---------------------------------------------------------------------------
 
-void Renderer::updateMaterial(Material* material) {
-  if(mMaterial->getTexture()) {
+void Renderer::updateMaterial(Material* material){
+  if(mMaterial->getTexture()){
 
     Shader* shader = mMaterial->getShader();
 
@@ -110,7 +110,7 @@ void Renderer::updateMaterial(Material* material) {
     shader->addFloat(mRegionSize.x, "regionWidth");
     shader->addFloat(mRegionSize.y, "regionHeight");
 
-    if(mAnimations && mAnimations->getLength() > 0) {
+    if(mAnimations && mAnimations->getLength() > 0){
       const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
 
       shader->addFloat(frame->getPosition().x, "animationX");
@@ -129,7 +129,7 @@ void Renderer::updateMaterial(Material* material) {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::setPositionOffset(Vector3 newPositionOffset ) {
+void Renderer::setPositionOffset(Vector3 newPositionOffset ){
   mPositionOffset = newPositionOffset;
   mPositionOffsetMatrix.translation(mPositionOffset);
 };
@@ -140,11 +140,11 @@ const Matrix4& Renderer::getPositionOffsetMatrix(){
   return mPositionOffsetMatrix;
 }
 
-void Renderer::setColor(const Vector4& color) { mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
-bool Renderer::isLineMode() { return mLineMode; }
+void Renderer::setColor(const Vector4& color){ mColor->set(0,color.x); mColor->set(1,color.y); mColor->set(2,color.z); mColor->set(3,color.w); };
+bool Renderer::isLineMode(){ return mLineMode; }
 
-void Renderer::setChunk(Chunk* chunk ) { mChunk = chunk; };
-Chunk* Renderer::getChunk() { return mChunk; };
+void Renderer::setChunk(Chunk* chunk ){ mChunk = chunk; };
+Chunk* Renderer::getChunk(){ return mChunk; };
 
 // ---------------------------------------------------------------------------
 

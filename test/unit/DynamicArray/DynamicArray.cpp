@@ -4,7 +4,7 @@
 
 using namespace DE;
 
-int main() {
+int main(){
 
 	DE::Memory::init();
 
@@ -24,7 +24,7 @@ int main() {
 
 	DE_test_expected_uint(array0->getLength(),10);
 
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < 10; ++i){
 		DE_test_expected_uint((*array0)[i],i+1);
 	}
 
@@ -32,13 +32,13 @@ int main() {
 	u32 size = 200;
 	array1->init(size);
 
-	for (u32 i = 0; i < size; ++i) {
+	for (u32 i = 0; i < size; ++i){
 		(*array1)[i] = i;
 	}
 
 	DE_test_expected_uint(array1->getLength(),size);
 
-	for (int i = 0; i < size; ++i) {
+	for (int i = 0; i < size; ++i){
 		DE_test_expected_uint((*array1)[i],i);
 	}
 
@@ -46,13 +46,13 @@ int main() {
 	size = 457;
 	array2->init(size);
 
-	for (u32 i = 0; i < size; ++i) {
+	for (u32 i = 0; i < size; ++i){
 		(*array2)[i] = i;
 	}
 
 	DE_test_expected_uint(array2->getLength(),size);
 
-	for (int i = 0; i < size; ++i) {
+	for (int i = 0; i < size; ++i){
 		DE_test_expected_uint((*array2)[i],i);
 	}
 
@@ -106,11 +106,11 @@ int main() {
 
 	array6->put(*array4,0,0);
 
-	for (u32 i = 0; i < 5; ++i) {
+	for (u32 i = 0; i < 5; ++i){
 		DE_test_expected_uint((*array6)[i],i+1);
 	}
 
-	for (u32 i = 5; i < 10; ++i) {
+	for (u32 i = 5; i < 10; ++i){
 		DE_test_expected_uint((*array6)[i],i+1 - 5);
 	}
 

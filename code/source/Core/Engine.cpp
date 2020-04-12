@@ -19,6 +19,7 @@
 #include "UI.h"
 #include "Settings.h"
 #include "MaterialManager.h"
+#include "ScenesManager.h"
 
 #include <string>
 #include <iostream>
@@ -31,11 +32,9 @@ namespace DE {
 
 Engine::Engine() : DE_Class(), Singleton(){
 	mFPS = 60;
-	mScenes = nullptr;
 	mRenderEngine = nullptr;
 	mPhysicsEngine = nullptr;
 	mScriptEngine = nullptr;
-	mCurrentSceneIndex = 0;
 }
 
 Engine::~Engine() = default;
@@ -50,26 +49,22 @@ void Engine::init(){
 	Settings::getInstance()->init();
 	MaterialManager::getInstance()->init();
 
-  mScenes = Memory::allocate<List<Scene*>>();
-  mScenes->init();
+	ScenesManager::getInstance()->init();
 }
 
 // ---------------------------------------------------------------------------
 
 void Engine::initSubsystems(){
 
-	if(mScriptEngine) mScriptEngine->terminate();
-	if(mRenderEngine) mRenderEngine->terminate();
-	if(mPhysicsEngine) mPhysicsEngine->terminate();
-	if(UI::getInstance()) UI::getInstance()->terminate();
+	terminateSubSystems();
 
 	mRenderEngine = RenderEngine::getInstance();
 	mScriptEngine = ScriptEngine::getInstance();
 	mPhysicsEngine = PhysicsEngine::getInstance();
 
-	f32 sceneSize = mScenes->get(mCurrentSceneIndex)->getSize();
+	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 
-	if(sceneSize == 0) {
+	if(sceneSize == 0){
 		sceneSize = Settings::getInstance()->getF32("scene.defaultSize");
 	}
 
@@ -81,21 +76,14 @@ void Engine::initSubsystems(){
 
 // ---------------------------------------------------------------------------
 
-void Engine::addScene(Scene* newScene){
-	mScenes->pushBack(newScene);
-}
+void Engine::terminateSubSystems(){
 
-// ---------------------------------------------------------------------------
+	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
 
-void Engine::setScene(u32 i){
-	mCurrentSceneIndex = i;
-
-	if(Settings::getInstance()->getU32("scenes.length") > 0){
-		std::string sceneName = Settings::getInstance()->getString("scenes["+std::to_string(mCurrentSceneIndex)+"]");
-
-		Scene* scene = mScenes->get(mCurrentSceneIndex);
-		scene->loadScene(sceneName);
-	}
+	if(mScriptEngine) mScriptEngine->terminate();
+	if(mRenderEngine) mRenderEngine->terminate();
+	if(mPhysicsEngine) mPhysicsEngine->terminate();
+	if(UI::getInstance()) UI::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
@@ -108,13 +96,17 @@ void Engine::run(){
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
 
-	initSubsystems();
+	// initSubsystems();
 
-	while(! RenderContext::isClosed()) {
+	while(! RenderContext::isClosed()){
 
 		Time::tick();
 
-		mScenes->get(mCurrentSceneIndex)->step();
+		if(ScenesManager::getInstance()->sceneHasChanged()){
+			initSubsystems();
+		}
+
+		ScenesManager::getInstance()->step();
 
 		Input::pollEvents();
 
@@ -134,30 +126,23 @@ void Engine::run(){
 		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 	}
-
-	mScriptEngine->terminate();
-	mRenderEngine->terminate();
-	mPhysicsEngine->terminate();
-	UI::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
 
-void Engine::terminate() {
+void Engine::terminate(){
+
+	terminateSubSystems();
+
+	RenderContext::terminate();
 
 	Memory::free<RenderEngine>(mRenderEngine);
 	Memory::free<MaterialManager>(MaterialManager::getInstance());
 
 	Memory::free<ScriptEngine>(mScriptEngine);
 
-	FOR_LIST (it, mScenes){
-		Memory::free<Scene>(it.get());
-	}
-
-	Memory::free<List<Scene*>>(mScenes);
 	Memory::free<Settings>(Settings::getInstance());
-
-	Memory::free();
+	Memory::free<ScenesManager>(ScenesManager::getInstance());
 }
 
 // ---------------------------------------------------------------------------

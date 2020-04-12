@@ -29,7 +29,7 @@ private:
 
     DE_GENERATE_METADATA(Node, DE_Class);
 
-    Node() : DE_Class() {
+    Node() : DE_Class(){
       mChildren = nullptr;
     };
 
@@ -38,7 +38,7 @@ private:
       Memory::free<Array<Node*>>(mChildren);
     };
 
-    void init(Node* parent, const T element, u32 childrenCount) {
+    void init(Node* parent, const T element, u32 childrenCount){
       mParent = parent;
       mElement = element;
       mChildren = Memory::allocate<Array<Node*>>();
@@ -52,7 +52,7 @@ private:
 
       Node* child = mChildren->get(index);
 
-      if(child == nullptr) {
+      if(child == nullptr){
         node->mParent = this;
         mChildren->set(index, node);
       }else
@@ -83,7 +83,7 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  void freeSubTree(Node* node) {
+  void freeSubTree(Node* node){
     Node* child0 = node->mChildren->get(0);
     Node* child1 = node->mChildren->get(1);
 
@@ -125,7 +125,7 @@ public:
   DE_GENERATE_METADATA(Tree<T>, BaseContainer);
 
 
-  Tree() : BaseContainer() {
+  Tree() : BaseContainer(){
     mRoot = nullptr;
   }
 
@@ -138,14 +138,14 @@ public:
   /*!
     \brief Constructor.
   */
-  void init() {
+  void init(){
     BaseContainer::init(0, sizeof(T), 1);
     mRoot = nullptr;
   }
 
   // ---------------------------------------------------------------------------
 
-  void add(const T element) {
+  void add(const T element){
     Node* node = newNode(nullptr, element);
 
     if(mRoot == nullptr)
@@ -158,7 +158,7 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  void remove(const T element) {
+  void remove(const T element){
     Node* node = find(element, mRoot);
 
     if(node != nullptr){
