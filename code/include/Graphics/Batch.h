@@ -11,7 +11,10 @@ class Mesh;
 class Renderer;
 class RenderEngine;
 class Camera;
+class Chunk;
 template <class T> class List;
+template <class T> class Array;
+template <class K, class V> class HashMap;
 
 class Iterator;
 
@@ -21,7 +24,18 @@ private:
 
 	RenderEngine* mRenderEngine;
 
-	List<Renderer*>* mRenderers;
+	class LayerData : public DE_Class {
+	public:
+		DE_CLASS(LayerData, DE_Class);
+
+		bool mSorted;
+		u32 mDynamicObjectsCount; // Non static objects count
+		u32 mSortCounter;
+	};
+
+	HashMap<u32, List<Renderer*>*>* mRenderers;
+	HashMap<u32, List<Renderer*>*>* mDynamicRenderers;
+	HashMap<u32, LayerData*>* mLayersData;
 
 	Material* mMaterial;
 	const Mesh* mMesh;
@@ -38,11 +52,19 @@ private:
 
 	static Matrix4 smMatrixIdentity;
 
+	Chunk* mChunk;
+
 	bool checkInFrustum(Camera* cam, Renderer* renderer);
 	bool checkDistance(Camera* cam, Renderer* renderer);
 	bool checkOutOfCamera(Camera* cam, Renderer* renderer);
 
-	void internalRemoveRenderer(const Iterator* it);
+	void internalRemoveRenderer(const Iterator* it, List<Renderer*>* list);
+	void internalRemoveRendererFromList(const Iterator* it, List<Renderer*>* list);
+
+	static u8 rendererYCoordinateComparator(Renderer* a, Renderer* b);
+
+	void sort(u32 layer);
+	void insertSorted(Renderer* renderer, List<Renderer*>* renderers);
 
 public:
 
@@ -59,6 +81,9 @@ public:
 
 	void setMesh(const Mesh* newMesh ){ mMesh = newMesh; };
 	void setMaterial(Material* newMaterial ){ mMaterial = newMaterial; };
+
+	void setChunk(Chunk* chunk );
+	Chunk* getChunk();
 };
 
 } /* namespace DE */

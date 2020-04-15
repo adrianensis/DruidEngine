@@ -94,35 +94,35 @@ void PhysicsEngine::step(f32 deltaTime){
   // ECHO("UPDATE")
   mQuadTree->update();
 
-  if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
-    dt = dt/2.0f;
-    bool tryAgain = true;
-    u32 it = 0;
-
-    while(tryAgain && it < maxIterations/*dt > minDeltaTime*/){
-
-      tryAgain = false;
-
-      FOR_LIST (it, mRigidBodies){
-        if((it.get()->getCollider()->isPenetrated())){
-          if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
-            it.get()->restoreState();
-            it.get()->integrate(dt);
-          }
-        }
-      }
-
-      // ECHO("UPDATE BC PENETRATION")
-      mQuadTree->update();
-
-      if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
-        dt = dt/2.0f;
-        tryAgain = true;
-      }
-
-      it++;
-    }
-  }
+  // if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
+  //   dt = dt/2.0f;
+  //   bool tryAgain = true;
+  //   u32 it = 0;
+  //
+  //   while(tryAgain && it < maxIterations/*dt > minDeltaTime*/){
+  //
+  //     tryAgain = false;
+  //
+  //     FOR_LIST (it, mRigidBodies){
+  //       if((it.get()->getCollider()->isPenetrated())){
+  //         if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
+  //           it.get()->restoreState();
+  //           it.get()->integrate(dt);
+  //         }
+  //       }
+  //     }
+  //
+  //     // ECHO("UPDATE BC PENETRATION")
+  //     mQuadTree->update();
+  //
+  //     if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
+  //       dt = dt/2.0f;
+  //       tryAgain = true;
+  //     }
+  //
+  //     it++;
+  //   }
+  // }
 
   // if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
   //   ECHO("PENETRATION");

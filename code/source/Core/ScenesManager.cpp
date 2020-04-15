@@ -34,12 +34,11 @@ ScenesManager::~ScenesManager(){
 void ScenesManager::internalLoadScene(){
   if(Settings::getInstance()->getU32("scenes.length") > 0){
 		std::string sceneName = Settings::getInstance()->getString("scenes["+std::to_string(mCurrentSceneIndex)+"]");
-
-    RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getComponents<Camera>()->get(0));
-
 		mCurrentScene->loadScene(sceneName);
-    mGameObjectController->setScene(mCurrentScene);
 	}
+  
+  mGameObjectController->setScene(mCurrentScene);
+  RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getComponents<Camera>()->get(0));
 }
 
 // ---------------------------------------------------------------------------
@@ -50,15 +49,19 @@ void ScenesManager::init(){
   mScenes = Memory::allocate<List<Scene*>>();
   mScenes->init();
 
-  if(Settings::getInstance()->getU32("scenes.length") > 0){
-    FOR_RANGE(i, 0, Settings::getInstance()->getU32("scenes.length")){
-      Scene* scene = Memory::allocate<Scene>();
-      scene->init();
-      addScene(scene);
-    }
+  u32 scenesCount = 1;
 
-    mCurrentScene = mScenes->get(0);
+  if(Settings::getInstance()->getU32("scenes.length") > 0){
+    scenesCount = Settings::getInstance()->getU32("scenes.length");
   }
+
+  FOR_RANGE(i, 0, scenesCount){
+    Scene* scene = Memory::allocate<Scene>();
+    scene->init();
+    addScene(scene);
+  }
+
+  mCurrentScene = mScenes->get(0);
 }
 
 // ---------------------------------------------------------------------------

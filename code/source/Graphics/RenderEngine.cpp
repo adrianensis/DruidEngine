@@ -116,8 +116,8 @@ void RenderEngine::init(f32 sceneSize){
   f32 chunksGridSize = Settings::getInstance()->getF32("scene.chunks.count");
   f32 chunksGridSizeHalf = chunksGridSize/2.0f;
 
-  mStaticChunks = Memory::allocate<Array<Chunk*>>();
-  mStaticChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
+  mChunks = Memory::allocate<Array<Chunk*>>();
+  mChunks->init(chunksGridSize*chunksGridSize); // TODO : define how many chunks to create. Move to Settings.
 
   f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
@@ -128,16 +128,19 @@ void RenderEngine::init(f32 sceneSize){
       chunk->init();
       chunk->set(Vector2(i*chunkSize, j*chunkSize), chunkSize);
 
-      mStaticChunks->set(count, chunk);
+      mChunks->set(count, chunk);
       count++;
     }
   }
 
-  // Dynamic Chunk
+  mBatchesMap = Memory::allocate<BatchesMap>();
+  mBatchesMap->init();
 
-  mDynamicChunk = Memory::allocate<Chunk>();
-  mDynamicChunk->init();
-  mDynamicChunk->set(Vector2(-chunksGridSizeHalf*chunkSize, chunksGridSizeHalf*chunkSize), sceneSize); // Size = The WHOLE scene
+  // Chunk for renderers don't affected by projection.
+
+  // mScreenChunk = Memory::allocate<Chunk>();
+  // mScreenChunk->init();
+  // mScreenChunk->set(Vector2(-chunksGridSizeHalf*chunkSize, chunksGridSizeHalf*chunkSize), sceneSize); // Size = The WHOLE scene
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
@@ -151,36 +154,43 @@ void RenderEngine::step(){
   mCamera->calculateInverseMatrix();
 
   //check Chunks
-  FOR_ARRAY(i, mStaticChunks){
-    Chunk* chunk = mStaticChunks->get(i);
+  FOR_ARRAY(i, mChunks){
+    Chunk* chunk = mChunks->get(i);
 
     bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
+    // bool chunkInCameraView = mCamera->getFrustum()->testRectangle(chunk->mLeftTop, chunk->mSize, chunk->mSize);
 
     if(chunkInCameraView){
       chunk->load();
     } else {
       chunk->unload();
     }
+
+    if(chunk->isLoaded()){
+      chunk->update(mBatchesMap);
+    }
   }
 
   u32 drawCallCounter = 0;
 
   FOR_RANGE(layer, 0, mMaxLayersUsed){
+    //
+    // FOR_ARRAY(i, mChunks){
+    //   Chunk* chunk = mChunks->get(i);
+    //
+    //   if(chunk->isLoaded()){
+    //     drawCallCounter += chunk->render(layer);
+    //   }
+    // }
 
-    FOR_ARRAY(i, mStaticChunks){
-      Chunk* chunk = mStaticChunks->get(i);
-
-      if(chunk->isLoaded()){
-        drawCallCounter += chunk->render(layer);
-      }
-    }
+    drawCallCounter += mBatchesMap->render(layer);
 
     // NOTE : It only loads once.
-    if(!mDynamicChunk->isLoaded()){
-      mDynamicChunk->load();
-    }
-
-    drawCallCounter += mDynamicChunk->render(layer);
+    // if(!mScreenChunk->isLoaded()){
+    //   mScreenChunk->load();
+    // }
+    //
+    // drawCallCounter += mScreenChunk->render(layer);
 
 	}
 
@@ -223,11 +233,11 @@ void RenderEngine::stepDebug(){
 // ---------------------------------------------------------------------------
 
 void RenderEngine::bind(){
-  // FOR_ARRAY(i, mStaticChunks){
-  //   mStaticChunks->get(i)->bind();
+  // FOR_ARRAY(i, mChunks){
+  //   mChunks->get(i)->bind();
   // }
   //
-  // mDynamicChunk->bind();
+  // mScreenChunk->bind();
 }
 
 // ---------------------------------------------------------------------------
@@ -235,22 +245,25 @@ void RenderEngine::bind(){
 void RenderEngine::terminate(){
   TRACE();
 
-  Memory::free<Array<u32>>(mLineRendererIndices);
-  Memory::free<Shader>(mShaderLine);
+  // Memory::free<Array<u32>>(mLineRendererIndices);
+  // Memory::free<Shader>(mShaderLine);
+  //
+  // FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
+  //   Memory::free<LineRenderer>(mLineRenderers->get(i));
+  // }
+  //
+  // Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
-  FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
-    Memory::free<LineRenderer>(mLineRenderers->get(i));
+  Memory::free<BatchesMap>(mBatchesMap);
+
+  FOR_ARRAY(i, mChunks){
+    Memory::free<Chunk>(mChunks->get(i));
   }
 
-  Memory::free<Array<LineRenderer*>>(mLineRenderers);
-
-  FOR_ARRAY(i, mStaticChunks){
-    Memory::free<Chunk>(mStaticChunks->get(i));
-  }
-
-  Memory::free<Array<Chunk*>>(mStaticChunks);
-
-  Memory::free<Chunk>(mDynamicChunk);
+  Memory::free<Array<Chunk*>>(mChunks);
+  //
+  //
+  // Memory::free<Chunk>(mScreenChunk);
   Memory::free<UI>(UI::getInstance());
 }
 
@@ -258,26 +271,35 @@ void RenderEngine::terminate(){
 
 void RenderEngine::addRenderer(Renderer* renderer){
 
-  if(renderer->isStatic()){
-    // Create batches
-  	Texture* texture = renderer->getMaterial()->getTexture();
-
-    bool found = false;
-    FOR_ARRAY_COND(i, mStaticChunks, !found){
-      Chunk* chunk = mStaticChunks->get(i);
-      if((! renderer->getChunk()) && chunk->containsRenderer(renderer)){
-        chunk->addRenderer(renderer);
-        renderer->setChunk(chunk);
-        found = true;
-      }
-    }
-  }else{
-    mDynamicChunk->addRenderer(renderer);
-    renderer->setChunk(mDynamicChunk);
+  if(renderer->isAffectedByProjection()){
+    assignChunk(renderer)->addRenderer(renderer);
+  } else {
+    // UI Case!
+    mBatchesMap->addRenderer(renderer);
   }
 
   mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer()+1);
+}
 
+// ---------------------------------------------------------------------------
+
+Chunk* RenderEngine::assignChunk(Renderer* renderer){
+  TRACE();
+  bool found = false;
+  Chunk* chunk = nullptr;
+  FOR_ARRAY_COND(i, mChunks, !found){
+  // FOR_ARRAY(i, mChunks){
+    chunk = mChunks->get(i);
+    if(chunk->containsRenderer/*Sphere*/(renderer)){
+      renderer->setChunk(chunk);
+
+      // if(! renderer->isStatic()){
+        found = true;
+      // }
+    }
+  }
+
+  return chunk;
 }
 
 // ---------------------------------------------------------------------------

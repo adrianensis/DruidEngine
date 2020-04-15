@@ -85,36 +85,35 @@ private:
 
   // ---------------------------------------------------------------------------
 
-  static u8 defaultComparator(const T& a, const T& b){
+  static u8 defaultComparator(T a, T b){
     return (a < b) ? 1 : (b < a) ? 2 : 0;
   }
 
-  void qsort(u8 (*comparator)(const T& a, const T& b), i32 left, i32 right){
+  i32 partition(u8 (*comparator)(T a, T b), i32 low, i32 high){
 
-    i32 length = right - left + 1;
+    T pivot = this->get(high);
 
-    if(length > 1){
+    i32 i = low - 1;
 
-      T pivot = this->get((left + length)/2);
-
-      while(left <= right){
-
-        while(comparator(this->get(left), pivot) == 1)
-          left++;
-
-        while(comparator(this->get(right), pivot) == 2)
-          right--;
-
-        if(left <= right){
-          this->swap(left,right);
-          left++;
-          right--;
+    for (i32 j = low; j <= high - 1; j++){
+        if (comparator(this->get(j), pivot) == 1/*this->get(j) < pivot*/){
+            i++;    // increment index of smaller element
+            this->swap(i, j);
         }
-      }
+    }
 
-      qsort(comparator, 0, right);
-      qsort(comparator, left, length-1);
+    this->swap(i + 1, high);
 
+    return i + 1;
+  }
+
+  void qsort(u8 (*comparator)(T a, T b), i32 low, i32 high){
+
+    if(low < high){
+      i32 pivot = partition(comparator, low, high);
+
+      qsort(comparator, low, pivot - 1);
+      qsort(comparator, pivot + 1, high);
     }
   }
 
@@ -738,6 +737,7 @@ public:
 
       node->mPrev = it.mNode->mPrev;
       node->mNext = it.mNode;
+      it.mNode->mPrev = node;
 
       BaseContainer::mLength++;
     }else
@@ -799,7 +799,7 @@ public:
     \brief Sorts custom comparator.
     \param comparator Function with this form: u8 comparator(const T& a, const T& b).
   */
-  void sort(u8 (*comparator)(const T& a, const T& b)){
+  void sort(u8 (*comparator)(T a, T b)){
     qsort(comparator, 0, this->getLength()-1);
   }
 

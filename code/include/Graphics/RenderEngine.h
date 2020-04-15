@@ -45,8 +45,10 @@ private:
   Array<LineRenderer*>* mLineRenderers;
   u32 mLineRenderersCount;
 
-	Array<Chunk*>* mStaticChunks;
-	Chunk* mDynamicChunk;
+	Array<Chunk*>* mChunks;
+	// Chunk* mScreenChunk;
+
+	BatchesMap* mBatchesMap;
 
 	u32 mMaxLayersCount;
 	u32 mMaxLayersUsed;
@@ -63,6 +65,7 @@ public:
 	void terminate();
 
 	void addRenderer(Renderer* renderer);
+	Chunk* assignChunk(Renderer* renderer);
 	void drawLine(const Vector3& start, const Vector3& end);
 
 	Camera* getCamera() const { return mCamera;};

@@ -38,29 +38,47 @@ void Frustum::init(Camera* camera){
 
 //----------------------------------------------------------------------
 
-bool Frustum::testSphere(Vector3 center, f32 radius) const {
+bool Frustum::testSphere(const Vector3& center, f32 radius) const {
 
-	for (u32 i = 0; i < mPlanes->getLength(); i++){
+	bool result = true;
+
+	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result){
 
 		f32 A = mPlanes->get(i).x;
 		f32 B = mPlanes->get(i).y;
 		f32 C = mPlanes->get(i).z;
 		f32 D = mPlanes->get(i).w;
 
-		// VAR(f32, (A*center.x));
-		// VAR(f32, (B*center.y));
-		// VAR(f32, (C*center.z));
-		// VAR(f32, D);
-		// VAR(f32, (A*center.x)+(B*center.y)+(C*center.z)+D)
-		// VAR(f32, -radius)
-		// ECHO("--------")
-
 		if((A*center.x)+(B*center.y)+(C*center.z)+D <= -radius)
-			return false;
+			result = false;
 	}
 
-	return true;
+	return result;
 };
+
+//----------------------------------------------------------------------
+
+bool Frustum::testPoint(const Vector3& point) const {
+
+	bool result = true;
+
+	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result){
+
+		if(Vector3(mPlanes->get(i)).dst(point) < 0)
+			result = false;
+	}
+
+	return result;
+}
+
+//----------------------------------------------------------------------
+
+bool Frustum::testRectangle(const Vector3& leftTop, f32 width, f32 height) const {
+	return testPoint(leftTop) ||
+  testPoint(Vector3(leftTop.x, leftTop.y - height,0)) ||
+  testPoint(Vector3(leftTop.x + width, leftTop.y - height,0)) ||
+  testPoint(Vector3(leftTop.x + width, leftTop.y,0));
+}
 
 //----------------------------------------------------------------------
 

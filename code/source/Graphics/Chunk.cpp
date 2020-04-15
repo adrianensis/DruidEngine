@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "RenderEngine.h"
+#include "Log.h"
 
 namespace DE {
 
@@ -45,19 +46,12 @@ void BatchesMap::addRenderer(Renderer* renderer){
 
     Batch* batch = Memory::allocate<Batch>();
     batch->init(renderer->getMesh(), renderer->getMaterial());
+    // batch->setChunk(chunk);
 
     mBatches->set(texture, batch);
   }
 
   mBatches->get(texture)->addRenderer(renderer);
-}
-
-// ---------------------------------------------------------------------------
-
-void BatchesMap::bind(){
-	FOR_LIST(it, mBatches->getValues()){
-		it.get()->bind();
-	}
 }
 
 // ---------------------------------------------------------------------------
@@ -80,11 +74,13 @@ Chunk::Chunk() : DE_Class(){
   mSize = 0;
   mIsLoaded = false;
 
-  mBatchesMap = Memory::allocate<BatchesMap>();
+  mRenderers = nullptr;
+  mLastRenderersSize = 0;
+  mNewRenderersSize = 0;
 }
 
 Chunk::~Chunk(){
-  Memory::free<BatchesMap>(mBatchesMap);
+  Memory::free<List<Renderer*>>(mRenderers);
 }
 
 // ---------------------------------------------------------------------------
@@ -92,8 +88,8 @@ Chunk::~Chunk(){
 void Chunk::init(){
   TRACE();
 
-  mBatchesMap = Memory::allocate<BatchesMap>();
-  mBatchesMap->init();
+  mRenderers = Memory::allocate<List<Renderer*>>();
+  mRenderers->init();
 
   mLeftTop.set(0,0,0);
 }
@@ -111,38 +107,68 @@ void Chunk::set(const Vector3& leftTop, f32 size){
 
 // ---------------------------------------------------------------------------
 
-void Chunk::load(){ if(!mIsLoaded){mIsLoaded = true; /*ECHO("load")*/} }
-void Chunk::unload(){ if(mIsLoaded){mIsLoaded = false; /*ECHO("unload")*/} }
-bool Chunk::isLoaded(){ return mIsLoaded; }
+void Chunk::update(BatchesMap* batchesMap){
 
-// ---------------------------------------------------------------------------
-
-void Chunk::addRenderer(Renderer* renderer){
-  mBatchesMap->addRenderer(renderer);
-}
-
-// ---------------------------------------------------------------------------
-
-void Chunk::bind(){
-  mBatchesMap->bind();
-}
-
-// ---------------------------------------------------------------------------
-
-u32 Chunk::render(u32 layer){
   // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
   // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
   // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
   // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
-  return mBatchesMap->render(layer);
+  FOR_LIST(it, mRenderers){
+    Renderer* renderer = it.get();
+
+    if(!renderer->isAlreadyInBatch()){
+      batchesMap->addRenderer(it.get());
+    }
+
+    if( ! it.get()->isStatic() && ! this->containsRenderer(renderer)){
+      RenderEngine::getInstance()->assignChunk(renderer)->addRenderer(renderer);
+      mRenderers->remove(it);
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+
+void Chunk::load(){ if(!mIsLoaded){ mIsLoaded = true; /*ECHO("load")*/} }
+void Chunk::unload(){ if(mIsLoaded){ mIsLoaded = false; /*ECHO("unload")*/ } }
+bool Chunk::isLoaded(){ return mIsLoaded; }
+
+// ---------------------------------------------------------------------------
+
+void Chunk::addRenderer(Renderer* renderer){
+  mRenderers->pushBack(renderer);
+
+  mNewRenderersSize = mRenderers->getLength();
 }
 
 // ---------------------------------------------------------------------------
 
-bool Chunk::containsRenderer(const Renderer* renderer){
+// ---------------------------------------------------------------------------
+
+u32 Chunk::render(u32 layer){
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+
+  return 0 /* mBatchesMap->render(layer)*/;
+}
+
+// ---------------------------------------------------------------------------
+
+bool Chunk::containsRenderer(const Renderer* renderer, f32 epsilon /*= 0.0f*/){
   Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
-  return MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, 0);
+  bool contains = MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
+  return contains; // TODO : move to settings ?
+}
+
+// ---------------------------------------------------------------------------
+
+bool Chunk::containsRendererSphere(const Renderer* renderer){
+  Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
+  return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius, renderer->getGameObject()->getTransform()->getScale().y*2.0f);
 }
 
 // ---------------------------------------------------------------------------

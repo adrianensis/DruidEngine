@@ -21,9 +21,15 @@ template <class K, class V> class HashMap;
 class CustomScript : public Script{
 private:
 
+  GameObject* mPlayer;
+  GameObject* mBox;
+
 public:
 
 DE_CLASS(CustomScript, Script);
+
+void createPlayer(f32 x, f32 y);
+void createBox(f32 x, f32 y);
 
 void init() override;
 void firstStep() override;

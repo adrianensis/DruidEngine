@@ -67,7 +67,7 @@ QuadTree::Node::~Node(){
 // ---------------------------------------------------------------------------
 
 void QuadTree::Node::init(const Vector2& leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree* tree){
-	TRACE();
+	// TRACE();
 
   mLeftTop = leftTop;
   mWidth = width;
@@ -232,12 +232,11 @@ void QuadTree::Node::internalFreeCollider(Collider* collider){
 
 void QuadTree::Node::update(/*contactManager*/){
 
-
   // DEBUG DRAW
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
+  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 	// If is leaf node.
 	if(isLeaf()){
@@ -289,9 +288,14 @@ void QuadTree::Node::update(/*contactManager*/){
                       //ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
                       ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
-                      ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
+                      // ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
 
-                      if(status == ColliderStatus::STATUS_NONE && status2 == ColliderStatus::STATUS_NONE){
+                      // ECHO("..................")
+                      // VAR(ptr,(ptr)colliderA)
+                      // VAR(ptr,(ptr)colliderB)
+                      // ECHO("..................")
+
+                      if(status == ColliderStatus::STATUS_NONE /*&& status2 == ColliderStatus::STATUS_NONE*/){
                         ContactsManager::getInstance()->removeContact(colliderA, colliderB);
                       } else {
                         ContactsManager::getInstance()->addContact(colliderA, colliderB);
@@ -300,9 +304,9 @@ void QuadTree::Node::update(/*contactManager*/){
                       if(status > newTreeStatus){
                         newTreeStatus = status;
                       }
-                      if(status2 > newTreeStatus){
-                        newTreeStatus = status2;
-                      }
+                      // if(status2 > newTreeStatus){
+                      //   newTreeStatus = status2;
+                      // }
 
                     } else {
                       ContactsManager::getInstance()->removeContact(colliderA, colliderB);

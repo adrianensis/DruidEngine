@@ -97,7 +97,7 @@ MapEditor::~MapEditor() = default;
 void MapEditor::createPlayer(){
   Vector2 size(100*1.5f,100*1.5f);
 
-  Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
+  // Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
   mPlayer = Memory::allocate<GameObject>();
   mPlayer->init();
@@ -111,12 +111,15 @@ void MapEditor::createPlayer(){
   //renderer->setColor(Vector4(0,0,0,0.7f));
 
   renderer->setMesh(Mesh::getRectangle());
-  renderer->setMaterial(material);
+  // renderer->setMaterial(material);
+  renderer->setMaterial(mMaterial);
 
   renderer->setLayer(mLayer);
 
-  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/2.0f, 10));
-  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,0.5), 1.0f/6.0f, 1.0f/2.0f, 10));
+  Vector2 atlasSize = Vector2(8,16);
+
+  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,14.0f/atlasSize.y), 1.0f/atlasSize.x, 1.0f/atlasSize.y, 10));
+  renderer->addAnimation("run", Animation::create(6, true, false, Vector2(0,15.0f/atlasSize.y), 1.0f/atlasSize.x, 1.0f/atlasSize.y, 10));
   renderer->setAnimation("idle");
 
   //renderer->setLineMode(true);
@@ -145,7 +148,7 @@ void MapEditor::createBrush(){
   Renderer* renderer = Memory::allocate<Renderer>();
   mBrush->addComponent<Renderer>(renderer);
 
-  renderer->setLayer(2);
+  renderer->setLayer(5);
 
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(mMaterial);
@@ -192,13 +195,21 @@ void MapEditor::createTile(f32 x, f32 y){
 
 void MapEditor::createAtlas(){
 
-  f32 size = 0.06;
+  f32 size = 0.04;
 
   f32 screenOffset = 0.4f;
 
-  Vector2 atlasSize = Vector2(16,10);
+  Vector2 atlasSize = Vector2(8,16);
   Vector2 atlasTextureSize = Vector2(1.0f/atlasSize.x, 1.0f/atlasSize.y);
 
+  // UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0.5f, -0.5f,0), Vector2(size,size),0);
+  //
+  // Renderer* renderer = tile->getRenderer();
+  // renderer->setMaterial(mMaterial);
+  // renderer->setRegion(0/atlasSize.x, 0/atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
+  // renderer->setLayer(2);
+
+  u32 index = 0;
   FOR_RANGE(i, 0, atlasSize.x){
     FOR_RANGE(j, 0, atlasSize.y){
 
@@ -371,6 +382,7 @@ void MapEditor::drawTile(CellData* cellData, const Vector3& worldPosition){
   Renderer* brushRenderer = mBrush->getComponents<Renderer>()->get(0);
 
   renderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y, brushRenderer->getRegionSize().x, brushRenderer->getRegionSize().y);
+  // renderer->setRegion(0, 0, 1, 1);
 
 }
 

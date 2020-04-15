@@ -27,6 +27,7 @@ private:
 	Material* mMaterial;
 	Mesh* mMesh;
 
+
 	Array<f32>* mColor;
 
 	Vector3 mPositionOffset;
@@ -46,6 +47,9 @@ private:
 	bool mOutOfCamera;
 
 	Chunk* mChunk;
+	// Batch* mBatch;
+	// Array<Chunk*>* mChunks;
+	bool mIsAlreadyInBatch;
 
 	bool mIsAffectedByProjection;
 
@@ -105,6 +109,8 @@ public:
 	void setOutOfCamera(bool newOutOfCamera ){ mOutOfCamera = newOutOfCamera; };
 	void setChunk(Chunk* chunk );
 	Chunk* getChunk();
+	void setIsAlreadyInBatch(bool isAlreadyInBatch) { mIsAlreadyInBatch = isAlreadyInBatch; };
+	bool isAlreadyInBatch() const { return mIsAlreadyInBatch; };
 
 	bool isAffectedByProjection(){ return mIsAffectedByProjection; }
 	void setAffectedByProjection(bool affectedByProjection){ mIsAffectedByProjection = affectedByProjection; }

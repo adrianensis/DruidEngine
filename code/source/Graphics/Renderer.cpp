@@ -37,6 +37,9 @@ Renderer::Renderer() : Component(){
   mOutOfCamera = false;
 
   mIsAffectedByProjection = true;
+
+  mChunk = nullptr;
+  mIsAlreadyInBatch = false;
 }
 
 Renderer::~Renderer(){
@@ -49,6 +52,7 @@ Renderer::~Renderer(){
   }
 
   Memory::free<Array<f32>>(mColor);
+  // Memory::free<Array<Chunks*>>(mChunks);
 }
 
 // ---------------------------------------------------------------------------
@@ -58,6 +62,9 @@ void Renderer::init(){
 
   mColor = Memory::allocate<Array<f32>>();
   mColor->init(4);
+
+  // mChunks = Memory::allocate<Array<Chunks*>>();
+  // mChunks->init(4);
 
   setColor(Vector4(0,0,0,1));
 
@@ -105,24 +112,21 @@ void Renderer::updateMaterial(Material* material){
 
     shader->addVector4(mColor,"color");
 
-    shader->addFloat(mRegionPosition.x, "regionX");
-    shader->addFloat(mRegionPosition.y, "regionY");
-    shader->addFloat(mRegionSize.x, "regionWidth");
-    shader->addFloat(mRegionSize.y, "regionHeight");
-
     if(mAnimations && mAnimations->getLength() > 0){
       const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
 
-      shader->addFloat(frame->getPosition().x, "animationX");
-    	shader->addFloat(frame->getPosition().y, "animationY");
-    	shader->addFloat(frame->getWidth(), "animationWidth");
-    	shader->addFloat(frame->getHeight(), "animationHeight");
+      shader->addFloat(frame->getPosition().x, "regionX");
+    	shader->addFloat(frame->getPosition().y, "regionY");
+    	shader->addFloat(frame->getWidth(), "regionWidth");
+    	shader->addFloat(frame->getHeight(), "regionHeight");
+      shader->addUInt(mCurrentAnimation->getNumberOfFrames(), "animationSize");
 
     } else {
-      shader->addFloat(0.0f, "animationX");
-    	shader->addFloat(0.0f, "animationY");
-    	shader->addFloat(1.0f, "animationWidth");
-    	shader->addFloat(1.0f, "animationHeight");
+      shader->addFloat(mRegionPosition.x, "regionX");
+      shader->addFloat(mRegionPosition.y, "regionY");
+      shader->addFloat(mRegionSize.x, "regionWidth");
+      shader->addFloat(mRegionSize.y, "regionHeight");
+      shader->addFloat(1.0f, "animationSize");
     }
   }
 };

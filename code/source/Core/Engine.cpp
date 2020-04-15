@@ -123,7 +123,7 @@ void Engine::run(){
 
 		mRenderEngine->step();
 
-		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
+		std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 	}
 }

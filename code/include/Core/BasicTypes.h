@@ -6,7 +6,8 @@
 
 // FOR LOOPS
 
-#define FOR_RANGE(it, start, size) for (u32 it = start; it < size; ++it)
+#define FOR_RANGE(it, start, size) for (i32 it = start; it < size; ++it)
+#define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; it < size && condition; ++it)
 
 #define FOR_ARRAY(it, array) FOR_RANGE(it, 0, array->getLength())
 #define FOR_ARRAY_COND(it, array, condition) for (u32 it = 0; it < array->getLength() && condition; ++it)

@@ -33,7 +33,9 @@ public:
 	*/
 	void build(bool forceBuild = false);
 
-	bool testSphere(Vector3 center, f32 radius) const;
+	bool testSphere(const Vector3& center, f32 radius) const;
+	bool testPoint(const Vector3& point) const;
+	bool testRectangle(const Vector3& leftTop, f32 width, f32 height) const;
 };
 
 } /* namespace DE */

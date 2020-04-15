@@ -140,6 +140,12 @@ ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider){
       }
     }
 
+    if( ! (mIsSolid && otherCollider->isSolid())){
+
+      // SEND DIRECTLY TO PENETRATION
+      result = ColliderStatus::STATUS_PENETRATION;
+    }
+
     if(result == ColliderStatus::STATUS_NONE || result == ColliderStatus::STATUS_COLLISION){
 
       ColliderStatus result2 = ColliderStatus::STATUS_NONE;

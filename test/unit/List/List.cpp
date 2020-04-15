@@ -173,6 +173,20 @@ int main(){
 	DE_test_expected_uint(list->get(5),70);
 	DE_test_expected_uint(list->get(6),100);
 
+	list->clear();
+
+	i32 size = 10000;
+
+	for (i32 i = size-1; i >= 0; i--) {
+		list->pushBack(i);
+	}
+
+	list->sort();
+
+	for (i32 i = 0; i < size; i++) {
+		DE_test_expected_uint(list->get(i),i);
+	}
+
 	DE::Memory::free<DE::List<u32>>(list);
 	DE::Memory::free<DE::List<u32>>(list2);
 

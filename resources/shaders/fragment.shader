@@ -17,10 +17,12 @@ uniform float regionY;
 uniform float regionWidth;
 uniform float regionHeight;
 
-uniform float animationX;
-uniform float animationY;
-uniform float animationWidth;
-uniform float animationHeight;
+// uniform float animationX;
+// uniform float animationY;
+// uniform float animationWidth;
+// uniform float animationHeight;
+
+uniform uint animationSize;
 
 uniform sampler2D uSampler;
 
@@ -38,11 +40,11 @@ void main()
     t.x = t.x * regionWidth + regionX;
     t.y = t.y * regionHeight + regionY;
 
-    t.x = t.x * animationWidth + animationX;
-    t.y = t.y * animationHeight + animationY;
+    // t.x = t.x * animationWidth + animationX;
+    // t.y = t.y * animationHeight + animationY;
 
     if(invertXAxis != 0){
-      t.x = (1.0 - t.x);
+      t.x = 1.0 - t.x - (1.0-(animationSize*regionWidth));
     }
 
     FragColor = texture2D(uSampler, t);

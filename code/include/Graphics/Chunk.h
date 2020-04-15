@@ -9,29 +9,31 @@ namespace DE {
 class Texture;
 class Renderer;
 class Batch;
+class Chunk;
 template <class K, class V> class HashMap;
+template <class T> class List;
 
 class BatchesMap : public DE_Class {
 	private:
 		HashMap<Texture*, Batch*>* mBatches;
+
 	public:
 		DE_CLASS(BatchesMap, DE_Class);
 
 		void init();
-		void bind();
 		u32 render(u32 layer);
 		void addRenderer(Renderer* renderer);
 };
 
 class Chunk : public DE_Class {
 	private:
-		// List<Renderer*>* mRenderers;
-		BatchesMap* mBatchesMap;
+		List<Renderer*>* mRenderers;
+		// BatchesMap* mBatchesMap;
+		u32 mLastRenderersSize;
+		u32 mNewRenderersSize;
 
   public:
     DE_CLASS(Chunk, DE_Class);
-
-		// bool mThereAreNewRenderers;
 
 		Vector3 mLeftTop;
 		Vector3 mCenter;
@@ -43,11 +45,12 @@ class Chunk : public DE_Class {
     void init();
 		void set(const Vector3& leftTop, f32 size);
     void load();
+    void update(BatchesMap* batchesMap);
     void unload();
     bool isLoaded();
-		bool containsRenderer(const Renderer* renderer);
+		bool containsRenderer(const Renderer* renderer, f32 epsilon = 0.0f);
+		bool containsRendererSphere(const Renderer* renderer);
 		void addRenderer(Renderer* renderer);
-		void bind();
 		u32 render(u32 layer);
 };
 
