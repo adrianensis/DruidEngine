@@ -17,6 +17,7 @@
 #include "MathUtils.h"
 #include "Time.h"
 #include "Chunk.h"
+#include "Settings.h"
 
 namespace DE {
 
@@ -69,6 +70,8 @@ Batch::Batch() : DE_Class(){
 	mBinded = false;
 
 	mChunk = nullptr;
+
+	mSortByYCoordinate = false;
 }
 
 Batch::~Batch(){
@@ -103,6 +106,8 @@ Batch::~Batch(){
 
 void Batch::init(const Mesh* mesh, Material* material){
 	// TRACE();
+
+	mSortByYCoordinate = Settings::getInstance()->getBool("scene.sortByYCoordinate");
 
 	mRenderEngine = RenderEngine::getInstance();
 
@@ -192,8 +197,8 @@ bool Batch::checkOutOfCamera(Camera* cam, Renderer* renderer){
 	bool isOutOfCamera = false;
 
 	if(renderer->isAffectedByProjection()){
-		renderer->setOutOfCamera(!checkInFrustum(cam, renderer));
-		isOutOfCamera = renderer->getOutOfCamera();
+		renderer->setIsOutOfCamera(!checkInFrustum(cam, renderer));
+		isOutOfCamera = renderer->isOutOfCamera();
 	} else {
 		isOutOfCamera = false;
 	}
@@ -209,9 +214,7 @@ u32 Batch::render(u32 layer){
 
 	List<Renderer*>* renderers = mRenderers->get(layer);
 
-	if(renderers && renderers->getLength() > 0 /*&& mChunk->isLoaded()*/ /*&& chunk->getChunk() && chunk->getChunk()->isLoaded()*/){
-
-		// sort(layer);
+	if(renderers && renderers->getLength() > 0){
 
 		Shader* shader = mMaterial->getShader();
 
@@ -229,9 +232,6 @@ u32 Batch::render(u32 layer){
 	  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 	  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
-		// if(layer == 0)
-		// 	VAR(f32, renderers->getLength())
-
 		FOR_LIST(it, renderers){
 
 			Renderer* renderer = it.get();
@@ -242,7 +242,6 @@ u32 Batch::render(u32 layer){
 			if(renderer->isActive() && chunkOk){
 
 				Transform* t = renderer->getGameObject()->getTransform();
-
 
 				if(renderer->getLayer() == layer && !checkOutOfCamera(camera,renderer)){
 
@@ -283,7 +282,7 @@ u32 Batch::render(u32 layer){
 				}
 			}
 
-			if(renderer->isAffectedByProjection() && ! renderer->isStatic()){
+			if(mSortByYCoordinate && renderer->isAffectedByProjection() && ! renderer->isStatic()){
 				internalRemoveRendererFromList(&it, renderers);
 			}
 
@@ -301,47 +300,47 @@ void Batch::insertSorted(Renderer* renderer, List<Renderer*>* renderers){
 
 	// INSERT SORTED
 
-	// VAR(ptr, (ptr)renderer)
+	if(mSortByYCoordinate){
 
-	f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
-	// VAR(f32, y)
+			f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
 
-	// CASE 1 : IF LIST IS EMPTY
-	if(renderers->isEmpty()){
-		renderers->pushBack(renderer);
-	} else {
+			// CASE 1 : IF LIST IS EMPTY
+			if(renderers->isEmpty()){
+				renderers->pushBack(renderer);
+			} else {
 
 
-		// CASE 2 : RENDERER IS IN THE LAST LAYER
-		if(y <= renderers->getLast().get()->getGameObject()->getTransform()->getWorldPosition().y){
-			renderers->pushBack(renderer);
-		} else if(y >= renderers->getFirst().get()->getGameObject()->getTransform()->getWorldPosition().y){
-			renderers->pushFront(renderer);
-		} else {
+				// CASE 2 : RENDERER IS IN THE LAST/FIRST LAYER
+				if(y <= renderers->getLast().get()->getGameObject()->getTransform()->getWorldPosition().y){
+					renderers->pushBack(renderer);
+				} else if(y >= renderers->getFirst().get()->getGameObject()->getTransform()->getWorldPosition().y){
+					renderers->pushFront(renderer);
+				} else {
 
-			// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
-			bool foundSmallerY = false;
+					// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
+					bool foundSmallerY = false;
 
-			auto itSmallerY = renderers->getIterator();
+					auto itSmallerY = renderers->getIterator();
 
-			FOR_LIST_COND(it, renderers, !foundSmallerY){
-				Renderer* otherRenderer = it.get();
-				f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
+					FOR_LIST_COND(it, renderers, !foundSmallerY){
+						Renderer* otherRenderer = it.get();
+						f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
 
-				if(y >= otherY){
-					foundSmallerY = true;
-					itSmallerY = it;
-					// VAR(f32, otherY)
+						if(y >= otherY){
+							foundSmallerY = true;
+							itSmallerY = it;
+						}
+					}
 
+					if(foundSmallerY){
+						renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
+					}else{
+						renderers->pushBack(renderer);
+					}
 				}
 			}
-
-			if(foundSmallerY){
-				renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
-			}else{
-				renderers->pushBack(renderer);
-			}
-		}
+	}else{
+		renderers->pushBack(renderer);
 	}
 }
 

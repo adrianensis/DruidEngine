@@ -114,16 +114,12 @@ void Engine::run(){
 
 		mScriptEngine->step();
 
-		f32 dtHalf = Time::getDeltaTimeSeconds()/2.0f;
-
-		mPhysicsEngine->step(dtHalf);
-		mPhysicsEngine->step(dtHalf);
-		// mPhysicsEngine->step(Time::getDeltaTimeSeconds()/3.0f);
+		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
 		mPhysicsEngine->updateContacts();
 
 		mRenderEngine->step();
 
-		std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
+		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 	}
 }

@@ -1,5 +1,5 @@
-#ifndef DE_PLAYERSCRIPT_H
-#define DE_PLAYERSCRIPT_H
+#ifndef DE_ENEMYSCRIPT_H
+#define DE_ENEMYSCRIPT_H
 
 #include "Script.h"
 #include "Vector2.h"
@@ -10,7 +10,7 @@ namespace DE {
   class Renderer;
   class RigidBody;
 
-class PlayerScript : public Script{
+class EnemyScript : public Script{
 
 private:
   Renderer* mRenderer;
@@ -18,7 +18,7 @@ private:
 
 public:
 
-DE_CLASS(PlayerScript, Script);
+DE_CLASS(EnemyScript, Script);
 
 void init() override;
 void firstStep() override;
@@ -35,4 +35,4 @@ void createProjectile(f32 x, f32 y, f32 clickX, f32 clickY);
 
 } /* namespace DE */
 
-#endif /* DE_PLAYERSCRIPT_H */
+#endif /* DE_ENEMYSCRIPT_H */

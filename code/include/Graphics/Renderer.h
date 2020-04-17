@@ -105,8 +105,8 @@ public:
 	void setLayer(u32 newLayer ){ mLayer = newLayer; };
 	f32 getRenderDistance() const { return mRenderDistance;};
 	void setRenderDistance(f32 newRenderDistance ){ mRenderDistance = newRenderDistance; };
-	bool getOutOfCamera() const { return mOutOfCamera;};
-	void setOutOfCamera(bool newOutOfCamera ){ mOutOfCamera = newOutOfCamera; };
+	bool isOutOfCamera() const { return mOutOfCamera;};
+	void setIsOutOfCamera(bool newOutOfCamera ){ mOutOfCamera = newOutOfCamera; };
 	void setChunk(Chunk* chunk );
 	Chunk* getChunk();
 	void setIsAlreadyInBatch(bool isAlreadyInBatch) { mIsAlreadyInBatch = isAlreadyInBatch; };

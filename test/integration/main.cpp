@@ -10,7 +10,7 @@
 #include "Material.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "CustomScript.h"
+#include "GameController.h"
 #include "RigidBody.h"
 #include "Collider.h"
 #include "Vector4.h"
@@ -27,30 +27,6 @@ int main(){
 
 	engine->init();
 
-	// Scene* scene = Memory::allocate<Scene>();
-	//
-  // scene->init();
-	//
-	// // camera
-	//
-	// GameObject* cameraGameObject = Memory::allocate<GameObject>();
-	// cameraGameObject->init();
-	//
-	// cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
-	//
-	// Camera* cameraComponent = Memory::allocate<Camera>();
-	// cameraGameObject->addComponent<Camera>(cameraComponent);
-	//
-	// /*
-	// if (aspect >= 1.0)
-	// 	ortho(-50.0 * aspect, 50.0 * aspect, -50.0, 50.0, 1.0, -1.0);
-	// else
-	// 	ortho(-50.0, 50.0, -50.0 / aspect, 50.0 / aspect, 1.0, -1.0);
-	// */
-	// f32 aspect = RenderContext::getAspectRatio();
-	// cameraComponent->setOrtho(-720*aspect, 720*aspect, -720, 720, 1, -1);
-	// // cameraComponent->setOrtho(-720, 720, -720, 720, 1000, -1000);
-
 	// OBJECT 1
 
 	GameObject* controller = Memory::allocate<GameObject>();
@@ -58,17 +34,9 @@ int main(){
 
 	// script
 
-	Script* script = Memory::allocate<CustomScript>();
+	Script* script = Memory::allocate<GameController>();
 	controller->addComponent<Script>(script);
 
-	// scene->setCameraGameObject(cameraGameObject);
-	//
-	// scene->addGameObject(gameObject);
-	//
-	// scene->addGameObject(cameraGameObject);
-
-	// ScenesManager::getInstance()->addScene(scene);
-	// ScenesManager::getInstance()->setScene(0);
 	ScenesManager::getInstance()->setGameObjectController(controller);
 
 	engine->run();
