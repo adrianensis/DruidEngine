@@ -48,13 +48,29 @@ void ScriptEngine::step(){
   FOR_LIST (it, mScripts){
     Script* script = it.get();
 
-    if(! script->isFirstStepDone()){
-      script->firstStep();
-      script->firstStepDone();
+    if(script->isActive()){
+      if(! script->isFirstStepDone()){
+        script->firstStep();
+        script->firstStepDone();
+      }
+
+      script->step();
+    } else if(it.get()->isPendingToBeDestroyed()){
+      internalRemoveScript(&it);
     }
 
-    script->step();
   }
+}
+
+// ---------------------------------------------------------------------------
+
+void ScriptEngine::internalRemoveScript(const Iterator* it){
+  auto castedIt = it->cast<Script*>();
+  mScripts->remove(*castedIt);
+
+  Script* script = (*castedIt).get();
+  script->setDestroyed();
+  Memory::free<Script>(script);
 }
 
 // ---------------------------------------------------------------------------
@@ -65,7 +81,7 @@ void ScriptEngine::terminate(){
     FOR_LIST (it, mScripts){
   		Memory::free<Script>(it.get());
   	}
-    
+
     Memory::free<List<Script*>>(mScripts);
   }
 

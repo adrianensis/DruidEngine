@@ -74,14 +74,10 @@ void GameController::createPlayer(f32 x, f32 y){
 
   Vector2 atlasSize = Vector2(8,16);
 
-  // renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,14.0f/16.0f), 1.0f/8.0f, 1.0f/16.0f, 10));
-  renderer->addAnimation("idle", Animation::create(2, true, false, Vector2(0,0.0f/2.0f), 1.0f/7.0f, 1.0f/2.0f, 3));
-  renderer->addAnimation("run", Animation::create(7, true, false, Vector2(0,1.0f/2.0f), 1.0f/7.0f, 1.0f/2.0f, 10));
+  renderer->addAnimation("attack", Animation::create(6, true, false, Vector2(0,0.0f/3.0f), 1.0f/7.0f, 1.0f/3.0f, 60));
+  renderer->addAnimation("idle", Animation::create(2, true, false, Vector2(0,1.0f/3.0f), 1.0f/7.0f, 1.0f/3.0f, 3));
+  renderer->addAnimation("run", Animation::create(7, true, false, Vector2(0,2.0f/3.0f), 1.0f/7.0f, 1.0f/3.0f, 10));
   renderer->setAnimation("idle");
-
-  // renderer->setRegion(0.0f, 14.0f/atlasSize.y, 6.0f/atlasSize.x, 2.0f/atlasSize.y);
-
-  //renderer->setLineMode(true);
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   mPlayer->addComponent<RigidBody>(rigidBody);
@@ -99,9 +95,13 @@ void GameController::createPlayer(f32 x, f32 y){
 // ---------------------------------------------------------------------------
 
 void GameController::createEnemy(f32 x, f32 y){
-  Vector2 size(100*1.5f,100*1.5f);
+  Vector2 size(150,150);
 
-  Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage2.png");
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/bird.png");
+
+  // Vector2 size(100*1.5f,100*1.5f);
+  //
+  // Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage2.png");
 
   GameObject* enemy = Memory::allocate<GameObject>();
   enemy->init();
@@ -119,26 +119,20 @@ void GameController::createEnemy(f32 x, f32 y){
 
   renderer->setLayer(1);
 
-  Vector2 atlasSize = Vector2(8,16);
 
-  // renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,14.0f/16.0f), 1.0f/8.0f, 1.0f/16.0f, 10));
-  renderer->addAnimation("idle", Animation::create(2, true, false, Vector2(0,0.0f/2.0f), 1.0f/7.0f, 1.0f/2.0f, 3));
-  renderer->addAnimation("run", Animation::create(7, true, false, Vector2(0,1.0f/2.0f), 1.0f/7.0f, 1.0f/2.0f, 10));
-  renderer->setAnimation("idle");
-
-  // renderer->setRegion(0.0f, 14.0f/atlasSize.y, 6.0f/atlasSize.x, 2.0f/atlasSize.y);
-
-  //renderer->setLineMode(true);
+  renderer->addAnimation("fly", Animation::create(4, true, false, Vector2(0,0.0f/1.0f), 1.0f/4.0f, 1.0f/1.0f, 20));
+  renderer->setAnimation("fly");
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
   enemy->addComponent<RigidBody>(rigidBody);
 
   Collider* collider = Memory::allocate<Collider>();
   enemy->addComponent<Collider>(collider);
-  collider->setSize(size.x/1.5f,size.y);
+  collider->setSize(size.x/2.0f,size.y/2.0f);
+  collider->setIsSolid(false);
 
   Script* script = Memory::allocate<EnemyScript>();
-  enemy->addComponent<Script>(script);
+	enemy->addComponent<Script>(script);
 
   getGameObject()->getScene()->addGameObject(enemy);
 }
@@ -146,6 +140,57 @@ void GameController::createEnemy(f32 x, f32 y){
 // ---------------------------------------------------------------------------
 
 
+UIButton* GameController::createBook(f32 x, f32 y, const Vector4& color, f32 size){
+  // Vector2 size(300,300);
+
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
+
+  // GameObject* book = Memory::allocate<GameObject>();
+  UIButton* book = UI::getInstance()->createButton(getGameObject()->getScene(), Vector2(x,y),Vector2(size,size),5);
+  // book->init();
+
+  // book->getTransform()->setLocalPosition(Vector3(x,y,0));
+  // book->getTransform()->setScale(Vector3(size.x,size.y,1));
+  // book->getTransform()->setScale(Vector3(size,size,1));
+  // book->getTransform()->setParent(getGameObject()->getTransform());
+
+  // Renderer* renderer = Memory::allocate<Renderer>();
+  // book->addComponent<Renderer>(renderer);
+
+  book->setOnPressedCallback([&, c = color, self = book](){
+    VAR(f32, c.x)
+    VAR(f32, c.y)
+    VAR(f32, c.z)
+
+    ((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(c);
+
+    mSelectedBook = self;
+
+    FOR_ARRAY(i, mBookSelector){
+      if(mBookSelector->get(i) == mSelectedBook){
+        mBookSelector->get(i)->getTransform()->setScale(Vector3(0.3f,0.3f,1));
+      } else {
+        mBookSelector->get(i)->getTransform()->setScale(Vector3(0.2f,0.2f,1));
+      }
+    }
+
+  });
+
+  Renderer* renderer = book->getRenderer();
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  // renderer->setLayer(5);
+  renderer->setColor(color);
+
+  renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0,0), 1.0f/6.0f, 1.0f/1.0f, 6));
+  renderer->setAnimation("idle");
+
+  // getGameObject()->getScene()->addGameObject(book);
+
+  return book;
+}
 
 // ---------------------------------------------------------------------------
 
@@ -266,20 +311,55 @@ void GameController::firstStep(){
   mRecycledTiles->init();
 
   createBackground(0,200);
+
+
+
+
+
+  // mText = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(600, 150), Vector2(70,70), "GO!", 5);
+  // mTextTimeCount = 0;
+  // mTextTime = 0.5f;
+
+  mBookSelector = Memory::allocate<Array<UIButton*>>();
+  mBookSelector->init(3);
+  mBookSelector->set(0, createBook(-0.8f, -0.4f, Vector4(-0.7f,0.2f,0.3f,1), 0.2f));
+  mBookSelector->set(1, createBook(-0.65f, -0.6f, Vector4(0,0,0,1), 0.3f));
+  mBookSelector->set(2, createBook(-0.8f, -0.8f, Vector4(-0.9f,0.3f,0,1), 0.2f));
+
+  mSelectedBook = mBookSelector->get(0);
 }
 
 // ---------------------------------------------------------------------------
 
 void GameController::step(){
+
+  // if(mTextTimeCount >= mTextTime){
+  //   mText->setIsActive(! mText->isActive());
+  //   mTextTimeCount = 0;
+  // }
+  //
+  // mTextTimeCount += Time::getDeltaTimeSeconds();
+
+  f32 movement = 600;
+  f32 movementDirection = 0;
+  Vector3 floorMovement = Vector3(0,0,0);
+
+  floorMovement.x = -movement * Time::getDeltaTimeSeconds();
+  floorMovement.y = 0;
+  movementDirection = -1; // TILES MOVES TO LEFT
+
   if(Input::isKeyPressedOnce(GLFW_KEY_P)){
   } else if(Input::isKeyPressedOnce(GLFW_KEY_F)){
-  } else if(Input::isKeyPressedOnce(GLFW_KEY_B)){
+  } else if(Input::isKeyPressedOnce(GLFW_KEY_E)){
+    Vector2 mouse = Input::getMousePosition();
+
+    Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
+
+    createEnemy(world.x,world.y);
   }
 
   if(mPlayer){
-    f32 movement = 600;
-    f32 movementDirection = 0;
-    Vector3 floorMovement = Vector3(0,0,0);
+
 
     if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
@@ -291,12 +371,6 @@ void GameController::step(){
 
     }if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)){
 
-      Vector2 mouse = Input::getMousePosition();
-
-      Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
-
-      createEnemy(world.x,-75);
-
     }if(Input::isKeyPressed(GLFW_KEY_LEFT)){
       // floorMovement.x = movement * Time::getDeltaTimeSeconds();
       // floorMovement.y = 0;
@@ -304,15 +378,15 @@ void GameController::step(){
 
 
     }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
-      floorMovement.x = -movement * Time::getDeltaTimeSeconds();
-      floorMovement.y = 0;
-      movementDirection = -1; // TILES MOVES TO LEFT
+      // floorMovement.x = -movement * Time::getDeltaTimeSeconds();
+      // floorMovement.y = 0;
+      // movementDirection = -1; // TILES MOVES TO LEFT
     }else if(Input::isKeyPressedOnce(GLFW_KEY_SPACE)){
 
     }else{
-      floorMovement.x = 0;
-      floorMovement.y = 0;
-      movementDirection = 0;
+      // floorMovement.x = 0;
+      // floorMovement.y = 0;
+      // movementDirection = 0;
     }
 
     if(mRenderFloor && movementDirection != 0){
@@ -356,6 +430,8 @@ void GameController::step(){
 // ---------------------------------------------------------------------------
 
 void GameController::terminate(){
+
+  Memory::free<Array<UIButton*>>(mBookSelector);
 
 }
 

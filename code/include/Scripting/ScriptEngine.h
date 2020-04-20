@@ -8,11 +8,13 @@
 namespace DE {
 
 class Script;
+class Iterator;
 
 class ScriptEngine : public DE_Class, public Singleton<ScriptEngine>{
 private:
 
 List<Script*>* mScripts;
+void internalRemoveScript(const Iterator* it);
 
 public:
   DE_CLASS(ScriptEngine, DE_Class);

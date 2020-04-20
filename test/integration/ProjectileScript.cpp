@@ -1,4 +1,4 @@
-#include "EnemyScript.h"
+#include "ProjectileScript.h"
 #include "Log.h"
 
 #include "GameObject.h"
@@ -25,62 +25,50 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-EnemyScript::EnemyScript() : Script(){
+ProjectileScript::ProjectileScript() : Script(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-EnemyScript::~EnemyScript() = default;
+ProjectileScript::~ProjectileScript() = default;
 
 
-void EnemyScript::init(){
+void ProjectileScript::init(){
 
 }
 
 // ---------------------------------------------------------------------------
 
-void EnemyScript::firstStep(){
-
-  getGameObject()->setTag("enemy");
+void ProjectileScript::firstStep(){
+  getGameObject()->setTag("projectile");
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
-  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
 }
 
 // ---------------------------------------------------------------------------
 
-void EnemyScript::step(){
-  mRigidBody->setLinear(Vector3(-600,0,0));
-
-}
-
-// ---------------------------------------------------------------------------
-
-void EnemyScript::onEnterCollision(GameObject* otherGameObject){
-  std::string x = "onEnterCollision " + getGameObject()->getTag();
-  ECHO(x);
-
-  if(otherGameObject->getTag() == "projectile"){
-    ECHO("DESTROY PROJECTILE")
+void ProjectileScript::step(){
+  if(mRenderer->isOutOfCamera()){
+    ECHO("PROJECTILE DESTROY")
     getGameObject()->destroy();
   }
 }
 
-void EnemyScript::onCollision(GameObject* otherGameObject){
-
-  // std::string x = "onCollision " + getGameObject()->getTag();
-  // // ECHO(x);
-}
-
-void EnemyScript::onExitCollision(GameObject* otherGameObject){
-  // std::string x = "onExitCollision " + getGameObject()->getTag();
-  // ECHO(x);
-}
-
-
 // ---------------------------------------------------------------------------
 
-void EnemyScript::terminate(){
+void ProjectileScript::onEnterCollision(GameObject* otherGameObject){
+
+}
+
+void ProjectileScript::onCollision(GameObject* otherGameObject){
+
+}
+
+void ProjectileScript::onExitCollision(GameObject* otherGameObject){
+
+}
+
+void ProjectileScript::terminate(){
 
 }
 

@@ -85,7 +85,9 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height){
 
 void Renderer::setAnimation(const std::string& name){
   if(mAnimations){
-    mCurrentAnimation = mAnimations->get(name);
+    if(mAnimations->contains(name)){
+      mCurrentAnimation = mAnimations->get(name);
+    }
   }
 };
 
