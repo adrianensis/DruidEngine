@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Array.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Array.hpp"
 
 using namespace DE;
 

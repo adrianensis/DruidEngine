@@ -1,10 +1,10 @@
-#include "Animation.h"
+#include "Animation.hpp"
 
-#include "Memory.h"
-#include "AnimationFrame.h"
-#include "Time.h"
-#include "List.h"
-#include "Log.h"
+#include "Memory.hpp"
+#include "AnimationFrame.hpp"
+#include "Time2.hpp"
+#include "List.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

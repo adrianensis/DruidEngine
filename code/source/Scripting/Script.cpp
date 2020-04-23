@@ -1,10 +1,10 @@
-#include "Script.h"
-#include "Log.h"
+#include "Script.hpp"
+#include "Log.hpp"
 
-#include "GameObject.h"
-#include "Transform.h"
-#include "Vector3.h"
-#include "Time.h"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "Vector3.hpp"
+#include "Time2.hpp"
 
 namespace DE {
 
@@ -21,7 +21,7 @@ Script::~Script() = default;
 // ---------------------------------------------------------------------------
 
 void Script::init(){
-
+	mFirstStepDone = false;
 }
 
 // ---------------------------------------------------------------------------

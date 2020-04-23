@@ -1,12 +1,12 @@
-#include "ScenesManager.h"
-#include "HashMap.h"
-#include "List.h"
-#include "Scene.h"
-#include "Memory.h"
-#include "GameObject.h"
-#include "Camera.h"
-#include "Settings.h"
-#include "RenderEngine.h"
+#include "ScenesManager.hpp"
+#include "HashMap.hpp"
+#include "List.hpp"
+#include "Scene.hpp"
+#include "Memory.hpp"
+#include "GameObject.hpp"
+#include "Camera.hpp"
+#include "Settings.hpp"
+#include "RenderEngine.hpp"
 #include <string>
 
 namespace DE{

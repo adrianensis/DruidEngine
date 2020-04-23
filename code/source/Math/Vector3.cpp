@@ -1,6 +1,6 @@
-#include "Vector3.h"
-#include "Vector2.h"
-#include "Vector4.h"
+#include "Vector3.hpp"
+#include "Vector2.hpp"
+#include "Vector4.hpp"
 
 #include <algorithm>  // std::max
 
@@ -209,7 +209,7 @@ f32 Vector3::angle(const Vector3& v, const Vector3& n) const {
 	Vector3 cross = Vector3(*this).cross(v);
 	f32 radians = atan2f(cross.len(),dot);
 
-	radians = n.dot(cross) < 0.0f ? (2.0f*M_PI)-radians : radians;
+	radians = n.dot(cross) < 0.0f ? (2.0f*MathUtils::PI)-radians : radians;
 
 	return radians;
 }

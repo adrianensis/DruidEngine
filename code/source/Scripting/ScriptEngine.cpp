@@ -1,11 +1,11 @@
-#include "ScriptEngine.h"
+#include "ScriptEngine.hpp"
 
-#include "Memory.h"
-#include "Script.h"
-#include "ScenesManager.h"
-#include "GameObject.h"
+#include "Memory.hpp"
+#include "Script.hpp"
+#include "ScenesManager.hpp"
+#include "GameObject.hpp"
 
-#include "Log.h"
+#include "Log.hpp"
 
 namespace DE {
 
@@ -38,12 +38,14 @@ void ScriptEngine::step(){
 
   Script* controller = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
 
-  if(! controller->isFirstStepDone()){
-    controller->firstStep();
-    controller->firstStepDone();
-  }
+  if (controller) {
+	  if (!controller->isFirstStepDone()) {
+		  controller->firstStep();
+		  controller->firstStepDone();
+	  }
 
-  controller->step();
+	  controller->step();
+  }
 
   FOR_LIST (it, mScripts){
     Script* script = it.get();
@@ -78,9 +80,9 @@ void ScriptEngine::internalRemoveScript(const Iterator* it){
 void ScriptEngine::terminate(){
   TRACE();
   if(mScripts){
-    FOR_LIST (it, mScripts){
+    /*FOR_LIST (it, mScripts){
   		Memory::free<Script>(it.get());
-  	}
+  	}*/
 
     Memory::free<List<Script*>>(mScripts);
   }

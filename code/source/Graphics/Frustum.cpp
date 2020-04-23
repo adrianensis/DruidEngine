@@ -1,10 +1,10 @@
-#include "Frustum.h"
+#include "Frustum.hpp"
 
-#include "Matrix4.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "Camera.h"
-#include "Array.h"
+#include "Matrix4.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "Camera.hpp"
+#include "Array.hpp"
 
 namespace DE {
 

@@ -1,16 +1,16 @@
-#include "Chunk.h"
+#include "Chunk.hpp"
 
-#include "Batch.h"
-#include "Texture.h"
-#include "Renderer.h"
-#include "Material.h"
-#include "Mesh.h"
-#include "HashMap.h"
-#include "MathUtils.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "RenderEngine.h"
-#include "Log.h"
+#include "Batch.hpp"
+#include "Texture.hpp"
+#include "Renderer.hpp"
+#include "Material.hpp"
+#include "Mesh.hpp"
+#include "HashMap.hpp"
+#include "MathUtils.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "RenderEngine.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

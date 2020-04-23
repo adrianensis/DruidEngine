@@ -1,14 +1,14 @@
-#include "Renderer.h"
+#include "Renderer.hpp"
 
-#include "Mesh.h"
-#include "Animation.h"
-#include "AnimationFrame.h"
-#include "Material.h"
-#include "HashMap.h"
-#include "Shader.h"
-#include "Array.h"
-#include "Chunk.h"
-#include "Log.h"
+#include "Mesh.hpp"
+#include "Animation.hpp"
+#include "AnimationFrame.hpp"
+#include "Material.hpp"
+#include "HashMap.hpp"
+#include "Shader.hpp"
+#include "Array.hpp"
+#include "Chunk.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

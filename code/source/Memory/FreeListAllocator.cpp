@@ -1,5 +1,5 @@
-#include "FreeListAllocator.h"
-#include "MathUtils.h"
+#include "FreeListAllocator.hpp"
+#include "MathUtils.hpp"
 
 namespace DE {
 
@@ -15,7 +15,7 @@ FreeListAllocator::Block::~Block(){
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::Block::init(void* unalignedAddress, u32 size){
+void FreeListAllocator::Block::init(byte* unalignedAddress, u32 size){
   this->unalignedAddress = unalignedAddress;
   this->size = size;
   this->blockStatus = BlockStatus::FREE;
@@ -75,14 +75,14 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
     if(previousBlock) previousBlock->next = selectedBlock->next; // remove block
 
     Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
-    newFreeBlock->init((void*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size), selectedBlock->size - size);
+    newFreeBlock->init((byte*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size), selectedBlock->size - size);
     newFreeBlock->blockStatus = BlockStatus::FREE;
 
     if(!previousBlock) firstBlockFree = selectedBlock->next;
     moveToFreeList(newFreeBlock);
 
     Block* newUsedBlock = selectedBlock;//Allocator::internalAllocate<Block>(&mLinearAllocator);
-    newUsedBlock->init((void*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
+    newUsedBlock->init((byte*)(reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
     newUsedBlock->blockStatus = BlockStatus::USED;
     moveToUsedList(newUsedBlock);
   }
@@ -92,7 +92,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size){
 
 // ---------------------------------------------------------------------------
 
-u32 FreeListAllocator::freeBlock(void* unalignedAddress){
+u32 FreeListAllocator::freeBlock(byte* unalignedAddress){
   bool found = false;
 
   Block* it = firstBlockUsed;
@@ -150,23 +150,23 @@ void FreeListAllocator::init(u32 size){
 
 // ---------------------------------------------------------------------------
 
-void* FreeListAllocator::allocate(u32 size){
+byte* FreeListAllocator::allocate(u32 size){
   return FreeListAllocator::allocate(size, 1);
 }
 
 // ---------------------------------------------------------------------------
 
-void* FreeListAllocator::allocate(u32 size, u32 alignment){
+byte* FreeListAllocator::allocate(u32 size, u32 alignment){
   Block* block = allocateBlock(size+alignment);
-  void* unalignedAddress = block->unalignedAddress;
+  byte* unalignedAddress = block->unalignedAddress;
   return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
 
 // ---------------------------------------------------------------------------
 
-void FreeListAllocator::free(const void* pointer){
+void FreeListAllocator::free(const byte* pointer){
   // pointer is an aligned address
-  void* unalignedAddress = calculateUnalignedAddress(pointer);
+  byte* unalignedAddress = calculateUnalignedAddress(pointer);
   u32 freeSize = freeBlock(unalignedAddress);
 
   // reduce mAllocatedSize

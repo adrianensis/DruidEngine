@@ -1,6 +1,6 @@
-#include "Component.h"
+#include "Component.hpp"
 
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 namespace DE {
 

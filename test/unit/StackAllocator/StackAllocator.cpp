@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "StackAllocator.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "StackAllocator.hpp"
 
 using namespace DE;
 

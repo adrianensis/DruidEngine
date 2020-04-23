@@ -1,25 +1,25 @@
-#include "Engine.h"
-#include "Memory.h"
-#include "Time.h"
-#include "List.h"
-#include "Singleton.h"
-#include "RenderContext.h"
-#include "Renderer.h"
-#include "Scene.h"
-#include "RenderEngine.h"
-#include "PhysicsEngine.h"
-#include "ScriptEngine.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "Script.h"
-#include "Camera.h"
-#include "Log.h"
-#include "Input.h"
-#include "RigidBody.h"
-#include "UI.h"
-#include "Settings.h"
-#include "MaterialManager.h"
-#include "ScenesManager.h"
+#include "Engine.hpp"
+#include "Memory.hpp"
+#include "Time2.hpp"
+#include "List.hpp"
+#include "Singleton.hpp"
+#include "RenderContext.hpp"
+#include "Renderer.hpp"
+#include "Scene.hpp"
+#include "RenderEngine.hpp"
+#include "PhysicsEngine.hpp"
+#include "ScriptEngine.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "Script.hpp"
+#include "Camera.hpp"
+#include "Log.hpp"
+#include "Input.hpp"
+#include "RigidBody.hpp"
+#include "UI.hpp"
+#include "Settings.hpp"
+#include "MaterialManager.hpp"
+#include "ScenesManager.hpp"
 
 #include <string>
 #include <iostream>
@@ -56,7 +56,7 @@ void Engine::init(){
 
 void Engine::initSubsystems(){
 
-	terminateSubSystems();
+	//terminateSubSystems();
 
 	mRenderEngine = RenderEngine::getInstance();
 	mScriptEngine = ScriptEngine::getInstance();
@@ -96,7 +96,7 @@ void Engine::run(){
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
 	f32 inverseFPS = 1.0f/FPS;
 
-	// initSubsystems();
+	 //initSubsystems();
 
 	while(! RenderContext::isClosed()){
 

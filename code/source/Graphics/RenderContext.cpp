@@ -1,15 +1,15 @@
-#include "RenderContext.h"
+#include "RenderContext.hpp"
 
-#include <GL/gl.h>
-#include <GL/glext.h>
+//#include <gl/gl.h>
+//#include <gl/glext.h>
 #include <stddef.h>
 #include <iostream>
 #include <string>
 
-#include "Array.h"
-#include "Camera.h"
-#include "Input.h"
-#include "Camera.h"
+#include "Array.hpp"
+#include "Camera.hpp"
+#include "Input.hpp"
+#include "Camera.hpp"
 
 namespace DE {
 
@@ -126,7 +126,7 @@ GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 att
 	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (void*)0);
+	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*)0);
 	RenderContext::enableAttribute(attributeArrayIndex);
 
   return VBO;

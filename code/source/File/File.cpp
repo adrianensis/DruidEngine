@@ -1,5 +1,5 @@
-#include "File.h"
-#include "Log.h"
+#include "File.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

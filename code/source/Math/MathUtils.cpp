@@ -1,6 +1,6 @@
-#include "MathUtils.h"
+#include "MathUtils.hpp"
 #include <algorithm>
-#include "Log.h"
+#include "Log.hpp"
 
 namespace DE {
 

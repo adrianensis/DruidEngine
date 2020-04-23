@@ -1,5 +1,5 @@
-#include "Vector2.h"
-#include "Vector3.h"
+#include "Vector2.hpp"
+#include "Vector3.hpp"
 
 #include <algorithm>  // std::max
 
@@ -140,7 +140,7 @@ Vector2& Vector2::lerp(const Vector2& target, f32 t){
 
 f32 Vector2::angle(const Vector2& v) const {
 	f32 angle = atan2f(v.y, v.x) - atan2f(this->y, this->x);
-	return angle < 0 ? angle += 2 * M_PI : angle;
+	return angle < 0 ? angle += 2 * MathUtils::PI : angle;
 }
 
 Vector2& Vector2::clamp(f32 maxLength){

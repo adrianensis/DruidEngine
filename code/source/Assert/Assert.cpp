@@ -1,16 +1,17 @@
-#include "Assert.h"
-#include "Log.h"
+#include "Assert.hpp"
+#include "Log.hpp"
 #include <string>   // std::string
 #include <cstdlib>  // abort
 
-#include <experimental/filesystem>
+//#include <experimental/filesystem>
 
 namespace DE {
 
 void assert(const bool condition, const std::string& file, u32 line, const std::string& function, const std::string& message){
   if(!condition){
-    std::cout << "DE_ASSERT > [" << std::experimental::filesystem::path(file).filename() << ":" << function << ":" << std::to_string(line) << "] > " << message << std::endl;
-    abort();
+    std::cout << "DE_ASSERT > [" << /*std::filesystem::path(file).filename() <<*/ ":" << function << ":" << std::to_string(line) << "] > " << message << std::endl;
+    throw;
+	//abort();
   }
 }
 

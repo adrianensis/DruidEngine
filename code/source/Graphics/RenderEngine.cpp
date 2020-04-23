@@ -1,25 +1,25 @@
-#include "RenderEngine.h"
-#include "Memory.h"
-#include "Batch.h"
-#include "Material.h"
-#include "Texture.h"
-#include "Mesh.h"
-#include "RenderContext.h"
-#include "Camera.h"
-#include "Frustum.h"
-#include "Renderer.h"
-#include "List.h"
-#include "Array.h"
-#include "HashMap.h"
-#include "Log.h"
-#include "Shader.h"
-#include "Vector3.h"
-#include "MathUtils.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "Settings.h"
-#include "Chunk.h"
-#include "UI.h"
+#include "RenderEngine.hpp"
+#include "Memory.hpp"
+#include "Batch.hpp"
+#include "Material.hpp"
+#include "Texture.hpp"
+#include "Mesh.hpp"
+#include "RenderContext.hpp"
+#include "Camera.hpp"
+#include "Frustum.hpp"
+#include "Renderer.hpp"
+#include "List.hpp"
+#include "Array.hpp"
+#include "HashMap.hpp"
+#include "Log.hpp"
+#include "Shader.hpp"
+#include "Vector3.hpp"
+#include "MathUtils.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "Settings.hpp"
+#include "Chunk.hpp"
+#include "UI.hpp"
 
 namespace DE {
 
@@ -144,20 +144,28 @@ void RenderEngine::init(f32 sceneSize){
 
   mMaxLayersCount = 10;
   mMaxLayersUsed = 0;
+
+  //mCamera->getFrustum()->build();
+
 }
 
 // ---------------------------------------------------------------------------
 
 bool RenderEngine::frustumTestSphere(const Vector3& center, f32 radius){
-  return mCamera->getFrustum()->testSphere(center, radius);
+  return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
 
 // ---------------------------------------------------------------------------
 
 void RenderEngine::step(){
 
-  mCamera->getFrustum()->build();
-  mCamera->calculateInverseMatrix();
+	if (mCamera) {
+		if (mCamera->getFrustum()) {
+			mCamera->getFrustum()->build();
+		}
+
+		mCamera->calculateInverseMatrix();
+	}
 
   //check Chunks
   FOR_ARRAY(i, mChunks){

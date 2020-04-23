@@ -1,7 +1,7 @@
-#include "Memory.h"
-#include "FreeListAllocator.h"
-#include "LinearAllocator.h"
-#include "Log.h"
+#include "Memory.hpp"
+#include "FreeListAllocator.hpp"
+#include "LinearAllocator.hpp"
+#include "Log.hpp"
 
 namespace DE {
 
@@ -29,7 +29,7 @@ void Memory::init(){
 
 	TRACE();
 
-  smGlobal.init(2*GB);
+	smGlobal.init(1*GB);
 
 	ECHO("TOTAL MEMORY (IN MB)");
 	VAL(f32,(smGlobal.getTotalSize() / MB));

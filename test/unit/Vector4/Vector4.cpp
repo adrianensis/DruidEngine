@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Vector4.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Vector4.hpp"
 #include <cmath>
 
 int main(){

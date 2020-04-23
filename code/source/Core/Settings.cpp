@@ -1,7 +1,7 @@
-#include "Settings.h"
-#include "HashMap.h"
-#include "List.h"
-#include "Memory.h"
+#include "Settings.hpp"
+#include "HashMap.hpp"
+#include "List.hpp"
+#include "Memory.hpp"
 
 namespace DE{
 

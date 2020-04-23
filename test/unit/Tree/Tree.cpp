@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Tree.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Tree.hpp"
 #include <string>
 
 using namespace DE;

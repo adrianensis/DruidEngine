@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Vector3.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Vector3.hpp"
 #include <cmath>
 
 int main(){
@@ -71,24 +71,24 @@ int main(){
 	DE_test_expected(DE::Vector3(-1,0,0).cross(DE::Vector3(0,1,0)), DE::Vector3(0,0,-1));
 
 	DE_test_expected_float(a.angle(a), 0.0);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0))*(180/M_PI), 90);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0))*(180/M_PI), 90);
-	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0))*(180/M_PI), 45, 0.00001f);
-	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0))*(180/M_PI), 45, 0.00001f);
-	DE_test_expected_float_eps(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0))*(180/M_PI), 45, 0.00001f);
-	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0))*(180/M_PI), 180, 0.00001f);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1))*(180/M_PI), 135);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1))*(180/M_PI), 135);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0))*(180/MathUtils::PI), 90);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0))*(180/MathUtils::PI), 90);
+	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0))*(180/MathUtils::PI), 45, 0.00001f);
+	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0))*(180/MathUtils::PI), 45, 0.00001f);
+	DE_test_expected_float_eps(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0))*(180/MathUtils::PI), 45, 0.00001f);
+	DE_test_expected_float_eps(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0))*(180/MathUtils::PI), 180, 0.00001f);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1))*(180/MathUtils::PI), 135);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1))*(180/MathUtils::PI), 135);
 
 	DE_test_expected_float(a.angle(a, DE::Vector3(0,0,1)), 0.0);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0), DE::Vector3(0,0,1))*(180/M_PI), 90);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0), DE::Vector3(0,0,1))*(180/M_PI), 270);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0), DE::Vector3(0,0,1))*(180/M_PI), 45);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0), DE::Vector3(0,0,1))*(180/M_PI), 315);
-	DE_test_expected_float(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0), DE::Vector3(0,0,1))*(180/M_PI), 45);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0), DE::Vector3(0,1,0))*(180/M_PI), 180);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1), DE::Vector3(0,1,0))*(180/M_PI), 225);
-	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1), DE::Vector3(0,1,0))*(180/M_PI), 135);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,1,0), DE::Vector3(0,0,1))*(180/MathUtils::PI), 90);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(0,-1,0), DE::Vector3(0,0,1))*(180/MathUtils::PI), 270);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,1,0), DE::Vector3(0,0,1))*(180/MathUtils::PI), 45);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(1,-1,0), DE::Vector3(0,0,1))*(180/MathUtils::PI), 315);
+	DE_test_expected_float(DE::Vector3(-1,0,0).angle(DE::Vector3(-1,-1,0), DE::Vector3(0,0,1))*(180/MathUtils::PI), 45);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,0), DE::Vector3(0,1,0))*(180/MathUtils::PI), 180);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,1), DE::Vector3(0,1,0))*(180/MathUtils::PI), 225);
+	DE_test_expected_float(DE::Vector3(1,0,0).angle(DE::Vector3(-1,0,-1), DE::Vector3(0,1,0))*(180/MathUtils::PI), 135);
 
 	DE_test_expected_float_eps(DE::Vector3(a).clamp(0.1f).len(),0.1f,0.00001f);
 	DE_test_expected_float_eps(DE::Vector3(a).clamp(0.2f).len(),0.2f,0.00001f);

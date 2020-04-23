@@ -1,8 +1,8 @@
-#include "UIElement.h"
+#include "UIElement.hpp"
 
-#include "Collider.h"
-#include "Renderer.h"
-#include "List.h"
+#include "Collider.hpp"
+#include "Renderer.hpp"
+#include "List.hpp"
 
 namespace DE {
 

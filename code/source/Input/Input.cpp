@@ -1,5 +1,5 @@
-#include "Input.h"
-#include "Log.h"
+#include "Input.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

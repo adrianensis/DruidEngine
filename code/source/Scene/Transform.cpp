@@ -1,9 +1,9 @@
-#include "Transform.h"
-#include "GameObject.h"
-#include "Quaternion.h"
-#include "Memory.h"
-#include "Log.h"
-#include "RenderEngine.h"
+#include "Transform.hpp"
+#include "GameObject.hpp"
+#include "Quaternion.hpp"
+#include "Memory.hpp"
+#include "Log.hpp"
+#include "RenderEngine.hpp"
 
 namespace DE {
 

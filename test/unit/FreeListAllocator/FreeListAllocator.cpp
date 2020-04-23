@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "FreeListAllocator.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "FreeListAllocator.hpp"
 
 using namespace DE;
 
@@ -27,7 +27,7 @@ int main(){
 
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+8);
 
-	freeList.free(k);
+	freeList.free(reinterpret_cast<byte*>(k));
 
 	DE_test_expected_float(freeList.getAllocatedSize(),0);
 
@@ -62,7 +62,7 @@ int main(){
 
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1+sizeInt+16);
 
-	freeList.free(j);
+	freeList.free(reinterpret_cast<byte*>(j));
 
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1);
 
@@ -101,11 +101,11 @@ int main(){
 
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+8+sizeInt+1+sizeInt+16);
 
-	freeList.free(k);
+	freeList.free(reinterpret_cast<byte*>(k));
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+1+sizeInt+16);
-	freeList.free(i);
+	freeList.free(reinterpret_cast<byte*>(i));
 	DE_test_expected_float(freeList.getAllocatedSize(),sizeInt+16);
-	freeList.free(j);
+	freeList.free(reinterpret_cast<byte*>(j));
 	DE_test_expected_float(freeList.getAllocatedSize(),0);
 
 	summary();

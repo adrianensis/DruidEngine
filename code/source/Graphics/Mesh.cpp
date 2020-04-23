@@ -1,5 +1,5 @@
-#include "Mesh.h"
-#include "Memory.h"
+#include "Mesh.hpp"
+#include "Memory.hpp"
 
 namespace DE {
 

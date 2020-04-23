@@ -1,11 +1,11 @@
-#include "ContactsManager.h"
-#include "Collider.h"
-#include "List.h"
-#include "HashMap.h"
-#include "Log.h"
-#include "Memory.h"
-#include "GameObject.h"
-#include "Script.h"
+#include "ContactsManager.hpp"
+#include "Collider.hpp"
+#include "List.hpp"
+#include "HashMap.hpp"
+#include "Log.hpp"
+#include "Memory.hpp"
+#include "GameObject.hpp"
+#include "Script.hpp"
 
 namespace DE {
 

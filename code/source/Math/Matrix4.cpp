@@ -1,8 +1,8 @@
-#include "Matrix4.h"
-#include "MathUtils.h"
-#include "Vector4.h"
-#include "Vector3.h"
-#include "Array.h"
+#include "Matrix4.hpp"
+#include "MathUtils.hpp"
+#include "Vector4.hpp"
+#include "Vector3.hpp"
+#include "Array.hpp"
 
 #include <cstring>
 

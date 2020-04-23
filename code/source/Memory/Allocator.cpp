@@ -1,4 +1,4 @@
-#include "Allocator.h"
+#include "Allocator.hpp"
 #include <cstring>
 
 namespace DE {
@@ -38,7 +38,7 @@ void Allocator::checkFree() const {
 
 // ---------------------------------------------------------------------------
 
-void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 alignment) const {
+byte* Allocator::calculateAlignedAddress(const byte* unalignedAddress, u32 alignment) const {
 
   /*
 
@@ -101,24 +101,24 @@ void* Allocator::calculateAlignedAddress(const void* unalignedAddress, u32 align
   // (that's why we use [-1]) the adjusted address.
   byteArray[-1] = static_cast<byte>(adjustment);
 
-  return static_cast<void*>(byteArray);
+  return static_cast<byte*>(byteArray);
 }
 
 // ---------------------------------------------------------------------------
 
-void* Allocator::calculateUnalignedAddress(const void* alignedAddress) const {
+byte* Allocator::calculateUnalignedAddress(const byte* alignedAddress) const {
 
   const byte* byteArray = reinterpret_cast<const byte*>(alignedAddress);
   ptr _alignedAddress = reinterpret_cast<ptr>(alignedAddress);
   ptrdiff adjustment = static_cast<ptrdiff>(byteArray[-1]);
   ptr unalignedAddress = _alignedAddress - adjustment;
 
-  return reinterpret_cast<void*>(unalignedAddress);
+  return reinterpret_cast<byte*>(unalignedAddress);
 }
 
 // ---------------------------------------------------------------------------
 
-void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 alignment){
+byte* Allocator::allocateAlignedAddress(byte* unalignedAddress, u32 size, u32 alignment){
   u32 expandedSize = size + alignment;
 
   Allocator::checkAllocate(expandedSize);
@@ -129,7 +129,7 @@ void* Allocator::allocateAlignedAddress(void* unalignedAddress, u32 size, u32 al
 
   Allocator::setAllocatedSize(Allocator::getAllocatedSize() + expandedSize);
 
-  void* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
+  byte* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 
   Allocator::clean(alignedAddress, size);
 
@@ -144,7 +144,7 @@ void Allocator::setAllocatedSize(u32 size){
 
 // ---------------------------------------------------------------------------
 
-void Allocator::clean(void *mem, u32 size){
+void Allocator::clean(byte* mem, u32 size){
   // clean memory block
   std::memset(mem, 0, size);
 }
@@ -170,7 +170,7 @@ bool Allocator::hasSpace(u32 size) const {
 
 // ---------------------------------------------------------------------------
 
-void Allocator::setMemoryChunk(void* mem){
+void Allocator::setMemoryChunk(byte* mem){
   // Only must delete when Allocator is destroyed. See ~Allocator()
 
   mStart = mem;
@@ -181,12 +181,12 @@ void Allocator::setMemoryChunk(void* mem){
 void Allocator::init(u32 size){
 	TRACE();
 
-  initFromMemory(size, ::operator new (size));
+  initFromMemory(size,  new byte[size]);
 }
 
 // ---------------------------------------------------------------------------
 
-void Allocator::initFromMemory(u32 size, void* mem){
+void Allocator::initFromMemory(u32 size, byte* mem){
 	TRACE();
 
   mTotalSize = size;

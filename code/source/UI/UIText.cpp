@@ -1,10 +1,10 @@
-#include "UIText.h"
-#include "Mesh.h"
-#include "Renderer.h"
-#include "Material.h"
-#include "Vector3.h"
-#include "UI.h"
-#include "Scene.h"
+#include "UIText.hpp"
+#include "Mesh.hpp"
+#include "Renderer.hpp"
+#include "Material.hpp"
+#include "Vector3.hpp"
+#include "UI.hpp"
+#include "Scene.hpp"
 
 namespace DE {
 

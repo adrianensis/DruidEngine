@@ -1,5 +1,5 @@
-#include "AnimationFrame.h"
-#include "Log.h"
+#include "AnimationFrame.hpp"
+#include "Log.hpp"
 
 namespace DE {
 

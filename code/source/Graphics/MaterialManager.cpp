@@ -1,8 +1,8 @@
-#include "MaterialManager.h"
-#include "HashMap.h"
-#include "Texture.h"
-#include "Material.h"
-#include "Shader.h"
+#include "MaterialManager.hpp"
+#include "HashMap.hpp"
+#include "Texture.hpp"
+#include "Material.hpp"
+#include "Shader.hpp"
 
 namespace DE {
 

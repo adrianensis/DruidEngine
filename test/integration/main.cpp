@@ -1,21 +1,21 @@
-#include "Engine.h"
-#include "Scene.h"
-#include "GameObject.h"
-#include "Camera.h"
-#include "Mesh.h"
-#include "Script.h"
-#include "Transform.h"
-#include "Animation.h"
-#include "Renderer.h"
-#include "Material.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameController.h"
-#include "RigidBody.h"
-#include "Collider.h"
-#include "Vector4.h"
-#include "RenderContext.h"
-#include "ScenesManager.h"
+#include "Engine.hpp"
+#include "Scene.hpp"
+#include "GameObject.hpp"
+#include "Camera.hpp"
+#include "Mesh.hpp"
+#include "Script.hpp"
+#include "Transform.hpp"
+#include "Animation.hpp"
+#include "Renderer.hpp"
+#include "Material.hpp"
+#include "Texture.hpp"
+#include "Shader.hpp"
+#include "GameController.hpp"
+#include "RigidBody.hpp"
+#include "Collider.hpp"
+#include "Vector4.hpp"
+#include "RenderContext.hpp"
+#include "ScenesManager.hpp"
 
 using namespace DE;
 
@@ -31,11 +31,13 @@ int main(){
 
 	GameObject* controller = Memory::allocate<GameObject>();
   controller->init();
+  controller->setTag("controller");
 
 	// script
 
 	Script* script = Memory::allocate<GameController>();
 	controller->addComponent<Script>(script);
+	Script* scriptX = controller->getComponents<Script>()->get(0);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);
 

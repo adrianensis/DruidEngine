@@ -14,7 +14,8 @@ project(${DRUID})
 # We need c++14 because it defines the auto type.
 
 # set(CMAKE_CXX_FLAGS_ALL "-std=c++17 -Wall") # this macro was invented by me
-set(CMAKE_CXX_FLAGS_ALL "-std=c++17") # this macro was invented by me
+#set(CMAKE_CXX_FLAGS_ALL "-std=c++17") # this macro was invented by me
+set(CMAKE_CXX_FLAGS_ALL "/m /TP /std:c++17") # this macro was invented by me
 
 if(ENABLE_LOGS)
   set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -D DE_ENABLE_LOGS")
@@ -23,7 +24,7 @@ endif(ENABLE_LOGS)
 # set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL} -ffast-math -mavx")
 # set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -ffast-math -mavx")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL}")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
 
 # ----------------------------------------------------------------------------
 # OUTPUT DIRECTORIES
@@ -124,7 +125,7 @@ target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
 
-target_link_libraries( ${DRUID} "stdc++fs")
+#target_link_libraries( ${DRUID} "stdc++fs")
 
 # SOIL
 target_link_libraries( ${DRUID} SOIL )
@@ -187,7 +188,7 @@ file(GLOB TOOL_PATHS "tools/*")
 
 foreach(TOOL_PATH ${TOOL_PATHS})
 
-  file(GLOB TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.h")
+  file(GLOB TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
 
   include_directories("${TOOL_PATH}")
 

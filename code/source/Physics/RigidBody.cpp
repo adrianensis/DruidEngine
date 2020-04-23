@@ -1,8 +1,8 @@
-#include "RigidBody.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "Collider.h"
-#include "List.h"
+#include "RigidBody.hpp"
+#include "GameObject.hpp"
+#include "Transform.hpp"
+#include "Collider.hpp"
+#include "List.hpp"
 
 namespace DE {
 

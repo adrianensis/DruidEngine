@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Vector2.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Vector2.hpp"
 #include <cmath>
 
 int main(){
@@ -69,10 +69,10 @@ int main(){
 	DE_test_expected(DE::Vector2(a).nor(), DE::Vector2(a).div(a.len()));
 
 	DE_test_expected_float(a.angle(a), 0.0);
-	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(0,1))*(180/M_PI), 90);
-	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(1,1))*(180/M_PI), 45);
-	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(1,-1))*(180/M_PI), 315);
-	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(-1,0))*(180/M_PI), 180);
+	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(0,1))*(180/MathUtils::PI), 90);
+	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(1,1))*(180/MathUtils::PI), 45);
+	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(1,-1))*(180/MathUtils::PI), 315);
+	DE_test_expected_float(DE::Vector2(1,0).angle(DE::Vector2(-1,0))*(180/MathUtils::PI), 180);
 
 	DE_test_expected_float_eps(DE::Vector2(a).clamp(0.1f).len(),0.1f,0.1f);
 	DE_test_expected_float_eps(DE::Vector2(a).clamp(0.2f).len(),0.2f,0.1f);

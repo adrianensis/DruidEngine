@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Quaternion.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Quaternion.hpp"
 #include <cmath>
 
 DE::Quaternion mul(DE::Quaternion q1, DE::Quaternion q2){

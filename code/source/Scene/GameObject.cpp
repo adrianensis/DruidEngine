@@ -1,10 +1,10 @@
-#include "GameObject.h"
+#include "GameObject.hpp"
 
-#include "List.h"
-#include "HashMap.h"
+#include "List.hpp"
+#include "HashMap.hpp"
 
-#include "Component.h"
-#include "Transform.h"
+#include "Component.hpp"
+#include "Transform.hpp"
 
 namespace DE {
 

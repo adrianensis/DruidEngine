@@ -1,7 +1,7 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Matrix4.h"
-#include "Array.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Matrix4.hpp"
+#include "Array.hpp"
 
 using namespace DE;
 

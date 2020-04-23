@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "Time.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "Time2.hpp"
 
 int main(){
 

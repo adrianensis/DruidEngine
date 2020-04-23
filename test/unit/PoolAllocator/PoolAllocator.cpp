@@ -1,6 +1,6 @@
-#include "Test.h"
-#include "Memory.h"
-#include "PoolAllocator.h"
+#include "Test.hpp"
+#include "Memory.hpp"
+#include "PoolAllocator.hpp"
 
 using namespace DE;
 
@@ -41,7 +41,7 @@ int main(){
 	DE_test_expected_uint(*b,2);
 	DE_test_expected_uint(*c,3);
 
-	pool.free(b);
+	pool.free(reinterpret_cast<byte*>(b));
 
 	DE_test_expected_uint(pool.getFreeBlocks(),2);
 
@@ -60,7 +60,7 @@ int main(){
 	DE_test_expected_uint(*a,1);
 	DE_test_expected_uint(*c,3);
 
-	pool.free(d);
+	pool.free(reinterpret_cast<byte*>(d));
 
 	DE_test_expected_uint(pool.getFreeBlocks(),2);
 
@@ -90,7 +90,7 @@ int main(){
 	DE_test_show(*b);
 	DE_test_show(*c);
 
-	pool.free(b);
+	pool.free(reinterpret_cast<byte*>(b));
 
 	DE_test_expected_uint(pool.getFreeBlocks(),2);
 
@@ -109,9 +109,9 @@ int main(){
 	DE_test_expected_uint(*b,2222);
 	DE_test_expected_uint(*c,3333);
 
-	pool.free(a);
-	pool.free(c);
-	pool.free(d);
+	pool.free(reinterpret_cast<byte*>(a));
+	pool.free(reinterpret_cast<byte*>(c));
+	pool.free(reinterpret_cast<byte*>(d));
 
 	DE_test_expected_uint(pool.getFreeBlocks(),4);
 

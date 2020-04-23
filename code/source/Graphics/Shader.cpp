@@ -1,8 +1,8 @@
-#include "Shader.h"
-#include "RenderContext.h"
-#include "Matrix4.h"
-#include "Memory.h"
-#include "Array.h"
+#include "Shader.hpp"
+#include "RenderContext.hpp"
+#include "Matrix4.hpp"
+#include "Memory.hpp"
+#include "Array.hpp"
 #include <fstream> // std::ifstream
 #include <string>
 #include <iostream>
