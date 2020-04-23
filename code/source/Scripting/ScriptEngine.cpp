@@ -80,9 +80,9 @@ void ScriptEngine::internalRemoveScript(const Iterator* it){
 void ScriptEngine::terminate(){
   TRACE();
   if(mScripts){
-    /*FOR_LIST (it, mScripts){
+    FOR_LIST (it, mScripts){
   		Memory::free<Script>(it.get());
-  	}*/
+  	}
 
     Memory::free<List<Script*>>(mScripts);
   }

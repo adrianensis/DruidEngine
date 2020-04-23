@@ -56,7 +56,7 @@ void Engine::init(){
 
 void Engine::initSubsystems(){
 
-	//terminateSubSystems();
+	terminateSubSystems();
 
 	mRenderEngine = RenderEngine::getInstance();
 	mScriptEngine = ScriptEngine::getInstance();

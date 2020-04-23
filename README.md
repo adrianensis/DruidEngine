@@ -4,6 +4,8 @@
 
 ## Build
 
+### Linux
+
 * First, **download and install dependencies**: `./scripts/dependencies.sh`
 * Build project: `./scripts/build.sh -[ruixlch]`
   * -h Show help.
@@ -15,6 +17,10 @@
   * -c Clean the project.
 * Run unitary tests: `./scripts/test.sh`
 * Generate documentation: `./scripts/doc.sh`
+
+### Windows
+
+> (WORK IN PROGRESS)
 
 ---
 
