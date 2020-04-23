@@ -5,6 +5,7 @@
 #include "Vector2.h"
 #include "Vector4.h"
 #include "PlayerScript.h"
+#include "Element.h"
 
 namespace DE {
 
@@ -25,6 +26,7 @@ class GameController : public Script{
 private:
 
   GameObject* mPlayer;
+  GameObject* mCrossHair;
   // Array<GameObject*>* mRenderFloor;
   List<GameObject*>* mRenderFloor;
   u32 mRenderTilesAmount;
@@ -37,20 +39,23 @@ private:
   UIButton* mSelectedBook;
 
   // UIText* mText;
-  // f32 mTextTimeCount;
-  // f32 mTextTime;
+  f32 mEnemySpawnTimeCount;
+  f32 mEnemySpawnTime;
+
 
 public:
+  static f32 smGlobalSpeed;
 
 DE_CLASS(GameController, Script);
 
 void createPlayer(f32 x, f32 y);
+void createCrossHair();
 void createEnemy(f32 x, f32 y);
 void createProjectile(f32 x, f32 y, f32 clickX, f32 clickY);
 GameObject* createRenderFloorTile(f32 x, f32 y);
 GameObject* createPhysicFloorTile(f32 x, f32 y);
 void createBackground(f32 x, f32 y);
-UIButton* createBook(f32 x, f32 y, const Vector4& color, f32 size);
+UIButton* createBook(f32 x, f32 y, const Vector4& color, Element element, f32 size);
 
 void init() override;
 void firstStep() override;

@@ -232,19 +232,20 @@ void QuadTree::Node::internalFreeCollider(Collider* collider){
 
 void QuadTree::Node::update(/*contactManager*/){
 
-  // DEBUG DRAW
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
-  // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
-
 	// If is leaf node.
 	if(isLeaf()){
+
+    // DEBUG DRAW
+    // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
+    // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
+    // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
+    // RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+
+    bool nodeInCameraView = RenderEngine::getInstance()->frustumTestSphere(Vector3(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight, 0), mRadius);
 
     mExitingColliders->clear(); // colliders which have left the node.
 
     ColliderStatus newTreeStatus = ColliderStatus::STATUS_NONE;
-
 
     // FOR EACH COLLIDER
 		FOR_LIST(itA, mColliders){

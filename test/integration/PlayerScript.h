@@ -4,6 +4,7 @@
 #include "Script.h"
 #include "Vector2.h"
 #include "Vector4.h"
+#include "Element.h"
 
 namespace DE {
 
@@ -22,6 +23,7 @@ private:
 
   GameObject* mBook;
   Vector4 mBookColor;
+  Element mElement;
 
 public:
 
@@ -37,9 +39,11 @@ void onCollision(GameObject* otherGameObject) override;
 void onExitCollision(GameObject* otherGameObject) override;
 
 void createProjectile(f32 x, f32 y, f32 clickX, f32 clickY);
+void createWall(f32 x, f32 y);
 void createBook(f32 x, f32 y, const Vector4& color);
 
 void setBookColor(const Vector4& color) { mBookColor=color; }
+void setElement(Element element) { mElement=element; }
 
 };
 

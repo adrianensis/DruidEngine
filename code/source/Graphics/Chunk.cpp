@@ -75,8 +75,6 @@ Chunk::Chunk() : DE_Class(){
   mIsLoaded = false;
 
   mRenderers = nullptr;
-  mLastRenderersSize = 0;
-  mNewRenderersSize = 0;
 }
 
 Chunk::~Chunk(){
@@ -139,21 +137,6 @@ bool Chunk::isLoaded(){ return mIsLoaded; }
 
 void Chunk::addRenderer(Renderer* renderer){
   mRenderers->pushBack(renderer);
-
-  mNewRenderersSize = mRenderers->getLength();
-}
-
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-
-u32 Chunk::render(u32 layer){
-  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
-  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
-  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
-  RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
-
-  return 0 /* mBatchesMap->render(layer)*/;
 }
 
 // ---------------------------------------------------------------------------

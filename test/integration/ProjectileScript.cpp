@@ -43,15 +43,35 @@ void ProjectileScript::init(){
 void ProjectileScript::firstStep(){
   getGameObject()->setTag("projectile");
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+
+  mExplosionTime = 0.3f;
+  mExplosionTimeCounter = 0;
+  mIsExploding = false;
 }
 
 // ---------------------------------------------------------------------------
 
 void ProjectileScript::step(){
-  if(mRenderer->isOutOfCamera()){
-    ECHO("PROJECTILE DESTROY")
-    getGameObject()->destroy();
+  // if(mRenderer->isOutOfCamera()){
+  //   ECHO("PROJECTILE DESTROY")
+  //   getGameObject()->destroy();
+  // }
+
+  if(mIsExploding){
+    if(mExplosionTimeCounter >= mExplosionTime){
+      ECHO("PROJECTILE DESTROY")
+      getGameObject()->destroy();
+    }
+    mExplosionTimeCounter += Time::getDeltaTimeSeconds();
   }
+}
+
+// ---------------------------------------------------------------------------
+
+void ProjectileScript::explode(){
+  mIsExploding = true;
+  mRenderer->setAnimation("explosion");
+  getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,0,0));
 }
 
 // ---------------------------------------------------------------------------

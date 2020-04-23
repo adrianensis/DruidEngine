@@ -52,7 +52,6 @@ Renderer::~Renderer(){
   }
 
   Memory::free<Array<f32>>(mColor);
-  // Memory::free<Array<Chunks*>>(mChunks);
 }
 
 // ---------------------------------------------------------------------------
@@ -62,9 +61,6 @@ void Renderer::init(){
 
   mColor = Memory::allocate<Array<f32>>();
   mColor->init(4);
-
-  // mChunks = Memory::allocate<Array<Chunks*>>();
-  // mChunks->init(4);
 
   setColor(Vector4(0,0,0,1));
 

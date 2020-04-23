@@ -391,7 +391,7 @@ void Batch::internalRemoveRendererFromList(const Iterator* it, List<Renderer*>* 
 	renderer->setIsAlreadyInBatch(false);
 
 	if(!renderer->isStatic()){
-		renderer->setChunk(nullptr);
+		// renderer->setChunk(nullptr);
 		mLayersData->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}
 }

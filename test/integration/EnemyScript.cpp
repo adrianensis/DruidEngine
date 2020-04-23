@@ -20,6 +20,9 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Time.h"
+#include "ProjectileScript.h"
+#include "TornadoScript.h"
+#include "GameController.h"
 
 namespace DE {
 
@@ -45,36 +48,67 @@ void EnemyScript::firstStep(){
   getGameObject()->setTag("enemy");
   mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
   mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+
+  mSlowDown = false;
+  mSpeed = GameController::smGlobalSpeed;
 }
 
 // ---------------------------------------------------------------------------
 
 void EnemyScript::step(){
-  mRigidBody->setLinear(Vector3(-600,0,0));
+  if(mFalling){
+    mRigidBody->setLinear(Vector3(0,-600,0));
+  }else{
+    mRigidBody->setLinear(Vector3(-mSpeed,0,0));
+    mSpeed = GameController::smGlobalSpeed;
+  }
 
+  if(mRenderer->isOutOfCamera() && (getGameObject()->getTransform()->getWorldPosition().x < 0 || mFalling)){
+    ECHO("DESTROY ENEMY OUT OF CAMERA")
+    getGameObject()->destroy();
+  }
 }
 
 // ---------------------------------------------------------------------------
 
 void EnemyScript::onEnterCollision(GameObject* otherGameObject){
-  std::string x = "onEnterCollision " + getGameObject()->getTag();
-  ECHO(x);
 
-  if(otherGameObject->getTag() == "projectile"){
-    ECHO("DESTROY PROJECTILE")
-    getGameObject()->destroy();
+  if(!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed()){
+
+    if(otherGameObject->getTag() == "projectile"){
+      ProjectileScript* projectileScript = (ProjectileScript*)otherGameObject->getComponents<Script>()->get(0);
+
+      if(!projectileScript->isExploded()){
+
+        Element projectileElement = projectileScript->getElement();
+        if((mElement == Element::FIRE && projectileElement == Element::ICE) || (mElement == Element::ICE && projectileElement == Element::FIRE)){
+          // ECHO("DESTROY ENEMY")
+          // getGameObject()->destroy();
+          mFalling = true;
+          mRenderer->setAnimation("death");
+          projectileScript->explode();
+        }
+      }
+    }
+
   }
 }
 
 void EnemyScript::onCollision(GameObject* otherGameObject){
 
-  // std::string x = "onCollision " + getGameObject()->getTag();
-  // // ECHO(x);
+  if(!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed() && otherGameObject->getTag() == "tornado") {
+    TornadoScript* projectileScript = (TornadoScript*)otherGameObject->getComponents<Script>()->get(0);
+
+    mSpeed = GameController::smGlobalSpeed / 4.0f;
+  }
 }
 
 void EnemyScript::onExitCollision(GameObject* otherGameObject){
-  // std::string x = "onExitCollision " + getGameObject()->getTag();
-  // ECHO(x);
+  std::string x = "onExitCollision " + getGameObject()->getTag();
+  ECHO(x);
+
+  // mSpeed = GameController::smGlobalSpeed;
+
 }
 
 

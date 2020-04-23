@@ -148,6 +148,12 @@ void RenderEngine::init(f32 sceneSize){
 
 // ---------------------------------------------------------------------------
 
+bool RenderEngine::frustumTestSphere(const Vector3& center, f32 radius){
+  return mCamera->getFrustum()->testSphere(center, radius);
+}
+
+// ---------------------------------------------------------------------------
+
 void RenderEngine::step(){
 
   mCamera->getFrustum()->build();
@@ -157,7 +163,8 @@ void RenderEngine::step(){
   FOR_ARRAY(i, mChunks){
     Chunk* chunk = mChunks->get(i);
 
-    bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
+    bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius*2);
+    // bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
     // bool chunkInCameraView = mCamera->getFrustum()->testRectangle(chunk->mLeftTop, chunk->mSize, chunk->mSize);
 
     if(chunkInCameraView){

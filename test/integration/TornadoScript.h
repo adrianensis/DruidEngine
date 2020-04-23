@@ -1,5 +1,5 @@
-#ifndef DE_ENEMYSCRIPT_H
-#define DE_ENEMYSCRIPT_H
+#ifndef DE_TORNADOSCRIPT_H
+#define DE_TORNADOSCRIPT_H
 
 #include "Script.h"
 #include "Vector2.h"
@@ -7,23 +7,20 @@
 
 namespace DE {
 
-  class UIText;
   class Renderer;
-  class RigidBody;
 
-class EnemyScript : public Script{
+class TornadoScript : public Script{
 
 private:
   Renderer* mRenderer;
-  RigidBody* mRigidBody;
   Element mElement;
-  bool mFalling;
-  bool mSlowDown;
-  f32 mSpeed;
+
+  f32 mDurationTime;
+  f32 mDurationTimeCounter;
 
 public:
 
-DE_CLASS(EnemyScript, Script);
+DE_CLASS(TornadoScript, Script);
 
 void init() override;
 void firstStep() override;
@@ -34,12 +31,8 @@ void onEnterCollision(GameObject* otherGameObject) override;
 void onCollision(GameObject* otherGameObject) override;
 void onExitCollision(GameObject* otherGameObject) override;
 
-void createProjectile(f32 x, f32 y, f32 clickX, f32 clickY);
-
-void setElement(Element element) { mElement = element; }
-
 };
 
 } /* namespace DE */
 
-#endif /* DE_ENEMYSCRIPT_H */
+#endif /* DE_TORNADOSCRIPT_H */

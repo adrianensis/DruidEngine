@@ -3,6 +3,7 @@
 
 #include "Script.h"
 #include "Vector2.h"
+#include "Element.h"
 
 namespace DE {
 
@@ -12,6 +13,11 @@ class ProjectileScript : public Script{
 
 private:
   Renderer* mRenderer;
+  Element mElement;
+
+  f32 mExplosionTime;
+  f32 mExplosionTimeCounter;
+  bool mIsExploding;
 
 public:
 
@@ -26,6 +32,11 @@ void onEnterCollision(GameObject* otherGameObject) override;
 void onCollision(GameObject* otherGameObject) override;
 void onExitCollision(GameObject* otherGameObject) override;
 
+void setElement(Element element) { mElement = element; }
+Element getElement() const { return mElement; }
+
+void explode();
+bool isExploded() const { return mIsExploding; }
 
 };
 

@@ -71,6 +71,8 @@ public:
 	Camera* getCamera() const { return mCamera;};
 	void setCamera(Camera* newCamera ){ mCamera = newCamera; };
 	bool getCameraDirtyTranslation() const { return mCameraDirtyTranslation; };
+
+	bool frustumTestSphere(const Vector3& center, f32 radius);
 };
 
 } /* namespace DE */

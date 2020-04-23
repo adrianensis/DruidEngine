@@ -28,9 +28,6 @@ class BatchesMap : public DE_Class {
 class Chunk : public DE_Class {
 	private:
 		List<Renderer*>* mRenderers;
-		// BatchesMap* mBatchesMap;
-		u32 mLastRenderersSize;
-		u32 mNewRenderersSize;
 
   public:
     DE_CLASS(Chunk, DE_Class);
@@ -51,7 +48,6 @@ class Chunk : public DE_Class {
 		bool containsRenderer(const Renderer* renderer, f32 epsilon = 0.0f);
 		bool containsRendererSphere(const Renderer* renderer);
 		void addRenderer(Renderer* renderer);
-		u32 render(u32 layer);
 };
 
 } /* namespace DE */

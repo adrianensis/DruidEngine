@@ -36,8 +36,11 @@
 
 #include "ScenesManager.h"
 #include "EnemyScript.h"
+#include <cstdlib>
 
 namespace DE {
+
+f32 GameController::smGlobalSpeed = 350;
 
 // ---------------------------------------------------------------------------
 
@@ -49,6 +52,31 @@ GameController::GameController() : Script(){
 
 GameController::~GameController() = default;
 
+// ---------------------------------------------------------------------------
+
+void GameController::createCrossHair(){
+  Vector2 size(80,80);
+
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/crosshair.png");
+
+  mCrossHair = Memory::allocate<GameObject>();
+  mCrossHair->init();
+
+  mCrossHair->getTransform()->setLocalPosition(Vector3(0,0,0));
+  mCrossHair->getTransform()->setScale(Vector3(size.x,size.y,1));
+
+  Renderer* renderer = Memory::allocate<Renderer>();
+  mCrossHair->addComponent<Renderer>(renderer);
+
+  renderer->setColor(Vector4(0,0,0,0.7f));
+
+  renderer->setMesh(Mesh::getRectangle());
+  renderer->setMaterial(material);
+
+  renderer->setLayer(3);
+
+  getGameObject()->getScene()->addGameObject(mCrossHair);
+}
 // ---------------------------------------------------------------------------
 
 void GameController::createPlayer(f32 x, f32 y){
@@ -97,7 +125,7 @@ void GameController::createPlayer(f32 x, f32 y){
 void GameController::createEnemy(f32 x, f32 y){
   Vector2 size(150,150);
 
-  Material* material = MaterialManager::getInstance()->loadMaterial("resources/bird.png");
+  Material* material = MaterialManager::getInstance()->loadMaterial("resources/demon.png");
 
   // Vector2 size(100*1.5f,100*1.5f);
   //
@@ -117,10 +145,11 @@ void GameController::createEnemy(f32 x, f32 y){
   renderer->setMesh(Mesh::getRectangle());
   renderer->setMaterial(material);
 
-  renderer->setLayer(1);
+  renderer->setLayer(2);
 
 
-  renderer->addAnimation("fly", Animation::create(4, true, false, Vector2(0,0.0f/1.0f), 1.0f/4.0f, 1.0f/1.0f, 20));
+  renderer->addAnimation("death", Animation::create(1, true, false, Vector2(0,0.0f/1.0f), 1.0f/4.0f, 1.0f/2.0f, 7));
+  renderer->addAnimation("fly", Animation::create(4, true, false, Vector2(0,1.0f/2.0f), 1.0f/4.0f, 1.0f/2.0f, 7));
   renderer->setAnimation("fly");
 
   RigidBody* rigidBody = Memory::allocate<RigidBody>();
@@ -128,10 +157,11 @@ void GameController::createEnemy(f32 x, f32 y){
 
   Collider* collider = Memory::allocate<Collider>();
   enemy->addComponent<Collider>(collider);
-  collider->setSize(size.x/2.0f,size.y/2.0f);
+  collider->setSize(size.x/4.0f,size.y/4.0f);
   collider->setIsSolid(false);
 
-  Script* script = Memory::allocate<EnemyScript>();
+  EnemyScript* script = Memory::allocate<EnemyScript>();
+  script->setElement(Element::ICE);
 	enemy->addComponent<Script>(script);
 
   getGameObject()->getScene()->addGameObject(enemy);
@@ -140,7 +170,7 @@ void GameController::createEnemy(f32 x, f32 y){
 // ---------------------------------------------------------------------------
 
 
-UIButton* GameController::createBook(f32 x, f32 y, const Vector4& color, f32 size){
+UIButton* GameController::createBook(f32 x, f32 y, const Vector4& color, Element element, f32 size){
   // Vector2 size(300,300);
 
   Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
@@ -157,12 +187,13 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4& color, f32 siz
   // Renderer* renderer = Memory::allocate<Renderer>();
   // book->addComponent<Renderer>(renderer);
 
-  book->setOnPressedCallback([&, c = color, self = book](){
+  book->setOnPressedCallback([&, c = color, e = element, self = book](){
     VAR(f32, c.x)
     VAR(f32, c.y)
     VAR(f32, c.z)
 
     ((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(c);
+    ((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setElement(e);
 
     mSelectedBook = self;
 
@@ -288,6 +319,7 @@ void GameController::init(){
 void GameController::firstStep(){
 
   createPlayer(-500,0);
+  createCrossHair();
 
   f32 range = 24;
   mPhysicFloor = Memory::allocate<Array<GameObject*>>();
@@ -317,14 +349,14 @@ void GameController::firstStep(){
 
 
   // mText = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(600, 150), Vector2(70,70), "GO!", 5);
-  // mTextTimeCount = 0;
-  // mTextTime = 0.5f;
+  mEnemySpawnTimeCount = 0;
+  mEnemySpawnTime = 1.0f;
 
   mBookSelector = Memory::allocate<Array<UIButton*>>();
   mBookSelector->init(3);
-  mBookSelector->set(0, createBook(-0.8f, -0.4f, Vector4(-0.7f,0.2f,0.3f,1), 0.2f));
-  mBookSelector->set(1, createBook(-0.65f, -0.6f, Vector4(0,0,0,1), 0.3f));
-  mBookSelector->set(2, createBook(-0.8f, -0.8f, Vector4(-0.9f,0.3f,0,1), 0.2f));
+  mBookSelector->set(0, createBook(-0.8f, -0.4f, Vector4(-0.7f,0.2f,0.3f,1), Element::ICE, 0.2f));
+  mBookSelector->set(1, createBook(-0.65f, -0.6f, Vector4(0,0,0,1), Element::FIRE, 0.3f));
+  mBookSelector->set(2, createBook(-0.8f, -0.8f, Vector4(-0.9f,0.3f,0,1), Element::WIND, 0.2f));
 
   mSelectedBook = mBookSelector->get(0);
 }
@@ -333,29 +365,36 @@ void GameController::firstStep(){
 
 void GameController::step(){
 
-  // if(mTextTimeCount >= mTextTime){
-  //   mText->setIsActive(! mText->isActive());
-  //   mTextTimeCount = 0;
-  // }
-  //
-  // mTextTimeCount += Time::getDeltaTimeSeconds();
+  Vector2 mouse = Input::getMousePosition();
 
-  f32 movement = 600;
+  Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
+
+  if(mEnemySpawnTimeCount >= mEnemySpawnTime){
+    // mText->setIsActive(! mText->isActive());
+    mEnemySpawnTimeCount = 0;
+
+
+    createEnemy(1200,(std::rand() % 500) + 100);
+  }
+
+  mCrossHair->getTransform()->setLocalPosition(world);
+
+  mEnemySpawnTimeCount += Time::getDeltaTimeSeconds();
+
+  // f32 movement = 350;
   f32 movementDirection = 0;
   Vector3 floorMovement = Vector3(0,0,0);
 
-  floorMovement.x = -movement * Time::getDeltaTimeSeconds();
+  floorMovement.x = -smGlobalSpeed * Time::getDeltaTimeSeconds();
   floorMovement.y = 0;
   movementDirection = -1; // TILES MOVES TO LEFT
 
-  if(Input::isKeyPressedOnce(GLFW_KEY_P)){
-  } else if(Input::isKeyPressedOnce(GLFW_KEY_F)){
-  } else if(Input::isKeyPressedOnce(GLFW_KEY_E)){
-    Vector2 mouse = Input::getMousePosition();
-
-    Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
-
-    createEnemy(world.x,world.y);
+  if(Input::isKeyPressedOnce(GLFW_KEY_1)){
+    mBookSelector->get(0)->onPressed();
+  } else if(Input::isKeyPressedOnce(GLFW_KEY_2)){
+    mBookSelector->get(1)->onPressed();
+  } else if(Input::isKeyPressedOnce(GLFW_KEY_3)){
+    mBookSelector->get(2)->onPressed();
   }
 
   if(mPlayer){
