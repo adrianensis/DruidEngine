@@ -71,9 +71,10 @@ include_directories("${DEPENDENCIES_DIR}/glad/include")
 
 # SOIL
 include_directories("${DEPENDENCIES_DIR}/SOIL/src")
-link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
+#link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
 file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
+message(${SOIL_SOURCE})
 
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
@@ -134,7 +135,7 @@ target_link_libraries( ${DRUID} glfw)
 #target_link_libraries( ${DRUID} "stdc++fs")
 
 # SOIL
-target_link_libraries( ${DRUID} SOIL )
+#target_link_libraries( ${DRUID} SOIL )
 
 # ----------------------------------------------------------------------------
 # TESTS
