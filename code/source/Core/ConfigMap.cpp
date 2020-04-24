@@ -43,7 +43,7 @@ void ConfigMap::readConfigFile(const std::string& path){
       bool isComment = !matchComment.empty();
 
       if((! isComment) && isPair){
-        mMap->set(std::string(matchPair[1]), std::string(matchPair[2]));
+        mMap->set(matchPair[1], matchPair[2]);
         // std::cout << matchPair[1] << " " <<  mMap->get(matchPair[1]) << std::endl;
       }
 

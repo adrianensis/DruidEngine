@@ -31,7 +31,7 @@ public:
   bool operator!=(const Hash& rhs){
     return !((*this) == rhs);
   }
-  
+
   template <class H>
   static u64 hash(H key){
 	if(std::is_base_of<Hash,H>::value){
@@ -40,127 +40,40 @@ public:
 		return (u64)key;
 	}
   }
-  
-  template <>
-  static u64 hash<std::string>(std::string key){
-	std::hash<std::string> hash_fn;
-	u64 hashString = hash_fn(key);
-	return hashString;
-  }
-  
-   template <>
-  static u64 hash<const c8*>(const c8* key){
-	std::string str(key);
-    std::hash<std::string> hash_fn;
-    u64 hashString = hash_fn(str);
-    return hashString;
-  }
-  
-  template <>
-  static u64 hash<u64>(u64 key){
-	return key;
-  }
 
-  template <>
-  static u64 hash<u32>(u32 key){
-	return static_cast<u64>(key);
-  }
-  
-  template <>
-  static u64 hash<i32>(i32 key){
-	return static_cast<u64>(key);
-  }
-
-  template <>
-  static u64 hash<i64>(i64 key){
-	return static_cast<u64>(key);
-  }
-
-  template <>
-  static u64 hash<u16>(u16 key){
-	return static_cast<u64>(key);
-  }
-
-  template <>
-  static u64 hash<i16>(i16 key){
-	return static_cast<u64>(key);
-  }
-  
-  template <>
-  static u64 hash<u8>(u8 key){
-	return static_cast<u64>(key);
-  }
-  
-  template <>
-  static u64 hash<i8>(i8 key){
-	return static_cast<u64>(key);
-  }
-
-  // generic function: arithmetic keys and pointers.
-/*   static u64 hash(u64 key){
-    return key;
-  }; */
-
-/*   static u64 hash(const byte* key){
-    return reinterpret_cast<u64>(key); // calls hash(const u64 key) const.
-  };
- */
-/*   static u64 hash(f32 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
- */
-  /* static u64 hash(u8 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
-
-  static u64 hash(u16 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
- */
-/*   static u64 hash(u32 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  }; */
-/* 
-  static u64 hash(i8 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
-
-  static u64 hash(i16 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
-
-  static u64 hash(i32 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  };
-
-  static u64 hash(i64 key){
-    return static_cast<u64>(key); // calls hash(const u64 key) const.
-  }; */
-
-  // for Hash objects
-/*   static u64 hash(Hash key){
-    return key.hash(); // calls hash(const u64 key) const.
-  }; */
-  
-  // for Hash pointers
-/*   static u64 hash(const Hash* key){
-    return key->hash(); // calls hash(const u64 key) const.
-  };
- */
-  // for strings
-/*   static u64 hash(const std::string& key){
-    std::hash<std::string> hash_fn;
-    u64 hashString = hash_fn(key);
-    return hashString; // calls hash(const u64 key) const.
-  }; */
-
-/*   static u64 hash(const char* key){
-    std::string str(key);
-    std::hash<std::string> hash_fn;
-    u64 hashString = hash_fn(str);
-    return hashString; // calls hash(const u64 key) const.
-  }; */
 };
+
+
+template <>
+u64 Hash::hash<std::string>(std::string key);
+
+ template <>
+u64 Hash::hash<const c8*>(const c8* key);
+
+template <>
+u64 Hash::hash<u64>(u64 key);
+
+template <>
+u64 Hash::hash<u32>(u32 key);
+
+template <>
+u64 Hash::hash<i32>(i32 key);
+
+template <>
+u64 Hash::hash<i64>(i64 key);
+
+template <>
+u64 Hash::hash<u16>(u16 key);
+
+template <>
+u64 Hash::hash<i16>(i16 key);
+
+template <>
+u64 Hash::hash<u8>(u8 key);
+
+template <>
+u64 Hash::hash<i8>(i8 key);
+
 
 } /* namespace DE */
 

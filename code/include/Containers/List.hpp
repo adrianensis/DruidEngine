@@ -63,7 +63,13 @@ private:
 
     void init(T element){
       Node::init();
-      mElement = T(element);
+
+      #if defined(_MSC_VER)
+          mElement = T(element);
+      #else
+          mElement = element;
+      #endif
+
     }
   };
 
