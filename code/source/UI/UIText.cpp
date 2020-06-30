@@ -23,7 +23,7 @@ UIText::~UIText() = default;
 void UIText::setText(const std::string& text){
 
   if(mString != text){
-    
+
     List<Renderer*>* renderers = getComponents<Renderer>();
 
     // Remove Extra Renderers
@@ -56,6 +56,8 @@ void UIText::setText(const std::string& text){
         renderer->setMesh(Mesh::getRectangle());
         renderer->setMaterial(UI::getInstance()->getFontMaterial());
         renderer->setLayer(mLayer);
+
+        renderer->setAffectedByProjection(false);
 
         newRenderersCreated = true;
       }

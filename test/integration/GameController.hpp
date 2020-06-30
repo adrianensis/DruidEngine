@@ -26,6 +26,7 @@ class GameController : public Script{
 private:
 
   GameObject* mPlayer;
+  PlayerScript* mPlayerScript;
   GameObject* mCrossHair;
   // Array<GameObject*>* mRenderFloor;
   List<GameObject*>* mRenderFloor;
@@ -38,7 +39,8 @@ private:
   Array<UIButton*>* mBookSelector;
   UIButton* mSelectedBook;
 
-  // UIText* mText;
+  UIText* mTextMana;
+
   f32 mEnemySpawnTimeCount;
   f32 mEnemySpawnTime;
 

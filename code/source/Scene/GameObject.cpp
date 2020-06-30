@@ -15,6 +15,7 @@ GameObject::GameObject() : DE_Class(){
 	mTransform = nullptr;
 	mScene = nullptr;
 	mIsActive = true;
+	mShouldPersist = false;
 }
 
 GameObject::~GameObject(){

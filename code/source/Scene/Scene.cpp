@@ -152,7 +152,7 @@ void Scene::saveScene(const std::string& path){
 
 	u32 counter = 0;
 	FOR_LIST(it, mGameObjects){
-		if(it.get()->isStatic()){
+		if(it.get()->isStatic() && it.get()->shouldPersist()){
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects["+indexStr+"]";

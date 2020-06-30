@@ -24,6 +24,8 @@ private:
   GameObject* mBook;
   Vector4 mBookColor;
   Element mElement;
+  u32 mMana;
+  bool mManaChanged;
 
 public:
 
@@ -44,6 +46,10 @@ void createBook(f32 x, f32 y, const Vector4& color);
 
 void setBookColor(const Vector4& color) { mBookColor=color; }
 void setElement(Element element) { mElement=element; }
+
+u32 getMana() const { return mMana; }
+bool isManaChanged() const { return mManaChanged; }
+void setMana(u32 mana) { mMana = mana; }
 
 };
 

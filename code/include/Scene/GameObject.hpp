@@ -30,6 +30,7 @@ private:
 	bool mIsActive;
 	bool mIsDestroyed;
 	bool mIsPendingToBeDestroyed;
+	bool mShouldPersist;
 
 	std::string mTag;
 
@@ -72,6 +73,9 @@ public:
 	bool isDestroyed() const { return mIsDestroyed; };
 	void setDestroyed(){ mIsDestroyed = true; mIsPendingToBeDestroyed = false; };
 	void destroy();
+
+	bool shouldPersist() const { return mShouldPersist; };
+	void setShouldPersist(bool shouldPersist){ mShouldPersist = shouldPersist; };
 };
 
 // ---------------------------------------------------------------------------

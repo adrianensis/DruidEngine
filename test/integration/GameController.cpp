@@ -114,8 +114,8 @@ void GameController::createPlayer(f32 x, f32 y){
   mPlayer->addComponent<Collider>(collider);
   collider->setSize(size.x/1.5f,size.y);
 
-  Script* script = Memory::allocate<PlayerScript>();
-	mPlayer->addComponent<Script>(script);
+  mPlayerScript = Memory::allocate<PlayerScript>();
+	mPlayer->addComponent<Script>(mPlayerScript);
 
   getGameObject()->getScene()->addGameObject(mPlayer);
 }
@@ -344,11 +344,8 @@ void GameController::firstStep(){
 
   createBackground(0,200);
 
+  mTextMana = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50,50), "MANA: " + std::to_string(mPlayerScript->getMana()), 5);
 
-
-
-
-  // mText = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(600, 150), Vector2(70,70), "GO!", 5);
   mEnemySpawnTimeCount = 0;
   mEnemySpawnTime = 1.0f;
 
@@ -365,12 +362,16 @@ void GameController::firstStep(){
 
 void GameController::step(){
 
+  if(mPlayerScript->isManaChanged()){
+    mTextMana->setText("MANA: " + std::to_string(mPlayerScript->getMana()));
+  }
+
   Vector2 mouse = Input::getMousePosition();
 
   Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
 
   if(mEnemySpawnTimeCount >= mEnemySpawnTime){
-    // mText->setIsActive(! mText->isActive());
+    // mTextMana->setIsActive(! mTextMana->isActive());
     mEnemySpawnTimeCount = 0;
 
 

@@ -65,7 +65,7 @@ UIButton* UI::createButton(Scene* scene, const Vector2& position, const Vector2&
 
   uiButton->setComponentsCache();
 
-  uiButton->setIsStatic(false);
+  uiButton->setIsStatic(true);
 
   scene->addGameObject(uiButton);
 
@@ -94,7 +94,7 @@ UIText* UI::createText(Scene* scene, const Vector2& position, const Vector2& siz
 
   uiText->setComponentsCache();
 
-  uiText->setIsStatic(false);
+  uiText->setIsStatic(true);
 
   scene->addGameObject(uiText);
 

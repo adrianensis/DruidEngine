@@ -37,6 +37,7 @@ PlayerScript::~PlayerScript() = default;
 
 
 void PlayerScript::init(){
+  mMana = 100;
 
 }
 
@@ -64,21 +65,28 @@ void PlayerScript::firstStep(){
 
 void PlayerScript::step(){
 
+  mManaChanged = false;
+
   if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)){
 
     Vector2 mouse = Input::getMousePosition();
 
     Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
 
-    if(mElement == Element::WIND){
-      createWall(world.x, 350);
-    }else{
-      Vector2 projectileOrigin = Vector2(getGameObject()->getTransform()->getWorldPosition().x + 85, getGameObject()->getTransform()->getWorldPosition().y + 25);
-      createProjectile(projectileOrigin.x, projectileOrigin.y, world.x, world.y);
-    }
+    if(mMana > 0){
+      mMana--;
+      mManaChanged = true;
 
-    mRenderer->setAnimation("attack");
-    mIsAttackPlaying = true;
+      if(mElement == Element::WIND){
+        createWall(world.x, 350);
+      }else{
+        Vector2 projectileOrigin = Vector2(getGameObject()->getTransform()->getWorldPosition().x + 85, getGameObject()->getTransform()->getWorldPosition().y + 25);
+        createProjectile(projectileOrigin.x, projectileOrigin.y, world.x, world.y);
+      }
+
+      mRenderer->setAnimation("attack");
+      mIsAttackPlaying = true;
+    }
 
   } else if(Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)){
     // mRenderer->setAnimation("idle");

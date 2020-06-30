@@ -228,10 +228,6 @@ u32 Batch::render(u32 layer){
 	  const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
 	  const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
 
-	  shader->addMatrix(projectionMatrix, "projectionMatrix");
-	  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-	  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-
 		FOR_LIST(it, renderers){
 
 			Renderer* renderer = it.get();
@@ -254,7 +250,11 @@ u32 Batch::render(u32 layer){
 					shader->addMatrix(rotationMatrix, "rotationMatrix");
 					shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-					if(! renderer->isAffectedByProjection()){
+					if(renderer->isAffectedByProjection()){
+						shader->addMatrix(projectionMatrix, "projectionMatrix");
+					  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+					  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+					} else {
 						shader->addMatrix(smMatrixIdentity, "projectionMatrix");
 						shader->addMatrix(smMatrixIdentity, "viewTranslationMatrix");
 					 	shader->addMatrix(smMatrixIdentity, "viewRotationMatrix");
