@@ -86,6 +86,88 @@ GameObject* MapEditor::CellData::get(u32 layer){
 
 // ---------------------------------------------------------------------------
 
+MapEditor::InfoBarUI::InfoBarUI() : DE_Class(){
+
+}
+
+// ---------------------------------------------------------------------------
+
+MapEditor::InfoBarUI::~InfoBarUI(){
+
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::InfoBarUI::init(MapEditor* mapEditor){
+  mMapEditor = mapEditor;
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::InfoBarUI::createUI(){
+
+  Scene* scene = mMapEditor->getGameObject()->getScene();
+  mTextBrush = UI::getInstance()->createText(scene, Vector2(-0.9, -0.8), mTextSize, mStrBrush + " 0", mMapEditor->mUILayer);
+  mTextLayer = UI::getInstance()->createText(scene, Vector2(-0.9, -0.85), mTextSize, mStrLayer + " 0" , mMapEditor->mUILayer);
+  mTextTile = UI::getInstance()->createText(scene, Vector2(-0.9, -0.9), mTextSize, mStrTile, mMapEditor->mUILayer);
+
+  // mButtons = Memory::allocate<List<UIButton*>>();
+  // mButtons->init();
+
+  // u32 i = 1;
+  // f32 x = -0.9f;
+  // Vector2 size(0.2f, 0.1f);
+  // Vector2 textSize(0.05f, 0.05f);
+  // UIButton* button;
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+  //
+  // button->setOnPressedCallback([&, self = button](){
+  //   self->getScene()->saveScene(self->getScene()->getPath());
+  // });
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+  //
+  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
+  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  // i++;
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditor::InfoBarUI::updateUI(){
+  mTextBrush->setText(mStrBrush + " " + std::to_string(mMapEditor->mBrushSize));
+  mTextLayer->setText(mStrLayer + " " + std::to_string(mMapEditor->mLayer));
+
+  Renderer* brushRenderer = mMapEditor->mBrush->getComponents<Renderer>()->get(0);
+
+  std::string strTile = mStrTile;
+  strTile += " ";
+  strTile += std::to_string(brushRenderer->getRegionPosition().x);
+  strTile += ",";
+  strTile += std::to_string(brushRenderer->getRegionPosition().y);
+
+  mTextTile->setText(strTile);
+}
+
+// ---------------------------------------------------------------------------
+
 MapEditor::MapEditor() : Script(){
 
 }
@@ -93,59 +175,6 @@ MapEditor::MapEditor() : Script(){
 // ---------------------------------------------------------------------------
 
 MapEditor::~MapEditor() = default;
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::createUI(){
-
-  mButtons = Memory::allocate<List<UIButton*>>();
-  mButtons->init();
-
-  u32 i = 1;
-  f32 x = -0.9f;
-  Vector2 size(0.2f, 0.1f);
-  Vector2 textSize(0.05f, 0.05f);
-  UIButton* button;
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-
-  button->setOnPressedCallback([&, self = button](){
-    self->getScene()->saveScene(self->getScene()->getPath());
-  });
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-
-  button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  i++;
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::updateUI(){
-
-  if(!mTextLayer){
-    mTextLayer = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-0.8, 0.8), Vector2(mTextSize,mTextSize), mStrLayer + " " + std::to_string(mLayer), mUILayer);
-  } else {
-    mTextLayer->setText(mStrLayer + " " + std::to_string(mLayer));
-  }
-}
 
 // ---------------------------------------------------------------------------
 
@@ -325,10 +354,8 @@ void MapEditor::firstStep(){
     mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
   }
 
-  createUI();
 
-  createBrush();
-  createAtlas();
+
 }
 
 // ---------------------------------------------------------------------------
@@ -351,6 +378,16 @@ void MapEditor::step(){
     }
 
     loadMapIntoGrid();
+
+    // TODO : right now all has to be initialized here, after loadMapIntoGrid
+    // until fix the bug : on scene loading add IsAffectedByProjection flag!
+    createBrush();
+    createAtlas();
+
+    mInfoBarUI = Memory::allocate<InfoBarUI>();
+    mInfoBarUI->init(this);
+
+    mInfoBarUI->createUI();
   }
 
   Vector2 mouse(Input::getMousePosition());
@@ -360,18 +397,18 @@ void MapEditor::step(){
 
   click(clampedPosition);
 
-  // FOR_RANGE(i, 0, mBrushSize){
-  //   f32 offset = mTileSize*i;
-  //
-  //   click(clampedPosition + Vector3(offset,0,0));
-  //   click(clampedPosition + Vector3(-offset,0,0));
-  //   click(clampedPosition + Vector3(0,offset,0));
-  //   click(clampedPosition + Vector3(0,-offset,0));
-  //   click(clampedPosition + Vector3(offset,offset,0));
-  //   click(clampedPosition + Vector3(-offset,-offset,0));
-  //   click(clampedPosition + Vector3(-offset,offset,0));
-  //   click(clampedPosition + Vector3(offset,-offset,0));
-  // }
+  FOR_RANGE(i, 0, mBrushSize){
+    f32 offset = mTileSize*i;
+
+    click(clampedPosition + Vector3(offset,0,0));
+    click(clampedPosition + Vector3(-offset,0,0));
+    click(clampedPosition + Vector3(0,offset,0));
+    click(clampedPosition + Vector3(0,-offset,0));
+    click(clampedPosition + Vector3(offset,offset,0));
+    click(clampedPosition + Vector3(-offset,-offset,0));
+    click(clampedPosition + Vector3(-offset,offset,0));
+    click(clampedPosition + Vector3(offset,-offset,0));
+  }
 
   if(mBrush) mBrush->getTransform()->setLocalPosition(world);
 
@@ -408,7 +445,7 @@ void MapEditor::step(){
     switchCameraControl();
   }
 
-  // updateUI();
+  mInfoBarUI->updateUI();
 }
 
 // ---------------------------------------------------------------------------
@@ -536,7 +573,9 @@ void MapEditor::terminate(){
 
   Memory::free<Array<Array<CellData*>*>>(mGrid);
 
-  Memory::free<List<UIButton*>>(mButtons);
+  // Memory::free<List<UIButton*>>(mButtons);
+
+  Memory::free<InfoBarUI>(mInfoBarUI);
 }
 
 // ---------------------------------------------------------------------------

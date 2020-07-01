@@ -46,7 +46,7 @@ class Log : public DE_Class {
 };
 
 #ifdef DE_ENABLE_LOGS
-  #define TRACE() Log::trace(__FILE__, __LINE__, "Function name should go here!");
+  #define TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
   #define TO_STR(s) #s
   #define ECHO(x) Log::echo(x);
   #define VAR(T,x) Log::var<T>(#x, x);

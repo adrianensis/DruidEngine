@@ -46,9 +46,6 @@ private:
   GameObject* mPlayer;
   GameObject* mTile;
 
-  GameObject* mBrush;
-  u32 mBrushSize;
-  u32 mLayer;
 
   Material* mMaterial;
 
@@ -56,27 +53,47 @@ private:
   u32 mTileIndex;
   f32 mTileSize;
 
-  f32 mZoom;
-
   bool mCameraControl;
 
-  u32 mUILayer = 0;
 
-  UIText* mTextLayer = nullptr;
-  UIText* mTextZoom = nullptr;
+  class InfoBarUI : public DE_Class {
+  public:
+    DE_CLASS(InfoBarUI, DE_Class);
 
-  const std::string mStrLayer = "Layer";
-  const std::string mStrZoom = "Zoom";
-  f32 mTextSize = 0.05f;
+    MapEditor* mMapEditor;
+
+    UIText* mTextLayer = nullptr;
+    UIText* mTextTile = nullptr;
+    UIText* mTextZoom = nullptr;
+    UIText* mTextBrush = nullptr;
+
+    const std::string mStrLayer = "Layer";
+    const std::string mStrTile = "Tile";
+    const std::string mStrZoom = "Zoom";
+    const std::string mStrBrush = "Brush";
+    Vector2 mTextSize = Vector2(0.04f, 0.04f);
+
+    void init(MapEditor* mapEditor);
+
+    void createUI();
+
+    void updateUI();
+  };
+
+  InfoBarUI* mInfoBarUI;
 
   List<UIButton*>* mButtons;
 
 public:
 
-DE_CLASS(MapEditor, Script);
+u32 mBrushSize;
+u32 mLayer;
+f32 mZoom;
+u32 mUILayer = 0;
+GameObject* mBrush;
 
-void createUI();
-void updateUI();
+
+DE_CLASS(MapEditor, Script);
 
 void createBrush();
 void createAtlas();

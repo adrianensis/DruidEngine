@@ -301,20 +301,22 @@ void RenderEngine::addRenderer(Renderer* renderer){
 Chunk* RenderEngine::assignChunk(Renderer* renderer){
   TRACE();
   bool found = false;
-  Chunk* chunk = nullptr;
+  Chunk* chunkTmp = nullptr;
+  Chunk* chunkFound = nullptr;
   FOR_ARRAY_COND(i, mChunks, !found){
   // FOR_ARRAY(i, mChunks){
-    chunk = mChunks->get(i);
-    if(chunk->containsRenderer/*Sphere*/(renderer)){
-      renderer->setChunk(chunk);
+    chunkTmp = mChunks->get(i);
+    if(chunkTmp->containsRenderer/*Sphere*/(renderer)){
+      renderer->setChunk(chunkTmp);
 
       // if(! renderer->isStatic()){
         found = true;
+        chunkFound = chunkTmp;
       // }
     }
   }
 
-  return chunk;
+  return chunkFound;
 }
 
 // ---------------------------------------------------------------------------
