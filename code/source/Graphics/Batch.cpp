@@ -398,7 +398,7 @@ void Batch::internalRemoveRendererFromList(const Iterator* it, List<Renderer*>* 
 
 // ---------------------------------------------------------------------------
 
-void Batch::setChunk(Chunk* chunk ){ mChunk = chunk; };
+void Batch::setChunk(Chunk* chunk ){ mChunk = chunk;};
 Chunk* Batch::getChunk(){ return mChunk; };
 
 // ---------------------------------------------------------------------------

@@ -27,7 +27,7 @@ public:
 	void setGameObject(GameObject* newGameObject ){ mGameObject = newGameObject; };
 
 	bool isAlreadyAddedToEngine() const { return mAlreadyAddedToEngine; };
-	void setAlreadyAddedToEngine(bool alreadyAddedToEngine ){ mAlreadyAddedToEngine = mAlreadyAddedToEngine; };
+	void setAlreadyAddedToEngine(bool alreadyAddedToEngine ){ mAlreadyAddedToEngine = alreadyAddedToEngine; };
 
 	bool isStatic();
 	bool isActive() const { return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive; };

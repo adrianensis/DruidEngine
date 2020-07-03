@@ -234,11 +234,11 @@ Vector4 Matrix4::mulVector(const Vector4& vector){
 
 
 void Matrix4::zeros(){
-  this->init(0.0f);
+  this->init((u32)0.0f);
 };
 
 void Matrix4::identity(){
-  this->init(0.0f);
+  this->init((u32)0.0f);
   this->set(0,0,1.0f);
   this->set(1,1,1.0f);
   this->set(2,2,1.0f);
