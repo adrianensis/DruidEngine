@@ -114,39 +114,26 @@ void MapEditor::InfoBarUI::createUI(){
   // mButtons = Memory::allocate<List<UIButton*>>();
   // mButtons->init();
 
-  // u32 i = 1;
-  // f32 x = -0.9f;
-  // Vector2 size(0.2f, 0.1f);
-  // Vector2 textSize(0.05f, 0.05f);
-  // UIButton* button;
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
+  u32 i = 1;
+  f32 y = 0.9f;
+  Vector2 size(0.17f, 0.1f);
+  UIButton* button;
+
+  button = UI::getInstance()->createButton(scene, Vector3(-0.92f,y,0), size, mMapEditor->mUILayer);
+  UI::getInstance()->createText(scene, Vector2(-0.98f ,y), mTextSize, "Save", mMapEditor->mUILayer + 1);
+  i++;
+
+  button->setOnPressedCallback([&, self = button](){
+    self->getScene()->saveScene(self->getScene()->getPath());
+  });
+
+  // button = UI::getInstance()->createButton(scene, Vector3(-0.63f,y,0), size + Vector2(0.2f, 0), mMapEditor->mUILayer);
+  // UI::getInstance()->createText(scene, Vector2(-0.78f ,y), mTextSize, "Colliders", mMapEditor->mUILayer + 1);
   // i++;
   //
   // button->setOnPressedCallback([&, self = button](){
-  //   self->getScene()->saveScene(self->getScene()->getPath());
+  //   RenderEngine::getInstance()->setDebugColliders( ! RenderEngine::getInstance()->getDebugColliders());
   // });
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  // i++;
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  // i++;
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  // i++;
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  // i++;
-  //
-  // button = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(x,1 - i * 0.1f,0), size, mUILayer);
-  // UI::getInstance()->createText(getGameObject()->getScene(), Vector2(x - 0.08f ,1 - i * 0.1f), textSize, "Save", mUILayer + 1);
-  // i++;
 }
 
 // ---------------------------------------------------------------------------
@@ -159,9 +146,9 @@ void MapEditor::InfoBarUI::updateUI(){
 
   std::string strTile = mStrTile;
   strTile += " ";
-  strTile += std::to_string(brushRenderer->getRegionPosition().x);
+  strTile += std::to_string(brushRenderer->getRegionPosition().x).substr(0,6);
   strTile += ",";
-  strTile += std::to_string(brushRenderer->getRegionPosition().y);
+  strTile += std::to_string(brushRenderer->getRegionPosition().y).substr(0,6);
 
   mTextTile->setText(strTile);
 }
@@ -282,23 +269,16 @@ void MapEditor::createAtlas(){
 
   f32 size = 0.04;
 
-  f32 screenOffset = 0.4f;
+  Vector2 screenOffset = Vector2(0.8f, 0.6f);
 
   Vector2 atlasSize = Vector2(8,16);
   Vector2 atlasTextureSize = Vector2(1.0f/atlasSize.x, 1.0f/atlasSize.y);
-
-  // UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3(0.5f, -0.5f,0), Vector2(size,size),0);
-  //
-  // Renderer* renderer = tile->getRenderer();
-  // renderer->setMaterial(mMaterial);
-  // renderer->setRegion(0/atlasSize.x, 0/atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
-  // renderer->setLayer(2);
 
   u32 index = 0;
   FOR_RANGE(i, 0, atlasSize.x){
     FOR_RANGE(j, 0, atlasSize.y){
 
-      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSize.x/2.0f))*size + screenOffset,((atlasSize.y/2.0f) - j)*size - screenOffset*1.5f,0), Vector2(size,size),mUILayer);
+      UIButton* tile = UI::getInstance()->createButton(getGameObject()->getScene(), Vector3((i - (atlasSize.x/2.0f))*size + screenOffset.x,((atlasSize.y/2.0f) - j)*size - screenOffset.y,0), Vector2(size,size),mUILayer);
 
       Renderer* renderer = tile->getRenderer();
       renderer->setMaterial(mMaterial);
@@ -523,15 +503,42 @@ void MapEditor::processMovement(){
   f32 movement = (mCameraControl ? 2000.0f : 500.0f) * Time::getDeltaTimeSeconds();
 
   Transform* transform = mCameraControl ? mCameraTransform : mPlayer ? mPlayer->getTransform() : mCameraTransform;
+  Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getComponents<Renderer>()->get(0) : nullptr;
 
   if(Input::isKeyPressed(GLFW_KEY_UP)){
     transform->translate(Vector3(0,movement,0));
+
+    if(renderer) {
+      renderer->setAnimation("run");
+    }
+
   }else if(Input::isKeyPressed(GLFW_KEY_DOWN)){
     transform->translate(Vector3(0,-movement,0));
+
+    if(renderer) {
+      renderer->setAnimation("run");
+    }
+
   }else if(Input::isKeyPressed(GLFW_KEY_LEFT)){
     transform->translate(Vector3(-movement,0,0));
+
+    if(renderer) {
+      renderer->setAnimation("run");
+      renderer->setInvertXAxis(true);
+    }
+
   }else if(Input::isKeyPressed(GLFW_KEY_RIGHT)){
     transform->translate(Vector3(movement,0,0));
+
+    if(renderer) {
+      renderer->setAnimation("run");
+      renderer->setInvertXAxis(false);
+    }
+
+  }else{
+    if(renderer) {
+      renderer->setAnimation("idle");
+    }
   }
 
 }

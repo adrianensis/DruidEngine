@@ -34,6 +34,8 @@ private:
       u32 mVBOPosition;
       u32 mEBO;
       bool mActive;
+      bool mIsAffectedByProjection;
+      bool mSize;
 
       void init();
 			void set(const Vector3& start, const Vector3& end);
@@ -54,6 +56,7 @@ private:
 	u32 mMaxLayersUsed;
 
 	bool mCameraDirtyTranslation;
+	bool mDebugColliders;
 
 public:
 	DE_CLASS(RenderEngine, DE_Class);
@@ -66,7 +69,10 @@ public:
 
 	void addRenderer(Renderer* renderer);
 	Chunk* assignChunk(Renderer* renderer);
-	void drawLine(const Vector3& start, const Vector3& end);
+	void drawLine(const Vector3& start, const Vector3& end, u32 size = 1, bool isAffectedByProjection = true);
+
+	bool getDebugColliders() const { return mDebugColliders; };
+	void setDebugColliders(bool debugColliders) { mDebugColliders = debugColliders; };
 
 	Camera* getCamera() const { return mCamera;};
 	void setCamera(Camera* newCamera ){ mCamera = newCamera; };

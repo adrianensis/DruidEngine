@@ -37,6 +37,17 @@ column 3 | d h l p |
 
 namespace DE {
 
+bool Matrix4::smIdentityCreated = false;
+Matrix4 Matrix4::smIdentity = Matrix4();
+
+const Matrix4& Matrix4::getIdentity(){
+  if(!smIdentityCreated){
+    smIdentity.identity();
+  }
+
+  return smIdentity;
+}
+
 void Matrix4::setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3){
 
   const Array<f32>* rows[4] = {&row0,&row1,&row2,&row3};

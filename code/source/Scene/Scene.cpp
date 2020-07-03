@@ -129,6 +129,8 @@ void Scene::loadScene(const std::string& path){
 
     gameObject->setIsStatic(configMap->getBool(objectStr+".isStatic"));
 
+    gameObject->setShouldPersist(configMap->getBool(objectStr+".shouldPersist"));
+
     addGameObject(gameObject);
 	}
 
@@ -179,6 +181,7 @@ void Scene::saveScene(const std::string& path){
 			configMap->setF32(objectStr+".texture.region.width", renderer->getRegionSize().x);
 			configMap->setF32(objectStr+".texture.region.height", renderer->getRegionSize().y);
 			configMap->setBool(objectStr+".isStatic", it.get()->isStatic());
+			configMap->setBool(objectStr+".shouldPersist", it.get()->shouldPersist());
 			configMap->setU32(objectStr+".layer", renderer->getLayer());
 
 			counter++;

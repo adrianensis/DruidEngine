@@ -47,10 +47,8 @@ private:
 	bool mOutOfCamera;
 
 	Chunk* mChunk;
-	// Batch* mBatch;
-	// Array<Chunk*>* mChunks;
-	bool mIsAlreadyInBatch;
 
+	bool mIsAlreadyInBatch;
 	bool mIsAffectedByProjection;
 
 public:
@@ -114,6 +112,8 @@ public:
 
 	bool isAffectedByProjection(){ return mIsAffectedByProjection; }
 	void setAffectedByProjection(bool affectedByProjection){ mIsAffectedByProjection = affectedByProjection; }
+
+	void renderCollider();
 };
 
 } /* namespace DE */

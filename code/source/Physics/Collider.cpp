@@ -31,8 +31,6 @@ Collider::Collider() : Component(){
 // ---------------------------------------------------------------------------
 
 Collider::~Collider(){
-  TRACE();
-
   if(mBoxVertices){
     Memory::free<Array<Vector2>>(mBoxVertices);
   }

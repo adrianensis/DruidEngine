@@ -21,8 +21,6 @@
 
 namespace DE {
 
-Matrix4 Batch::smMatrixIdentity;
-
 // ---------------------------------------------------------------------------
 
 u8 Batch::rendererYCoordinateComparator(Renderer* a, Renderer* b){
@@ -126,8 +124,6 @@ void Batch::init(const Mesh* mesh, Material* material){
 
 	mMesh = mesh;
 	mMaterial = material;
-
-	smMatrixIdentity.identity();
 
 	bind();
 }
@@ -255,9 +251,9 @@ u32 Batch::render(u32 layer){
 					  shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 					  shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 					} else {
-						shader->addMatrix(smMatrixIdentity, "projectionMatrix");
-						shader->addMatrix(smMatrixIdentity, "viewTranslationMatrix");
-					 	shader->addMatrix(smMatrixIdentity, "viewRotationMatrix");
+						shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
+						shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
+					 	shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
 					}
 
 					shader->addFloat(Time::getDeltaTimeSeconds(), "time");
@@ -271,6 +267,10 @@ u32 Batch::render(u32 layer){
 					glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(), GL_UNSIGNED_INT, 0);
 
 					drawCallCounter++;
+
+					if(mRenderEngine->getDebugColliders()){
+						renderer->renderCollider();
+					}
 
 				} else if(renderer->isPendingToBeDestroyed()){
 						// destroy renderer and remove from list

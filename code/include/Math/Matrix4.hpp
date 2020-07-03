@@ -12,6 +12,9 @@ template <class T> class Array;
 class Matrix4 : public DE_Class /*16 bytes alignment*/ {
 private:
 
+  static bool smIdentityCreated;
+  static Matrix4 smIdentity;
+
   f32 mData[16];
 
   void setRows(const Array<f32>& row0, const Array<f32>& row1, const Array<f32>& row2, const Array<f32>& row3);
@@ -22,6 +25,8 @@ private:
 public:
 
   DE_CLASS(Matrix4, DE_Class)
+
+  static const Matrix4& getIdentity();
 
   void init(u32 n);
   void init(const Matrix4& other);

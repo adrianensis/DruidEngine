@@ -225,17 +225,24 @@ void RenderEngine::stepDebug(){
   const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
   const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
 
-  mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
-  mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-  mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-
   FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
     LineRenderer* lineRenderer = mLineRenderers->get(i);
 
     if(lineRenderer->mActive){
+
+      if(lineRenderer->mIsAffectedByProjection){
+        mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
+        mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+        mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+      } else {
+        mShaderLine->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
+        mShaderLine->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
+        mShaderLine->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
+      }
+
       lineRenderer->bind(mLineRendererIndices);
 
-      glLineWidth(1);
+      glLineWidth(lineRenderer->mSize);
       glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
 
       RenderContext::enableVAO(0);
@@ -321,7 +328,7 @@ Chunk* RenderEngine::assignChunk(Renderer* renderer){
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::drawLine(const Vector3& start, const Vector3& end){
+void RenderEngine::drawLine(const Vector3& start, const Vector3& end, u32 size /*= 1*/, bool isAffectedByProjection /*= true*/){
   bool found = false;
 
   FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found){
@@ -332,6 +339,8 @@ void RenderEngine::drawLine(const Vector3& start, const Vector3& end){
       lineRenderer->init();
       lineRenderer->set(start, end);
       lineRenderer->mActive = true;
+      lineRenderer->mIsAffectedByProjection = isAffectedByProjection;
+      lineRenderer->mSize = size;
     }
   }
 }

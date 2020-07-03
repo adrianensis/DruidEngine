@@ -7,8 +7,12 @@
 #include "HashMap.hpp"
 #include "Shader.hpp"
 #include "Array.hpp"
+#include "List.hpp"
 #include "Chunk.hpp"
 #include "Log.hpp"
+#include "RenderEngine.hpp"
+#include "Collider.hpp"
+#include "GameObject.hpp"
 
 namespace DE {
 
@@ -147,6 +151,24 @@ bool Renderer::isLineMode(){ return mLineMode; }
 
 void Renderer::setChunk(Chunk* chunk ){ mChunk = chunk; };
 Chunk* Renderer::getChunk(){ return mChunk; };
+
+// ---------------------------------------------------------------------------
+
+void Renderer::renderCollider() {
+
+  if(mIsAffectedByProjection) {
+    List<Collider*>* colliders = getGameObject()->getComponents<Collider>();
+
+    if(colliders && ! colliders->isEmpty()) {
+      Array<Vector2>* box = colliders->get(0)->getBoundingBox();
+
+      RenderEngine::getInstance()->drawLine(Vector3(box->get(0)), Vector3(box->get(1)), 1, mIsAffectedByProjection);
+      RenderEngine::getInstance()->drawLine(Vector3(box->get(1)), Vector3(box->get(2)), 1, mIsAffectedByProjection);
+      RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), 1, mIsAffectedByProjection);
+      RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), 1, mIsAffectedByProjection);
+    }
+  }
+}
 
 // ---------------------------------------------------------------------------
 

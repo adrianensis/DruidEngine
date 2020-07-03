@@ -50,8 +50,6 @@ private:
 
 	u32 mTextureId;
 
-	static Matrix4 smMatrixIdentity;
-
 	Chunk* mChunk;
 
 	bool mSortByYCoordinate;
