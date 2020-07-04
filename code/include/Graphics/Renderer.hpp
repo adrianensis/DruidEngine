@@ -15,20 +15,19 @@ class Material;
 class Mesh;
 class Animation;
 class Chunk;
-template <class K, class V> class HashMap;
-template <class T> class Array;
+template<class K, class V> class HashMap;
+template<class T> class Array;
 
-class Renderer : public Component{
+class Renderer: public Component {
 
 private:
 
-	HashMap<std::string, Animation*>* mAnimations;
-	Animation* mCurrentAnimation;
-	Material* mMaterial;
-	Mesh* mMesh;
+	HashMap<std::string, Animation*> *mAnimations;
+	Animation *mCurrentAnimation;
+	Material *mMaterial;
+	Mesh *mMesh;
 
-
-	Array<f32>* mColor;
+	Array<f32> *mColor;
 
 	Vector3 mPositionOffset;
 	Matrix4 mPositionOffsetMatrix;
@@ -46,72 +45,131 @@ private:
 	f32 mRenderDistance;
 	bool mOutOfCamera;
 
-	Chunk* mChunk;
+	Chunk *mChunk;
 
 	bool mIsAlreadyInBatch;
 	bool mIsAffectedByProjection;
 
 public:
 
-	DE_CLASS(Renderer, Component);
+	DE_CLASS(Renderer, Component)
+	;
 
 	void init() override;
 
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 
 	/**
-	* Set the animation, by name.
-	* \param string name The name.
-	*/
-	void setAnimation(const std::string& name);
+	 * Set the animation, by name.
+	 * \param string name The name.
+	 */
+	void setAnimation(const std::string &name);
 
 	/**
-	* Add an animation, by name.
-	* \param string name The name.
-	* \param Animation animation The animation.
-	*/
-	void addAnimation(const std::string& name, Animation* animation);
+	 * Add an animation, by name.
+	 * \param string name The name.
+	 * \param Animation animation The animation.
+	 */
+	void addAnimation(const std::string &name, Animation *animation);
 
 	/**
-	* Update de material with information about the region, the alphacolor and the animation.
-	* \param Material material The material.
-	*/
-	void updateMaterial(Material* material);
+	 * Update de material with information about the region, the alphacolor and the animation.
+	 * \param Material material The material.
+	 */
+	void updateMaterial(Material *material);
 
-	void setColor(const Vector4& color);
+	void setColor(const Vector4 &color);
 	bool isLineMode();
 
-	Vector2 getRegionPosition() const { return mRegionPosition; };
-	Vector2 getRegionSize() const { return mRegionSize; };
+	Vector2 getRegionPosition() const {
+		return mRegionPosition;
+	}
+	;
+	Vector2 getRegionSize() const {
+		return mRegionSize;
+	}
+	;
 
-	const Vector3& getPositionOffset() const { return mPositionOffset; };
-	void setPositionOffset(Vector3 newPositionOffset );
+	const Vector3& getPositionOffset() const {
+		return mPositionOffset;
+	}
+	;
+	void setPositionOffset(Vector3 newPositionOffset);
 
 	const Matrix4& getPositionOffsetMatrix();
 
-	const Mesh* getMesh() const { return mMesh;};
-	void setMesh(Mesh* newMesh ){ mMesh = newMesh; };
+	const Mesh* getMesh() const {
+		return mMesh;
+	}
+	;
+	void setMesh(Mesh *newMesh) {
+		mMesh = newMesh;
+	}
+	;
 
-	Material* getMaterial() const { return mMaterial;};
-	void setMaterial(Material* newMaterial ){ mMaterial = newMaterial; };
+	Material* getMaterial() const {
+		return mMaterial;
+	}
+	;
+	void setMaterial(Material *newMaterial) {
+		mMaterial = newMaterial;
+	}
+	;
 
-	void setInvertXAxis(bool newInvertXAxis ){ mInvertXAxis = newInvertXAxis; };
-	void setAlphaEnabled(bool newAlphaEnabled ){ mAlphaEnabled = newAlphaEnabled; };
-	void setLineMode(bool newLineMode ){ mLineMode = newLineMode; };
+	void setInvertXAxis(bool newInvertXAxis) {
+		mInvertXAxis = newInvertXAxis;
+	}
+	;
+	void setAlphaEnabled(bool newAlphaEnabled) {
+		mAlphaEnabled = newAlphaEnabled;
+	}
+	;
+	void setLineMode(bool newLineMode) {
+		mLineMode = newLineMode;
+	}
+	;
 
-	u32 getLayer() const { return mLayer;};
-	void setLayer(u32 newLayer ){ mLayer = newLayer; };
-	f32 getRenderDistance() const { return mRenderDistance;};
-	void setRenderDistance(f32 newRenderDistance ){ mRenderDistance = newRenderDistance; };
-	bool isOutOfCamera() const { return mOutOfCamera;};
-	void setIsOutOfCamera(bool newOutOfCamera ){ mOutOfCamera = newOutOfCamera; };
-	void setChunk(Chunk* chunk );
+	u32 getLayer() const {
+		return mLayer;
+	}
+	;
+	void setLayer(u32 newLayer) {
+		mLayer = newLayer;
+	}
+	;
+	f32 getRenderDistance() const {
+		return mRenderDistance;
+	}
+	;
+	void setRenderDistance(f32 newRenderDistance) {
+		mRenderDistance = newRenderDistance;
+	}
+	;
+	bool isOutOfCamera() const {
+		return mOutOfCamera;
+	}
+	;
+	void setIsOutOfCamera(bool newOutOfCamera) {
+		mOutOfCamera = newOutOfCamera;
+	}
+	;
+	void setChunk(Chunk *chunk);
 	Chunk* getChunk();
-	void setIsAlreadyInBatch(bool isAlreadyInBatch) { mIsAlreadyInBatch = isAlreadyInBatch; };
-	bool isAlreadyInBatch() const { return mIsAlreadyInBatch; };
+	void setIsAlreadyInBatch(bool isAlreadyInBatch) {
+		mIsAlreadyInBatch = isAlreadyInBatch;
+	}
+	;
+	bool isAlreadyInBatch() const {
+		return mIsAlreadyInBatch;
+	}
+	;
 
-	bool isAffectedByProjection(){ return mIsAffectedByProjection; }
-	void setAffectedByProjection(bool affectedByProjection){ mIsAffectedByProjection = affectedByProjection; }
+	bool isAffectedByProjection() {
+		return mIsAffectedByProjection;
+	}
+	void setAffectedByProjection(bool affectedByProjection) {
+		mIsAffectedByProjection = affectedByProjection;
+	}
 
 	void renderCollider();
 };

@@ -13,40 +13,41 @@
 
 namespace DE {
 
-GLFWwindow* RenderContext::smWindow = nullptr;
+GLFWwindow *RenderContext::smWindow = nullptr;
 Vector2 RenderContext::smWindowSize;
 
 // ---------------------------------------------------------------------------
 
-RenderContext::RenderContext() : DE_Class()
-{
-};
+RenderContext::RenderContext() :
+		DE_Class() {
+}
+;
 
 RenderContext::~RenderContext() = default;
 
 // ---------------------------------------------------------------------------
 
-Vector2 RenderContext::getWindowSize(){
-  return smWindowSize;
+Vector2 RenderContext::getWindowSize() {
+	return smWindowSize;
 }
 
 // ---------------------------------------------------------------------------
 
-f32 RenderContext::getAspectRatio(){
-  return smWindowSize.x / smWindowSize.y;
+f32 RenderContext::getAspectRatio() {
+	return smWindowSize.x / smWindowSize.y;
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::onResize(GLFWwindow* window, int width, int height){
-    glViewport(0, 0, width, height);
+void RenderContext::onResize(GLFWwindow *window, int width, int height) {
+	glViewport(0, 0, width, height);
 
-    smWindowSize.set(width, height);
+	smWindowSize.set(width, height);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::init(){
+void RenderContext::init() {
 	TRACE();
 
 	glfwInit();
@@ -54,18 +55,18 @@ void RenderContext::init(){
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  smWindowSize.set(1080, 720);
+	smWindowSize.set(1080, 720);
 
-	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
-	if (!smWindow){
+	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine",
+	NULL, NULL);
+	if (!smWindow) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-	}else{
+	} else {
 		glfwMakeContextCurrent(smWindow);
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-		    std::cout << "Failed to initialize GLAD" << std::endl;
+		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 	}
 
@@ -73,7 +74,7 @@ void RenderContext::init(){
 
 	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL); // Near things obscure far things
 	glEnable(GL_CULL_FACE); // BACK by default
@@ -82,59 +83,62 @@ void RenderContext::init(){
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-  Input::init();
+	Input::init();
 
 	RenderContext::clear();
 }
 
 // ---------------------------------------------------------------------------
 
-bool RenderContext::isClosed(){
+bool RenderContext::isClosed() {
 	return glfwWindowShouldClose(smWindow);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::clear(){
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      // Clear the color and the depth buffer
+void RenderContext::clear() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the color and the depth buffer
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::swap(){
-  glfwSwapBuffers(smWindow);
+void RenderContext::swap() {
+	glfwSwapBuffers(smWindow);
 	RenderContext::clear();
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::terminate(){
-  glfwDestroyWindow(smWindow);
+void RenderContext::terminate() {
+	glfwDestroyWindow(smWindow);
 	glfwTerminate();
 }
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVBO(const Array<f32>* data, u32 elementSize, u32 attributeArrayIndex){
+GLuint RenderContext::createVBO(const Array<f32> *data, u32 elementSize,
+		u32 attributeArrayIndex) {
 
-  DE_ASSERT(data != nullptr, "Data must be not null.");
+	DE_ASSERT(data != nullptr, "Data must be not null.");
 
-  u32 VBO;
+	u32 VBO;
 	glGenBuffers(1, &VBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(),
+			data->getRawData(), GL_STATIC_DRAW);
 
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*)0);
+	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE,
+			elementSize * sizeof(f32), (byte*) 0);
 	RenderContext::enableAttribute(attributeArrayIndex);
 
-  return VBO;
+	return VBO;
 }
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVAO(){
+GLuint RenderContext::createVAO() {
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
 
@@ -145,34 +149,36 @@ GLuint RenderContext::createVAO(){
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createEBO(const Array<u32>* data){
+GLuint RenderContext::createEBO(const Array<u32> *data) {
 
-  DE_ASSERT(data != nullptr, "Data must be not null.");
+	DE_ASSERT(data != nullptr, "Data must be not null.");
 
 	unsigned int EBO;
 	glGenBuffers(1, &EBO);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+			data->getElementSize() * data->getLength(), data->getRawData(),
+			GL_STATIC_DRAW);
 
 	return EBO;
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::enableAttribute(u32 attributeArrayIndex){
+void RenderContext::enableAttribute(u32 attributeArrayIndex) {
 	glEnableVertexAttribArray(attributeArrayIndex);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::disableAttribute(u32 attributeArrayIndex){
+void RenderContext::disableAttribute(u32 attributeArrayIndex) {
 	glDisableVertexAttribArray(attributeArrayIndex);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::enableVAO(u32 VAO){
+void RenderContext::enableVAO(u32 VAO) {
 	glBindVertexArray(VAO);
 }
 

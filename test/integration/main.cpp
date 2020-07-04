@@ -19,25 +19,25 @@
 
 using namespace DE;
 
-int main(){
+int main() {
 
 	Memory::init();
 
-	Engine* engine = Engine::getInstance();
+	Engine *engine = Engine::getInstance();
 
 	engine->init();
 
 	// OBJECT 1
 
-	GameObject* controller = Memory::allocate<GameObject>();
-  controller->init();
-  controller->setTag("controller");
+	GameObject *controller = Memory::allocate<GameObject>();
+	controller->init();
+	controller->setTag("controller");
 
 	// script
 
-	Script* script = Memory::allocate<GameController>();
+	Script *script = Memory::allocate<GameController>();
 	controller->addComponent<Script>(script);
-	Script* scriptX = controller->getComponents<Script>()->get(0);
+	Script *scriptX = controller->getComponents<Script>()->get(0);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);
 

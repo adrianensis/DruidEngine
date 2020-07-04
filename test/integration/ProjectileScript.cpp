@@ -25,7 +25,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ProjectileScript::ProjectileScript() : Script(){
+ProjectileScript::ProjectileScript() :
+		Script() {
 
 }
 
@@ -33,62 +34,62 @@ ProjectileScript::ProjectileScript() : Script(){
 
 ProjectileScript::~ProjectileScript() = default;
 
-
-void ProjectileScript::init(){
+void ProjectileScript::init() {
 
 }
 
 // ---------------------------------------------------------------------------
 
-void ProjectileScript::firstStep(){
-  getGameObject()->setTag("projectile");
-  mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+void ProjectileScript::firstStep() {
+	getGameObject()->setTag("projectile");
+	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
 
-  mExplosionTime = 0.3f;
-  mExplosionTimeCounter = 0;
-  mIsExploding = false;
+	mExplosionTime = 0.3f;
+	mExplosionTimeCounter = 0;
+	mIsExploding = false;
 }
 
 // ---------------------------------------------------------------------------
 
-void ProjectileScript::step(){
-  // if(mRenderer->isOutOfCamera()){
-  //   ECHO("PROJECTILE DESTROY")
-  //   getGameObject()->destroy();
-  // }
+void ProjectileScript::step() {
+	// if(mRenderer->isOutOfCamera()){
+	//   ECHO("PROJECTILE DESTROY")
+	//   getGameObject()->destroy();
+	// }
 
-  if(mIsExploding){
-    if(mExplosionTimeCounter >= mExplosionTime){
-      ECHO("PROJECTILE DESTROY")
-      getGameObject()->destroy();
-    }
-    mExplosionTimeCounter += Time::getDeltaTimeSeconds();
-  }
+	if (mIsExploding) {
+		if (mExplosionTimeCounter >= mExplosionTime) {
+			ECHO("PROJECTILE DESTROY")
+			getGameObject()->destroy();
+		}
+		mExplosionTimeCounter += Time::getDeltaTimeSeconds();
+	}
 }
 
 // ---------------------------------------------------------------------------
 
-void ProjectileScript::explode(){
-  mIsExploding = true;
-  mRenderer->setAnimation("explosion");
-  getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,0,0));
+void ProjectileScript::explode() {
+	mIsExploding = true;
+	mRenderer->setAnimation("explosion");
+	getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(
+			Vector3(0, 0, 0));
 }
 
 // ---------------------------------------------------------------------------
 
-void ProjectileScript::onEnterCollision(GameObject* otherGameObject){
+void ProjectileScript::onEnterCollision(GameObject *otherGameObject) {
 
 }
 
-void ProjectileScript::onCollision(GameObject* otherGameObject){
+void ProjectileScript::onCollision(GameObject *otherGameObject) {
 
 }
 
-void ProjectileScript::onExitCollision(GameObject* otherGameObject){
+void ProjectileScript::onExitCollision(GameObject *otherGameObject) {
 
 }
 
-void ProjectileScript::terminate(){
+void ProjectileScript::terminate() {
 
 }
 

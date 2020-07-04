@@ -10,17 +10,24 @@ class Functor {
 
 private:
 
-  using voidFunction = std::function<void()>;
+	using voidFunction = std::function<void()>;
 
-  std::function<void()> mCallback;
+	std::function<void()> mCallback;
 
 public:
-  Functor(){};
-  ~Functor(){};
+	Functor() {
+	}
+	;
+	~Functor() {
+	}
+	;
 
-  void execute();
+	void execute();
 
-  void setCallback(voidFunction newCallback ){ mCallback = newCallback; };
+	void setCallback(voidFunction newCallback) {
+		mCallback = newCallback;
+	}
+	;
 };
 
 } /* namespace DE */

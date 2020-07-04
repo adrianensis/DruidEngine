@@ -11,31 +11,32 @@ namespace DE {
 
 class Matrix4;
 class Camera;
-template <class T> class Array;
+template<class T> class Array;
 
-class Frustum : public DE_Class{
+class Frustum: public DE_Class {
 
 private:
 
-Matrix4* mVPmatrix;
-Camera* mCamera;
+	Matrix4 *mVPmatrix;
+	Camera *mCamera;
 
-Array<Vector4>* mPlanes;
+	Array<Vector4> *mPlanes;
 
 public:
 
-	DE_CLASS(Frustum, DE_Class);
+	DE_CLASS(Frustum, DE_Class)
+	;
 
-	void init(Camera* camera);
+	void init(Camera *camera);
 
 	/**
-	* Builds the frustum planes.
-	*/
+	 * Builds the frustum planes.
+	 */
 	void build(bool forceBuild = false);
 
-	bool testSphere(const Vector3& center, f32 radius) const;
-	bool testPoint(const Vector3& point) const;
-	bool testRectangle(const Vector3& leftTop, f32 width, f32 height) const;
+	bool testSphere(const Vector3 &center, f32 radius) const;
+	bool testPoint(const Vector3 &point) const;
+	bool testRectangle(const Vector3 &leftTop, f32 width, f32 height) const;
 };
 
 } /* namespace DE */

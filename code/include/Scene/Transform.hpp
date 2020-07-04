@@ -9,7 +9,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-class Transform : public Component{
+class Transform: public Component {
 
 private:
 
@@ -27,7 +27,7 @@ private:
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	Transform* mParent;
+	Transform *mParent;
 
 public:
 
@@ -35,45 +35,55 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	DE_CLASS(Transform, Component);
+	DE_CLASS(Transform, Component)
+	;
 
 	void init() override;
 
 	// ---------------------------------------------------------------------------
 
 	/*!
-    \brief Translate the object by an increment vector.
-    \param Vector3 Delta position.
-  */
-	void translate(const Vector3& vector);
+	 \brief Translate the object by an increment vector.
+	 \param Vector3 Delta position.
+	 */
+	void translate(const Vector3 &vector);
 
 	// ---------------------------------------------------------------------------
 
 	/*!
-    \brief Rotate the object by an increment vector.
-    \param Vector3 Delta rotation.
-  */
-	void rotate(const Vector3& vector);
+	 \brief Rotate the object by an increment vector.
+	 \param Vector3 Delta rotation.
+	 */
+	void rotate(const Vector3 &vector);
 
 	// ---------------------------------------------------------------------------
 
 	/*!
-    \brief Orient the object to a 3D point.
-    \param Vector3 Target position.
-  */
-	void lookAt(const Vector3& targetPosition);
+	 \brief Orient the object to a 3D point.
+	 \param Vector3 Target position.
+	 */
+	void lookAt(const Vector3 &targetPosition);
 
 	// ---------------------------------------------------------------------------
 
 	// void setWorldPosition(const Vector3& vector);
-	void setLocalPosition(const Vector3& vector);
-	void setRotation(const Vector3& vector);
-	void setScale(const Vector3& vector);
+	void setLocalPosition(const Vector3 &vector);
+	void setRotation(const Vector3 &vector);
+	void setScale(const Vector3 &vector);
 
 	const Vector3& getWorldPosition();
-	const Vector3& getLocalPosition() const { return mLocalPosition; };
-	const Vector3& getRotation() const { return mRotation; };
-	const Vector3& getScale() const { return mScale; };
+	const Vector3& getLocalPosition() const {
+		return mLocalPosition;
+	}
+	;
+	const Vector3& getRotation() const {
+		return mRotation;
+	}
+	;
+	const Vector3& getScale() const {
+		return mScale;
+	}
+	;
 
 	const Matrix4& getTranslationMatrix();
 	const Matrix4& getRotationMatrix() const;
@@ -82,7 +92,7 @@ public:
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
 
-	void setParent(Transform* parent);
+	void setParent(Transform *parent);
 	Transform* getParent();
 
 	// ---------------------------------------------------------------------------

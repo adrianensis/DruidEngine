@@ -17,103 +17,101 @@ class UIButton;
 class UIText;
 class Texture;
 class Material;
-template <class K, class V> class HashMap;
-template <class T> class Array;
-template <class T> class List;
+template<class K, class V> class HashMap;
+template<class T> class Array;
+template<class T> class List;
 
-class MapEditor : public Script{
+class MapEditor: public Script {
 private:
 
-  class CellData : public DE_Class {
-  public:
-    DE_CLASS(CellData, DE_Class);
+	class CellData: public DE_Class {
+	public:DE_CLASS(CellData, DE_Class)
+		;
 
-    GameObject* tile = nullptr;
-    Array<GameObject*>* layers = nullptr;
+		GameObject *tile = nullptr;
+		Array<GameObject*> *layers = nullptr;
 
-    void addGameObject(GameObject* gameObject, u32 layer);
-    void removeGameObject(u32 layer);
-    GameObject* get(u32 layer);
-  };
+		void addGameObject(GameObject *gameObject, u32 layer);
+		void removeGameObject(u32 layer);
+		GameObject* get(u32 layer);
+	};
 
-  u32 mGridSize;
-  Array<Array<CellData*>*>* mGrid;
+	u32 mGridSize;
+	Array<Array<CellData*>*> *mGrid;
 
-  Transform* mTransform;
-  Camera* mCamera;
-  Transform* mCameraTransform;
+	Transform *mTransform;
+	Camera *mCamera;
+	Transform *mCameraTransform;
 
-  GameObject* mPlayer;
-  GameObject* mTile;
+	GameObject *mPlayer;
+	GameObject *mTile;
 
+	Material *mMaterial;
 
-  Material* mMaterial;
+	bool mTestCreated;
+	u32 mTileIndex;
+	f32 mTileSize;
 
-  bool mTestCreated;
-  u32 mTileIndex;
-  f32 mTileSize;
+	bool mCameraControl;
 
-  bool mCameraControl;
+	class InfoBarUI: public DE_Class {
+	public:DE_CLASS(InfoBarUI, DE_Class)
+		;
 
+		MapEditor *mMapEditor;
 
-  class InfoBarUI : public DE_Class {
-  public:
-    DE_CLASS(InfoBarUI, DE_Class);
+		UIText *mTextLayer = nullptr;
+		UIText *mTextTile = nullptr;
+		UIText *mTextZoom = nullptr;
+		UIText *mTextBrush = nullptr;
 
-    MapEditor* mMapEditor;
+		const std::string mStrLayer = "Layer";
+		const std::string mStrTile = "Tile";
+		const std::string mStrZoom = "Zoom";
+		const std::string mStrBrush = "Brush";
+		Vector2 mTextSize = Vector2(0.04f, 0.04f);
 
-    UIText* mTextLayer = nullptr;
-    UIText* mTextTile = nullptr;
-    UIText* mTextZoom = nullptr;
-    UIText* mTextBrush = nullptr;
+		void init(MapEditor *mapEditor);
 
-    const std::string mStrLayer = "Layer";
-    const std::string mStrTile = "Tile";
-    const std::string mStrZoom = "Zoom";
-    const std::string mStrBrush = "Brush";
-    Vector2 mTextSize = Vector2(0.04f, 0.04f);
+		void createUI();
 
-    void init(MapEditor* mapEditor);
+		void updateUI();
+	};
 
-    void createUI();
+	InfoBarUI *mInfoBarUI;
 
-    void updateUI();
-  };
-
-  InfoBarUI* mInfoBarUI;
-
-  List<UIButton*>* mButtons;
+	List<UIButton*> *mButtons;
 
 public:
 
-u32 mBrushSize;
-u32 mLayer;
-f32 mZoom;
-u32 mUILayer = 0;
-GameObject* mBrush;
+	u32 mBrushSize;
+	u32 mLayer;
+	f32 mZoom;
+	u32 mUILayer = 0;
+	GameObject *mBrush;
 
+	DE_CLASS(MapEditor, Script)
+	;
 
-DE_CLASS(MapEditor, Script);
+	void createBrush();
+	void createAtlas();
+	void createTile(f32 x, f32 y);
+	void createPlayer();
 
-void createBrush();
-void createAtlas();
-void createTile(f32 x, f32 y);
-void createPlayer();
+	void click(const Vector3 &clampedPosition);
+	void drawTile(CellData *cellData, const Vector3 &worldPosition);
+	void removeTile(CellData *cellData);
 
-void click(const Vector3& clampedPosition);
-void drawTile(CellData* cellData, const Vector3& worldPosition);
-void removeTile(CellData* cellData);
+	void loadMapIntoGrid();
 
-void loadMapIntoGrid();
+	void cameraZoom();
+	void processMovement();
+	void switchCameraControl();
 
-void cameraZoom();
-void processMovement();
-void switchCameraControl();
-
-void init() override;
-void firstStep() override;
-void step() override;
-void terminate() override;
+	void init() override;
+	void firstStep() override;
+	void step() override;
+	void terminate() override;
 };
 
 } /* namespace DE */

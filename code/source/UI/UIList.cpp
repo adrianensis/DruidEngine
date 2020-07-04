@@ -4,7 +4,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIList::UIList() : UIElement(){
+UIList::UIList() :
+		UIElement() {
 
 }
 

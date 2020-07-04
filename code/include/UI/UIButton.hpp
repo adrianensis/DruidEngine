@@ -5,11 +5,20 @@
 
 namespace DE {
 
-class UIButton : public UIElement {
+class UIText;
+
+class UIButton: public UIElement {
+
+private:
+
+	UIText *mLabel;
 
 public:
 
-DE_CLASS(UIButton, UIElement);
+	DE_CLASS(UIButton, UIElement)
+	;
+
+	void setLabel(const std::string &label);
 
 };
 

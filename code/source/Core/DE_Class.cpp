@@ -1,5 +1,5 @@
 #include "DE_Class.hpp"
 
-namespace DE{
+namespace DE {
 
 }

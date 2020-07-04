@@ -7,29 +7,32 @@
 namespace DE {
 
 template<class T>
-class Singleton{
+class Singleton {
 
 protected:
-  static T* mInstance;
+	static T *mInstance;
 
 public:
-  Singleton() = default;
+	Singleton() = default;
 
-  ~Singleton() = default;
+	~Singleton() = default;
 
-  static T* getInstance(){
-  	if( ! mInstance){
-  		mInstance = Memory::allocate<T>();
-  	}
+	static T* getInstance() {
+		if (!mInstance) {
+			mInstance = Memory::allocate<T>();
+		}
 
-  	return mInstance;
-  };
+		return mInstance;
+	}
+	;
 
 };
 
 template<class T>
-T* Singleton<T>::mInstance = nullptr;
+T *Singleton<T>::mInstance = nullptr;
 
-}; /* namespace DE */
+}
+;
+/* namespace DE */
 
 #endif /* DE_SINGLETON_H */

@@ -6,26 +6,27 @@
 #include "ConfigMap.hpp"
 #include "File.hpp"
 
-namespace DE{
+namespace DE {
 
-  template <class K, class V> class HashMap;
+template<class K, class V> class HashMap;
 
-  class Settings : public DE_Class, public Singleton<Settings> {
+class Settings: public DE_Class, public Singleton<Settings> {
 
-  private:
-    ConfigMap* mConfigMap;
+private:
+	ConfigMap *mConfigMap;
 
-  public:
+public:
 
-    DE_CLASS(Settings, DE_Class);
+	DE_CLASS(Settings, DE_Class)
+	;
 
-    void init();
-    void readConfigFile(const std::string& path);
-    std::string getString(const std::string& key);
-    u32 getU32(const std::string& key);
-    f32 getF32(const std::string& key);
-    bool getBool(const std::string& key);
-  };
+	void init();
+	void readConfigFile(const std::string &path);
+	std::string getString(const std::string &key);
+	u32 getU32(const std::string &key);
+	f32 getF32(const std::string &key);
+	bool getBool(const std::string &key);
+};
 }
 
 #endif /* DE_SETTINGS_H */

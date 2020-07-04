@@ -11,15 +11,18 @@
 
 namespace DE {
 
-class File : public DE_Class{
+class File: public DE_Class {
 
 public:
 
-	DE_CLASS(File, DE_Class);
+	DE_CLASS(File, DE_Class)
+	;
 
 	static void init();
-	static void readFile(const std::string& path, std::function<void(std::ifstream& file)> callback);
-	static void writeFile(const std::string& path, std::function<void(std::ofstream& file)> callback);
+	static void readFile(const std::string &path,
+			std::function<void(std::ifstream &file)> callback);
+	static void writeFile(const std::string &path,
+			std::function<void(std::ofstream &file)> callback);
 };
 
 } /* namespace DE */

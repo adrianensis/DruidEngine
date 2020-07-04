@@ -19,17 +19,17 @@
 
 using namespace DE;
 
-int main(){
+int main() {
 
 	Memory::init();
 
-	Engine* engine = Engine::getInstance();
+	Engine *engine = Engine::getInstance();
 
 	engine->init();
 
 	// Scene* scene = Memory::allocate<Scene>();
 	//
-  // scene->init();
+	// scene->init();
 
 	// camera
 
@@ -48,12 +48,12 @@ int main(){
 	// cameraComponent->setOrtho(-720, 720, -720, 720, 1, -1);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
-	GameObject* controller = Memory::allocate<GameObject>();
-  controller->init();
+	GameObject *controller = Memory::allocate<GameObject>();
+	controller->init();
 
 	// script
 
-	Script* script = Memory::allocate<MapEditor>();
+	Script *script = Memory::allocate<MapEditor>();
 	controller->addComponent<Script>(script);
 
 	// scene->setCameraGameObject(cameraGameObject);

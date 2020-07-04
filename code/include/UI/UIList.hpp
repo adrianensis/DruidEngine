@@ -5,11 +5,12 @@
 
 namespace DE {
 
-class UIList : public UIElement {
+class UIList: public UIElement {
 
 public:
 
-DE_CLASS(UIList, UIElement);
+	DE_CLASS(UIList, UIElement)
+	;
 
 };
 

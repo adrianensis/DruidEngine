@@ -8,7 +8,7 @@
 
 namespace DE {
 
-class Input : public DE_Class{
+class Input: public DE_Class {
 
 private:
 
@@ -19,13 +19,17 @@ private:
 	static bool buttonJustPressed;
 	static f32 scroll;
 
-	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void keyCallback(GLFWwindow *window, int key, int scancode,
+			int action, int mods);
+	static void mouseButtonCallback(GLFWwindow *window, int button, int action,
+			int mods);
+	static void scrollCallback(GLFWwindow *window, double xoffset,
+			double yoffset);
 
 public:
 
-	DE_CLASS(Input, DE_Class);
+	DE_CLASS(Input, DE_Class)
+	;
 
 	static void init();
 	static void pollEvents();

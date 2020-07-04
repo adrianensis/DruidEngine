@@ -8,22 +8,35 @@ namespace DE {
 class Texture;
 class Shader;
 
-class Material : public DE_Class {
+class Material: public DE_Class {
 
 private:
-	Shader* mShader;
-	Texture* mTexture;
+	Shader *mShader;
+	Texture *mTexture;
 
 public:
 
-	DE_CLASS(Material, DE_Class);
+	DE_CLASS(Material, DE_Class)
+	;
 
 	void init();
 
-	Shader* getShader() const { return mShader;};
-	void setShader(Shader* newShader ){ mShader = newShader; };
-	Texture* getTexture() const { return mTexture;};
-	void setTexture(Texture* newTexture ){ mTexture = newTexture; };
+	Shader* getShader() const {
+		return mShader;
+	}
+	;
+	void setShader(Shader *newShader) {
+		mShader = newShader;
+	}
+	;
+	Texture* getTexture() const {
+		return mTexture;
+	}
+	;
+	void setTexture(Texture *newTexture) {
+		mTexture = newTexture;
+	}
+	;
 };
 
 } /* namespace DE */

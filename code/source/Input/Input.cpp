@@ -12,116 +12,126 @@ f32 Input::scroll = 0;
 
 // ---------------------------------------------------------------------------
 
-void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods){
-    if (action == GLFW_PRESS){
-    	smLastKeyPressed = key;
-			keyJustPressed = true;
-		} else if (action == GLFW_RELEASE){
-			Input::clearKey();
-		}
+void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action,
+		int mods) {
+	if (action == GLFW_PRESS) {
+		smLastKeyPressed = key;
+		keyJustPressed = true;
+	} else if (action == GLFW_RELEASE) {
+		Input::clearKey();
+	}
 }
 
 // ---------------------------------------------------------------------------
 
-void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
-    if (action == GLFW_PRESS){
-			smLastMouseButtonPressed = button;
-			buttonJustPressed = true;
-		} else if (action == GLFW_RELEASE){
-			Input::clearMouseButton();
-		}
+void Input::mouseButtonCallback(GLFWwindow *window, int button, int action,
+		int mods) {
+	if (action == GLFW_PRESS) {
+		smLastMouseButtonPressed = button;
+		buttonJustPressed = true;
+	} else if (action == GLFW_RELEASE) {
+		Input::clearMouseButton();
+	}
 }
 
 // ---------------------------------------------------------------------------
 
-void Input::scrollCallback(GLFWwindow* window, double xoffset, double yoffset){
-  scroll = yoffset;
+void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
+	scroll = yoffset;
 }
 
 // ---------------------------------------------------------------------------
 
-Input::Input() : DE_Class(){
+Input::Input() :
+		DE_Class() {
 
 }
 
-Input::~Input(){
+Input::~Input() {
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Input::init(){
+void Input::init() {
 	TRACE();
 
 	glfwSetKeyCallback(RenderContext::smWindow, keyCallback);
 	glfwSetMouseButtonCallback(RenderContext::smWindow, mouseButtonCallback);
-  glfwSetScrollCallback(RenderContext::smWindow, scrollCallback);
+	glfwSetScrollCallback(RenderContext::smWindow, scrollCallback);
 }
 
 // ---------------------------------------------------------------------------
 
-void Input::pollEvents(){
+void Input::pollEvents() {
 
-  keyJustPressed = false;
-  buttonJustPressed = false;
-  scroll = 0;
+	keyJustPressed = false;
+	buttonJustPressed = false;
+	scroll = 0;
 
-  glfwPollEvents();
+	glfwPollEvents();
 }
 
 // ---------------------------------------------------------------------------
 
-bool Input::isKeyPressedOnce(u32 key){
-  return keyJustPressed && key == smLastKeyPressed;
+bool Input::isKeyPressedOnce(u32 key) {
+	return keyJustPressed && key == smLastKeyPressed;
 }
 
 // ---------------------------------------------------------------------------
 
-bool Input::isKeyPressed(u32 key){
-  return key == smLastKeyPressed;
+bool Input::isKeyPressed(u32 key) {
+	return key == smLastKeyPressed;
 }
 
 // ---------------------------------------------------------------------------
 
-bool Input::isMouseButtonPressedOnce(u32 key){
+bool Input::isMouseButtonPressedOnce(u32 key) {
 	return buttonJustPressed && key == smLastMouseButtonPressed;
 }
 
 // ---------------------------------------------------------------------------
 
-bool Input::isMouseButtonPressed(u32 key){
+bool Input::isMouseButtonPressed(u32 key) {
 	return key == smLastMouseButtonPressed;
 }
 
 // ---------------------------------------------------------------------------
 
-Vector2 Input::getMousePosition(){
+Vector2 Input::getMousePosition() {
 
 	f64 mouseCoordX, mouseCoordY;
 
-  glfwGetCursorPos(RenderContext::smWindow, &mouseCoordX, &mouseCoordY);
+	glfwGetCursorPos(RenderContext::smWindow, &mouseCoordX, &mouseCoordY);
 
-	f64 halfWindowSizeX = RenderContext::smWindowSize.x/2.0;
-	f64 halfWindowSizeY = RenderContext::smWindowSize.y/2.0;
+	f64 halfWindowSizeX = RenderContext::smWindowSize.x / 2.0;
+	f64 halfWindowSizeY = RenderContext::smWindowSize.y / 2.0;
 
 	mouseCoordX = mouseCoordX - halfWindowSizeX;
 	mouseCoordY = halfWindowSizeY - mouseCoordY;
 
-	smMouseCoordinates.set(mouseCoordX / halfWindowSizeX, mouseCoordY / halfWindowSizeY);
+	smMouseCoordinates.set(mouseCoordX / halfWindowSizeX,
+			mouseCoordY / halfWindowSizeY);
 
-  return smMouseCoordinates;
+	return smMouseCoordinates;
 }
 
 // ---------------------------------------------------------------------------
 
-f32 Input::getScroll(){
-  return scroll;
+f32 Input::getScroll() {
+	return scroll;
 }
 
 // ---------------------------------------------------------------------------
 
-void Input::clearMouseButton(){ smLastMouseButtonPressed = -1; buttonJustPressed = false; }
-void Input::clearKey(){ smLastKeyPressed = -1; keyJustPressed = false;  }
+void Input::clearMouseButton() {
+	smLastMouseButtonPressed = -1;
+	buttonJustPressed = false;
+}
+void Input::clearKey() {
+	smLastKeyPressed = -1;
+	keyJustPressed = false;
+}
 
 // ---------------------------------------------------------------------------
 

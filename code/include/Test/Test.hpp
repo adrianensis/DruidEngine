@@ -35,5 +35,4 @@ using namespace DE;
 
 #define summary() __test__output << std::endl << std::setprecision(4) << (isnan(__test__totaltime) ? 0 : __test__totaltime) << "ms " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; std::cout << __test__output.str();
 
-
 #endif /* DE_TEST_H */

@@ -10,20 +10,20 @@ namespace DE {
 
 class Time {
 private:
-  static f32 mDeltaTimeMillis;
-  static f32 mDeltaTimeSeconds;
-  static std::chrono::time_point<std::chrono::steady_clock> mNow, mLastTime;
+	static f32 mDeltaTimeMillis;
+	static f32 mDeltaTimeSeconds;
+	static std::chrono::time_point<std::chrono::steady_clock> mNow, mLastTime;
 
 public:
-  Time();
-  ~Time();
+	Time();
+	~Time();
 
-  static void init();
-  static void tick();
-  static f32 getNow();
-  static f32 getDeltaTimeMillis();
-  static f32 getDeltaTimeSeconds();
-  static f32 getElapsedTime();
+	static void init();
+	static void tick();
+	static f32 getNow();
+	static f32 getDeltaTimeMillis();
+	static f32 getDeltaTimeSeconds();
+	static f32 getElapsedTime();
 };
 
 } /* namespace DE */

@@ -10,39 +10,43 @@
 
 namespace DE {
 
-class Log : public DE_Class {
-  public:
+class Log: public DE_Class {
+public:
 
-  static const std::string emptyMessage;
-  static std::ofstream logFile;
+	static const std::string emptyMessage;
+	static std::ofstream logFile;
 
-  Log();
-  ~Log();
+	Log();
+	~Log();
 
-  static void init();
-  static void terminate();
+	static void init();
+	static void terminate();
 
-  static void log(const std::string& str);
+	static void log(const std::string &str);
 
-  static void trace(const std::string file, u32 line, const std::string function, const std::string message = emptyMessage);
+	static void trace(const std::string file, u32 line,
+			const std::string function,
+			const std::string message = emptyMessage);
 
-  static void echo(const std::string& message);
+	static void echo(const std::string &message);
 
-  template <class T>
-  static void var(const std::string& varname, T var){
-    // std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
-    log("DE_VAR > " + varname + " : " + std::to_string(var));
-  };
+	template<class T>
+	static void var(const std::string &varname, T var) {
+		// std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
+		log("DE_VAR > " + varname + " : " + std::to_string(var));
+	}
+	;
 
-  template <class T>
-  static void val(const T& var){
-    // std::cout << "DE_VAL > " << var << std::endl;
-    log("DE_VAL > " + std::to_string(var));
-  };
+	template<class T>
+	static void val(const T &var) {
+		// std::cout << "DE_VAL > " << var << std::endl;
+		log("DE_VAL > " + std::to_string(var));
+	}
+	;
 
-  static void error(const std::string& message);
+	static void error(const std::string &message);
 
-  static void brline();
+	static void brline();
 };
 
 #ifdef DE_ENABLE_LOGS
@@ -54,13 +58,13 @@ class Log : public DE_Class {
   #define ERROR(x) Log::error(x);
   #define BRLINE() Log::brline();
 #else
-  #define TRACE()
-  #define TO_STR(s)
-  #define ECHO(x)
-  #define VAR(T,x)
-  #define VAL(T,x)
-  #define ERROR(x)
-  #define BRLINE()
+#define TRACE()
+#define TO_STR(s)
+#define ECHO(x)
+#define VAR(T,x)
+#define VAL(T,x)
+#define ERROR(x)
+#define BRLINE()
 #endif
 
 } /* namespace DE */

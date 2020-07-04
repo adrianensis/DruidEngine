@@ -7,25 +7,30 @@ namespace DE {
 
 class GameObject;
 
-class Script : public Component{
+class Script: public Component {
 private:
-  bool mFirstStepDone;
+	bool mFirstStepDone;
 
 public:
 
-  DE_CLASS(Script, Component);
+	DE_CLASS(Script, Component)
+	;
 
-  virtual void init();
-  virtual void firstStep();
-  virtual void step();
-  virtual void terminate();
+	virtual void init();
+	virtual void firstStep();
+	virtual void step();
+	virtual void terminate();
 
-  virtual void onEnterCollision(GameObject* otherGameObject);
-  virtual void onCollision(GameObject* otherGameObject);
-  virtual void onExitCollision(GameObject* otherGameObject);
+	virtual void onEnterCollision(GameObject *otherGameObject);
+	virtual void onCollision(GameObject *otherGameObject);
+	virtual void onExitCollision(GameObject *otherGameObject);
 
-  bool isFirstStepDone() const { return mFirstStepDone; }
-  void firstStepDone(){  mFirstStepDone = true; }
+	bool isFirstStepDone() const {
+		return mFirstStepDone;
+	}
+	void firstStepDone() {
+		mFirstStepDone = true;
+	}
 };
 
 } /* namespace DE */

@@ -7,21 +7,31 @@
 
 namespace DE {
 
-class UIText : public UIElement {
+class UIText: public UIElement {
 
-  u32 mLayer;
-  Vector2 mSize;
-  std::string mString;
+	u32 mLayer;
+	Vector2 mSize;
+	std::string mString;
 
 public:
 
-DE_CLASS(UIText, UIElement);
+	DE_CLASS(UIText, UIElement)
+	;
 
-void setText(const std::string& text);
+	void setText(const std::string &text);
 
-void setLayer(u32 layer){ mLayer = layer; };
-void setSize(const Vector2& size){ mSize = size; };
-std::string getText() const { return mString; };
+	void setLayer(u32 layer) {
+		mLayer = layer;
+	}
+	;
+	void setSize(const Vector2 &size) {
+		mSize = size;
+	}
+	;
+	const std::string& getText() const {
+		return mString;
+	}
+	;
 
 };
 

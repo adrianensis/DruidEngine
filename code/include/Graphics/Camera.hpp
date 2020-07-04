@@ -12,14 +12,14 @@ namespace DE {
 class Matrix4;
 class Frustum;
 
-class Camera : public Component{
+class Camera: public Component {
 
 private:
 
 	Matrix4 mProjectionMatrix;
 	Matrix4 mViewTranslationMatrix;
 	Matrix4 mInversePVMatrix; // used in screen to world calculations.
-	Frustum* mFrustum;
+	Frustum *mFrustum;
 
 	f32 mLeft;
 	f32 mRight;
@@ -35,7 +35,8 @@ private:
 
 public:
 
-	DE_CLASS(Camera, Component);
+	DE_CLASS(Camera, Component)
+	;
 
 	void init() override;
 
@@ -49,11 +50,21 @@ public:
 	Vector3 screenToWorld(Vector2 screenPosition);
 	void calculateInverseMatrix(bool forceCalculate = false);
 
-	Frustum* getFrustum() const { return mFrustum; };
+	Frustum* getFrustum() const {
+		return mFrustum;
+	}
+	;
 
 	void setZoom(f32 zoom);
-	void resetZoom(){ mZoom = 1; setZoom(mZoom); };
-	f32 getZoom(){ return mZoom; };
+	void resetZoom() {
+		mZoom = 1;
+		setZoom(mZoom);
+	}
+	;
+	f32 getZoom() {
+		return mZoom;
+	}
+	;
 };
 
 } /* namespace DE */

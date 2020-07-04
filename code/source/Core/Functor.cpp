@@ -1,9 +1,10 @@
 #include "Functor.hpp"
 
-namespace DE{
+namespace DE {
 
-void Functor::execute(){
-  if(mCallback) mCallback();
+void Functor::execute() {
+	if (mCallback)
+		mCallback();
 }
 
 }

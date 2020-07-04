@@ -10,7 +10,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-GameObject::GameObject() : DE_Class(){
+GameObject::GameObject() :
+		DE_Class() {
 	mComponentsMap = nullptr;
 	mTransform = nullptr;
 	mScene = nullptr;
@@ -18,22 +19,22 @@ GameObject::GameObject() : DE_Class(){
 	mShouldPersist = false;
 }
 
-GameObject::~GameObject(){
-	Memory::free<HashMap<ClassId,List<Component*>*>>(mComponentsMap);
+GameObject::~GameObject() {
+	Memory::free<HashMap<ClassId, List<Component*>*>>(mComponentsMap);
 	Memory::free<Transform>(mTransform);
 }
 
 // ---------------------------------------------------------------------------
 
-void GameObject::addComponent(Component* component, ClassId classId){
-	List<Component*>* list = nullptr;
+void GameObject::addComponent(Component *component, ClassId classId) {
+	List<Component*> *list = nullptr;
 
 	//ClassId classId = component->getParentClassId();
 
-	if(! mComponentsMap->contains(classId)){
+	if (!mComponentsMap->contains(classId)) {
 		list = Memory::allocate<List<Component*>>();
 		list->init();
-		mComponentsMap->set(classId,list);
+		mComponentsMap->set(classId, list);
 	}
 
 	mComponentsMap->get(classId)->pushBack(component);
@@ -44,9 +45,9 @@ void GameObject::addComponent(Component* component, ClassId classId){
 
 // ---------------------------------------------------------------------------
 
-void GameObject::removeComponent(Component* component, ClassId classId){
-	if(mComponentsMap->contains(classId)){
-		List<Component*>* list = mComponentsMap->get(classId);
+void GameObject::removeComponent(Component *component, ClassId classId) {
+	if (mComponentsMap->contains(classId)) {
+		List<Component*> *list = mComponentsMap->get(classId);
 		list->remove(list->find(component));
 		component->destroy();
 	}
@@ -54,10 +55,10 @@ void GameObject::removeComponent(Component* component, ClassId classId){
 
 // ---------------------------------------------------------------------------
 
-void GameObject::init(){
+void GameObject::init() {
 	// TRACE();
 
-	mComponentsMap = Memory::allocate<HashMap<ClassId,List<Component*>*>>();
+	mComponentsMap = Memory::allocate<HashMap<ClassId, List<Component*>*>>();
 	mComponentsMap->init();
 
 	mTransform = Memory::allocate<Transform>();
@@ -70,36 +71,43 @@ void GameObject::init(){
 
 // ---------------------------------------------------------------------------
 
-List<Component*>* GameObject::getComponents(ClassId classId){
-	return mComponentsMap->contains(classId) ? mComponentsMap->get(classId) : nullptr;
+List<Component*>* GameObject::getComponents(ClassId classId) {
+	return mComponentsMap->contains(classId) ?
+			mComponentsMap->get(classId) : nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
-void GameObject::setIsActive( bool isActive ){
+void GameObject::setIsActive(bool isActive) {
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
-	FOR_LIST(it, mComponentsMap->getValues()){
-		FOR_LIST(itComponent, it.get()){
+	FOR_LIST(it, mComponentsMap->getValues())
+	{
+		FOR_LIST(itComponent, it.get())
+		{
 			itComponent.get()->setIsActive(isActive);
 		}
 	}
-};
+}
+;
 
-void GameObject::destroy(){
+void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
-	FOR_LIST(it, mComponentsMap->getKeys()){
+	FOR_LIST(it, mComponentsMap->getKeys())
+	{
 
 		ClassId id = it.get();
 		auto list = mComponentsMap->get(id);
 
-		FOR_LIST(itComponent, list){
+		FOR_LIST(itComponent, list)
+		{
 			removeComponent(itComponent.get(), id);
 		}
 	}
-};
+}
+;
 
 // ---------------------------------------------------------------------------
 

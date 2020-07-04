@@ -16,76 +16,78 @@ f32 Collider::msDepthEpsilon = 10.0f;
 
 // ---------------------------------------------------------------------------
 
-Collider::Collider() : Component(){
-  mBoxVertices = nullptr;
-  mWidth = 0.0f;
-  mHalfWidth = 0.0f;
-  mHeight = 0.0f;
-  mHalfHeight = 0.0f;
-  mRadius = 0.0f;
-  mRigidBody = nullptr;
-  mIsPenetrated = false;
-  mIsSolid = true;
+Collider::Collider() :
+		Component() {
+	mBoxVertices = nullptr;
+	mWidth = 0.0f;
+	mHalfWidth = 0.0f;
+	mHeight = 0.0f;
+	mHalfHeight = 0.0f;
+	mRadius = 0.0f;
+	mRigidBody = nullptr;
+	mIsPenetrated = false;
+	mIsSolid = true;
 }
 
 // ---------------------------------------------------------------------------
 
-Collider::~Collider(){
-  if(mBoxVertices){
-    Memory::free<Array<Vector2>>(mBoxVertices);
-  }
+Collider::~Collider() {
+	if (mBoxVertices) {
+		Memory::free<Array<Vector2>>(mBoxVertices);
+	}
 }
 
 // ---------------------------------------------------------------------------
 
-void Collider::init(){
+void Collider::init() {
 	// TRACE();
 
-  mBoxVertices = Memory::allocate<Array<Vector2>>();
-  mBoxVertices->init(4);
+	mBoxVertices = Memory::allocate<Array<Vector2>>();
+	mBoxVertices->init(4);
 
-  mBoxVertices->set(0, Vector2(0,0)); // LEFT TOP VERTEX
-  mBoxVertices->set(1, Vector2(0,0)); // LEFT BOTTOM
-  mBoxVertices->set(2, Vector2(0,0)); // RIGHT BOTTOM
-  mBoxVertices->set(3, Vector2(0,0)); // RIGHT TOP
+	mBoxVertices->set(0, Vector2(0, 0)); // LEFT TOP VERTEX
+	mBoxVertices->set(1, Vector2(0, 0)); // LEFT BOTTOM
+	mBoxVertices->set(2, Vector2(0, 0)); // RIGHT BOTTOM
+	mBoxVertices->set(3, Vector2(0, 0)); // RIGHT TOP
 
-  mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+	mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
 }
 
 // ---------------------------------------------------------------------------
 
-void Collider::setSize(f32 width, f32 height){
-  mWidth = width;
-  mHalfWidth = width/2.0f;
-  mHeight = height;
-  mHalfHeight = height/2.0f;
+void Collider::setSize(f32 width, f32 height) {
+	mWidth = width;
+	mHalfWidth = width / 2.0f;
+	mHeight = height;
+	mHalfHeight = height / 2.0f;
 
-  mRadius = sqrt(( mWidth * mWidth ) + (  mHeight * mHeight )) / 2.0f;
+	mRadius = sqrt((mWidth * mWidth) + (mHeight * mHeight)) / 2.0f;
 }
 
 // ---------------------------------------------------------------------------
 
-Array<Vector2>* Collider::getBoundingBox(){
+Array<Vector2>* Collider::getBoundingBox() {
 
-  Transform* t = getGameObject()->getTransform();
+	Transform *t = getGameObject()->getTransform();
 
-  if(t->isDirtyTranslation()){
-    Vector3 center = t->getWorldPosition();
+	if (t->isDirtyTranslation()) {
+		Vector3 center = t->getWorldPosition();
 
-    mBoxVertices->set(0, Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
-    const Vector2& LeftTop = mBoxVertices->get(0);
-    mBoxVertices->set(1, Vector2(LeftTop.x, LeftTop.y - mHeight)); // LEFT BOTTOM
-    mBoxVertices->set(2, Vector2(LeftTop.x + mWidth, LeftTop.y - mHeight)); // RIGHT BOTTOM
-    mBoxVertices->set(3, Vector2(LeftTop.x + mWidth, LeftTop.y)); // RIGHT TOP
-  }
+		mBoxVertices->set(0,
+				Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
+		const Vector2 &LeftTop = mBoxVertices->get(0);
+		mBoxVertices->set(1, Vector2(LeftTop.x, LeftTop.y - mHeight)); // LEFT BOTTOM
+		mBoxVertices->set(2, Vector2(LeftTop.x + mWidth, LeftTop.y - mHeight)); // RIGHT BOTTOM
+		mBoxVertices->set(3, Vector2(LeftTop.x + mWidth, LeftTop.y)); // RIGHT TOP
+	}
 
-  return mBoxVertices;
+	return mBoxVertices;
 }
 
 // ---------------------------------------------------------------------------
 
-Vector3 Collider::getRelativeVelocity(Collider* otherCollider){
-  Vector3 velA = mRigidBody->getLinear();
+Vector3 Collider::getRelativeVelocity(Collider *otherCollider) {
+	Vector3 velA = mRigidBody->getLinear();
 	Vector3 velB = otherCollider->getRigidBody()->getLinear();
 
 	return velA.sub(velB);
@@ -93,166 +95,168 @@ Vector3 Collider::getRelativeVelocity(Collider* otherCollider){
 
 // ---------------------------------------------------------------------------
 
-bool Collider::isSimulate(){
-  return mRigidBody->isSimulate();
+bool Collider::isSimulate() {
+	return mRigidBody->isSimulate();
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testRectangleRectangle(Collider* otherCollider){
+ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 
+	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-  ColliderStatus result = ColliderStatus::STATUS_NONE;
+	GameObject *gameObject = getGameObject();
 
-  GameObject* gameObject = getGameObject();
+	Transform *t = gameObject->getTransform();
+	Vector3 center = t->getWorldPosition();
+	Vector3 otherCenter =
+			otherCollider->getGameObject()->getTransform()->getWorldPosition();
 
-  Transform* t = gameObject->getTransform();
-  Vector3 center = t->getWorldPosition();
-  Vector3 otherCenter = otherCollider->getGameObject()->getTransform()->getWorldPosition();
+	Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
+	relativeVelocity.nor();
 
-  Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
-  relativeVelocity.nor();
+	Vector3 normal = Vector3(center).sub(otherCenter).nor();
+	f32 vrn = relativeVelocity.dot(normal);
 
-  Vector3 normal = Vector3(center).sub(otherCenter).nor();
-  f32 vrn = relativeVelocity.dot(normal);
+	// if(vrn < 0){
 
-  // if(vrn < 0){
+	Array<Vector2> *vertices = getBoundingBox();
 
-    Array<Vector2>* vertices = getBoundingBox();
+	Array<Vector2> *otherVertices = otherCollider->getBoundingBox();
 
+	// TEST Middle Vertex vs Edge
+	u32 detectedVertexIndex = 0;
+	FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE)
+	{
 
+		Vector2 midPoint = MathUtils::midPoint(vertices->get(i),
+				vertices->get(i == 3 ? 0 : i + 1));
 
-    Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
+		ColliderStatus pointStatus = otherCollider->testPoint(midPoint);
 
-    // TEST Middle Vertex vs Edge
-    u32 detectedVertexIndex = 0;
-    FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE){
+		if (pointStatus > result) {
+			result = pointStatus;
+			detectedVertexIndex = i;
+		}
+	}
 
-      Vector2 midPoint = MathUtils::midPoint(vertices->get(i), vertices->get(i == 3 ? 0 : i+1));
+	if (result != ColliderStatus::STATUS_NONE
+			&& !(mIsSolid && otherCollider->isSolid())) {
 
-      ColliderStatus pointStatus = otherCollider->testPoint(midPoint);
+		// SEND DIRECTLY TO PENETRATION
+		result = ColliderStatus::STATUS_PENETRATION;
+	}
 
-      if(pointStatus > result){
-        result = pointStatus;
-        detectedVertexIndex = i;
-      }
-    }
+	if (result == ColliderStatus::STATUS_NONE
+			|| result == ColliderStatus::STATUS_COLLISION) {
 
-    if(result != ColliderStatus::STATUS_NONE && ! (mIsSolid && otherCollider->isSolid())){
+		ColliderStatus result2 = ColliderStatus::STATUS_NONE;
 
-      // SEND DIRECTLY TO PENETRATION
-      result = ColliderStatus::STATUS_PENETRATION;
-    }
+		// TEST Vertex vs Edge
+		// u32 detectedVertexIndex = 0;
+		FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE)
+		{
+			ColliderStatus pointStatus = otherCollider->testPoint(
+					vertices->get(i));
 
-    if(result == ColliderStatus::STATUS_NONE || result == ColliderStatus::STATUS_COLLISION){
+			if (pointStatus > result2) {
+				result2 = pointStatus;
+				// detectedVertexIndex = i;
+			}
+		}
 
-      ColliderStatus result2 = ColliderStatus::STATUS_NONE;
+		if (result2 > result) {
+			result = result2;
+		}
+	}
 
-      // TEST Vertex vs Edge
-      // u32 detectedVertexIndex = 0;
-      FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE){
-        ColliderStatus pointStatus = otherCollider->testPoint(vertices->get(i));
+	if (/*vrn > 0 && */result == ColliderStatus::STATUS_NONE) {
 
-        if(pointStatus > result2){
-          result2 = pointStatus;
-          // detectedVertexIndex = i;
-        }
-      }
+	} else /*if(vrn < 0)*/{
 
-      if(result2 > result){
-        result = result2;
-      }
-    }
+		// if(! gameObject->isStatic()){
+		Array<Vector2> *otherVertices = otherCollider->getBoundingBox();
 
-    if(/*vrn > 0 && */ result == ColliderStatus::STATUS_NONE){
+		Vector2 detectedVertex = vertices->get(detectedVertexIndex);
 
-    } else /*if(vrn < 0)*/{
+		// if(detectedVertex.x > (otherVertices->get(0).x + msDepthEpsilon) && detectedVertex.x < (otherVertices->get(3).x - msDepthEpsilon)){
+		//
+		//   if(detectedVertex.y > otherCenter.y){
+		//     ECHO("TOP - Vector2(0,1)");
+		//
+		//   }else if(detectedVertex.y < otherCenter.y){
+		//     ECHO("BOTTOM - Vector2(0,-1)");
+		//   }
+		// } else if(detectedVertex.y < (otherVertices->get(0).y - msDepthEpsilon) && detectedVertex.y > (otherVertices->get(1).y + msDepthEpsilon)){
+		//
+		//   if(detectedVertex.x > otherCenter.x){
+		//     ECHO("RIGHT - Vector2(1,0)");
+		//
+		//   }else if(detectedVertex.x < otherCenter.x){
+		//     ECHO("LEFT - Vector2(-1,0)");
+		//   }
+		// }
 
-      // if(! gameObject->isStatic()){
-        Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
+		// }
 
-        Vector2 detectedVertex = vertices->get(detectedVertexIndex);
+		if (result == ColliderStatus::STATUS_PENETRATION) {
 
-        // if(detectedVertex.x > (otherVertices->get(0).x + msDepthEpsilon) && detectedVertex.x < (otherVertices->get(3).x - msDepthEpsilon)){
-        //
-        //   if(detectedVertex.y > otherCenter.y){
-        //     ECHO("TOP - Vector2(0,1)");
-        //
-        //   }else if(detectedVertex.y < otherCenter.y){
-        //     ECHO("BOTTOM - Vector2(0,-1)");
-        //   }
-        // } else if(detectedVertex.y < (otherVertices->get(0).y - msDepthEpsilon) && detectedVertex.y > (otherVertices->get(1).y + msDepthEpsilon)){
-        //
-        //   if(detectedVertex.x > otherCenter.x){
-        //     ECHO("RIGHT - Vector2(1,0)");
-        //
-        //   }else if(detectedVertex.x < otherCenter.x){
-        //     ECHO("LEFT - Vector2(-1,0)");
-        //   }
-        // }
+			if (mIsSolid && otherCollider->isSolid()) {
+				markPenetrated();
+				otherCollider->markPenetrated();
+			} else {
+				result = ColliderStatus::STATUS_COLLISION;
+			}
 
+			// ECHO("PENETRATION");
 
-      // }
+			// if(vrn < -0.99f){
+			//mRigidBody->restoreState();
+			//f32 dst = Vector3(center).dst(otherCollider->getGameObject()->getTransform()->getLocalPosition());
+			//mRigidBody->addForce(relativeVelocity * -100000.0f/* * dst*/);
+			//otherCollider->getRigidBody()->setLinear(relativeVelocity * -1.0f);
+			// }
+			//mRigidBody->setAntiPenetrationForce(Vector3(relativeVelocity * -10.0f));
+		} else if (result == ColliderStatus::STATUS_COLLISION) {
+			// ECHO("COLLISION");
 
-      if(result == ColliderStatus::STATUS_PENETRATION){
+			// if(vrn < -0.99f){
+			//mRigidBody->stopMovement();
+			//otherCollider->getRigidBody()->stopMovement();
+			// }
+		}
 
-        if(mIsSolid && otherCollider->isSolid()){
-          markPenetrated();
-          otherCollider->markPenetrated();
-        } else {
-          result = ColliderStatus::STATUS_COLLISION;
-        }
+	}
 
-        // ECHO("PENETRATION");
+	setStatus(result);
+	otherCollider->setStatus(result);
 
-        // if(vrn < -0.99f){
-          //mRigidBody->restoreState();
-          //f32 dst = Vector3(center).dst(otherCollider->getGameObject()->getTransform()->getLocalPosition());
-          //mRigidBody->addForce(relativeVelocity * -100000.0f/* * dst*/);
-          //otherCollider->getRigidBody()->setLinear(relativeVelocity * -1.0f);
-        // }
-        //mRigidBody->setAntiPenetrationForce(Vector3(relativeVelocity * -10.0f));
-      }
-      else if(result == ColliderStatus::STATUS_COLLISION){
-        // ECHO("COLLISION");
-
-        // if(vrn < -0.99f){
-          //mRigidBody->stopMovement();
-          //otherCollider->getRigidBody()->stopMovement();
-        // }
-      }
-
-
-    }
-
-  setStatus(result);
-  otherCollider->setStatus(result);
-
-  return result;
+	return result;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
+ColliderStatus Collider::generateContacts(Array<Vector2> *candidateVertices,
+		Collider *otherCollider/* contactManager*/) {
 
-  ColliderStatus result = ColliderStatus::STATUS_NONE;
+	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
 	// ColliderStatus resultVertexVertex = testVertexVertex(candidateVertices, otherCollider/*, contactManager*/);
-  //
+	//
 	// ColliderStatus resultVertexEdge = ColliderStatus::STATUS_NONE;
-  //
+	//
 	// // if penetration/collision has been detected in vertex-vertex phase, we don't need to check vertex-edge.
-  //
+	//
 	// if(resultVertexVertex == ColliderStatus::STATUS_NONE){
 	// 	resultVertexEdge = testVertexEdge(candidateVertices, otherCollider/*, contactManager*/);
 	// }
-  //
+	//
 	// // if one test has detected something.
 	// if((resultVertexVertex != ColliderStatus::STATUS_NONE) || (resultVertexEdge != ColliderStatus::STATUS_NONE)){
-  //
+	//
 	//   bool hasInterpenetration = (resultVertexVertex == ColliderStatus::STATUS_PENETRATION) || (resultVertexEdge == ColliderStatus::STATUS_PENETRATION);
 	// 	bool hasCollision = (resultVertexVertex == ColliderStatus::STATUS_COLLISION) || (resultVertexEdge == ColliderStatus::STATUS_COLLISION);
-  //
+	//
 	// 	if(hasInterpenetration){
 	// 		result = ColliderStatus::STATUS_PENETRATION;
 	// 	}else if(hasCollision){
@@ -265,107 +269,115 @@ ColliderStatus Collider::generateContacts(Array<Vector2>* candidateVertices, Col
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexVertex(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
+ColliderStatus Collider::testVertexVertex(Array<Vector2> *candidateVertices,
+		Collider *otherCollider/* contactManager*/) {
 
-  ColliderStatus result = ColliderStatus::STATUS_NONE;
+	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-  // f32 eps = Collider::msDepthEpsilon; // Error
-  //
+	// f32 eps = Collider::msDepthEpsilon; // Error
+	//
 	// Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
-  // //var normals = otherCollider.getNormals(); // the normals of the other collider
-  //
+	// //var normals = otherCollider.getNormals(); // the normals of the other collider
+	//
 	// // VERTEX - VERTEX
-  //
+	//
 	// bool foundVertexVertex = false; // true if d< eps
-  //
-  // f32 maxDistance = -9999999.0f; // distance = -INFINITY
-  // Vector3 normal; // the collision normal
-  // Vector3 selectedVertex;
-  //
+	//
+	// f32 maxDistance = -9999999.0f; // distance = -INFINITY
+	// Vector3 normal; // the collision normal
+	// Vector3 selectedVertex;
+	//
 	// // var center = this.getCenter().cpy();
-  //
-  // // for all vertices
-  // FOR_ARRAY_COND (i, candidateVertices, !foundVertexVertex){
-  //   Vector2 vertex = candidateVertices->get(i);
-  //
-  //   // flag interior vertex -> 1 , -1
-  //   i32 interior = otherCollider->testPoint(vertex) ? -1 : 1;
-  //
-  //   //maxDistance = -9999999.0f; // distance
-  //   //normal = null; // the collision normal
-  //
+	//
+	// // for all vertices
+	// FOR_ARRAY_COND (i, candidateVertices, !foundVertexVertex){
+	//   Vector2 vertex = candidateVertices->get(i);
+	//
+	//   // flag interior vertex -> 1 , -1
+	//   i32 interior = otherCollider->testPoint(vertex) ? -1 : 1;
+	//
+	//   //maxDistance = -9999999.0f; // distance
+	//   //normal = null; // the collision normal
+	//
 	// 	// vertex - vertex
 	//   FOR_ARRAY_COND (j, otherVertices, !foundVertexVertex){
-  //
+	//
 	// 		Vector2 otherVertex = otherVertices->get(j);
-  //
+	//
 	//     f32 d = vertex.dst(otherVertex);
-  //
-  //     if(d < eps*1000){
-  //       ECHO("d < eps*10");
-  //       // this.pair.push(otherVertex);
-  //
-  //       // max
-  //       if(d > maxDistance){
-  //         ECHO("found VertexVertex");
-  //         foundVertexVertex = true;
-  //         // selectedVertex = vertex.cpy();
-  //         // maxDistance = d;
+	//
+	//     if(d < eps*1000){
+	//       ECHO("d < eps*10");
+	//       // this.pair.push(otherVertex);
+	//
+	//       // max
+	//       if(d > maxDistance){
+	//         ECHO("found VertexVertex");
+	//         foundVertexVertex = true;
+	//         // selectedVertex = vertex.cpy();
+	//         // maxDistance = d;
 	// 				// normal = center.sub(otherCollider.getCenter()).nor();
-  //
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  // if(foundVertexVertex){
-  //
-  //     //result = this.checkCollision(selectedVertex, eps, maxDistance, normal, otherCollider, contactManager);
-  // }
+	//
+	//       }
+	//     }
+	//   }
+	// }
+	//
+	// if(foundVertexVertex){
+	//
+	//     //result = this.checkCollision(selectedVertex, eps, maxDistance, normal, otherCollider, contactManager);
+	// }
 
-  return result;
+	return result;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexEdge(Array<Vector2>* candidateVertices, Collider* otherCollider/* contactManager*/){
-  return ColliderStatus::STATUS_NONE;
+ColliderStatus Collider::testVertexEdge(Array<Vector2> *candidateVertices,
+		Collider *otherCollider/* contactManager*/) {
+	return ColliderStatus::STATUS_NONE;
 }
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testPoint(Vector2 point){
+ColliderStatus Collider::testPoint(Vector2 point) {
 
-  //getBoundingBox(); // generate bounding box
+	//getBoundingBox(); // generate bounding box
 
-  // if(this.LT === null){
-  //   var center = this.getCenter();
-  // 	this.LT = new Vector3(center.x-(this.width/2),center.y+(this.height/2), center.z);
-  // }
+	// if(this.LT === null){
+	//   var center = this.getCenter();
+	// 	this.LT = new Vector3(center.x-(this.width/2),center.y+(this.height/2), center.z);
+	// }
 
-  ColliderStatus result = ColliderStatus::STATUS_NONE;
+	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
+	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0),
+			mWidth, mHeight, point, msDepthEpsilon);
 
-  if(testDepthEpsilon){
-    result = ColliderStatus::STATUS_COLLISION;
+	if (testDepthEpsilon) {
+		result = ColliderStatus::STATUS_COLLISION;
 
-    bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
+		bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(
+				mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
 
-    if(testZeroDepthEpsilonEpsilon){
-      result = ColliderStatus::STATUS_PENETRATION;
-    }
-  }
+		if (testZeroDepthEpsilonEpsilon) {
+			result = ColliderStatus::STATUS_PENETRATION;
+		}
+	}
 
-  return result;
-};
+	return result;
+}
+;
 
 // ---------------------------------------------------------------------------
 
-bool Collider::checkCollisionRadius(Collider* otherCollider) const {
-  Vector2 thisPosition = Vector2(this->getGameObject()->getTransform()->getLocalPosition());
-  Vector2 otherPosition = Vector2(otherCollider->getGameObject()->getTransform()->getLocalPosition());
-  return MathUtils::testSphereSphere(thisPosition, otherPosition, getRadius(), otherCollider->getRadius());
+bool Collider::checkCollisionRadius(Collider *otherCollider) const {
+	Vector2 thisPosition = Vector2(
+			this->getGameObject()->getTransform()->getLocalPosition());
+	Vector2 otherPosition = Vector2(
+			otherCollider->getGameObject()->getTransform()->getLocalPosition());
+	return MathUtils::testSphereSphere(thisPosition, otherPosition, getRadius(),
+			otherCollider->getRadius());
 }
 
 // ---------------------------------------------------------------------------

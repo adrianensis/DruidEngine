@@ -4,8 +4,7 @@
 
 using namespace DE;
 
-int main(){
-
+int main() {
 
 	DE_test(DE::PoolAllocator);
 
@@ -19,15 +18,15 @@ int main(){
 
 	pool.init(sizeInt, 4);
 
-	DE_test_expected_uint(pool.getAllocatedSize(),(sizeInt+sizePtr+1)*4);
-	DE_test_expected_uint(pool.getFreeBlocks(),4);
+	DE_test_expected_uint(pool.getAllocatedSize(), (sizeInt + sizePtr + 1) * 4);
+	DE_test_expected_uint(pool.getFreeBlocks(), 4);
 
-	u32* a = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),3);
-	u32* b = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),2);
-	u32* c = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),1);
+	u32 *a = reinterpret_cast<u32*>(pool.allocateBlock());
+	DE_test_expected_uint(pool.getFreeBlocks(), 3);
+	u32 *b = reinterpret_cast<u32*>(pool.allocateBlock());
+	DE_test_expected_uint(pool.getFreeBlocks(), 2);
+	u32 *c = reinterpret_cast<u32*>(pool.allocateBlock());
+	DE_test_expected_uint(pool.getFreeBlocks(), 1);
 
 	DE_test_show(a);
 	DE_test_show(b);
@@ -37,17 +36,17 @@ int main(){
 	*b = 2;
 	*c = 3;
 
-	DE_test_expected_uint(*a,1);
-	DE_test_expected_uint(*b,2);
-	DE_test_expected_uint(*c,3);
+	DE_test_expected_uint(*a, 1);
+	DE_test_expected_uint(*b, 2);
+	DE_test_expected_uint(*c, 3);
 
 	pool.free(reinterpret_cast<byte*>(b));
 
-	DE_test_expected_uint(pool.getFreeBlocks(),2);
+	DE_test_expected_uint(pool.getFreeBlocks(), 2);
 
-	u32* d = reinterpret_cast<u32*>(pool.allocateBlock());
+	u32 *d = reinterpret_cast<u32*>(pool.allocateBlock());
 
-	DE_test_expected_uint(pool.getFreeBlocks(),1);
+	DE_test_expected_uint(pool.getFreeBlocks(), 1);
 
 	*d = 4;
 
@@ -57,26 +56,26 @@ int main(){
 	DE_test_show(a);
 	DE_test_show(c);
 
-	DE_test_expected_uint(*a,1);
-	DE_test_expected_uint(*c,3);
+	DE_test_expected_uint(*a, 1);
+	DE_test_expected_uint(*c, 3);
 
 	pool.free(reinterpret_cast<byte*>(d));
 
-	DE_test_expected_uint(pool.getFreeBlocks(),2);
+	DE_test_expected_uint(pool.getFreeBlocks(), 2);
 
 	// ALIGNED
 
 	pool.init(sizeInt, 4, 8);
 
-	DE_test_expected_uint(pool.getAllocatedSize(),(sizeInt+sizePtr+8)*4);
-	DE_test_expected_uint(pool.getFreeBlocks(),4);
+	DE_test_expected_uint(pool.getAllocatedSize(), (sizeInt + sizePtr + 8) * 4);
+	DE_test_expected_uint(pool.getFreeBlocks(), 4);
 
 	a = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),3);
+	DE_test_expected_uint(pool.getFreeBlocks(), 3);
 	b = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),2);
+	DE_test_expected_uint(pool.getFreeBlocks(), 2);
 	c = reinterpret_cast<u32*>(pool.allocateBlock());
-	DE_test_expected_uint(pool.getFreeBlocks(),1);
+	DE_test_expected_uint(pool.getFreeBlocks(), 1);
 
 	DE_test_show(a);
 	DE_test_show(b);
@@ -92,7 +91,7 @@ int main(){
 
 	pool.free(reinterpret_cast<byte*>(b));
 
-	DE_test_expected_uint(pool.getFreeBlocks(),2);
+	DE_test_expected_uint(pool.getFreeBlocks(), 2);
 
 	d = reinterpret_cast<u32*>(pool.allocateBlock());
 
@@ -105,23 +104,23 @@ int main(){
 	DE_test_show(b);
 	DE_test_show(c);
 
-	DE_test_expected_uint(*a,1111);
-	DE_test_expected_uint(*b,2222);
-	DE_test_expected_uint(*c,3333);
+	DE_test_expected_uint(*a, 1111);
+	DE_test_expected_uint(*b, 2222);
+	DE_test_expected_uint(*c, 3333);
 
 	pool.free(reinterpret_cast<byte*>(a));
 	pool.free(reinterpret_cast<byte*>(c));
 	pool.free(reinterpret_cast<byte*>(d));
 
-	DE_test_expected_uint(pool.getFreeBlocks(),4);
+	DE_test_expected_uint(pool.getFreeBlocks(), 4);
 
 	pool.allocateBlock();
 
-	DE_test_expected_uint(pool.getFreeBlocks(),3);
+	DE_test_expected_uint(pool.getFreeBlocks(), 3);
 
 	pool.reset();
 
-	DE_test_expected_uint(pool.getFreeBlocks(),4);
+	DE_test_expected_uint(pool.getFreeBlocks(), 4);
 
 	summary();
 

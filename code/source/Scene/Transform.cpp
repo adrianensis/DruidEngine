@@ -9,8 +9,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Transform::Transform() : Component()
-{
+Transform::Transform() :
+		Component() {
 	// mModelMatrix = nullptr;
 	// mTranslationMatrix = nullptr;
 	// mRotationMatrix = nullptr;
@@ -23,7 +23,7 @@ Transform::Transform() : Component()
 	mParent = nullptr;
 }
 
-Transform::~Transform(){
+Transform::~Transform() {
 	// Memory::free<Matrix4>(mModelMatrix);
 	// Memory::free<Matrix4>(mTranslationMatrix);
 	// Memory::free<Matrix4>(mRotationMatrix);
@@ -32,7 +32,7 @@ Transform::~Transform(){
 
 // ---------------------------------------------------------------------------
 
-void Transform::init(){
+void Transform::init() {
 	// TRACE();
 
 	// mModelMatrix = Memory::allocate<Matrix4>();
@@ -53,67 +53,76 @@ void Transform::init(){
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
 }
 
-bool Transform::isDirtyTranslation() const { return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation()); }
-void Transform::setDirtyTranslation(bool dirty){ mIsDirtyTranslation = dirty; }
-
+bool Transform::isDirtyTranslation() const {
+	return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation());
+}
+void Transform::setDirtyTranslation(bool dirty) {
+	mIsDirtyTranslation = dirty;
+}
 
 // void Transform::setWorldPosition(const Vector3& vector){
 // 	mIsDirtyTranslation = true;
 // 	mWorldPosition = vector;
 // }
 
-void Transform::setLocalPosition(const Vector3& vector){
+void Transform::setLocalPosition(const Vector3 &vector) {
 	mIsDirtyTranslation = true;
 	mLocalPosition = vector;
 }
 
-void Transform::setRotation(const Vector3& vector){
+void Transform::setRotation(const Vector3 &vector) {
 	mIsDirtyRotation = true;
 	mRotation = vector;
-};
+}
+;
 
-void Transform::setScale(const Vector3& vector){
+void Transform::setScale(const Vector3 &vector) {
 	mIsDirtyScale = true;
 	mScale = vector;
-};
+}
+;
 
-const Vector3& Transform::getWorldPosition(){
+const Vector3& Transform::getWorldPosition() {
 
 	mWorldPosition = mLocalPosition;
 
-	if(mParent){
+	if (mParent) {
 		mWorldPosition.add(mParent->getWorldPosition());
 
 		Matrix4 rotationMatrix;
 		rotationMatrix.init(mParent->getRotationMatrix());
 
-		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
+		mWorldPosition = Vector3(
+				rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
 	}
 
 	return mWorldPosition;
-};
+}
+;
 
 // ---------------------------------------------------------------------------
 
-void Transform::translate(const Vector3& vector){
-	if(vector.len() > 0.0f){
+void Transform::translate(const Vector3 &vector) {
+	if (vector.len() > 0.0f) {
 		mIsDirtyTranslation = true;
 		mLocalPosition.add(vector);
 	}
-};
+}
+;
 
 // ---------------------------------------------------------------------------
 
-void Transform::rotate(const Vector3& vector){
-	if(vector.len() > 0.0f){
+void Transform::rotate(const Vector3 &vector) {
+	if (vector.len() > 0.0f) {
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
-};
+}
+;
 
 // ---------------------------------------------------------------------------
 
-void Transform::lookAt(const Vector3& targetPosition){
+void Transform::lookAt(const Vector3 &targetPosition) {
 
 	mIsDirtyRotation = true;
 
@@ -121,17 +130,14 @@ void Transform::lookAt(const Vector3& targetPosition){
 
 	Vector3 forward(target.sub(mLocalPosition).nor());
 
-	Vector3 yAxis(0,1,0);
+	Vector3 yAxis(0, 1, 0);
 	Vector3 right(yAxis.cross(forward).nor());
 	Vector3 up(Vector3(forward).cross(right));
 
 	Matrix4 lookAtMatrix;
-	lookAtMatrix.init(
-		Vector4(right.x, right.y, right.z, 0),
-		Vector4(up.x, up.y, up.z, 0),
-		Vector4(forward.x, forward.y, forward.z, 0),
-		Vector4(0, 0, 0, 1)
-	);
+	lookAtMatrix.init(Vector4(right.x, right.y, right.z, 0),
+			Vector4(up.x, up.y, up.z, 0),
+			Vector4(forward.x, forward.y, forward.z, 0), Vector4(0, 0, 0, 1));
 
 	Quaternion q;
 
@@ -142,7 +148,7 @@ void Transform::lookAt(const Vector3& targetPosition){
 
 // ---------------------------------------------------------------------------
 
-const Matrix4& Transform::getTranslationMatrix(){
+const Matrix4& Transform::getTranslationMatrix() {
 
 	// Vector3 wPos = getWorldPosition();
 	//
@@ -150,20 +156,20 @@ const Matrix4& Transform::getTranslationMatrix(){
 	// VAR(f32, wPos.y);
 	// VAR(f32, wPos.z);
 
-	if(mIsDirtyTranslation || mParent){
+	if (mIsDirtyTranslation || mParent) {
 		mTranslationMatrix.translation(getWorldPosition());
 		mIsDirtyTranslation = false;
 	}
 
 	// RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x + 400.0f ,mLocalPosition.y,mLocalPosition.z));
-  // RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y + 400.0f ,mLocalPosition.z));
-  // RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y,mLocalPosition.z + 400.0f ));
+	// RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y + 400.0f ,mLocalPosition.z));
+	// RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y,mLocalPosition.z + 400.0f ));
 
 	return mTranslationMatrix;
 }
 
-const Matrix4& Transform::getRotationMatrix() const{
-	if(mIsDirtyRotation){
+const Matrix4& Transform::getRotationMatrix() const {
+	if (mIsDirtyRotation) {
 		mRotationMatrix.rotation(mRotation);
 		mIsDirtyRotation = false;
 	}
@@ -171,8 +177,8 @@ const Matrix4& Transform::getRotationMatrix() const{
 	return mRotationMatrix;
 }
 
-const Matrix4& Transform::getScaleMatrix() const{
-	if(mIsDirtyScale){
+const Matrix4& Transform::getScaleMatrix() const {
+	if (mIsDirtyScale) {
 		mScaleMatrix.scale(mScale);
 		mIsDirtyScale = false;
 	}
@@ -182,9 +188,13 @@ const Matrix4& Transform::getScaleMatrix() const{
 
 // ---------------------------------------------------------------------------
 
-void Transform::setParent(Transform* parent){ mParent = parent; }
+void Transform::setParent(Transform *parent) {
+	mParent = parent;
+}
 
-Transform* Transform::getParent(){ return mParent; }
+Transform* Transform::getParent() {
+	return mParent;
+}
 
 // ---------------------------------------------------------------------------
 

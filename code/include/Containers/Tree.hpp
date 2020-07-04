@@ -6,235 +6,250 @@
 
 namespace DE {
 
-  // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 /*!
-  \brief Binary Tree.
-  \tparam K Key class.
-  \tparam T Talue class.
-*/
-template <class T>
-class Tree : public BaseContainer {
+ \brief Binary Tree.
+ \tparam K Key class.
+ \tparam T Talue class.
+ */
+template<class T>
+class Tree: public BaseContainer {
 
 private:
 
+	// ---------------------------------------------------------------------------
+	class Node: public DE_Class {
 
-  // ---------------------------------------------------------------------------
-  class Node : public DE_Class {
+	public:
+		Node *mParent;
+		T mElement;
+		Array<Node*> *mChildren;
 
-  public:
-    Node* mParent;
-    T mElement;
-    Array<Node*>* mChildren;
+		DE_GENERATE_METADATA(Node, DE_Class)
+		;
 
-    DE_GENERATE_METADATA(Node, DE_Class);
+		Node() :
+				DE_Class() {
+			mChildren = nullptr;
+		}
+		;
 
-    Node() : DE_Class(){
-      mChildren = nullptr;
-    };
+		~Node() {
+			mParent = nullptr;
+			Memory::free<Array<Node*>>(mChildren);
+		}
+		;
 
-    ~Node(){
-      mParent = nullptr;
-      Memory::free<Array<Node*>>(mChildren);
-    };
+		void init(Node *parent, const T element, u32 childrenCount) {
+			mParent = parent;
+			mElement = element;
+			mChildren = Memory::allocate<Array<Node*>>();
+			mChildren->init(childrenCount);
+			mChildren->set(0, nullptr);
+			mChildren->set(1, nullptr);
+		}
+		;
 
-    void init(Node* parent, const T element, u32 childrenCount){
-      mParent = parent;
-      mElement = element;
-      mChildren = Memory::allocate<Array<Node*>>();
-      mChildren->init(childrenCount);
-      mChildren->set(0, nullptr);
-      mChildren->set(1, nullptr);
-    };
+		void addChild(Node *node) {
+			u32 index =
+					Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
 
-    void addChild(Node* node){
-      u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
+			Node *child = mChildren->get(index);
 
-      Node* child = mChildren->get(index);
+			if (child == nullptr) {
+				node->mParent = this;
+				mChildren->set(index, node);
+			} else
+				child->addChild(node);
+		}
+		;
 
-      if(child == nullptr){
-        node->mParent = this;
-        mChildren->set(index, node);
-      }else
-        child->addChild(node);
-    };
+		void removeChild(Node *node) {
+			u32 index =
+					Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
 
-    void removeChild(Node* node){
-      u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
+			mChildren->get(index)->mParent = nullptr;
+			mChildren->set(index, nullptr);
+		}
+	};
 
-      mChildren->get(index)->mParent = nullptr;
-      mChildren->set(index,nullptr);
-    }
-  };
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	static const u32 smNodeSize = sizeof(Node);
 
-  static const u32 smNodeSize = sizeof(Node);
+	Node* newNode(Node *parent, const T element) {
+		Node *node = Memory::allocate<Node>();
+		node->init(parent, element, smChildrenCount);
+		return node;
+	}
+	;
 
-  Node* newNode(Node* parent, const T element){
-    Node* node = Memory::allocate<Node>();
-    node->init(parent, element, smChildrenCount);
-    return node;
-  };
+	void freeNode(Node *node) {
+		Memory::free<Node>(node);
+	}
+	;
 
-  void freeNode(Node* node){
-    Memory::free<Node>(node);
-  };
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	void freeSubTree(Node *node) {
+		Node *child0 = node->mChildren->get(0);
+		Node *child1 = node->mChildren->get(1);
 
-  void freeSubTree(Node* node){
-    Node* child0 = node->mChildren->get(0);
-    Node* child1 = node->mChildren->get(1);
+		if (child0 != nullptr)
+			freeSubTree(child0);
 
-    if(child0 != nullptr)
-      freeSubTree(child0);
+		if (child1 != nullptr)
+			freeSubTree(child1);
 
-    if(child1 != nullptr)
-      freeSubTree(child1);
+		node->mChildren->set(0, nullptr);
+		node->mChildren->set(1, nullptr);
 
-    node->mChildren->set(0, nullptr);
-    node->mChildren->set(1, nullptr);
+		mLength--;
+	}
+	;
 
-    mLength--;
-  };
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	Node* find(const T element, Node *node) {
+		if (element == node->mElement)
+			return node;
 
-  Node* find(const T element, Node* node){
-    if(element == node->mElement)
-      return node;
+		u32 index = Hash::hash(element) < Hash::hash(node->mElement) ? 0 : 1;
 
-    u32 index = Hash::hash(element) < Hash::hash(node->mElement) ? 0 : 1;
+		Node *child = node->mChildren->get(index);
 
-    Node* child = node->mChildren->get(index);
+		if (child == nullptr)
+			return nullptr;
+		else
+			return find(element, child);
+	}
+	;
 
-    if(child == nullptr)
-      return nullptr;
-    else
-      return find(element, child);
-  };
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
-
-  Node* mRoot;
-  static const u32 smChildrenCount = 2;
+	Node *mRoot;
+	static const u32 smChildrenCount = 2;
 
 public:
 
-  DE_GENERATE_METADATA(Tree<T>, BaseContainer);
+	DE_GENERATE_METADATA(Tree<T>, BaseContainer)
+	;
 
+	Tree() :
+			BaseContainer() {
+		mRoot = nullptr;
+	}
 
-  Tree() : BaseContainer(){
-    mRoot = nullptr;
-  }
+	~Tree() {
+		Tree<T>::clear();
+	}
 
-  ~Tree(){
-	  Tree<T>::clear();
-  }
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	/*!
+	 \brief Constructor.
+	 */
+	void init() {
+		BaseContainer::init(0, sizeof(T), 1);
+		mRoot = nullptr;
+	}
 
-  /*!
-    \brief Constructor.
-  */
-  void init(){
-    BaseContainer::init(0, sizeof(T), 1);
-    mRoot = nullptr;
-  }
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	void add(const T element) {
+		Node *node = newNode(nullptr, element);
 
-  void add(const T element){
-    Node* node = newNode(nullptr, element);
+		if (mRoot == nullptr)
+			mRoot = node;
+		else
+			mRoot->addChild(node);
 
-    if(mRoot == nullptr)
-      mRoot = node;
-    else
-      mRoot->addChild(node);
+		mLength++;
+	}
 
-    mLength++;
-  }
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	void remove(const T element) {
+		Node *node = find(element, mRoot);
 
-  void remove(const T element){
-    Node* node = find(element, mRoot);
+		if (node != nullptr) {
 
-    if(node != nullptr){
+			Node *child0 = node->mChildren->get(0);
+			Node *child1 = node->mChildren->get(1);
 
-      Node* child0 = node->mChildren->get(0);
-      Node* child1 = node->mChildren->get(1);
+			// 3 cases: a, b, c.
 
-      // 3 cases: a, b, c.
+			if (child0 == nullptr && child1 == nullptr) { // a) If no children
+				Node *parent = node->mParent;
+				node->mParent = nullptr;
 
-      if(child0 == nullptr && child1 == nullptr){ // a) If no children
-        Node* parent = node->mParent;
-        node->mParent = nullptr;
+				if (parent != nullptr)
+					parent->removeChild(node);
+				else
+					// Is the root!
+					mRoot = nullptr;
 
-        if(parent != nullptr)
-          parent->removeChild(node);
-        else// Is the root!
-          mRoot = nullptr;
+				freeNode(node);
 
-        freeNode(node);
+			} else if (child0 != nullptr && child1 != nullptr) { // b) If 2 children
 
-      }else if(child0 != nullptr && child1 != nullptr){ // b) If 2 children
+			// Find min value in right subtree.
 
-        // Find min value in right subtree.
+				Node *successor = nullptr; // successor
+				Node *successorParent = node->mChildren->get(1); // root of right subtree.
+				while (successorParent->mChildren->getLength() > 0
+						&& successorParent->mChildren->get(0) != nullptr) {
+					successor = successorParent->mChildren->get(0); // explore left side (where values are always min).
+					successorParent = successor;
+				}
 
-        Node* successor = nullptr; // successor
-        Node* successorParent = node->mChildren->get(1); // root of right subtree.
-        while (successorParent->mChildren->getLength() > 0 && successorParent->mChildren->get(0) != nullptr){
-          successor = successorParent->mChildren->get(0); // explore left side (where values are always min).
-          successorParent = successor;
-        }
+				if (successor != nullptr) // if successor prune the child.
+					successor->mParent->removeChild(successor);
+				else
+					// if no successor then choose the root of the right subtree.
+					successor = successorParent;
 
-        if(successor != nullptr) // if successor prune the child.
-          successor->mParent->removeChild(successor);
-        else // if no successor then choose the root of the right subtree.
-          successor = successorParent;
+				node->mElement = successor->mElement;
 
-        node->mElement = successor->mElement;
+				freeNode(successor); // delete successor node
 
-        freeNode(successor); // delete successor node
+			} else { // c) If only 1 child
+				Node *child = child0 != nullptr ? child0 : child1;
+				Node *parent = node->mParent;
+				node->mParent = nullptr;
 
-      }else{ // c) If only 1 child
-        Node* child = child0 != nullptr ? child0 : child1;
-        Node* parent = node->mParent;
-        node->mParent = nullptr;
+				if (parent != nullptr) {
+					parent->removeChild(node);
+					parent->addChild(child);
+				} else { // Is the root!
+					child->mParent = nullptr;
+					mRoot = child;
+				}
 
-        if(parent != nullptr){
-          parent->removeChild(node);
-          parent->addChild(child);
-        }else{ // Is the root!
-          child->mParent = nullptr;
-          mRoot = child;
-        }
+				freeNode(node);
+			}
 
-        freeNode(node);
-      }
+			mLength--;
 
-      mLength--;
+			if (mLength == 0) {
+				Tree::clear();
+			}
+		}
+	}
 
-      if(mLength == 0){
-        Tree::clear();
-      }
-    }
-  }
+	// ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------
+	void clear() override {
+		if (mLength > 0) {
+			freeSubTree(mRoot);
+			freeNode(mRoot);
+		}
 
-  void clear() override {
-    if(mLength > 0){
-      freeSubTree(mRoot);
-      freeNode(mRoot);
-    }
+		mRoot = nullptr;
+	}
 
-    mRoot = nullptr;
-  }
-
-  // ---------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 };
 
 } /* namespace DE */

@@ -25,7 +25,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-TornadoScript::TornadoScript() : Script(){
+TornadoScript::TornadoScript() :
+		Script() {
 
 }
 
@@ -33,46 +34,45 @@ TornadoScript::TornadoScript() : Script(){
 
 TornadoScript::~TornadoScript() = default;
 
-
-void TornadoScript::init(){
+void TornadoScript::init() {
 
 }
 
 // ---------------------------------------------------------------------------
 
-void TornadoScript::firstStep(){
-  getGameObject()->setTag("tornado");
-  mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+void TornadoScript::firstStep() {
+	getGameObject()->setTag("tornado");
+	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
 
-  mDurationTime = 5.0f;
-  mDurationTimeCounter = 0;
+	mDurationTime = 5.0f;
+	mDurationTimeCounter = 0;
 }
 
 // ---------------------------------------------------------------------------
 
-void TornadoScript::step(){
-  if(mDurationTimeCounter >= mDurationTime){
-    ECHO("TORNADO DESTROY")
-    getGameObject()->destroy();
-  }
-  mDurationTimeCounter += Time::getDeltaTimeSeconds();
+void TornadoScript::step() {
+	if (mDurationTimeCounter >= mDurationTime) {
+		ECHO("TORNADO DESTROY")
+		getGameObject()->destroy();
+	}
+	mDurationTimeCounter += Time::getDeltaTimeSeconds();
 }
 
 // ---------------------------------------------------------------------------
 
-void TornadoScript::onEnterCollision(GameObject* otherGameObject){
+void TornadoScript::onEnterCollision(GameObject *otherGameObject) {
 
 }
 
-void TornadoScript::onCollision(GameObject* otherGameObject){
+void TornadoScript::onCollision(GameObject *otherGameObject) {
 
 }
 
-void TornadoScript::onExitCollision(GameObject* otherGameObject){
+void TornadoScript::onExitCollision(GameObject *otherGameObject) {
 
 }
 
-void TornadoScript::terminate(){
+void TornadoScript::terminate() {
 
 }
 

@@ -30,7 +30,8 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Engine::Engine() : DE_Class(), Singleton(){
+Engine::Engine() :
+		DE_Class(), Singleton() {
 	mFPS = 60;
 	mRenderEngine = nullptr;
 	mPhysicsEngine = nullptr;
@@ -41,7 +42,7 @@ Engine::~Engine() = default;
 
 // ---------------------------------------------------------------------------
 
-void Engine::init(){
+void Engine::init() {
 
 	TRACE()
 
@@ -54,7 +55,7 @@ void Engine::init(){
 
 // ---------------------------------------------------------------------------
 
-void Engine::initSubsystems(){
+void Engine::initSubsystems() {
 
 	terminateSubSystems();
 
@@ -64,7 +65,7 @@ void Engine::initSubsystems(){
 
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 
-	if(sceneSize == 0){
+	if (sceneSize == 0) {
 		sceneSize = Settings::getInstance()->getF32("scene.defaultSize");
 	}
 
@@ -76,33 +77,37 @@ void Engine::initSubsystems(){
 
 // ---------------------------------------------------------------------------
 
-void Engine::terminateSubSystems(){
+void Engine::terminateSubSystems() {
 
 	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
 
-	if(mScriptEngine) mScriptEngine->terminate();
-	if(mRenderEngine) mRenderEngine->terminate();
-	if(mPhysicsEngine) mPhysicsEngine->terminate();
-	if(UI::getInstance()) UI::getInstance()->terminate();
+	if (mScriptEngine)
+		mScriptEngine->terminate();
+	if (mRenderEngine)
+		mRenderEngine->terminate();
+	if (mPhysicsEngine)
+		mPhysicsEngine->terminate();
+	if (UI::getInstance())
+		UI::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
 
-void Engine::run(){
+void Engine::run() {
 	Time::init();
 
 	f32 accumulator = 0.0f;
 
 	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
-	f32 inverseFPS = 1.0f/FPS;
+	f32 inverseFPS = 1.0f / FPS;
 
-	 //initSubsystems();
+	//initSubsystems();
 
-	while(! RenderContext::isClosed()){
+	while (!RenderContext::isClosed()) {
 
 		Time::tick();
 
-		if(ScenesManager::getInstance()->sceneHasChanged()){
+		if (ScenesManager::getInstance()->sceneHasChanged()) {
 			initSubsystems();
 		}
 
@@ -126,7 +131,7 @@ void Engine::run(){
 
 // ---------------------------------------------------------------------------
 
-void Engine::terminate(){
+void Engine::terminate() {
 
 	terminateSubSystems();
 

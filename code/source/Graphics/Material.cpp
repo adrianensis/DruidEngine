@@ -8,16 +8,18 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Material::Material() : DE_Class(){
-  mShader = nullptr;
-  mTexture = nullptr;
+Material::Material() :
+		DE_Class() {
+	mShader = nullptr;
+	mTexture = nullptr;
 }
 
-Material::~Material(){
-  // Memory::free<Shader>(mShader);
+Material::~Material() {
+	// Memory::free<Shader>(mShader);
 }
 
-void Material::init(){	 TRACE()
+void Material::init() {
+TRACE()
 }
 
 // ---------------------------------------------------------------------------

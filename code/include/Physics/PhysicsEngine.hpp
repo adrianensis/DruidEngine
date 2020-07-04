@@ -12,26 +12,28 @@ class GameObject;
 template<class T> class List;
 class Iterator;
 
-class PhysicsEngine : public DE_Class, public Singleton<PhysicsEngine>{
+class PhysicsEngine: public DE_Class, public Singleton<PhysicsEngine> {
 private:
 
-  List<RigidBody*>* mRigidBodies;
-  QuadTree* mQuadTree;
+	List<RigidBody*> *mRigidBodies;
+	QuadTree *mQuadTree;
 
-  void internalRemoveRigidBody(const Iterator* it);
+	void internalRemoveRigidBody(const Iterator *it);
 
 public:
 
-  DE_CLASS(PhysicsEngine, DE_Class);
+	DE_CLASS(PhysicsEngine, DE_Class)
+	;
 
-  void addRigidBody(RigidBody* rigidBody);
+	void addRigidBody(RigidBody *rigidBody);
 
-  void rayCastQuery(const Vector3& lineStart, const Vector3& lineSnd, List<GameObject*>* outList);
+	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd,
+			List<GameObject*> *outList);
 
-  void init(f32 sceneSize);
-  void step(f32 deltaTime);
-  void updateContacts();
-  void terminate();
+	void init(f32 sceneSize);
+	void step(f32 deltaTime);
+	void updateContacts();
+	void terminate();
 
 };
 } /* namespace DE */

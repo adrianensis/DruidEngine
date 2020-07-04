@@ -7,8 +7,8 @@
 namespace DE {
 
 /*
-  METADATA MACROS
-*/
+ METADATA MACROS
+ */
 
 #define DE_GENERATE_ID_STATIC(Class) static ClassId getClassIdStatic(){static ClassId classId = Hash::hash(#Class); return classId;}
 #define DE_GENERATE_PARENT_ID_STATIC(ParentClass) static ClassId getParentClassIdStatic(){ return ParentClass::getClassIdStatic(); }
@@ -31,26 +31,39 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 /*!
-  \brief Base class for Druid Engine.
-*/
-class DE_Class : public Hash {
+ \brief Base class for Druid Engine.
+ */
+class DE_Class: public Hash {
 
 public:
 
-  static std::string getClassNameStatic(){ return "DE_Class"; };
-  static ClassId getClassIdStatic(){ return 0; }
+	static std::string getClassNameStatic() {
+		return "DE_Class";
+	}
+	;
+	static ClassId getClassIdStatic() {
+		return 0;
+	}
 
-  DE_Class() = default;
-  virtual ~DE_Class() = default;
+	DE_Class() = default;
+	virtual ~DE_Class() = default;
 
-  virtual ClassId getClassId(){ return 0; };
-  virtual ClassId getParentClassId(){ return 0; };
-  virtual std::string getClassName(){ return "DE_Class"; };
+	virtual ClassId getClassId() {
+		return 0;
+	}
+	;
+	virtual ClassId getParentClassId() {
+		return 0;
+	}
+	;
+	virtual std::string getClassName() {
+		return "DE_Class";
+	}
+	;
 };
 
 // ---------------------------------------------------------------------------
 
 } /* namespace DE */
-
 
 #endif //DE_CLASS_H

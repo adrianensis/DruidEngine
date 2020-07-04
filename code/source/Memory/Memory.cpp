@@ -10,59 +10,57 @@ LinearAllocator Memory::smGlobal;
 
 // ---------------------------------------------------------------------------
 
-Memory::Memory(){
+Memory::Memory() {
 
 }
 
 // ---------------------------------------------------------------------------
 
-Memory::~Memory(){
+Memory::~Memory() {
 
 }
 
 // ---------------------------------------------------------------------------
 
-void Memory::init(){
+void Memory::init() {
 
 	// NOTE: Log stats here!!
 	Log::init();
 
 	TRACE();
 
-	smGlobal.init(2*GB);
+	smGlobal.init(2 * GB);
 
-	ECHO("TOTAL MEMORY (IN MB)");
-	VAL(f32,(smGlobal.getTotalSize() / MB));
+	ECHO("TOTAL MEMORY (IN MB)"); VAL(f32,(smGlobal.getTotalSize() / MB));
 }
 
 // ---------------------------------------------------------------------------
 
-void Memory::init(u32 size){
+void Memory::init(u32 size) {
 	TRACE();
 
-  smGlobal.init(size);
+	smGlobal.init(size);
 }
 
 // ---------------------------------------------------------------------------
 
-void Memory::flush(){
+void Memory::flush() {
 	smGlobal.flush();
 }
 
 // ---------------------------------------------------------------------------
 
-Allocator& Memory::getGlobal(){
-  return smGlobal;
+Allocator& Memory::getGlobal() {
+	return smGlobal;
 }
 
 // ---------------------------------------------------------------------------
 
-void Memory::free(){
+void Memory::free() {
 
-	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
-	VAL(f32,(smGlobal.getAllocatedSize() / MB));
+	ECHO("REMAINING ALLOCATED MEMORY (IN MB)"); VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
-  smGlobal.terminate();
+	smGlobal.terminate();
 
 	// NOTE: Log ends here!!
 	Log::terminate();

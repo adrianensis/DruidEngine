@@ -4,7 +4,6 @@
 #include "DE_Class.hpp"
 #include "Singleton.hpp"
 
-
 namespace DE {
 
 class RenderEngine;
@@ -13,24 +12,25 @@ class ScriptEngine;
 
 // ---------------------------------------------------------------------------
 
-class Engine : public DE_Class, public Singleton<Engine> {
+class Engine: public DE_Class, public Singleton<Engine> {
 
 private:
 
-  f32 mFPS;
-  RenderEngine* mRenderEngine;
-  PhysicsEngine* mPhysicsEngine;
-  ScriptEngine* mScriptEngine;
+	f32 mFPS;
+	RenderEngine *mRenderEngine;
+	PhysicsEngine *mPhysicsEngine;
+	ScriptEngine *mScriptEngine;
 
 public:
 
-  DE_CLASS(Engine, DE_Class);
+	DE_CLASS(Engine, DE_Class)
+	;
 
-  void init();
-  void initSubsystems();
-  void terminateSubSystems();
-  void run();
-  void terminate();
+	void init();
+	void initSubsystems();
+	void terminateSubSystems();
+	void run();
+	void terminate();
 };
 
 // ---------------------------------------------------------------------------

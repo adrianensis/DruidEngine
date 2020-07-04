@@ -6,11 +6,9 @@
 
 namespace DE {
 
-  enum class Element {
-    FIRE,
-    ICE,
-    WIND
-  };
+enum class Element {
+	FIRE, ICE, WIND
+};
 
 } /* namespace DE */
 

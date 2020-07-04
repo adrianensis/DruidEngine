@@ -10,19 +10,19 @@ namespace DE {
 class Script;
 class Iterator;
 
-class ScriptEngine : public DE_Class, public Singleton<ScriptEngine>{
+class ScriptEngine: public DE_Class, public Singleton<ScriptEngine> {
 private:
 
-List<Script*>* mScripts;
-void internalRemoveScript(const Iterator* it);
+	List<Script*> *mScripts;
+	void internalRemoveScript(const Iterator *it);
 
-public:
-  DE_CLASS(ScriptEngine, DE_Class);
+public:DE_CLASS(ScriptEngine, DE_Class)
+	;
 
-  void init();
-  void addScript(Script* newScript);
-  void step();
-  void terminate();
+	void init();
+	void addScript(Script *newScript);
+	void step();
+	void terminate();
 };
 
 } /* namespace DE */

@@ -7,22 +7,23 @@
 
 namespace DE {
 
-template <class K, class V> class HashMap;
+template<class K, class V> class HashMap;
 class Texture;
 class Material;
 
-class MaterialManager : public DE_Class, public Singleton<MaterialManager>{
+class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
-	HashMap<std::string, Texture*>* mTexturesMap;
-	HashMap<std::string, Material*>* mMaterialsMap;
+	HashMap<std::string, Texture*> *mTexturesMap;
+	HashMap<std::string, Material*> *mMaterialsMap;
 
 public:
 
-	DE_CLASS(MaterialManager, DE_Class);
+	DE_CLASS(MaterialManager, DE_Class)
+	;
 
 	void init();
-	Texture* loadTexture(const std::string& path);
-	Material* loadMaterial(const std::string& path);
+	Texture* loadTexture(const std::string &path);
+	Material* loadMaterial(const std::string &path);
 };
 
 } /* namespace DE */
