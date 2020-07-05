@@ -16,11 +16,11 @@ public:DE_GENERATE_METADATA(Iterator, DE_Class)
 	;
 
 	Iterator() {
-	}
-	;
+	};
+
 	~Iterator() {
-	}
-	;
+	};
+
 
 	virtual bool isNull() const = 0;
 
@@ -48,8 +48,8 @@ private:
 	class Node: public DE_Class {
 
 	public:
-		Node *mNext;
-		Node *mPrev;
+		Node* mNext;
+		Node* mPrev;
 		T mElement;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
@@ -83,13 +83,11 @@ private:
 
 	static const u32 smNodeSize = sizeof(Node);
 
-	Node *mFirst;
-	Node *mLast;
+	Node* mFirst;
+	Node* mLast;
 
 	Node* newNode() {
-		Node *node =
-				reinterpret_cast<Node*>(BaseContainer::mAllocator->allocate(
-						sizeof(Node)));
+		Node* node = reinterpret_cast<Node*>(BaseContainer::mAllocator->allocate(sizeof(Node)));
 		return node;
 	}
 
@@ -143,7 +141,7 @@ public:
 
 	private:
 
-		Node *mNode;
+		Node* mNode;
 		bool mReverse;
 
 		// ---------------------------------------------------------------------------
@@ -337,8 +335,7 @@ private:
 	// ---------------------------------------------------------------------------
 
 	T& randomAccessOperator(u32 index) const {
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength,
-				"Index out of bounds.");
+		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		const i32 signedIndex = static_cast<i32>(index);
 
@@ -364,10 +361,7 @@ private:
 			mLastAccessedIndex = 0;
 			mLastAccessedIt = List::getIterator();
 
-			for (;
-					mLastAccessedIndex < signedIndex
-							&& mLastAccessedIt.hasNext();
-					mLastAccessedIt.next())
+			for (; mLastAccessedIndex < signedIndex && mLastAccessedIt.hasNext(); mLastAccessedIt.next())
 				mLastAccessedIndex++;
 		}
 
@@ -376,13 +370,10 @@ private:
 
 	// ---------------------------------------------------------------------------
 
-	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex, u32 length) override {
-		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(),
-				"sourceIndex is out of bounds.");
+	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
+		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
 		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-		DE_ASSERT(length <= other.getLength() - sourceIndex,
-				"Not enough space to copy.");
+		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
 	}
 
 	// ---------------------------------------------------------------------------
@@ -432,7 +423,7 @@ public:
 
 	void init(const T *rawArray, u32 length) override {
 		List::init();
-		const T *typedArray = reinterpret_cast<const T*>(rawArray);
+		const T* typedArray = reinterpret_cast<const T*>(rawArray);
 
 		FOR_RANGE(i, 0, length)
 			List::pushBack(typedArray[i]);
@@ -470,8 +461,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void put(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex, u32 length) override {
+	void put(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
 		resetCache();
 		this->checkPut(other, destinyIndex, sourceIndex, length);
 
@@ -553,7 +543,7 @@ public:
 
 	void pushFront(T element) {
 		resetCache();
-		Node *node = newNode();
+		Node* node = newNode();
 		node->init(element);
 
 		if (!List::isEmpty()) {
@@ -572,7 +562,7 @@ public:
 
 	void pushBack(T element) {
 		resetCache();
-		Node *node = newNode();
+		Node* node = newNode();
 		node->init(element);
 
 		if (!List::isEmpty()) {
@@ -591,13 +581,13 @@ public:
 
 	T popFront() {
 		resetCache();
-		T *element = nullptr;
+		T* element = nullptr;
 
 		if (!List::isEmpty()) {
 			BaseContainer::mLength--;
 
 			element = &mFirst->mElement;
-			Node *old = mFirst;
+			Node* old = mFirst;
 
 			if (!List::isEmpty()) {
 				mFirst = mFirst->mNext;
@@ -617,13 +607,13 @@ public:
 
 	T popBack() {
 		resetCache();
-		T *element = nullptr;
+		T* element = nullptr;
 
 		if (!List::isEmpty()) {
 			BaseContainer::mLength--;
 
 			element = &mLast->mElement;
-			Node *old = mLast;
+			Node* old = mLast;
 
 			if (!List::isEmpty()) {
 				mLast = mLast->mPrev;
@@ -648,8 +638,7 @@ public:
 	// ---------------------------------------------------------------------------
 
 	void set(u32 index, const T element) {
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength,
-				"Index out of bounds.");
+		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		u32 i = 0;
 		ListIterator it = List::getIterator();
@@ -687,8 +676,7 @@ public:
 
 	void remove(u32 index) {
 		resetCache();
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength,
-				"Index out of bounds.");
+		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		if (!List::isEmpty()) {
 
@@ -710,8 +698,8 @@ public:
 		if (!List::isEmpty()) {
 			BaseContainer::mLength--;
 
-			Node *prev = it.mNode->mPrev;
-			Node *next = it.mNode->mNext;
+			Node* prev = it.mNode->mPrev;
+			Node* next = it.mNode->mNext;
 
 			// check First and Last
 			if (it.mNode == mFirst)
@@ -740,8 +728,7 @@ public:
 
 	void insert(u32 index, T element) {
 		resetCache();
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength,
-				"Index out of bounds.");
+		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		// BaseContainer::mLength++;
 
@@ -760,7 +747,7 @@ public:
 	void insert(ListIterator &it, T element) {
 		resetCache();
 		if (it.mNode != mFirst) {
-			Node *node = newNode();
+			Node* node = newNode();
 			node->init(element);
 
 			// this function inserts new node before the current node (it.mNode)

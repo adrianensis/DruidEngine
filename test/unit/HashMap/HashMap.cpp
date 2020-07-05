@@ -13,7 +13,7 @@ int main() {
 
 	DE_test(HashMapu32u32);
 
-	DE::HashMap<u32, u32> *map = DE::Memory::allocate<HashMap<u32, u32>>();
+	DE::HashMap<u32, u32>* map = DE::Memory::allocate<HashMap<u32, u32>>();
 
 	map->init();
 
@@ -34,8 +34,7 @@ int main() {
 	map->remove(10);
 	DE_test_expected_uint(map->getLength(), 0);
 
-	DE::HashMap<std::string, u32> *mapStr = DE::Memory::allocate<
-			HashMap<std::string, u32>>();
+	DE::HashMap<std::string, u32>* mapStr = DE::Memory::allocate<HashMap<std::string, u32>>();
 
 	mapStr->init();
 

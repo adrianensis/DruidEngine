@@ -19,8 +19,8 @@ private:
 	u32 mFragmentShader;
 	u32 mProgram;
 
-	static Shader *msShaderDefault;
-	static Shader *msShaderDebug;
+	static Shader* msShaderDefault;
+	static Shader* msShaderDebug;
 
 	void initInternal(const std::string &vertex, const std::string &fragment);
 

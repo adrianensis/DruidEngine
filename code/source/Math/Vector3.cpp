@@ -153,13 +153,11 @@ f32 Vector3::dst(const Vector3 &v) const {
 }
 
 bool Vector3::eq(const Vector3 &v) const {
-	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y)
-			&& MathUtils::eqf(this->z, v.z);
+	return MathUtils::eqf(this->x, v.x) && MathUtils::eqf(this->y, v.y) && MathUtils::eqf(this->z, v.z);
 }
 
 bool Vector3::eq(const Vector3 &v, f32 e) const {
-	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e)
-			&& MathUtils::eqf(this->z, v.z, e);
+	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e) && MathUtils::eqf(this->z, v.z, e);
 }
 
 Vector3& Vector3::cross(const Vector3 &v) {
@@ -200,8 +198,7 @@ Vector3& Vector3::slerp(const Vector3 &target, f32 t) {
 
 	f32 sinTheta = sinf(theta);
 
-	return this->mul(sinf((1 - t) * theta) / sinTheta).add(
-			target * (sinf(t * theta) / sinTheta));
+	return this->mul(sinf((1 - t) * theta) / sinTheta).add(target * (sinf(t * theta) / sinTheta));
 }
 
 f32 Vector3::angle(const Vector3 &v) const {

@@ -13,9 +13,9 @@ class Scene: public DE_Class {
 
 private:
 
-	List<GameObject*> *mGameObjects;
-	List<GameObject*> *mNewGameObjects;
-	GameObject *mCameraGameObject;
+	List<GameObject*>* mGameObjects;
+	List<GameObject*>* mNewGameObjects;
+	GameObject* mCameraGameObject;
 
 	f32 mSize;
 	std::string mPath;
@@ -30,16 +30,16 @@ public:
 	void init();
 	f32 getSize() const {
 		return mSize;
-	}
-	;
+	};
+
 
 	void loadScene(const std::string &path);
 	void unloadScene();
 	void saveScene(const std::string &path);
 	const std::string& getPath() const {
 		return mPath;
-	}
-	;
+	};
+
 
 	void addGameObject(GameObject *gameObject);
 	void updateComponents(GameObject *gameObject);
@@ -47,20 +47,20 @@ public:
 
 	const List<GameObject*>* getGameObjects() const {
 		return mGameObjects;
-	}
-	;
+	};
+
 	const List<GameObject*>* getNewGameObjects() const {
 		return mNewGameObjects;
-	}
-	;
+	};
+
 	GameObject* getCameraGameObject() const {
 		return mCameraGameObject;
-	}
-	;
+	};
+
 	void setCameraGameObject(GameObject *newCameraGameObject) {
 		mCameraGameObject = newCameraGameObject;
-	}
-	;
+	};
+
 
 	void step();
 

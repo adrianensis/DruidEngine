@@ -21,16 +21,16 @@ public:DE_CLASS(AnimationFrame, DE_Class)
 
 	const Vector2& getPosition() const {
 		return mPosition;
-	}
-	;
+	};
+
 	f32 getWidth() const {
 		return mWidth;
-	}
-	;
+	};
+
 	f32 getHeight() const {
 		return mHeight;
-	}
-	;
+	};
+
 };
 
 } /* namespace DE */

@@ -39,8 +39,8 @@ public:
 
 	static std::string getClassNameStatic() {
 		return "DE_Class";
-	}
-	;
+	};
+
 	static ClassId getClassIdStatic() {
 		return 0;
 	}
@@ -50,16 +50,16 @@ public:
 
 	virtual ClassId getClassId() {
 		return 0;
-	}
-	;
+	};
+
 	virtual ClassId getParentClassId() {
 		return 0;
-	}
-	;
+	};
+
 	virtual std::string getClassName() {
 		return "DE_Class";
-	}
-	;
+	};
+
 };
 
 // ---------------------------------------------------------------------------

@@ -31,7 +31,7 @@ void Memory::init() {
 
 	smGlobal.init(2 * GB);
 
-	ECHO("TOTAL MEMORY (IN MB)"); VAL(f32,(smGlobal.getTotalSize() / MB));
+	ECHO("TOTAL MEMORY (IN MB)");VAL(f32,(smGlobal.getTotalSize() / MB));
 }
 
 // ---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ Allocator& Memory::getGlobal() {
 
 void Memory::free() {
 
-	ECHO("REMAINING ALLOCATED MEMORY (IN MB)"); VAL(f32,(smGlobal.getAllocatedSize() / MB));
+	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
 	smGlobal.terminate();
 

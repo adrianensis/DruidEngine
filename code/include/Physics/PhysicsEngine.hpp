@@ -7,6 +7,7 @@
 namespace DE {
 
 class RigidBody;
+class Collider;
 class QuadTree;
 class GameObject;
 template<class T> class List;
@@ -15,8 +16,8 @@ class Iterator;
 class PhysicsEngine: public DE_Class, public Singleton<PhysicsEngine> {
 private:
 
-	List<RigidBody*> *mRigidBodies;
-	QuadTree *mQuadTree;
+	List<RigidBody*>* mRigidBodies;
+	QuadTree* mQuadTree;
 
 	void internalRemoveRigidBody(const Iterator *it);
 
@@ -26,9 +27,9 @@ public:
 	;
 
 	void addRigidBody(RigidBody *rigidBody);
+	void addCollider(RigidBody *rigidBody, Collider *collider);
 
-	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd,
-			List<GameObject*> *outList);
+	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);
 
 	void init(f32 sceneSize);
 	void step(f32 deltaTime);

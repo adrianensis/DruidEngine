@@ -22,7 +22,7 @@ class Batch: public DE_Class {
 
 private:
 
-	RenderEngine *mRenderEngine;
+	RenderEngine* mRenderEngine;
 
 	class LayerData: public DE_Class {
 	public:DE_CLASS(LayerData, DE_Class)
@@ -33,12 +33,12 @@ private:
 		u32 mSortCounter;
 	};
 
-	HashMap<u32, List<Renderer*>*> *mRenderers;
-	HashMap<u32, List<Renderer*>*> *mDynamicRenderers;
-	HashMap<u32, LayerData*> *mLayersData;
+	HashMap<u32, List<Renderer*>*>* mRenderers;
+	HashMap<u32, List<Renderer*>*>* mDynamicRenderers;
+	HashMap<u32, LayerData*>* mLayersData;
 
-	Material *mMaterial;
-	const Mesh *mMesh;
+	Material* mMaterial;
+	const Mesh* mMesh;
 
 	u32 mVBOPosition; // TODO: change u32 for GLuint
 	u32 mEBO;
@@ -50,7 +50,7 @@ private:
 
 	u32 mTextureId;
 
-	Chunk *mChunk;
+	Chunk* mChunk;
 
 	bool mSortByYCoordinate;
 
@@ -59,13 +59,15 @@ private:
 	bool checkOutOfCamera(Camera *cam, Renderer *renderer);
 
 	void internalRemoveRenderer(const Iterator *it, List<Renderer*> *list);
-	void internalRemoveRendererFromList(const Iterator *it,
-			List<Renderer*> *list);
+	void internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *list);
 
 	static u8 rendererYCoordinateComparator(Renderer *a, Renderer *b);
 
 	void sort(u32 layer);
 	void insertSorted(Renderer *renderer, List<Renderer*> *renderers);
+
+	static bool smIsScreenOrthoReady;
+	static Matrix4 smScreenOrtho;
 
 public:
 
@@ -83,12 +85,12 @@ public:
 
 	void setMesh(const Mesh *newMesh) {
 		mMesh = newMesh;
-	}
-	;
+	};
+
 	void setMaterial(Material *newMaterial) {
 		mMaterial = newMaterial;
-	}
-	;
+	};
+
 
 	void setChunk(Chunk *chunk);
 	Chunk* getChunk();

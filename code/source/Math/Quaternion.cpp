@@ -178,8 +178,7 @@ Quaternion& Quaternion::slerp(const Quaternion &target, f32 t) {
 
 	f32 sinTheta = sinf(theta);
 
-	this->mul((sinf(1 - t) * theta) / sinTheta).add(
-			Quaternion(target).mul((sinf(t * theta)) / sinTheta));
+	this->mul((sinf(1 - t) * theta) / sinTheta).add(Quaternion(target).mul((sinf(t * theta)) / sinTheta));
 	return *this;
 }
 
@@ -261,8 +260,7 @@ Vector3 Quaternion::toEuler() const {
 	f32 t4 = +1.0 - 2.0 * (yy + zz);
 	f32 yaw = atan2f(t3, t4);
 
-	return Vector3(MathUtils::deg(roll), MathUtils::deg(pitch),
-			MathUtils::deg(yaw));
+	return Vector3(MathUtils::deg(roll), MathUtils::deg(pitch), MathUtils::deg(yaw));
 }
 
 void Quaternion::fromMatrix(const Matrix4 &m) {

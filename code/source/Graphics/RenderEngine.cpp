@@ -95,8 +95,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Line Renderers
 
-	mLineRenderersCount = Settings::getInstance()->getF32(
-			"line.renderers.count");
+	mLineRenderersCount = Settings::getInstance()->getF32("line.renderers.count");
 	mLineRenderers->init(mLineRenderersCount);
 
 	mLineRendererIndices->init(2);
@@ -107,7 +106,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount)
 	{
-		LineRenderer *lineRenderer = Memory::allocate<LineRenderer>();
+		LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
 		lineRenderer->init();
 		lineRenderer->mActive = false;
 
@@ -127,7 +126,7 @@ void RenderEngine::init(f32 sceneSize) {
 	u32 count = 0;
 	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
 		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
-			Chunk *chunk = Memory::allocate<Chunk>();
+			Chunk* chunk = Memory::allocate<Chunk>();
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
@@ -155,8 +154,7 @@ void RenderEngine::init(f32 sceneSize) {
 // ---------------------------------------------------------------------------
 
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
-	return mCamera && mCamera->getFrustum()
-			&& mCamera->getFrustum()->testSphere(center, radius);
+	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
 
 // ---------------------------------------------------------------------------
@@ -174,10 +172,9 @@ void RenderEngine::step() {
 	//check Chunks
 	FOR_ARRAY(i, mChunks)
 	{
-		Chunk *chunk = mChunks->get(i);
+		Chunk* chunk = mChunks->get(i);
 
-		bool chunkInCameraView = frustumTestSphere(chunk->mCenter,
-				chunk->mRadius * 2);
+		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
 		// bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
 		// bool chunkInCameraView = mCamera->getFrustum()->testRectangle(chunk->mLeftTop, chunk->mSize, chunk->mSize);
 
@@ -228,30 +225,24 @@ void RenderEngine::stepDebug() {
 
 	mShaderLine->use();
 
-	const Matrix4 &projectionMatrix = getCamera()->getProjectionMatrix();
-	const Matrix4 &viewTranslationMatrix =
-			getCamera()->getViewTranslationMatrix();
-	const Matrix4 &viewRotationMatrix = getCamera()->getViewRotationMatrix();
+	const Matrix4& projectionMatrix = getCamera()->getProjectionMatrix();
+	const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
+	const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
 
 	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount)
 	{
-		LineRenderer *lineRenderer = mLineRenderers->get(i);
+		LineRenderer* lineRenderer = mLineRenderers->get(i);
 
 		if (lineRenderer->mActive) {
 
 			if (lineRenderer->mIsAffectedByProjection) {
 				mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
-				mShaderLine->addMatrix(viewTranslationMatrix,
-						"viewTranslationMatrix");
-				mShaderLine->addMatrix(viewRotationMatrix,
-						"viewRotationMatrix");
+				mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+				mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 			} else {
-				mShaderLine->addMatrix(Matrix4::getIdentity(),
-						"projectionMatrix");
-				mShaderLine->addMatrix(Matrix4::getIdentity(),
-						"viewTranslationMatrix");
-				mShaderLine->addMatrix(Matrix4::getIdentity(),
-						"viewRotationMatrix");
+				mShaderLine->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
+				mShaderLine->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
+				mShaderLine->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
 			}
 
 			lineRenderer->bind(mLineRendererIndices);
@@ -323,8 +314,8 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 	TRACE();
 	bool found = false;
-	Chunk *chunkTmp = nullptr;
-	Chunk *chunkFound = nullptr;
+	Chunk* chunkTmp = nullptr;
+	Chunk* chunkFound = nullptr;
 	FOR_ARRAY_COND(i, mChunks, !found)
 	{
 		// FOR_ARRAY(i, mChunks){
@@ -344,13 +335,13 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end,
-		u32 size /*= 1*/, bool isAffectedByProjection /*= true*/) {
+void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, u32 size /*= 1*/,
+		bool isAffectedByProjection /*= true*/) {
 	bool found = false;
 
 	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found)
 	{
-		LineRenderer *lineRenderer = mLineRenderers->get(i);
+		LineRenderer* lineRenderer = mLineRenderers->get(i);
 
 		if (!lineRenderer->mActive) {
 			found = true;

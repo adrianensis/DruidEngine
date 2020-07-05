@@ -31,8 +31,7 @@ return LinearAllocator::allocate(size, 1);
 // ---------------------------------------------------------------------------
 
 byte* LinearAllocator::allocate(u32 size, u32 alignment) {
-return Allocator::allocateAlignedAddress(
-		(byte*) (reinterpret_cast<byte*>(mStart) + Allocator::getAllocatedSize()),
+return Allocator::allocateAlignedAddress((byte*) (reinterpret_cast<byte*>(mStart) + Allocator::getAllocatedSize()),
 		size, alignment);
 }
 

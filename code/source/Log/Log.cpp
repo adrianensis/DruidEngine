@@ -27,12 +27,9 @@ void Log::log(const std::string &str) {
 	logFile << str << std::endl;
 }
 
-void Log::trace(const std::string file, u32 line, const std::string function,
-		const std::string message) {
+void Log::trace(const std::string file, u32 line, const std::string function, const std::string message) {
 	// std::cout << "DE_TRACE > [" /* << std::experimental::filesystem::path(file).filename() << ":" */ << function << ":" << std::to_string(line) << "] > " << message << std::endl;
-	log(
-			"DE_TRACE > [" + function + ":" + std::to_string(line) + "] > "
-					+ message);
+	log("DE_TRACE > [" + function + ":" + std::to_string(line) + "] > " + message);
 }
 
 void Log::echo(const std::string &message) {

@@ -18,8 +18,8 @@ private:
 	u32 mAlignment;
 	u32 mMaxBlocks;
 	u32 mUsedBlocks;
-	byte *mFirst;
-	byte *mLast;
+	byte* mFirst;
+	byte* mLast;
 
 	static const u32 smPtrSize;
 

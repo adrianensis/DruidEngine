@@ -56,9 +56,7 @@ QuadTree::Node::~Node() {
 
 	FOR_LIST(it, mColliders)
 	{
-		if (it.get()
-				&& !(it.get()->isDestroyed()
-						|| it.get()->isPendingToBeDestroyed())) {
+		if (it.get() && !(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
 			it.get()->setDestroyed();
 			Memory::free<Collider>(it.get());
 		}
@@ -71,8 +69,7 @@ QuadTree::Node::~Node() {
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height,
-		f32 minWidth, f32 minHeight, QuadTree *tree) {
+void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree) {
 	// TRACE();
 
 	mLeftTop = leftTop;
@@ -105,10 +102,8 @@ void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height,
 
 	// This array testPartialCollider the LeftTop Vertices of the 4 children.
 	mLeftTopChildrenArray->set(0, Vector2(mLeftTop.x, mLeftTop.y));
-	mLeftTopChildrenArray->set(1,
-			Vector2(mLeftTop.x, mLeftTop.y - mHalfHeight));
-	mLeftTopChildrenArray->set(2,
-			Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight));
+	mLeftTopChildrenArray->set(1, Vector2(mLeftTop.x, mLeftTop.y - mHalfHeight));
+	mLeftTopChildrenArray->set(2, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight));
 	mLeftTopChildrenArray->set(3, Vector2(mLeftTop.x + mHalfWidth, mLeftTop.y));
 
 }
@@ -117,15 +112,13 @@ void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height,
 
 bool QuadTree::Node::testCompleteCollider(Collider *collider) const {
 
-	Array<Vector2> *vertices = collider->getBoundingBox();
+	Array<Vector2>* vertices = collider->getBoundingBox();
 
 	bool collision = true;
 
 	FOR_ARRAY (i, vertices)
 	{
-		collision = collision
-				&& MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight,
-						vertices->get(i), 0);
+		collision = collision && MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight, vertices->get(i), 0);
 	}
 
 	return collision;
@@ -136,14 +129,13 @@ bool QuadTree::Node::testCompleteCollider(Collider *collider) const {
 
 bool QuadTree::Node::testPartialCollider(Collider *collider) const {
 
-	Array<Vector2> *vertices = collider->getBoundingBox();
+	Array<Vector2>* vertices = collider->getBoundingBox();
 
 	bool collision = false;
 
 	FOR_ARRAY_COND(i, vertices, !collision)
 	{
-		collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight,
-				vertices->get(i), 0);
+		collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight, vertices->get(i), 0);
 	}
 
 	return collision;
@@ -152,18 +144,16 @@ bool QuadTree::Node::testPartialCollider(Collider *collider) const {
 
 //----------------------------------------------------------------------
 
-bool QuadTree::Node::childNodeTestPartialCollider(u32 index,
-		Collider *collider) const {
+bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider *collider) const {
 
-	Array<Vector2> *vertices = collider->getBoundingBox();
+	Array<Vector2>* vertices = collider->getBoundingBox();
 
 	bool collision = false;
 
 	// For each collider vertex
 	FOR_ARRAY_COND(i, vertices, !collision)
 	{
-		collision = MathUtils::testRectanglePoint(
-				mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight,
+		collision = MathUtils::testRectanglePoint(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight,
 				vertices->get(i), 0);
 	}
 
@@ -175,9 +165,8 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index,
 
 QuadTree::Node* QuadTree::Node::createChildNode(u32 index) {
 	mChildrenCount++;
-	Node *node = Memory::allocate<Node>();
-	node->init(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight,
-			mMinWidth, mMinHeight, mTree);
+	Node* node = Memory::allocate<Node>();
+	node->init(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight, mMinWidth, mMinHeight, mTree);
 	return node;
 }
 ;
@@ -195,8 +184,7 @@ void QuadTree::Node::addCollider(Collider *collider) {
 		FOR_ARRAY (i, mLeftTopChildrenArray)
 		{
 
-			bool isPartiallyInChildren = childNodeTestPartialCollider(i,
-					collider);
+			bool isPartiallyInChildren = childNodeTestPartialCollider(i, collider);
 
 			if (isPartiallyInChildren) {
 
@@ -267,8 +255,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 		// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 		bool nodeInCameraView = RenderEngine::getInstance()->frustumTestSphere(
-				Vector3(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight, 0),
-				mRadius);
+				Vector3(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight, 0), mRadius);
 
 		mExitingColliders->clear(); // colliders which have left the node.
 
@@ -278,7 +265,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 		FOR_LIST(itA, mColliders)
 		{
 
-			Collider *colliderA = itA.get();
+			Collider* colliderA = itA.get();
 
 			if (colliderA->isActive()) {
 				if (colliderA->isSimulate()) {
@@ -296,7 +283,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 						FOR_LIST(itB, mColliders)
 						{
 
-							Collider *colliderB = itB.get();
+							Collider* colliderB = itB.get();
 
 							if (colliderB->isActive()) {
 								if (colliderB->isSimulate()) {
@@ -305,12 +292,10 @@ void QuadTree::Node::update(/*contactManager*/) {
 
 									// if they aren't the same collider
 									// if both are static, do not check anything.
-									if ((colliderA != colliderB)
-											&& !(isStaticA && isStaticB)) {
+									if ((colliderA != colliderB) && !(isStaticA && isStaticB)) {
 
 										// check bounding radius
-										if (colliderA->checkCollisionRadius(
-												colliderB)) {
+										if (colliderA->checkCollisionRadius(colliderB)) {
 
 											// candidate vertices
 											// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
@@ -319,9 +304,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 											// Compute candidates and generate contacts
 											//ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
-											ColliderStatus status =
-													colliderA->testRectangleRectangle(
-															colliderB);
+											ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
 											// ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
 
 											// ECHO("..................")
@@ -331,11 +314,9 @@ void QuadTree::Node::update(/*contactManager*/) {
 
 											if (status
 													== ColliderStatus::STATUS_NONE /*&& status2 == ColliderStatus::STATUS_NONE*/) {
-												ContactsManager::getInstance()->removeContact(
-														colliderA, colliderB);
+												ContactsManager::getInstance()->removeContact(colliderA, colliderB);
 											} else {
-												ContactsManager::getInstance()->addContact(
-														colliderA, colliderB);
+												ContactsManager::getInstance()->addContact(colliderA, colliderB);
 											}
 
 											if (status > newTreeStatus) {
@@ -346,8 +327,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 											// }
 
 										} else {
-											ContactsManager::getInstance()->removeContact(
-													colliderA, colliderB);
+											ContactsManager::getInstance()->removeContact(colliderA, colliderB);
 										}
 									}
 								}
@@ -386,7 +366,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 void QuadTree::Node::updateChildren(/*contactManager*/) {
 	FOR_ARRAY (i, mChildren)
 	{
-		Node *child = mChildren->get(i);
+		Node* child = mChildren->get(i);
 
 		if (child) {
 
@@ -408,14 +388,13 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 	// only dynamic objects can escape from their nodes !!!
 
 	if (!collider->isStatic()) {
-		Array<Vector2> *vertices = collider->getBoundingBox();
+		Array<Vector2>* vertices = collider->getBoundingBox();
 
 		u32 verticesOutOfNode = 0;
 
 		FOR_ARRAY(i, vertices)
 		{
-			bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth,
-					mHeight, vertices->get(i), 0);
+			bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight, vertices->get(i), 0);
 
 			if (!collision) {
 				verticesOutOfNode++;
@@ -443,7 +422,7 @@ void QuadTree::Node::manageExits(List<Collider*> *exitingColliders) {
 		// FOR EACH COLLIDER
 		FOR_LIST (itExiting, exitingColliders)
 		{
-			Collider *collider = itExiting.get();
+			Collider* collider = itExiting.get();
 			mColliders->remove(mColliders->find(collider));
 
 			// Note: Only dynamic colliders can leave the node!
@@ -468,32 +447,26 @@ u32 QuadTree::Node::getCollidersCount() const {
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::Node::rayCastQuery(const Vector3 &lineStart,
-		const Vector3 &lineEnd, List<GameObject*> *outList) {
+void QuadTree::Node::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 
-	bool rayIntersectsNode = MathUtils::testLineSphereSimple(Vector2(lineStart),
-			Vector2(lineEnd),
-			Vector2(mLeftTop + Vector3(mHalfWidth, -mHalfHeight, 0)), mRadius,
-			0.0f);
+	bool rayIntersectsNode = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd),
+			Vector2(mLeftTop + Vector3(mHalfWidth, -mHalfHeight, 0)), mRadius, 0.0f);
 
 	if (rayIntersectsNode) {
 		if (isLeaf()) {
 
 			FOR_LIST(it, mColliders)
 			{
-				Collider *collider = it.get();
+				Collider* collider = it.get();
 
-				GameObject *gameObject = collider->getGameObject();
+				GameObject* gameObject = collider->getGameObject();
 
 				// TODO : line vs rectangle
-				bool rayIntersectsCollider = MathUtils::testLineSphereSimple(
-						Vector2(lineStart), Vector2(lineEnd),
-						Vector2(gameObject->getTransform()->getWorldPosition()),
-						collider->getRadius(), 0.0f);
+				bool rayIntersectsCollider = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd),
+						Vector2(gameObject->getTransform()->getWorldPosition()), collider->getRadius(), 0.0f);
 
 				if (rayIntersectsCollider) {
-					List<GameObject*>::ListIterator it = outList->find(
-							gameObject);
+					List<GameObject*>::ListIterator it = outList->find(gameObject);
 
 					// If not found then add it
 					if (it.isNull()) {
@@ -505,7 +478,7 @@ void QuadTree::Node::rayCastQuery(const Vector3 &lineStart,
 		} else {
 			FOR_ARRAY (i, mChildren)
 			{
-				Node *child = mChildren->get(i);
+				Node* child = mChildren->get(i);
 
 				if (child) {
 					child->rayCastQuery(lineStart, lineEnd, outList);
@@ -543,8 +516,7 @@ void QuadTree::init(f32 size) {
 	f32 minSize = Settings::getInstance()->getF32("scene.quadTreeMinSize");
 
 	mRoot = Memory::allocate<Node>();
-	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight,
-			minSize, minSize, this);
+	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight, minSize, minSize, this);
 }
 
 // ---------------------------------------------------------------------------
@@ -561,8 +533,7 @@ void QuadTree::addCollider(Collider *collider) {
 
 // ---------------------------------------------------------------------------
 
-void QuadTree::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd,
-		List<GameObject*> *outList) {
+void QuadTree::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 	mRoot->rayCastQuery(lineStart, lineEnd, outList);
 }
 

@@ -41,9 +41,7 @@ void ScenesManager::internalLoadScene() {
 	}
 
 	mGameObjectController->setScene(mCurrentScene);
-	RenderEngine::getInstance()->setCamera(
-			mCurrentScene->getCameraGameObject()->getComponents<Camera>()->get(
-					0));
+	RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getComponents<Camera>()->get(0));
 }
 
 // ---------------------------------------------------------------------------
@@ -62,7 +60,7 @@ void ScenesManager::init() {
 
 	FOR_RANGE(i, 0, scenesCount)
 	{
-		Scene *scene = Memory::allocate<Scene>();
+		Scene* scene = Memory::allocate<Scene>();
 		scene->init();
 		addScene(scene);
 	}

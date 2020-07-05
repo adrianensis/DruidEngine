@@ -25,11 +25,11 @@ class MapEditor: public Script {
 private:
 
 	class CellData: public DE_Class {
-	public:DE_CLASS(CellData, DE_Class)
-		;
+	public:
+		DE_CLASS(CellData, DE_Class);
 
-		GameObject *tile = nullptr;
-		Array<GameObject*> *layers = nullptr;
+		GameObject* tile = nullptr;
+		Array<GameObject*>* layers = nullptr;
 
 		void addGameObject(GameObject *gameObject, u32 layer);
 		void removeGameObject(u32 layer);
@@ -37,16 +37,13 @@ private:
 	};
 
 	u32 mGridSize;
-	Array<Array<CellData*>*> *mGrid;
+	Array<Array<CellData*>*>* mGrid;
 
-	Transform *mTransform;
-	Camera *mCamera;
-	Transform *mCameraTransform;
+	Transform* mTransform;
+	Camera* mCamera;
+	Transform* mCameraTransform;
 
-	GameObject *mPlayer;
-	GameObject *mTile;
-
-	Material *mMaterial;
+	Material* mMaterial;
 
 	bool mTestCreated;
 	u32 mTileIndex;
@@ -54,53 +51,74 @@ private:
 
 	bool mCameraControl;
 
-	class InfoBarUI: public DE_Class {
-	public:DE_CLASS(InfoBarUI, DE_Class)
-		;
+	class MapEditorUI {
 
-		MapEditor *mMapEditor;
+	public:
 
-		UIText *mTextLayer = nullptr;
-		UIText *mTextTile = nullptr;
-		UIText *mTextZoom = nullptr;
-		UIText *mTextBrush = nullptr;
+		class StringsUI {
+		public:
+			static const std::string smLayer;
+			static const std::string smTile;
+			static const std::string smZoom;
+			static const std::string smBrush;
+			static const std::string smSave;
+			static const std::string smCollider;
+			static const std::string smPlay;
+			static const std::string smInspectorTileX;
+			static const std::string smInspectorTileY;
+			static const std::string smInspectorTileCollider;
+			static const std::string smInspectorTileTag;
+		};
 
-		const std::string mStrLayer = "Layer";
-		const std::string mStrTile = "Tile";
-		const std::string mStrZoom = "Zoom";
-		const std::string mStrBrush = "Brush";
-		Vector2 mTextSize = Vector2(0.04f, 0.04f);
+		MapEditor* mMapEditor;
+		u32 mUILayer = 3;
+
+		UIText* mTextLayer = nullptr;
+		UIText* mTextTile = nullptr;
+		UIText* mTextZoom = nullptr;
+		UIText* mTextBrush = nullptr;
+
+		UIText* mTextInspectorTag = nullptr;
+		UIText* mTextInspectorX = nullptr;
+		UIText* mTextInspectorY = nullptr;
+		UIText* mTextInspectorCollider = nullptr;
+
+		Vector2 mTextSize = Vector2(0.045f, 0.045f);
 
 		void init(MapEditor *mapEditor);
 
 		void createUI();
+		void createMenuBarUI();
+		void createInspectorUI();
+		void createAtlasUI();
 
 		void updateUI();
 	};
 
-	InfoBarUI *mInfoBarUI;
-
-	List<UIButton*> *mButtons;
+	MapEditorUI mInfoBarUI;
 
 public:
 
 	u32 mBrushSize;
 	u32 mLayer;
 	f32 mZoom;
-	u32 mUILayer = 0;
-	GameObject *mBrush;
+	GameObject* mPlayer;
+	GameObject* mTile;
 
-	DE_CLASS(MapEditor, Script)
-	;
+	GameObject* mBrush;
+	bool mIsPaintMode;
+
+	DE_CLASS(MapEditor, Script);
 
 	void createBrush();
-	void createAtlas();
-	void createTile(f32 x, f32 y);
+
+	GameObject* createTile(f32 x, f32 y);
 	void createPlayer();
 
 	void click(const Vector3 &clampedPosition);
 	void drawTile(CellData *cellData, const Vector3 &worldPosition);
 	void removeTile(CellData *cellData);
+	void selectTile(CellData *cellData);
 
 	void loadMapIntoGrid();
 

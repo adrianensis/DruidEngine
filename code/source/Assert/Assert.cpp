@@ -7,13 +7,11 @@
 
 namespace DE {
 
-void assert(const bool condition, const std::string &file, u32 line,
-		const std::string &function, const std::string &message) {
+void assert(const bool condition, const std::string &file, u32 line, const std::string &function,
+		const std::string &message) {
 	if (!condition) {
-		std::cout << "DE_ASSERT > ["
-				<< /*std::filesystem::path(file).filename() <<*/":" << function
-				<< ":" << std::to_string(line) << "] > " << message
-				<< std::endl;
+		std::cout << "DE_ASSERT > [" << /*std::filesystem::path(file).filename() <<*/":" << function << ":"
+				<< std::to_string(line) << "] > " << message << std::endl;
 		throw;
 		//abort();
 	}

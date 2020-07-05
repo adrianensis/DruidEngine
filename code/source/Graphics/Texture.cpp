@@ -23,8 +23,7 @@ void Texture::init(const std::string &path) {
 
 	if (!mData) {
 		mPath = path;
-		mData = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0,
-				SOIL_LOAD_RGBA);
+		mData = SOIL_load_image(path.c_str(), &mWidth, &mHeight, 0, SOIL_LOAD_RGBA);
 	}
 }
 

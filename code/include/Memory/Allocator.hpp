@@ -15,17 +15,15 @@ protected:
 
 	u32 mTotalSize;
 	u32 mAllocatedSize;
-	byte *mStart;
+	byte* mStart;
 
 	void checkAllocate(u32 size) const;
 	void checkAlignment(u32 alignment) const;
 	void checkFree() const;
 
-	byte* calculateAlignedAddress(const byte *unalignedAddress,
-			u32 alignment) const;
+	byte* calculateAlignedAddress(const byte *unalignedAddress, u32 alignment) const;
 	byte* calculateUnalignedAddress(const byte *alignedAddress) const;
-	byte* allocateAlignedAddress(byte *unalignedAddress, u32 size,
-			u32 alignment);
+	byte* allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 alignment);
 
 	void setAllocatedSize(u32 size);
 	void clean(byte *mem, u32 size);
@@ -37,12 +35,12 @@ public:
 
 	u32 getTotalSize() const {
 		return mTotalSize;
-	}
-	;
+	};
+
 	u32 getAllocatedSize() const {
 		return mAllocatedSize;
-	}
-	;
+	};
+
 
 	/*!
 	 \return True if space is enough.
@@ -106,10 +104,10 @@ public:
 	 */
 	template<class T>
 	static T* internalAllocate(Allocator *allocator, u32 alignment) {
-		T *object = new (allocator->allocate(sizeof(T), alignment)) T;
+		T* object = new (allocator->allocate(sizeof(T), alignment)) T;
 		return object;
-	}
-	;
+	};
+
 
 	/*!
 	 \brief Constructs objects. It is used like "new" keyword.
@@ -120,10 +118,10 @@ public:
 	 */
 	template<class T>
 	static T* internalAllocate(Allocator *allocator) {
-		T *object = new (allocator->allocate(sizeof(T))) T;
+		T* object = new (allocator->allocate(sizeof(T))) T;
 		return object;
-	}
-	;
+	};
+
 
 	/*!
 	 \brief Destroys objects. It is used like "delete" keyword.
@@ -138,8 +136,8 @@ public:
 			object->~T();
 			allocator->free(reinterpret_cast<byte*>(object));
 		}
-	}
-	;
+	};
+
 
 };
 

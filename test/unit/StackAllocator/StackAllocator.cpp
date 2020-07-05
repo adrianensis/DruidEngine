@@ -16,7 +16,7 @@ int main() {
 	u32 sizeInt = sizeof(u32);
 	u32 headerSize = sizeof(u32);
 
-	u32 *a = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	u32* a = reinterpret_cast<u32*>(stack.allocate(sizeInt));
 	*a = 300;
 
 	DE_test_show(a);
@@ -34,7 +34,7 @@ int main() {
 
 	u32 total = 0;
 
-	u32 *b = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	u32* b = reinterpret_cast<u32*>(stack.allocate(sizeInt));
 	*b = 300;
 	total += sizeInt + headerSize + 1;
 
@@ -47,7 +47,7 @@ int main() {
 
 	//------------------------------------------------------
 
-	u32 *c = reinterpret_cast<u32*>(stack.allocate(sizeInt));
+	u32* c = reinterpret_cast<u32*>(stack.allocate(sizeInt));
 	*c = 500;
 	total += sizeInt + headerSize + 1;
 
@@ -61,7 +61,7 @@ int main() {
 
 	//------------------------------------------------------
 
-	u32 *d = reinterpret_cast<u32*>(stack.allocate(sizeInt, 16));
+	u32* d = reinterpret_cast<u32*>(stack.allocate(sizeInt, 16));
 	*d = 700;
 
 	total += sizeInt + headerSize + 16;

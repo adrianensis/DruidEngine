@@ -22,12 +22,12 @@ class Renderer: public Component {
 
 private:
 
-	HashMap<std::string, Animation*> *mAnimations;
-	Animation *mCurrentAnimation;
-	Material *mMaterial;
-	Mesh *mMesh;
+	HashMap<std::string, Animation*>* mAnimations;
+	Animation* mCurrentAnimation;
+	Material* mMaterial;
+	Mesh* mMesh;
 
-	Array<f32> *mColor;
+	Array<f32>* mColor;
 
 	Vector3 mPositionOffset;
 	Matrix4 mPositionOffsetMatrix;
@@ -45,7 +45,7 @@ private:
 	f32 mRenderDistance;
 	bool mOutOfCamera;
 
-	Chunk *mChunk;
+	Chunk* mChunk;
 
 	bool mIsAlreadyInBatch;
 	bool mIsAffectedByProjection;
@@ -83,86 +83,86 @@ public:
 
 	Vector2 getRegionPosition() const {
 		return mRegionPosition;
-	}
-	;
+	};
+
 	Vector2 getRegionSize() const {
 		return mRegionSize;
-	}
-	;
+	};
+
 
 	const Vector3& getPositionOffset() const {
 		return mPositionOffset;
-	}
-	;
+	};
+
 	void setPositionOffset(Vector3 newPositionOffset);
 
 	const Matrix4& getPositionOffsetMatrix();
 
 	const Mesh* getMesh() const {
 		return mMesh;
-	}
-	;
+	};
+
 	void setMesh(Mesh *newMesh) {
 		mMesh = newMesh;
-	}
-	;
+	};
+
 
 	Material* getMaterial() const {
 		return mMaterial;
-	}
-	;
+	};
+
 	void setMaterial(Material *newMaterial) {
 		mMaterial = newMaterial;
-	}
-	;
+	};
+
 
 	void setInvertXAxis(bool newInvertXAxis) {
 		mInvertXAxis = newInvertXAxis;
-	}
-	;
+	};
+
 	void setAlphaEnabled(bool newAlphaEnabled) {
 		mAlphaEnabled = newAlphaEnabled;
-	}
-	;
+	};
+
 	void setLineMode(bool newLineMode) {
 		mLineMode = newLineMode;
-	}
-	;
+	};
+
 
 	u32 getLayer() const {
 		return mLayer;
-	}
-	;
+	};
+
 	void setLayer(u32 newLayer) {
 		mLayer = newLayer;
-	}
-	;
+	};
+
 	f32 getRenderDistance() const {
 		return mRenderDistance;
-	}
-	;
+	};
+
 	void setRenderDistance(f32 newRenderDistance) {
 		mRenderDistance = newRenderDistance;
-	}
-	;
+	};
+
 	bool isOutOfCamera() const {
 		return mOutOfCamera;
-	}
-	;
+	};
+
 	void setIsOutOfCamera(bool newOutOfCamera) {
 		mOutOfCamera = newOutOfCamera;
-	}
-	;
+	};
+
 	void setChunk(Chunk *chunk);
 	Chunk* getChunk();
 	void setIsAlreadyInBatch(bool isAlreadyInBatch) {
 		mIsAlreadyInBatch = isAlreadyInBatch;
-	}
-	;
+	};
+
 	bool isAlreadyInBatch() const {
 		return mIsAlreadyInBatch;
-	}
-	;
+	};
+
 
 	bool isAffectedByProjection() {
 		return mIsAffectedByProjection;

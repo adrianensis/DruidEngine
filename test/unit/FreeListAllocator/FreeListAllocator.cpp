@@ -16,7 +16,7 @@ int main() {
 
 	freeList.reset(); //TODO: FIX RESET
 
-	u32 *k = reinterpret_cast<u32*>(freeList.allocate(sizeInt, 8));
+	u32* k = reinterpret_cast<u32*>(freeList.allocate(sizeInt, 8));
 	*k = 300;
 
 	DE_test_show(k);
@@ -40,7 +40,7 @@ int main() {
 
 	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8);
 
-	u32 *i = reinterpret_cast<u32*>(freeList.allocate(sizeInt));
+	u32* i = reinterpret_cast<u32*>(freeList.allocate(sizeInt));
 	*i = 500;
 
 	DE_test_show(i);
@@ -48,10 +48,9 @@ int main() {
 
 	DE_test_expected_uint(*i, 500);
 
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1); // +1 because always allocate a header for padding
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8 + sizeInt + 1); // +1 because always allocate a header for padding
 
-	u32 *j = reinterpret_cast<u32*>(freeList.allocate(sizeInt, 16));
+	u32* j = reinterpret_cast<u32*>(freeList.allocate(sizeInt, 16));
 	*j = 700;
 
 	DE_test_show(j);
@@ -60,13 +59,11 @@ int main() {
 	DE_test_expected_uint(*i, 500);
 	DE_test_expected_uint(*j, 700);
 
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
 
 	freeList.free(reinterpret_cast<byte*>(j));
 
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1);
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8 + sizeInt + 1);
 
 	freeList.reset(); //TODO: FIX RESET
 
@@ -90,8 +87,7 @@ int main() {
 
 	DE_test_expected_uint(*i, 500);
 
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1);
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8 + sizeInt + 1);
 
 	j = reinterpret_cast<u32*>(freeList.allocate(sizeInt, 16));
 	*j = 700;
@@ -102,12 +98,10 @@ int main() {
 	DE_test_expected_uint(*i, 500);
 	DE_test_expected_uint(*j, 700);
 
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
 
 	freeList.free(reinterpret_cast<byte*>(k));
-	DE_test_expected_float(freeList.getAllocatedSize(),
-			sizeInt + 1 + sizeInt + 16);
+	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 1 + sizeInt + 16);
 	freeList.free(reinterpret_cast<byte*>(i));
 	DE_test_expected_float(freeList.getAllocatedSize(), sizeInt + 16);
 	freeList.free(reinterpret_cast<byte*>(j));

@@ -12,7 +12,7 @@ template<class T> class List;
 class ConfigMap: public DE_Class {
 
 private:
-	HashMap<std::string, std::string> *mMap;
+	HashMap<std::string, std::string>* mMap;
 
 	static std::string trueString;
 	static std::string falseString;

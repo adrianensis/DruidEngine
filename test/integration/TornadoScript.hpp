@@ -12,7 +12,7 @@ class Renderer;
 class TornadoScript: public Script {
 
 private:
-	Renderer *mRenderer;
+	Renderer* mRenderer;
 	Element mElement;
 
 	f32 mDurationTime;

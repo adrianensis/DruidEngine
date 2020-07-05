@@ -27,8 +27,7 @@ void Time::init() {
 
 void Time::tick() {
 	Time::mNow = std::chrono::steady_clock::now();
-	Time::mDeltaTimeMillis = std::chrono::duration_cast<
-			std::chrono::milliseconds>(
+	Time::mDeltaTimeMillis = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::steady_clock::now() - Time::mLastTime).count();
 	Time::mDeltaTimeSeconds = Time::mDeltaTimeMillis / 1000.0f;
 	Time::mLastTime = std::chrono::steady_clock::now();
@@ -56,8 +55,7 @@ f32 Time::getDeltaTimeSeconds() {
 // ---------------------------------------------------------------------------
 
 f32 Time::getElapsedTime() {
-	return std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::steady_clock::now() - Time::mLastTime).count();
+	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - Time::mLastTime).count();
 }
 
 // ---------------------------------------------------------------------------

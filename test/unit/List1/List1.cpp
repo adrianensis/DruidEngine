@@ -10,8 +10,8 @@ public:
 	int n;
 	Test() {
 		n = 3;
-	}
-	;
+	};
+
 };
 
 int main() {
@@ -20,8 +20,8 @@ int main() {
 
 	DE_test(DE::List<Test>);
 
-	List<Array<u32>*> *mArrays = DE::Memory::allocate<List<Array<u32>*> >();
-	Array<u32> *newArray = DE::Memory::allocate<Array<u32>>();
+	List<Array<u32>*>* mArrays = DE::Memory::allocate<List<Array<u32>*> >();
+	Array<u32>* newArray = DE::Memory::allocate<Array<u32>>();
 
 	newArray->init(100);
 	mArrays->init();
@@ -31,7 +31,7 @@ int main() {
 	auto itArrays = mArrays->getIterator();
 	DE_test_expected_uint(itArrays.get()->getLength(), 100);
 
-	DE::List<Test> *list = DE::Memory::allocate<List<Test>>();
+	DE::List<Test>* list = DE::Memory::allocate<List<Test>>();
 
 	list->init();
 
@@ -91,7 +91,7 @@ int main() {
 	DE_test_expected_uint(it.get().n, 2);
 	DE_test_expected_bool(it.hasNext(), false);
 
-	DE::List<u32> *list32 = DE::Memory::allocate<List<u32>>();
+	DE::List<u32>* list32 = DE::Memory::allocate<List<u32>>();
 
 	list32->init();
 

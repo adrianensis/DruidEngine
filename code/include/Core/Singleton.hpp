@@ -10,7 +10,7 @@ template<class T>
 class Singleton {
 
 protected:
-	static T *mInstance;
+	static T* mInstance;
 
 public:
 	Singleton() = default;
@@ -23,13 +23,13 @@ public:
 		}
 
 		return mInstance;
-	}
-	;
+	};
+
 
 };
 
 template<class T>
-T *Singleton<T>::mInstance = nullptr;
+T* Singleton<T>::mInstance = nullptr;
 
 }
 ;

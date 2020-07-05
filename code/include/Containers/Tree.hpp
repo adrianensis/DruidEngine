@@ -22,9 +22,9 @@ private:
 	class Node: public DE_Class {
 
 	public:
-		Node *mParent;
+		Node* mParent;
 		T mElement;
-		Array<Node*> *mChildren;
+		Array<Node*>* mChildren;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
 		;
@@ -52,10 +52,9 @@ private:
 		;
 
 		void addChild(Node *node) {
-			u32 index =
-					Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
+			u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
 
-			Node *child = mChildren->get(index);
+			Node* child = mChildren->get(index);
 
 			if (child == nullptr) {
 				node->mParent = this;
@@ -66,8 +65,7 @@ private:
 		;
 
 		void removeChild(Node *node) {
-			u32 index =
-					Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
+			u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
 
 			mChildren->get(index)->mParent = nullptr;
 			mChildren->set(index, nullptr);
@@ -79,22 +77,22 @@ private:
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(Node *parent, const T element) {
-		Node *node = Memory::allocate<Node>();
+		Node* node = Memory::allocate<Node>();
 		node->init(parent, element, smChildrenCount);
 		return node;
-	}
-	;
+	};
+
 
 	void freeNode(Node *node) {
 		Memory::free<Node>(node);
-	}
-	;
+	};
+
 
 	// ---------------------------------------------------------------------------
 
 	void freeSubTree(Node *node) {
-		Node *child0 = node->mChildren->get(0);
-		Node *child1 = node->mChildren->get(1);
+		Node* child0 = node->mChildren->get(0);
+		Node* child1 = node->mChildren->get(1);
 
 		if (child0 != nullptr)
 			freeSubTree(child0);
@@ -106,8 +104,8 @@ private:
 		node->mChildren->set(1, nullptr);
 
 		mLength--;
-	}
-	;
+	};
+
 
 	// ---------------------------------------------------------------------------
 
@@ -117,18 +115,18 @@ private:
 
 		u32 index = Hash::hash(element) < Hash::hash(node->mElement) ? 0 : 1;
 
-		Node *child = node->mChildren->get(index);
+		Node* child = node->mChildren->get(index);
 
 		if (child == nullptr)
 			return nullptr;
 		else
 			return find(element, child);
-	}
-	;
+	};
+
 
 	// ---------------------------------------------------------------------------
 
-	Node *mRoot;
+	Node* mRoot;
 	static const u32 smChildrenCount = 2;
 
 public:
@@ -158,7 +156,7 @@ public:
 	// ---------------------------------------------------------------------------
 
 	void add(const T element) {
-		Node *node = newNode(nullptr, element);
+		Node* node = newNode(nullptr, element);
 
 		if (mRoot == nullptr)
 			mRoot = node;
@@ -171,17 +169,17 @@ public:
 	// ---------------------------------------------------------------------------
 
 	void remove(const T element) {
-		Node *node = find(element, mRoot);
+		Node* node = find(element, mRoot);
 
 		if (node != nullptr) {
 
-			Node *child0 = node->mChildren->get(0);
-			Node *child1 = node->mChildren->get(1);
+			Node* child0 = node->mChildren->get(0);
+			Node* child1 = node->mChildren->get(1);
 
 			// 3 cases: a, b, c.
 
 			if (child0 == nullptr && child1 == nullptr) { // a) If no children
-				Node *parent = node->mParent;
+				Node* parent = node->mParent;
 				node->mParent = nullptr;
 
 				if (parent != nullptr)
@@ -196,10 +194,9 @@ public:
 
 			// Find min value in right subtree.
 
-				Node *successor = nullptr; // successor
-				Node *successorParent = node->mChildren->get(1); // root of right subtree.
-				while (successorParent->mChildren->getLength() > 0
-						&& successorParent->mChildren->get(0) != nullptr) {
+				Node* successor = nullptr; // successor
+				Node* successorParent = node->mChildren->get(1); // root of right subtree.
+				while (successorParent->mChildren->getLength() > 0 && successorParent->mChildren->get(0) != nullptr) {
 					successor = successorParent->mChildren->get(0); // explore left side (where values are always min).
 					successorParent = successor;
 				}
@@ -215,8 +212,8 @@ public:
 				freeNode(successor); // delete successor node
 
 			} else { // c) If only 1 child
-				Node *child = child0 != nullptr ? child0 : child1;
-				Node *parent = node->mParent;
+				Node* child = child0 != nullptr ? child0 : child1;
+				Node* parent = node->mParent;
 				node->mParent = nullptr;
 
 				if (parent != nullptr) {

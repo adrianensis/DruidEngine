@@ -9,7 +9,7 @@ const u32 StackAllocator::smHeaderSize = sizeof(u32);
 // ---------------------------------------------------------------------------
 
 void StackAllocator::storeHeader(const byte *address, u32 size) {
-	u32 *u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
+	u32* u32Array = reinterpret_cast<u32*>(reinterpret_cast<ptr>(address));
 
 	// header is stored in the last position of the allocated memory.
 	// (the previus one to the following address).
@@ -66,8 +66,7 @@ byte* StackAllocator::allocate(u32 size) {
 
 byte* StackAllocator::allocate(u32 size, u32 alignment) {
 	// allocate size + header + alignment
-	ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(
-			size + smHeaderSize, alignment));
+	ptr alignedAddress = reinterpret_cast<ptr>(LinearAllocator::allocate(size + smHeaderSize, alignment));
 
 	// save the top
 	mTop = reinterpret_cast<byte*>(alignedAddress + size + smHeaderSize);
@@ -90,20 +89,17 @@ void StackAllocator::free() {
 	Allocator::checkFree();
 
 	// read header
-	u32 *u32Array = reinterpret_cast<u32*>(mTop);
+	u32* u32Array = reinterpret_cast<u32*>(mTop);
 
 	u32 size = u32Array[-1];
 
 	// reduce mAllocatedSize
-	Allocator::setAllocatedSize(
-			Allocator::getAllocatedSize() - smHeaderSize - size);
+	Allocator::setAllocatedSize(Allocator::getAllocatedSize() - smHeaderSize - size);
 
 	// clean memory block
 	std::memset(mTop, 0, size);
 
-	mTop = calculateUnalignedAddress(
-			(byte*) (reinterpret_cast<ptr>(mStart)
-					+ Allocator::getAllocatedSize()));
+	mTop = calculateUnalignedAddress((byte*) (reinterpret_cast<ptr>(mStart) + Allocator::getAllocatedSize()));
 }
 
 // ---------------------------------------------------------------------------

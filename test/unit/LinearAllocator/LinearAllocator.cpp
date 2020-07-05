@@ -14,7 +14,7 @@ int main() {
 
 	u32 sizeInt = sizeof(u32);
 
-	u32 *k = reinterpret_cast<u32*>(linear.allocate(sizeInt, 8));
+	u32* k = reinterpret_cast<u32*>(linear.allocate(sizeInt, 8));
 	*k = 300;
 
 	DE_test_show(k);
@@ -24,7 +24,7 @@ int main() {
 
 	DE_test_expected_float(linear.getAllocatedSize(), sizeInt + 8);
 
-	u32 *i = reinterpret_cast<u32*>(linear.allocate(sizeInt));
+	u32* i = reinterpret_cast<u32*>(linear.allocate(sizeInt));
 	*i = 500;
 
 	DE_test_show(i);
@@ -34,7 +34,7 @@ int main() {
 
 	DE_test_expected_float(linear.getAllocatedSize(), sizeInt + 8 + sizeInt + 1); // +1 because always allocate a header for padding
 
-	u32 *j = reinterpret_cast<u32*>(linear.allocate(sizeInt, 16));
+	u32* j = reinterpret_cast<u32*>(linear.allocate(sizeInt, 16));
 	*j = 700;
 
 	DE_test_show(j);
@@ -43,8 +43,7 @@ int main() {
 	DE_test_expected_uint(*i, 500);
 	DE_test_expected_uint(*j, 700);
 
-	DE_test_expected_float(linear.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
+	DE_test_expected_float(linear.getAllocatedSize(), sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
 
 	linear.reset();
 
@@ -79,8 +78,7 @@ int main() {
 	DE_test_expected_uint(*i, 500);
 	DE_test_expected_uint(*j, 700);
 
-	DE_test_expected_float(linear.getAllocatedSize(),
-			sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
+	DE_test_expected_float(linear.getAllocatedSize(), sizeInt + 8 + sizeInt + 1 + sizeInt + 16);
 
 	summary();
 

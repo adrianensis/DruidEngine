@@ -63,9 +63,7 @@ void EnemyScript::step() {
 		mSpeed = GameController::smGlobalSpeed;
 	}
 
-	if (mRenderer->isOutOfCamera()
-			&& (getGameObject()->getTransform()->getWorldPosition().x < 0
-					|| mFalling)) {
+	if (mRenderer->isOutOfCamera() && (getGameObject()->getTransform()->getWorldPosition().x < 0 || mFalling)) {
 		ECHO("DESTROY ENEMY OUT OF CAMERA")
 		getGameObject()->destroy();
 	}
@@ -75,21 +73,16 @@ void EnemyScript::step() {
 
 void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 
-	if (!mFalling && !otherGameObject->isPendingToBeDestroyed()
-			&& !otherGameObject->isDestroyed()) {
+	if (!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed()) {
 
 		if (otherGameObject->getTag() == "projectile") {
-			ProjectileScript *projectileScript =
-					(ProjectileScript*) otherGameObject->getComponents<Script>()->get(
-							0);
+			ProjectileScript* projectileScript = (ProjectileScript*) otherGameObject->getComponents<Script>()->get(0);
 
 			if (!projectileScript->isExploded()) {
 
 				Element projectileElement = projectileScript->getElement();
-				if ((mElement == Element::FIRE
-						&& projectileElement == Element::ICE)
-						|| (mElement == Element::ICE
-								&& projectileElement == Element::FIRE)) {
+				if ((mElement == Element::FIRE && projectileElement == Element::ICE)
+						|| (mElement == Element::ICE && projectileElement == Element::FIRE)) {
 					// ECHO("DESTROY ENEMY")
 					// getGameObject()->destroy();
 					mFalling = true;
@@ -104,12 +97,9 @@ void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 
 void EnemyScript::onCollision(GameObject *otherGameObject) {
 
-	if (!mFalling && !otherGameObject->isPendingToBeDestroyed()
-			&& !otherGameObject->isDestroyed()
+	if (!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed()
 			&& otherGameObject->getTag() == "tornado") {
-		TornadoScript *projectileScript =
-				(TornadoScript*) otherGameObject->getComponents<Script>()->get(
-						0);
+		TornadoScript* projectileScript = (TornadoScript*) otherGameObject->getComponents<Script>()->get(0);
 
 		mSpeed = GameController::smGlobalSpeed / 4.0f;
 	}

@@ -11,7 +11,7 @@ class Texture: public DE_Class {
 	u32 mTextureId;
 	int mWidth;
 	int mHeight;
-	byte *mData;
+	byte* mData;
 	std::string mPath;
 
 public:DE_CLASS(Texture, DE_Class)
@@ -21,24 +21,24 @@ public:DE_CLASS(Texture, DE_Class)
 
 	u32 getTextureId() const {
 		return mTextureId;
-	}
-	;
+	};
+
 	const byte* getData() const {
 		return mData;
-	}
-	;
+	};
+
 	u32 getWidth() const {
 		return mWidth;
-	}
-	;
+	};
+
 	u32 getHeight() const {
 		return mHeight;
-	}
-	;
+	};
+
 	const std::string& getPath() const {
 		return mPath;
-	}
-	;
+	};
+
 };
 
 } /* namespace DE */

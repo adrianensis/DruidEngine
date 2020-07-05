@@ -11,7 +11,7 @@ class UIButton: public UIElement {
 
 private:
 
-	UIText *mLabel;
+	UIText* mLabel;
 
 public:
 

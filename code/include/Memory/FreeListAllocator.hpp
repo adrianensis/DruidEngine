@@ -20,10 +20,10 @@ private:
 
 	class Block {
 	public:
-		byte *unalignedAddress;
+		byte* unalignedAddress;
 		u32 size;
 		BlockStatus blockStatus;
-		Block *next;
+		Block* next;
 
 		Block();
 		~Block();
@@ -43,10 +43,10 @@ private:
 	// List<Block>* mFreeBlocks; // TODO: change to Block*
 	// List<Block>* mUsedBlocks;
 
-	Block *firstBlockUsed;
-	Block *lastBlockUsed;
-	Block *firstBlockFree;
-	Block *lastBlockFree;
+	Block* firstBlockUsed;
+	Block* lastBlockUsed;
+	Block* firstBlockFree;
+	Block* lastBlockFree;
 
 	void moveToUsedList(Block *block);
 	void moveToFreeList(Block *block);

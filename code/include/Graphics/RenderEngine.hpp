@@ -23,13 +23,13 @@ class Vector3;
 class RenderEngine: public DE_Class, public Singleton<RenderEngine> {
 
 private:
-	Camera *mCamera;
+	Camera* mCamera;
 
 	class LineRenderer: public DE_Class {
 	public:DE_CLASS(LineRenderer, DE_Class)
 		;
 
-		Array<f32> *mVertices; // A line is composed by 2 vertices.
+		Array<f32>* mVertices; // A line is composed by 2 vertices.
 		u32 mVAO;
 		u32 mVBOPosition;
 		u32 mEBO;
@@ -42,15 +42,15 @@ private:
 		void bind(const Array<u32> *indices);
 	};
 
-	Shader *mShaderLine;
-	Array<u32> *mLineRendererIndices; // [0,1]
-	Array<LineRenderer*> *mLineRenderers;
+	Shader* mShaderLine;
+	Array<u32>* mLineRendererIndices; // [0,1]
+	Array<LineRenderer*>* mLineRenderers;
 	u32 mLineRenderersCount;
 
-	Array<Chunk*> *mChunks;
+	Array<Chunk*>* mChunks;
 	// Chunk* mScreenChunk;
 
-	BatchesMap *mBatchesMap;
+	BatchesMap* mBatchesMap;
 
 	u32 mMaxLayersCount;
 	u32 mMaxLayersUsed;
@@ -69,30 +69,29 @@ public:DE_CLASS(RenderEngine, DE_Class)
 
 	void addRenderer(Renderer *renderer);
 	Chunk* assignChunk(Renderer *renderer);
-	void drawLine(const Vector3 &start, const Vector3 &end, u32 size = 1,
-			bool isAffectedByProjection = true);
+	void drawLine(const Vector3 &start, const Vector3 &end, u32 size = 1, bool isAffectedByProjection = true);
 
 	bool getDebugColliders() const {
 		return mDebugColliders;
-	}
-	;
+	};
+
 	void setDebugColliders(bool debugColliders) {
 		mDebugColliders = debugColliders;
-	}
-	;
+	};
+
 
 	Camera* getCamera() const {
 		return mCamera;
-	}
-	;
+	};
+
 	void setCamera(Camera *newCamera) {
 		mCamera = newCamera;
-	}
-	;
+	};
+
 	bool getCameraDirtyTranslation() const {
 		return mCameraDirtyTranslation;
-	}
-	;
+	};
+
 
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };

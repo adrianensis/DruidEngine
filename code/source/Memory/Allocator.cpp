@@ -14,8 +14,7 @@ namespace DE {
  */
 
 void Allocator::checkAllocate(u32 size) const {
-	DE_ASSERT(mAllocatedSize + size <= mTotalSize,
-			"Total memory size exceeded.");
+	DE_ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
 }
 
 // ---------------------------------------------------------------------------
@@ -28,8 +27,7 @@ void Allocator::checkAlignment(u32 alignment) const {
 	DE_ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
 
 	// IMPORTANT: 'alignment must be a power of 2 (typically 4 or 16).
-	DE_ASSERT((alignment & (alignment - 1)) == 0,
-			"Alignment is not power of 2."); // power of 2
+	DE_ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 }
 
 // ---------------------------------------------------------------------------
@@ -40,8 +38,7 @@ void Allocator::checkFree() const {
 
 // ---------------------------------------------------------------------------
 
-byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress,
-		u32 alignment) const {
+byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress, u32 alignment) const {
 
 	/*
 
@@ -95,11 +92,10 @@ byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress,
 	// Store the adjustment in the byte immediately
 	// preceding the adjusted address.
 	// 256 = 1 0000 0000
-	DE_ASSERT(adjustment < 256,
-			"Adjustment is equal or greater than 256 (uint8_t).");
+	DE_ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
 	// The aligned address is accessed as a uint8_t array or byte array.
-	byte *byteArray = reinterpret_cast<byte*>(alignedAddress);
+	byte* byteArray = reinterpret_cast<byte*>(alignedAddress);
 
 	// We always store this information in the byte immediately preceding
 	// (that's why we use [-1]) the adjusted address.
@@ -112,7 +108,7 @@ byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress,
 
 byte* Allocator::calculateUnalignedAddress(const byte *alignedAddress) const {
 
-	const byte *byteArray = reinterpret_cast<const byte*>(alignedAddress);
+	const byte* byteArray = reinterpret_cast<const byte*>(alignedAddress);
 	ptr _alignedAddress = reinterpret_cast<ptr>(alignedAddress);
 	ptrdiff adjustment = static_cast<ptrdiff>(byteArray[-1]);
 	ptr unalignedAddress = _alignedAddress - adjustment;
@@ -122,8 +118,7 @@ byte* Allocator::calculateUnalignedAddress(const byte *alignedAddress) const {
 
 // ---------------------------------------------------------------------------
 
-byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size,
-		u32 alignment) {
+byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 alignment) {
 	u32 expandedSize = size + alignment;
 
 	Allocator::checkAllocate(expandedSize);
@@ -134,8 +129,7 @@ byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size,
 
 	Allocator::setAllocatedSize(Allocator::getAllocatedSize() + expandedSize);
 
-	byte *alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress,
-			alignment);
+	byte* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 
 	Allocator::clean(alignedAddress, size);
 

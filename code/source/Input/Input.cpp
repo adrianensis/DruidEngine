@@ -12,8 +12,7 @@ f32 Input::scroll = 0;
 
 // ---------------------------------------------------------------------------
 
-void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action,
-		int mods) {
+void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		smLastKeyPressed = key;
 		keyJustPressed = true;
@@ -24,8 +23,7 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 
 // ---------------------------------------------------------------------------
 
-void Input::mouseButtonCallback(GLFWwindow *window, int button, int action,
-		int mods) {
+void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		smLastMouseButtonPressed = button;
 		buttonJustPressed = true;
@@ -110,8 +108,7 @@ Vector2 Input::getMousePosition() {
 	mouseCoordX = mouseCoordX - halfWindowSizeX;
 	mouseCoordY = halfWindowSizeY - mouseCoordY;
 
-	smMouseCoordinates.set(mouseCoordX / halfWindowSizeX,
-			mouseCoordY / halfWindowSizeY);
+	smMouseCoordinates.set(mouseCoordX / halfWindowSizeX, mouseCoordY / halfWindowSizeY);
 
 	return smMouseCoordinates;
 }

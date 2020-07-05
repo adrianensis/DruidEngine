@@ -59,7 +59,7 @@ void ConfigMap::writeConfigFile(const std::string &path) {
 
 		FOR_LIST(it, mMap->getKeys())
 		{
-			const std::string &key = it.get();
+			const std::string& key = it.get();
 			file << key << "=" << mMap->get(key) << std::endl;
 		}
 	});

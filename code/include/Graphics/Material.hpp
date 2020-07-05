@@ -11,8 +11,8 @@ class Shader;
 class Material: public DE_Class {
 
 private:
-	Shader *mShader;
-	Texture *mTexture;
+	Shader* mShader;
+	Texture* mTexture;
 
 public:
 
@@ -23,20 +23,20 @@ public:
 
 	Shader* getShader() const {
 		return mShader;
-	}
-	;
+	};
+
 	void setShader(Shader *newShader) {
 		mShader = newShader;
-	}
-	;
+	};
+
 	Texture* getTexture() const {
 		return mTexture;
-	}
-	;
+	};
+
 	void setTexture(Texture *newTexture) {
 		mTexture = newTexture;
-	}
-	;
+	};
+
 };
 
 } /* namespace DE */

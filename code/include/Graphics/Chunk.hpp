@@ -15,7 +15,7 @@ template<class T> class List;
 
 class BatchesMap: public DE_Class {
 private:
-	HashMap<Texture*, Batch*> *mBatches;
+	HashMap<Texture*, Batch*>* mBatches;
 
 public:DE_CLASS(BatchesMap, DE_Class)
 	;
@@ -27,7 +27,7 @@ public:DE_CLASS(BatchesMap, DE_Class)
 
 class Chunk: public DE_Class {
 private:
-	List<Renderer*> *mRenderers;
+	List<Renderer*>* mRenderers;
 
 public:DE_CLASS(Chunk, DE_Class)
 	;

@@ -92,8 +92,7 @@ const Vector3& Transform::getWorldPosition() {
 		Matrix4 rotationMatrix;
 		rotationMatrix.init(mParent->getRotationMatrix());
 
-		mWorldPosition = Vector3(
-				rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
+		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
 	}
 
 	return mWorldPosition;
@@ -135,8 +134,7 @@ void Transform::lookAt(const Vector3 &targetPosition) {
 	Vector3 up(Vector3(forward).cross(right));
 
 	Matrix4 lookAtMatrix;
-	lookAtMatrix.init(Vector4(right.x, right.y, right.z, 0),
-			Vector4(up.x, up.y, up.z, 0),
+	lookAtMatrix.init(Vector4(right.x, right.y, right.z, 0), Vector4(up.x, up.y, up.z, 0),
 			Vector4(forward.x, forward.y, forward.z, 0), Vector4(0, 0, 0, 1));
 
 	Quaternion q;

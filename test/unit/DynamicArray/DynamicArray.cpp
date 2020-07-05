@@ -10,14 +10,14 @@ int main() {
 
 	DE_test(DE::DynamicArray<u32>);
 
-	DE::DynamicArray<u32> *array = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array = DE::Memory::allocate<DynamicArray<u32>>();
 
 	array->init(5);
 	u32 n = (*array)[0];
 
 	DE_test_expected_uint(array->getLength(), 5);
 
-	DE::DynamicArray<u32> *array0 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array0 = DE::Memory::allocate<DynamicArray<u32>>();
 
 	u32 x0[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	array0->init(x0, 10);
@@ -28,7 +28,7 @@ int main() {
 		DE_test_expected_uint((*array0)[i], i + 1);
 	}
 
-	DE::DynamicArray<u32> *array1 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array1 = DE::Memory::allocate<DynamicArray<u32>>();
 	u32 size = 200;
 	array1->init(size);
 
@@ -42,7 +42,7 @@ int main() {
 		DE_test_expected_uint((*array1)[i], i);
 	}
 
-	DE::DynamicArray<u32> *array2 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array2 = DE::Memory::allocate<DynamicArray<u32>>();
 	size = 457;
 	array2->init(size);
 
@@ -56,13 +56,13 @@ int main() {
 		DE_test_expected_uint((*array2)[i], i);
 	}
 
-	DE::DynamicArray<u32> *array3 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array3 = DE::Memory::allocate<DynamicArray<u32>>();
 
 	array3->init();
 
 	DE_test_expected_uint(array3->getLength(), 0);
 
-	DE::DynamicArray<u32> *copy = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* copy = DE::Memory::allocate<DynamicArray<u32>>();
 	copy->init(*array0);
 
 	DE_test_expected_uint(copy->getLength(), 10);
@@ -73,10 +73,10 @@ int main() {
 	DE_test_expected_uint((*copy)[3], 4);
 	DE_test_expected_uint((*copy)[4], 5);
 
-	DE::DynamicArray<u32> *array4 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array4 = DE::Memory::allocate<DynamicArray<u32>>();
 	array4->init(10);
 
-	DE::DynamicArray<u32> *array5 = DE::Memory::allocate<DynamicArray<u32>>();
+	DE::DynamicArray<u32>* array5 = DE::Memory::allocate<DynamicArray<u32>>();
 
 	u32 x5[] = { 1, 2, 3, 4, 5 };
 	array5->init(x5, 5);
@@ -101,7 +101,7 @@ int main() {
 	DE_test_expected_uint((*array4)[8], 4);
 	DE_test_expected_uint((*array4)[9], 5);
 
-	DE::Array<u32> *array6 = DE::Memory::allocate<Array<u32>>();
+	DE::Array<u32>* array6 = DE::Memory::allocate<Array<u32>>();
 	array6->init(10);
 
 	array6->put(*array4, 0, 0);

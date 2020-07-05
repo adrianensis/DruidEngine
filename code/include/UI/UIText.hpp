@@ -22,16 +22,16 @@ public:
 
 	void setLayer(u32 layer) {
 		mLayer = layer;
-	}
-	;
+	};
+
 	void setSize(const Vector2 &size) {
 		mSize = size;
-	}
-	;
+	};
+
 	const std::string& getText() const {
 		return mString;
-	}
-	;
+	};
+
 
 };
 

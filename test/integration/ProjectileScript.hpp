@@ -12,7 +12,7 @@ class Renderer;
 class ProjectileScript: public Script {
 
 private:
-	Renderer *mRenderer;
+	Renderer* mRenderer;
 	Element mElement;
 
 	f32 mExplosionTime;

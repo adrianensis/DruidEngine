@@ -14,8 +14,8 @@ class RigidBody;
 class EnemyScript: public Script {
 
 private:
-	Renderer *mRenderer;
-	RigidBody *mRigidBody;
+	Renderer* mRenderer;
+	RigidBody* mRigidBody;
 	Element mElement;
 	bool mFalling;
 	bool mSlowDown;

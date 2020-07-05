@@ -33,16 +33,16 @@ private:
 
 		f32 mRadius;
 
-		QuadTree *mTree;
+		QuadTree* mTree;
 
 		f32 mHalfWidth;
 		f32 mHalfHeight;
 		bool mIsDivisible;
 
-		List<Collider*> *mColliders;
-		List<Collider*> *mExitingColliders;
-		Array<Node*> *mChildren;
-		Array<Vector2> *mLeftTopChildrenArray;
+		List<Collider*>* mColliders;
+		List<Collider*>* mExitingColliders;
+		Array<Node*>* mChildren;
+		Array<Vector2>* mLeftTopChildrenArray;
 
 		u32 mChildrenCount;
 
@@ -54,8 +54,7 @@ private:
 
 		Node();
 		~Node();
-		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth,
-				f32 minHeight, QuadTree *tree);
+		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
 		void addCollider(Collider *collider);
 		void update();
@@ -69,12 +68,11 @@ private:
 		bool testPartialCollider(Collider *collider) const;
 		bool childNodeTestPartialCollider(u32 index, Collider *collider) const;
 
-		void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd,
-				List<GameObject*> *outList);
+		void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);
 
 	};
 
-	Node *mRoot;
+	Node* mRoot;
 
 	f32 mWidth;
 	f32 mHeight;
@@ -93,15 +91,14 @@ public:
 
 	ColliderStatus getStatus() const {
 		return mStatus;
-	}
-	;
+	};
+
 	void setStatus(ColliderStatus newStatus) {
 		mStatus = newStatus;
-	}
-	;
+	};
 
-	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd,
-			List<GameObject*> *outList);
+
+	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);
 
 };
 } /* namespace DE */

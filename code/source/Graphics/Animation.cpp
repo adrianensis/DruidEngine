@@ -40,12 +40,12 @@ u32 Animation::getNumberOfFrames() const {
 
 // ---------------------------------------------------------------------------
 
-Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse,
-		const Vector2 &startPosition, f32 width, f32 height, f32 speed) {
+Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+		f32 height, f32 speed) {
 
 	// TODO: check if coordinates are > 1 or < 0 !!!!!
 
-	Animation *animation = Memory::allocate<Animation>();
+	Animation* animation = Memory::allocate<Animation>();
 	animation->init();
 	animation->setSpeed(speed);
 
@@ -83,7 +83,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse,
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame *frame = Memory::allocate<AnimationFrame>();
+		AnimationFrame* frame = Memory::allocate<AnimationFrame>();
 		frame->init(pos, width, height);
 		animation->addFrame(frame);
 
@@ -94,7 +94,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse,
 
 const AnimationFrame* Animation::getNextFrame() {
 
-	const AnimationFrame *frame = nullptr;
+	const AnimationFrame* frame = nullptr;
 
 	if (mFrames->getLength() > 0) {
 		// speed -> frame/second.
@@ -111,8 +111,7 @@ const AnimationFrame* Animation::getNextFrame() {
 		// then -> change to the next frame.
 		if (mTimeAccumulator >= time) {
 			mTimeAccumulator = 0.0f;
-			mCurrentFrameNumber = (mCurrentFrameNumber + 1)
-					% mFrames->getLength();
+			mCurrentFrameNumber = (mCurrentFrameNumber + 1) % mFrames->getLength();
 		}
 
 		frame = mFrames->get(mCurrentFrameNumber);

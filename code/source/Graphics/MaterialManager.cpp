@@ -47,7 +47,7 @@ void MaterialManager::init() {
 // ---------------------------------------------------------------------------
 
 Texture* MaterialManager::loadTexture(const std::string &path) {
-	Texture *texture = nullptr;
+	Texture* texture = nullptr;
 
 	if (mTexturesMap->contains(path)) {
 		texture = mTexturesMap->get(path);
@@ -63,7 +63,7 @@ Texture* MaterialManager::loadTexture(const std::string &path) {
 // ---------------------------------------------------------------------------
 
 Material* MaterialManager::loadMaterial(const std::string &path) {
-	Material *material = nullptr;
+	Material* material = nullptr;
 
 	if (mMaterialsMap->contains(path)) {
 		material = mMaterialsMap->get(path);

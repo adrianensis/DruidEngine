@@ -21,8 +21,8 @@ public:
 	DE_CLASS(Contact, DE_Class)
 	;
 
-	Collider *colliderA;
-	Collider *colliderB;
+	Collider* colliderA;
+	Collider* colliderB;
 
 	Vector3 contactPoint;
 	Vector3 normal; // From B to A
@@ -50,7 +50,7 @@ public:
 class ContactsManager: public DE_Class, public Singleton<ContactsManager> {
 private:
 	// ID = ContactID = ColliderA + Collider B
-	HashMap<Collider*, HashMap<Collider*, Contact*>*> *mContactsMap;
+	HashMap<Collider*, HashMap<Collider*, Contact*>*>* mContactsMap;
 	void removeContactFromMap(Collider *colliderA, Collider *colliderB);
 
 public:

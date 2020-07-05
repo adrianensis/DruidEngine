@@ -42,11 +42,11 @@ void BatchesMap::init() {
 
 void BatchesMap::addRenderer(Renderer *renderer) {
 
-	Texture *texture = renderer->getMaterial()->getTexture();
+	Texture* texture = renderer->getMaterial()->getTexture();
 
 	if (!mBatches->contains(texture)) {
 
-		Batch *batch = Memory::allocate<Batch>();
+		Batch* batch = Memory::allocate<Batch>();
 		batch->init(renderer->getMesh(), renderer->getMaterial());
 		// batch->setChunk(chunk);
 
@@ -118,15 +118,14 @@ void Chunk::update(BatchesMap *batchesMap) {
 
 	FOR_LIST(it, mRenderers)
 	{
-		Renderer *renderer = it.get();
+		Renderer* renderer = it.get();
 
 		if (!renderer->isAlreadyInBatch()) {
 			batchesMap->addRenderer(it.get());
 		}
 
-		if (!it.get()->isStatic() && renderer->isAffectedByProjection()
-				&& !this->containsRenderer(renderer)) {
-			Chunk *chunk = RenderEngine::getInstance()->assignChunk(renderer);
+		if (!it.get()->isStatic() && renderer->isAffectedByProjection() && !this->containsRenderer(renderer)) {
+			Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 			// Only remove the renderer from this chunk if another chunk is found.
 			// If not, keep the renderer here until a new chunk is found.
@@ -163,18 +162,15 @@ void Chunk::addRenderer(Renderer *renderer) {
 // ---------------------------------------------------------------------------
 
 bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) {
-	Vector3 rendererPosition =
-			renderer->getGameObject()->getTransform()->getWorldPosition();
-	bool contains = MathUtils::testRectanglePoint(mLeftTop, mSize, mSize,
-			rendererPosition, epsilon);
+	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
+	bool contains = MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
 }
 
 // ---------------------------------------------------------------------------
 
 bool Chunk::containsRendererSphere(const Renderer *renderer) {
-	Vector3 rendererPosition =
-			renderer->getGameObject()->getTransform()->getWorldPosition();
+	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius,
 			renderer->getGameObject()->getTransform()->getScale().y * 2.0f);
 }

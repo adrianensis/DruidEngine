@@ -16,18 +16,18 @@ private:
 
 public:
 	Functor() {
-	}
-	;
+	};
+
 	~Functor() {
-	}
-	;
+	};
+
 
 	void execute();
 
 	void setCallback(voidFunction newCallback) {
 		mCallback = newCallback;
-	}
-	;
+	};
+
 };
 
 } /* namespace DE */

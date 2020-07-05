@@ -10,7 +10,7 @@ int main() {
 
 	DE_test(DE::Array<u32>);
 
-	DE::Array<u32> *array = DE::Memory::allocate<Array<u32>>();
+	DE::Array<u32>* array = DE::Memory::allocate<Array<u32>>();
 
 	u32 x[] = { 1, 2, 3, 4, 5 };
 	array->init(x, 5);
@@ -23,7 +23,7 @@ int main() {
 	DE_test_expected_uint((*array)[3], 4);
 	DE_test_expected_uint((*array)[4], 5);
 
-	DE::Array<u32> *copy = DE::Memory::allocate<Array<u32>>();
+	DE::Array<u32>* copy = DE::Memory::allocate<Array<u32>>();
 	copy->init(*array);
 
 	DE_test_expected_uint(copy->getLength(), 5);
@@ -55,7 +55,7 @@ int main() {
 	DE_test_expected_uint((*array)[3], 9);
 	DE_test_expected_uint((*array)[4], 10);
 
-	DE::Array<u32> *copy2 = DE::Memory::allocate<Array<u32>>();
+	DE::Array<u32>* copy2 = DE::Memory::allocate<Array<u32>>();
 	copy2->init(*array);
 
 	DE_test_expected_uint(copy2->getLength(), 5);
@@ -66,7 +66,7 @@ int main() {
 	DE_test_expected_uint((*copy2)[3], 9);
 	DE_test_expected_uint((*copy2)[4], 10);
 
-	DE::Array<u32> *array2 = DE::Memory::allocate<Array<u32>>();
+	DE::Array<u32>* array2 = DE::Memory::allocate<Array<u32>>();
 	array2->init(10);
 
 	array2->put(*array, 0, 0);

@@ -5,6 +5,7 @@
 #include "Vector3.hpp"
 #include "UI.hpp"
 #include "Scene.hpp"
+#include "RenderContext.hpp"
 
 namespace DE {
 
@@ -25,16 +26,16 @@ void UIText::setText(const std::string &text) {
 
 	if (mString != text) {
 
-		List<Renderer*> *renderers = getComponents<Renderer>();
+		List<Renderer*>* renderers = getComponents<Renderer>();
 
 		// Remove Extra Renderers
 		if (renderers && renderers->getLength() > text.length()) {
 			VAR(u32, renderers->getLength())
 			VAR(u32, mString.length())
 			VAR(u32, text.length())
-			FOR_RANGE(i, text.length(), renderers->getLength())
+			FOR_RANGE(i, text.length(), mString.length())
 			{
-				removeComponent(renderers->get(i));
+				removeComponent(renderers->getLast().get());
 			}
 		}
 
@@ -42,11 +43,9 @@ void UIText::setText(const std::string &text) {
 
 		FOR_RANGE(i, 0, text.length())
 		{
+			Renderer* renderer = nullptr;
 
-			Renderer *renderer = nullptr;
-
-			Vector2 textureCoordinates =
-					UI::getInstance()->getCharTextureCoordinates(text.at(i));
+			Vector2 textureCoordinates = UI::getInstance()->getCharTextureCoordinates(text.at(i));
 			Vector2 textureSize = UI::getInstance()->getFontTileTextureSize();
 
 			if (renderers && !renderers->isEmpty() && i < mString.length()) {
@@ -54,8 +53,6 @@ void UIText::setText(const std::string &text) {
 			} else {
 				renderer = Memory::allocate<Renderer>();
 				addComponent<Renderer>(renderer);
-
-				renderer->setPositionOffset(Vector3(i * mSize.x, 0, 0));
 
 				renderer->setMesh(Mesh::getRectangle());
 				renderer->setMaterial(UI::getInstance()->getFontMaterial());
@@ -66,8 +63,8 @@ void UIText::setText(const std::string &text) {
 				newRenderersCreated = true;
 			}
 
-			renderer->setRegion(textureCoordinates.x, textureCoordinates.y,
-					textureSize.x, textureSize.y);
+			renderer->setPositionOffset(Vector3(i * mSize.x / RenderContext::getAspectRatio(), 0, 0));
+			renderer->setRegion(textureCoordinates.x, textureCoordinates.y, textureSize.x, textureSize.y);
 		}
 
 		if (newRenderersCreated) {

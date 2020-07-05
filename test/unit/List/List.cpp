@@ -10,7 +10,7 @@ int main() {
 
 	DE_test(DE::List<u32>);
 
-	DE::List<u32> *list = DE::Memory::allocate<List<u32>>();
+	DE::List<u32>* list = DE::Memory::allocate<List<u32>>();
 	list->init();
 
 	DE_test_expected_uint(list->getLength(), 0);
@@ -21,7 +21,7 @@ int main() {
 
 	DE_test_expected_uint(list->getLength(), 3);
 
-	DE::List<u32> *list2 = DE::Memory::allocate<List<u32>>();
+	DE::List<u32>* list2 = DE::Memory::allocate<List<u32>>();
 	list2->init(*list);
 
 	DE_test_expected_uint(list2->getLength(), 3);

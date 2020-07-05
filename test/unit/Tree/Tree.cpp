@@ -11,7 +11,7 @@ int main() {
 
 	DE_test(Tree<i32>);
 
-	Tree<i32> *tree = DE::Memory::allocate<Tree<i32>>();
+	Tree<i32>* tree = DE::Memory::allocate<Tree<i32>>();
 
 	tree->init();
 

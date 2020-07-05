@@ -19,7 +19,7 @@ private:
 	Matrix4 mProjectionMatrix;
 	Matrix4 mViewTranslationMatrix;
 	Matrix4 mInversePVMatrix; // used in screen to world calculations.
-	Frustum *mFrustum;
+	Frustum* mFrustum;
 
 	f32 mLeft;
 	f32 mRight;
@@ -52,19 +52,19 @@ public:
 
 	Frustum* getFrustum() const {
 		return mFrustum;
-	}
-	;
+	};
+
 
 	void setZoom(f32 zoom);
 	void resetZoom() {
 		mZoom = 1;
 		setZoom(mZoom);
-	}
-	;
+	};
+
 	f32 getZoom() {
 		return mZoom;
-	}
-	;
+	};
+
 };
 
 } /* namespace DE */

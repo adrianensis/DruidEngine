@@ -13,8 +13,8 @@ class Material;
 
 class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
-	HashMap<std::string, Texture*> *mTexturesMap;
-	HashMap<std::string, Material*> *mMaterialsMap;
+	HashMap<std::string, Texture*>* mTexturesMap;
+	HashMap<std::string, Material*>* mMaterialsMap;
 
 public:
 

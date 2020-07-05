@@ -29,7 +29,7 @@ private:
 
 	State mState;
 
-	Collider *mCollider;
+	Collider* mCollider;
 	Vector3 mLastCollisionPosition;
 
 	Vector3 mAntiPenetrationForce;
@@ -53,49 +53,51 @@ public:
 	}
 	Vector3 getForceAccumulator() const {
 		return mForceAccumulator;
-	}
-	;
+	};
+
 	f32 getMass() const {
 		return mMass;
-	}
-	;
+	};
+
 	void setMass(f32 newMass) {
 		mMass = newMass;
-	}
-	;
+	};
+
 	void addLinear(const Vector3 &linear) {
 		mLinear.add(linear);
 	}
 	Vector3 getLinear() const {
 		return mLinear;
-	}
-	;
+	};
+
 	void setLinear(Vector3 newLinear) {
 		mLinear = newLinear;
-	}
-	;
+	};
+
 	bool isSimulate() const {
 		return mSimulate;
-	}
-	;
+	};
+
 	void setSimulate(bool newSimulate) {
 		mSimulate = newSimulate;
-	}
-	;
+	};
+
 	Collider* getCollider() const {
 		return mCollider;
+	};
+
+	void setCollider(Collider* collider) {
+		mCollider = collider;
 	}
-	;
-	Collider* initCollider();
 
 	void setAntiPenetrationForce(Vector3 newAntiPenetrationForce) {
 		mAntiPenetrationForce.add(newAntiPenetrationForce);
-	}
-	;
+	};
+
 	void resetAntiPenetrationForce(Vector3 newAntiPenetrationForce) {
 		mAntiPenetrationForce.set(0, 0, 0);
-	}
-	;
+	};
+
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

@@ -5,7 +5,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Mesh *Mesh::smRectangle = nullptr;
+Mesh* Mesh::smRectangle = nullptr;
 
 Mesh::Mesh() :
 		DE_Class() {

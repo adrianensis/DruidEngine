@@ -13,11 +13,11 @@ class GameObject;
 class ScenesManager: public DE_Class, public Singleton<ScenesManager> {
 
 private:
-	List<Scene*> *mScenes;
+	List<Scene*>* mScenes;
 	u32 mCurrentSceneIndex;
-	Scene *mCurrentScene;
+	Scene* mCurrentScene;
 	bool mSceneHasChanged;
-	GameObject *mGameObjectController;
+	GameObject* mGameObjectController;
 
 	void internalLoadScene();
 	void addScene(Scene *newScene);
@@ -35,14 +35,14 @@ public:
 
 	GameObject* getGameObjectController() const {
 		return mGameObjectController;
-	}
-	;
+	};
+
 	void setGameObjectController(GameObject *controller);
 
 	bool sceneHasChanged() const {
 		return mSceneHasChanged;
-	}
-	;
+	};
+
 };
 }
 #endif /* DE_SCENESMANAGER_H */

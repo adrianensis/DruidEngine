@@ -17,10 +17,10 @@ class Frustum: public DE_Class {
 
 private:
 
-	Matrix4 *mVPmatrix;
-	Camera *mCamera;
+	Matrix4* mVPmatrix;
+	Camera* mCamera;
 
-	Array<Vector4> *mPlanes;
+	Array<Vector4>* mPlanes;
 
 public:
 

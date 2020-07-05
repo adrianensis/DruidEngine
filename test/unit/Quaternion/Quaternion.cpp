@@ -39,10 +39,8 @@ int main() {
 	DE_test_expected(a - a, DE::Quaternion(0 - 0, 1 - 1, 2 - 2, 3 - 3));
 	DE_test_expected(b * a, mul(b, a));
 	DE_test_expected(b / a, mul(b, DE::Quaternion(a).inv()));
-	DE_test_expected(DE::Quaternion(a) -= a,
-			DE::Quaternion(0 - 0, 1 - 1, 2 - 2, 3 - 3));
-	DE_test_expected(DE::Quaternion(a) += a,
-			DE::Quaternion(0 + 0, 1 + 1, 2 + 2, 3 + 3));
+	DE_test_expected(DE::Quaternion(a) -= a, DE::Quaternion(0 - 0, 1 - 1, 2 - 2, 3 - 3));
+	DE_test_expected(DE::Quaternion(a) += a, DE::Quaternion(0 + 0, 1 + 1, 2 + 2, 3 + 3));
 	DE_test_expected(DE::Quaternion(a) *= a, mul(a, a));
 	DE_test_expected(DE::Quaternion(a) /= a, mul(a, DE::Quaternion(a).inv()));
 	DE_test_expected_bool(a == a, true);
@@ -59,10 +57,8 @@ int main() {
 
 	DE_test_title("METHODS");
 
-	DE_test_expected_float(a.dot(a),
-			a.v.x * a.v.x + a.v.y * a.v.y + a.v.z * a.v.z + a.w * a.w);
-	DE_test_expected_float(a.dot(b),
-			a.v.x * b.v.x + a.v.y * b.v.y + a.v.z * b.v.z + a.w * b.w);
+	DE_test_expected_float(a.dot(a), a.v.x * a.v.x + a.v.y * a.v.y + a.v.z * a.v.z + a.w * a.w);
+	DE_test_expected_float(a.dot(b), a.v.x * b.v.x + a.v.y * b.v.y + a.v.z * b.v.z + a.w * b.w);
 	DE_test_expected_float(a.sqrlen(), a.dot(a));
 	DE_test_expected_float(a.len(), sqrtf(a.sqrlen()));
 	DE_test_expected_bool(a.eq(b, 0), false);
@@ -74,7 +70,7 @@ int main() {
 	DE_test_show(f.toEuler());
 	DE_test_expected_bool(f.toEuler().eq(DE::Vector3(-180, 10, 10), 0.1f), true);
 
-	DE::Matrix4 *m = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();
 	m->zeros();
 
 	DE::Quaternion i(0, 0, 0, 1);
@@ -99,7 +95,7 @@ int main() {
 
 	DE::Quaternion ii(0, 0, 0, 1);
 
-	DE::Matrix4 *mRot = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* mRot = DE::Memory::allocate<Matrix4>();
 	mRot->rotation(DE::Vector3(0, 0, 0));
 
 	ii.fromMatrix(*mRot);
@@ -117,8 +113,7 @@ int main() {
 	DE_test_show(ii.toEuler().y);
 	DE_test_show(ii.toEuler().z);
 
-	DE_test_expected_bool(ii.toEuler().eq(DE::Vector3(-92.0f, 0, 0), 0.001f),
-			true);
+	DE_test_expected_bool(ii.toEuler().eq(DE::Vector3(-92.0f, 0, 0), 0.001f), true);
 
 	DE_test_show(ii.v.x);
 

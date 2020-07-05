@@ -16,7 +16,7 @@ protected:
 	u32 mLength;
 	u32 mElementSize;
 	u32 mAlignment;
-	Allocator *mAllocator;
+	Allocator* mAllocator;
 
 	void init(u32 length, u32 elementSize, u32 alignment);
 
@@ -26,20 +26,20 @@ public:
 
 	u32 getLength() const {
 		return mLength;
-	}
-	;
+	};
+
 	u32 getElementSize() const {
 		return mElementSize;
-	}
-	;
+	};
+
 	u32 getAlignment() const {
 		return mAlignment;
-	}
-	;
+	};
+
 	void setAllocator(Allocator *newAllocator) {
 		mAllocator = newAllocator;
-	}
-	;
+	};
+
 
 	/*!
 	 \brief Clear the container.

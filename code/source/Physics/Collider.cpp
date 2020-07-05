@@ -62,20 +62,21 @@ void Collider::setSize(f32 width, f32 height) {
 	mHalfHeight = height / 2.0f;
 
 	mRadius = sqrt((mWidth * mWidth) + (mHeight * mHeight)) / 2.0f;
+
+	getBoundingBox(true);
 }
 
 // ---------------------------------------------------------------------------
 
-Array<Vector2>* Collider::getBoundingBox() {
+Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = false*/) {
 
-	Transform *t = getGameObject()->getTransform();
+	Transform* t = getGameObject()->getTransform();
 
-	if (t->isDirtyTranslation()) {
+	if (t->isDirtyTranslation() || forceCalculateBoundingBox) {
 		Vector3 center = t->getWorldPosition();
 
-		mBoxVertices->set(0,
-				Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
-		const Vector2 &LeftTop = mBoxVertices->get(0);
+		mBoxVertices->set(0, Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
+		const Vector2& LeftTop = mBoxVertices->get(0);
 		mBoxVertices->set(1, Vector2(LeftTop.x, LeftTop.y - mHeight)); // LEFT BOTTOM
 		mBoxVertices->set(2, Vector2(LeftTop.x + mWidth, LeftTop.y - mHeight)); // RIGHT BOTTOM
 		mBoxVertices->set(3, Vector2(LeftTop.x + mWidth, LeftTop.y)); // RIGHT TOP
@@ -105,12 +106,11 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	GameObject *gameObject = getGameObject();
+	GameObject* gameObject = getGameObject();
 
-	Transform *t = gameObject->getTransform();
+	Transform* t = gameObject->getTransform();
 	Vector3 center = t->getWorldPosition();
-	Vector3 otherCenter =
-			otherCollider->getGameObject()->getTransform()->getWorldPosition();
+	Vector3 otherCenter = otherCollider->getGameObject()->getTransform()->getWorldPosition();
 
 	Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
 	relativeVelocity.nor();
@@ -120,17 +120,16 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 
 	// if(vrn < 0){
 
-	Array<Vector2> *vertices = getBoundingBox();
+	Array<Vector2>* vertices = getBoundingBox();
 
-	Array<Vector2> *otherVertices = otherCollider->getBoundingBox();
+	Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
 	// TEST Middle Vertex vs Edge
 	u32 detectedVertexIndex = 0;
 	FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE)
 	{
 
-		Vector2 midPoint = MathUtils::midPoint(vertices->get(i),
-				vertices->get(i == 3 ? 0 : i + 1));
+		Vector2 midPoint = MathUtils::midPoint(vertices->get(i), vertices->get(i == 3 ? 0 : i + 1));
 
 		ColliderStatus pointStatus = otherCollider->testPoint(midPoint);
 
@@ -140,15 +139,13 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 		}
 	}
 
-	if (result != ColliderStatus::STATUS_NONE
-			&& !(mIsSolid && otherCollider->isSolid())) {
+	if (result != ColliderStatus::STATUS_NONE && !(mIsSolid && otherCollider->isSolid())) {
 
 		// SEND DIRECTLY TO PENETRATION
 		result = ColliderStatus::STATUS_PENETRATION;
 	}
 
-	if (result == ColliderStatus::STATUS_NONE
-			|| result == ColliderStatus::STATUS_COLLISION) {
+	if (result == ColliderStatus::STATUS_NONE || result == ColliderStatus::STATUS_COLLISION) {
 
 		ColliderStatus result2 = ColliderStatus::STATUS_NONE;
 
@@ -156,8 +153,7 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 		// u32 detectedVertexIndex = 0;
 		FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE)
 		{
-			ColliderStatus pointStatus = otherCollider->testPoint(
-					vertices->get(i));
+			ColliderStatus pointStatus = otherCollider->testPoint(vertices->get(i));
 
 			if (pointStatus > result2) {
 				result2 = pointStatus;
@@ -175,7 +171,7 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 	} else /*if(vrn < 0)*/{
 
 		// if(! gameObject->isStatic()){
-		Array<Vector2> *otherVertices = otherCollider->getBoundingBox();
+		Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
 		Vector2 detectedVertex = vertices->get(detectedVertexIndex);
 
@@ -333,8 +329,7 @@ ColliderStatus Collider::testVertexVertex(Array<Vector2> *candidateVertices,
 
 // ---------------------------------------------------------------------------
 
-ColliderStatus Collider::testVertexEdge(Array<Vector2> *candidateVertices,
-		Collider *otherCollider/* contactManager*/) {
+ColliderStatus Collider::testVertexEdge(Array<Vector2> *candidateVertices, Collider *otherCollider/* contactManager*/) {
 	return ColliderStatus::STATUS_NONE;
 }
 
@@ -351,14 +346,13 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0),
-			mWidth, mHeight, point, msDepthEpsilon);
+	bool testDepthEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point, msDepthEpsilon);
 
 	if (testDepthEpsilon) {
 		result = ColliderStatus::STATUS_COLLISION;
 
-		bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(
-				mBoxVertices->get(0), mWidth, mHeight, point, 0.0f);
+		bool testZeroDepthEpsilonEpsilon = MathUtils::testRectanglePoint(mBoxVertices->get(0), mWidth, mHeight, point,
+				0.0f);
 
 		if (testZeroDepthEpsilonEpsilon) {
 			result = ColliderStatus::STATUS_PENETRATION;
@@ -372,12 +366,9 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 // ---------------------------------------------------------------------------
 
 bool Collider::checkCollisionRadius(Collider *otherCollider) const {
-	Vector2 thisPosition = Vector2(
-			this->getGameObject()->getTransform()->getLocalPosition());
-	Vector2 otherPosition = Vector2(
-			otherCollider->getGameObject()->getTransform()->getLocalPosition());
-	return MathUtils::testSphereSphere(thisPosition, otherPosition, getRadius(),
-			otherCollider->getRadius());
+	Vector2 thisPosition = Vector2(this->getGameObject()->getTransform()->getLocalPosition());
+	Vector2 otherPosition = Vector2(otherCollider->getGameObject()->getTransform()->getLocalPosition());
+	return MathUtils::testSphereSphere(thisPosition, otherPosition, getRadius(), otherCollider->getRadius());
 }
 
 // ---------------------------------------------------------------------------

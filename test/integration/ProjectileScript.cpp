@@ -71,8 +71,7 @@ void ProjectileScript::step() {
 void ProjectileScript::explode() {
 	mIsExploding = true;
 	mRenderer->setAnimation("explosion");
-	getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(
-			Vector3(0, 0, 0));
+	getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0, 0, 0));
 }
 
 // ---------------------------------------------------------------------------

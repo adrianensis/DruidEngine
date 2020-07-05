@@ -16,11 +16,11 @@ class RenderContext: public DE_Class {
 
 private:
 
-	static GLFWwindow *smWindow;
+	static GLFWwindow* smWindow;
 
 	static Vector2 smWindowSize;
 
-	static Camera *mCamera;
+	static Camera* mCamera;
 
 	static void onResize(GLFWwindow *window, int width, int height);
 
@@ -42,8 +42,7 @@ public:
 	static void clear();
 	static void terminate();
 
-	static GLuint createVBO(const Array<f32> *data, u32 elementSize,
-			u32 attributeArrayIndex);
+	static GLuint createVBO(const Array<f32> *data, u32 elementSize, u32 attributeArrayIndex);
 	static GLuint createEBO(const Array<u32> *data);
 	static GLuint createVAO();
 

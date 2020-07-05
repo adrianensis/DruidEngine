@@ -22,8 +22,8 @@ public:
 
 	virtual u64 hash() const {
 		return mHash;
-	}
-	;
+	};
+
 
 	bool operator==(const Hash &rhs) const {
 		return this->mHash == rhs.mHash;

@@ -15,13 +15,13 @@ class RigidBody;
 class PlayerScript: public Script {
 
 private:
-	Renderer *mRenderer;
-	RigidBody *mRigidBody;
+	Renderer* mRenderer;
+	RigidBody* mRigidBody;
 	f32 mAttackAnimTime;
 	f32 mAttackAnimTimeCount;
 	bool mIsAttackPlaying;
 
-	GameObject *mBook;
+	GameObject* mBook;
 	Vector4 mBookColor;
 	Element mElement;
 	u32 mMana;

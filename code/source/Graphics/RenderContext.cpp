@@ -13,7 +13,7 @@
 
 namespace DE {
 
-GLFWwindow *RenderContext::smWindow = nullptr;
+GLFWwindow* RenderContext::smWindow = nullptr;
 Vector2 RenderContext::smWindowSize;
 
 // ---------------------------------------------------------------------------
@@ -116,8 +116,7 @@ void RenderContext::terminate() {
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVBO(const Array<f32> *data, u32 elementSize,
-		u32 attributeArrayIndex) {
+GLuint RenderContext::createVBO(const Array<f32> *data, u32 elementSize, u32 attributeArrayIndex) {
 
 	DE_ASSERT(data != nullptr, "Data must be not null.");
 
@@ -125,12 +124,10 @@ GLuint RenderContext::createVBO(const Array<f32> *data, u32 elementSize,
 	glGenBuffers(1, &VBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(),
-			data->getRawData(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE,
-			elementSize * sizeof(f32), (byte*) 0);
+	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);
 	RenderContext::enableAttribute(attributeArrayIndex);
 
 	return VBO;
@@ -157,9 +154,8 @@ GLuint RenderContext::createEBO(const Array<u32> *data) {
 	glGenBuffers(1, &EBO);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-			data->getElementSize() * data->getLength(), data->getRawData(),
-			GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(),
+	GL_STATIC_DRAW);
 
 	return EBO;
 }

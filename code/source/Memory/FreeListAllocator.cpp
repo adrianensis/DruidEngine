@@ -41,10 +41,10 @@ void FreeListAllocator::moveToFreeList(Block *block) {
 FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 	bool found = false;
 
-	Block *it = firstBlockFree;
-	Block *selectedBlock = nullptr;
-	Block *previousBlock = nullptr;
-	Block *previousBlockTmp = nullptr;
+	Block* it = firstBlockFree;
+	Block* selectedBlock = nullptr;
+	Block* previousBlock = nullptr;
+	Block* previousBlockTmp = nullptr;
 
 	u32 iterationsCounter = 0;
 	while (it && !found) {
@@ -77,21 +77,17 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 		if (previousBlock)
 			previousBlock->next = selectedBlock->next; // remove block
 
-		Block *newFreeBlock = Allocator::internalAllocate<Block>(
-				&mLinearAllocator);
-		newFreeBlock->init(
-				(byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress)
-						+ size), selectedBlock->size - size);
+		Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+		newFreeBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size),
+				selectedBlock->size - size);
 		newFreeBlock->blockStatus = BlockStatus::FREE;
 
 		if (!previousBlock)
 			firstBlockFree = selectedBlock->next;
 		moveToFreeList(newFreeBlock);
 
-		Block *newUsedBlock = selectedBlock; //Allocator::internalAllocate<Block>(&mLinearAllocator);
-		newUsedBlock->init(
-				(byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress)),
-				size);
+		Block* newUsedBlock = selectedBlock; //Allocator::internalAllocate<Block>(&mLinearAllocator);
+		newUsedBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
 		newUsedBlock->blockStatus = BlockStatus::USED;
 		moveToUsedList(newUsedBlock);
 	}
@@ -104,10 +100,10 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 	bool found = false;
 
-	Block *it = firstBlockUsed;
-	Block *previousBlock = nullptr;
-	Block *previousBlockTmp = nullptr;
-	Block *selectedBlock = nullptr;
+	Block* it = firstBlockUsed;
+	Block* previousBlock = nullptr;
+	Block* previousBlockTmp = nullptr;
+	Block* selectedBlock = nullptr;
 
 	u32 iterationsCounter = 0;
 	while (it && !found) {
@@ -170,8 +166,8 @@ byte* FreeListAllocator::allocate(u32 size) {
 // ---------------------------------------------------------------------------
 
 byte* FreeListAllocator::allocate(u32 size, u32 alignment) {
-	Block *block = allocateBlock(size + alignment);
-	byte *unalignedAddress = block->unalignedAddress;
+	Block* block = allocateBlock(size + alignment);
+	byte* unalignedAddress = block->unalignedAddress;
 	return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
 
@@ -179,7 +175,7 @@ byte* FreeListAllocator::allocate(u32 size, u32 alignment) {
 
 void FreeListAllocator::free(const byte *pointer) {
 	// pointer is an aligned address
-	byte *unalignedAddress = calculateUnalignedAddress(pointer);
+	byte* unalignedAddress = calculateUnalignedAddress(pointer);
 	u32 freeSize = freeBlock(unalignedAddress);
 
 	// reduce mAllocatedSize

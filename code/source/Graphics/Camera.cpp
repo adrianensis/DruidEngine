@@ -49,8 +49,7 @@ void Camera::init() {
 // 	return mFrustum;
 // };
 // ---------------------------------------------------------------------------
-void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near,
-		f32 far) {
+void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	mIsOrtho = true;
 	// Memory::free<Matrix4>(mProjectionMatrix);
 	// mProjectionMatrix = Memory::allocate<Matrix4>();
@@ -62,9 +61,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near,
 	mNear = near;
 	mFar = far;
 
-	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio(),
-			mRight * RenderContext::getAspectRatio(), mBottom, mTop, mNear,
-			mFar);
+	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio(), mRight * RenderContext::getAspectRatio(), mBottom,
+			mTop, mNear, mFar);
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
@@ -110,8 +108,7 @@ const Matrix4& Camera::getViewRotationMatrix() {
 // ---------------------------------------------------------------------------
 
 Vector3 Camera::screenToWorld(Vector2 screenPosition) {
-	Vector4 v = mInversePVMatrix.mulVector(
-			Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
+	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
 	v.x = v.x / v.w;
 	v.y = v.y / v.w;
@@ -123,7 +120,7 @@ Vector3 Camera::screenToWorld(Vector2 screenPosition) {
 // ---------------------------------------------------------------------------
 
 void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/) {
-	Transform *transform = getGameObject()->getTransform();
+	Transform* transform = getGameObject()->getTransform();
 
 	if (forceCalculate || transform->isDirtyTranslation()) {
 		Matrix4 inverseProjectionMatrix;
@@ -152,8 +149,7 @@ void Camera::setZoom(f32 zoom) {
 	mZoom = zoom;
 
 	if (mIsOrtho) {
-		setOrtho(mLeft * mZoom, mRight * mZoom, mBottom * mZoom, mTop * mZoom,
-				mNear, mFar);
+		setOrtho(mLeft * mZoom, mRight * mZoom, mBottom * mZoom, mTop * mZoom, mNear, mFar);
 	} else {
 		// setPerspective
 	}

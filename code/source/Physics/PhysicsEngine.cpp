@@ -28,18 +28,18 @@ PhysicsEngine::~PhysicsEngine() = default;
 
 void PhysicsEngine::addRigidBody(RigidBody *rigidBody) {
 	mRigidBodies->pushBack(rigidBody);
-
-	Collider *collider = rigidBody->initCollider();
-
-	if (collider) {
-		mQuadTree->addCollider(collider);
-	}
 }
 
 // ---------------------------------------------------------------------------
 
-void PhysicsEngine::rayCastQuery(const Vector3 &lineStart,
-		const Vector3 &lineEnd, List<GameObject*> *outList) {
+void PhysicsEngine::addCollider(RigidBody *rigidBody, Collider *collider) {
+	rigidBody->setCollider(collider);
+	mQuadTree->addCollider(collider);
+}
+
+// ---------------------------------------------------------------------------
+
+void PhysicsEngine::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 	RenderEngine::getInstance()->drawLine(lineStart, lineEnd);
 	mQuadTree->rayCastQuery(lineStart, lineEnd, outList);
 }
@@ -50,7 +50,7 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 	auto castedIt = it->cast<RigidBody*>();
 	mRigidBodies->remove(*castedIt);
 
-	RigidBody *rigidBody = (*castedIt).get();
+	RigidBody* rigidBody = (*castedIt).get();
 	rigidBody->setDestroyed();
 	Memory::free<RigidBody>(rigidBody);
 }
@@ -83,8 +83,7 @@ void PhysicsEngine::step(f32 deltaTime) {
 	{
 		if (it.get()->isActive()) {
 			if (!it.get()->getCollider()->isPenetrated()) {
-				if (!it.get()->getGameObject()->isStatic()
-						&& it.get()->isSimulate()) {
+				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
 					it.get()->saveState();
 					it.get()->integrate(dt);
 				}
@@ -144,8 +143,7 @@ void PhysicsEngine::step(f32 deltaTime) {
 		{
 			if ((it.get()->getCollider()->isPenetrated()/*getStatus() == ColliderStatus::STATUS_PENETRATION*/)) {
 
-				if (!it.get()->getGameObject()->isStatic()
-						&& it.get()->isSimulate()) {
+				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
 					it.get()->restoreState();
 					it.get()->stopMovement();
 				}
@@ -164,6 +162,7 @@ void PhysicsEngine::updateContacts() {
 	// TRACE();
 	ContactsManager::getInstance()->updateContacts();
 }
+
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::terminate() {

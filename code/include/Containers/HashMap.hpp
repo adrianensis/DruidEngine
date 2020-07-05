@@ -50,7 +50,7 @@ private:
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(const K key, const V element) {
-		Node *node = Memory::allocate<Node>();
+		Node* node = Memory::allocate<Node>();
 		node->init(key, element);
 		return node;
 	}
@@ -61,10 +61,10 @@ private:
 
 	// ---------------------------------------------------------------------------
 
-	Array<List<Node*>*> *mArray;
+	Array<List<Node*>*>* mArray;
 
-	List<K> *mKeys;
-	List<V> *mValues;
+	List<K>* mKeys;
+	List<V>* mValues;
 
 public:
 
@@ -81,11 +81,9 @@ public:
 		mValues = nullptr;
 
 		// check class
-		bool class_ok = std::is_base_of<Hash, K>::value
-				|| std::is_same<K, std::string>::value
+		bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value
 				|| std::is_arithmetic<K>::value || std::is_pointer<K>::value;
-		DE_ASSERT(class_ok,
-				"K must be integer, std::string, pointer or extend Hash class.");
+		DE_ASSERT(class_ok, "K must be integer, std::string, pointer or extend Hash class.");
 	}
 
 	/*!
@@ -121,7 +119,7 @@ public:
 
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
 
-		List<Node*> *list = mArray->get(hashIndex);
+		List<Node*>* list = mArray->get(hashIndex);
 
 		// if there is no list, create it
 		if (list == nullptr) {
@@ -131,7 +129,7 @@ public:
 		}
 
 		bool found = false;
-		Node *node = nullptr;
+		Node* node = nullptr;
 
 		FOR_LIST_COND(it, list, !found)
 		{
@@ -255,12 +253,12 @@ public:
 
 	const List<K>* getKeys() const {
 		return mKeys;
-	}
-	;
+	};
+
 	const List<V>* getValues() const {
 		return mValues;
-	}
-	;
+	};
+
 
 	// ---------------------------------------------------------------------------
 
@@ -271,7 +269,7 @@ public:
 			FOR_ARRAY(i, mArray)
 			{
 
-				List<Node*> *list = mArray->get(i);
+				List<Node*>* list = mArray->get(i);
 				if (list && !list->isEmpty()) {
 
 					FOR_LIST(it, list)

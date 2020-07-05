@@ -179,8 +179,7 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream &out, const Quaternion &q) {
-		out << "[(" << q.v.x << ", " << q.v.y << ", " << q.v.z << "), " << q.w
-				<< "]";
+		out << "[(" << q.v.x << ", " << q.v.y << ", " << q.v.z << "), " << q.w << "]";
 		return out;
 	}
 };

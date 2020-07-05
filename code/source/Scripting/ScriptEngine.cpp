@@ -37,9 +37,7 @@ void ScriptEngine::addScript(Script *newScript) {
 
 void ScriptEngine::step() {
 
-	Script *controller =
-			ScenesManager::getInstance()->getGameObjectController()->getComponents<
-					Script>()->get(0);
+	Script* controller = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
 
 	if (controller) {
 		if (!controller->isFirstStepDone()) {
@@ -52,7 +50,7 @@ void ScriptEngine::step() {
 
 	FOR_LIST (it, mScripts)
 	{
-		Script *script = it.get();
+		Script* script = it.get();
 
 		if (script->isActive()) {
 			if (!script->isFirstStepDone()) {
@@ -74,7 +72,7 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	auto castedIt = it->cast<Script*>();
 	mScripts->remove(*castedIt);
 
-	Script *script = (*castedIt).get();
+	Script* script = (*castedIt).get();
 	script->setDestroyed();
 	Memory::free<Script>(script);
 }

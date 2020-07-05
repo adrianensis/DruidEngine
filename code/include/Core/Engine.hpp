@@ -17,9 +17,9 @@ class Engine: public DE_Class, public Singleton<Engine> {
 private:
 
 	f32 mFPS;
-	RenderEngine *mRenderEngine;
-	PhysicsEngine *mPhysicsEngine;
-	ScriptEngine *mScriptEngine;
+	RenderEngine* mRenderEngine;
+	PhysicsEngine* mPhysicsEngine;
+	ScriptEngine* mScriptEngine;
 
 public:
 

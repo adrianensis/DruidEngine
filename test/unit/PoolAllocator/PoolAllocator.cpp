@@ -21,11 +21,11 @@ int main() {
 	DE_test_expected_uint(pool.getAllocatedSize(), (sizeInt + sizePtr + 1) * 4);
 	DE_test_expected_uint(pool.getFreeBlocks(), 4);
 
-	u32 *a = reinterpret_cast<u32*>(pool.allocateBlock());
+	u32* a = reinterpret_cast<u32*>(pool.allocateBlock());
 	DE_test_expected_uint(pool.getFreeBlocks(), 3);
-	u32 *b = reinterpret_cast<u32*>(pool.allocateBlock());
+	u32* b = reinterpret_cast<u32*>(pool.allocateBlock());
 	DE_test_expected_uint(pool.getFreeBlocks(), 2);
-	u32 *c = reinterpret_cast<u32*>(pool.allocateBlock());
+	u32* c = reinterpret_cast<u32*>(pool.allocateBlock());
 	DE_test_expected_uint(pool.getFreeBlocks(), 1);
 
 	DE_test_show(a);
@@ -44,7 +44,7 @@ int main() {
 
 	DE_test_expected_uint(pool.getFreeBlocks(), 2);
 
-	u32 *d = reinterpret_cast<u32*>(pool.allocateBlock());
+	u32* d = reinterpret_cast<u32*>(pool.allocateBlock());
 
 	DE_test_expected_uint(pool.getFreeBlocks(), 1);
 

@@ -7,7 +7,7 @@ const u32 PoolAllocator::smPtrSize = sizeof(ptr);
 // ---------------------------------------------------------------------------
 
 void PoolAllocator::storePointer(byte *address, const byte *pointer) {
-	ptr *ptrArray = reinterpret_cast<ptr*>(address);
+	ptr* ptrArray = reinterpret_cast<ptr*>(address);
 
 	// header is stored in the last position of the allocated memory.
 	ptrArray[0] = reinterpret_cast<ptr>(pointer);
@@ -65,8 +65,7 @@ u32 PoolAllocator::getFreeBlocks() const {
 
 // ---------------------------------------------------------------------------
 
-void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, byte *mem,
-		u32 alignment) {
+void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, byte *mem, u32 alignment) {
 	mUsedBlocks = 0;
 	mBlockSize = blockSize;
 	mAlignment = alignment;
@@ -77,22 +76,19 @@ void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, byte *mem,
 		LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
 	TRACE()
 } else {
-	LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks,
-			mem);
+	LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem);
 TRACE()
 }
 
-mFirst = (byte*) (reinterpret_cast<ptr>(LinearAllocator::allocate(
-	mFullBlockSize, mAlignment)) + mBlockSize);
-byte *current = mFirst;
-byte *next = nullptr;
+mFirst = (byte*) (reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize, mAlignment)) + mBlockSize);
+byte* current = mFirst;
+byte* next = nullptr;
 
  // iterate over all blocks
 FOR_RANGE (i, 1, numBlocks)
 {
 // store the next pointer in the first position of the block
-next = (byte*) (reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize,
-		mAlignment)) + mBlockSize);
+next = (byte*) (reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize, mAlignment)) + mBlockSize);
 storePointer(current, next);
 current = next;
 }
@@ -113,8 +109,7 @@ PoolAllocator::internalInit(blockSize, numBlocks, nullptr, alignment);
 
 // ---------------------------------------------------------------------------
 
-void PoolAllocator::initFromMemory(u32 blockSize, byte *mem, u32 numBlocks,
-u32 alignment) {
+void PoolAllocator::initFromMemory(u32 blockSize, byte *mem, u32 numBlocks, u32 alignment) {
 TRACE();
 
 PoolAllocator::internalInit(blockSize, numBlocks, mem, alignment);
@@ -148,7 +143,7 @@ return PoolAllocator::allocate(0);
 byte* PoolAllocator::allocate(u32 size) {
 PoolAllocator::checkAllocateBlock();
 
-byte *address = getBlock(mFirst); // take the first free block
+byte* address = getBlock(mFirst); // take the first free block
 mFirst = getNextIterator(mFirst); // it++
 mUsedBlocks++;
 return address;
@@ -165,7 +160,7 @@ return PoolAllocator::allocate(0);
 void PoolAllocator::free(const byte *pointer) {
 PoolAllocator::checkFreeBlock();
 
-byte *it = getIteratorFromBlock(pointer);
+byte* it = getIteratorFromBlock(pointer);
 storePointer(mLast, it); // we can recycle the storePointer function
 mLast = it;
 storePointer(mLast, nullptr);

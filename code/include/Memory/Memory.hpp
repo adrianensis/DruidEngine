@@ -51,8 +51,7 @@ public:
 	template<class T>
 	static T* allocate(u32 alignment) {
 		// ECHO("ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
-		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal),
-				alignment);
+		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal), alignment);
 	}
 
 	template<class T>

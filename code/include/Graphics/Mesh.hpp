@@ -15,14 +15,14 @@ private:
 
 	u32 mVertexCount;
 
-	Array<f32> *mVertices;
-	Array<f32> *mNormals;
-	Array<f32> *mTextureCoordinates;
-	Array<u32> *mFaces;
+	Array<f32>* mVertices;
+	Array<f32>* mNormals;
+	Array<f32>* mTextureCoordinates;
+	Array<u32>* mFaces;
 
 	u32 mVerticesIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
 
-	static Mesh *smRectangle;
+	static Mesh* smRectangle;
 
 public:
 
@@ -37,20 +37,20 @@ public:
 
 	const Array<f32>* getVertices() const {
 		return mVertices;
-	}
-	;
+	};
+
 	const Array<f32>* getNormals() const {
 		return mNormals;
-	}
-	;
+	};
+
 	const Array<f32>* getTextureCoordinates() const {
 		return mTextureCoordinates;
-	}
-	;
+	};
+
 	const Array<u32>* getFaces() const {
 		return mFaces;
-	}
-	;
+	};
+
 
 	static Mesh* getRectangle();
 };

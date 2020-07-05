@@ -17,7 +17,7 @@ enum class ColliderStatus {
 class Collider: public Component {
 private:
 
-	Array<Vector2> *mBoxVertices;
+	Array<Vector2>* mBoxVertices;
 
 	f32 mWidth;
 	f32 mHalfWidth;
@@ -28,7 +28,7 @@ private:
 
 	static f32 msDepthEpsilon;
 
-	RigidBody *mRigidBody;
+	RigidBody* mRigidBody;
 
 	ColliderStatus mStatus;
 
@@ -42,37 +42,37 @@ public:
 	void init() override;
 
 	void setSize(f32 width, f32 height);
-	Array<Vector2>* getBoundingBox();
+	Array<Vector2>* getBoundingBox(bool forceCalculateBoundingBox = false);
 	Vector3 getRelativeVelocity(Collider *otherCollider);
 	f32 getRadius() const {
 		return mRadius;
-	}
-	;
+	};
+
 	RigidBody* getRigidBody() const {
 		return mRigidBody;
-	}
-	;
+	};
+
 	void setRigidBody(RigidBody *newRigidBody) {
 		mRigidBody = newRigidBody;
-	}
-	;
+	};
+
 	ColliderStatus getStatus() const {
 		return mStatus;
-	}
-	;
+	};
+
 	void setStatus(ColliderStatus newStatus) {
 		mStatus = newStatus;
-	}
-	;
+	};
+
 
 	bool isSolid() const {
 		return mIsSolid;
-	}
-	;
+	};
+
 	void setIsSolid(bool isSolid) {
 		mIsSolid = isSolid;
-	}
-	;
+	};
+
 
 	void markPenetrated() {
 		mIsPenetrated = true;
@@ -88,12 +88,9 @@ public:
 
 	bool checkCollisionRadius(Collider *otherCollider) const;
 
-	ColliderStatus generateContacts(Array<Vector2> *candidateVertices,
-			Collider *otherCollider/*, contactManager*/);
-	ColliderStatus testVertexVertex(Array<Vector2> *candidateVertices,
-			Collider *otherCollider/*, contactManager*/);
-	ColliderStatus testVertexEdge(Array<Vector2> *candidateVertices,
-			Collider *otherCollider/*, contactManager*/);
+	ColliderStatus generateContacts(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
+	ColliderStatus testVertexVertex(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
+	ColliderStatus testVertexEdge(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
 
 	ColliderStatus testRectangleRectangle(Collider *otherCollider);
 

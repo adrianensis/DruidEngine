@@ -13,7 +13,7 @@ class StackAllocator: public LinearAllocator {
 
 private:
 
-	byte *mTop;
+	byte* mTop;
 
 	static const u32 smHeaderSize;
 	void storeHeader(const byte *address, u32 size);

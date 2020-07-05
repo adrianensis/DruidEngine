@@ -28,9 +28,9 @@ class DynamicArray: public SequentialContainer<T> {
 private:
 
 	static const u32 smMinSize = 100;
-	mutable Array<T> *mCache = nullptr;
+	mutable Array<T>* mCache = nullptr;
 	mutable u32 mCacheIndex = 0;
-	List<Array<T>*> *mArrays;
+	List<Array<T>*>* mArrays;
 
 	// ---------------------------------------------------------------------------
 
@@ -55,13 +55,10 @@ private:
 
 	// ---------------------------------------------------------------------------
 
-	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex, u32 length) override {
-		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(),
-				"sourceIndex is out of bounds.");
+	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
+		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
 		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-		DE_ASSERT(length <= other.getLength() - sourceIndex,
-				"Not enough space to copy.");
+		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
 	}
 
 	// ---------------------------------------------------------------------------
@@ -104,15 +101,14 @@ public:
 	 \param other Other DynamicArray.
 	 */
 	void init(const DynamicArray<T> &other) {
-		BaseContainer::init(other.BaseContainer::mLength, other.mElementSize,
-				other.BaseContainer::mAlignment);
+		BaseContainer::init(other.BaseContainer::mLength, other.mElementSize, other.BaseContainer::mAlignment);
 		mArrays = Memory::allocate<List<Array<T>*> >();
 		mArrays->init();
 
 		FOR_LIST (it, other.mArrays)
 		{
-			Array<T> *otherArray = it.get();
-			Array<T> *array = Memory::allocate<Array<T>>();
+			Array<T>* otherArray = it.get();
+			Array<T>* array = Memory::allocate<Array<T>>();
 			array->init(*otherArray);
 			mArrays->pushBack(array);
 		}
@@ -132,7 +128,7 @@ public:
 
 		FOR_LIST_COND(it, mArrays, otherOffset < otherLength)
 		{
-			Array<T> *array = it.get();
+			Array<T>* array = it.get();
 
 			if (otherLength < smMinSize)
 				array->put(other, 0, 0);
@@ -164,7 +160,7 @@ public:
 	 */
 	void init(const T *rawArray, u32 length, u32 alignment) override {
 		BaseContainer::setAllocator(&Memory::getGlobal());
-		Array<T> *array = Memory::allocate<Array<T>>(alignment);
+		Array<T>* array = Memory::allocate<Array<T>>(alignment);
 		array->init(rawArray, length);
 		DynamicArray::init(*array);
 	}
@@ -207,8 +203,7 @@ public:
 
 		FOR_RANGE(i, 0, arrayCount)
 		{
-			Array<T> *newArray = Memory::allocate<Array<T>>(
-					SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);
@@ -225,7 +220,7 @@ public:
 
 		FOR_LIST(it, mArrays)
 		{
-			Array<T> *array = it.get();
+			Array<T>* array = it.get();
 			array->fill(element);
 		}
 	}
@@ -250,15 +245,13 @@ public:
 	void set(u32 index, const T element) {
 		// resize
 		if (index >= mArrays->getLength() * smMinSize) {
-			Array<T> *newArray = Memory::allocate<Array<T>>(
-					SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);
 		}
 
-		SequentialContainer<T>::mLength = std::max(index + 1,
-				SequentialContainer<T>::mLength); // save the max index accessed
+		SequentialContainer<T>::mLength = std::max(index + 1, SequentialContainer<T>::mLength); // save the max index accessed
 
 		(*this)[index] = element;
 	}

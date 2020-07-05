@@ -78,10 +78,8 @@ bool Frustum::testPoint(const Vector3 &point) const {
 
 //----------------------------------------------------------------------
 
-bool Frustum::testRectangle(const Vector3 &leftTop, f32 width,
-		f32 height) const {
-	return testPoint(leftTop)
-			|| testPoint(Vector3(leftTop.x, leftTop.y - height, 0))
+bool Frustum::testRectangle(const Vector3 &leftTop, f32 width, f32 height) const {
+	return testPoint(leftTop) || testPoint(Vector3(leftTop.x, leftTop.y - height, 0))
 			|| testPoint(Vector3(leftTop.x + width, leftTop.y - height, 0))
 			|| testPoint(Vector3(leftTop.x + width, leftTop.y, 0));
 }
@@ -90,7 +88,7 @@ bool Frustum::testRectangle(const Vector3 &leftTop, f32 width,
 
 void Frustum::build(bool forceBuild /* = false*/) {
 
-	Transform *t = mCamera->getGameObject()->getTransform();
+	Transform* t = mCamera->getGameObject()->getTransform();
 
 	if (forceBuild || t->isDirtyTranslation()) {
 
@@ -101,63 +99,50 @@ void Frustum::build(bool forceBuild /* = false*/) {
 		u32 NEAR = 4;
 		u32 FAR = 5;
 
-		mVPmatrix->init(
-				mCamera->getProjectionMatrix()/*mCamera->getViewTranslationMatrix()*/);
+		mVPmatrix->init(mCamera->getProjectionMatrix()/*mCamera->getViewTranslationMatrix()*/);
 		mVPmatrix->mul(mCamera->getViewTranslationMatrix()/*.transpose()*/);
 
 		/*
 		 * LEFT
 		 */
 		mPlanes->set(LEFT,
-				Vector4(mVPmatrix->get(0, 0) + mVPmatrix->get(3, 0),
-						mVPmatrix->get(0, 1) + mVPmatrix->get(3, 1),
-						mVPmatrix->get(0, 2) + mVPmatrix->get(3, 2),
-						mVPmatrix->get(0, 3) + mVPmatrix->get(3, 3)));
+				Vector4(mVPmatrix->get(0, 0) + mVPmatrix->get(3, 0), mVPmatrix->get(0, 1) + mVPmatrix->get(3, 1),
+						mVPmatrix->get(0, 2) + mVPmatrix->get(3, 2), mVPmatrix->get(0, 3) + mVPmatrix->get(3, 3)));
 
 		/*
 		 * RIGHT
 		 */
 		mPlanes->set(RIGHT,
-				Vector4(-mVPmatrix->get(0, 0) + mVPmatrix->get(3, 0),
-						-mVPmatrix->get(0, 1) + mVPmatrix->get(3, 1),
-						-mVPmatrix->get(0, 2) + mVPmatrix->get(3, 2),
-						-mVPmatrix->get(0, 3) + mVPmatrix->get(3, 3)));
+				Vector4(-mVPmatrix->get(0, 0) + mVPmatrix->get(3, 0), -mVPmatrix->get(0, 1) + mVPmatrix->get(3, 1),
+						-mVPmatrix->get(0, 2) + mVPmatrix->get(3, 2), -mVPmatrix->get(0, 3) + mVPmatrix->get(3, 3)));
 
 		/*
 		 * BOTTOM
 		 */
 		mPlanes->set(BOTTOM,
-				Vector4(mVPmatrix->get(1, 0) + mVPmatrix->get(3, 0),
-						mVPmatrix->get(1, 1) + mVPmatrix->get(3, 1),
-						mVPmatrix->get(1, 2) + mVPmatrix->get(3, 2),
-						mVPmatrix->get(1, 3) + mVPmatrix->get(3, 3)));
+				Vector4(mVPmatrix->get(1, 0) + mVPmatrix->get(3, 0), mVPmatrix->get(1, 1) + mVPmatrix->get(3, 1),
+						mVPmatrix->get(1, 2) + mVPmatrix->get(3, 2), mVPmatrix->get(1, 3) + mVPmatrix->get(3, 3)));
 
 		/*
 		 * TOP
 		 */
 		mPlanes->set(TOP,
-				Vector4(-mVPmatrix->get(1, 0) + mVPmatrix->get(3, 0),
-						-mVPmatrix->get(1, 1) + mVPmatrix->get(3, 1),
-						-mVPmatrix->get(1, 2) + mVPmatrix->get(3, 2),
-						-mVPmatrix->get(1, 3) + mVPmatrix->get(3, 3)));
+				Vector4(-mVPmatrix->get(1, 0) + mVPmatrix->get(3, 0), -mVPmatrix->get(1, 1) + mVPmatrix->get(3, 1),
+						-mVPmatrix->get(1, 2) + mVPmatrix->get(3, 2), -mVPmatrix->get(1, 3) + mVPmatrix->get(3, 3)));
 
 		/*
 		 * NEAR
 		 */
 		mPlanes->set(NEAR,
-				Vector4(mVPmatrix->get(2, 0) + mVPmatrix->get(3, 0),
-						mVPmatrix->get(2, 1) + mVPmatrix->get(3, 1),
-						mVPmatrix->get(2, 2) + mVPmatrix->get(3, 2),
-						mVPmatrix->get(2, 3) + mVPmatrix->get(3, 3)));
+				Vector4(mVPmatrix->get(2, 0) + mVPmatrix->get(3, 0), mVPmatrix->get(2, 1) + mVPmatrix->get(3, 1),
+						mVPmatrix->get(2, 2) + mVPmatrix->get(3, 2), mVPmatrix->get(2, 3) + mVPmatrix->get(3, 3)));
 
 		/*
 		 * FAR
 		 */
 		mPlanes->set(FAR,
-				Vector4(-mVPmatrix->get(2, 0) + mVPmatrix->get(3, 0),
-						-mVPmatrix->get(2, 1) + mVPmatrix->get(3, 1),
-						-mVPmatrix->get(2, 2) + mVPmatrix->get(3, 2),
-						-mVPmatrix->get(2, 3) + mVPmatrix->get(3, 3)));
+				Vector4(-mVPmatrix->get(2, 0) + mVPmatrix->get(3, 0), -mVPmatrix->get(2, 1) + mVPmatrix->get(3, 1),
+						-mVPmatrix->get(2, 2) + mVPmatrix->get(3, 2), -mVPmatrix->get(2, 3) + mVPmatrix->get(3, 3)));
 
 		for (u32 i = 0; i < mPlanes->getLength(); i++) {
 

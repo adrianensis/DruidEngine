@@ -27,7 +27,7 @@ private:
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	Transform *mParent;
+	Transform* mParent;
 
 public:
 
@@ -74,16 +74,16 @@ public:
 	const Vector3& getWorldPosition();
 	const Vector3& getLocalPosition() const {
 		return mLocalPosition;
-	}
-	;
+	};
+
 	const Vector3& getRotation() const {
 		return mRotation;
-	}
-	;
+	};
+
 	const Vector3& getScale() const {
 		return mScale;
-	}
-	;
+	};
+
 
 	const Matrix4& getTranslationMatrix();
 	const Matrix4& getRotationMatrix() const;

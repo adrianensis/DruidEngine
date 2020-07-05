@@ -25,21 +25,21 @@ template<class K, class V> class HashMap;
 class GameController: public Script {
 private:
 
-	GameObject *mPlayer;
-	PlayerScript *mPlayerScript;
-	GameObject *mCrossHair;
+	GameObject* mPlayer;
+	PlayerScript* mPlayerScript;
+	GameObject* mCrossHair;
 	// Array<GameObject*>* mRenderFloor;
-	List<GameObject*> *mRenderFloor;
+	List<GameObject*>* mRenderFloor;
 	u32 mRenderTilesAmount;
-	List<GameObject*> *mRecycledTiles;
-	Array<GameObject*> *mPhysicFloor;
-	GameObject *mBackground;
+	List<GameObject*>* mRecycledTiles;
+	Array<GameObject*>* mPhysicFloor;
+	GameObject* mBackground;
 	f32 mRenderTileSize;
 
-	Array<UIButton*> *mBookSelector;
-	UIButton *mSelectedBook;
+	Array<UIButton*>* mBookSelector;
+	UIButton* mSelectedBook;
 
-	UIText *mTextMana;
+	UIText* mTextMana;
 
 	f32 mEnemySpawnTimeCount;
 	f32 mEnemySpawnTime;
@@ -57,8 +57,7 @@ public:
 	GameObject* createRenderFloorTile(f32 x, f32 y);
 	GameObject* createPhysicFloorTile(f32 x, f32 y);
 	void createBackground(f32 x, f32 y);
-	UIButton* createBook(f32 x, f32 y, const Vector4 &color, Element element,
-			f32 size);
+	UIButton* createBook(f32 x, f32 y, const Vector4 &color, Element element, f32 size);
 
 	void init() override;
 	void firstStep() override;

@@ -26,8 +26,7 @@ protected:
 	/*!
 	 \brief Check boundaries on put method.
 	 */
-	virtual void checkPut(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex, u32 length) = 0;
+	virtual void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) = 0;
 
 	// ---------------------------------------------------------------------------
 
@@ -42,8 +41,8 @@ public:
 	SequentialContainer() :
 			BaseContainer() {
 
-	}
-	;
+	};
+
 
 	/*!
 	 \brief Destructor.
@@ -119,8 +118,7 @@ public:
 	 \param destinyIndex Index (of the destiny array) from which to paste the other array.
 	 \param sourceIndex Index (of the source array) from which to copy.
 	 */
-	void put(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex) {
+	void put(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex) {
 		this->put(other, destinyIndex, sourceIndex, other.getLength());
 	}
 
@@ -132,8 +130,7 @@ public:
 	 \param destinyIndex Index (of the destiny array) from which to paste the other array.
 	 \param sourceIndex Index (of the source array) from which to copy.
 	 */
-	virtual void put(const SequentialContainer<T> &other, u32 destinyIndex,
-			u32 sourceIndex, u32 length) {
+	virtual void put(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) {
 		this->checkPut(other, destinyIndex, sourceIndex, length);
 
 		FOR_RANGE(i,0,length)

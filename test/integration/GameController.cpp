@@ -58,8 +58,7 @@ GameController::~GameController() = default;
 void GameController::createCrossHair() {
 	Vector2 size(80, 80);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/crosshair.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/crosshair.png");
 
 	mCrossHair = Memory::allocate<GameObject>();
 	mCrossHair->init();
@@ -67,7 +66,7 @@ void GameController::createCrossHair() {
 	mCrossHair->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 	mCrossHair->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mCrossHair->addComponent<Renderer>(renderer);
 
 	renderer->setColor(Vector4(0, 0, 0, 0.7f));
@@ -84,8 +83,7 @@ void GameController::createCrossHair() {
 void GameController::createPlayer(f32 x, f32 y) {
 	Vector2 size(100 * 1.5f, 100 * 1.5f);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/mage2.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage2.png");
 
 	mPlayer = Memory::allocate<GameObject>();
 	mPlayer->init();
@@ -93,7 +91,7 @@ void GameController::createPlayer(f32 x, f32 y) {
 	mPlayer->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mPlayer->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -106,20 +104,17 @@ void GameController::createPlayer(f32 x, f32 y) {
 	Vector2 atlasSize = Vector2(8, 16);
 
 	renderer->addAnimation("attack",
-			Animation::create(6, true, false, Vector2(0, 0.0f / 3.0f),
-					1.0f / 7.0f, 1.0f / 3.0f, 60));
+			Animation::create(6, true, false, Vector2(0, 0.0f / 3.0f), 1.0f / 7.0f, 1.0f / 3.0f, 60));
 	renderer->addAnimation("idle",
-			Animation::create(2, true, false, Vector2(0, 1.0f / 3.0f),
-					1.0f / 7.0f, 1.0f / 3.0f, 3));
+			Animation::create(2, true, false, Vector2(0, 1.0f / 3.0f), 1.0f / 7.0f, 1.0f / 3.0f, 3));
 	renderer->addAnimation("run",
-			Animation::create(7, true, false, Vector2(0, 2.0f / 3.0f),
-					1.0f / 7.0f, 1.0f / 3.0f, 10));
+			Animation::create(7, true, false, Vector2(0, 2.0f / 3.0f), 1.0f / 7.0f, 1.0f / 3.0f, 10));
 	renderer->setAnimation("idle");
 
-	RigidBody *rigidBody = Memory::allocate<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	mPlayer->addComponent<RigidBody>(rigidBody);
 
-	Collider *collider = Memory::allocate<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y);
 
@@ -134,20 +129,19 @@ void GameController::createPlayer(f32 x, f32 y) {
 void GameController::createEnemy(f32 x, f32 y) {
 	Vector2 size(150, 150);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/demon.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/demon.png");
 
 	// Vector2 size(100*1.5f,100*1.5f);
 	//
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage2.png");
 
-	GameObject *enemy = Memory::allocate<GameObject>();
+	GameObject* enemy = Memory::allocate<GameObject>();
 	enemy->init();
 
 	enemy->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	enemy->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	enemy->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -158,22 +152,20 @@ void GameController::createEnemy(f32 x, f32 y) {
 	renderer->setLayer(2);
 
 	renderer->addAnimation("death",
-			Animation::create(1, true, false, Vector2(0, 0.0f / 1.0f),
-					1.0f / 4.0f, 1.0f / 2.0f, 7));
+			Animation::create(1, true, false, Vector2(0, 0.0f / 1.0f), 1.0f / 4.0f, 1.0f / 2.0f, 7));
 	renderer->addAnimation("fly",
-			Animation::create(4, true, false, Vector2(0, 1.0f / 2.0f),
-					1.0f / 4.0f, 1.0f / 2.0f, 7));
+			Animation::create(4, true, false, Vector2(0, 1.0f / 2.0f), 1.0f / 4.0f, 1.0f / 2.0f, 7));
 	renderer->setAnimation("fly");
 
-	RigidBody *rigidBody = Memory::allocate<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	enemy->addComponent<RigidBody>(rigidBody);
 
-	Collider *collider = Memory::allocate<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	enemy->addComponent<Collider>(collider);
 	collider->setSize(size.x / 4.0f, size.y / 4.0f);
 	collider->setIsSolid(false);
 
-	EnemyScript *script = Memory::allocate<EnemyScript>();
+	EnemyScript* script = Memory::allocate<EnemyScript>();
 	script->setElement(Element::ICE);
 	enemy->addComponent<Script>(script);
 
@@ -182,16 +174,14 @@ void GameController::createEnemy(f32 x, f32 y) {
 
 // ---------------------------------------------------------------------------
 
-UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color,
-		Element element, f32 size) {
+UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element element, f32 size) {
 	// Vector2 size(300,300);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/book.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
 
 	// GameObject* book = Memory::allocate<GameObject>();
-	UIButton *book = UI::getInstance()->createButton(
-			getGameObject()->getScene(), Vector2(x, y), Vector2(size, size), 5);
+	UIButton* book = UI::getInstance()->createButton(getGameObject()->getScene(), Vector2(x, y), Vector2(size, size),
+			5);
 	// book->init();
 
 	// book->getTransform()->setLocalPosition(Vector3(x,y,0));
@@ -202,33 +192,28 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color,
 	// Renderer* renderer = Memory::allocate<Renderer>();
 	// book->addComponent<Renderer>(renderer);
 
-	book->setOnPressedCallback(
-			[&, c = color, e = element, self = book]() {
-				VAR(f32, c.x)
-				VAR(f32, c.y)
-				VAR(f32, c.z)
+	book->setOnPressedCallback([&, c = color, e = element, self = book]() {
+		VAR(f32, c.x)
+		VAR(f32, c.y)
+		VAR(f32, c.z)
 
-				((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(
-						c);
-				((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setElement(
-						e);
+		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(c);
+		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setElement(e);
 
-				mSelectedBook = self;
+		mSelectedBook = self;
 
-				FOR_ARRAY(i, mBookSelector)
-				{
-					if (mBookSelector->get(i) == mSelectedBook) {
-						mBookSelector->get(i)->getTransform()->setScale(
-								Vector3(0.3f, 0.3f, 1));
-					} else {
-						mBookSelector->get(i)->getTransform()->setScale(
-								Vector3(0.2f, 0.2f, 1));
-					}
-				}
+		FOR_ARRAY(i, mBookSelector)
+		{
+			if (mBookSelector->get(i) == mSelectedBook) {
+				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.3f, 0.3f, 1));
+			} else {
+				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.2f, 0.2f, 1));
+			}
+		}
 
-			});
+	});
 
-	Renderer *renderer = book->getRenderer();
+	Renderer* renderer = book->getRenderer();
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(material);
@@ -236,9 +221,7 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color,
 	// renderer->setLayer(5);
 	renderer->setColor(color);
 
-	renderer->addAnimation("idle",
-			Animation::create(6, true, false, Vector2(0, 0), 1.0f / 6.0f,
-					1.0f / 1.0f, 6));
+	renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0, 0), 1.0f / 6.0f, 1.0f / 1.0f, 6));
 	renderer->setAnimation("idle");
 
 	// getGameObject()->getScene()->addGameObject(book);
@@ -251,8 +234,7 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color,
 void GameController::createBackground(f32 x, f32 y) {
 	Vector2 size(2400, 1000);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/background.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/background.png");
 
 	mBackground = Memory::allocate<GameObject>();
 	mBackground->init();
@@ -261,7 +243,7 @@ void GameController::createBackground(f32 x, f32 y) {
 	mBackground->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	mBackground->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mBackground->addComponent<Renderer>(renderer);
 
 	renderer->setColor(Vector4(0, 0, 0, 1.0f));
@@ -281,17 +263,17 @@ GameObject* GameController::createPhysicFloorTile(f32 x, f32 y) {
 
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
-	GameObject *floorTile = Memory::allocate<GameObject>();
+	GameObject* floorTile = Memory::allocate<GameObject>();
 	floorTile->init();
 	floorTile->setIsStatic(true);
 
 	floorTile->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	floorTile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	RigidBody *rigidBody = Memory::allocate<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	floorTile->addComponent<RigidBody>(rigidBody);
 
-	Collider *collider = Memory::allocate<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	floorTile->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
 
@@ -304,17 +286,16 @@ GameObject* GameController::createPhysicFloorTile(f32 x, f32 y) {
 GameObject* GameController::createRenderFloorTile(f32 x, f32 y) {
 	Vector2 size(mRenderTileSize, 600);
 
-	Material *material = MaterialManager::getInstance()->loadMaterial(
-			"resources/bridge.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/bridge.png");
 
-	GameObject *floorTile = Memory::allocate<GameObject>();
+	GameObject* floorTile = Memory::allocate<GameObject>();
 	floorTile->init();
 	floorTile->setIsStatic(false);
 
 	floorTile->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	floorTile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	floorTile->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -352,8 +333,7 @@ void GameController::firstStep() {
 
 	FOR_RANGE(i, -(range/2.0f), (range/2.0f))
 	{
-		mPhysicFloor->set(i + (range / 2.0f),
-				createPhysicFloorTile(i * 100, -200));
+		mPhysicFloor->set(i + (range / 2.0f), createPhysicFloorTile(i * 100, -200));
 	}
 
 	mRenderFloor = Memory::allocate<List<GameObject*>>();
@@ -364,8 +344,7 @@ void GameController::firstStep() {
 
 	FOR_RANGE(i, -(mRenderTilesAmount/2.0f), (mRenderTilesAmount/2.0f))
 	{
-		mRenderFloor->pushBack(
-				createRenderFloorTile(i * mRenderTileSize, -450));
+		mRenderFloor->pushBack(createRenderFloorTile(i * mRenderTileSize, -450));
 	}
 
 	mRecycledTiles = Memory::allocate<List<GameObject*>>();
@@ -373,8 +352,7 @@ void GameController::firstStep() {
 
 	createBackground(0, 200);
 
-	mTextMana = UI::getInstance()->createText(getGameObject()->getScene(),
-			Vector2(-900, 650), Vector2(50, 50),
+	mTextMana = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50, 50),
 			"MANA: " + std::to_string(mPlayerScript->getMana()), 5);
 
 	mEnemySpawnTimeCount = 0;
@@ -382,15 +360,9 @@ void GameController::firstStep() {
 
 	mBookSelector = Memory::allocate<Array<UIButton*>>();
 	mBookSelector->init(3);
-	mBookSelector->set(0,
-			createBook(-0.8f, -0.4f, Vector4(-0.7f, 0.2f, 0.3f, 1),
-					Element::ICE, 0.2f));
-	mBookSelector->set(1,
-			createBook(-0.65f, -0.6f, Vector4(0, 0, 0, 1), Element::FIRE,
-					0.3f));
-	mBookSelector->set(2,
-			createBook(-0.8f, -0.8f, Vector4(-0.9f, 0.3f, 0, 1), Element::WIND,
-					0.2f));
+	mBookSelector->set(0, createBook(-0.8f, -0.4f, Vector4(-0.7f, 0.2f, 0.3f, 1), Element::ICE, 0.2f));
+	mBookSelector->set(1, createBook(-0.65f, -0.6f, Vector4(0, 0, 0, 1), Element::FIRE, 0.3f));
+	mBookSelector->set(2, createBook(-0.8f, -0.8f, Vector4(-0.9f, 0.3f, 0, 1), Element::WIND, 0.2f));
 
 	mSelectedBook = mBookSelector->get(0);
 }
@@ -405,9 +377,8 @@ void GameController::step() {
 
 	Vector2 mouse = Input::getMousePosition();
 
-	Vector3 world =
-			getGameObject()->getScene()->getCameraGameObject()->getComponents<
-					Camera>()->get(0)->screenToWorld(mouse);
+	Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(
+			mouse);
 
 	if (mEnemySpawnTimeCount >= mEnemySpawnTime) {
 		// mTextMana->setIsActive(! mTextMana->isActive());
@@ -471,8 +442,8 @@ void GameController::step() {
 
 			FOR_LIST(it, mRenderFloor)
 			{
-				GameObject *tile = it.get();
-				Renderer *renderer = tile->getComponents<Renderer>()->get(0);
+				GameObject* tile = it.get();
+				Renderer* renderer = tile->getComponents<Renderer>()->get(0);
 
 				tile->getTransform()->translate(floorMovement);
 
@@ -492,15 +463,12 @@ void GameController::step() {
 				u32 count = 0;
 				FOR_LIST(it, mRecycledTiles)
 				{
-					GameObject *tile = it.get();
+					GameObject* tile = it.get();
 
 					mRenderFloor->pushBack(tile);
 
 					tile->getTransform()->translate(
-							Vector3(
-									-movementDirection
-											* mRenderFloor->getLength()
-											* mRenderTileSize, 0, 0));
+							Vector3(-movementDirection * mRenderFloor->getLength() * mRenderTileSize, 0, 0));
 
 					count++;
 				}

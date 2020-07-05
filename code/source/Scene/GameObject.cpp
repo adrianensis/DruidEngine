@@ -27,7 +27,7 @@ GameObject::~GameObject() {
 // ---------------------------------------------------------------------------
 
 void GameObject::addComponent(Component *component, ClassId classId) {
-	List<Component*> *list = nullptr;
+	List<Component*>* list = nullptr;
 
 	//ClassId classId = component->getParentClassId();
 
@@ -46,8 +46,8 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 // ---------------------------------------------------------------------------
 
 void GameObject::removeComponent(Component *component, ClassId classId) {
-	if (mComponentsMap->contains(classId)) {
-		List<Component*> *list = mComponentsMap->get(classId);
+	if (mComponentsMap->contains(classId) && ! component->isPendingToBeDestroyed() && ! component->isDestroyed()) {
+		List<Component*>* list = mComponentsMap->get(classId);
 		list->remove(list->find(component));
 		component->destroy();
 	}
@@ -72,8 +72,7 @@ void GameObject::init() {
 // ---------------------------------------------------------------------------
 
 List<Component*>* GameObject::getComponents(ClassId classId) {
-	return mComponentsMap->contains(classId) ?
-			mComponentsMap->get(classId) : nullptr;
+	return mComponentsMap->contains(classId) ? mComponentsMap->get(classId) : nullptr;
 }
 
 // ---------------------------------------------------------------------------

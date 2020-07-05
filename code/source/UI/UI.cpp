@@ -14,6 +14,7 @@
 #include "Input.hpp"
 #include "Camera.hpp"
 #include "RenderEngine.hpp"
+#include "RenderContext.hpp"
 #include "List.hpp"
 #include "HashMap.hpp"
 
@@ -34,21 +35,21 @@ UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(Scene *scene, const Vector2 &position,
-		const Vector2 &size, u32 layer) {
+UIButton* UI::createButton(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer) {
 
 	if (!mButtonMaterial) {
-		mButtonMaterial = MaterialManager::getInstance()->loadMaterial(
-				"resources/button.bmp");
+		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.bmp");
 	}
 
-	UIButton *uiButton = Memory::allocate<UIButton>();
+	UIButton* uiButton = Memory::allocate<UIButton>();
 	uiButton->init();
 
-	uiButton->getTransform()->setLocalPosition(position);
-	uiButton->getTransform()->setScale(Vector3(size.x, size.y, 1));
+	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiButton->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
+
+	Renderer* renderer = Memory::allocate<Renderer>();
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -57,13 +58,13 @@ UIButton* UI::createButton(Scene *scene, const Vector2 &position,
 
 	renderer->setAffectedByProjection(false);
 
-	RigidBody *rigidBody = Memory::allocate<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiButton->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	Collider *collider = Memory::allocate<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	uiButton->addComponent<Collider>(collider);
-	collider->setSize(size.x, size.y);
+	collider->setSize(size.x / RenderContext::getAspectRatio(), size.y);
 	collider->getBoundingBox();
 
 	uiButton->setComponentsCache();
@@ -79,19 +80,19 @@ UIButton* UI::createButton(Scene *scene, const Vector2 &position,
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(Scene *scene, const Vector2 &position,
-		const Vector2 &size, const std::string &text, u32 layer) {
+UIText* UI::createText(Scene *scene, const Vector2 &position, const Vector2 &size, const std::string &text, u32 layer) {
 
 	if (!mFontMaterial) {
-		mFontMaterial = MaterialManager::getInstance()->loadMaterial(
-				"resources/font16x16.png");
+		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
 	}
 
-	UIText *uiText = Memory::allocate<UIText>();
+	UIText* uiText = Memory::allocate<UIText>();
 	uiText->init();
 
-	uiText->getTransform()->setLocalPosition(position);
-	uiText->getTransform()->setScale(Vector3(size.x, size.y, 1));
+	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
+
+	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiText->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
 
 	uiText->setSize(size);
 	uiText->setLayer(layer);
@@ -110,16 +111,15 @@ UIText* UI::createText(Scene *scene, const Vector2 &position,
 
 // ---------------------------------------------------------------------------
 
-UIList* UI::createList(Scene *scene, const Vector2 &position,
-		const Vector2 &size, u32 layer) {
+UIList* UI::createList(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer) {
 
-	UIList *uiList = Memory::allocate<UIList>();
+	UIList* uiList = Memory::allocate<UIList>();
 	uiList->init();
 
 	uiList->getTransform()->setLocalPosition(position);
 	uiList->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer *renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	uiList->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -138,10 +138,7 @@ UIList* UI::createList(Scene *scene, const Vector2 &position,
 
 	FOR_RANGE(i, 0, 3)
 	{
-		createText(scene,
-				position
-						+ Vector3(-halfWidth + margin,
-								halfHeight - margin + -itemOffset * i, 0),
+		createText(scene, position + Vector3(-halfWidth + margin, halfHeight - margin + -itemOffset * i, 0),
 				Vector2(40, 40), "list item", layer);
 	}
 
@@ -150,21 +147,15 @@ UIList* UI::createList(Scene *scene, const Vector2 &position,
 	// scrollbar
 
 	f32 scrollbarMargin = 20;
-	UIButton *upButton = createButton(scene,
-			position
-					+ Vector3(halfWidth + scrollbarMargin, -halfHeight / 2.0f,
-							0), Vector2(40, halfHeight - scrollbarMargin),
-			layer);
+	UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin, -halfHeight / 2.0f, 0),
+			Vector2(40, halfHeight - scrollbarMargin), layer);
 
 	upButton->setOnPressedCallback([&]() {
 
 	});
 
-	UIButton *downButton = createButton(scene,
-			position
-					+ Vector3(halfWidth + scrollbarMargin, halfHeight / 2.0f,
-							0), Vector2(40, halfHeight - scrollbarMargin),
-			layer);
+	UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin, halfHeight / 2.0f, 0),
+			Vector2(40, halfHeight - scrollbarMargin), layer);
 
 	downButton->setOnPressedCallback([&]() {
 
@@ -303,29 +294,25 @@ void UI::step() {
 
 		Vector2 screenMousePosition(Input::getMousePosition());
 		Vector2 worldMousePosition = Vector2(
-				RenderEngine::getInstance()->getCamera()->screenToWorld(
-						screenMousePosition));
+				RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
 
 		bool pressed = false;
 
 		FOR_LIST_COND(it, mUIElements, !pressed)
 		{
 
-			UIElement *element = it.get();
+			UIElement* element = it.get();
 
-			Collider *collider = element->getCollider();
-			Renderer *renderer = element->getRenderer();
+			Collider* collider = element->getCollider();
+			Renderer* renderer = element->getRenderer();
 
 			if (collider)
 				collider->getBoundingBox(); // force regenerate bounding box
 
-			Vector2 mousePosition =
-					renderer->isAffectedByProjection() ?
-							worldMousePosition : screenMousePosition;
+			Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
 
 			if (collider && !renderer->isOutOfCamera()
-					&& collider->testPoint(mousePosition)
-							== ColliderStatus::STATUS_PENETRATION) {
+					&& collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION) {
 				element->onPressed();
 				pressed = true;
 

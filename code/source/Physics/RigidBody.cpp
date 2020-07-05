@@ -51,15 +51,14 @@ void RigidBody::integrate(f32 deltaTime) {
 
 	if (mSimulate) {
 
-		Transform *t = getGameObject()->getTransform();
+		Transform* t = getGameObject()->getTransform();
 
 		// Symplectic Euler
 
 		mForceAccumulator.add(mAntiPenetrationForce);
 
 		// v += (1/m * F) * dt
-		mLinear.add(
-				Vector3(mForceAccumulator).mul(1.0f / mMass).mul(deltaTime));
+		mLinear.add(Vector3(mForceAccumulator).mul(1.0f / mMass).mul(deltaTime));
 		//mLinear.add(this.counterPenetrationAccumulator.cpy().mulScl(1/this.mass).mulScl(dt));
 
 		// x += v * dt
@@ -95,15 +94,6 @@ void RigidBody::restoreState() {
 	mForceAccumulator = mState.mForceAccumulator;
 	mMass = mState.mMass;
 	mSimulate = mState.mSimulate;
-}
-// ---------------------------------------------------------------------------
-
-Collider* RigidBody::initCollider() {
-	mCollider =
-			mCollider ?
-					mCollider :
-					getGameObject()->getComponents<Collider>()->get(0);
-	return mCollider;
 }
 
 } /* namespace DE */
