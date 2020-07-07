@@ -307,11 +307,11 @@ void UI::step() {
 			Renderer* renderer = element->getRenderer();
 
 			if (collider)
-				collider->getBoundingBox(); // force regenerate bounding box
+				collider->getBoundingBox(true); // force regenerate bounding box
 
 			Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
 
-			if (collider && !renderer->isOutOfCamera()
+			if (collider && collider->isActive() && !renderer->isOutOfCamera()
 					&& collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION) {
 				element->onPressed();
 				pressed = true;

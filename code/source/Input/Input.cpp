@@ -6,6 +6,7 @@ namespace DE {
 Vector2 Input::smMouseCoordinates = Vector2();
 u32 Input::smLastMouseButtonPressed = -1;
 u32 Input::smLastKeyPressed = -1;
+u32 Input::smModifier = -1;
 bool Input::keyJustPressed = false;
 bool Input::buttonJustPressed = false;
 f32 Input::scroll = 0;
@@ -19,6 +20,8 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 	} else if (action == GLFW_RELEASE) {
 		Input::clearKey();
 	}
+
+	smModifier = mods;
 }
 
 // ---------------------------------------------------------------------------
@@ -30,6 +33,8 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 	} else if (action == GLFW_RELEASE) {
 		Input::clearMouseButton();
 	}
+
+	smModifier = mods;
 }
 
 // ---------------------------------------------------------------------------
@@ -84,14 +89,20 @@ bool Input::isKeyPressed(u32 key) {
 
 // ---------------------------------------------------------------------------
 
-bool Input::isMouseButtonPressedOnce(u32 key) {
-	return buttonJustPressed && key == smLastMouseButtonPressed;
+bool Input::isModifierPressed(u32 modifier) {
+	return modifier == smModifier;
 }
 
 // ---------------------------------------------------------------------------
 
-bool Input::isMouseButtonPressed(u32 key) {
-	return key == smLastMouseButtonPressed;
+bool Input::isMouseButtonPressedOnce(u32 button) {
+	return buttonJustPressed && button == smLastMouseButtonPressed;
+}
+
+// ---------------------------------------------------------------------------
+
+bool Input::isMouseButtonPressed(u32 button) {
+	return button == smLastMouseButtonPressed;
 }
 
 // ---------------------------------------------------------------------------

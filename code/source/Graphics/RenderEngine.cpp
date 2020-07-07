@@ -312,7 +312,7 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 // ---------------------------------------------------------------------------
 
 Chunk* RenderEngine::assignChunk(Renderer *renderer) {
-	TRACE();
+	//TRACE();
 	bool found = false;
 	Chunk* chunkTmp = nullptr;
 	Chunk* chunkFound = nullptr;

@@ -36,6 +36,24 @@ private:
 		GameObject* get(u32 layer);
 	};
 
+	class Brush: public DE_Class {
+	private:
+		void free();
+
+	public:
+		DE_CLASS(Brush, DE_Class);
+
+		void init(u32 size);
+
+		u32 mGridSize = 1;
+		u32 mLastIndex = 0;
+		Array<GameObject*>* mGrid = nullptr;
+
+		void addTile(GameObject* tile);
+		GameObject* getTile(u32 i, u32 j);
+		void clear();
+	};
+
 	u32 mGridSize;
 	Array<Array<CellData*>*>* mGrid;
 
@@ -51,9 +69,9 @@ private:
 
 	bool mCameraControl;
 
-	class MapEditorUI {
+	class MapEditorUI : public DE_Class{
 
-	public:
+	private:
 
 		class StringsUI {
 		public:
@@ -63,6 +81,7 @@ private:
 			static const std::string smBrush;
 			static const std::string smSave;
 			static const std::string smCollider;
+			static const std::string smAtlas;
 			static const std::string smPlay;
 			static const std::string smInspectorTileX;
 			static const std::string smInspectorTileY;
@@ -70,8 +89,11 @@ private:
 			static const std::string smInspectorTileTag;
 		};
 
+		Array<UIButton*>* mAtlasButtons = nullptr;
+		bool mIsAtlasShow = true;
+		GameObject* mAtlasBackground = nullptr;
+
 		MapEditor* mMapEditor;
-		u32 mUILayer = 3;
 
 		UIText* mTextLayer = nullptr;
 		UIText* mTextTile = nullptr;
@@ -83,7 +105,15 @@ private:
 		UIText* mTextInspectorY = nullptr;
 		UIText* mTextInspectorCollider = nullptr;
 
+		UIButton* mButtonInspectorCollider = nullptr;
+
 		Vector2 mTextSize = Vector2(0.045f, 0.045f);
+
+	public:
+
+		DE_CLASS(MapEditorUI, DE_Class);
+
+		u32 mUILayer = 3;
 
 		void init(MapEditor *mapEditor);
 
@@ -93,9 +123,12 @@ private:
 		void createAtlasUI();
 
 		void updateUI();
+		void updateInspectorUI();
+
+		void toggleAtlasUI();
 	};
 
-	MapEditorUI mInfoBarUI;
+	MapEditorUI mMapEditorUI;
 
 public:
 
@@ -105,20 +138,24 @@ public:
 	GameObject* mPlayer;
 	GameObject* mTile;
 
-	GameObject* mBrush;
+	Brush mBrush;
+
+	GameObject* mBrushCursor;
 	bool mIsPaintMode;
 
 	DE_CLASS(MapEditor, Script);
 
 	void createBrush();
+	void resetBrush();
 
 	GameObject* createTile(f32 x, f32 y);
 	void createPlayer();
 
-	void click(const Vector3 &clampedPosition);
-	void drawTile(CellData *cellData, const Vector3 &worldPosition);
+	void click(const Vector3 &clampedPosition, GameObject* brush);
+	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush);
 	void removeTile(CellData *cellData);
 	void selectTile(CellData *cellData);
+	void addColliderToTile(GameObject* tile);
 
 	void loadMapIntoGrid();
 
