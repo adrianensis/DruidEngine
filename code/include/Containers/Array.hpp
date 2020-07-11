@@ -82,7 +82,9 @@ private:
 	// ---------------------------------------------------------------------------
 
 	void raw_clear() {
+		f32 length = this->mLength;
 		BaseContainer::clear();
+		this->mLength = length;
 		std::memset(mStart, 0, this->mLength * (this->mElementSize));
 	}
 

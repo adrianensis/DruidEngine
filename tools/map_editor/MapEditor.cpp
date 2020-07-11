@@ -114,29 +114,45 @@ MapEditor::Brush::~Brush() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::Brush::init(u32 size) {
-	mGridSize = size;
-
+void MapEditor::Brush::init() {
 	if(mGrid) free();
 
 	mGrid = Memory::allocate<Array<GameObject*>>();
-	mGrid->init(mGridSize*mGridSize);
+	mGrid->init(mMaxSize);
 }
 
 // ---------------------------------------------------------------------------
 
 GameObject* MapEditor::Brush::getTile(u32 i, u32 j){
-	return mGrid->get(i * mGridSize + j);
+	return mGrid->get(i * mSize.x + j);
 }
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::Brush::addTile(GameObject* tile){
-	if(mLastIndex < mGridSize * mGridSize){
+void MapEditor::Brush::addTile(GameObject* tile, Vector2 atlasPosition){
+	if(mLastIndex < mMaxSize){
+
+		// If it's the first selected tile, take it as coordinates origin.
+		if(! mGrid->get(0)){
+			mOriginAtlasPosition = atlasPosition;
+			VAR(f32, mOriginAtlasPosition.x);
+			VAR(f32, mOriginAtlasPosition.y);
+		}
+
+		Vector2 distance(std::abs(atlasPosition.x - mOriginAtlasPosition.x),
+				std::abs(atlasPosition.y - mOriginAtlasPosition.y));
+
+		VAR(f32, distance.x);
+		VAR(f32, distance.y);
+
+		mSize.x = std::max(mSize.x,distance.x + 1);
+		mSize.y = std::max(mSize.y,distance.y + 1);
+
+		VAR(f32, mSize.x);
+		VAR(f32, mSize.y);
+
 		mGrid->set(mLastIndex,tile);
 		mLastIndex++;
-
-		VAR(u32, mLastIndex);
 		tile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
 	}
 }
@@ -150,7 +166,7 @@ void MapEditor::Brush::free(){
 // ---------------------------------------------------------------------------
 
 void MapEditor::Brush::clear(){
-	FOR_ARRAY(i, mGrid){
+	FOR_RANGE(i, 0, mLastIndex){
 		GameObject* tile = mGrid->get(i);
 
 		if(tile)
@@ -158,8 +174,9 @@ void MapEditor::Brush::clear(){
 	}
 
 	mLastIndex = 0;
+	mSize = Vector2(1,1);
+	mOriginAtlasPosition = Vector2(0,0);
 	mGrid->clear();
-	mGrid->init(mGridSize*mGridSize);
 }
 
 // ---------------------------------------------------------------------------
@@ -314,18 +331,20 @@ void MapEditor::MapEditorUI::createAtlasUI() {
 			renderer->setRegion(i / atlasSize.x, j / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
 			//renderer->setLayer(2);
 
-			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor]() {
+			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j]() {
 				Renderer* buttonRenderer = self->getRenderer();
 				mapEditor->mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
 						buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
 						buttonRenderer->getRegionSize().y);
 
-				if((mapEditor->mBrush.mLastIndex < (mapEditor->mBrush.mGridSize * mapEditor->mBrush.mGridSize)) &&
+				Vector2 atlasPosition = Vector2(i, j);
+
+				if((mapEditor->mBrush.mLastIndex < mapEditor->mBrush.mMaxSize) &&
 						Input::isModifierPressed(GLFW_MOD_CONTROL)){
-					mapEditor->mBrush.addTile(self);
+					mapEditor->mBrush.addTile(self, atlasPosition);
 				} else {
 					mapEditor->mBrush.clear();
-					mapEditor->mBrush.addTile(self);
+					mapEditor->mBrush.addTile(self, atlasPosition);
 				}
 
 				mapEditor->mIsPaintMode = true;
@@ -386,7 +405,7 @@ void MapEditor::MapEditorUI::createUI() {
 // ---------------------------------------------------------------------------
 
 void MapEditor::MapEditorUI::updateUI() {
-	mTextBrush->setText(StringsUI::smBrush + " " + std::to_string(mMapEditor->mBrush.mGridSize));
+	//mTextBrush->setText(StringsUI::smBrush + " " + std::to_string(mMapEditor->mBrush.mGridSize));
 	mTextLayer->setText(StringsUI::smLayer + " " + std::to_string(mMapEditor->mLayer));
 
 	/*Renderer* brushRenderer = mMapEditor->mBrush->getComponents<Renderer>()->get(0);
@@ -493,6 +512,7 @@ void MapEditor::createPlayer() {
 void MapEditor::resetBrush() {
 	mIsPaintMode = false;
 	mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(0, 0, 1, 1);
+	mBrush.clear();
 }
 
 // ---------------------------------------------------------------------------
@@ -516,7 +536,7 @@ void MapEditor::createBrush() {
 
 	getGameObject()->getScene()->addGameObject(mBrushCursor);
 
-	mBrush.init(1);
+	mBrush.init(/*1*/);
 }
 
 // ---------------------------------------------------------------------------
@@ -602,12 +622,10 @@ void MapEditor::firstStep() {
 
 	f32 halfGridSize = mGridSize / 2.0f;
 
-	FOR_RANGE(i, 0, mGridSize)
-	{
+	FOR_RANGE(i, 0, mGridSize){
 		mGrid->set(i, Memory::allocate<Array<CellData*>>());
 		mGrid->get(i)->init(mGridSize);
-		FOR_RANGE(j, 0, mGridSize)
-		{
+		FOR_RANGE(j, 0, mGridSize){
 			CellData* cellData = Memory::allocate<CellData>();
 			mGrid->get(i)->set(j, cellData);
 		}
@@ -629,15 +647,16 @@ void MapEditor::step() {
 	Vector2 mouse(Input::getMousePosition());
 	Vector3 world = mCamera->screenToWorld(mouse);
 
-	Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize,
-			0);
+	Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
 
 	//click(clampedPosition);
+	if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 
-	FOR_RANGE(i, 0, mBrush.mGridSize){
-		FOR_RANGE(j, 0, mBrush.mGridSize){
-			f32 offset = mTileSize;
-			click(clampedPosition + Vector3(offset*j, -offset*i, 0), /*mBrushOLD*/ mBrush.getTile(i, j));
+		FOR_RANGE(i, 0, mBrush.mSize.y/*mBrush.mGridSize*/){
+			FOR_RANGE(j, 0, mBrush.mSize.x/*mBrush.mGridSize*/){
+				f32 offset = mTileSize;
+				click(clampedPosition + Vector3(offset*j, -offset*i, 0), /*mBrushOLD*/ mBrush.getTile(i, j));
+			}
 		}
 	}
 
@@ -648,17 +667,17 @@ void MapEditor::step() {
 	processMovement();
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_KP_ADD)) {
-		if (mBrush.mGridSize < 2){
-			mBrush.mGridSize++;
-			mBrush.init(mBrush.mGridSize);
-		}
+//		if (mBrush.mGridSize < 2){
+//			mBrush.mGridSize++;
+//			mBrush.init(mBrush.mGridSize);
+//		}
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)) {
-		if (mBrush.mGridSize > 1){
-			mBrush.mGridSize--;
-			mBrush.init(mBrush.mGridSize);
-		}
+//		if (mBrush.mGridSize > 1){
+//			mBrush.mGridSize--;
+//			mBrush.init(mBrush.mGridSize);
+//		}
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_Z)) {

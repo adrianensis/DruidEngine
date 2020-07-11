@@ -43,13 +43,15 @@ private:
 	public:
 		DE_CLASS(Brush, DE_Class);
 
-		void init(u32 size);
+		void init();
 
-		u32 mGridSize = 1;
+		u32 mMaxSize = 20;
+		Vector2 mSize = Vector2(1,1);
+		Vector2 mOriginAtlasPosition = Vector2(0,0);
 		u32 mLastIndex = 0;
 		Array<GameObject*>* mGrid = nullptr;
 
-		void addTile(GameObject* tile);
+		void addTile(GameObject* tile, Vector2 atlasPosition);
 		GameObject* getTile(u32 i, u32 j);
 		void clear();
 	};

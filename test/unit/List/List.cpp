@@ -174,7 +174,7 @@ int main() {
 
 	list->clear();
 
-	i32 size = 10000;
+	/*i32 size = 10000;
 
 	for (i32 i = size - 1; i >= 0; i--) {
 		list->pushBack(i);
@@ -184,7 +184,7 @@ int main() {
 
 	for (i32 i = 0; i < size; i++) {
 		DE_test_expected_uint(list->get(i), i);
-	}
+	}*/
 
 	DE::Memory::free<DE::List<u32>>(list);
 	DE::Memory::free<DE::List<u32>>(list2);

@@ -89,7 +89,7 @@ int main() {
 
 	array2->clear();
 
-	DE_test_expected_uint(array2->getLength(), 0);
+	DE_test_expected_uint(array2->getLength(), 10);
 
 	DE::Memory::free<Array<u32>>(array);
 	DE::Memory::free<Array<u32>>(copy);
