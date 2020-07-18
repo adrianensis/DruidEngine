@@ -179,8 +179,8 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
 
 	// GameObject* book = Memory::allocate<GameObject>();
-	UIButton* book = UI::getInstance()->createButton(getGameObject()->getScene(), Vector2(x, y), Vector2(size, size),
-			5);
+//	UIButton* book = UI::getInstance()->createButton(getGameObject()->getScene(), Vector2(x, y), Vector2(size, size),
+//			5);
 	// book->init();
 
 	// book->getTransform()->setLocalPosition(Vector3(x,y,0));
@@ -191,41 +191,41 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element
 	// Renderer* renderer = Memory::allocate<Renderer>();
 	// book->addComponent<Renderer>(renderer);
 
-	book->setOnPressedCallback([&, c = color, e = element, self = book]() {
-		VAR(f32, c.x)
-		VAR(f32, c.y)
-		VAR(f32, c.z)
+//	book->setOnPressedCallback([&, c = color, e = element, self = book]() {
+//		VAR(f32, c.x)
+//		VAR(f32, c.y)
+//		VAR(f32, c.z)
+//
+//		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(c);
+//		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setElement(e);
+//
+//		mSelectedBook = self;
+//
+//		FOR_ARRAY(i, mBookSelector)
+//		{
+//			if (mBookSelector->get(i) == mSelectedBook) {
+//				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.3f, 0.3f, 1));
+//			} else {
+//				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.2f, 0.2f, 1));
+//			}
+//		}
+//
+//	});
 
-		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setBookColor(c);
-		((PlayerScript*) mPlayer->getComponents<Script>()->get(0))->setElement(e);
+//	Renderer* renderer = book->getRenderer();
+//
+//	renderer->setMesh(Mesh::getRectangle());
+//	renderer->setMaterial(material);
+//
+//	// renderer->setLayer(5);
+//	renderer->setColor(color);
+//
+//	renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0, 0), 1.0f / 6.0f, 1.0f / 1.0f, 6));
+//	renderer->setAnimation("idle");
+//
+//	// getGameObject()->getScene()->addGameObject(book);
 
-		mSelectedBook = self;
-
-		FOR_ARRAY(i, mBookSelector)
-		{
-			if (mBookSelector->get(i) == mSelectedBook) {
-				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.3f, 0.3f, 1));
-			} else {
-				mBookSelector->get(i)->getTransform()->setScale(Vector3(0.2f, 0.2f, 1));
-			}
-		}
-
-	});
-
-	Renderer* renderer = book->getRenderer();
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(material);
-
-	// renderer->setLayer(5);
-	renderer->setColor(color);
-
-	renderer->addAnimation("idle", Animation::create(6, true, false, Vector2(0, 0), 1.0f / 6.0f, 1.0f / 1.0f, 6));
-	renderer->setAnimation("idle");
-
-	// getGameObject()->getScene()->addGameObject(book);
-
-	return book;
+	return nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -351,8 +351,8 @@ void GameController::firstStep() {
 
 	createBackground(0, 200);
 
-	mTextMana = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50, 50),
-			"MANA: " + std::to_string(mPlayerScript->getMana()), 5);
+//	mTextMana = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50, 50),
+//			"MANA: " + std::to_string(mPlayerScript->getMana()), 5);
 
 	mEnemySpawnTimeCount = 0;
 	mEnemySpawnTime = 1.0f;
@@ -370,9 +370,9 @@ void GameController::firstStep() {
 
 void GameController::step() {
 
-	if (mPlayerScript->isManaChanged()) {
-		mTextMana->setText("MANA: " + std::to_string(mPlayerScript->getMana()));
-	}
+//	if (mPlayerScript->isManaChanged()) {
+//		mTextMana->setText("MANA: " + std::to_string(mPlayerScript->getMana()));
+//	}
 
 	Vector2 mouse = Input::getMousePosition();
 

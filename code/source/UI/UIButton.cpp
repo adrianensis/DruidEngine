@@ -1,5 +1,6 @@
 #include "UIButton.hpp"
 #include "UI.hpp"
+#include "UIBuilder.hpp"
 #include "UIText.hpp"
 #include "Renderer.hpp"
 #include "Transform.hpp"
@@ -25,8 +26,10 @@ void UIButton::setText(const std::string &text) {
 	Vector3 buttonScale = getTransform()->getScale();
 
 	if (!mLabel) {
-		mLabel = UI::getInstance()->createText(getScene(), Vector2(0, 0), Vector2(fontSize, fontSize), text,
+		UIElementData data;
+		data.init(Vector2(0, 0), Vector2(fontSize, fontSize), text,
 				getRenderer()->getLayer() + 1);
+		mLabel = (UIText*) UI::getInstance()->getBuilder()->create(getScene(), data, UIElementType::TEXT);
 		mLabel->getTransform()->setParent(getTransform());
 	}
 

@@ -23,194 +23,26 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 UI::UI() : DE_Class(), Singleton() {
-	mButtonTexture = nullptr;
-	mButtonMaterial = nullptr;
-	mFontTexture = nullptr;
-	mFontMaterial = nullptr;
 	mUIElements = nullptr;
+	mFontMaterial = nullptr;
 }
 
 UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UI::createButton(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer) {
-
-	if (!mButtonMaterial) {
-		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.png");
-	}
-
-	UIButton* uiButton = Memory::allocate<UIButton>();
-	uiButton->init();
-
-	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
-
-	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiButton->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	uiButton->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mButtonMaterial);
-	renderer->setLayer(layer);
-
-	renderer->setAffectedByProjection(false);
-
-	RigidBody* rigidBody = Memory::allocate<RigidBody>();
-	uiButton->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = Memory::allocate<Collider>();
-	uiButton->addComponent<Collider>(collider);
-	collider->setSize(size.x / RenderContext::getAspectRatio(), size.y);
-	collider->getBoundingBox();
-
-	uiButton->setComponentsCache();
-
-	uiButton->setIsStatic(true);
-
-	scene->addGameObject(uiButton);
-
-	mUIElements->pushBack(uiButton);
-
-	return uiButton;
+UIBuilder* const UI::getBuilder() const {
+	return UIBuilder::getInstance();
 }
 
 // ---------------------------------------------------------------------------
 
-UIText* UI::createText(Scene *scene, const Vector2 &position, const Vector2 &size, const std::string &text, u32 layer) {
-
+Material* UI::getFontMaterial() {
 	if (!mFontMaterial) {
 		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
 	}
-
-	UIText* uiText = Memory::allocate<UIText>();
-	uiText->init();
-
-	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
-
-	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
-
-	uiText->setSize(size);
-	uiText->setLayer(layer);
-	uiText->setText(text);
-
-	uiText->setComponentsCache();
-
-	uiText->setIsStatic(true);
-
-	scene->addGameObject(uiText);
-
-	mUIElements->pushBack(uiText);
-
-	return uiText;
-}
-
-// ---------------------------------------------------------------------------
-
-UIText* UI::createTextBox(Scene *scene, const Vector2 &position, const Vector2 &size, const std::string &text, u32 layer) {
-
-	if (!mFontMaterial) {
-		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
-	}
-
-	UIText* uiText = Memory::allocate<UIText>();
-	uiText->init();
-
-	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
-
-	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
-
-	RigidBody* rigidBody = Memory::allocate<RigidBody>();
-	uiText->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	f32 width = size.x * text.length() / RenderContext::getAspectRatio();
-	Collider* collider = Memory::allocate<Collider>();
-	uiText->addComponent<Collider>(collider);
-	collider->setSize(width, size.y);
-	collider->setPositionOffset(Vector3(width/2.0f,0,0));
-	collider->getBoundingBox();
-
-	uiText->setSize(size);
-	uiText->setLayer(layer);
-	uiText->setText(text);
-
-	uiText->setComponentsCache();
-
-	uiText->setIsStatic(true);
-
-	uiText->setOnPressedCallback([self = uiText]() {
-		Input::setInputCharReceiver(self);
-		self->setText("");
-	});
-
-	scene->addGameObject(uiText);
-
-	mUIElements->pushBack(uiText);
-
-	return uiText;
-}
-
-// ---------------------------------------------------------------------------
-
-UIList* UI::createList(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer) {
-
-	UIList* uiList = Memory::allocate<UIList>();
-	uiList->init();
-
-	uiList->getTransform()->setLocalPosition(position);
-	uiList->getTransform()->setScale(Vector3(size.x, size.y, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	uiList->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mButtonMaterial);
-	renderer->setLayer(layer);
-
-	uiList->setComponentsCache();
-
-	uiList->setIsStatic(false);
-
-	f32 halfWidth = size.x / 2.0f;
-	f32 halfHeight = size.y / 2.0f;
-
-	f32 margin = 50;
-	f32 itemOffset = 50;
-
-	FOR_RANGE(i, 0, 3)
-	{
-		createText(scene, position + Vector3(-halfWidth + margin, halfHeight - margin + -itemOffset * i, 0),
-				Vector2(40, 40), "list item", layer);
-	}
-
-	scene->addGameObject(uiList);
-
-	// scrollbar
-
-	f32 scrollbarMargin = 20;
-	UIButton* upButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin, -halfHeight / 2.0f, 0),
-			Vector2(40, halfHeight - scrollbarMargin), layer);
-
-	upButton->setOnPressedCallback([&]() {
-
-	});
-
-	UIButton* downButton = createButton(scene, position + Vector3(halfWidth + scrollbarMargin, halfHeight / 2.0f, 0),
-			Vector2(40, halfHeight - scrollbarMargin), layer);
-
-	downButton->setOnPressedCallback([&]() {
-
-	});
-
-	mUIElements->pushBack(uiList);
-
-	return uiList;
-}
+	return mFontMaterial;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -334,6 +166,12 @@ Vector2 UI::getCharTextureCoordinates(c8 character) {
 
 // ---------------------------------------------------------------------------
 
+void UI::addUIElement(UIElement* uiElement){
+	mUIElements->pushBack(uiElement);
+}
+
+// ---------------------------------------------------------------------------
+
 void UI::step() {
 
 	if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
@@ -354,15 +192,17 @@ void UI::step() {
 			if (collider)
 				collider->getBoundingBox(true); // force regenerate bounding box
 
-			Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
+			if(renderer){
+				Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
 
-			if (collider && collider->isActive() && !renderer->isOutOfCamera()
-					&& collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION) {
-				element->onPressed();
-				pressed = true;
+				if (collider && collider->isActive() && !renderer->isOutOfCamera()
+						&& collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION) {
+					element->onPressed();
+					pressed = true;
 
-				if (element->isConsumeInput()) {
-					Input::clearMouseButton();
+					if (element->isConsumeInput()) {
+						Input::clearMouseButton();
+					}
 				}
 			}
 		}
