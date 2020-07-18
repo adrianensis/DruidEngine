@@ -20,12 +20,10 @@ class QuadTree: public DE_Class {
 private:
 
 	class Node: public DE_Class {
-	private:
-		void internalRemoveColliderFromList(const Iterator *it);
+	private: void internalRemoveColliderFromList(const Iterator *it);
 		void internalFreeCollider(Collider *collider);
 
-	public:
-		Vector2 mLeftTop;
+	public: Vector2 mLeftTop;
 		f32 mWidth;
 		f32 mHeight;
 		f32 mMinWidth;
@@ -64,8 +62,6 @@ private:
 
 		bool isLeaf() const;
 		u32 getCollidersCount() const;
-		bool testCompleteCollider(Collider *collider) const;
-		bool testPartialCollider(Collider *collider) const;
 		bool childNodeTestPartialCollider(u32 index, Collider *collider) const;
 
 		void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);
@@ -81,8 +77,7 @@ private:
 
 public:
 
-	DE_CLASS(QuadTree, DE_Class)
-	;
+	DE_CLASS(QuadTree, DE_Class);
 
 	void init(f32 size);
 

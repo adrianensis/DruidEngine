@@ -24,15 +24,13 @@ private:
 
 	class Node: public DE_Class {
 
-	public:
-		K mKey;
+	public: K mKey;
 		V mElement;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
 		;
 
-		Node() :
-				DE_Class() {
+		Node() : 		DE_Class() {
 		}
 		;
 		~Node() {
@@ -68,14 +66,12 @@ private:
 
 public:
 
-	using HashMapKV = HashMap<K,V>;DE_GENERATE_METADATA(HashMapKV, BaseContainer)
-	;
+	using HashMapKV = HashMap<K,V>;DE_GENERATE_METADATA(HashMapKV, BaseContainer);
 
 	/*!
 	 \brief Default Constructor.
 	 */
-	HashMap() :
-			BaseContainer() {
+	HashMap() : 	BaseContainer() {
 		mArray = nullptr;
 		mKeys = nullptr;
 		mValues = nullptr;
@@ -169,8 +165,7 @@ public:
 
 		if (list) {
 
-			FOR_LIST_COND(it, list, !found)
-			{
+			FOR_LIST_COND(it, list, !found) {
 				if (it.get()->mKey == key) {
 					found = true;
 					element = it.get()->mElement;
@@ -198,8 +193,7 @@ public:
 
 		if (list) {
 
-			FOR_LIST_COND(it, list, !found)
-			{
+			FOR_LIST_COND(it, list, !found) {
 				if (it.get()->mKey == key) {
 					found = true;
 				}
@@ -223,8 +217,7 @@ public:
 
 		if (list) {
 			// iterate over list to find element.
-			FOR_LIST_COND(it, list, !found)
-			{
+			FOR_LIST_COND(it, list, !found) {
 				if (it.get()->mKey == key) {
 					found = true;
 					selectedIt = it;
@@ -266,8 +259,7 @@ public:
 
 		if (mArray) {
 
-			FOR_ARRAY(i, mArray)
-			{
+			FOR_ARRAY(i, mArray) {
 
 				List<Node*>* list = mArray->get(i);
 				if (list && !list->isEmpty()) {

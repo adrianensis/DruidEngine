@@ -62,6 +62,13 @@ bool MathUtils::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height
 
 // ---------------------------------------------------------------------------
 
+bool MathUtils::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps) {
+	return (leftTop.x - radius - eps <= center.x && leftTop.y + radius + eps >= center.y && leftTop.x + width + radius + eps >= center.x
+			&& leftTop.y - height - radius - eps <= center.y);
+}
+
+// ---------------------------------------------------------------------------
+
 bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB) {
 	f32 distance = centerA.dst(centerB);
 	return (distance < radiusA + radiusB);
@@ -207,8 +214,7 @@ Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &l
 
 Vector3 MathUtils::midPoint(const Vector3 &a, const Vector3 &b) {
 	return Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

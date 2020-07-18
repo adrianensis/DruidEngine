@@ -8,8 +8,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIButton::UIButton() :
-		UIElement() {
+UIButton::UIButton() : UIElement() {
 	mLabel = nullptr;
 }
 
@@ -19,19 +18,19 @@ UIButton::~UIButton() = default;
 
 // ---------------------------------------------------------------------------
 
-void UIButton::setLabel(const std::string &label) {
+void UIButton::setText(const std::string &text) {
 
 	f32 fontSize = 0.04f;
 	f32 fontOffset = 0.02f;
 	Vector3 buttonScale = getTransform()->getScale();
 
 	if (!mLabel) {
-		mLabel = UI::getInstance()->createText(getScene(), Vector2(0, 0), Vector2(fontSize, fontSize), label,
+		mLabel = UI::getInstance()->createText(getScene(), Vector2(0, 0), Vector2(fontSize, fontSize), text,
 				getRenderer()->getLayer() + 1);
 		mLabel->getTransform()->setParent(getTransform());
 	}
 
-	mLabel->setText(label);
+	mLabel->setText(text);
 
 	mLabel->getTransform()->setLocalPosition(
 			Vector3(-buttonScale.x / 2.0f /*+ fontSize / 2.0f*/ + fontOffset, 0, 0));

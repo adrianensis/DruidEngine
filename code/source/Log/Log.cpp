@@ -8,8 +8,7 @@ namespace DE {
 const std::string Log::emptyMessage = "";
 std::ofstream Log::logFile;
 
-Log::Log() :
-		DE_Class() {
+Log::Log() : DE_Class() {
 }
 
 Log::~Log() = default;

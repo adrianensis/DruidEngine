@@ -43,8 +43,7 @@ u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
 
 // ---------------------------------------------------------------------------
 
-Batch::LayerData::LayerData() :
-		DE_Class() {
+Batch::LayerData::LayerData() : DE_Class() {
 	mSorted = false;
 	mDynamicObjectsCount = 0;
 	mSortCounter = 0;
@@ -56,8 +55,7 @@ Batch::LayerData::~LayerData() = default;
 
 // ---------------------------------------------------------------------------
 
-Batch::Batch() :
-		DE_Class() {
+Batch::Batch() : DE_Class() {
 	mVBOPosition = 0;
 	mEBO = 0;
 	mVBOTexture = 0;
@@ -82,8 +80,7 @@ Batch::~Batch() {
 	FOR_LIST(itList, mRenderers->getValues())
 	{
 		if (itList.get()) {
-			FOR_LIST(itRenderer, itList.get())
-			{
+			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->isDestroyed()) {
 					itRenderer.get()->setDestroyed();
 					Memory::free<Renderer>(itRenderer.get());
@@ -417,12 +414,10 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 
 void Batch::setChunk(Chunk *chunk) {
 	mChunk = chunk;
-}
-;
+};
 Chunk* Batch::getChunk() {
 	return mChunk;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

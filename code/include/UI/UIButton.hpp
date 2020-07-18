@@ -15,10 +15,9 @@ private:
 
 public:
 
-	DE_CLASS(UIButton, UIElement)
-	;
+	DE_CLASS(UIButton, UIElement);
 
-	void setLabel(const std::string &label);
+	virtual void setText(const std::string &text) override;
 
 };
 

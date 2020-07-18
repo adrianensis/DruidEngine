@@ -5,8 +5,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-AnimationFrame::AnimationFrame() :
-		DE_Class() {
+AnimationFrame::AnimationFrame() : DE_Class() {
 	mWidth = 0.0f;
 	mHeight = 0.0f;
 }

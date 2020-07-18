@@ -8,8 +8,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIElement::UIElement() :
-		GameObject() {
+UIElement::UIElement() : GameObject() {
 	mCollider = nullptr;
 	mRenderer = nullptr;
 	mPressed = false;
@@ -19,6 +18,21 @@ UIElement::UIElement() :
 // ---------------------------------------------------------------------------
 
 UIElement::~UIElement() = default;
+
+// ---------------------------------------------------------------------------
+
+void UIElement::inputCharCallback(c8 character) {
+
+	mInputString += character;
+	setText(mInputString);
+}
+
+// ---------------------------------------------------------------------------
+
+void UIElement::inputCloseCallback() {
+	mOnTextChangedFunctor.execute();
+	mInputString.clear();
+}
 
 // ---------------------------------------------------------------------------
 
@@ -34,18 +48,6 @@ void UIElement::onReleased() {
 	mPressed = false;
 	//mRenderer->setColor(Vector4(0.0f,0.0f,0.0f,1.0f));
 	mOnReleasedFunctor.execute();
-}
-
-// ---------------------------------------------------------------------------
-
-void UIElement::setOnPressedCallback(std::function<void()> callback) {
-	mOnPressedFunctor.setCallback(callback);
-}
-
-// ---------------------------------------------------------------------------
-
-void UIElement::setOnReleasedCallback(std::function<void()> callback) {
-	mOnReleasedFunctor.setCallback(callback);
 }
 
 // ---------------------------------------------------------------------------

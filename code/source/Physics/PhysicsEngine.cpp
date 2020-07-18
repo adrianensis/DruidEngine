@@ -14,8 +14,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-PhysicsEngine::PhysicsEngine() :
-		DE_Class(), Singleton() {
+PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton() {
 	mRigidBodies = nullptr;
 	mQuadTree = nullptr;
 }
@@ -77,8 +76,6 @@ void PhysicsEngine::step(f32 deltaTime) {
 	f32 dt = deltaTime;
 	f32 maxIterations = 5.0f;
 
-	// ECHO("INTEGRATE")
-
 	FOR_LIST (it, mRigidBodies)
 	{
 		if (it.get()->isActive()) {
@@ -93,51 +90,9 @@ void PhysicsEngine::step(f32 deltaTime) {
 		}
 	}
 
-	// ECHO("UPDATE")
 	mQuadTree->update();
 
-	// if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
-	//   dt = dt/2.0f;
-	//   bool tryAgain = true;
-	//   u32 it = 0;
-	//
-	//   while(tryAgain && it < maxIterations/*dt > minDeltaTime*/){
-	//
-	//     tryAgain = false;
-	//
-	//     FOR_LIST (it, mRigidBodies){
-	//       if((it.get()->getCollider()->isPenetrated())){
-	//         if(!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()){
-	//           it.get()->restoreState();
-	//           it.get()->integrate(dt);
-	//         }
-	//       }
-	//     }
-	//
-	//     // ECHO("UPDATE BC PENETRATION")
-	//     mQuadTree->update();
-	//
-	//     if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
-	//       dt = dt/2.0f;
-	//       tryAgain = true;
-	//     }
-	//
-	//     it++;
-	//   }
-	// }
-
-	// if(mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION){
-	//   ECHO("PENETRATION");
-	// }
-	// else if(mQuadTree->getStatus() == ColliderStatus::STATUS_COLLISION){
-	//   ECHO("COLLISION");
-	// }
-	// else if(mQuadTree->getStatus() == ColliderStatus::STATUS_NONE){
-	//   ECHO("NONE");
-	// }
-
 	if (mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION) {
-		// ECHO("RESTORE")
 
 		FOR_LIST (it, mRigidBodies)
 		{
@@ -159,7 +114,6 @@ void PhysicsEngine::step(f32 deltaTime) {
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::updateContacts() {
-	// TRACE();
 	ContactsManager::getInstance()->updateContacts();
 }
 

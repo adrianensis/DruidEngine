@@ -13,8 +13,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ScenesManager::ScenesManager() :
-		DE_Class(), Singleton() {
+ScenesManager::ScenesManager() : DE_Class(), Singleton() {
 	mCurrentScene = nullptr;
 	mSceneHasChanged = true;
 }
@@ -106,8 +105,7 @@ Scene* ScenesManager::getCurrentScene() {
 
 void ScenesManager::setGameObjectController(GameObject *controller) {
 	mGameObjectController = controller;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

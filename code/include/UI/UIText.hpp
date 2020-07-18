@@ -15,10 +15,9 @@ class UIText: public UIElement {
 
 public:
 
-	DE_CLASS(UIText, UIElement)
-	;
+	DE_CLASS(UIText, UIElement);
 
-	void setText(const std::string &text);
+	virtual void setText(const std::string &text) override;
 
 	void setLayer(u32 layer) {
 		mLayer = layer;

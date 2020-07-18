@@ -16,8 +16,7 @@ private:
 	List<Script*>* mScripts;
 	void internalRemoveScript(const Iterator *it);
 
-public:DE_CLASS(ScriptEngine, DE_Class)
-	;
+public:DE_CLASS(ScriptEngine, DE_Class);
 
 	void init();
 	void addScript(Script *newScript);

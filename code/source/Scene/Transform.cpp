@@ -9,8 +9,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Transform::Transform() :
-		Component() {
+Transform::Transform() : Component() {
 	// mModelMatrix = nullptr;
 	// mTranslationMatrix = nullptr;
 	// mRotationMatrix = nullptr;
@@ -73,14 +72,12 @@ void Transform::setLocalPosition(const Vector3 &vector) {
 void Transform::setRotation(const Vector3 &vector) {
 	mIsDirtyRotation = true;
 	mRotation = vector;
-}
-;
+};
 
 void Transform::setScale(const Vector3 &vector) {
 	mIsDirtyScale = true;
 	mScale = vector;
-}
-;
+};
 
 const Vector3& Transform::getWorldPosition() {
 
@@ -96,8 +93,7 @@ const Vector3& Transform::getWorldPosition() {
 	}
 
 	return mWorldPosition;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -106,8 +102,7 @@ void Transform::translate(const Vector3 &vector) {
 		mIsDirtyTranslation = true;
 		mLocalPosition.add(vector);
 	}
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -116,8 +111,7 @@ void Transform::rotate(const Vector3 &vector) {
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

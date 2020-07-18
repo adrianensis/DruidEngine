@@ -6,8 +6,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Component::Component() :
-		DE_Class() {
+Component::Component() : DE_Class() {
 	mGameObject = nullptr;
 	mIsActive = true;
 	mIsDestroyed = false;

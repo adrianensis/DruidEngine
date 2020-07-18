@@ -10,8 +10,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-GameObject::GameObject() :
-		DE_Class() {
+GameObject::GameObject() : DE_Class() {
 	mComponentsMap = nullptr;
 	mTransform = nullptr;
 	mScene = nullptr;
@@ -87,8 +86,7 @@ void GameObject::setIsActive(bool isActive) {
 			itComponent.get()->setIsActive(isActive);
 		}
 	}
-}
-;
+};
 
 void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
@@ -105,8 +103,7 @@ void GameObject::destroy() {
 			removeComponent(itComponent.get(), id);
 		}
 	}
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

@@ -22,8 +22,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UI::UI() :
-		DE_Class(), Singleton() {
+UI::UI() : DE_Class(), Singleton() {
 	mButtonTexture = nullptr;
 	mButtonMaterial = nullptr;
 	mFontTexture = nullptr;
@@ -38,7 +37,7 @@ UI::~UI() = default;
 UIButton* UI::createButton(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer) {
 
 	if (!mButtonMaterial) {
-		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.bmp");
+		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.png");
 	}
 
 	UIButton* uiButton = Memory::allocate<UIButton>();
@@ -101,6 +100,53 @@ UIText* UI::createText(Scene *scene, const Vector2 &position, const Vector2 &siz
 	uiText->setComponentsCache();
 
 	uiText->setIsStatic(true);
+
+	scene->addGameObject(uiText);
+
+	mUIElements->pushBack(uiText);
+
+	return uiText;
+}
+
+// ---------------------------------------------------------------------------
+
+UIText* UI::createTextBox(Scene *scene, const Vector2 &position, const Vector2 &size, const std::string &text, u32 layer) {
+
+	if (!mFontMaterial) {
+		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
+	}
+
+	UIText* uiText = Memory::allocate<UIText>();
+	uiText->init();
+
+	Vector2 aspectRatioCorrectedPosition = Vector2(position.x / RenderContext::getAspectRatio(), position.y);
+
+	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiText->getTransform()->setScale(Vector3(size.x / RenderContext::getAspectRatio(), size.y, 1));
+
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
+	uiText->addComponent<RigidBody>(rigidBody);
+	rigidBody->setSimulate(false);
+
+	f32 width = size.x * text.length() / RenderContext::getAspectRatio();
+	Collider* collider = Memory::allocate<Collider>();
+	uiText->addComponent<Collider>(collider);
+	collider->setSize(width, size.y);
+	collider->setPositionOffset(Vector3(width/2.0f,0,0));
+	collider->getBoundingBox();
+
+	uiText->setSize(size);
+	uiText->setLayer(layer);
+	uiText->setText(text);
+
+	uiText->setComponentsCache();
+
+	uiText->setIsStatic(true);
+
+	uiText->setOnPressedCallback([self = uiText]() {
+		Input::setInputCharReceiver(self);
+		self->setText("");
+	});
 
 	scene->addGameObject(uiText);
 
@@ -298,8 +344,7 @@ void UI::step() {
 
 		bool pressed = false;
 
-		FOR_LIST_COND(it, mUIElements, !pressed)
-		{
+		FOR_LIST_COND(it, mUIElements, !pressed) {
 
 			UIElement* element = it.get();
 

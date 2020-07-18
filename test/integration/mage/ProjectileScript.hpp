@@ -21,8 +21,7 @@ private:
 
 public:
 
-	DE_CLASS(ProjectileScript, Script)
-	;
+	DE_CLASS(ProjectileScript, Script);
 
 	void init() override;
 	void firstStep() override;

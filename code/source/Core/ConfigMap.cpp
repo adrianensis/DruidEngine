@@ -10,8 +10,7 @@ std::string ConfigMap::falseString = "false";
 
 // ---------------------------------------------------------------------------
 
-ConfigMap::ConfigMap() :
-		DE_Class() {
+ConfigMap::ConfigMap() : DE_Class() {
 	mMap = nullptr;
 }
 

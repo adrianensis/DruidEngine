@@ -9,8 +9,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Camera::Camera() :
-		Component() {
+Camera::Camera() : Component() {
 	// mProjectionMatrix = nullptr;
 	// mViewTranslationMatrix = nullptr;
 	// mInversePVMatrix = nullptr;
@@ -36,8 +35,7 @@ void Camera::init() {
 
 	mFrustum = Memory::allocate<Frustum>();
 	mFrustum->init(this);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -66,8 +64,7 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -79,15 +76,13 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 const Matrix4& Camera::getProjectionMatrix() const {
 	return mProjectionMatrix;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -97,13 +92,11 @@ const Matrix4& Camera::getViewTranslationMatrix() {
 	mViewTranslationMatrix.translation(position * -1);
 
 	return mViewTranslationMatrix;
-}
-;
+};
 
 const Matrix4& Camera::getViewRotationMatrix() {
 	return getGameObject()->getTransform()->getRotationMatrix();
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

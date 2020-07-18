@@ -18,8 +18,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Renderer::Renderer() :
-		Component() {
+Renderer::Renderer() : Component() {
 	mMesh = nullptr;
 	mMaterial = nullptr;
 	mAnimations = nullptr;
@@ -91,8 +90,7 @@ void Renderer::setAnimation(const std::string &name) {
 			mCurrentAnimation = mAnimations->get(name);
 		}
 	}
-}
-;
+};
 
 //----------------------------------------------------------------------
 
@@ -103,8 +101,7 @@ void Renderer::addAnimation(const std::string &name, Animation *animation) {
 	}
 
 	mAnimations->set(name, animation);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -135,16 +132,14 @@ void Renderer::updateMaterial(Material *material) {
 			shader->addFloat(1.0f, "animationSize");
 		}
 	}
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Renderer::setPositionOffset(Vector3 newPositionOffset) {
 	mPositionOffset = newPositionOffset;
 	mPositionOffsetMatrix.translation(mPositionOffset);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -157,30 +152,27 @@ void Renderer::setColor(const Vector4 &color) {
 	mColor->set(1, color.y);
 	mColor->set(2, color.z);
 	mColor->set(3, color.w);
-}
-;
+};
 bool Renderer::isLineMode() {
 	return mLineMode;
 }
 
 void Renderer::setChunk(Chunk *chunk) {
 	mChunk = chunk;
-}
-;
+};
 Chunk* Renderer::getChunk() {
 	return mChunk;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Renderer::renderCollider() {
 
-	if (mIsAffectedByProjection) {
+	///if (mIsAffectedByProjection) {
 		List<Collider*>* colliders = getGameObject()->getComponents<Collider>();
 
 		if (colliders && !colliders->isEmpty()) {
-			Array<Vector2>* box = colliders->get(0)->getBoundingBox();
+			Array<Vector2>* box = colliders->get(0)->getBoundingBox(true);
 
 			f32 lineSize = 1;
 
@@ -189,7 +181,7 @@ void Renderer::renderCollider() {
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), lineSize, mIsAffectedByProjection);
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), lineSize, mIsAffectedByProjection);
 		}
-	}
+	//}
 }
 
 // ---------------------------------------------------------------------------

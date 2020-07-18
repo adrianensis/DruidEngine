@@ -71,8 +71,7 @@ private:
 
 public:
 
-	DE_CLASS(Batch, DE_Class)
-	;
+	DE_CLASS(Batch, DE_Class);
 
 	void init(const Mesh *mesh, Material *material);
 	void bind();

@@ -39,23 +39,9 @@
 
 namespace DE {
 
-const std::string MapEditor::MapEditorUI::StringsUI::smLayer = "Layer";
-const std::string MapEditor::MapEditorUI::StringsUI::smTile = "Tile";
-const std::string MapEditor::MapEditorUI::StringsUI::smZoom = "Zoom";
-const std::string MapEditor::MapEditorUI::StringsUI::smBrush = "Brush";
-const std::string MapEditor::MapEditorUI::StringsUI::smSave = "Save";
-const std::string MapEditor::MapEditorUI::StringsUI::smCollider = "Collider";
-const std::string MapEditor::MapEditorUI::StringsUI::smAtlas = "Atlas";
-const std::string MapEditor::MapEditorUI::StringsUI::smPlay = "Play";
-const std::string MapEditor::MapEditorUI::StringsUI::smInspectorTileX = "x:";
-const std::string MapEditor::MapEditorUI::StringsUI::smInspectorTileY = "y:";
-const std::string MapEditor::MapEditorUI::StringsUI::smInspectorTileCollider = "collider:";
-const std::string MapEditor::MapEditorUI::StringsUI::smInspectorTileTag = "tag:";
-
 // ---------------------------------------------------------------------------
 
-MapEditor::CellData::CellData() :
-		DE_Class() {
+MapEditor::CellData::CellData() : DE_Class() {
 
 }
 
@@ -101,8 +87,7 @@ GameObject* MapEditor::CellData::get(u32 layer) {
 
 // ---------------------------------------------------------------------------
 
-MapEditor::Brush::Brush() :
-		DE_Class() {
+MapEditor::Brush::Brush() : DE_Class() {
 
 }
 
@@ -114,23 +99,44 @@ MapEditor::Brush::~Brush() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::Brush::init() {
+void MapEditor::Brush::init(MapEditor* mapEditor) {
+
+	mMapEditor = mapEditor;
+
 	if(mGrid) free();
 
 	mGrid = Memory::allocate<Array<GameObject*>>();
-	mGrid->init(mMaxSize);
+	mGrid->init(mMaxGridSize);
+
+	Vector2 size(mMapEditor->mGridTileSize / 2.0f, mMapEditor->mGridTileSize / 2.0f);
+
+	mBrushCursor = Memory::allocate<GameObject>();
+	mBrushCursor->init();
+
+	mBrushCursor->getTransform()->setLocalPosition(Vector3(0, 0, 0));
+	mBrushCursor->getTransform()->setScale(Vector3(size.x, size.y, 1));
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	mBrushCursor->addComponent<Renderer>(renderer);
+
+	renderer->setLayer(mMapEditor->mMapEditorUI.mUILayer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(mMapEditor->mMaterial);
+
+	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
 }
 
 // ---------------------------------------------------------------------------
 
 GameObject* MapEditor::Brush::getTile(u32 i, u32 j){
-	return mGrid->get(i * mSize.x + j);
+	return mGrid->get(i * mGridSize.x + j);
 }
 
 // ---------------------------------------------------------------------------
 
 void MapEditor::Brush::addTile(GameObject* tile, Vector2 atlasPosition){
-	if(mLastIndex < mMaxSize){
+	if(mLastIndex < mMaxGridSize){
 
 		// If it's the first selected tile, take it as coordinates origin.
 		if(! mGrid->get(0)){
@@ -145,11 +151,11 @@ void MapEditor::Brush::addTile(GameObject* tile, Vector2 atlasPosition){
 		VAR(f32, distance.x);
 		VAR(f32, distance.y);
 
-		mSize.x = std::max(mSize.x,distance.x + 1);
-		mSize.y = std::max(mSize.y,distance.y + 1);
+		mGridSize.x = std::max(mGridSize.x,distance.x + 1);
+		mGridSize.y = std::max(mGridSize.y,distance.y + 1);
 
-		VAR(f32, mSize.x);
-		VAR(f32, mSize.y);
+		VAR(f32, mGridSize.x);
+		VAR(f32, mGridSize.y);
 
 		mGrid->set(mLastIndex,tile);
 		mLastIndex++;
@@ -174,286 +180,21 @@ void MapEditor::Brush::clear(){
 	}
 
 	mLastIndex = 0;
-	mSize = Vector2(1,1);
+	mGridSize = Vector2(1,1);
 	mOriginAtlasPosition = Vector2(0,0);
 	mGrid->clear();
 }
 
 // ---------------------------------------------------------------------------
 
-MapEditor::MapEditorUI::MapEditorUI(){
-
-}
-
-MapEditor::MapEditorUI::~MapEditorUI(){
-	Memory::free<Array<UIButton*>>(mAtlasButtons);
+void MapEditor::Brush::setDrawTileSize(f32 size) {
+	mDrawTileSize = size;
+	mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
 }
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::MapEditorUI::init(MapEditor *mapEditor) {
-	mMapEditor = mapEditor;
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::createMenuBarUI() {
-
-	Scene* scene = mMapEditor->getGameObject()->getScene();
-
-	u32 i = 1;
-	f32 baseX = -1.3f;
-	f32 baseY = 0.9f;
-	f32 sizeChar = 0.045f;
-	f32 separatorSize = 0.01f;
-
-	std::string str = StringsUI::smSave;
-	f32 sizeButtonAccumulated = 0;
-	f32 sizeLastButton = 0;
-	f32 sizeButton = sizeChar * str.length();
-	UIButton* button = UI::getInstance()->createButton(scene, Vector2(baseX, baseY), Vector2(sizeButton, 0.1f), mUILayer);
-	button->setLabel(str);
-	i++;
-	button->setOnPressedCallback([&, self = button]() {
-		self->getScene()->saveScene(self->getScene()->getPath());
-	});
-	sizeButtonAccumulated = sizeButton/2.0f;
-
-	str = StringsUI::smCollider;
-	sizeButton = sizeChar * str.length();
-	button = UI::getInstance()->createButton(scene, Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), mUILayer);
-	button->setLabel(str);
-	i++;
-	button->setOnPressedCallback([&, self = button]() {
-		RenderEngine::getInstance()->setDebugColliders(!RenderEngine::getInstance()->getDebugColliders());
-
-	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
-
-	str = StringsUI::smAtlas;
-	sizeButton = sizeChar * str.length();
-	button = UI::getInstance()->createButton(scene, Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), mUILayer);
-	button->setLabel(str);
-	i++;
-	button->setOnPressedCallback([&, self = button, mapEditorUI = this]() {
-		mapEditorUI->toggleAtlasUI();
-	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
-
-
-	str = StringsUI::smPlay;
-	sizeButton = sizeChar * str.length();
-	button = UI::getInstance()->createButton(scene, Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), mUILayer);
-	button->setLabel(str);
-	i++;
-	button->setOnPressedCallback([&, self = button]() {
-		if (! mMapEditor->mPlayer) {
-			 mMapEditor->createPlayer();
-		}
-
-		 mMapEditor->switchCameraControl();
-	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::createInspectorUI() {
-
-	Scene* scene = mMapEditor->getGameObject()->getScene();
-
-	u32 i = 0;
-	f32 baseX = 0.85f;
-	f32 baseY = 0.9f;
-	f32 separatorSize = 0.05f;
-	f32 size = 0.2f;
-
-	mTextInspectorTag = UI::getInstance()->createText(scene, Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileTag, mUILayer);
-	i++;
-	mTextInspectorX = UI::getInstance()->createText(scene, Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileX + "0.000000", mUILayer);
-	i++;
-	mTextInspectorY = UI::getInstance()->createText(scene, Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileY + "0.000000", mUILayer);
-	i++;
-	mTextInspectorCollider = UI::getInstance()->createText(scene, Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileCollider, mUILayer);
-	//UIButton* button;
-	f32 buttonSize = 0.15f;
-	mButtonInspectorCollider = UI::getInstance()->createButton(scene, Vector2(1.3f, baseY - separatorSize * i), Vector2(buttonSize, 0.05f), mUILayer);
-	mButtonInspectorCollider->setLabel("[ ]");
-	mButtonInspectorCollider->setOnPressedCallback([&, self = mButtonInspectorCollider, mapEditor = mMapEditor]() {
-		if(mapEditor->mTile){
-			List<Collider*>* colliders = mapEditor->mTile->getComponents<Collider>();
-
-			if(colliders && !colliders->isEmpty()) {
-				mapEditor->mTile->removeComponent<Collider>(colliders->get(0));
-				mapEditor->mTile->removeComponent<RigidBody>(mapEditor->mTile->getComponents<RigidBody>()->get(0));
-				self->setLabel("[ ]");
-			} else {
-				mapEditor->addColliderToTile(mapEditor->mTile);
-				self->setLabel("[X]");
-			}
-		}
-	});
-
-	i++;
-//
-//	button = UI::getInstance()->createButton(scene, Vector2(x, 0.75f), Vector2(size*i, 0.1f), mUILayer);
-//	button->setLabel("Collider");
-//	i++;
-//	button->setOnPressedCallback([&, self = button]() {
-//		RenderEngine::getInstance()->setDebugColliders(!RenderEngine::getInstance()->getDebugColliders());
-//	});
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::createAtlasUI() {
-
-	f32 tileSize = 0.07f;
-
-	Vector2 screenOffset = Vector2(-1.0f, 0.0f);
-
-	Vector2 atlasSize = Vector2(8, 16);
-	Vector2 atlasTextureSize = Vector2(1.0f / atlasSize.x, 1.0f / atlasSize.y);
-
-	mAtlasButtons = Memory::allocate<Array<UIButton*>>();
-	mAtlasButtons->init(atlasSize.x*atlasSize.y);
-
-	FOR_RANGE(i, 0, atlasSize.x)
-	{
-		FOR_RANGE(j, 0, atlasSize.y)
-		{
-			UIButton* tile = UI::getInstance()->createButton(mMapEditor->getGameObject()->getScene(),
-					Vector2((i - (atlasSize.x / 2.0f)) * tileSize + screenOffset.x,
-							((atlasSize.y / 2.0f) - j) * tileSize - screenOffset.y), Vector2(tileSize, tileSize), mUILayer);
-
-			Renderer* renderer = tile->getRenderer();
-			renderer->setMaterial(mMapEditor->mMaterial);
-			renderer->setRegion(i / atlasSize.x, j / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
-			//renderer->setLayer(2);
-
-			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j]() {
-				Renderer* buttonRenderer = self->getRenderer();
-				mapEditor->mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
-						buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
-						buttonRenderer->getRegionSize().y);
-
-				Vector2 atlasPosition = Vector2(i, j);
-
-				if((mapEditor->mBrush.mLastIndex < mapEditor->mBrush.mMaxSize) &&
-						Input::isModifierPressed(GLFW_MOD_CONTROL)){
-					mapEditor->mBrush.addTile(self, atlasPosition);
-				} else {
-					mapEditor->mBrush.clear();
-					mapEditor->mBrush.addTile(self, atlasPosition);
-				}
-
-				mapEditor->mIsPaintMode = true;
-			});
-
-			mAtlasButtons->set(i*atlasSize.y + j, tile);
-		}
-	}
-
-	f32 atlasBackgroundMargin = 0.1f;
-
-	mAtlasBackground = Memory::allocate<GameObject>();
-	mAtlasBackground->init();
-
-	mAtlasBackground->setShouldPersist(false);
-
-	mAtlasBackground->getTransform()->setLocalPosition(Vector3((-tileSize/2.0f + screenOffset.x) / RenderContext::getAspectRatio(), tileSize/2.0f + screenOffset.y, 0));
-	mAtlasBackground->getTransform()->setScale(
-			Vector3((atlasSize.x * tileSize + atlasBackgroundMargin) / RenderContext::getAspectRatio(),
-					atlasSize.y * tileSize + atlasBackgroundMargin, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	mAtlasBackground->addComponent<Renderer>(renderer);
-
-	renderer->setLayer(mUILayer);
-	renderer->setAffectedByProjection(false);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadMaterial("resources/button.bmp"));
-	//renderer->setColor(Vector4(0,0,0,1));
-
-	mMapEditor->getGameObject()->getScene()->addGameObject(mAtlasBackground);
-
-	toggleAtlasUI();
-}
-
-
-// ---------------------------------------------------------------------------
-
-
-void MapEditor::MapEditorUI::createUI() {
-
-	Scene* scene = mMapEditor->getGameObject()->getScene();
-	mTextBrush = UI::getInstance()->createText(scene, Vector2(-1.3f, -0.8f), mTextSize, StringsUI::smBrush + " 0",
-			mUILayer);
-	mTextLayer = UI::getInstance()->createText(scene, Vector2(-1.3f, -0.85f), mTextSize, StringsUI::smLayer + " 0",
-			mUILayer);
-	mTextTile = UI::getInstance()->createText(scene, Vector2(-1.3f, -0.9f), mTextSize, StringsUI::smTile, mUILayer);
-
-	// mButtons = Memory::allocate<List<UIButton*>>();
-	// mButtons->init();
-
-	createMenuBarUI();
-	createInspectorUI();
-	createAtlasUI();
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::updateUI() {
-	//mTextBrush->setText(StringsUI::smBrush + " " + std::to_string(mMapEditor->mBrush.mGridSize));
-	mTextLayer->setText(StringsUI::smLayer + " " + std::to_string(mMapEditor->mLayer));
-
-	/*Renderer* brushRenderer = mMapEditor->mBrush->getComponents<Renderer>()->get(0);
-
-	std::string strTile = StringsUI::mTile;
-	strTile += " ";
-	strTile += std::to_string(brushRenderer->getRegionPosition().x).substr(0, 6);
-	strTile += ",";
-	strTile += std::to_string(brushRenderer->getRegionPosition().y).substr(0, 6);
-
-	mTextTile->setText(strTile);*/
-
-	updateInspectorUI();
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::updateInspectorUI() {
-
-	if(mMapEditor->mTile){
-		mTextInspectorTag->setText(StringsUI::smInspectorTileTag + mMapEditor->mTile->getTag());
-		mTextInspectorX->setText(StringsUI::smInspectorTileX + std::to_string(mMapEditor->mTile->getTransform()->getLocalPosition().x));
-		mTextInspectorY->setText(StringsUI::smInspectorTileY + std::to_string(mMapEditor->mTile->getTransform()->getLocalPosition().y));
-
-		List<Collider*>* colliders = mMapEditor->mTile->getComponents<Collider>();
-		bool hasCollider = colliders && !colliders->isEmpty();
-
-		mButtonInspectorCollider->setLabel(hasCollider ? "[X]" : "[ ]");
-	}
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::MapEditorUI::toggleAtlasUI(){
-	mIsAtlasShow = !mIsAtlasShow;
-
-	FOR_ARRAY(i, mAtlasButtons){
-		mAtlasButtons->get(i)->getRenderer()->setIsActive(mIsAtlasShow);
-		mAtlasButtons->get(i)->getCollider()->setIsActive(mIsAtlasShow);
-	}
-
-	mAtlasBackground->getComponents<Renderer>()->get(0)->setIsActive(mIsAtlasShow);
-}
-
-// ---------------------------------------------------------------------------
-
-MapEditor::MapEditor() :
-		Script() {
+MapEditor::MapEditor() : Script() {
 
 }
 
@@ -511,39 +252,21 @@ void MapEditor::createPlayer() {
 
 void MapEditor::resetBrush() {
 	mIsPaintMode = false;
-	mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(0, 0, 1, 1);
+	mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
 
 // ---------------------------------------------------------------------------
 
 void MapEditor::createBrush() {
-	Vector2 size(mTileSize / 2.0f, mTileSize / 2.0f);
-
-	mBrushCursor = Memory::allocate<GameObject>();
-	mBrushCursor->init();
-
-	mBrushCursor->getTransform()->setLocalPosition(Vector3(0, 0, 0));
-	mBrushCursor->getTransform()->setScale(Vector3(size.x, size.y, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	mBrushCursor->addComponent<Renderer>(renderer);
-
-	renderer->setLayer(mMapEditorUI.mUILayer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mMaterial);
-
-	getGameObject()->getScene()->addGameObject(mBrushCursor);
-
-	mBrush.init(/*1*/);
+	mBrush.init(this);
+	mBrush.setDrawTileSize(mGridTileSize);
 }
 
 // ---------------------------------------------------------------------------
 
 GameObject* MapEditor::createTile(f32 x, f32 y) {
-	// if(mBrush){
-	Vector2 size(mTileSize, mTileSize);
+	Vector2 size(mBrush.mDrawTileSize, mBrush.mDrawTileSize);
 
 	GameObject* tile = Memory::allocate<GameObject>();
 	tile->init();
@@ -559,20 +282,10 @@ GameObject* MapEditor::createTile(f32 x, f32 y) {
 
 	renderer->setLayer(mLayer);
 
-	// renderer->setLineMode(true);
-
-//	RigidBody* rigidBody = Memory::allocate<RigidBody>();
-//	tile->addComponent<RigidBody>(rigidBody);
-//
-//	Collider* collider = Memory::allocate<Collider>();
-//	tile->addComponent<Collider>(collider);
-//	collider->setSize(size.x,size.y);
-
 	tile->setIsStatic(true);
 	tile->setShouldPersist(true);
 
 	getGameObject()->getScene()->addGameObject(tile);
-	// }
 
 	return tile;
 }
@@ -582,30 +295,6 @@ GameObject* MapEditor::createTile(f32 x, f32 y) {
 
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
-	mPlayer = nullptr;
-	mTestCreated = false;
-	mMaterial = nullptr;
-
-	mBrushCursor = nullptr;
-	mBrushSize = 0;
-
-	mLayer = 0;
-
-	mCamera = nullptr;
-	mCameraTransform = nullptr;
-
-	mTileIndex = 0;
-
-	mGridSize = 50;
-	mTileSize = 100;
-
-	mTile = nullptr;
-
-	mZoom = 1;
-
-	mCameraControl = true;
-
-	mIsPaintMode = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -636,8 +325,6 @@ void MapEditor::firstStep() {
 	createBrush();
 
 	mMapEditorUI.init(this);
-
-	mMapEditorUI.createUI();
 }
 
 // ---------------------------------------------------------------------------
@@ -647,49 +334,34 @@ void MapEditor::step() {
 	Vector2 mouse(Input::getMousePosition());
 	Vector3 world = mCamera->screenToWorld(mouse);
 
-	Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
+	Vector3 clampedPosition(std::roundf(world.x / mGridTileSize) * mGridTileSize, std::roundf(world.y / mGridTileSize) * mGridTileSize, 0);
 
 	//click(clampedPosition);
-	if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)
+	|| Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 
-		FOR_RANGE(i, 0, mBrush.mSize.y/*mBrush.mGridSize*/){
-			FOR_RANGE(j, 0, mBrush.mSize.x/*mBrush.mGridSize*/){
-				f32 offset = mTileSize;
-				click(clampedPosition + Vector3(offset*j, -offset*i, 0), /*mBrushOLD*/ mBrush.getTile(i, j));
+		FOR_RANGE(i, 0, mBrush.mGridSize.y){
+			FOR_RANGE(j, 0, mBrush.mGridSize.x){
+				f32 offset = mGridTileSize;
+				click(clampedPosition + Vector3(offset*j, -offset*i, 0), mBrush.getTile(i, j));
 			}
 		}
 	}
 
-	if (mBrushCursor)
-		mBrushCursor->getTransform()->setLocalPosition(world);
+	if (mBrush.mBrushCursor)
+		mBrush.mBrushCursor->getTransform()->setLocalPosition(world);
 
 	cameraZoom();
 	processMovement();
 
-	if (Input::isKeyPressedOnce(GLFW_KEY_KP_ADD)) {
-//		if (mBrush.mGridSize < 2){
-//			mBrush.mGridSize++;
-//			mBrush.init(mBrush.mGridSize);
-//		}
-	}
-
-	if (Input::isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)) {
-//		if (mBrush.mGridSize > 1){
-//			mBrush.mGridSize--;
-//			mBrush.init(mBrush.mGridSize);
-//		}
-	}
-
 	if (Input::isKeyPressedOnce(GLFW_KEY_Z)) {
 		if (mLayer < 10)
 			mLayer++;
-		VAR(u32, mLayer)
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_X)) {
 		if (mLayer > 0)
 			mLayer--;
-		VAR(u32, mLayer)
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_ESCAPE)) {
@@ -697,25 +369,25 @@ void MapEditor::step() {
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_TAB)) {
-		mMapEditorUI.toggleAtlasUI();
+		mMapEditorUI.toggleAtlas();
 	}
 
 	if (Input::isKeyPressedOnce(GLFW_KEY_S) && Input::isModifierPressed(GLFW_MOD_CONTROL /*| GLFW_MOD_SHIFT*/)) {
 		getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
 	}
 
-	mMapEditorUI.updateUI();
+	mMapEditorUI.update();
 }
 
 // ---------------------------------------------------------------------------
 
 void MapEditor::click(const Vector3 &clampedPosition, GameObject* brush) {
 
-	f32 halfSize = (mGridSize * mTileSize / 2.0f);
+	f32 halfSize = (mGridSize * mGridTileSize / 2.0f);
 	if (std::fabs(clampedPosition.x) < halfSize && std::fabs(clampedPosition.y) < halfSize) {
 
-		Vector2 gridPosition(clampedPosition.x / mTileSize + mGridSize / 2.0f,
-				clampedPosition.y / mTileSize + mGridSize / 2.0f);
+		Vector2 gridPosition(clampedPosition.x / mGridTileSize + mGridSize / 2.0f,
+				clampedPosition.y / mGridTileSize + mGridSize / 2.0f);
 
 		if (gridPosition.x >= 0 && gridPosition.x < mGridSize && gridPosition.y >= 0 && gridPosition.y < mGridSize) {
 
@@ -743,7 +415,6 @@ void MapEditor::click(const Vector3 &clampedPosition, GameObject* brush) {
 
 void MapEditor::addColliderToTile(GameObject *tile) {
 	if(tile){
-
 		List<RigidBody*>* rigidBodies = tile->getComponents<RigidBody>();
 
 		if(!rigidBodies || (rigidBodies && rigidBodies->isEmpty())){
@@ -763,12 +434,14 @@ void MapEditor::addColliderToTile(GameObject *tile) {
 
 void MapEditor::selectTile(CellData *cellData) {
 	if (cellData->get(mLayer)) {
-		if(mTile){
-			mTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+		if(mSelectedTile && mSelectedTile->isActive()){
+			mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 		}
 
-		mTile = cellData->get(mLayer);
-		mTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
+		mSelectedTile = cellData->get(mLayer);
+		mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
+
+		mMapEditorUI.updateInspectorOnSelectTile();
 	}
 }
 
@@ -776,16 +449,16 @@ void MapEditor::selectTile(CellData *cellData) {
 
 void MapEditor::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush) {
 	if(brush){
-		if (!cellData->get(mLayer)) {
-			cellData->addGameObject(createTile(worldPosition.x, worldPosition.y), mLayer);
-		}
+		removeTile(cellData);
 
-		Renderer* renderer = cellData->get(mLayer)->getComponents<Renderer>()->get(0);
+		GameObject* newTile = createTile(worldPosition.x, worldPosition.y);
+		cellData->addGameObject(newTile, mLayer);
+
+		Renderer* renderer = newTile->getComponents<Renderer>()->get(0);
 		Renderer* brushRenderer = brush->getComponents<Renderer>()->get(0);
 
 		renderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y,
 			brushRenderer->getRegionSize().x, brushRenderer->getRegionSize().y);
-				// renderer->setRegion(0, 0, 1, 1);
 	}
 
 }
@@ -797,19 +470,21 @@ void MapEditor::removeTile(CellData *cellData) {
 		getGameObject()->getScene()->removeGameObject(cellData->get(mLayer));
 		cellData->removeGameObject(mLayer);
 	}
+
+	mSelectedTile = nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
 void MapEditor::cameraZoom() {
-f32 scroll = Input::getScroll();
-mZoom += std::fabs(scroll) * 0.5f * Time::getDeltaTimeSeconds();
+	f32 scroll = Input::getScroll();
+	mZoom += std::fabs(scroll) * 0.5f * Time::getDeltaTimeSeconds();
 
-if (scroll == 1) {
-mCamera->setZoom(1.0f / mZoom);
-} else if (scroll == -1) {
-mCamera->setZoom(mZoom);
-}
+	if (scroll == 1) {
+		mCamera->setZoom(1.0f / mZoom);
+	} else if (scroll == -1) {
+		mCamera->setZoom(mZoom);
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -900,8 +575,8 @@ void MapEditor::loadMapIntoGrid() {
 
 			Transform* t = gameObject->getTransform();
 			Vector3 worldPosition(t->getWorldPosition());
-			Vector2 gridPosition(worldPosition.x / mTileSize + mGridSize / 2.0f,
-					worldPosition.y / mTileSize + mGridSize / 2.0f);
+			Vector2 gridPosition(worldPosition.x / mGridTileSize + mGridSize / 2.0f,
+					worldPosition.y / mGridTileSize + mGridSize / 2.0f);
 
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 			cellData->addGameObject(gameObject, gameObject->getComponents<Renderer>()->get(0)->getLayer());
@@ -923,10 +598,6 @@ void MapEditor::terminate() {
 	}
 
 	Memory::free<Array<Array<CellData*>*>>(mGrid);
-
-			// Memory::free<List<UIButton*>>(mButtons);
-
-	//Memory::free<MapEditorUI>(mInfoBarUI);
 }
 
 // ---------------------------------------------------------------------------

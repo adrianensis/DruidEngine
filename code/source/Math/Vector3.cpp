@@ -6,30 +6,24 @@
 
 namespace DE {
 
-Vector3::Vector3(f32 x, f32 y, f32 z) :
-		DE_Class(), x(x), y(y), z(z) {
+Vector3::Vector3(f32 x, f32 y, f32 z) : DE_Class(), x(x), y(y), z(z) {
 }
 
-Vector3::Vector3() :
-		DE_Class(), x(0.0f), y(0.0f), z(0.0f) {
+Vector3::Vector3() : DE_Class(), x(0.0f), y(0.0f), z(0.0f) {
 }
 
 Vector3::~Vector3() = default;
 
-Vector3::Vector3(const Vector3 &other) :
-		DE_Class(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector3 &other) : DE_Class(), x(other.x), y(other.y), z(other.z) {
 }
 
-Vector3::Vector3(const Vector2 &other) :
-		DE_Class(), x(other.x), y(other.y), z(0.0f) {
+Vector3::Vector3(const Vector2 &other) : DE_Class(), x(other.x), y(other.y), z(0.0f) {
 }
 
-Vector3::Vector3(const Vector2 &other, f32 z) :
-		DE_Class(), x(other.x), y(other.y), z(z) {
+Vector3::Vector3(const Vector2 &other, f32 z) : DE_Class(), x(other.x), y(other.y), z(z) {
 }
 
-Vector3::Vector3(const Vector4 &other) :
-		DE_Class(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector4 &other) : DE_Class(), x(other.x), y(other.y), z(other.z) {
 }
 
 Vector3& Vector3::set(f32 x, f32 y, f32 z) {

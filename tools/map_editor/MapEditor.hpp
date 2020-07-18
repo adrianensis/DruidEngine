@@ -3,6 +3,7 @@
 
 #include "Script.hpp"
 #include "Vector2.hpp"
+#include "MapEditorUI.hpp"
 #include <string>
 
 namespace DE {
@@ -25,8 +26,7 @@ class MapEditor: public Script {
 private:
 
 	class CellData: public DE_Class {
-	public:
-		DE_CLASS(CellData, DE_Class);
+	public: DE_CLASS(CellData, DE_Class);
 
 		GameObject* tile = nullptr;
 		Array<GameObject*>* layers = nullptr;
@@ -37,113 +37,49 @@ private:
 	};
 
 	class Brush: public DE_Class {
-	private:
+	private: Array<GameObject*>* mGrid = nullptr;
+		Vector2 mOriginAtlasPosition = Vector2(0,0);
+
 		void free();
 
-	public:
+	public: f32 mDrawTileSize = 100;
+		u32 mLastIndex = 0;
+		u32 mMaxGridSize = 16;
+		Vector2 mGridSize = Vector2(1,1);
+		GameObject* mBrushCursor = nullptr;
+		MapEditor* mMapEditor = nullptr;
+
 		DE_CLASS(Brush, DE_Class);
 
-		void init();
-
-		u32 mMaxSize = 20;
-		Vector2 mSize = Vector2(1,1);
-		Vector2 mOriginAtlasPosition = Vector2(0,0);
-		u32 mLastIndex = 0;
-		Array<GameObject*>* mGrid = nullptr;
-
+		void init(MapEditor* mapEditor);
 		void addTile(GameObject* tile, Vector2 atlasPosition);
 		GameObject* getTile(u32 i, u32 j);
 		void clear();
+		void setDrawTileSize(f32 size);
 	};
 
-	u32 mGridSize;
-	Array<Array<CellData*>*>* mGrid;
+	u32 mGridSize = 50; // TODO : move to settings
+	Array<Array<CellData*>*>* mGrid = nullptr;
 
-	Transform* mTransform;
-	Camera* mCamera;
-	Transform* mCameraTransform;
+	Transform* mTransform = nullptr;
+	Camera* mCamera = nullptr;
+	Transform* mCameraTransform = nullptr;
 
-	Material* mMaterial;
-
-	bool mTestCreated;
-	u32 mTileIndex;
-	f32 mTileSize;
-
-	bool mCameraControl;
-
-	class MapEditorUI : public DE_Class{
-
-	private:
-
-		class StringsUI {
-		public:
-			static const std::string smLayer;
-			static const std::string smTile;
-			static const std::string smZoom;
-			static const std::string smBrush;
-			static const std::string smSave;
-			static const std::string smCollider;
-			static const std::string smAtlas;
-			static const std::string smPlay;
-			static const std::string smInspectorTileX;
-			static const std::string smInspectorTileY;
-			static const std::string smInspectorTileCollider;
-			static const std::string smInspectorTileTag;
-		};
-
-		Array<UIButton*>* mAtlasButtons = nullptr;
-		bool mIsAtlasShow = true;
-		GameObject* mAtlasBackground = nullptr;
-
-		MapEditor* mMapEditor;
-
-		UIText* mTextLayer = nullptr;
-		UIText* mTextTile = nullptr;
-		UIText* mTextZoom = nullptr;
-		UIText* mTextBrush = nullptr;
-
-		UIText* mTextInspectorTag = nullptr;
-		UIText* mTextInspectorX = nullptr;
-		UIText* mTextInspectorY = nullptr;
-		UIText* mTextInspectorCollider = nullptr;
-
-		UIButton* mButtonInspectorCollider = nullptr;
-
-		Vector2 mTextSize = Vector2(0.045f, 0.045f);
-
-	public:
-
-		DE_CLASS(MapEditorUI, DE_Class);
-
-		u32 mUILayer = 3;
-
-		void init(MapEditor *mapEditor);
-
-		void createUI();
-		void createMenuBarUI();
-		void createInspectorUI();
-		void createAtlasUI();
-
-		void updateUI();
-		void updateInspectorUI();
-
-		void toggleAtlasUI();
-	};
-
-	MapEditorUI mMapEditorUI;
+	bool mCameraControl = true;
 
 public:
 
-	u32 mBrushSize;
-	u32 mLayer;
-	f32 mZoom;
-	GameObject* mPlayer;
-	GameObject* mTile;
+	u32 mLayer = 0;
+	f32 mZoom = 1;
+	GameObject* mPlayer = nullptr;
+	GameObject* mSelectedTile = nullptr;
+	MapEditorUI mMapEditorUI;
+	Material* mMaterial = nullptr;
+	f32 mGridTileSize = 100; // TODO : move to settings
 
 	Brush mBrush;
 
-	GameObject* mBrushCursor;
-	bool mIsPaintMode;
+	bool mIsPaintMode = false;
 
 	DE_CLASS(MapEditor, Script);
 

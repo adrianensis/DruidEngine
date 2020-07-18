@@ -54,8 +54,7 @@ void Matrix4::setRows(const Array<f32> &row0, const Array<f32> &row1, const Arra
 	FOR_RANGE(row, 0, 4)
 		FOR_RANGE(col, 0, 4)
 			Matrix4::set(row, col, (*(rows[row]))[col]);
-}
-;
+};
 
 void Matrix4::setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3) {
 	const f32* rows[4] = { row0, row1, row2, row3 };
@@ -63,14 +62,12 @@ void Matrix4::setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f
 	FOR_RANGE(row, 0, 4)
 		FOR_RANGE(col, 0, 4)
 			Matrix4::set(row, col, rows[row][col]);
-}
-;
+};
 
 void Matrix4::setRows(u32 n) {
 	FOR_RANGE(i, 0, 4*4)
 		mData[i] = n;
-}
-;
+};
 
 void Matrix4::setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3) {
 	Vector4 rows[4] = { row0, row1, row2, row3 };
@@ -78,64 +75,52 @@ void Matrix4::setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &r
 	FOR_RANGE(row, 0, 4)
 		FOR_RANGE(col, 0, 4)
 			Matrix4::set(row, col, rows[row][col]);
-}
-;
+};
 
-Matrix4::Matrix4() :
-		DE_Class() {
+Matrix4::Matrix4() : DE_Class() {
 }
 
 Matrix4::~Matrix4() = default;
 
 void Matrix4::init(u32 n) {
 	Matrix4::setRows(n);
-}
-;
+};
 
 void Matrix4::init(const Matrix4 &other) {
 	Matrix4::init(other.mData); //TRACE()
-}
-;
+};
 
 void Matrix4::init(Array<f32> &data) {
 	memcpy(mData, &data[0], 16 * sizeof(f32));
-}
-;
+};
 
 void Matrix4::init(const Array<f32> &row0, const Array<f32> &row1, const Array<f32> &row2, const Array<f32> &row3) {
 	Matrix4::setRows(row0, row1, row2, row3);
-}
-;
+};
 
 void Matrix4::init(const f32 *data) {
 	memcpy(mData, data, 16 * sizeof(f32));
-}
-;
+};
 
 void Matrix4::init(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3) {
 	Matrix4::setRows(row0, row1, row2, row3);
-}
-;
+};
 
 void Matrix4::init(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3) {
 	Matrix4::setRows(row0, row1, row2, row3);
-}
-;
+};
 
 const f32* Matrix4::getData() const {
 	return mData;
-}
-;
+};
 
 f32 Matrix4::get(u8 row, u8 col) const {
 	return mData[row + (4 * col)];
-}
-;
+};
 
 void Matrix4::set(u8 row, u8 col, f32 value) {
 	mData[row + (4 * col)] = value;
-}
-;
+};
 
 void Matrix4::transpose() {
 	Matrix4 copy;
@@ -144,8 +129,7 @@ void Matrix4::transpose() {
 	FOR_RANGE(row, 0, 4)
 		FOR_RANGE(col, 0, 4)
 			this->set(col, row, copy.get(row, col));
-}
-;
+};
 
 void Matrix4::invert() {
 	f32 tmp_0 = this->get(2, 2) * this->get(3, 3);
@@ -244,8 +228,7 @@ void Matrix4::invert() {
 	set(3, 1, out_31);
 	set(3, 2, out_32);
 	set(3, 3, out_33);
-}
-;
+};
 
 void Matrix4::mul(const Matrix4 &other) {
 	Matrix4 copy;
@@ -257,8 +240,7 @@ void Matrix4::mul(const Matrix4 &other) {
 		FOR_RANGE (j, 0, 4)
 			FOR_RANGE (k, 0, 4)
 				this->set(i, j, this->get(i, j) + copy.get(i, k) * other.get(k, j));
-}
-;
+};
 
 Vector4 Matrix4::mulVector(const Vector4 &vector) {
 	Vector4 result(0, 0, 0, 0);
@@ -271,13 +253,11 @@ Vector4 Matrix4::mulVector(const Vector4 &vector) {
 	}
 
 	return result;
-}
-;
+};
 
 void Matrix4::zeros() {
 	this->init((u32) 0.0f);
-}
-;
+};
 
 void Matrix4::identity() {
 	this->init((u32) 0.0f);
@@ -285,16 +265,14 @@ void Matrix4::identity() {
 	this->set(1, 1, 1.0f);
 	this->set(2, 2, 1.0f);
 	this->set(3, 3, 1.0f);
-}
-;
+};
 
 void Matrix4::translation(const Vector3 &vector) {
 	this->identity();
 	this->set(0, 3, vector.x);
 	this->set(1, 3, vector.y);
 	this->set(2, 3, vector.z);
-}
-;
+};
 
 void Matrix4::rotation(const Vector3 &vector) {
 
@@ -328,16 +306,14 @@ void Matrix4::rotation(const Vector3 &vector) {
 		this->set(1, 1, cos);
 	}
 
-}
-;
+};
 
 void Matrix4::scale(const Vector3 &vector) {
 	this->identity();
 	this->set(0, 0, vector.x);
 	this->set(1, 1, vector.y);
 	this->set(2, 2, vector.z);
-}
-;
+};
 
 void Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	this->identity();
@@ -347,8 +323,7 @@ void Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
 	this->set(1, 3, -((top + bottom) / (top - bottom)));
 	this->set(2, 2, -2.0f / (far - near));
 	this->set(2, 3, -((far + near) / (far - near)));
-}
-;
+};
 
 void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	f32 top = near * tanf((fov / 2) * MathUtils::PI_180);
@@ -364,7 +339,6 @@ void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	this->set(2, 2, (-(far + near)) / (far - near));
 	this->set(2, 3, (-2 * far * near) / (far - near));
 	this->set(3, 2, -1.0f);
-}
-;
+};
 
 } /* namespace DE */

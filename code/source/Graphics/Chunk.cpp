@@ -16,8 +16,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-BatchesMap::BatchesMap() :
-		DE_Class() {
+BatchesMap::BatchesMap() : DE_Class() {
 	mBatches = nullptr;
 }
 
@@ -71,8 +70,7 @@ u32 BatchesMap::render(u32 layer) {
 
 // ---------------------------------------------------------------------------
 
-Chunk::Chunk() :
-		DE_Class() {
+Chunk::Chunk() : DE_Class() {
 	mLeftTop = Vector2(0, 0);
 	mRadius = 0;
 	mSize = 0;

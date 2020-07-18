@@ -27,8 +27,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Scene::Scene() :
-		DE_Class() {
+Scene::Scene() : DE_Class() {
 	mGameObjects = nullptr;
 }
 

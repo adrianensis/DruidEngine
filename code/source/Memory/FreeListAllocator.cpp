@@ -136,8 +136,7 @@ u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 
 // ---------------------------------------------------------------------------
 
-FreeListAllocator::FreeListAllocator() :
-		Allocator() {
+FreeListAllocator::FreeListAllocator() : Allocator() {
 
 }
 

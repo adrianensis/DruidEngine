@@ -10,8 +10,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Script::Script() :
-		Component() {
+Script::Script() : Component() {
 	mFirstStepDone = false;
 }
 

@@ -7,8 +7,7 @@ namespace DE {
 
 Mesh* Mesh::smRectangle = nullptr;
 
-Mesh::Mesh() :
-		DE_Class() {
+Mesh::Mesh() : DE_Class() {
 
 	mVertexCount = 0;
 	mVertices = nullptr;

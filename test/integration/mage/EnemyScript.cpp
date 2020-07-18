@@ -28,8 +28,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-EnemyScript::EnemyScript() :
-		Script() {
+EnemyScript::EnemyScript() : Script() {
 
 }
 

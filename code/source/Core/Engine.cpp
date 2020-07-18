@@ -30,8 +30,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Engine::Engine() :
-		DE_Class(), Singleton() {
+Engine::Engine() : DE_Class(), Singleton() {
 	mFPS = 60;
 	mRenderEngine = nullptr;
 	mPhysicsEngine = nullptr;

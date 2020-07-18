@@ -11,8 +11,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ScriptEngine::ScriptEngine() :
-		DE_Class(), Singleton() {
+ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
 	mScripts = nullptr;
 }
 

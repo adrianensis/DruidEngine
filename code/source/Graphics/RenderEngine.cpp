@@ -25,8 +25,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::LineRenderer::LineRenderer() :
-		DE_Class() {
+RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
 	mVertices = nullptr;
 	mActive = false;
 }
@@ -74,8 +73,7 @@ void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::RenderEngine() :
-		DE_Class(), Singleton() {
+RenderEngine::RenderEngine() : DE_Class(), Singleton() {
 	mCamera = nullptr;
 	mLineRenderers = nullptr;
 	mLineRendererIndices = nullptr;
@@ -289,9 +287,7 @@ void RenderEngine::terminate() {
 	}
 
 	Memory::free<Array<Chunk*>>(mChunks);
-	//
-	//
-	// Memory::free<Chunk>(mScreenChunk);
+
 	Memory::free<UI>(UI::getInstance());
 }
 
@@ -300,7 +296,10 @@ void RenderEngine::terminate() {
 void RenderEngine::addRenderer(Renderer *renderer) {
 
 	if (renderer->isAffectedByProjection()) {
-		assignChunk(renderer)->addRenderer(renderer);
+		Chunk* chunk = assignChunk(renderer);
+		if(chunk){
+			chunk->addRenderer(renderer);
+		}
 	} else {
 		// UI Case!
 		mBatchesMap->addRenderer(renderer);

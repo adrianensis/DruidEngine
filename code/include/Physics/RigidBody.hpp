@@ -17,8 +17,7 @@ private:
 	bool mSimulate;
 
 	class State {
-	public:
-		Vector3 mPosition;
+	public: Vector3 mPosition;
 		Vector3 mLinear;
 		Vector3 mForceAccumulator;
 		f32 mMass;
@@ -36,8 +35,7 @@ private:
 
 public:
 
-	DE_CLASS(RigidBody, Component)
-	;
+	DE_CLASS(RigidBody, Component);
 
 	void integrate(f32 deltaTime);
 

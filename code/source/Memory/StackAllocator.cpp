@@ -19,8 +19,7 @@ void StackAllocator::storeHeader(const byte *address, u32 size) {
 
 // ---------------------------------------------------------------------------
 
-StackAllocator::StackAllocator() :
-		LinearAllocator() {
+StackAllocator::StackAllocator() : LinearAllocator() {
 
 }
 

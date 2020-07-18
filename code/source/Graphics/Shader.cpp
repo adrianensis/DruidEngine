@@ -14,13 +14,11 @@ Shader* Shader::msShaderDebug = nullptr;
 
 // ---------------------------------------------------------------------------
 
-Shader::Shader() :
-		DE_Class() {
+Shader::Shader() : DE_Class() {
 	mVertexShader = -1;
 	mFragmentShader = -1;
 	mProgram = -1;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -124,8 +122,7 @@ void Shader::initDebug() {
 
 void Shader::use() {
 	glUseProgram(mProgram);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
@@ -133,47 +130,41 @@ void Shader::addMatrix(const Matrix4 &matrix, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Shader::addInt(i32 value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1i(location, value);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Shader::addUInt(u32 value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Shader::addFloat(f32 value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1f(location, value);
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
 void Shader::addVector4(Array<f32> *value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform4fv(location, 1, value->getRawData());
-}
-;
+};
 // ---------------------------------------------------------------------------
 
 void Shader::addVector3(Array<f32> *value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform3fv(location, 1, value->getRawData());
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 

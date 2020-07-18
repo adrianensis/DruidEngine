@@ -14,8 +14,7 @@ class Texture: public DE_Class {
 	byte* mData;
 	std::string mPath;
 
-public:DE_CLASS(Texture, DE_Class)
-	;
+public:DE_CLASS(Texture, DE_Class);
 
 	void init(const std::string &path);
 

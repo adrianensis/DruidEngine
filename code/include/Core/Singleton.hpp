@@ -31,8 +31,7 @@ public:
 template<class T>
 T* Singleton<T>::mInstance = nullptr;
 
-}
-;
+};
 /* namespace DE */
 
 #endif /* DE_SINGLETON_H */

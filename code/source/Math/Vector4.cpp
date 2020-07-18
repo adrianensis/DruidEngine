@@ -4,34 +4,27 @@
 
 namespace DE {
 
-Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) :
-		DE_Class(), x(x), y(y), z(z), w(w) {
+Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : DE_Class(), x(x), y(y), z(z), w(w) {
 }
 
-Vector4::Vector4() :
-		DE_Class(), x(0.0f), y(0.0f), z(0.0f), w(0.0f) {
+Vector4::Vector4() : DE_Class(), x(0.0f), y(0.0f), z(0.0f), w(0.0f) {
 }
 
 Vector4::~Vector4() = default;
 
-Vector4::Vector4(const Vector4 &other) :
-		DE_Class(), x(other.x), y(other.y), z(other.z), w(other.w) {
+Vector4::Vector4(const Vector4 &other) : DE_Class(), x(other.x), y(other.y), z(other.z), w(other.w) {
 }
 
-Vector4::Vector4(const Vector3 &other) :
-		DE_Class(), x(other.x), y(other.y), z(other.z), w(0) {
+Vector4::Vector4(const Vector3 &other) : DE_Class(), x(other.x), y(other.y), z(other.z), w(0) {
 }
 
-Vector4::Vector4(const Vector2 &other) :
-		DE_Class(), x(other.x), y(other.y), z(0), w(0) {
+Vector4::Vector4(const Vector2 &other) : DE_Class(), x(other.x), y(other.y), z(0), w(0) {
 }
 
-Vector4::Vector4(const Vector3 &other, f32 w) :
-		DE_Class(), x(other.x), y(other.y), z(other.z), w(w) {
+Vector4::Vector4(const Vector3 &other, f32 w) : DE_Class(), x(other.x), y(other.y), z(other.z), w(w) {
 }
 
-Vector4::Vector4(const Vector2 &other, f32 z, f32 w) :
-		DE_Class(), x(other.x), y(other.y), z(z), w(w) {
+Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : DE_Class(), x(other.x), y(other.y), z(z), w(w) {
 }
 
 Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {

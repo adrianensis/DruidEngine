@@ -17,8 +17,7 @@ class BatchesMap: public DE_Class {
 private:
 	HashMap<Texture*, Batch*>* mBatches;
 
-public:DE_CLASS(BatchesMap, DE_Class)
-	;
+public:DE_CLASS(BatchesMap, DE_Class);
 
 	void init();
 	u32 render(u32 layer);
@@ -29,8 +28,7 @@ class Chunk: public DE_Class {
 private:
 	List<Renderer*>* mRenderers;
 
-public:DE_CLASS(Chunk, DE_Class)
-	;
+public:DE_CLASS(Chunk, DE_Class);
 
 	Vector3 mLeftTop;
 	Vector3 mCenter;

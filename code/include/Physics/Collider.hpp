@@ -25,6 +25,7 @@ private:
 	f32 mHalfHeight;
 	f32 mRadius;
 	bool mIsSolid;
+	Vector3 mPositionOffset;
 
 	static f32 msDepthEpsilon;
 
@@ -36,8 +37,7 @@ private:
 
 public:
 
-	DE_CLASS(Collider, Component)
-	;
+	DE_CLASS(Collider, Component);
 
 	void init() override;
 
@@ -47,6 +47,16 @@ public:
 	f32 getRadius() const {
 		return mRadius;
 	};
+
+	const Vector3& getPositionOffset() const {
+		return mPositionOffset;
+	};
+
+	void setPositionOffset(Vector3 newPositionOffset) {
+		mPositionOffset = newPositionOffset;
+	};
+
+	Vector3 getCenter() const;
 
 	RigidBody* getRigidBody() const {
 		return mRigidBody;

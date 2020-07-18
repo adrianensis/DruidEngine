@@ -25,8 +25,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-ProjectileScript::ProjectileScript() :
-		Script() {
+ProjectileScript::ProjectileScript() : Script() {
 
 }
 

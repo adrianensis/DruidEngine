@@ -4,16 +4,13 @@
 
 namespace DE {
 
-Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) :
-		DE_Class(), v(x, y, z), w(w) {
+Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : DE_Class(), v(x, y, z), w(w) {
 }
 
-Quaternion::Quaternion(const Vector3 &v, f32 w) :
-		DE_Class(), v(v), w(w) {
+Quaternion::Quaternion(const Vector3 &v, f32 w) : DE_Class(), v(v), w(w) {
 }
 
-Quaternion::Quaternion() :
-		DE_Class(), v(), w(1.0f) { // identity 0,0,0,1
+Quaternion::Quaternion() : DE_Class(), v(), w(1.0f) { // identity 0,0,0,1
 }
 
 Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
@@ -21,12 +18,10 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
 	fromEuler(roll, pitch, yaw);
 }
 
-Quaternion::Quaternion(const Vector3 &v) :
-		Quaternion(v.x, v.y, v.z) {
+Quaternion::Quaternion(const Vector3 &v) : Quaternion(v.x, v.y, v.z) {
 }
 
-Quaternion::Quaternion(const Quaternion &other) :
-		DE_Class(), v(other.v), w(other.w) {
+Quaternion::Quaternion(const Quaternion &other) : DE_Class(), v(other.v), w(other.w) {
 }
 
 Quaternion::~Quaternion() = default;

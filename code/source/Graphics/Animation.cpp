@@ -10,8 +10,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Animation::Animation() :
-		DE_Class() {
+Animation::Animation() : DE_Class() {
 	mFrames = nullptr;
 	mCurrentFrameNumber = 0;
 	mSpeed = 1.0f;

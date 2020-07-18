@@ -19,8 +19,7 @@ private:
 	};
 
 	class Block {
-	public:
-		byte* unalignedAddress;
+	public: byte* unalignedAddress;
 		u32 size;
 		BlockStatus blockStatus;
 		Block* next;

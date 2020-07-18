@@ -65,14 +65,12 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(DynamicArray<T>, SequentialContainer<T>)
-	;
+	DE_GENERATE_METADATA(DynamicArray<T>, SequentialContainer<T>);
 
 	/*!
 	 \brief Default Constructor.
 	 */
-	DynamicArray() :
-			SequentialContainer<T>() {
+	DynamicArray() : 	SequentialContainer<T>() {
 		mArrays = nullptr;
 		mCache = nullptr;
 	}
@@ -85,8 +83,7 @@ public:
 	~DynamicArray() {
 		if (mArrays != nullptr) {
 
-			FOR_LIST (it, mArrays)
-			{
+			FOR_LIST (it, mArrays) {
 				Memory::free<Array<T>>(it.get());
 			}
 

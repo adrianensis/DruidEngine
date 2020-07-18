@@ -4,8 +4,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIList::UIList() :
-		UIElement() {
+UIList::UIList() : UIElement() {
 
 }
 
@@ -14,5 +13,9 @@ UIList::UIList() :
 UIList::~UIList() = default;
 
 // ---------------------------------------------------------------------------
+
+void UIList::setText(const std::string &text) {
+
+}
 
 } /* namespace DE */

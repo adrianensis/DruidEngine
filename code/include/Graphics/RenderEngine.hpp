@@ -58,8 +58,7 @@ private:
 	bool mCameraDirtyTranslation;
 	bool mDebugColliders;
 
-public:DE_CLASS(RenderEngine, DE_Class)
-	;
+public:DE_CLASS(RenderEngine, DE_Class);
 
 	void init(f32 sceneSize);
 	void bind();

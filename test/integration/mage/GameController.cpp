@@ -44,8 +44,7 @@ f32 GameController::smGlobalSpeed = 350;
 
 // ---------------------------------------------------------------------------
 
-GameController::GameController() :
-		Script() {
+GameController::GameController() : Script() {
 
 }
 
@@ -440,8 +439,7 @@ void GameController::step() {
 
 		if (mRenderFloor && movementDirection != 0) {
 
-			FOR_LIST(it, mRenderFloor)
-			{
+			FOR_LIST(it, mRenderFloor) {
 				GameObject* tile = it.get();
 				Renderer* renderer = tile->getComponents<Renderer>()->get(0);
 

@@ -9,9 +9,9 @@ class UIList: public UIElement {
 
 public:
 
-	DE_CLASS(UIList, UIElement)
-	;
+	DE_CLASS(UIList, UIElement);
 
+	virtual void setText(const std::string &text) override;
 };
 
 } /* namespace DE */

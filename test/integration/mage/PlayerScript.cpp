@@ -27,8 +27,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-PlayerScript::PlayerScript() :
-		Script() {
+PlayerScript::PlayerScript() : Script() {
 
 }
 

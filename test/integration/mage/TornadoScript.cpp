@@ -25,8 +25,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-TornadoScript::TornadoScript() :
-		Script() {
+TornadoScript::TornadoScript() : Script() {
 
 }
 

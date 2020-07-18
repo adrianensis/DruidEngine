@@ -18,8 +18,7 @@ private:
 	f32 mSpeed;
 	f32 mTimeAccumulator;
 
-public:DE_CLASS(Animation, DE_Class)
-	;
+public:DE_CLASS(Animation, DE_Class);
 
 	/**
 	 * Static method that creates an animation.

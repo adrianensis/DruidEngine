@@ -48,8 +48,7 @@ void PoolAllocator::checkFreeBlock() const {
 
 // ---------------------------------------------------------------------------
 
-PoolAllocator::PoolAllocator() :
-		LinearAllocator() {
+PoolAllocator::PoolAllocator() : LinearAllocator() {
 }
 
 // ---------------------------------------------------------------------------

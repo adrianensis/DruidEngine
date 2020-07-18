@@ -16,8 +16,7 @@ private:
 
 public:
 
-	DE_CLASS(Material, DE_Class)
-	;
+	DE_CLASS(Material, DE_Class);
 
 	void init();
 

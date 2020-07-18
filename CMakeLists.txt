@@ -167,21 +167,26 @@ endif(BUILD_UNIT_TESTS)
 
 # ----------------------------------------------------------------------------
 
-# INTEGRATION TEST
-
 if(BUILD_INTEGRATION_TESTS)
 
-#get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
+# INTEGRATION TESTS
 
-include_directories("test/integration")
+file(GLOB TEST_PATHS "test/integration/*")
 
-set(TEST_FINAL_NAME "test_integration" )
+foreach(TEST_PATH ${TEST_PATHS})
 
-file(GLOB TEST_INTEGRATION_SOURCES "test/integration/*.cpp" "test/integration/*.cpp")
+	file(GLOB TEST_SOURCES "${TEST_PATH}/*.cpp" "${TEST_PATH}/*.hpp")
 
-add_executable( ${TEST_FINAL_NAME} ${TEST_INTEGRATION_SOURCES} )
-target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
-install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+  include_directories("${TEST_PATH}")
+
+  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
+
+  set(TEST_FINAL_NAME "test_integration_${TEST_NAME}" )
+  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
+  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
+  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+
+endforeach()
 
 endif(BUILD_INTEGRATION_TESTS)
 

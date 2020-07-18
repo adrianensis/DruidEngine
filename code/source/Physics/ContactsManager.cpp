@@ -11,8 +11,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Contact::Contact() :
-		DE_Class() {
+Contact::Contact() : DE_Class() {
 	init();
 }
 
@@ -32,8 +31,7 @@ void Contact::init() {
 }
 // ---------------------------------------------------------------------------
 
-ContactsManager::ContactsManager() :
-		DE_Class(), Singleton() {
+ContactsManager::ContactsManager() : DE_Class(), Singleton() {
 	mContactsMap = nullptr;
 }
 
@@ -166,25 +164,6 @@ Contact* ContactsManager::addContact(Collider *colliderA, Collider *colliderB) {
 
 	return contact;
 }
-
-// ---------------------------------------------------------------------------
-
-// void ContactsManager::updateContact(Collider* colliderA, Collider* colliderB){
-//
-// 	GameObject* gameObjectA = colliderA->getGameObject();
-// 	GameObject* gameObjectB = colliderB->getGameObject();
-//
-// 	if(gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0){
-// 		Script* script = gameObjectA->getComponents<Script>()->get(0);
-// 		script->onCollision(gameObjectB);
-// 	}
-//
-// 	if(gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0){
-// 		Script* script = gameObjectB->getComponents<Script>()->get(0);
-// 		script->onCollision(gameObjectA);
-// 	}
-//
-// }
 
 // ---------------------------------------------------------------------------
 

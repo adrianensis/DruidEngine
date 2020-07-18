@@ -8,8 +8,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Material::Material() :
-		DE_Class() {
+Material::Material() : DE_Class() {
 	mShader = nullptr;
 	mTexture = nullptr;
 }

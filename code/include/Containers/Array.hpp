@@ -96,14 +96,12 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	DE_GENERATE_METADATA(Array<T>, SequentialContainer<T>)
-	;
+	DE_GENERATE_METADATA(Array<T>, SequentialContainer<T>);
 
 	/*!
 	 \brief Default Constructor.
 	 */
-	Array() :
-			SequentialContainer<T>()/*, BaseArray()*/{
+	Array() : 	SequentialContainer<T>()/*, BaseArray()*/{
 		mStart = nullptr;
 		mTStart = nullptr;
 	}

@@ -4,8 +4,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-LinearAllocator::LinearAllocator() :
-		Allocator() {
+LinearAllocator::LinearAllocator() : Allocator() {
 
 }
 

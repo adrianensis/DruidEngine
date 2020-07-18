@@ -8,8 +8,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-MaterialManager::MaterialManager() :
-		DE_Class() {
+MaterialManager::MaterialManager() : DE_Class() {
 	mTexturesMap = nullptr;
 	mMaterialsMap = nullptr;
 }

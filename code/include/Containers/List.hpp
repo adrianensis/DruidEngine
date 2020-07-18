@@ -12,8 +12,7 @@ class List;
 
 class Iterator: public DE_Class {
 
-public:DE_GENERATE_METADATA(Iterator, DE_Class)
-	;
+public:DE_GENERATE_METADATA(Iterator, DE_Class);
 
 	Iterator() {
 	};
@@ -47,16 +46,14 @@ private:
 
 	class Node: public DE_Class {
 
-	public:
-		Node* mNext;
+	public: Node* mNext;
 		Node* mPrev;
 		T mElement;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
 		;
 
-		Node() :
-				DE_Class() {
+		Node() : 		DE_Class() {
 		}
 
 		~Node() {
@@ -109,7 +106,7 @@ private:
 
 		for (i32 j = low; j <= high - 1; j++) {
 			if (comparator(this->get(j), pivot) == 1/*this->get(j) < pivot*/) {
-				i++;    // increment index of smaller element
+				++i;    // increment index of smaller element
 				this->swap(i, j);
 			}
 		}
@@ -158,14 +155,12 @@ public:
 		DE_GENERATE_METADATA(ListIterator, Iterator)
 		;
 
-		ListIterator() :
-				Iterator() {
+		ListIterator() : 		Iterator() {
 			mNode = nullptr;
 			mReverse = false;
 		}
 
-		ListIterator(const ListIterator &other) :
-				Iterator() {
+		ListIterator(const ListIterator &other) : 		Iterator() {
 			mNode = other.mNode;
 			mReverse = other.mReverse;
 		}
@@ -380,11 +375,9 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(List<T>, SequentialContainer<T>)
-	;
+	DE_GENERATE_METADATA(List<T>, SequentialContainer<T>);
 
-	List() :
-			SequentialContainer<T>() {
+	List() : 	SequentialContainer<T>() {
 		mFirst = nullptr;
 		mLast = nullptr;
 		mLastAccessedIndex = -1;
@@ -470,19 +463,19 @@ public:
 
 		if (!List::isEmpty()) {
 			for (; i < destinyIndex && it.hasNext(); it.next())
-				i++;
+				++i;
 
 			i = 0;
 
 			// update nodes
 			for (; i < length && it.hasNext(); it.next()) {
 				it.set(other.get(i));
-				i++;
+				++i;
 			}
 		}
 
 		// create new nodes
-		for (; i < length; i++) {
+		for (; i < length; ++i) {
 			List::pushBack(other.get(i));
 		}
 	}
@@ -528,8 +521,7 @@ public:
 
 	void clear() override {
 		if (!List::isEmpty()) {
-			FOR_LIST(it, this)
-			{
+			FOR_LIST(it, this) {
 				List::remove(it);
 			}
 		}
@@ -644,7 +636,7 @@ public:
 		ListIterator it = List::getIterator();
 
 		for (; i < index && it.hasNext(); it.next())
-			i++;
+			++i;
 
 		it.set(element);
 	}
@@ -657,14 +649,14 @@ public:
 		ListIterator it2 = List::getIterator();
 
 		for (; i < index1 && it1.hasNext(); it1.next())
-			i++;
+			++i;
 
 		T element1 = it1.get();
 
 		i = 0;
 
 		for (; i < index2 && it2.hasNext(); it2.next())
-			i++;
+			++i;
 
 		T element2 = it2.get();
 
@@ -684,7 +676,7 @@ public:
 			ListIterator it = List::getIterator();
 
 			for (; i < index && it.hasNext(); it.next())
-				i++;
+				++i;
 
 			List::remove(it);
 		}
@@ -737,7 +729,7 @@ public:
 		ListIterator it = List::getIterator();
 
 		for (; i < index && it.hasNext(); it.next())
-			i++;
+			++i;
 
 		List::insert(it, element);
 	}

@@ -7,8 +7,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Settings::Settings() :
-		DE_Class(), Singleton() {
+Settings::Settings() : DE_Class(), Singleton() {
 	mConfigMap = nullptr;
 }
 

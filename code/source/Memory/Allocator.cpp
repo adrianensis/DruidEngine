@@ -151,8 +151,7 @@ void Allocator::clean(byte *mem, u32 size) {
 
 // ---------------------------------------------------------------------------
 
-Allocator::Allocator() :
-		DE_Class() {
+Allocator::Allocator() : DE_Class() {
 	mStart = nullptr;
 }
 

@@ -52,8 +52,7 @@ private:
 
 public:
 
-	DE_CLASS(Renderer, Component)
-	;
+	DE_CLASS(Renderer, Component);
 
 	void init() override;
 
@@ -88,7 +87,6 @@ public:
 	Vector2 getRegionSize() const {
 		return mRegionSize;
 	};
-
 
 	const Vector3& getPositionOffset() const {
 		return mPositionOffset;

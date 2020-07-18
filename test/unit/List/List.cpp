@@ -182,7 +182,7 @@ int main() {
 
 	list->sort();
 
-	for (i32 i = 0; i < size; i++) {
+	for (i32 i = 0; i < size; ++i) {
 		DE_test_expected_uint(list->get(i), i);
 	}*/
 

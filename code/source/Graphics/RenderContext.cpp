@@ -18,10 +18,8 @@ Vector2 RenderContext::smWindowSize;
 
 // ---------------------------------------------------------------------------
 
-RenderContext::RenderContext() :
-		DE_Class() {
-}
-;
+RenderContext::RenderContext() : DE_Class() {
+};
 
 RenderContext::~RenderContext() = default;
 

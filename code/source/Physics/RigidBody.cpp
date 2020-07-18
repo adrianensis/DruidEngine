@@ -18,8 +18,7 @@ RigidBody::State::State() {
 
 // ---------------------------------------------------------------------------
 
-RigidBody::RigidBody() :
-		Component() {
+RigidBody::RigidBody() : Component() {
 	mLinear = Vector3(0, 0, 0);
 	mForceAccumulator = Vector3(0, 0, 0);
 	mMass = 1.0f;

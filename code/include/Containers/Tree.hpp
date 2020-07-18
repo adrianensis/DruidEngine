@@ -21,16 +21,14 @@ private:
 	// ---------------------------------------------------------------------------
 	class Node: public DE_Class {
 
-	public:
-		Node* mParent;
+	public: Node* mParent;
 		T mElement;
 		Array<Node*>* mChildren;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
 		;
 
-		Node() :
-				DE_Class() {
+		Node() : 		DE_Class() {
 			mChildren = nullptr;
 		}
 		;
@@ -131,11 +129,9 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(Tree<T>, BaseContainer)
-	;
+	DE_GENERATE_METADATA(Tree<T>, BaseContainer);
 
-	Tree() :
-			BaseContainer() {
+	Tree() : 	BaseContainer() {
 		mRoot = nullptr;
 	}
 

@@ -11,8 +11,7 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIText::UIText() :
-		UIElement() {
+UIText::UIText() : UIElement() {
 	mString = "";
 }
 
@@ -33,8 +32,7 @@ void UIText::setText(const std::string &text) {
 			VAR(u32, renderers->getLength())
 			VAR(u32, mString.length())
 			VAR(u32, text.length())
-			FOR_RANGE(i, text.length(), mString.length())
-			{
+			FOR_RANGE(i, text.length(), mString.length()) {
 				removeComponent(renderers->getLast().get());
 			}
 		}

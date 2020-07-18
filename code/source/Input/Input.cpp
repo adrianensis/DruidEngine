@@ -1,5 +1,6 @@
 #include "Input.hpp"
 #include "Log.hpp"
+#include "UIElement.hpp"
 
 namespace DE {
 
@@ -7,16 +8,23 @@ Vector2 Input::smMouseCoordinates = Vector2();
 u32 Input::smLastMouseButtonPressed = -1;
 u32 Input::smLastKeyPressed = -1;
 u32 Input::smModifier = -1;
-bool Input::keyJustPressed = false;
-bool Input::buttonJustPressed = false;
-f32 Input::scroll = 0;
+bool Input::smKeyJustPressed = false;
+bool Input::smButtonJustPressed = false;
+f32 Input::smScroll = 0;
+UIElement* Input::smUIElement = nullptr;
 
 // ---------------------------------------------------------------------------
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		smLastKeyPressed = key;
-		keyJustPressed = true;
+		smKeyJustPressed = true;
+
+		if(key == GLFW_KEY_ENTER && smUIElement){
+			smUIElement->inputCloseCallback();
+			smUIElement = nullptr;
+		}
+
 	} else if (action == GLFW_RELEASE) {
 		Input::clearKey();
 	}
@@ -29,7 +37,7 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		smLastMouseButtonPressed = button;
-		buttonJustPressed = true;
+		smButtonJustPressed = true;
 	} else if (action == GLFW_RELEASE) {
 		Input::clearMouseButton();
 	}
@@ -40,13 +48,20 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 // ---------------------------------------------------------------------------
 
 void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
-	scroll = yoffset;
+	smScroll = yoffset;
 }
 
 // ---------------------------------------------------------------------------
 
-Input::Input() :
-		DE_Class() {
+void Input::charCallback(GLFWwindow* window, unsigned int codepoint) {
+	if(smUIElement){
+		smUIElement->inputCharCallback((c8) codepoint);
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+Input::Input() : DE_Class() {
 
 }
 
@@ -62,15 +77,16 @@ void Input::init() {
 	glfwSetKeyCallback(RenderContext::smWindow, keyCallback);
 	glfwSetMouseButtonCallback(RenderContext::smWindow, mouseButtonCallback);
 	glfwSetScrollCallback(RenderContext::smWindow, scrollCallback);
+	glfwSetCharCallback(RenderContext::smWindow, charCallback);
 }
 
 // ---------------------------------------------------------------------------
 
 void Input::pollEvents() {
 
-	keyJustPressed = false;
-	buttonJustPressed = false;
-	scroll = 0;
+	smKeyJustPressed = false;
+	smButtonJustPressed = false;
+	smScroll = 0;
 
 	glfwPollEvents();
 }
@@ -78,7 +94,7 @@ void Input::pollEvents() {
 // ---------------------------------------------------------------------------
 
 bool Input::isKeyPressedOnce(u32 key) {
-	return keyJustPressed && key == smLastKeyPressed;
+	return smKeyJustPressed && key == smLastKeyPressed;
 }
 
 // ---------------------------------------------------------------------------
@@ -96,7 +112,7 @@ bool Input::isModifierPressed(u32 modifier) {
 // ---------------------------------------------------------------------------
 
 bool Input::isMouseButtonPressedOnce(u32 button) {
-	return buttonJustPressed && button == smLastMouseButtonPressed;
+	return smButtonJustPressed && button == smLastMouseButtonPressed;
 }
 
 // ---------------------------------------------------------------------------
@@ -127,18 +143,28 @@ Vector2 Input::getMousePosition() {
 // ---------------------------------------------------------------------------
 
 f32 Input::getScroll() {
-	return scroll;
+	return smScroll;
 }
 
 // ---------------------------------------------------------------------------
 
 void Input::clearMouseButton() {
 	smLastMouseButtonPressed = -1;
-	buttonJustPressed = false;
+	smButtonJustPressed = false;
 }
 void Input::clearKey() {
 	smLastKeyPressed = -1;
-	keyJustPressed = false;
+	smKeyJustPressed = false;
+}
+
+// ---------------------------------------------------------------------------
+
+void Input::setInputCharReceiver(UIElement* uiElement) {
+	if(smUIElement){
+		smUIElement->inputCloseCallback();
+	}
+
+	smUIElement = uiElement;
 }
 
 // ---------------------------------------------------------------------------

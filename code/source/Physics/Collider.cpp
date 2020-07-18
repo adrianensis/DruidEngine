@@ -1,6 +1,7 @@
 #include "Collider.hpp"
 #include "Array.hpp"
 #include "List.hpp"
+#include "RenderEngine.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "Transform.hpp"
@@ -16,8 +17,7 @@ f32 Collider::msDepthEpsilon = 10.0f;
 
 // ---------------------------------------------------------------------------
 
-Collider::Collider() :
-		Component() {
+Collider::Collider() : Component() {
 	mBoxVertices = nullptr;
 	mWidth = 0.0f;
 	mHalfWidth = 0.0f;
@@ -51,6 +51,8 @@ void Collider::init() {
 	mBoxVertices->set(3, Vector2(0, 0)); // RIGHT TOP
 
 	mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+
+	mPositionOffset.set(0, 0, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -73,7 +75,7 @@ Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = fals
 	Transform* t = getGameObject()->getTransform();
 
 	if (t->isDirtyTranslation() || forceCalculateBoundingBox) {
-		Vector3 center = t->getWorldPosition();
+		Vector3 center = getCenter();
 
 		mBoxVertices->set(0, Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX
 		const Vector2& LeftTop = mBoxVertices->get(0);
@@ -83,6 +85,12 @@ Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = fals
 	}
 
 	return mBoxVertices;
+}
+
+// ---------------------------------------------------------------------------
+
+Vector3 Collider::getCenter() const {
+	return getGameObject()->getTransform()->getWorldPosition() + mPositionOffset;
 }
 
 // ---------------------------------------------------------------------------
@@ -104,13 +112,13 @@ bool Collider::isSimulate() {
 
 ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 
+
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
 	GameObject* gameObject = getGameObject();
 
-	Transform* t = gameObject->getTransform();
-	Vector3 center = t->getWorldPosition();
-	Vector3 otherCenter = otherCollider->getGameObject()->getTransform()->getWorldPosition();
+	Vector3 center = getCenter();
+	Vector3 otherCenter = otherCollider->getCenter();
 
 	Vector3 relativeVelocity = getRelativeVelocity(otherCollider);
 	relativeVelocity.nor();
@@ -360,8 +368,7 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 	}
 
 	return result;
-}
-;
+};
 
 // ---------------------------------------------------------------------------
 
