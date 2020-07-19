@@ -26,6 +26,11 @@ enum class UIElementType {
 	TEXTBOX
 };
 
+enum class UILayout {
+	HORIZONTAL,
+	VERTICAL
+};
+
 class UIElementData: public DE_Class {
 public:
 
@@ -35,25 +40,50 @@ public:
 	Vector2 mSize;
 	std::string mText;
 	u32 mLayer;
+	bool mIsAffectedByLayout;
+	f32 mSeparatorSize;
 
 	void init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer);
+	void copy(UIElementData& otherData);
 };
 
 class UIBuilder: public DE_Class, public Singleton<UIBuilder> {
 private:
 
+	Scene* mScene;
+	UILayout mCurrentLayout;
 	Material* mButtonMaterial;
+	UIElementData mData;
+	UIElementData mLastData;
+	UIElementData mSavedData;
+	UIElement* mLastUIElement; // used for layouts
+	UIElement* mCurrentUIElement;
 
-	UIButton* createButton(Scene *scene, const UIElementData& data);
-	UIText* createText(Scene *scene, const UIElementData& data);
-	UIText* createTextBox(Scene *scene, const UIElementData& data);
-	//UIList* createList(Scene *scene, const Vector2 &position, const Vector2 &size, u32 layer);
+	void calculateData();
+	UIButton* createButton();
+	UIText* createText();
+	UIText* createTextBox();
 
 public:
 
 	DE_CLASS(UIBuilder, DE_Class);
 
-	UIElement* const create(Scene *scene, UIElementData data, UIElementType type);
+	UIBuilder* const setScene(Scene* scene);
+	UIBuilder* const setPosition(const Vector2& position);
+	UIBuilder* const setSize(const Vector2& size);
+	UIBuilder* const setLayer(u32 layer);
+	UIBuilder* const setText(const std::string& text);
+	UIBuilder* const setLayout(UILayout layout);
+	UIBuilder* const setIsAffectedByLayout(bool affectedByLayout);
+	UIBuilder* const setSeparatorSize(f32 separatorSize);
+	UIBuilder* const restoreSeparatorSize();
+	UIBuilder* const setData(UIElementData initialData);
+	UIBuilder* const create(UIElementType type);
+
+	UIBuilder* const saveData();
+	UIBuilder* const restoreData();
+
+	UIElement* getUIElement();
 };
 
 } /* namespace DE */

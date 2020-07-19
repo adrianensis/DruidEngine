@@ -24,7 +24,7 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 UIElementData::UIElementData() : DE_Class() {
-
+	mIsAffectedByLayout = true;
 }
 
 UIElementData::~UIElementData() = default;
@@ -34,20 +34,130 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mSize = size;
 	mText = text;
 	mLayer = layer;
+	mIsAffectedByLayout = true;
+	mSeparatorSize = 0.01f;
 }
 
 // ---------------------------------------------------------------------------
 
-UIBuilder::UIBuilder() : DE_Class(), Singleton() {
+void UIElementData::copy(UIElementData& otherData){
+	mPosition = otherData.mPosition;
+	mSize = otherData.mSize;
+	mText = otherData.mText;
+	mLayer = otherData.mLayer;
+	mIsAffectedByLayout = otherData.mIsAffectedByLayout;
+}
 
+// ---------------------------------------------------------------------------
+
+
+UIBuilder::UIBuilder() : DE_Class(), Singleton() {
+	mScene = nullptr;
 	mButtonMaterial = nullptr;
+	mCurrentLayout = UILayout::VERTICAL;
+	mLastUIElement = nullptr;
+	mCurrentUIElement = nullptr;
+
+	mData.init(Vector2(0,0), Vector2(0,0), "", 0);
+	mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
 }
 
 UIBuilder::~UIBuilder() = default;
 
 // ---------------------------------------------------------------------------
 
-UIButton* UIBuilder::createButton(Scene *scene, const UIElementData& data) {
+UIBuilder* const UIBuilder::setScene(Scene *scene) {
+	mScene = scene;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setLayout(UILayout layout) {
+	mCurrentLayout = layout;
+
+	// reset Last Element
+	mLastUIElement = nullptr;
+
+	return this;
+}
+
+UIBuilder* const UIBuilder::setIsAffectedByLayout(bool affectedByLayout){
+	mData.mIsAffectedByLayout = affectedByLayout;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setData(UIElementData data) {
+	mData.copy(data);
+	return this;
+}
+
+UIBuilder* const UIBuilder::setPosition(const Vector2 &position) {
+	mData.mPosition = position;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setSize(const Vector2 &size) {
+	mData.mSize = size;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setLayer(u32 layer) {
+	mData.mLayer = layer;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setText(const std::string &text) {
+	mData.mText = text;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setSeparatorSize(f32 separatorSize) {
+	mData.mSeparatorSize = separatorSize;
+	return this;
+}
+
+UIBuilder* const UIBuilder::restoreSeparatorSize() {
+	mData.mSeparatorSize = 0.01f;
+	return this;
+}
+
+void UIBuilder::calculateData(){
+	if(mData.mIsAffectedByLayout && mLastUIElement) {
+		Vector2 offset = Vector2(0,0);
+
+		switch (mCurrentLayout) {
+			case UILayout::HORIZONTAL: {
+				f32 lastElementHalfSize = mLastData.mSize.x / 2.0f;
+				f32 newElementHalfSize = mData.mSize.x / 2.0f;
+				offset = Vector2(lastElementHalfSize + newElementHalfSize + mData.mSeparatorSize, 0);
+				break;
+			}
+			case UILayout::VERTICAL:{
+				f32 lastElementHalfSize = mLastData.mSize.y / 2.0f;
+				f32 newElementHalfSize = mData.mSize.y / 2.0f;
+				offset = Vector2(0, -(lastElementHalfSize + newElementHalfSize + mData.mSeparatorSize));
+				break;
+			}
+		}
+
+		mData.mPosition = mLastData.mPosition + offset;
+	}
+}
+
+UIBuilder* const UIBuilder::saveData() {
+	mSavedData.copy(mData);
+	return this;
+}
+
+UIBuilder* const UIBuilder::restoreData() {
+	mData.copy(mSavedData);
+	return this;
+}
+
+// ---------------------------------------------------------------------------
+
+UIButton* UIBuilder::createButton() {
+
+	calculateData();
 
 	if (!mButtonMaterial) {
 		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.png");
@@ -56,17 +166,17 @@ UIButton* UIBuilder::createButton(Scene *scene, const UIElementData& data) {
 	UIButton* uiButton = Memory::allocate<UIButton>();
 	uiButton->init();
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(data.mPosition.x / RenderContext::getAspectRatio(), data.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
 	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiButton->getTransform()->setScale(Vector3(data.mSize.x / RenderContext::getAspectRatio(), data.mSize.y, 1));
+	uiButton->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mButtonMaterial);
-	renderer->setLayer(data.mLayer);
+	renderer->setLayer(mData.mLayer);
 
 	renderer->setAffectedByProjection(false);
 
@@ -76,77 +186,89 @@ UIButton* UIBuilder::createButton(Scene *scene, const UIElementData& data) {
 
 	Collider* collider = Memory::allocate<Collider>();
 	uiButton->addComponent<Collider>(collider);
-	collider->setSize(data.mSize.x / RenderContext::getAspectRatio(), data.mSize.y);
+	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
 	collider->getBoundingBox();
 
 	uiButton->setComponentsCache();
 
 	uiButton->setIsStatic(true);
 
-	scene->addGameObject(uiButton);
+	mScene->addGameObject(uiButton);
 
 	UI::getInstance()->addUIElement(uiButton);
 
-	uiButton->setText(data.mText);
+	uiButton->setText(mData.mText);
+
+	mCurrentUIElement = uiButton;
+
+	if(mData.mIsAffectedByLayout)
+		mLastUIElement = mCurrentUIElement;
 
 	return uiButton;
 }
 
 // ---------------------------------------------------------------------------
 
-UIText* UIBuilder::createText(Scene *scene, const UIElementData& data) {
+UIText* UIBuilder::createText() {
 
-
+	calculateData();
 
 	UIText* uiText = Memory::allocate<UIText>();
 	uiText->init();
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(data.mPosition.x / RenderContext::getAspectRatio(), data.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(data.mSize.x / RenderContext::getAspectRatio(), data.mSize.y, 1));
+	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 
-	uiText->setSize(data.mSize);
-	uiText->setLayer(data.mLayer);
-	uiText->setText(data.mText);
+	uiText->setSize(mData.mSize);
+	uiText->setLayer(mData.mLayer);
+	uiText->setText(mData.mText);
 
 	uiText->setComponentsCache();
 
 	uiText->setIsStatic(true);
 
-	scene->addGameObject(uiText);
+	mScene->addGameObject(uiText);
 
 	UI::getInstance()->addUIElement(uiText);
+
+	mCurrentUIElement = uiText;
+
+	if(mData.mIsAffectedByLayout)
+		mLastUIElement = mCurrentUIElement;
 
 	return uiText;
 }
 
 // ---------------------------------------------------------------------------
 
-UIText* UIBuilder::createTextBox(Scene *scene, const UIElementData& data) {
+UIText* UIBuilder::createTextBox() {
+
+	calculateData();
 
 	UIText* uiText = Memory::allocate<UIText>();
 	uiText->init();
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(data.mPosition.x / RenderContext::getAspectRatio(), data.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(data.mSize.x / RenderContext::getAspectRatio(), data.mSize.y, 1));
+	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	f32 width = data.mSize.x * data.mText.length() / RenderContext::getAspectRatio();
+	f32 width = mData.mSize.x * mData.mText.length() / RenderContext::getAspectRatio();
 	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
-	collider->setSize(width, data.mSize.y);
+	collider->setSize(width, mData.mSize.y);
 	collider->setPositionOffset(Vector3(width/2.0f,0,0));
 	collider->getBoundingBox();
 
-	uiText->setSize(data.mSize);
-	uiText->setLayer(data.mLayer);
-	uiText->setText(data.mText);
+	uiText->setSize(mData.mSize);
+	uiText->setLayer(mData.mLayer);
+	uiText->setText(mData.mText);
 
 	uiText->setComponentsCache();
 
@@ -157,90 +279,44 @@ UIText* UIBuilder::createTextBox(Scene *scene, const UIElementData& data) {
 		self->setText("");
 	});
 
-	scene->addGameObject(uiText);
+	mScene->addGameObject(uiText);
 
 	UI::getInstance()->addUIElement(uiText);
+
+	mCurrentUIElement = uiText;
+
+	if(mData.mIsAffectedByLayout)
+		mLastUIElement = mCurrentUIElement;
 
 	return uiText;
 }
 
 // ---------------------------------------------------------------------------
-//
-//UIList* UIBuilder::createList(Scene *scene, const Vector2 &data.mPosition, const Vector2 &data.mSize, u32 data.mLayer) {
-//
-//	UIList* uiList = Memory::allocate<UIList>();
-//	uiList->init();
-//
-//	uiList->getTransform()->setLocalPosition(data.mPosition);
-//	uiList->getTransform()->setScale(Vector3(data.mSize.x, data.mSize.y, 1));
-//
-//	Renderer* renderer = Memory::allocate<Renderer>();
-//	uiList->addComponent<Renderer>(renderer);
-//
-//	renderer->setMesh(Mesh::getRectangle());
-//	renderer->setMaterial(mButtonMaterial);
-//	renderer->setLayer(data.mLayer);
-//
-//	uiList->setComponentsCache();
-//
-//	uiList->setIsStatic(false);
-//
-//	f32 halfWidth = data.mSize.x / 2.0f;
-//	f32 halfHeight = data.mSize.y / 2.0f;
-//
-//	f32 margin = 50;
-//	f32 itemOffset = 50;
-//
-//	FOR_RANGE(i, 0, 3)
-//	{
-//		createText(scene, data.mPosition + Vector3(-halfWidth + margin, halfHeight - margin + -itemOffset * i, 0),
-//				Vector2(40, 40), "list item", data.mLayer);
-//	}
-//
-//	scene->addGameObject(uiList);
-//
-//	// scrollbar
-//
-//	f32 scrollbarMargin = 20;
-//	UIButton* upButton = createButton(scene, data.mPosition + Vector3(halfWidth + scrollbarMargin, -halfHeight / 2.0f, 0),
-//			Vector2(40, halfHeight - scrollbarMargin), data.mLayer);
-//
-//	upButton->setOnPressedCallback([&]() {
-//
-//	});
-//
-//	UIButton* downButton = createButton(scene, data.mPosition + Vector3(halfWidth + scrollbarMargin, halfHeight / 2.0f, 0),
-//			Vector2(40, halfHeight - scrollbarMargin), data.mLayer);
-//
-//	downButton->setOnPressedCallback([&]() {
-//
-//	});
-//
-//	UI::getInstance()->addUIElement(uiList);
-//
-//	return uiList;
-//}
 
-// ---------------------------------------------------------------------------
-
-UIElement* const UIBuilder::create(Scene *scene, UIElementData data, UIElementType type) {
-	UIElement* newUIElement = nullptr;
+UIBuilder* const UIBuilder::create(UIElementType type) {
 
 	switch (type) {
 		case UIElementType::BUTTON:
-			newUIElement = createButton(scene, data);
+			createButton();
 			break;
 		case UIElementType::TEXT:
-			newUIElement = createText(scene, data);
+			createText();
 			break;
 		case UIElementType::TEXTBOX:
-			newUIElement = createTextBox(scene, data);
+			createTextBox();
 			break;
 		default:
 			break;
 	}
 
-	return newUIElement;
+	if(mData.mIsAffectedByLayout)
+		mLastData.copy(mData);
+
+	return this;
+}
+
+UIElement* UIBuilder::getUIElement() {
+	return mCurrentUIElement;
 }
 
 } /* namespace DE */

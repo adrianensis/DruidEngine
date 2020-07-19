@@ -40,7 +40,8 @@ private:
 		static const std::string smInspectorTileY;
 		static const std::string smInspectorTileCollider;
 		static const std::string smInspectorTileTag;
-		static const std::string smSize;
+		static const std::string smInspectorSize;
+		static const std::string smGrid;
 	};
 
 	Array<UIButton*>* mAtlasButtons = nullptr;
@@ -68,6 +69,8 @@ private:
 
 	Array<UIButton*>* mSpriteButtons = nullptr;
 
+	bool mIsGridShow = false;
+
 public:
 
 	DE_CLASS(MapEditorUI, DE_Class);
@@ -88,6 +91,10 @@ public:
 	void update();
 	void updateInspector();
 	void updateInspectorOnSelectTile();
+
+	void updateGridLines();
+	void toggleGrid();
+
 
 };
 

@@ -52,7 +52,8 @@ const std::string MapEditorUI::StringsUI::smInspectorTileX = "x:";
 const std::string MapEditorUI::StringsUI::smInspectorTileY = "y:";
 const std::string MapEditorUI::StringsUI::smInspectorTileCollider = "collider:";
 const std::string MapEditorUI::StringsUI::smInspectorTileTag = "tag:";
-const std::string MapEditorUI::StringsUI::smSize = "size:";
+const std::string MapEditorUI::StringsUI::smInspectorSize = "size:";
+const std::string MapEditorUI::StringsUI::smGrid = "Grid";
 
 // ---------------------------------------------------------------------------
 
@@ -70,12 +71,15 @@ MapEditorUI::~MapEditorUI(){
 void MapEditorUI::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
-	Scene* scene = mMapEditor->getGameObject()->getScene();
-	//mTextLayer = UI::getInstance()->getBuilder()->create(scene, Vector2(-1.3f, -0.85f), mTextSize, StringsUI::smLayer + " 0", mUILayer);
+	UI::getInstance()->getBuilder()->setScene(mMapEditor->getGameObject()->getScene());
 
-	UIElementData data;
-	data.init(Vector2(-1.3f, -0.85f), mTextSize, StringsUI::smLayer + " 0", mUILayer);
-	mTextLayer = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
+	mTextLayer = (UIText*) UI::getInstance()->getBuilder()->
+		setPosition(Vector2(-1.3f, -0.85f))->
+		setSize(mTextSize)->
+		setText(StringsUI::smLayer)->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXT)->
+		getUIElement();
 
 	createMenuBar();
 	createInspector();
@@ -95,56 +99,48 @@ void MapEditorUI::createMenuBar() {
 	f32 baseX = -1.3f;
 	f32 baseY = 0.9f;
 	f32 sizeChar = 0.045f;
-	f32 separatorSize = 0.01f;
 
-	std::string str = StringsUI::smSave;
-	f32 sizeButtonAccumulated = 0;
-	f32 sizeLastButton = 0;
-	f32 sizeButton = sizeChar * str.length();
+	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->
+		setLayout(UILayout::HORIZONTAL)->
+		setPosition(Vector2(baseX, baseY))->
+		setSize(Vector2(sizeChar * StringsUI::smSave.length(), 0.1f))->
+		setText(StringsUI::smSave)->
+		setLayer(mUILayer)->
+		create(UIElementType::BUTTON)->
+		getUIElement();
 
-	UIElementData data;
-	data.init(Vector2(baseX, baseY), Vector2(sizeButton, 0.1f), str, mUILayer);
-
-	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::BUTTON);
-
-	++i;
 	button->setOnPressedCallback([&, self = button]() {
 		self->getScene()->saveScene(self->getScene()->getPath());
 	});
-	sizeButtonAccumulated = sizeButton/2.0f;
 
-	str = StringsUI::smCollider;
-	sizeButton = sizeChar * str.length();
+	button = (UIButton*) UI::getInstance()->getBuilder()->
+		setSize(Vector2(sizeChar * StringsUI::smCollider.length(), 0.1f))->
+		setText(StringsUI::smCollider)->
+		create(UIElementType::BUTTON)->
+		getUIElement();
 
-	data.init(Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), str, mUILayer);
-	button = (UIButton*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::BUTTON);
-
-	++i;
 	button->setOnPressedCallback([&, self = button]() {
 		RenderEngine::getInstance()->setDebugColliders(!RenderEngine::getInstance()->getDebugColliders());
 
 	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
 
-	str = StringsUI::smAtlas;
-	sizeButton = sizeChar * str.length();
+	button = (UIButton*) UI::getInstance()->getBuilder()->
+		setSize(Vector2(sizeChar * StringsUI::smAtlas.length(), 0.1f))->
+		setText(StringsUI::smAtlas)->
+		create(UIElementType::BUTTON)->
+		getUIElement();
 
-	data.init(Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), str, mUILayer);
-	button = (UIButton*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::BUTTON);
-
-	++i;
 	button->setOnPressedCallback([&, self = button, mapEditorUI = this]() {
 		mapEditorUI->toggleAtlas();
 	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
 
 
-	str = StringsUI::smPlay;
-	sizeButton = sizeChar * str.length();
-	data.init(Vector2(baseX + sizeButtonAccumulated + sizeButton/2.0f + separatorSize, baseY), Vector2(sizeButton, 0.1f), str, mUILayer);
-	button = (UIButton*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::BUTTON);
+	button = (UIButton*) UI::getInstance()->getBuilder()->
+		setSize(Vector2(sizeChar * StringsUI::smPlay.length(), 0.1f))->
+		setText(StringsUI::smPlay)->
+		create(UIElementType::BUTTON)->
+		getUIElement();
 
-	++i;
 	button->setOnPressedCallback([&, self = button]() {
 		if (! mMapEditor->mPlayer) {
 			 mMapEditor->createPlayer();
@@ -152,7 +148,18 @@ void MapEditorUI::createMenuBar() {
 
 		 mMapEditor->switchCameraControl();
 	});
-	sizeButtonAccumulated += sizeButton + separatorSize;
+
+	button = (UIButton*) UI::getInstance()->getBuilder()->
+		setSize(Vector2(sizeChar * StringsUI::smGrid.length(), 0.1f))->
+		setText(StringsUI::smGrid)->
+		create(UIElementType::BUTTON)->
+		getUIElement();
+
+
+	button->setOnPressedCallback([&, mapEditorUI = this]() {
+		mapEditorUI->toggleGrid();
+
+	});
 }
 
 // ---------------------------------------------------------------------------
@@ -167,22 +174,41 @@ void MapEditorUI::createInspector() {
 	f32 separatorSize = 0.05f;
 	f32 size = 0.2f;
 
-	UIElementData data;
-	data.init(Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileTag, mUILayer);
-	mTextInspectorTag = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
-	++i;
-	data.init(Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileX + "0.000000", mUILayer);
-	mTextInspectorX = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
-	++i;
-	data.init(Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileY + "0.000000", mUILayer);
-	mTextInspectorY = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
-	++i;
-	data.init(Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smInspectorTileCollider, mUILayer);
-	mTextInspectorCollider = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
+	mTextInspectorTag = (UIText*) UI::getInstance()->getBuilder()->
+		setLayout(UILayout::VERTICAL)->
+		setPosition(Vector2(baseX, baseY))->
+		setSize(mTextSize)->
+		setText(StringsUI::smInspectorTileTag)->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXT)->
+		getUIElement();
+
+	mTextInspectorX = (UIText*) UI::getInstance()->getBuilder()->
+		setText(StringsUI::smInspectorTileX + "0.000000")->
+		create(UIElementType::TEXT)->
+		getUIElement();
+
+	mTextInspectorY = (UIText*) UI::getInstance()->getBuilder()->
+		setText(StringsUI::smInspectorTileY + "0.000000")->
+		create(UIElementType::TEXT)->
+		getUIElement();
+
+
+	mTextInspectorY = (UIText*) UI::getInstance()->getBuilder()->
+		setText(StringsUI::smInspectorTileCollider)->
+		create(UIElementType::TEXT)->
+		getUIElement();
+
+
 
 	f32 buttonSize = 0.15f;
-	data.init(Vector2(1.3f, baseY - separatorSize * i), Vector2(buttonSize, 0.05f), "[ ]", mUILayer);
-	mButtonInspectorCollider = (UIButton*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::BUTTON);
+
+	mButtonInspectorCollider = (UIButton*) UI::getInstance()->getBuilder()->
+			setSize(Vector2(buttonSize, 0.05f))->
+			setText("[ ]")->
+			create(UIElementType::BUTTON)->
+			getUIElement();
+
 	mButtonInspectorCollider->setOnPressedCallback([&, self = mButtonInspectorCollider, mapEditor = mMapEditor]() {
 		if(mapEditor->mSelectedTile){
 			List<Collider*>* colliders = mapEditor->mSelectedTile->getComponents<Collider>();
@@ -198,15 +224,20 @@ void MapEditorUI::createInspector() {
 		}
 	});
 
-	++i;
+	mTextTileSize = (UIText*) UI::getInstance()->getBuilder()->
+		setSize(mTextSize)->
+		setText(StringsUI::smInspectorSize)->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXT)->
+		getUIElement();
 
-	data.init(Vector2(baseX, baseY - separatorSize * i), mTextSize, StringsUI::smSize, mUILayer);
-	mTextTileSize = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXT);
 
-	++i;
-
-	data.init(Vector2(baseX + separatorSize, baseY - separatorSize * i), mTextSize, "0.0", mUILayer);
-	mTextBoxSizeX = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXTBOX);
+	mTextBoxSizeX = (UIText*) UI::getInstance()->getBuilder()->
+		setSize(mTextSize)->
+		setText("0.0")->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXTBOX)->
+		getUIElement();
 
 	mTextBoxSizeX->setOnTextChangedFunctor([self = mTextBoxSizeX, mapEditor = mMapEditor]() {
 		if(mapEditor->mSelectedTile){
@@ -218,10 +249,12 @@ void MapEditorUI::createInspector() {
 		}
 	});
 
-	++i;
-
-	data.init(Vector2(baseX + separatorSize, baseY - separatorSize * i), mTextSize, "0.0", mUILayer);
-	mTextBoxSizeY = (UIText*) UI::getInstance()->getBuilder()->create(scene, data, UIElementType::TEXTBOX);
+	mTextBoxSizeY = (UIText*) UI::getInstance()->getBuilder()->
+		setSize(mTextSize)->
+		setText("0.0")->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXTBOX)->
+		getUIElement();
 
 	mTextBoxSizeY->setOnTextChangedFunctor([self = mTextBoxSizeY, mapEditor = mMapEditor]() {
 		if(mapEditor->mSelectedTile){
@@ -232,8 +265,6 @@ void MapEditorUI::createInspector() {
 			tileTransform->setScale(Vector3(scale.x, std::stof(coordYStr), scale.z));
 		}
 	});
-
-	++i;
 }
 
 // ---------------------------------------------------------------------------
@@ -284,15 +315,24 @@ void MapEditorUI::createAtlas() {
 
 	UIElementData data;
 
-	FOR_RANGE(i, 0, atlasSize.x)
-	{
-		FOR_RANGE(j, 0, atlasSize.y)
-		{
-			data.init(Vector2((i - (atlasSize.x / 2.0f)) * tileSize + screenOffset.x,
-					((atlasSize.y / 2.0f) - j) * tileSize - screenOffset.y), Vector2(tileSize, tileSize), "", mUILayer);
+	UI::getInstance()->getBuilder()->
+		setSeparatorSize(0)->
+		setText("");
 
-			UIButton* tile = (UIButton*) UI::getInstance()->getBuilder()->create(
-					mMapEditor->getGameObject()->getScene(), data, UIElementType::BUTTON);
+	FOR_RANGE(i, 0, atlasSize.x){
+
+		UI::getInstance()->getBuilder()->
+			setLayout(UILayout::VERTICAL)->
+			setPosition(Vector2((i - (atlasSize.x / 2.0f)) * tileSize + screenOffset.x,
+				((atlasSize.y / 2.0f)) * tileSize - screenOffset.y))->
+				setSize(Vector2(tileSize, tileSize))->
+				setLayer(mUILayer);
+
+		FOR_RANGE(j, 0, atlasSize.y){
+
+			UIButton* tile = (UIButton*) UI::getInstance()->getBuilder()->
+					create(UIElementType::BUTTON)->
+					getUIElement();
 
 			Renderer* renderer = tile->getRenderer();
 			renderer->setMaterial(mMapEditor->mMaterial);
@@ -321,6 +361,8 @@ void MapEditorUI::createAtlas() {
 			mAtlasButtons->set(i*atlasSize.y + j, tile);
 		}
 	}
+
+	UI::getInstance()->getBuilder()->restoreSeparatorSize();
 
 	// Background
 	f32 atlasBackgroundMargin = 0.1f;
@@ -353,6 +395,32 @@ void MapEditorUI::update() {
 	mTextLayer->setText(StringsUI::smLayer + " " + std::to_string(mMapEditor->mLayer));
 
 	updateInspector();
+
+	updateGridLines();
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditorUI::updateGridLines() {
+	if(mIsGridShow){
+		f32 halfLinesCount = 30;
+		f32 lineLength = 5000;
+
+		// GRID LINES
+		FOR_RANGE(i, -halfLinesCount, halfLinesCount){
+
+			f32 pos = (i * mMapEditor->mGridTileSize) + mMapEditor->mGridTileSize/2.0f;
+
+			RenderEngine::getInstance()->drawLine(Vector3(-lineLength,pos,0), Vector3(lineLength,pos,0), 1, true);
+			RenderEngine::getInstance()->drawLine(Vector3(pos,-lineLength,0), Vector3(pos,lineLength,0), 1, true);
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditorUI::toggleGrid() {
+	mIsGridShow = !mIsGridShow;
 }
 
 // ---------------------------------------------------------------------------
@@ -397,13 +465,17 @@ void MapEditorUI::createSprites() {
 
 	UIElementData data;
 
+	UIButton* tile = (UIButton*) UI::getInstance()->getBuilder()->
+		setLayout(UILayout::HORIZONTAL)->
+		setPosition(origin)->
+		setSize(Vector2(tileSize, tileSize))->
+		setLayer(mUILayer);
+
 	FOR_RANGE(i, 0, spritesCount){
 
-		data.init(Vector2(origin.x + i*(tileSize + separator), origin.y), Vector2(tileSize, tileSize), "", mUILayer);
-
-
-		UIButton* sprite = (UIButton*) UI::getInstance()->getBuilder()->create(
-				mMapEditor->getGameObject()->getScene(), data, UIElementType::BUTTON);
+		UIButton* sprite = (UIButton*) UI::getInstance()->getBuilder()->
+				create(UIElementType::BUTTON)->
+				getUIElement();
 
 		Renderer* renderer = sprite->getRenderer();
 		renderer->setMaterial(mMapEditor->mMaterial);
