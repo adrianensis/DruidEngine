@@ -96,6 +96,8 @@ public:
 		mAntiPenetrationForce.set(0, 0, 0);
 	};
 
+	bool isSleeping();
+
 };
 } /* namespace DE */
 #endif /* DE_RIGIDBODY_H */

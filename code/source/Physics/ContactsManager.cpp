@@ -92,32 +92,9 @@ void ContactsManager::resolveContact(Contact* contact) {
 	Collider* colliderB = contact->colliderB;
 	GameObject* gameObjectA = colliderA->getGameObject();
 	GameObject* gameObjectB = colliderB->getGameObject();
-	ECHO("RESOLVE")
-	ECHO("A - " + gameObjectA->getTag())
-	ECHO("B - " + gameObjectB->getTag())
-
-	/*if (!colliderA->getRigidBody()->getGameObject()->isStatic() && colliderA->getRigidBody()->isSimulate()) {
-		if ((colliderA->getRigidBody()->getCollider()->isPenetrated())) {
-			colliderA->getRigidBody()->restoreState();
-			//it.get()->stopMovement();
-			colliderA->unmarkPenetrated();
-		}
-
-	}
-
-	if (!colliderB->getRigidBody()->getGameObject()->isStatic() && colliderB->getRigidBody()->isSimulate()) {
-		if ((colliderB->getRigidBody()->getCollider()->isPenetrated())) {
-			colliderB->getRigidBody()->restoreState();
-			//it.get()->stopMovement();
-			colliderB->unmarkPenetrated();
-		}
-
-	}*/
-
-
-//	RenderEngine::getInstance()->drawLine(
-//			contact->contactPoint, contact->contactPoint + (contact->normal * -100),
-//			4.0f, true);
+	//ECHO("RESOLVE")
+	//ECHO("A - " + gameObjectA->getTag())
+	//ECHO("B - " + gameObjectB->getTag())
 
 	Vector3 relativeVelocity = contact->relativeVelocity;
 
@@ -128,7 +105,7 @@ void ContactsManager::resolveContact(Contact* contact) {
 
 	f32 vrn = relativeVelocity.dot(normal);
 
-	VAR(f32, vrn);
+	//VAR(f32, vrn);
 
 	f32 j = (-(1+1.2f) * vrn) /
 			(normal.dot(normal) * (1.0f/massA + 1.0f/massB));
@@ -139,11 +116,11 @@ void ContactsManager::resolveContact(Contact* contact) {
 		if(!colliderA->isStatic()){
 
 
-			ECHO("A - " + gameObjectA->getTag())
+			//ECHO("A - " + gameObjectA->getTag())
 			Vector3 linear = colliderA->getRigidBody()->getLinear();
-			VAR(f32, linear.x)
-			VAR(f32, linear.y)
-			VAR(f32, linear.z)
+			//VAR(f32, linear.x)
+			//VAR(f32, linear.y)
+			//VAR(f32, linear.z)
 
 			//RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
 
@@ -154,14 +131,14 @@ void ContactsManager::resolveContact(Contact* contact) {
 				colliderB->unmarkPenetrated();
 			}
 
-			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() - ((normal * j) / massA));
-			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() / 2.0f);
+//			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() - ((normal * j) / massA));
+//			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() / 2.0f);
 
-			ECHO("NEW LINEAR")
+			//ECHO("NEW LINEAR")
 			linear = colliderA->getRigidBody()->getLinear();
-			VAR(f32, linear.x)
-			VAR(f32, linear.y)
-			VAR(f32, linear.z)
+			//VAR(f32, linear.x)
+			//VAR(f32, linear.y)
+			//VAR(f32, linear.z)
 
 			RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
 		}
@@ -169,11 +146,11 @@ void ContactsManager::resolveContact(Contact* contact) {
 		if(!colliderB->isStatic()){
 
 
-			ECHO("B - " + gameObjectB->getTag())
+			//ECHO("B - " + gameObjectB->getTag())
 			Vector3 linear = colliderB->getRigidBody()->getLinear();
-			VAR(f32, linear.x)
-			VAR(f32, linear.y)
-			VAR(f32, linear.z)
+			//VAR(f32, linear.x)
+			//VAR(f32, linear.y)
+			//VAR(f32, linear.z)
 
 			//RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
 
@@ -184,14 +161,14 @@ void ContactsManager::resolveContact(Contact* contact) {
 				colliderB->unmarkPenetrated();
 			}
 
-			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() + ((normal * j) / massB));
-			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() / 2.0f);
+//			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() + ((normal * j) / massB));
+//			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() / 2.0f);
 
-			ECHO("NEW LINEAR")
+			//ECHO("NEW LINEAR")
 			linear = colliderB->getRigidBody()->getLinear();
-			VAR(f32, linear.x)
-			VAR(f32, linear.y)
-			VAR(f32, linear.z)
+			//VAR(f32, linear.x)
+			//VAR(f32, linear.y)
+			//VAR(f32, linear.z)
 
 			RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
 		}
@@ -243,11 +220,11 @@ void ContactsManager::updateContacts() {
 				contact->status = Contact::ContactStatus::CONTACT_STATUS_UPDATE;
 
 			} else if (contact->status == Contact::ContactStatus::CONTACT_STATUS_UPDATE) {
-				ECHO("CONTACT_STATUS_UPDATE")
+				//ECHO("CONTACT_STATUS_UPDATE"C)
 				GameObject* gameObjectA = colliderA->getGameObject();
 				GameObject* gameObjectB = colliderB->getGameObject();
-				ECHO("A - " + gameObjectA->getTag())
-				ECHO("B - " + gameObjectB->getTag())
+				//ECHO("A - " + gameObjectA->getTag())
+				//ECHO("B - " + gameObjectB->getTag())
 
 				ColliderStatus status = colliderA->testCollider(colliderB);
 
@@ -265,8 +242,8 @@ void ContactsManager::updateContacts() {
 						resolveContact(contact);
 					}
 
-					RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
-					RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
+					/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
+					RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);*/
 
 					if (gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 						Script* script = gameObjectA->getComponents<Script>()->get(0);
@@ -345,9 +322,9 @@ void ContactsManager::removeContact(Collider *colliderA, Collider *colliderB) {
 
 	GameObject* gameObjectA = colliderA->getGameObject();
 	GameObject* gameObjectB = colliderB->getGameObject();
-	ECHO("REMOVE CONTACT")
-	ECHO("A - " + gameObjectA->getTag())
-	ECHO("B - " + gameObjectB->getTag())
+	//ECHO("REMOVE CONTACT")
+	//ECHO("A - " + gameObjectA->getTag())
+	//ECHO("B - " + gameObjectB->getTag())
 
 	Contact* contact = findContact(colliderA, colliderB);
 

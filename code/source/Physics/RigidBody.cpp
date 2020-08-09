@@ -4,6 +4,7 @@
 #include "Collider.hpp"
 #include "List.hpp"
 #include "RenderEngine.hpp"
+#include "Renderer.hpp"
 
 namespace DE {
 
@@ -74,6 +75,11 @@ void RigidBody::integrate(f32 deltaTime) {
 		// clear forces
 		mForceAccumulator.set(0, 0, 0);
 		//mAntiPenetrationForce.set(0, 0, 0);
+
+		if(isSleeping()){
+			mLinear.set(0, 0, 0);
+			getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(-1,0,1,1));
+		}
 	}
 }
 
@@ -102,6 +108,12 @@ void RigidBody::restoreState() {
 //	mForceAccumulator = mState.mForceAccumulator;
 //	mMass = mState.mMass;
 //	mSimulate = mState.mSimulate;
+}
+
+// ---------------------------------------------------------------------------
+
+bool RigidBody::isSleeping() {
+	return mLinear.len() < 15.0f;
 }
 
 } /* namespace DE */

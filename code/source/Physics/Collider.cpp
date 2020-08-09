@@ -124,8 +124,8 @@ void Collider::markPenetratedBy(Collider* otherCollider) {
 
 	Vector3 force = getCenter().sub(otherCollider->getCenter()).nor();
 
-	mRigidBody->addAntiPenetrationForce(-force);
-	otherCollider->getRigidBody()->addAntiPenetrationForce(force);
+	mRigidBody->addAntiPenetrationForce(force);
+	//otherCollider->getRigidBody()->addAntiPenetrationForce(force);
 }
 
 void Collider::unmarkPenetrated() {
@@ -193,7 +193,6 @@ ColliderStatus Collider::testSphereSphere(Collider *otherCollider) {
 	mLastContact->colliderB = otherCollider;
 	mLastContact->normal = (getCenter() - otherCollider->getCenter()).nor();
 	mLastContact->relativeVelocity = otherCollider->getRigidBody()->getLinear() - getRigidBody()->getLinear();
-	//RenderEngine::getInstance()->drawLine(getCenter(), otherCollider->getCenter(), 2.0f, true);
 
 	return result;
 }
@@ -255,13 +254,6 @@ ColliderStatus Collider::testRectangleSphere(Collider *otherCollider) {
 	mLastContact->normal = (mLastContact->contactPoint - otherCollider->getCenter()).nor();
 	mLastContact->relativeVelocity = otherCollider->getRigidBody()->getLinear() - getRigidBody()->getLinear();
 
-//	if(result > ColliderStatus::STATUS_NONE){
-//		RenderEngine::getInstance()->drawLine(mLastContact->contactPoint, mLastContact->contactPoint + (mLastContact->normal * 100), 2.0f, true);
-//		RenderEngine::getInstance()->drawLine(edgeStart, edgeEnd, 2.0f, true);
-//	}
-
-//	mLastContact->
-
 	return result;
 }
 
@@ -283,14 +275,12 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 	Vector3 normal = Vector3(center).sub(otherCenter).nor();
 	f32 vrn = relativeVelocity.dot(normal);
 
-	// if(vrn < 0){
-
 	Array<Vector2>* vertices = getBoundingBox();
-
 	Array<Vector2>* otherVertices = otherCollider->getBoundingBox();
 
+	Vector3 contactPoint(0,0,0);
+
 	// TEST Middle Vertex vs Edge
-	u32 detectedVertexIndex = 0;
 	FOR_ARRAY_COND(i, vertices, result == ColliderStatus::STATUS_NONE) {
 
 		Vector2 midPoint = MathUtils::midPoint(vertices->get(i), vertices->get(i == 3 ? 0 : i + 1));
@@ -299,23 +289,22 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 
 		if (pointStatus > result) {
 			result = pointStatus;
-			detectedVertexIndex = i;
+			contactPoint = midPoint;
 		}
 	}
 
-	if (result == ColliderStatus::STATUS_NONE || result == ColliderStatus::STATUS_COLLISION) {
+	if (result < ColliderStatus::STATUS_PENETRATION) {
 
 		ColliderStatus result2 = ColliderStatus::STATUS_NONE;
 
-		// TEST Vertex vs Edge
-		// u32 detectedVertexIndex = 0;
+		// TEST Vertex
 		FOR_ARRAY_COND(i, vertices, result2 == ColliderStatus::STATUS_NONE)
 		{
 			ColliderStatus pointStatus = otherCollider->testPoint(vertices->get(i));
 
 			if (pointStatus > result2) {
 				result2 = pointStatus;
-				// detectedVertexIndex = i;
+				contactPoint = vertices->get(i);
 			}
 		}
 
@@ -323,6 +312,12 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 			result = result2;
 		}
 	}
+
+	mLastContact->contactPoint = contactPoint;
+	mLastContact->colliderA = this;
+	mLastContact->colliderB = otherCollider;
+	mLastContact->normal = (mLastContact->contactPoint - otherCollider->getCenter()).nor();
+	mLastContact->relativeVelocity = otherCollider->getRigidBody()->getLinear() - getRigidBody()->getLinear();
 
 	return result;
 }

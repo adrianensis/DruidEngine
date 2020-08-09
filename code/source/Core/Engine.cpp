@@ -126,7 +126,7 @@ void Engine::run() {
 		mRenderEngine->step();
 
 		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
-		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
 		while (glfwGetTime() < lasttime + 1.0/FPS) {
 		        // TODO: Put the thread to sleep, yield, or simply do nothing

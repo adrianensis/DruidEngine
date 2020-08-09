@@ -72,7 +72,7 @@ public:DE_CLASS(RenderEngine, DE_Class);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
 
 	bool getDebugColliders() const {
-		return true; //mDebugColliders;
+		return mDebugColliders;
 	};
 
 	void setDebugColliders(bool debugColliders) {

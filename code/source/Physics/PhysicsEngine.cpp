@@ -74,77 +74,35 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 void PhysicsEngine::step(f32 deltaTime) {
 
-	u32 it = 0;
-	u32 maxIterations = 5.0f; // how many times we want to divide dt
-	f32 factor = 3.0f; // how dt is divided
+	u32 maxIterations = 3.0f; // how many times we want to divide dt
 
-	f32 minDeltaTime = deltaTime / (maxIterations*factor);
+	f32 dt = deltaTime / maxIterations;
 
-	f32 dt = deltaTime;
-
-	//bool tryAgain = true;
-
-	//while(tryAgain && dt > minDeltaTime && it < maxIterations){
+	FOR_RANGE(iterations, 0, maxIterations){
 		FOR_LIST (it, mRigidBodies) {
+			it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 			if (it.get()->isActive()) {
-				it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+				//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+
+				// TODO: move dynamic objects to a dynamic list. Don't iterate over static objects.
 				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
-//					if (!it.get()->getCollider()->isPenetrated()) {
-							it.get()->saveState();
-							it.get()->integrate(dt);
-//					} else {
-						//it.get()->restoreState();
-						//it.get()->integrate(-dt*2);
-//						it.get()->getCollider()->unmarkPenetrated();
-//					}
+					it.get()->saveState();
+					it.get()->integrate(dt);
 				}
 			} else if (it.get()->isPendingToBeDestroyed()) {
 				internalRemoveRigidBody(&it);
 			}
 		}
 
-		//tryAgain = false;
-
 		mQuadTree->update();
-
-		/*if (mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION) {
-
-			FOR_LIST (it, mRigidBodies) {
-				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
-					if ((it.get()->getCollider()->isPenetrated())) {
-						it.get()->restoreState();
-						//it.get()->integrate(-dt);
-						//it.get()->stopMovement();
-					}
-
-					it.get()->getCollider()->unmarkPenetrated();
-				}
-			}
-
-			//dt = dt / factor;
-			//tryAgain = true;
-		}*/
-
-//		FOR_LIST (it, mRigidBodies) {
-//			if ((it.get()->getCollider()->isPenetrated())) {
-//
-//				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
-//					it.get()->restoreState();
-//					//it.get()->stopMovement();
-//				}
-//
-//				it.get()->getCollider()->unmarkPenetrated();
-//			}
-//		}
 
 		mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
 
-		++it;
-
 		updateContacts();
-	//}
 
-	//ECHO("------------------------")
+	}
+
+
 }
 
 // ---------------------------------------------------------------------------

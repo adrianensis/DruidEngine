@@ -10,6 +10,7 @@
 #include "Renderer.hpp"
 #include "Settings.hpp"
 #include "ContactsManager.hpp"
+#include "RigidBody.hpp"
 #include "MathUtils.hpp"
 #include "GameObject.hpp"
 #include "Transform.hpp"
@@ -107,20 +108,10 @@ void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 min
 
 bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider *collider) const {
 
-//	Array<Vector2>* vertices = collider->getBoundingBox();
-
 	bool collision = false;
 
-	// For each collider vertex
-//	FOR_ARRAY_COND(i, vertices, !collision)
-//	{
-//		collision = MathUtils::testRectanglePoint(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight,
-//				vertices->get(i), 0);
-//	}
-
-	collision = MathUtils::testRectangleSphere(mLeftTop, mWidth, mHeight,
+	collision = MathUtils::testRectangleSphere(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight,
 				Vector2(collider->getCenter()), collider->getRadius(), 0);
-
 
 	return collision;
 };
@@ -141,13 +132,14 @@ void QuadTree::Node::addCollider(Collider *collider) {
 	if (mIsDivisible) {
 
 		// For each "possible" child node
-		FOR_ARRAY (i, mLeftTopChildrenArray)
-		{
+		FOR_ARRAY (i, mChildren) {
 
 			bool isPartiallyInChildren = childNodeTestPartialCollider(i, collider);
 
 			if (isPartiallyInChildren) {
 
+//				ECHO("ADDED")
+//				VAR(u32, i)
 				// If child doesn't exist, create it.
 				if (!mChildren->get(i)) {
 					mChildren->set(i, createChildNode(i));
@@ -160,8 +152,7 @@ void QuadTree::Node::addCollider(Collider *collider) {
 
 		bool found = false;
 
-		FOR_LIST_COND (it, mColliders, !found)
-		{
+		FOR_LIST_COND (it, mColliders, !found) {
 			found = (it.get() == collider);
 		}
 
@@ -174,11 +165,7 @@ void QuadTree::Node::addCollider(Collider *collider) {
 				mDynamicCollidersCount++;
 			}
 		}
-		//}
 	}
-	// } else {
-	// TODO : put in a "inactive" colliders so they can be also controlled and garbage collected.
-	// }
 }
 
 //----------------------------------------------------------------------
@@ -206,14 +193,14 @@ void QuadTree::Node::update(/*contactManager*/) {
 //		TRACE();
 
 
-//		if (mDynamicCollidersCount + mStaticCollidersCount > 0) {
-//		// DEBUG DRAW
-//		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
-//		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
-//		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
-//		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
-//
-//		}
+		/*if (mDynamicCollidersCount + mStaticCollidersCount > 0) {
+		// DEBUG DRAW
+		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
+		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0));
+		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y - mHeight,0), Vector3(mLeftTop.x + mWidth, mLeftTop.y,0));
+		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mWidth, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+
+		}*/
 
 		bool nodeInCameraView = RenderEngine::getInstance()->frustumTestSphere(
 				Vector3(mLeftTop.x + mHalfWidth, mLeftTop.y - mHalfHeight, 0), mRadius);
@@ -236,7 +223,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 					checkExit(colliderA);
 
 					// if there are 2 or more colliders within the same node
-					if (mDynamicCollidersCount + mStaticCollidersCount > 1) { // TODO: move this condition up??
+					if (mDynamicCollidersCount + mStaticCollidersCount > 1) {
 						// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
 						FOR_LIST(itB, mColliders)
 						{
@@ -247,10 +234,9 @@ void QuadTree::Node::update(/*contactManager*/) {
 								bool isStaticB = colliderA->isStatic();
 
 								bool sameLayer = colliderA->getCollisionLayer() == colliderB->getCollisionLayer();
+								bool bothAreSleeping = colliderA->getRigidBody()->isSleeping() && colliderB->getRigidBody()->isSleeping();
 
-								// if they aren't the same collider
-								// if both are static, do not check anything.
-								if (colliderB->isSimulate() && (colliderA != colliderB) && sameLayer && !(isStaticA && isStaticB)) {
+								if (colliderB->isSimulate() && (colliderA != colliderB) && sameLayer && !(isStaticA && isStaticB) && !bothAreSleeping) {
 
 									// check bounding radius
 									if (colliderA->checkCollisionRadius(colliderB)) {
@@ -343,13 +329,7 @@ void QuadTree::Node::updateChildren(/*contactManager*/) {
 		Node* child = mChildren->get(i);
 
 		if (child) {
-
-			if (child->isLeaf() && (child->getCollidersCount() == 0)) {
-				//this.children[i] = null;
-				//this.enabledChildren--;
-			} else {
-				child->update(/*contactManager*/);
-			}
+			child->update(/*contactManager*/);
 		}
 	}
 };
@@ -361,29 +341,12 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 	// only dynamic objects can escape from their nodes !!!
 
 	if (!collider->isStatic()) {
-//		Array<Vector2>* vertices = collider->getBoundingBox();
-//
-//		u32 verticesOutOfNode = 0;
-//
-//		FOR_ARRAY(i, vertices)
-//		{
-//			bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight, vertices->get(i), 0);
-//
-//			if (!collision) {
-//				verticesOutOfNode++;
-//			}
-//		}
-//
-//		if (verticesOutOfNode == 4) {
-//			mExitingColliders->pushBack(collider);
-//		}
-//
-//		if (verticesOutOfNode > 0) {
-//			mTree->addCollider(collider);
-//		}
 
-		bool collision = MathUtils::testRectangleSphere(mLeftTop, mWidth, mHeight,
-						Vector2(collider->getCenter()), collider->getRadius(), 0);
+//		bool collision = MathUtils::testRectangleSphere(mLeftTop, mWidth, mHeight,
+//						Vector2(collider->getCenter()), collider->getRadius(), 0);
+
+		bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight,
+								Vector2(collider->getCenter()), -collider->getRadius());
 
 		if(!collision){
 			mExitingColliders->pushBack(collider);

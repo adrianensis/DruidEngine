@@ -95,7 +95,7 @@ void Playground::createPlayer() {
 	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y);
-	collider->setCollisionLayer(1);
+	//collider->setCollisionLayer(1);
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
@@ -119,7 +119,7 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 
 	Vector2 atlasSize = Vector2(8, 16);
 
-	renderer->setRegion(5/atlasSize.x, 0, 1/atlasSize.x, 1/atlasSize.y);
+	renderer->setRegion(4/atlasSize.x, 0, 1/atlasSize.x, 1/atlasSize.y);
 
 	renderer->setLayer(2);
 	//renderer->setColor(Vector4(1,0.0f,0.0f,1));
@@ -138,7 +138,7 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 	Vector3 direction = Vector3(mPlayer->getTransform()->getWorldPosition()).sub(Vector3(x, y, 0));
 	direction.nor();
 
-	rigidBody->setLinear(-direction * 400);
+	rigidBody->setLinear(-direction * 600);
 
 	ProjectileScript* script = Memory::allocate<ProjectileScript>();
 	tile->addComponent<Script>(script);
@@ -166,6 +166,8 @@ void Playground::init() {
 // ---------------------------------------------------------------------------
 
 void Playground::firstStep() {
+
+	RenderEngine::getInstance()->setDebugColliders(true);
 
 	mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
 	mCameraTransform = mCamera->getGameObject()->getTransform();
