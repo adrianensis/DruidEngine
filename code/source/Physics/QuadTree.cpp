@@ -7,6 +7,7 @@
 #include "Memory.hpp"
 #include "Log.hpp"
 #include "RenderEngine.hpp"
+#include "Renderer.hpp"
 #include "Settings.hpp"
 #include "ContactsManager.hpp"
 #include "MathUtils.hpp"
@@ -51,8 +52,7 @@ QuadTree::Node::~Node() {
 		Memory::free<Array<Node*>>(mChildren);
 	}
 
-	FOR_LIST(it, mColliders)
-	{
+	FOR_LIST(it, mColliders) {
 		if (it.get() && !(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
 			it.get()->setDestroyed();
 			Memory::free<Collider>(it.get());
@@ -203,6 +203,9 @@ void QuadTree::Node::update(/*contactManager*/) {
 	// If is leaf node.
 	if (isLeaf()) {
 
+//		TRACE();
+
+
 //		if (mDynamicCollidersCount + mStaticCollidersCount > 0) {
 //		// DEBUG DRAW
 //		 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mHeight,0));
@@ -220,8 +223,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 		ColliderStatus newTreeStatus = ColliderStatus::STATUS_NONE;
 
 		// FOR EACH COLLIDER
-		FOR_LIST(itA, mColliders)
-		{
+		FOR_LIST(itA, mColliders) {
 
 			Collider* colliderA = itA.get();
 
@@ -233,10 +235,8 @@ void QuadTree::Node::update(/*contactManager*/) {
 					// check if collider has left the node.
 					checkExit(colliderA);
 
-					colliderA->setStatus(ColliderStatus::STATUS_NONE);
-
 					// if there are 2 or more colliders within the same node
-					if (mDynamicCollidersCount + mStaticCollidersCount > 1) {
+					if (mDynamicCollidersCount + mStaticCollidersCount > 1) { // TODO: move this condition up??
 						// CHECK COLLISIONS WITH THE OTHERS COLLIDERS
 						FOR_LIST(itB, mColliders)
 						{
@@ -244,49 +244,67 @@ void QuadTree::Node::update(/*contactManager*/) {
 							Collider* colliderB = itB.get();
 
 							if (colliderB->isActive()) {
-								if (colliderB->isSimulate()) {
+								bool isStaticB = colliderA->isStatic();
 
-									bool isStaticB = colliderA->isStatic();
+								bool sameLayer = colliderA->getCollisionLayer() == colliderB->getCollisionLayer();
 
-									// if they aren't the same collider
-									// if both are static, do not check anything.
-									if ((colliderA != colliderB) && !(isStaticA && isStaticB)) {
+								// if they aren't the same collider
+								// if both are static, do not check anything.
+								if (colliderB->isSimulate() && (colliderA != colliderB) && sameLayer && !(isStaticA && isStaticB)) {
 
-										// check bounding radius
-										if (colliderA->checkCollisionRadius(colliderB)) {
+									// check bounding radius
+									if (colliderA->checkCollisionRadius(colliderB)) {
 
-											// candidate vertices
-											// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
-											//Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
+										//ECHO("TEST")
 
-											// Compute candidates and generate contacts
-											//ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
+										// candidate vertices
+										// Array<Vector2>* vertices = colliderA.getCandidateVertices(colliderB);
+										//Array<Vector2>* candidateVertices = colliderA->getBoundingBox();
 
-											ColliderStatus status = colliderA->testRectangleRectangle(colliderB);
-											// ColliderStatus status2 = colliderB->testRectangleRectangle(colliderA);
+										// Compute candidates and generate contacts
+										//ColliderStatus status = colliderA->generateContacts(candidateVertices, colliderB/*, contactManager*/);
 
-											// ECHO("..................")
-											// VAR(ptr,(ptr)colliderA)
-											// VAR(ptr,(ptr)colliderB)
-											// ECHO("..................")
+										ColliderStatus status = colliderA->testCollider(colliderB);
+										Contact* contact = colliderA->getLastContact();
 
-											if (status
-													== ColliderStatus::STATUS_NONE /*&& status2 == ColliderStatus::STATUS_NONE*/) {
-												ContactsManager::getInstance()->removeContact(colliderA, colliderB);
-											} else {
-												ContactsManager::getInstance()->addContact(colliderA, colliderB);
+										if(status < ColliderStatus::STATUS_PENETRATION){
+											ColliderStatus status2 = colliderB->testCollider(colliderA);
+											if(status < status2){
+												status = status2;
+												contact = colliderB->getLastContact();
 											}
-
-											if (status > newTreeStatus) {
-												newTreeStatus = status;
-											}
-											// if(status2 > newTreeStatus){
-											//   newTreeStatus = status2;
-											// }
-
-										} else {
-											ContactsManager::getInstance()->removeContact(colliderA, colliderB);
 										}
+
+										if (status == ColliderStatus::STATUS_NONE /*&& status2 == ColliderStatus::STATUS_NONE*/) {
+											//ContactsManager::getInstance()->removeContact(colliderA, colliderB);
+										} else {
+
+											if (status == ColliderStatus::STATUS_PENETRATION) {
+
+												if (colliderA->isSolid() && colliderB->isSolid()) {
+													colliderA->markPenetratedBy(colliderB);
+													colliderB->markPenetratedBy(colliderA);
+
+													colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+													colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+												}
+											}
+
+											if (status == ColliderStatus::STATUS_COLLISION) {
+												colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+												colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+											}
+
+											ContactsManager::getInstance()->addContact(contact);
+										}
+
+										if (status > newTreeStatus) {
+											newTreeStatus = status;
+										}
+
+									} else {
+										//VAR(u64, (u64)this)
+										//ContactsManager::getInstance()->removeContact(colliderA, colliderB);
 									}
 								}
 							} else if (colliderB->isPendingToBeDestroyed()) {
@@ -321,8 +339,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 //----------------------------------------------------------------------
 
 void QuadTree::Node::updateChildren(/*contactManager*/) {
-	FOR_ARRAY (i, mChildren)
-	{
+	FOR_ARRAY (i, mChildren) {
 		Node* child = mChildren->get(i);
 
 		if (child) {

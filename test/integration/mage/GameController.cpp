@@ -330,8 +330,7 @@ void GameController::firstStep() {
 	mPhysicFloor = Memory::allocate<Array<GameObject*>>();
 	mPhysicFloor->init(range);
 
-	FOR_RANGE(i, -(range/2.0f), (range/2.0f))
-	{
+	FOR_RANGE(i, -(range/2.0f), (range/2.0f)) {
 		mPhysicFloor->set(i + (range / 2.0f), createPhysicFloorTile(i * 100, -200));
 	}
 
@@ -341,8 +340,7 @@ void GameController::firstStep() {
 	mRenderTileSize = 500;
 	mRenderTilesAmount = 7;
 
-	FOR_RANGE(i, -(mRenderTilesAmount/2.0f), (mRenderTilesAmount/2.0f))
-	{
+	FOR_RANGE(i, -(mRenderTilesAmount/2.0f), (mRenderTilesAmount/2.0f)) {
 		mRenderFloor->pushBack(createRenderFloorTile(i * mRenderTileSize, -450));
 	}
 

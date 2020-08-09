@@ -88,11 +88,11 @@ public:
 		mCollider = collider;
 	}
 
-	void setAntiPenetrationForce(Vector3 newAntiPenetrationForce) {
+	void addAntiPenetrationForce(Vector3 newAntiPenetrationForce) {
 		mAntiPenetrationForce.add(newAntiPenetrationForce);
 	};
 
-	void resetAntiPenetrationForce(Vector3 newAntiPenetrationForce) {
+	void resetAntiPenetrationForce() {
 		mAntiPenetrationForce.set(0, 0, 0);
 	};
 

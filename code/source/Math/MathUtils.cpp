@@ -69,9 +69,9 @@ bool MathUtils::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 heigh
 
 // ---------------------------------------------------------------------------
 
-bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB) {
+bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps) {
 	f32 distance = centerA.dst(centerB);
-	return (distance < radiusA + radiusB);
+	return (distance < (radiusA + radiusB + eps));
 }
 
 // ---------------------------------------------------------------------------
@@ -120,10 +120,10 @@ bool MathUtils::testLineSphereSimple(const Vector2 &lineStart, const Vector2 &li
 
 	Vector2 closestPoint(closestPointInLine(lineStart, lineEnd, center));
 
-	if (testSpherePoint(lineStart, center, radius) || testSpherePoint(lineEnd, center, radius)) {
+	if (testSpherePoint(lineStart, center, radius + eps) || testSpherePoint(lineEnd, center, radius + eps)) {
 		lineIntersectsSphere = true;
 	} else {
-		lineIntersectsSphere = testSpherePoint(closestPoint, center, radius);
+		lineIntersectsSphere = testSpherePoint(closestPoint, center, radius + eps);
 	}
 
 	return lineIntersectsSphere;
@@ -134,10 +134,13 @@ bool MathUtils::testLineSphereSimple(const Vector2 &lineStart, const Vector2 &li
 bool MathUtils::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center, f32 radius,
 		f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2) {
 
+
 	// X(t) = x1 + (x2 - x1) * t
 	// Y(t) = y1 + (y2 - y1) * t
 	//
 	// (X - center.x)2 + (Y - center.y)2 = radius2
+
+	f32 radiusEps = radius + eps;
 
 	bool lineIntersectsSphere = false;
 
@@ -150,7 +153,7 @@ bool MathUtils::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd,
 
 	f32 A = dx * dx + dy * dy;
 	f32 B = 2.0f * (dx * startToCenter.x + dy * startToCenter.y);
-	f32 C = startToCenter.x * startToCenter.x + startToCenter.y * startToCenter.y - radius * radius;
+	f32 C = startToCenter.x * startToCenter.x + startToCenter.y * startToCenter.y - radiusEps * radiusEps;
 
 	f32 det = B * B - 4 * A * C;
 

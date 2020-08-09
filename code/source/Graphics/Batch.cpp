@@ -77,8 +77,7 @@ Batch::Batch() : DE_Class() {
 
 Batch::~Batch() {
 
-	FOR_LIST(itList, mRenderers->getValues())
-	{
+	FOR_LIST(itList, mRenderers->getValues()) {
 		if (itList.get()) {
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->isDestroyed()) {
@@ -93,8 +92,7 @@ Batch::~Batch() {
 
 	Memory::free<HashMap<u32, List<Renderer*>*>>(mRenderers);
 
-	FOR_LIST(it, mLayersData->getValues())
-	{
+	FOR_LIST(it, mLayersData->getValues()) {
 		Memory::free<LayerData>(it.get());
 	}
 
@@ -121,8 +119,7 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mLayersData->init();
 
 	u32 maxLayers = 10; // MOVE TO SETTINGS
-	FOR_RANGE(i, 0, 10)
-	{
+	FOR_RANGE(i, 0, 10) {
 		mRenderers->set(i, nullptr);
 		mLayersData->set(i, Memory::allocate<LayerData>());
 	}

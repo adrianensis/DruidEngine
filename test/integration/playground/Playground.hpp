@@ -37,10 +37,9 @@ public:
 	GameObject* mPlayer;
 	Material* mMaterial;
 
-
 	DE_CLASS(Playground, Script);
 
-	GameObject* createTile(f32 x, f32 y, f32 w, f32 h);
+	GameObject* createProjectile(f32 x, f32 y);
 	void createPlayer();
 	void processMovement();
 

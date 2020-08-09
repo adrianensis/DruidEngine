@@ -42,8 +42,7 @@ bool Frustum::testSphere(const Vector3 &center, f32 radius) const {
 
 	bool result = true;
 
-	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result)
-	{
+	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result) {
 
 		f32 A = mPlanes->get(i).x;
 		f32 B = mPlanes->get(i).y;
@@ -63,8 +62,7 @@ bool Frustum::testPoint(const Vector3 &point) const {
 
 	bool result = true;
 
-	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result)
-	{
+	FOR_RANGE_COND(i, 0, mPlanes->getLength(), result) {
 
 		if (Vector3(mPlanes->get(i)).dst(point) < 0)
 			result = false;

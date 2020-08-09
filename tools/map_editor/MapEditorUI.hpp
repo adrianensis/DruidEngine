@@ -41,6 +41,7 @@ private:
 		static const std::string smInspectorTileCollider;
 		static const std::string smInspectorTileTag;
 		static const std::string smInspectorSize;
+		static const std::string smInspectorSizeCollider;
 		static const std::string smGrid;
 	};
 
@@ -62,10 +63,13 @@ private:
 	UIText* mTextTileSize = nullptr;
 	UIText* mTextBoxSizeX = nullptr;
 	UIText* mTextBoxSizeY = nullptr;
+	UIText* mTextColliderSize = nullptr;
+	UIText* mTextBoxColliderSizeX = nullptr;
+	UIText* mTextBoxColliderSizeY = nullptr;
 
 	UIButton* mButtonInspectorCollider = nullptr;
 
-	Vector2 mTextSize = Vector2(0.045f, 0.045f);
+	Vector2 mTextSize = Vector2(0.04f, 0.04f);
 
 	Array<UIButton*>* mSpriteButtons = nullptr;
 

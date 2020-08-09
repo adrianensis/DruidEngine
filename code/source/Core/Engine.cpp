@@ -102,6 +102,8 @@ void Engine::run() {
 
 	//initSubsystems();
 
+	double lasttime = glfwGetTime();
+
 	while (!RenderContext::isClosed()) {
 
 		Time::tick();
@@ -119,12 +121,17 @@ void Engine::run() {
 		mScriptEngine->step();
 
 		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
-		mPhysicsEngine->updateContacts();
+		//mPhysicsEngine->updateContacts();
 
 		mRenderEngine->step();
 
 		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		// VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+
+		while (glfwGetTime() < lasttime + 1.0/FPS) {
+		        // TODO: Put the thread to sleep, yield, or simply do nothing
+		    }
+		    lasttime += 1.0/FPS;
 	}
 }
 

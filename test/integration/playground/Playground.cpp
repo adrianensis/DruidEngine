@@ -37,6 +37,7 @@
 #include "UIText.hpp"
 
 #include "Settings.hpp"
+#include "ProjectileScript.hpp"
 
 namespace DE {
 
@@ -94,19 +95,20 @@ void Playground::createPlayer() {
 	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y);
+	collider->setCollisionLayer(1);
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
 
 // ---------------------------------------------------------------------------
 
-GameObject* Playground::createTile(f32 x, f32 y, f32 w, f32 h) {
-	Vector2 size(w,h);
+GameObject* Playground::createProjectile(f32 x, f32 y) {
+	Vector2 size(40,40);
 
 	GameObject* tile = Memory::allocate<GameObject>();
 	tile->init();
 
-	tile->getTransform()->setLocalPosition(Vector3(x, y, 0));
+	tile->getTransform()->setLocalPosition(mPlayer->getTransform()->getWorldPosition());
 	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
 	Renderer* renderer = Memory::allocate<Renderer>();
@@ -120,9 +122,10 @@ GameObject* Playground::createTile(f32 x, f32 y, f32 w, f32 h) {
 	renderer->setRegion(5/atlasSize.x, 0, 1/atlasSize.x, 1/atlasSize.y);
 
 	renderer->setLayer(2);
+	//renderer->setColor(Vector4(1,0.0f,0.0f,1));
 
-	tile->setIsStatic(true);
-	tile->setShouldPersist(true);
+	//tile->setIsStatic(true);
+	//tile->setShouldPersist(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	tile->addComponent<RigidBody>(rigidBody);
@@ -130,6 +133,15 @@ GameObject* Playground::createTile(f32 x, f32 y, f32 w, f32 h) {
 	Collider* collider = Memory::allocate<Collider>();
 	tile->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
+	collider->setShape(ColliderShape::SPHERE);
+
+	Vector3 direction = Vector3(mPlayer->getTransform()->getWorldPosition()).sub(Vector3(x, y, 0));
+	direction.nor();
+
+	rigidBody->setLinear(-direction * 400);
+
+	ProjectileScript* script = Memory::allocate<ProjectileScript>();
+	tile->addComponent<Script>(script);
 
 	getGameObject()->getScene()->addGameObject(tile);
 
@@ -160,9 +172,16 @@ void Playground::firstStep() {
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
+	u32 i = 0;
+	FOR_LIST(it, getGameObject()->getScene()->getNewGameObjects()){
+		it.get()->setTag("obj" + std::to_string(i));
+		++i;
+	}
+
 	createPlayer();
-	createTile(300,300,100, 600);
 	mCameraControl = false;
+	//createTile(300,300,30, 30);
+
 
 }
 
@@ -170,8 +189,16 @@ void Playground::firstStep() {
 
 void Playground::step() {
 
-	Vector2 mouse(Input::getMousePosition());
-	Vector3 world = mCamera->screenToWorld(mouse);
+	if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+
+		Vector2 mouse(Input::getMousePosition());
+		Vector3 world = mCamera->screenToWorld(mouse);
+
+		Vector2 projectileOrigin = Vector2(getGameObject()->getTransform()->getWorldPosition());
+
+		createProjectile(world.x, world.y);
+
+	}
 
 	processMovement();
 

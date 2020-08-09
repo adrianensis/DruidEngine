@@ -79,8 +79,7 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 void GameObject::setIsActive(bool isActive) {
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
-	FOR_LIST(it, mComponentsMap->getValues())
-	{
+	FOR_LIST(it, mComponentsMap->getValues()) {
 		FOR_LIST(itComponent, it.get())
 		{
 			itComponent.get()->setIsActive(isActive);
@@ -92,8 +91,7 @@ void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
-	FOR_LIST(it, mComponentsMap->getKeys())
-	{
+	FOR_LIST(it, mComponentsMap->getKeys()) {
 
 		ClassId id = it.get();
 		auto list = mComponentsMap->get(id);

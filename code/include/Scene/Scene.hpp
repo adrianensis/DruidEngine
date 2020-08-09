@@ -33,8 +33,8 @@ public:
 
 
 	void loadScene(const std::string &path);
-	void unloadScene();
 	void saveScene(const std::string &path);
+	void unloadScene();
 	const std::string& getPath() const {
 		return mPath;
 	};

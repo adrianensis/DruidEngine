@@ -9,9 +9,14 @@ namespace DE {
 template<class T> class Array;
 class RigidBody;
 class ContactsManager;
+class Contact;
 
 enum class ColliderStatus {
 	STATUS_NONE, STATUS_COLLISION, STATUS_PENETRATION
+};
+
+enum class ColliderShape {
+	RECTANGLE, SPHERE
 };
 
 class Collider: public Component {
@@ -35,6 +40,12 @@ private:
 
 	bool mIsPenetrated;
 
+	u32 mCollisionLayer;
+
+	ColliderShape mColliderShape;
+
+	Contact* mLastContact;
+
 public:
 
 	DE_CLASS(Collider, Component);
@@ -42,6 +53,8 @@ public:
 	void init() override;
 
 	void setSize(f32 width, f32 height);
+	f32 getHeight() const { return mHeight; }
+	f32 getWidth() const { return mWidth; }
 	Array<Vector2>* getBoundingBox(bool forceCalculateBoundingBox = false);
 	Vector3 getRelativeVelocity(Collider *otherCollider);
 	f32 getRadius() const {
@@ -66,14 +79,13 @@ public:
 		mRigidBody = newRigidBody;
 	};
 
-	ColliderStatus getStatus() const {
-		return mStatus;
+	u32 getCollisionLayer() const {
+		return mCollisionLayer;
 	};
 
-	void setStatus(ColliderStatus newStatus) {
-		mStatus = newStatus;
+	void setCollisionLayer(u32 collisionLayer) {
+		mCollisionLayer = collisionLayer;
 	};
-
 
 	bool isSolid() const {
 		return mIsSolid;
@@ -83,13 +95,21 @@ public:
 		mIsSolid = isSolid;
 	};
 
+	ColliderShape getShape() const {
+		return mColliderShape;
+	};
 
-	void markPenetrated() {
-		mIsPenetrated = true;
+	void setShape(ColliderShape colliderShape) {
+		mColliderShape = colliderShape;
+	};
+
+	Contact* getLastContact() const {
+		return mLastContact;
 	}
-	void unmarkPenetrated() {
-		mIsPenetrated = false;
-	}
+
+	void markPenetratedBy(Collider* otherCollider);
+	void unmarkPenetrated();
+
 	bool isPenetrated() const {
 		return mIsPenetrated;
 	}
@@ -98,11 +118,10 @@ public:
 
 	bool checkCollisionRadius(Collider *otherCollider) const;
 
-	ColliderStatus generateContacts(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
-	ColliderStatus testVertexVertex(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
-	ColliderStatus testVertexEdge(Array<Vector2> *candidateVertices, Collider *otherCollider/*, contactManager*/);
-
+	ColliderStatus testCollider(Collider *otherCollider);
 	ColliderStatus testRectangleRectangle(Collider *otherCollider);
+	ColliderStatus testRectangleSphere(Collider *otherCollider);
+	ColliderStatus testSphereSphere(Collider *otherCollider);
 
 	ColliderStatus testPoint(Vector2 point);
 };

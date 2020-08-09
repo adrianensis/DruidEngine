@@ -4,6 +4,7 @@
 #include "DE_Class.hpp"
 #include "Singleton.hpp"
 #include "Vector3.hpp"
+#include "Vector4.hpp"
 
 namespace DE {
 
@@ -35,7 +36,7 @@ private:
 		u32 mEBO;
 		bool mActive;
 		bool mIsAffectedByProjection;
-		bool mSize;
+		f32 mSize;
 
 		void init();
 		void set(const Vector3 &start, const Vector3 &end);
@@ -68,10 +69,10 @@ public:DE_CLASS(RenderEngine, DE_Class);
 
 	void addRenderer(Renderer *renderer);
 	Chunk* assignChunk(Renderer *renderer);
-	void drawLine(const Vector3 &start, const Vector3 &end, u32 size = 1, bool isAffectedByProjection = true);
+	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
 
 	bool getDebugColliders() const {
-		return mDebugColliders;
+		return true; //mDebugColliders;
 	};
 
 	void setDebugColliders(bool debugColliders) {

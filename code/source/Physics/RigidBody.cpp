@@ -3,6 +3,7 @@
 #include "Transform.hpp"
 #include "Collider.hpp"
 #include "List.hpp"
+#include "RenderEngine.hpp"
 
 namespace DE {
 
@@ -58,13 +59,21 @@ void RigidBody::integrate(f32 deltaTime) {
 
 		// v += (1/m * F) * dt
 		mLinear.add(Vector3(mForceAccumulator).mul(1.0f / mMass).mul(deltaTime));
-		//mLinear.add(this.counterPenetrationAccumulator.cpy().mulScl(1/this.mass).mulScl(dt));
+
+		//if(mCollider->isPenetrated()){
+			mLinear.add(Vector3(mAntiPenetrationForce).mul(1/mMass).mul(deltaTime));
+		//}
+
+		Vector3 linear = mLinear;
+
+		//RenderEngine::getInstance()->drawLine(getCollider()->getCenter(), getCollider()->getCenter() + (linear.nor() * 50), 1.0f, true);
 
 		// x += v * dt
 		t->translate(Vector3(mLinear).mul(deltaTime));
 
 		// clear forces
 		mForceAccumulator.set(0, 0, 0);
+		//mAntiPenetrationForce.set(0, 0, 0);
 	}
 }
 
@@ -79,20 +88,20 @@ void RigidBody::stopMovement() {
 
 void RigidBody::saveState() {
 	mState.mPosition = getGameObject()->getTransform()->getLocalPosition();
-	mState.mLinear = mLinear;
-	mState.mForceAccumulator = mForceAccumulator;
-	mState.mMass = mMass;
-	mState.mSimulate = mSimulate;
+//	mState.mLinear = mLinear;
+//	mState.mForceAccumulator = mForceAccumulator;
+//	mState.mMass = mMass;
+//	mState.mSimulate = mSimulate;
 }
 
 // ---------------------------------------------------------------------------
 
 void RigidBody::restoreState() {
 	getGameObject()->getTransform()->setLocalPosition(mState.mPosition);
-	mLinear = mState.mLinear;
-	mForceAccumulator = mState.mForceAccumulator;
-	mMass = mState.mMass;
-	mSimulate = mState.mSimulate;
+//	mLinear = mState.mLinear;
+//	mForceAccumulator = mState.mForceAccumulator;
+//	mMass = mState.mMass;
+//	mSimulate = mState.mSimulate;
 }
 
 } /* namespace DE */

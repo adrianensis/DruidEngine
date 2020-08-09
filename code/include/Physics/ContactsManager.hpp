@@ -30,27 +30,19 @@ public:
 	ContactStatus status;
 
 	void init();
-
-	Contact& operator=(const Contact &rhs) {
-		if (this == &rhs)
-			return *this; // handle self assignment
-
-		colliderA = rhs.colliderA;
-		colliderB = rhs.colliderB;
-
-		contactPoint = rhs.contactPoint;
-		normal = rhs.normal;
-		relativeVelocity = rhs.relativeVelocity;
-
-		return *this;
-	}
+	void init(const Contact* otherContact);
 };
 
 class ContactsManager: public DE_Class, public Singleton<ContactsManager> {
 private:
 	// ID = ContactID = ColliderA + Collider B
 	HashMap<Collider*, HashMap<Collider*, Contact*>*>* mContactsMap;
-	void removeContactFromMap(Collider *colliderA, Collider *colliderB);
+
+	List<Contact*>* mContactsToRemove;
+
+	void removeContactFromMap(Contact* contact);
+
+	void resolveContact(Contact* contact);
 
 public:
 
@@ -60,7 +52,7 @@ public:
 	void init();
 	void updateContacts();
 
-	Contact* addContact(Collider *colliderA, Collider *colliderB);
+	Contact* addContact(Contact* newContact);
 	// void updateContact(Collider* colliderA, Collider* colliderB);
 	void removeContact(Collider *colliderA, Collider *colliderB);
 	Contact* findContact(Collider *colliderA, Collider *colliderB);

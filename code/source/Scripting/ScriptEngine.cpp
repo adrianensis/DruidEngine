@@ -47,8 +47,7 @@ void ScriptEngine::step() {
 		controller->step();
 	}
 
-	FOR_LIST (it, mScripts)
-	{
+	FOR_LIST (it, mScripts) {
 		Script* script = it.get();
 
 		if (script->isActive()) {

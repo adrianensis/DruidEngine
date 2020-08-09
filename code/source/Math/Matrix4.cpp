@@ -245,8 +245,7 @@ void Matrix4::mul(const Matrix4 &other) {
 Vector4 Matrix4::mulVector(const Vector4 &vector) {
 	Vector4 result(0, 0, 0, 0);
 
-	FOR_RANGE (row, 0, 4)
-	{
+	FOR_RANGE (row, 0, 4) {
 		result[row] = 0;
 		FOR_RANGE (col, 0, 4)
 			result[row] += this->get(row, col) * vector[col];

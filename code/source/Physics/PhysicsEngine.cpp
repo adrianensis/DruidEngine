@@ -9,6 +9,7 @@
 #include "Settings.hpp"
 #include "ContactsManager.hpp"
 #include "RenderEngine.hpp"
+#include "Renderer.hpp"
 
 namespace DE {
 
@@ -73,42 +74,77 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 void PhysicsEngine::step(f32 deltaTime) {
 
+	u32 it = 0;
+	u32 maxIterations = 5.0f; // how many times we want to divide dt
+	f32 factor = 3.0f; // how dt is divided
+
+	f32 minDeltaTime = deltaTime / (maxIterations*factor);
+
 	f32 dt = deltaTime;
-	f32 maxIterations = 5.0f;
 
-	FOR_LIST (it, mRigidBodies)
-	{
-		if (it.get()->isActive()) {
-			if (!it.get()->getCollider()->isPenetrated()) {
+	//bool tryAgain = true;
+
+	//while(tryAgain && dt > minDeltaTime && it < maxIterations){
+		FOR_LIST (it, mRigidBodies) {
+			if (it.get()->isActive()) {
+				it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
-					it.get()->saveState();
-					it.get()->integrate(dt);
+//					if (!it.get()->getCollider()->isPenetrated()) {
+							it.get()->saveState();
+							it.get()->integrate(dt);
+//					} else {
+						//it.get()->restoreState();
+						//it.get()->integrate(-dt*2);
+//						it.get()->getCollider()->unmarkPenetrated();
+//					}
+				}
+			} else if (it.get()->isPendingToBeDestroyed()) {
+				internalRemoveRigidBody(&it);
+			}
+		}
+
+		//tryAgain = false;
+
+		mQuadTree->update();
+
+		/*if (mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION) {
+
+			FOR_LIST (it, mRigidBodies) {
+				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
+					if ((it.get()->getCollider()->isPenetrated())) {
+						it.get()->restoreState();
+						//it.get()->integrate(-dt);
+						//it.get()->stopMovement();
+					}
+
+					it.get()->getCollider()->unmarkPenetrated();
 				}
 			}
-		} else if (it.get()->isPendingToBeDestroyed()) {
-			internalRemoveRigidBody(&it);
-		}
-	}
 
-	mQuadTree->update();
+			//dt = dt / factor;
+			//tryAgain = true;
+		}*/
 
-	if (mQuadTree->getStatus() == ColliderStatus::STATUS_PENETRATION) {
+//		FOR_LIST (it, mRigidBodies) {
+//			if ((it.get()->getCollider()->isPenetrated())) {
+//
+//				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
+//					it.get()->restoreState();
+//					//it.get()->stopMovement();
+//				}
+//
+//				it.get()->getCollider()->unmarkPenetrated();
+//			}
+//		}
 
-		FOR_LIST (it, mRigidBodies)
-		{
-			if ((it.get()->getCollider()->isPenetrated()/*getStatus() == ColliderStatus::STATUS_PENETRATION*/)) {
+		mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
 
-				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
-					it.get()->restoreState();
-					it.get()->stopMovement();
-				}
-			}
+		++it;
 
-			it.get()->getCollider()->unmarkPenetrated();
-		}
-	}
+		updateContacts();
+	//}
 
-	mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
+	//ECHO("------------------------")
 }
 
 // ---------------------------------------------------------------------------
@@ -122,8 +158,7 @@ void PhysicsEngine::updateContacts() {
 void PhysicsEngine::terminate() {
 	TRACE();
 
-	FOR_LIST(it, mRigidBodies)
-	{
+	FOR_LIST(it, mRigidBodies) {
 		Memory::free<RigidBody>(it.get());
 	}
 

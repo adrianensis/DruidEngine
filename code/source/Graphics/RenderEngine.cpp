@@ -102,8 +102,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mShaderLine->initDebug();
 
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount)
-	{
+	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
 		LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
 		lineRenderer->init();
 		lineRenderer->mActive = false;
@@ -168,8 +167,7 @@ void RenderEngine::step() {
 	}
 
 	//check Chunks
-	FOR_ARRAY(i, mChunks)
-	{
+	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
 
 		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
@@ -189,8 +187,7 @@ void RenderEngine::step() {
 
 	u32 drawCallCounter = 0;
 
-	FOR_RANGE(layer, 0, mMaxLayersUsed)
-	{
+	FOR_RANGE(layer, 0, mMaxLayersUsed) {
 		//
 		// FOR_ARRAY(i, mChunks){
 		//   Chunk* chunk = mChunks->get(i);
@@ -227,8 +224,7 @@ void RenderEngine::stepDebug() {
 	const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
 	const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
 
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount)
-	{
+	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
 		LineRenderer* lineRenderer = mLineRenderers->get(i);
 
 		if (lineRenderer->mActive) {
@@ -281,8 +277,7 @@ void RenderEngine::terminate() {
 
 	Memory::free<BatchesMap>(mBatchesMap);
 
-	FOR_ARRAY(i, mChunks)
-	{
+	FOR_ARRAY(i, mChunks) {
 		Memory::free<Chunk>(mChunks->get(i));
 	}
 
@@ -315,8 +310,7 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 	bool found = false;
 	Chunk* chunkTmp = nullptr;
 	Chunk* chunkFound = nullptr;
-	FOR_ARRAY_COND(i, mChunks, !found)
-	{
+	FOR_ARRAY_COND(i, mChunks, !found) {
 		// FOR_ARRAY(i, mChunks){
 		chunkTmp = mChunks->get(i);
 		if (chunkTmp->containsRenderer/*Sphere*/(renderer)) {
@@ -334,12 +328,11 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 
 // ---------------------------------------------------------------------------
 
-void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, u32 size /*= 1*/,
-		bool isAffectedByProjection /*= true*/) {
+void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
+		bool isAffectedByProjection /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
 	bool found = false;
 
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found)
-	{
+	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found) {
 		LineRenderer* lineRenderer = mLineRenderers->get(i);
 
 		if (!lineRenderer->mActive) {

@@ -22,8 +22,7 @@ ScenesManager::ScenesManager() : DE_Class(), Singleton() {
 
 ScenesManager::~ScenesManager() {
 
-	FOR_LIST (it, mScenes)
-	{
+	FOR_LIST (it, mScenes) {
 		Memory::free<Scene>(it.get());
 	}
 
@@ -57,8 +56,7 @@ void ScenesManager::init() {
 		scenesCount = Settings::getInstance()->getU32("scenes.length");
 	}
 
-	FOR_RANGE(i, 0, scenesCount)
-	{
+	FOR_RANGE(i, 0, scenesCount) {
 		Scene* scene = Memory::allocate<Scene>();
 		scene->init();
 		addScene(scene);

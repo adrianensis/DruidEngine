@@ -21,8 +21,7 @@ BatchesMap::BatchesMap() : DE_Class() {
 }
 
 BatchesMap::~BatchesMap() {
-	FOR_LIST(it, mBatches->getValues())
-	{
+	FOR_LIST(it, mBatches->getValues()) {
 		Memory::free<Batch>(it.get());
 	}
 
@@ -32,7 +31,7 @@ BatchesMap::~BatchesMap() {
 // ---------------------------------------------------------------------------
 
 void BatchesMap::init() {
-	TRACE();
+	//TRACE();
 	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
 	mBatches->init();
 }
@@ -60,8 +59,7 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 u32 BatchesMap::render(u32 layer) {
 	u32 drawCallCounter = 0;
 
-	FOR_LIST(it, mBatches->getValues())
-	{
+	FOR_LIST(it, mBatches->getValues()) {
 		drawCallCounter += it.get()->render(layer);
 	}
 
@@ -86,7 +84,7 @@ Chunk::~Chunk() {
 // ---------------------------------------------------------------------------
 
 void Chunk::init() {
-	TRACE();
+	//TRACE();
 
 	mRenderers = Memory::allocate<List<Renderer*>>();
 	mRenderers->init();
@@ -114,8 +112,7 @@ void Chunk::update(BatchesMap *batchesMap) {
 	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
 	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
-	FOR_LIST(it, mRenderers)
-	{
+	FOR_LIST(it, mRenderers) {
 		Renderer* renderer = it.get();
 
 		if (!renderer->isAlreadyInBatch()) {
@@ -170,7 +167,7 @@ bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) {
 bool Chunk::containsRendererSphere(const Renderer *renderer) {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius,
-			renderer->getGameObject()->getTransform()->getScale().y * 2.0f);
+			renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);
 }
 
 // ---------------------------------------------------------------------------

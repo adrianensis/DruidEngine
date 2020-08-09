@@ -14,15 +14,13 @@ MaterialManager::MaterialManager() : DE_Class() {
 }
 
 MaterialManager::~MaterialManager() {
-	FOR_LIST(it, mTexturesMap->getValues())
-	{
+	FOR_LIST(it, mTexturesMap->getValues()) {
 		Memory::free<Texture>(it.get());
 	}
 
 	Memory::free<HashMap<std::string, Texture*>>(mTexturesMap);
 
-	FOR_LIST(it, mMaterialsMap->getValues())
-	{
+	FOR_LIST(it, mMaterialsMap->getValues()) {
 		Memory::free<Material>(it.get());
 	}
 

@@ -24,7 +24,7 @@ Memory::~Memory() {
 
 void Memory::init() {
 
-	// NOTE: Log stats here!!
+	// NOTE: Log starts here!!
 	Log::init();
 
 	TRACE();

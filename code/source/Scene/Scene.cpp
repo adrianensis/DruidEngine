@@ -42,8 +42,7 @@ Scene::~Scene() {
 // ---------------------------------------------------------------------------
 
 void Scene::destroyGameObjects() {
-	FOR_LIST (it, mGameObjects)
-	{
+	FOR_LIST (it, mGameObjects) {
 		if (!it.get()->isDestroyed()) {
 			it.get()->destroy();
 			Memory::free<GameObject>(it.get());
@@ -103,8 +102,7 @@ void Scene::loadScene(const std::string &path) {
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
-	FOR_RANGE(i, 0, length)
-	{
+	FOR_RANGE(i, 0, length) {
 		std::string indexStr = std::to_string(i);
 		std::string objectStr = "objects[" + indexStr + "]";
 
@@ -133,6 +131,15 @@ void Scene::loadScene(const std::string &path) {
 
 		renderer->setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);
 
+		if(configMap->getBool(objectStr + ".hasCollider")) {
+			RigidBody* rigidBody = Memory::allocate<RigidBody>();
+			gameObject->addComponent<RigidBody>(rigidBody);
+
+			Collider* collider = Memory::allocate<Collider>();
+			gameObject->addComponent<Collider>(collider);
+			collider->setSize(configMap->getF32(objectStr + ".collider.width"), configMap->getF32(objectStr + ".collider.height"));
+		}
+
 		gameObject->setIsStatic(configMap->getBool(objectStr + ".isStatic"));
 
 		gameObject->setShouldPersist(configMap->getBool(objectStr + ".shouldPersist"));
@@ -145,12 +152,6 @@ void Scene::loadScene(const std::string &path) {
 
 // ---------------------------------------------------------------------------
 
-void Scene::unloadScene() {
-	destroyGameObjects();
-}
-
-// ---------------------------------------------------------------------------
-
 void Scene::saveScene(const std::string &path) {
 
 	ConfigMap* configMap = Memory::allocate<ConfigMap>();
@@ -159,8 +160,7 @@ void Scene::saveScene(const std::string &path) {
 	f32 maxSize = 0;
 
 	u32 counter = 0;
-	FOR_LIST(it, mGameObjects)
-	{
+	FOR_LIST(it, mGameObjects) {
 		if (it.get()->isStatic() && it.get()->shouldPersist()) {
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
@@ -176,21 +176,36 @@ void Scene::saveScene(const std::string &path) {
 
 			Vector3 size = t->getScale();
 
-			Renderer* renderer = it.get()->getComponents<Renderer>()->get(0);
-			Texture* texture = renderer->getMaterial()->getTexture();
+			auto rendererList = it.get()->getComponents<Renderer>();
+			Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
+
+			auto colliderList = it.get()->getComponents<Collider>();
+			Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
 
 			configMap->setF32(objectStr + ".worldPosition.x", worldPosition.x);
 			configMap->setF32(objectStr + ".worldPosition.y", worldPosition.y);
 			configMap->setF32(objectStr + ".size.width", size.x);
 			configMap->setF32(objectStr + ".size.height", size.y);
-			configMap->setString(objectStr + ".texture.path", texture->getPath());
-			configMap->setF32(objectStr + ".texture.region.u", renderer->getRegionPosition().x);
-			configMap->setF32(objectStr + ".texture.region.v", renderer->getRegionPosition().y);
-			configMap->setF32(objectStr + ".texture.region.width", renderer->getRegionSize().x);
-			configMap->setF32(objectStr + ".texture.region.height", renderer->getRegionSize().y);
+
+			if(renderer) {
+				Texture* texture = renderer->getMaterial()->getTexture();
+				configMap->setString(objectStr + ".texture.path", texture->getPath());
+				configMap->setF32(objectStr + ".texture.region.u", renderer->getRegionPosition().x);
+				configMap->setF32(objectStr + ".texture.region.v", renderer->getRegionPosition().y);
+				configMap->setF32(objectStr + ".texture.region.width", renderer->getRegionSize().x);
+				configMap->setF32(objectStr + ".texture.region.height", renderer->getRegionSize().y);
+				configMap->setU32(objectStr + ".layer", renderer->getLayer());
+			}
+
+			configMap->setBool(objectStr + ".hasCollider", collider ? true : false);
+
+			if(collider) {
+				configMap->setF32(objectStr + ".collider.width", collider->getWidth());
+				configMap->setF32(objectStr + ".collider.height", collider->getHeight());
+			}
+
 			configMap->setBool(objectStr + ".isStatic", it.get()->isStatic());
 			configMap->setBool(objectStr + ".shouldPersist", it.get()->shouldPersist());
-			configMap->setU32(objectStr + ".layer", renderer->getLayer());
 
 			counter++;
 		}
@@ -202,6 +217,12 @@ void Scene::saveScene(const std::string &path) {
 	configMap->writeConfigFile(path);
 
 	Memory::free<ConfigMap>(configMap);
+}
+
+// ---------------------------------------------------------------------------
+
+void Scene::unloadScene() {
+	destroyGameObjects();
 }
 
 // ---------------------------------------------------------------------------
@@ -291,8 +312,7 @@ void Scene::step() {
 // ---------------------------------------------------------------------------
 
 void Scene::flushNewGameObjects() {
-	FOR_LIST (itGameObjects, mNewGameObjects)
-	{
+	FOR_LIST (itGameObjects, mNewGameObjects) {
 		mGameObjects->pushBack(itGameObjects.get());
 	}
 

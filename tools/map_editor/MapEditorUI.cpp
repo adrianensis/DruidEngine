@@ -53,6 +53,7 @@ const std::string MapEditorUI::StringsUI::smInspectorTileY = "y:";
 const std::string MapEditorUI::StringsUI::smInspectorTileCollider = "collider:";
 const std::string MapEditorUI::StringsUI::smInspectorTileTag = "tag:";
 const std::string MapEditorUI::StringsUI::smInspectorSize = "size:";
+const std::string MapEditorUI::StringsUI::smInspectorSizeCollider = "collider size:";
 const std::string MapEditorUI::StringsUI::smGrid = "Grid";
 
 // ---------------------------------------------------------------------------
@@ -172,7 +173,6 @@ void MapEditorUI::createInspector() {
 	f32 baseX = 0.85f;
 	f32 baseY = 0.9f;
 	f32 separatorSize = 0.05f;
-	f32 size = 0.2f;
 
 	mTextInspectorTag = (UIText*) UI::getInstance()->getBuilder()->
 		setLayout(UILayout::VERTICAL)->
@@ -231,9 +231,7 @@ void MapEditorUI::createInspector() {
 		create(UIElementType::TEXT)->
 		getUIElement();
 
-
 	mTextBoxSizeX = (UIText*) UI::getInstance()->getBuilder()->
-		setSize(mTextSize)->
 		setText("0.0")->
 		setLayer(mUILayer)->
 		create(UIElementType::TEXTBOX)->
@@ -241,16 +239,15 @@ void MapEditorUI::createInspector() {
 
 	mTextBoxSizeX->setOnTextChangedFunctor([self = mTextBoxSizeX, mapEditor = mMapEditor]() {
 		if(mapEditor->mSelectedTile){
-			std::string coordXStr(self->getInputString());
+			std::string width(self->getInputString());
 
 			Transform* tileTransform = mapEditor->mSelectedTile->getTransform();
 			Vector3 scale = tileTransform->getScale();
-			tileTransform->setScale(Vector3(std::stof(coordXStr), scale.y, scale.z));
+			tileTransform->setScale(Vector3(std::stof(width.length() > 0 ? width : "0"), scale.y, scale.z));
 		}
 	});
 
 	mTextBoxSizeY = (UIText*) UI::getInstance()->getBuilder()->
-		setSize(mTextSize)->
 		setText("0.0")->
 		setLayer(mUILayer)->
 		create(UIElementType::TEXTBOX)->
@@ -258,11 +255,53 @@ void MapEditorUI::createInspector() {
 
 	mTextBoxSizeY->setOnTextChangedFunctor([self = mTextBoxSizeY, mapEditor = mMapEditor]() {
 		if(mapEditor->mSelectedTile){
-			std::string coordYStr(self->getInputString());
+			std::string height(self->getInputString());
 
 			Transform* tileTransform = mapEditor->mSelectedTile->getTransform();
 			Vector3 scale = tileTransform->getScale();
-			tileTransform->setScale(Vector3(scale.x, std::stof(coordYStr), scale.z));
+			tileTransform->setScale(Vector3(scale.x, std::stof(height.length() > 0 ? height : "0"), scale.z));
+		}
+	});
+
+	mTextColliderSize = (UIText*) UI::getInstance()->getBuilder()->
+		setText(StringsUI::smInspectorSizeCollider)->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXT)->
+		getUIElement();
+
+	mTextBoxColliderSizeX = (UIText*) UI::getInstance()->getBuilder()->
+		setText("0.0")->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXTBOX)->
+		getUIElement();
+
+	mTextBoxColliderSizeX->setOnTextChangedFunctor([self = mTextBoxColliderSizeX, mapEditor = mMapEditor]() {
+		if(mapEditor->mSelectedTile){
+			std::string width(self->getInputString());
+
+			auto colliderList = mapEditor->mSelectedTile->getComponents<Collider>();
+			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
+
+			if(collider)
+				collider->setSize(std::stof(width.length() > 0 ? width : "0"), collider->getHeight());
+		}
+	});
+
+	mTextBoxColliderSizeY = (UIText*) UI::getInstance()->getBuilder()->
+		setText("0.0")->
+		setLayer(mUILayer)->
+		create(UIElementType::TEXTBOX)->
+		getUIElement();
+
+	mTextBoxColliderSizeY->setOnTextChangedFunctor([self = mTextBoxColliderSizeY, mapEditor = mMapEditor]() {
+		if(mapEditor->mSelectedTile){
+			std::string height(self->getInputString());
+
+			auto colliderList = mapEditor->mSelectedTile->getComponents<Collider>();
+			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
+
+			if(collider)
+				collider->setSize(collider->getWidth(), std::stof(height.length() > 0 ? height : "0"));
 		}
 	});
 }
@@ -296,6 +335,14 @@ void MapEditorUI::updateInspectorOnSelectTile() {
 
 		mTextBoxSizeX->setText(std::to_string(tileTransform->getScale().x));
 		mTextBoxSizeY->setText(std::to_string(tileTransform->getScale().y));
+
+		auto colliderList = mMapEditor->mSelectedTile->getComponents<Collider>();
+		Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
+
+		if(collider) {
+			mTextBoxColliderSizeX->setText(std::to_string(collider->getWidth()));
+			mTextBoxColliderSizeY->setText(std::to_string(collider->getHeight()));
+		}
 	}
 }
 
