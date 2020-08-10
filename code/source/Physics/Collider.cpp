@@ -124,7 +124,7 @@ void Collider::markPenetratedBy(Collider* otherCollider) {
 
 	Vector3 force = getCenter().sub(otherCollider->getCenter()).nor();
 
-	mRigidBody->addAntiPenetrationForce(force);
+	mRigidBody->addAntiPenetrationForce(-force);
 	//otherCollider->getRigidBody()->addAntiPenetrationForce(force);
 }
 

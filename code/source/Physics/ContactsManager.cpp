@@ -131,8 +131,8 @@ void ContactsManager::resolveContact(Contact* contact) {
 				colliderB->unmarkPenetrated();
 			}
 
-//			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() - ((normal * j) / massA));
-//			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() / 2.0f);
+			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() - ((normal * j) / massA));
+			colliderA->getRigidBody()->setLinear(colliderA->getRigidBody()->getLinear() / 2.0f);
 
 			//ECHO("NEW LINEAR")
 			linear = colliderA->getRigidBody()->getLinear();
@@ -161,8 +161,8 @@ void ContactsManager::resolveContact(Contact* contact) {
 				colliderB->unmarkPenetrated();
 			}
 
-//			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() + ((normal * j) / massB));
-//			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() / 2.0f);
+			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() + ((normal * j) / massB));
+			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() / 2.0f);
 
 			//ECHO("NEW LINEAR")
 			linear = colliderB->getRigidBody()->getLinear();

@@ -95,7 +95,7 @@ void Playground::createPlayer() {
 	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y);
-	//collider->setCollisionLayer(1);
+	collider->setCollisionLayer(1);
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
