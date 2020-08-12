@@ -141,21 +141,13 @@ void MapEditor::Brush::addTile(GameObject* tile, Vector2 atlasPosition){
 		// If it's the first selected tile, take it as coordinates origin.
 		if(! mGrid->get(0)){
 			mOriginAtlasPosition = atlasPosition;
-			VAR(f32, mOriginAtlasPosition.x);
-			VAR(f32, mOriginAtlasPosition.y);
 		}
 
 		Vector2 distance(std::abs(atlasPosition.x - mOriginAtlasPosition.x),
 				std::abs(atlasPosition.y - mOriginAtlasPosition.y));
 
-		VAR(f32, distance.x);
-		VAR(f32, distance.y);
-
 		mGridSize.x = std::max(mGridSize.x,distance.x + 1);
 		mGridSize.y = std::max(mGridSize.y,distance.y + 1);
-
-		VAR(f32, mGridSize.x);
-		VAR(f32, mGridSize.y);
 
 		mGrid->set(mLastIndex,tile);
 		mLastIndex++;

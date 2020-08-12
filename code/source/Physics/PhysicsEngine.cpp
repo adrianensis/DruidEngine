@@ -80,7 +80,7 @@ void PhysicsEngine::step(f32 deltaTime) {
 
 	FOR_RANGE(iterations, 0, maxIterations){
 		FOR_LIST (it, mRigidBodies) {
-			it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+			//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 			if (it.get()->isActive()) {
 				//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 

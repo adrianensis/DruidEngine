@@ -259,11 +259,13 @@ UIText* UIBuilder::createTextBox() {
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	f32 width = mData.mSize.x * mData.mText.length() / RenderContext::getAspectRatio();
+	f32 halfSizeX = (mData.mSize.x * 4) / RenderContext::getAspectRatio();
+
+	//f32 width = mData.mSize.x * mData.mText.length() / RenderContext::getAspectRatio();
 	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
-	collider->setSize(width, mData.mSize.y);
-	collider->setPositionOffset(Vector3(width/2.0f,0,0));
+	collider->setSize(halfSizeX * 2.0f, mData.mSize.y);
+	collider->setPositionOffset(Vector3(halfSizeX,0,0));
 	collider->getBoundingBox();
 
 	uiText->setSize(mData.mSize);
@@ -278,6 +280,30 @@ UIText* UIBuilder::createTextBox() {
 		Input::setInputCharReceiver(self);
 		self->setText("");
 	});
+
+	// Background
+	f32 atlasBackgroundMargin = 0.1f;
+
+	GameObject* background = Memory::allocate<GameObject>();
+	background->init();
+
+	background->setShouldPersist(false);
+
+
+
+	background->getTransform()->setLocalPosition(aspectRatioCorrectedPosition + Vector3(halfSizeX,0,0));
+	background->getTransform()->setScale(Vector3(halfSizeX * 2.2f, mData.mSize.y, 1));
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	background->addComponent<Renderer>(renderer);
+
+	renderer->setLayer(mData.mLayer - 1);
+	renderer->setAffectedByProjection(false);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(MaterialManager::getInstance()->loadMaterial("resources/button.png"));
+
+	mScene->addGameObject(background);
 
 	mScene->addGameObject(uiText);
 

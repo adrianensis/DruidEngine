@@ -78,7 +78,7 @@ void RigidBody::integrate(f32 deltaTime) {
 
 		if(isSleeping()){
 			mLinear.set(0, 0, 0);
-			getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(-1,0,1,1));
+			//getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(-1,0,1,1));
 		}
 	}
 }

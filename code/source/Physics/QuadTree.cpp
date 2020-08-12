@@ -271,14 +271,14 @@ void QuadTree::Node::update(/*contactManager*/) {
 													colliderA->markPenetratedBy(colliderB);
 													colliderB->markPenetratedBy(colliderA);
 
-													colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
-													colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+//													colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+//													colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
 												}
 											}
 
 											if (status == ColliderStatus::STATUS_COLLISION) {
-												colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
-												colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+//												colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+//												colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
 											}
 
 											ContactsManager::getInstance()->addContact(contact);
