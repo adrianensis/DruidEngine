@@ -69,7 +69,7 @@ private:
 
 	UIButton* mButtonInspectorCollider = nullptr;
 
-	Vector2 mTextSize = Vector2(0.04f, 0.04f);
+	Vector2 mTextSize = Vector2(0.04f / 1.5f, 0.04f);
 
 	Array<UIButton*>* mSpriteButtons = nullptr;
 

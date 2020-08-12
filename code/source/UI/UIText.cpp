@@ -61,7 +61,7 @@ void UIText::setText(const std::string &text) {
 				newRenderersCreated = true;
 			}
 
-			renderer->setPositionOffset(Vector3(i * mSize.x / RenderContext::getAspectRatio(), 0, 0));
+			renderer->setPositionOffset(Vector3(i * (mSize.x) / RenderContext::getAspectRatio(), 0, 0));
 			renderer->setRegion(textureCoordinates.x, textureCoordinates.y, textureSize.x, textureSize.y);
 		}
 

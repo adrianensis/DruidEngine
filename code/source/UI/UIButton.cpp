@@ -30,7 +30,7 @@ void UIButton::setText(const std::string &text) {
 
 			UI::getInstance()->getBuilder()->saveData()->
 					setPosition(Vector2(0, 0))->
-					setSize(Vector2(fontSize, fontSize))->
+					setSize(Vector2(fontSize/1.5f, fontSize))->
 					setText(text)->
 					setLayer(getRenderer()->getLayer() + 1)->
 					setIsAffectedByLayout(false)->

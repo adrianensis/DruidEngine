@@ -97,9 +97,9 @@ void MapEditorUI::createMenuBar() {
 	Scene* scene = mMapEditor->getGameObject()->getScene();
 
 	u32 i = 1;
-	f32 baseX = -1.3f;
-	f32 baseY = 0.9f;
-	f32 sizeChar = 0.045f;
+	f32 baseX = -1.4f;
+	f32 baseY = 0.92f;
+	f32 sizeChar = 0.04f;
 
 	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->
 		setLayout(UILayout::HORIZONTAL)->
@@ -170,9 +170,9 @@ void MapEditorUI::createInspector() {
 	Scene* scene = mMapEditor->getGameObject()->getScene();
 
 	u32 i = 0;
-	f32 baseX = 0.85f;
-	f32 baseY = 0.9f;
-	f32 separatorSize = 0.05f;
+	f32 baseX = 0.84f;
+	f32 baseY = 0.92f;
+	f32 separatorSize = 0.052f;
 
 	mTextInspectorTag = (UIText*) UI::getInstance()->getBuilder()->
 		setLayout(UILayout::VERTICAL)->
@@ -339,10 +339,9 @@ void MapEditorUI::updateInspectorOnSelectTile() {
 		auto colliderList = mMapEditor->mSelectedTile->getComponents<Collider>();
 		Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
 
-		if(collider) {
-			mTextBoxColliderSizeX->setText(std::to_string(collider->getWidth()));
-			mTextBoxColliderSizeY->setText(std::to_string(collider->getHeight()));
-		}
+		mTextBoxColliderSizeX->setText(std::to_string(collider ? collider->getWidth() : 0.0f));
+		mTextBoxColliderSizeY->setText(std::to_string(collider ? collider->getHeight() : 0.0f));
+
 	}
 }
 

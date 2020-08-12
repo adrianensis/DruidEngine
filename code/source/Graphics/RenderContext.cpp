@@ -38,9 +38,8 @@ f32 RenderContext::getAspectRatio() {
 // ---------------------------------------------------------------------------
 
 void RenderContext::onResize(GLFWwindow *window, int width, int height) {
-	glViewport(0, 0, width, height);
-
 	smWindowSize.set(width, height);
+	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
 }
 
 // ---------------------------------------------------------------------------
@@ -53,7 +52,7 @@ void RenderContext::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	smWindowSize.set(720, 480);
+	smWindowSize.set(1080, 720);
 
 	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine",
 	NULL, NULL);
@@ -70,7 +69,7 @@ void RenderContext::init() {
 
 	glfwSetFramebufferSizeCallback(smWindow, RenderContext::onResize);
 
-	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
+	//glViewport(0, 0, smWindowSize.x*10, smWindowSize.y*10);
 
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
