@@ -666,7 +666,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void remove(u32 index) {
+	void removeAt(u32 index) {
 		resetCache();
 		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
@@ -687,7 +687,7 @@ public:
 
 	void remove(ListIterator it) {
 		resetCache();
-		if (!List::isEmpty()) {
+		if (!it.isNull() && !List::isEmpty()) {
 			BaseContainer::mLength--;
 
 			Node* prev = it.mNode->mPrev;
@@ -714,6 +714,12 @@ public:
 			mLast = nullptr;
 		}
 
+	}
+
+	// ---------------------------------------------------------------------------
+
+	void remove(T element) {
+		remove(find(element));
 	}
 
 	// ---------------------------------------------------------------------------

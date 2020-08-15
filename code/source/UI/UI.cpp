@@ -20,6 +20,21 @@
 
 namespace DE {
 
+UIGroup::UIGroup() : DE_Class(){
+	mName = "";
+	mUIElements = nullptr;
+	mVisible = true;
+}
+
+UIGroup::~UIGroup(){
+	Memory::free<List<UIElement*>>(mUIElements);
+}
+
+void UIGroup::init(){
+	mUIElements = Memory::allocate<List<UIElement*>>();
+	mUIElements->init();
+}
+
 // ---------------------------------------------------------------------------
 
 UI::UI() : DE_Class(), Singleton() {
@@ -46,9 +61,58 @@ Material* UI::getFontMaterial() {
 
 // ---------------------------------------------------------------------------
 
+void UI::addToGroup(const std::string& groupName, UIElement* uiElement) {
+
+	if(!mGroups->contains(groupName)){
+		UIGroup* group = Memory::allocate<UIGroup>();
+		group->init();
+		group->mName = groupName;
+
+		mGroups->set(groupName, group);
+	}
+
+	mGroups->get(groupName)->mUIElements->pushBack(uiElement);
+}
+
+void UI::removeFromGroup(const std::string& groupName, UIElement* uiElement) {
+	if(mGroups->contains(groupName)){
+		mGroups->get(groupName)->mUIElements->remove(uiElement);
+	}
+}
+
+void UI::removeElementsFromGroup(const std::string& groupName) {
+	if(mGroups->contains(groupName)){
+		UIGroup* group = mGroups->get(groupName);
+		auto list = group->mUIElements;
+
+		FOR_LIST(it, list){
+			UIElement* element = it.get();
+			element->getScene()->removeGameObject(element);
+		}
+
+		mGroups->get(groupName)->mUIElements->clear();
+	}
+}
+
+void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
+	if(mGroups->contains(groupName)){
+		UIGroup* group = mGroups->get(groupName);
+		group->mVisible = visibility;
+
+		FOR_LIST(it, mGroups->get(groupName)->mUIElements){
+			it.get()->getRenderer()->setIsActive(group->mVisible);
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
 void UI::init() {
 	mUIElements = Memory::allocate<List<UIElement*>>();
 	mUIElements->init();
+
+	mGroups = Memory::allocate<HashMap<std::string, UIGroup*>>();
+	mGroups->init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);
 	mFontTileTextureSize = Vector2(1.0f / mFontTilesCount.x, 1.0f / mFontTilesCount.y);
@@ -186,17 +250,21 @@ void UI::step() {
 
 			UIElement* element = it.get();
 
-			Collider* collider = element->getCollider();
-			Renderer* renderer = element->getRenderer();
+			if(element->isActive()) {
+				Collider* collider = element->getCollider();
+				Renderer* renderer = element->getRenderer();
 
-			if (collider)
-				collider->getBoundingBox(true); // force regenerate bounding box
+				bool clickOk = true;
+				if (collider){
+					collider->getBoundingBox(true); // force regenerate bounding box
+					Vector2 mousePosition = element->getTransform()->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
+					clickOk = collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION;
+				}
 
-			if(renderer){
-				Vector2 mousePosition = renderer->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
+				bool groupOk = (element->getGroup() && element->getGroup()->mVisible) || !element->getGroup();
+				bool rendererOk = (renderer && renderer->isActive() && !renderer->isOutOfCamera()) || !renderer;
 
-				if (collider && collider->isActive() && !renderer->isOutOfCamera()
-						&& collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION) {
+				if (collider && collider->isActive() && rendererOk && clickOk && groupOk) {
 					element->onPressed();
 					pressed = true;
 
@@ -204,9 +272,18 @@ void UI::step() {
 						Input::clearMouseButton();
 					}
 				}
+			} else if(element->isPendingToBeDestroyed()) {
+				internalRemoveUIElement(&it);
 			}
 		}
 	}
+}
+
+// ---------------------------------------------------------------------------
+
+void UI::internalRemoveUIElement(const Iterator *it) {
+	auto castedIt = it->cast<UIElement*>();
+	mUIElements->remove(*castedIt);
 }
 
 // ---------------------------------------------------------------------------
@@ -220,6 +297,14 @@ void UI::terminate() {
 	Memory::free<HashMap<c8, Vector2>>(mCharMap);
 
 	Memory::free<List<UIElement*>>(mUIElements);
+
+	if(mGroups){
+		FOR_LIST(it, mGroups->getValues()){
+			Memory::free<UIGroup>(it.get());
+		}
+
+		Memory::free<HashMap<std::string, UIGroup*>>(mGroups);
+	}
 }
 
 // ---------------------------------------------------------------------------

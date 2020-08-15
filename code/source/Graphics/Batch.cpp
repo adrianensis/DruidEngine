@@ -41,17 +41,7 @@ u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
 	return (aY > bY) ? 1 : (bY > aY) ? 2 : 0;
 }
 
-// ---------------------------------------------------------------------------
 
-Batch::LayerData::LayerData() : DE_Class() {
-	mSorted = false;
-	mDynamicObjectsCount = 0;
-	mSortCounter = 0;
-}
-
-// ---------------------------------------------------------------------------
-
-Batch::LayerData::~LayerData() = default;
 
 // ---------------------------------------------------------------------------
 
@@ -71,8 +61,6 @@ Batch::Batch() : DE_Class() {
 	mBinded = false;
 
 	mChunk = nullptr;
-
-	mSortByYCoordinate = false;
 }
 
 Batch::~Batch() {
@@ -92,11 +80,7 @@ Batch::~Batch() {
 
 	Memory::free<HashMap<u32, List<Renderer*>*>>(mRenderers);
 
-	FOR_LIST(it, mLayersData->getValues()) {
-		Memory::free<LayerData>(it.get());
-	}
 
-	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -108,20 +92,13 @@ Batch::~Batch() {
 void Batch::init(const Mesh *mesh, Material *material) {
 	// TRACE();
 
-	mSortByYCoordinate = Settings::getInstance()->getBool("scene.sortByYCoordinate");
-
 	mRenderEngine = RenderEngine::getInstance();
 
 	mRenderers = Memory::allocate<HashMap<u32, List<Renderer*>*>>();
 	mRenderers->init();
 
-	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
-	mLayersData->init();
-
-	u32 maxLayers = 10; // MOVE TO SETTINGS
-	FOR_RANGE(i, 0, 10) {
+	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()) {
 		mRenderers->set(i, nullptr);
-		mLayersData->set(i, Memory::allocate<LayerData>());
 	}
 
 	mMesh = mesh;
@@ -222,6 +199,8 @@ u32 Batch::render(u32 layer) {
 
 	if (renderers && renderers->getLength() > 0) {
 
+		bool isSortedLayer = mRenderEngine->getLayersData()->get(layer)->mSorted;
+
 		Shader* shader = mMaterial->getShader();
 
 		shader->use();
@@ -236,7 +215,6 @@ u32 Batch::render(u32 layer) {
 
 		FOR_LIST(it, renderers)
 		{
-
 			Renderer* renderer = it.get();
 
 			Chunk* chunk = renderer->getChunk();
@@ -262,7 +240,6 @@ u32 Batch::render(u32 layer) {
 						shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 						shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 					} else {
-						//shader->addMatrix(smScreenOrtho, "projectionMatrix");
 						shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
 						shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
 						shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
@@ -295,7 +272,7 @@ u32 Batch::render(u32 layer) {
 				}
 			}
 
-			if (mSortByYCoordinate && renderer->isAffectedByProjection() && !renderer->isStatic()) {
+			if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
 				internalRemoveRendererFromList(&it, renderers);
 			}
 
@@ -313,47 +290,42 @@ void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 
 	// INSERT SORTED
 
-	if (mSortByYCoordinate) {
+	f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
 
-		f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
+	// CASE 1 : IF LIST IS EMPTY
+	if (renderers->isEmpty()) {
+		renderers->pushBack(renderer);
+	} else {
 
-		// CASE 1 : IF LIST IS EMPTY
-		if (renderers->isEmpty()) {
+		// CASE 2 : RENDERER IS IN THE LAST/FIRST LAYER
+		if (y <= renderers->getLast().get()->getGameObject()->getTransform()->getWorldPosition().y) {
 			renderers->pushBack(renderer);
+		} else if (y >= renderers->getFirst().get()->getGameObject()->getTransform()->getWorldPosition().y) {
+			renderers->pushFront(renderer);
 		} else {
 
-			// CASE 2 : RENDERER IS IN THE LAST/FIRST LAYER
-			if (y <= renderers->getLast().get()->getGameObject()->getTransform()->getWorldPosition().y) {
-				renderers->pushBack(renderer);
-			} else if (y >= renderers->getFirst().get()->getGameObject()->getTransform()->getWorldPosition().y) {
-				renderers->pushFront(renderer);
-			} else {
+			// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
+			bool foundSmallerY = false;
 
-				// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
-				bool foundSmallerY = false;
+			auto itSmallerY = renderers->getIterator();
 
-				auto itSmallerY = renderers->getIterator();
+			FOR_LIST_COND(it, renderers, !foundSmallerY)
+			{
+				Renderer* otherRenderer = it.get();
+				f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
 
-				FOR_LIST_COND(it, renderers, !foundSmallerY)
-				{
-					Renderer* otherRenderer = it.get();
-					f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
-
-					if (y >= otherY) {
-						foundSmallerY = true;
-						itSmallerY = it;
-					}
-				}
-
-				if (foundSmallerY) {
-					renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
-				} else {
-					renderers->pushBack(renderer);
+				if (y >= otherY) {
+					foundSmallerY = true;
+					itSmallerY = it;
 				}
 			}
+
+			if (foundSmallerY) {
+				renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
+			} else {
+				renderers->pushBack(renderer);
+			}
 		}
-	} else {
-		renderers->pushBack(renderer);
 	}
 }
 
@@ -378,10 +350,14 @@ void Batch::addRenderer(Renderer *renderer) {
 	// renderers->pushBack(renderer);
 
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
-		mLayersData->get(renderer->getLayer())->mDynamicObjectsCount++;
+		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount++;
 	}
 
-	insertSorted(renderer, renderers);
+	if(mRenderEngine->getLayersData()->get(renderer->getLayer())->mSorted){
+		insertSorted(renderer, renderers);
+	} else {
+		renderers->pushBack(renderer);
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -405,7 +381,7 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
 		// renderer->setChunk(nullptr);
-		mLayersData->get(renderer->getLayer())->mDynamicObjectsCount--;
+		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}
 }
 

@@ -74,6 +74,7 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 void PhysicsEngine::step(f32 deltaTime) {
 
+	// TODO : Move this to settings.
 	u32 maxIterations = 3.0f; // how many times we want to divide dt
 
 	f32 dt = deltaTime / maxIterations;

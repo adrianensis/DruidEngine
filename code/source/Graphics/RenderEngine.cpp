@@ -73,6 +73,19 @@ void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
 
 // ---------------------------------------------------------------------------
 
+RenderEngine::LayerData::LayerData() : DE_Class() {
+	mSorted = false;
+	mDynamicObjectsCount = 0;
+	mSortCounter = 0;
+	mVisible = true;
+}
+
+// ---------------------------------------------------------------------------
+
+RenderEngine::LayerData::~LayerData() = default;
+
+// ---------------------------------------------------------------------------
+
 RenderEngine::RenderEngine() : DE_Class(), Singleton() {
 	mCamera = nullptr;
 	mLineRenderers = nullptr;
@@ -135,17 +148,18 @@ void RenderEngine::init(f32 sceneSize) {
 	mBatchesMap = Memory::allocate<BatchesMap>();
 	mBatchesMap->init();
 
-	// Chunk for renderers don't affected by projection.
-
-	// mScreenChunk = Memory::allocate<Chunk>();
-	// mScreenChunk->init();
-	// mScreenChunk->set(Vector2(-chunksGridSizeHalf*chunkSize, chunksGridSizeHalf*chunkSize), sceneSize); // Size = The WHOLE scene
-
 	mMaxLayersCount = 10;
 	mMaxLayersUsed = 0;
 
-	//mCamera->getFrustum()->build();
+	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
+	mLayersData->init();
 
+	mMaxLayers = Settings::getInstance()->getU32("scene.maxLayers");
+	FOR_RANGE(i, 0, mMaxLayers) {
+		LayerData* layerData = Memory::allocate<LayerData>();
+		layerData->mSorted = Settings::getInstance()->getBool("scene.sortByYCoordinate");
+		mLayersData->set(i, layerData);
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -188,24 +202,10 @@ void RenderEngine::step() {
 	u32 drawCallCounter = 0;
 
 	FOR_RANGE(layer, 0, mMaxLayersUsed) {
-		//
-		// FOR_ARRAY(i, mChunks){
-		//   Chunk* chunk = mChunks->get(i);
-		//
-		//   if(chunk->isLoaded()){
-		//     drawCallCounter += chunk->render(layer);
-		//   }
-		// }
 
-		drawCallCounter += mBatchesMap->render(layer);
-
-		// NOTE : It only loads once.
-		// if(!mScreenChunk->isLoaded()){
-		//   mScreenChunk->load();
-		// }
-		//
-		// drawCallCounter += mScreenChunk->render(layer);
-
+		if(mLayersData->get(layer)->mVisible){
+			drawCallCounter += mBatchesMap->render(layer);
+		}
 	}
 
 	// VAR(u32,drawCallCounter);
@@ -282,6 +282,12 @@ void RenderEngine::terminate() {
 	}
 
 	Memory::free<Array<Chunk*>>(mChunks);
+
+	FOR_LIST(it, mLayersData->getValues()) {
+		Memory::free<LayerData>(it.get());
+	}
+
+	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 
 	Memory::free<UI>(UI::getInstance());
 }

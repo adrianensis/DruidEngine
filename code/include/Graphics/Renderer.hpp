@@ -78,7 +78,6 @@ public:
 	void updateMaterial(Material *material);
 
 	void setColor(const Vector4 &color);
-	bool isLineMode();
 
 	Vector2 getRegionPosition() const {
 		return mRegionPosition;
@@ -113,13 +112,16 @@ public:
 		mMaterial = newMaterial;
 	};
 
-
 	void setInvertXAxis(bool newInvertXAxis) {
 		mInvertXAxis = newInvertXAxis;
 	};
 
 	void setAlphaEnabled(bool newAlphaEnabled) {
 		mAlphaEnabled = newAlphaEnabled;
+	};
+
+	bool isLineMode() {
+		return mLineMode;
 	};
 
 	void setLineMode(bool newLineMode) {
@@ -161,13 +163,7 @@ public:
 		return mIsAlreadyInBatch;
 	};
 
-
-	bool isAffectedByProjection() {
-		return mIsAffectedByProjection;
-	}
-	void setAffectedByProjection(bool affectedByProjection) {
-		mIsAffectedByProjection = affectedByProjection;
-	}
+	bool isAffectedByProjection();
 
 	void renderCollider();
 };

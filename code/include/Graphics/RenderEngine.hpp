@@ -27,8 +27,8 @@ private:
 	Camera* mCamera;
 
 	class LineRenderer: public DE_Class {
-	public:DE_CLASS(LineRenderer, DE_Class)
-		;
+	public:
+		DE_CLASS(LineRenderer, DE_Class);
 
 		Array<f32>* mVertices; // A line is composed by 2 vertices.
 		u32 mVAO;
@@ -49,17 +49,31 @@ private:
 	u32 mLineRenderersCount;
 
 	Array<Chunk*>* mChunks;
-	// Chunk* mScreenChunk;
 
 	BatchesMap* mBatchesMap;
 
 	u32 mMaxLayersCount;
 	u32 mMaxLayersUsed;
+	u32 mMaxLayers = 10; // MOVE TO SETTINGS
+
+	class LayerData: public DE_Class {
+	public:
+		DE_CLASS(LayerData, DE_Class);
+
+		bool mSorted;
+		u32 mDynamicObjectsCount; // Non static objects count
+		u32 mSortCounter;
+		bool mVisible;
+	};
+
+	HashMap<u32, LayerData*>* mLayersData;
 
 	bool mCameraDirtyTranslation;
 	bool mDebugColliders;
 
-public:DE_CLASS(RenderEngine, DE_Class);
+public:
+
+	DE_CLASS(RenderEngine, DE_Class);
 
 	void init(f32 sceneSize);
 	void bind();
@@ -79,7 +93,6 @@ public:DE_CLASS(RenderEngine, DE_Class);
 		mDebugColliders = debugColliders;
 	};
 
-
 	Camera* getCamera() const {
 		return mCamera;
 	};
@@ -92,6 +105,9 @@ public:DE_CLASS(RenderEngine, DE_Class);
 		return mCameraDirtyTranslation;
 	};
 
+	u32 getMaxLayers() const { return mMaxLayers; };
+
+	HashMap<u32, LayerData*>* getLayersData() const { return mLayersData; };
 
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };

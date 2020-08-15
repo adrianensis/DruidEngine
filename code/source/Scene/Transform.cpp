@@ -20,6 +20,8 @@ Transform::Transform() : Component() {
 	mIsDirtyScale = true;
 
 	mParent = nullptr;
+
+	mIsAffectedByProjection = true;
 }
 
 Transform::~Transform() {

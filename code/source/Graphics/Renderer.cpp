@@ -13,6 +13,7 @@
 #include "RenderEngine.hpp"
 #include "Collider.hpp"
 #include "GameObject.hpp"
+#include "Transform.hpp"
 
 namespace DE {
 
@@ -153,9 +154,6 @@ void Renderer::setColor(const Vector4 &color) {
 	mColor->set(2, color.z);
 	mColor->set(3, color.w);
 };
-bool Renderer::isLineMode() {
-	return mLineMode;
-}
 
 void Renderer::setChunk(Chunk *chunk) {
 	mChunk = chunk;
@@ -164,11 +162,15 @@ Chunk* Renderer::getChunk() {
 	return mChunk;
 };
 
+bool Renderer::isAffectedByProjection() {
+	return getGameObject()->getTransform()->isAffectedByProjection();
+}
+
 // ---------------------------------------------------------------------------
 
 void Renderer::renderCollider() {
 
-	if (mIsAffectedByProjection) {
+	//if (mIsAffectedByProjection) {
 		List<Collider*>* colliders = getGameObject()->getComponents<Collider>();
 
 		if (colliders && !colliders->isEmpty()) {
@@ -181,7 +183,7 @@ void Renderer::renderCollider() {
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), lineSize, mIsAffectedByProjection);
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), lineSize, mIsAffectedByProjection);
 		}
-	}
+	//}
 }
 
 // ---------------------------------------------------------------------------

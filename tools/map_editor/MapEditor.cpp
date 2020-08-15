@@ -36,6 +36,7 @@
 #include "UIText.hpp"
 
 #include "Settings.hpp"
+#include "ConfigMap.hpp"
 
 namespace DE {
 
@@ -110,11 +111,16 @@ void MapEditor::Brush::init(MapEditor* mapEditor) {
 
 	Vector2 size(mMapEditor->mGridTileSize / 2.0f, mMapEditor->mGridTileSize / 2.0f);
 
+	if(mBrushCursor) {
+		mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
+	}
+
 	mBrushCursor = Memory::allocate<GameObject>();
 	mBrushCursor->init();
 
-	mBrushCursor->getTransform()->setLocalPosition(Vector3(0, 0, 0));
-	mBrushCursor->getTransform()->setScale(Vector3(size.x, size.y, 1));
+	mBrushCursor->getTransform()->setLocalPosition(Vector3(-1.4f / RenderContext::getAspectRatio(), 0.8f, 0));
+	mBrushCursor->getTransform()->setScale(Vector3(0.1f / RenderContext::getAspectRatio(), 0.1f, 1));
+	mBrushCursor->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	mBrushCursor->addComponent<Renderer>(renderer);
@@ -123,6 +129,7 @@ void MapEditor::Brush::init(MapEditor* mapEditor) {
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mMapEditor->mMaterial);
+
 
 	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
 }
@@ -181,7 +188,7 @@ void MapEditor::Brush::clear(){
 
 void MapEditor::Brush::setDrawTileSize(f32 size) {
 	mDrawTileSize = size;
-	mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
+	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
 }
 
 // ---------------------------------------------------------------------------
@@ -240,6 +247,11 @@ void MapEditor::createPlayer() {
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
 
+void MapEditor::destroyPlayer(){
+	getGameObject()->getScene()->removeGameObject(mPlayer);
+	mPlayer = nullptr;
+}
+
 // ---------------------------------------------------------------------------
 
 void MapEditor::resetBrush() {
@@ -287,6 +299,14 @@ GameObject* MapEditor::createTile(f32 x, f32 y) {
 
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
+
+	mConfigMap = Memory::allocate<ConfigMap>();
+	mConfigMap->init();
+
+	mConfigMap->readConfigFile("config/editor.conf");
+
+	mGridSize = mConfigMap->getF32("grid.size");
+	mGridTileSize = mConfigMap->getF32("grid.tile.size");
 }
 
 // ---------------------------------------------------------------------------
@@ -297,6 +317,8 @@ void MapEditor::firstStep() {
 	mCameraTransform = mCamera->getGameObject()->getTransform();
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
+	// TODO : brush will need to change material dinamically.
+	// OR Destroy brush cursor and create again.
 
 	mGrid = Memory::allocate<Array<Array<CellData*>*>>();
 	mGrid->init(mGridSize);
@@ -314,9 +336,9 @@ void MapEditor::firstStep() {
 
 	loadMapIntoGrid();
 
-	createBrush();
-
 	mMapEditorUI.init(this);
+
+	createBrush();
 }
 
 // ---------------------------------------------------------------------------
@@ -332,16 +354,18 @@ void MapEditor::step() {
 	if (Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)
 	|| Input::isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 
-		FOR_RANGE(i, 0, mBrush.mGridSize.y){
-			FOR_RANGE(j, 0, mBrush.mGridSize.x){
-				f32 offset = mGridTileSize;
-				click(clampedPosition + Vector3(offset*j, -offset*i, 0), mBrush.getTile(i, j));
+		if(RenderEngine::getInstance()->getLayersData()->get(mLayer)->mVisible){
+			FOR_RANGE(i, 0, mBrush.mGridSize.y){
+				FOR_RANGE(j, 0, mBrush.mGridSize.x){
+					f32 offset = mGridTileSize;
+					click(clampedPosition + Vector3(offset*j, -offset*i, 0), mBrush.getTile(i, j));
+				}
 			}
 		}
 	}
 
-	if (mBrush.mBrushCursor)
-		mBrush.mBrushCursor->getTransform()->setLocalPosition(world);
+//	if (mBrush.mBrushCursor)
+//		mBrush.mBrushCursor->getTransform()->setLocalPosition(world);
 
 	cameraZoom();
 	processMovement();
@@ -470,7 +494,7 @@ void MapEditor::removeTile(CellData *cellData) {
 
 void MapEditor::cameraZoom() {
 	f32 scroll = Input::getScroll();
-	mZoom += std::fabs(scroll) * 0.5f * Time::getDeltaTimeSeconds();
+	mZoom += std::fabs(scroll) * 0.05f * Time::getDeltaTimeSeconds();
 
 	if (scroll == 1) {
 		mCamera->setZoom(1.0f / mZoom);
@@ -590,6 +614,8 @@ void MapEditor::terminate() {
 	}
 
 	Memory::free<Array<Array<CellData*>*>>(mGrid);
+
+	Memory::free<ConfigMap>(mConfigMap);
 }
 
 // ---------------------------------------------------------------------------

@@ -36,6 +36,7 @@ private:
 		static const std::string smCollider;
 		static const std::string smAtlas;
 		static const std::string smPlay;
+		static const std::string smCreateSprite;
 		static const std::string smInspectorTileX;
 		static const std::string smInspectorTileY;
 		static const std::string smInspectorTileCollider;
@@ -45,18 +46,22 @@ private:
 		static const std::string smGrid;
 	};
 
+	std::string mAtlasSelectorUIGroup = "atlasSelector";
+	std::string mAtlasUIGroup = "atlas";
+	std::string mSpritesUIGroup = "sprites";
+
 	Array<UIButton*>* mAtlasButtons = nullptr;
 	bool mIsAtlasShow = true;
 	GameObject* mAtlasBackground = nullptr;
 
 	MapEditor* mMapEditor;
 
-	UIText* mTextLayer = nullptr;
 	UIText* mTextTile = nullptr;
 	UIText* mTextZoom = nullptr;
 	UIText* mTextBrush = nullptr;
 
 	UIText* mTextInspectorTag = nullptr;
+	UIText* mTextBoxTag = nullptr;
 	UIText* mTextInspectorX = nullptr;
 	UIText* mTextInspectorY = nullptr;
 	UIText* mTextInspectorCollider = nullptr;
@@ -72,6 +77,7 @@ private:
 	Vector2 mTextSize = Vector2(0.04f / 1.5f, 0.04f);
 
 	Array<UIButton*>* mSpriteButtons = nullptr;
+	Array<UIButton*>* mLayerButtons = nullptr;
 
 	bool mIsGridShow = false;
 
@@ -87,10 +93,13 @@ public:
 
 	void createInspector();
 
-	void createAtlas();
+	void createAtlasSelector();
+	void createAtlas(u32 index, Material* material);
 	void toggleAtlas();
 
 	void createSprites();
+
+	void createLayersBar();
 
 	void update();
 	void updateInspector();
@@ -99,7 +108,7 @@ public:
 	void updateGridLines();
 	void toggleGrid();
 
-
+	void selectLayer(u32 layer);
 };
 
 } /* namespace DE */

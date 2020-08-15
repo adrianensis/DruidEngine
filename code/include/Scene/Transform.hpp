@@ -29,6 +29,8 @@ private:
 
 	Transform* mParent;
 
+	bool mIsAffectedByProjection;
+
 public:
 
 	static const Vector3 smRight;
@@ -93,6 +95,13 @@ public:
 
 	void setParent(Transform *parent);
 	Transform* getParent();
+
+	bool isAffectedByProjection() {
+		return mIsAffectedByProjection;
+	}
+	void setAffectedByProjection(bool affectedByProjection) {
+		mIsAffectedByProjection = affectedByProjection;
+	}
 
 	// ---------------------------------------------------------------------------
 

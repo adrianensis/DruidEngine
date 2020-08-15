@@ -21,6 +21,7 @@ class Material;
 template<class K, class V> class HashMap;
 template<class T> class Array;
 template<class T> class List;
+class ConfigMap;
 
 class MapEditor: public Script {
 private:
@@ -58,7 +59,9 @@ private:
 		void setDrawTileSize(f32 size);
 	};
 
-	u32 mGridSize = 50; // TODO : move to settings
+
+
+	u32 mGridSize;
 	Array<Array<CellData*>*>* mGrid = nullptr;
 
 	Transform* mTransform = nullptr;
@@ -75,7 +78,9 @@ public:
 	GameObject* mSelectedTile = nullptr;
 	MapEditorUI mMapEditorUI;
 	Material* mMaterial = nullptr;
-	f32 mGridTileSize = 100; // TODO : move to settings
+	f32 mGridTileSize;
+
+	ConfigMap* mConfigMap = nullptr;
 
 	Brush mBrush;
 
@@ -88,6 +93,7 @@ public:
 
 	GameObject* createTile(f32 x, f32 y);
 	void createPlayer();
+	void destroyPlayer();
 
 	void click(const Vector3 &clampedPosition, GameObject* brush);
 	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush);

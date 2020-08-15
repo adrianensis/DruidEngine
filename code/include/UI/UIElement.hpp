@@ -10,6 +10,7 @@ namespace DE {
 
 class Collider;
 class Renderer;
+class UIGroup;
 
 class UIElement: public GameObject {
 
@@ -28,6 +29,8 @@ private:
 	bool mConsumeInput;
 
 	std::string mInputString;
+
+	UIGroup* mGroup;
 
 public:
 
@@ -49,7 +52,7 @@ public:
 		mOnReleasedFunctor.setCallback(callback);
 	}
 
-	void setOnTextChangedFunctor(std::function<void()> callback) {
+	void setOnTextChangedCallback(std::function<void()> callback) {
 		mOnTextChangedFunctor.setCallback(callback);
 	}
 
@@ -79,6 +82,9 @@ public:
 	};
 
 	void setComponentsCache();
+
+	const UIGroup* getGroup() const { return mGroup; };
+	void setGroup(UIGroup* group) { mGroup = group; };
 
 };
 

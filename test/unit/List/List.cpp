@@ -64,18 +64,18 @@ int main() {
 
 	DE_test_expected_uint(list->getLength(), 3);
 
-	list->remove(1);
+	list->removeAt(1);
 
 	DE_test_expected_uint(list->get(0), 0);
 	DE_test_expected_uint(list->get(1), 2);
 
 	DE_test_expected_uint(list->getLength(), 2);
 
-	list->remove(0);
+	list->removeAt(0);
 
 	DE_test_expected_uint(list->get(0), 2);
 
-	list->remove(0);
+	list->removeAt(0);
 
 	DE_test_expected_uint(list->getLength(), 0);
 

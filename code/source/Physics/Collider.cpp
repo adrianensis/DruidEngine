@@ -40,7 +40,7 @@ Collider::~Collider() {
 		Memory::free<Array<Vector2>>(mBoxVertices);
 	}
 
-	Memory::free<Contact>(mLastContact);
+	Memory::free<Contact>(mLastContact); // TODO: remove contact here or in contact manager?
 }
 
 // ---------------------------------------------------------------------------

@@ -207,12 +207,12 @@ void ContactsManager::updateContacts() {
 
 				resolveContact(contact);
 
-				if (gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
+				if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 					Script* script = gameObjectA->getComponents<Script>()->get(0);
 					script->onEnterCollision(gameObjectB);
 				}
 
-				if (gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
+				if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
 					Script* script = gameObjectB->getComponents<Script>()->get(0);
 					script->onEnterCollision(gameObjectA);
 				}
@@ -245,12 +245,12 @@ void ContactsManager::updateContacts() {
 					/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
 					RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);*/
 
-					if (gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
+					if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 						Script* script = gameObjectA->getComponents<Script>()->get(0);
 						script->onCollision(gameObjectB);
 					}
 
-					if (gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
+					if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
 						Script* script = gameObjectB->getComponents<Script>()->get(0);
 						script->onCollision(gameObjectA);
 					}
@@ -264,12 +264,12 @@ void ContactsManager::updateContacts() {
 //				ECHO("B - " + gameObjectB->getTag())
 //				BRLINE()
 
-				if (gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
+				if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 					Script* script = gameObjectA->getComponents<Script>()->get(0);
 					script->onExitCollision(gameObjectB);
 				}
 
-				if (gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
+				if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
 					Script* script = gameObjectB->getComponents<Script>()->get(0);
 					script->onExitCollision(gameObjectA);
 				}

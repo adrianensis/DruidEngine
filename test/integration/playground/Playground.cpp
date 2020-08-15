@@ -167,7 +167,7 @@ void Playground::init() {
 
 void Playground::firstStep() {
 
-	RenderEngine::getInstance()->setDebugColliders(true);
+	//RenderEngine::getInstance()->setDebugColliders(true);
 
 	mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
 	mCameraTransform = mCamera->getGameObject()->getTransform();

@@ -170,6 +170,7 @@ UIButton* UIBuilder::createButton() {
 
 	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiButton->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiButton->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	uiButton->addComponent<Renderer>(renderer);
@@ -177,8 +178,6 @@ UIButton* UIBuilder::createButton() {
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mButtonMaterial);
 	renderer->setLayer(mData.mLayer);
-
-	renderer->setAffectedByProjection(false);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiButton->addComponent<RigidBody>(rigidBody);
@@ -220,6 +219,7 @@ UIText* UIBuilder::createText() {
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiText->getTransform()->setAffectedByProjection(false);
 
 	uiText->setSize(mData.mSize);
 	uiText->setLayer(mData.mLayer);
@@ -254,6 +254,7 @@ UIText* UIBuilder::createTextBox() {
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiText->getTransform()->setAffectedByProjection(false);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
@@ -289,16 +290,14 @@ UIText* UIBuilder::createTextBox() {
 
 	background->setShouldPersist(false);
 
-
-
 	background->getTransform()->setLocalPosition(aspectRatioCorrectedPosition + Vector3(halfSizeX,0,0));
 	background->getTransform()->setScale(Vector3(halfSizeX * 2.2f, mData.mSize.y, 1));
+	background->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	background->addComponent<Renderer>(renderer);
 
 	renderer->setLayer(mData.mLayer - 1);
-	renderer->setAffectedByProjection(false);
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadMaterial("resources/button.png"));

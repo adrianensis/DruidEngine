@@ -22,7 +22,6 @@ UIElement::~UIElement() = default;
 // ---------------------------------------------------------------------------
 
 void UIElement::inputCharCallback(c8 character) {
-
 	mInputString += character;
 	setText(mInputString);
 }
@@ -53,8 +52,8 @@ void UIElement::onReleased() {
 // ---------------------------------------------------------------------------
 
 void UIElement::setComponentsCache() {
-	mRenderer = getComponents<Renderer>() ? getComponents<Renderer>()->get(0) : nullptr;
-	mCollider = getComponents<Collider>() ? getComponents<Collider>()->get(0) : nullptr;
+	mRenderer = getComponents<Renderer>() && getComponents<Renderer>()->getLength() > 0 ? getComponents<Renderer>()->get(0) : nullptr;
+	mCollider = getComponents<Collider>() && getComponents<Collider>()->getLength() > 0 ? getComponents<Collider>()->get(0) : nullptr;
 }
 
 // ---------------------------------------------------------------------------

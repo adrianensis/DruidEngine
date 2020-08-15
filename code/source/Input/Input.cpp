@@ -20,9 +20,11 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 		smLastKeyPressed = key;
 		smKeyJustPressed = true;
 
-		if(key == GLFW_KEY_ENTER && smUIElement){
-			smUIElement->inputCloseCallback();
-			smUIElement = nullptr;
+		if(key == GLFW_KEY_ENTER){
+			if(smUIElement) {
+				smUIElement->inputCloseCallback();
+				smUIElement = nullptr;
+			}
 		}
 
 	} else if (action == GLFW_RELEASE) {

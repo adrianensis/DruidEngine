@@ -24,18 +24,11 @@ private:
 
 	RenderEngine* mRenderEngine;
 
-	class LayerData: public DE_Class {
-	public:DE_CLASS(LayerData, DE_Class)
-		;
 
-		bool mSorted;
-		u32 mDynamicObjectsCount; // Non static objects count
-		u32 mSortCounter;
-	};
 
 	HashMap<u32, List<Renderer*>*>* mRenderers;
 	HashMap<u32, List<Renderer*>*>* mDynamicRenderers;
-	HashMap<u32, LayerData*>* mLayersData;
+
 
 	Material* mMaterial;
 	const Mesh* mMesh;
@@ -51,8 +44,6 @@ private:
 	u32 mTextureId;
 
 	Chunk* mChunk;
-
-	bool mSortByYCoordinate;
 
 	bool checkInFrustum(Camera *cam, Renderer *renderer);
 	bool checkDistance(Camera *cam, Renderer *renderer);
@@ -89,7 +80,6 @@ public:
 	void setMaterial(Material *newMaterial) {
 		mMaterial = newMaterial;
 	};
-
 
 	void setChunk(Chunk *chunk);
 	Chunk* getChunk();

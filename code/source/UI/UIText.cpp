@@ -6,6 +6,7 @@
 #include "UI.hpp"
 #include "Scene.hpp"
 #include "RenderContext.hpp"
+#include "Transform.hpp"
 
 namespace DE {
 
@@ -56,8 +57,6 @@ void UIText::setText(const std::string &text) {
 				renderer->setMaterial(UI::getInstance()->getFontMaterial());
 				renderer->setLayer(mLayer);
 
-				renderer->setAffectedByProjection(false);
-
 				newRenderersCreated = true;
 			}
 
@@ -70,6 +69,9 @@ void UIText::setText(const std::string &text) {
 		}
 
 		mString = text;
+
+		// NOTE: IMPORTANT - REFRESH COMPONENTS
+		setComponentsCache();
 	}
 }
 

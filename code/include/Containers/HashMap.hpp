@@ -229,7 +229,7 @@ public:
 
 		if (found) {
 			mValues->remove(mValues->find(selectedIt.get()->mElement));
-			list->remove(index - 1);
+			list->removeAt(index - 1);
 			BaseContainer::mLength--;
 
 			if (list->getLength() == 0) {
