@@ -57,6 +57,9 @@ ContactsManager::~ContactsManager() {
 	}
 	Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
 
+	FOR_LIST (it, mContactsToRemove) {
+		Memory::free<Contact>(it.get());
+	}
 	Memory::free<List<Contact*>>(mContactsToRemove);
 }
 

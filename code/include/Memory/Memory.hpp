@@ -3,6 +3,7 @@
 
 #include "Allocator.hpp"
 #include <map>
+#include <typeinfo>       // operator typeid
 #include <string>
 
 #define KB (1024.0f)
@@ -12,7 +13,7 @@
 namespace DE {
 
 class Allocator;
-// class FreeListAllocator;
+class FreeListAllocator;
 class LinearAllocator;
 
 class Memory: public DE_Class {
@@ -27,8 +28,8 @@ private:
 	 * Debug memory Heap, only for allocations that will not be needed in final game.
 	 */
 
-	// static FreeListAllocator smGlobal;
-	static LinearAllocator smGlobal;
+	static FreeListAllocator smGlobal;
+	// static LinearAllocator smGlobal;
 
 	// static DE::Array<bool>* mFlags;
 	// static DE::Array<PoolAllocator>* mPools;
@@ -63,6 +64,7 @@ public:
 		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
 
 		std::string className = T::getClassNameStatic();
+		//className = className + typeid(T).name();
 
 		if(memoryMapCounter.find(className) == memoryMapCounter.end()){
 			memoryMapCounter.insert(std::make_pair(className, 0));
@@ -81,6 +83,7 @@ public:
 			//ECHO("MEMORY FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
 
 			std::string className = pointer->getClassName();
+			//className = className + typeid(T).name();
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
 				if(memoryMapCounter[className] > 0){

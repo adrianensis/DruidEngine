@@ -138,7 +138,7 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 	Vector3 direction = Vector3(mPlayer->getTransform()->getWorldPosition()).sub(Vector3(x, y, 0));
 	direction.nor();
 
-	rigidBody->setLinear(-direction * 600);
+	rigidBody->setLinear(-direction * 250);
 
 	ProjectileScript* script = Memory::allocate<ProjectileScript>();
 	tile->addComponent<Script>(script);

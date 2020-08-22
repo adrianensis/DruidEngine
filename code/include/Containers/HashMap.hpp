@@ -264,10 +264,9 @@ public:
 			FOR_ARRAY(i, mArray) {
 
 				List<Node*>* list = mArray->get(i);
-				if (list && !list->isEmpty()) {
+				if (list) {
 
-					FOR_LIST(it, list)
-					{
+					FOR_LIST(it, list) {
 						freeNode(it.get());
 					}
 

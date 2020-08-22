@@ -7,8 +7,8 @@ namespace DE {
 
 std::map<std::string, u32> Memory::memoryMapCounter;
 
-// FreeListAllocator Memory::smGlobal;
-LinearAllocator Memory::smGlobal;
+FreeListAllocator Memory::smGlobal;
+//LinearAllocator Memory::smGlobal;
 
 // ---------------------------------------------------------------------------
 
