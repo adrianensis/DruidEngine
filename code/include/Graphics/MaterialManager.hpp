@@ -15,6 +15,7 @@ class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
 	HashMap<std::string, Texture*>* mTexturesMap;
 	HashMap<std::string, Material*>* mMaterialsMap;
+	Material* mNoTextureMaterial;
 
 public:
 
@@ -23,6 +24,8 @@ public:
 	void init();
 	Texture* loadTexture(const std::string &path);
 	Material* loadMaterial(const std::string &path);
+
+	Material* loadNoTextureMaterial();
 };
 
 } /* namespace DE */

@@ -50,4 +50,10 @@ void UIButton::setText(const std::string &text) {
 	}
 }
 
+void UIButton::setVisibility(bool visibility) {
+	UIElement::setVisibility(visibility);
+
+	if(mLabel) mLabel->setVisibility(visibility);
+}
+
 } /* namespace DE */

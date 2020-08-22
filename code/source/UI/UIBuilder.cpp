@@ -36,16 +36,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mLayer = layer;
 	mIsAffectedByLayout = true;
 	mSeparatorSize = 0.01f;
-}
-
-// ---------------------------------------------------------------------------
-
-void UIElementData::copy(UIElementData& otherData){
-	mPosition = otherData.mPosition;
-	mSize = otherData.mSize;
-	mText = otherData.mText;
-	mLayer = otherData.mLayer;
-	mIsAffectedByLayout = otherData.mIsAffectedByLayout;
+	mBackgroundColor = Vector4(0,0,0,1);
 }
 
 // ---------------------------------------------------------------------------
@@ -59,7 +50,7 @@ UIBuilder::UIBuilder() : DE_Class(), Singleton() {
 	mCurrentUIElement = nullptr;
 
 	mData.init(Vector2(0,0), Vector2(0,0), "", 0);
-	mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
+	//mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
 }
 
 UIBuilder::~UIBuilder() = default;
@@ -86,7 +77,7 @@ UIBuilder* const UIBuilder::setIsAffectedByLayout(bool affectedByLayout){
 }
 
 UIBuilder* const UIBuilder::setData(UIElementData data) {
-	mData.copy(data);
+	mData = data;
 	return this;
 }
 
@@ -107,6 +98,11 @@ UIBuilder* const UIBuilder::setLayer(u32 layer) {
 
 UIBuilder* const UIBuilder::setText(const std::string &text) {
 	mData.mText = text;
+	return this;
+}
+
+UIBuilder* const UIBuilder::setBackgroundColor(Vector4 backgroundColor) {
+	mData.mBackgroundColor = backgroundColor;
 	return this;
 }
 
@@ -144,13 +140,61 @@ void UIBuilder::calculateData(){
 }
 
 UIBuilder* const UIBuilder::saveData() {
-	mSavedData.copy(mData);
+	if(!mDataStack){
+		mDataStack = Memory::allocate<List<UIElementData>>(); // TODO : free this list!!
+		mDataStack->init();
+	}
+
+	mDataStack->pushFront(mData);
+	//mSavedData.copy(mData);
 	return this;
 }
 
 UIBuilder* const UIBuilder::restoreData() {
-	mData.copy(mSavedData);
+	//mData.copy(mSavedData);
+
+	mData = mDataStack->popFront();
 	return this;
+}
+
+// ---------------------------------------------------------------------------
+
+UIElement* UIBuilder::createPanel() {
+	calculateData();
+
+	UIElement* uiPanel = Memory::allocate<UIButton>();
+	uiPanel->init();
+
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+
+	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiPanel->getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	uiPanel->addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	//renderer->setMaterial(mButtonMaterial);
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setColor(mData.mBackgroundColor);
+	renderer->setLayer(mData.mLayer);
+	renderer->setHasBorder(true);
+
+	uiPanel->setComponentsCache();
+
+	uiPanel->setIsStatic(true);
+
+	mScene->addGameObject(uiPanel);
+
+	UI::getInstance()->addUIElement(uiPanel);
+
+	mCurrentUIElement = uiPanel;
+
+	if(mData.mIsAffectedByLayout)
+		mLastUIElement = mCurrentUIElement;
+
+	return uiPanel;
 }
 
 // ---------------------------------------------------------------------------
@@ -158,10 +202,6 @@ UIBuilder* const UIBuilder::restoreData() {
 UIButton* UIBuilder::createButton() {
 
 	calculateData();
-
-	if (!mButtonMaterial) {
-		mButtonMaterial = MaterialManager::getInstance()->loadMaterial("resources/button.png");
-	}
 
 	UIButton* uiButton = Memory::allocate<UIButton>();
 	uiButton->init();
@@ -176,8 +216,10 @@ UIButton* UIBuilder::createButton() {
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mButtonMaterial);
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setLayer(mData.mLayer);
+	renderer->setColor(mData.mBackgroundColor);
+	renderer->setHasBorder(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiButton->addComponent<RigidBody>(rigidBody);
@@ -297,10 +339,12 @@ UIText* UIBuilder::createTextBox() {
 	Renderer* renderer = Memory::allocate<Renderer>();
 	background->addComponent<Renderer>(renderer);
 
-	renderer->setLayer(mData.mLayer - 1);
+	renderer->setLayer(mData.mLayer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadMaterial("resources/button.png"));
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setColor(mData.mBackgroundColor);
+	renderer->setHasBorder(true);
 
 	mScene->addGameObject(background);
 
@@ -318,9 +362,69 @@ UIText* UIBuilder::createTextBox() {
 
 // ---------------------------------------------------------------------------
 
+UIDropdown* UIBuilder::createDropdown() {
+
+	calculateData();
+
+	UIDropdown* uiDropdown = Memory::allocate<UIDropdown>();
+	uiDropdown->init();
+
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+
+	uiDropdown->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiDropdown->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiDropdown->getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	uiDropdown->addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setColor(mData.mBackgroundColor);
+	renderer->setLayer(mData.mLayer);
+	renderer->setHasBorder(true);
+
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
+	uiDropdown->addComponent<RigidBody>(rigidBody);
+	rigidBody->setSimulate(false);
+
+	Collider* collider = Memory::allocate<Collider>();
+	uiDropdown->addComponent<Collider>(collider);
+	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
+	collider->getBoundingBox();
+
+	uiDropdown->setComponentsCache();
+
+	uiDropdown->setIsStatic(true);
+
+	uiDropdown->setOnPressedCallback([self = uiDropdown]() {
+		self->toggle();
+	});
+
+	mScene->addGameObject(uiDropdown);
+
+	UI::getInstance()->addUIElement(uiDropdown);
+
+	uiDropdown->setText(mData.mText);
+
+
+
+	mCurrentUIElement = uiDropdown;
+
+	if(mData.mIsAffectedByLayout)
+		mLastUIElement = mCurrentUIElement;
+
+	return uiDropdown;
+}
+
+// ---------------------------------------------------------------------------
+
 UIBuilder* const UIBuilder::create(UIElementType type) {
 
 	switch (type) {
+		case UIElementType::PANEL:
+			createPanel();
+			break;
 		case UIElementType::BUTTON:
 			createButton();
 			break;
@@ -330,12 +434,15 @@ UIBuilder* const UIBuilder::create(UIElementType type) {
 		case UIElementType::TEXTBOX:
 			createTextBox();
 			break;
+		case UIElementType::DROPDOWN:
+			createDropdown();
+			break;
 		default:
 			break;
 	}
 
 	if(mData.mIsAffectedByLayout)
-		mLastData.copy(mData);
+		mLastData = mData;
 
 	return this;
 }

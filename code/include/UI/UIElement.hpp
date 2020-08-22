@@ -86,6 +86,11 @@ public:
 	const UIGroup* getGroup() const { return mGroup; };
 	void setGroup(UIGroup* group) { mGroup = group; };
 
+	virtual void setVisibility(bool visibility);
+	bool isVisible();
+
+	virtual void toggle() {};
+
 };
 
 } /* namespace DE */

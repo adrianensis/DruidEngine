@@ -38,7 +38,7 @@ public:
 
 	DE_CLASS(GameObject, DE_Class);
 
-	void init();
+	virtual void init();
 
 	void addComponent(Component *component, ClassId classId);
 	void removeComponent(Component *component, ClassId classId);

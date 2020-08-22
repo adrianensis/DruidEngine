@@ -30,9 +30,6 @@ void UIText::setText(const std::string &text) {
 
 		// Remove Extra Renderers
 		if (renderers && renderers->getLength() > text.length()) {
-			VAR(u32, renderers->getLength())
-			VAR(u32, mString.length())
-			VAR(u32, text.length())
 			FOR_RANGE(i, text.length(), mString.length()) {
 				removeComponent(renderers->getLast().get());
 			}
@@ -55,7 +52,7 @@ void UIText::setText(const std::string &text) {
 
 				renderer->setMesh(Mesh::getRectangle());
 				renderer->setMaterial(UI::getInstance()->getFontMaterial());
-				renderer->setLayer(mLayer);
+				renderer->setLayer(mLayer+1);
 
 				newRenderersCreated = true;
 			}

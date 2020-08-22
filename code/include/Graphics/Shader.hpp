@@ -43,6 +43,7 @@ public:
 	void addFloat(f32 value, const std::string &name);
 	void addVector4(Array<f32> *value, const std::string &name);
 	void addVector3(Array<f32> *value, const std::string &name);
+	void addBool(bool value, const std::string &name);
 };
 
 // ---------------------------------------------------------------------------

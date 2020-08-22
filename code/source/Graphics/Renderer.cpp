@@ -107,14 +107,17 @@ void Renderer::addAnimation(const std::string &name, Animation *animation) {
 // ---------------------------------------------------------------------------
 
 void Renderer::updateMaterial(Material *material) {
-	if (mMaterial->getTexture()) {
+	if (mMaterial) {
 
 		Shader* shader = mMaterial->getShader();
 
-		shader->addUInt(mInvertXAxis, "invertXAxis");
-		shader->addUInt(mAlphaEnabled && !mLineMode, "alphaEnabled");
+		shader->addBool(mInvertXAxis, "invertXAxis");
+		shader->addBool(mAlphaEnabled && !mLineMode, "alphaEnabled");
 
 		shader->addVector4(mColor, "color");
+
+		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
+		shader->addBool(mHasBorder, "hasBorder");
 
 		if (mAnimations && mAnimations->getLength() > 0) {
 			const AnimationFrame* frame = mCurrentAnimation->getNextFrame();

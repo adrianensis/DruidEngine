@@ -51,6 +51,7 @@ private:
 	Array<Chunk*>* mChunks;
 
 	BatchesMap* mBatchesMap;
+	BatchesMap* mBatchesMapNotAffectedByProjection;
 
 	u32 mMaxLayersCount;
 	u32 mMaxLayersUsed;

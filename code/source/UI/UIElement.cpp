@@ -58,4 +58,13 @@ void UIElement::setComponentsCache() {
 
 // ---------------------------------------------------------------------------
 
+void UIElement::setVisibility(bool visibility) {
+	getRenderer()->setIsActive(visibility);
+	setIsActive(visibility);
+}
+
+bool UIElement::isVisible(){
+	return getRenderer()->isActive();
+}
+
 } /* namespace DE */

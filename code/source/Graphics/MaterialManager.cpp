@@ -11,6 +11,7 @@ namespace DE {
 MaterialManager::MaterialManager() : DE_Class() {
 	mTexturesMap = nullptr;
 	mMaterialsMap = nullptr;
+	mNoTextureMaterial = nullptr;
 }
 
 MaterialManager::~MaterialManager() {
@@ -71,9 +72,24 @@ Material* MaterialManager::loadMaterial(const std::string &path) {
 		material->setShader(Shader::getDefaultShader());
 	}
 
+	if(!material){
+		u32 a = 1+3;
+	}
+
 	return material;
 }
 
 // ---------------------------------------------------------------------------
+
+Material* MaterialManager::loadNoTextureMaterial() {
+
+	if(!mNoTextureMaterial){
+		mNoTextureMaterial = Memory::allocate<Material>();
+		mNoTextureMaterial->init();
+		mNoTextureMaterial->setShader(Shader::getDefaultShader());
+	}
+
+	return mNoTextureMaterial;
+}
 
 } /* namespace DE */

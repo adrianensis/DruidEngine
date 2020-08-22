@@ -148,6 +148,9 @@ void RenderEngine::init(f32 sceneSize) {
 	mBatchesMap = Memory::allocate<BatchesMap>();
 	mBatchesMap->init();
 
+	mBatchesMapNotAffectedByProjection = Memory::allocate<BatchesMap>();
+	mBatchesMapNotAffectedByProjection->init();
+
 	mMaxLayersCount = 10;
 	mMaxLayersUsed = 0;
 
@@ -201,11 +204,18 @@ void RenderEngine::step() {
 
 	u32 drawCallCounter = 0;
 
-	FOR_RANGE(layer, 0, mMaxLayersUsed) {
+	FOR_RANGE(layer, 0, mMaxLayers) {
 
 		if(mLayersData->get(layer)->mVisible){
 			drawCallCounter += mBatchesMap->render(layer);
 		}
+	}
+
+	FOR_RANGE(layer, 0, mMaxLayers) {
+
+		//if(mLayersData->get(layer)->mVisible){
+		drawCallCounter += mBatchesMapNotAffectedByProjection->render(layer);
+		//}
 	}
 
 	// VAR(u32,drawCallCounter);
@@ -276,6 +286,7 @@ void RenderEngine::terminate() {
 	// Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
 	Memory::free<BatchesMap>(mBatchesMap);
+	Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
 
 	FOR_ARRAY(i, mChunks) {
 		Memory::free<Chunk>(mChunks->get(i));
@@ -303,7 +314,7 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 		}
 	} else {
 		// UI Case!
-		mBatchesMap->addRenderer(renderer);
+		mBatchesMapNotAffectedByProjection->addRenderer(renderer);
 	}
 
 	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);

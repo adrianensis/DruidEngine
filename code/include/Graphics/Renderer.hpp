@@ -39,6 +39,7 @@ private:
 
 	bool mLineMode;
 	bool mAlphaEnabled;
+	bool mHasBorder;
 
 	u32 mLayer;
 
@@ -128,6 +129,13 @@ public:
 		mLineMode = newLineMode;
 	};
 
+	bool hasBorder() {
+		return mHasBorder;
+	};
+
+	void setHasBorder(bool border) {
+		mHasBorder = border;
+	};
 
 	u32 getLayer() const {
 		return mLayer;

@@ -119,24 +119,26 @@ void Batch::bind() {
 	mVBOPosition = RenderContext::createVBO(mMesh->getVertices(), 3, 0);
 	mVBOTexture = RenderContext::createVBO(mMesh->getTextureCoordinates(), 2, 1);
 	//mVBOColor = RenderContext::createVBO(mMesh->getColors(), 4, 2);
-//	mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
+	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
 	mEBO = RenderContext::createEBO(mMesh->getFaces());
-
-	glGenTextures(1, &mTextureId);
-
-	glBindTexture(GL_TEXTURE_2D, mTextureId);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	// Prevents s-coordinate wrapping (repeating).
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	// Prevents t-coordinate wrapping (repeating).
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	Texture* texture = mMaterial->getTexture();
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
-			texture->getData());
+	if(texture) {
+		glGenTextures(1, &mTextureId);
+
+		glBindTexture(GL_TEXTURE_2D, mTextureId);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		// Prevents s-coordinate wrapping (repeating).
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		// Prevents t-coordinate wrapping (repeating).
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
+				texture->getData());
+	}
 
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -205,7 +207,10 @@ u32 Batch::render(u32 layer) {
 
 		shader->use();
 		RenderContext::enableVAO(mVAO);
-		glBindTexture(GL_TEXTURE_2D, mTextureId);
+
+		if(mMaterial->getTexture()) {
+			glBindTexture(GL_TEXTURE_2D, mTextureId);
+		}
 
 		Camera* camera = mRenderEngine->getCamera();
 

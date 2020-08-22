@@ -87,8 +87,15 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 	const char* c_str_fragment = fragmentShaderSource.c_str();
 
 	glShaderSource(mFragmentShader, 1, &c_str_fragment, nullptr);
-
 	glCompileShader(mFragmentShader);
+
+	glGetShaderiv(mFragmentShader, GL_COMPILE_STATUS, &success);
+
+	if (!success) {
+		glGetShaderInfoLog(mVertexShader, 512, nullptr, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl << fragmentShaderSource
+				<< std::endl;
+	}
 
 	mProgram = glCreateProgram();
 
@@ -99,7 +106,7 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 	glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(mProgram, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl << vertexShaderSource << std::endl;
+		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
 	}
 
 	glDeleteShader(mVertexShader);
@@ -159,11 +166,19 @@ void Shader::addVector4(Array<f32> *value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform4fv(location, 1, value->getRawData());
 };
+
 // ---------------------------------------------------------------------------
 
 void Shader::addVector3(Array<f32> *value, const std::string &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform3fv(location, 1, value->getRawData());
+};
+
+// ---------------------------------------------------------------------------
+
+void Shader::addBool(bool value, const std::string &name) {
+	u32 location = glGetUniformLocation(mProgram, name.c_str());
+	glUniform1ui(location, value);
 };
 
 // ---------------------------------------------------------------------------

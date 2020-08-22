@@ -101,6 +101,7 @@ void MapEditorUI::createMenuBar() {
 		setSize(Vector2(sizeChar * StringsUI::smSave.length(), 0.1f))->
 		setText(StringsUI::smSave)->
 		setLayer(mUILayer)->
+		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		create(UIElementType::BUTTON)->
 		getUIElement();
 
@@ -166,6 +167,17 @@ void MapEditorUI::createMenuBar() {
 		//mapEditorUI->toggleGrid();
 
 	});
+
+	UIDropdown* uiDropdown = (UIDropdown*) UI::getInstance()->getBuilder()->
+		setSize(Vector2(sizeChar * 8, 0.1f))->
+		setText("Dropdown")->
+		create(UIElementType::DROPDOWN)->
+		getUIElement();
+
+	uiDropdown->addOption("Option 1");
+	uiDropdown->addOption("Option 2");
+	uiDropdown->addOption("Option 3");
+
 }
 
 // ---------------------------------------------------------------------------
@@ -179,12 +191,24 @@ void MapEditorUI::createInspector() {
 	f32 baseY = 0.92f;
 	f32 separatorSize = 0.052f;
 
+	Vector2 panelSize(0.5f, 1.6f);
+	Vector2 panelOffset(-0.1f,0.04f);
+	UIElement* uiPanel = (UIElement*) UI::getInstance()->getBuilder()->
+		setLayout(UILayout::VERTICAL)->
+		setPosition(Vector2(baseX + panelSize.x/2.0f + panelOffset.x, baseY - panelSize.y/2.0f + panelOffset.y))->
+		setLayer(mUILayer-1)->
+		setSize(panelSize)->
+		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
+		create(UIElementType::PANEL)->
+		getUIElement();
+
 	mTextInspectorTag = (UIText*) UI::getInstance()->getBuilder()->
 		setLayout(UILayout::VERTICAL)->
 		setPosition(Vector2(baseX, baseY))->
 		setSize(mTextSize)->
 		setText(StringsUI::smInspectorTileTag)->
 		setLayer(mUILayer)->
+		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		create(UIElementType::TEXT)->
 		getUIElement();
 
@@ -321,6 +345,7 @@ void MapEditorUI::createInspector() {
 				collider->setSize(collider->getWidth(), std::stof(height.length() > 0 ? height : "0"));
 		}
 	});
+
 }
 
 // ---------------------------------------------------------------------------
@@ -391,6 +416,7 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 			setPosition(Vector2((i - (atlasSize.x / 2.0f)) * tileSize + screenOffset.x,
 				((atlasSize.y / 2.0f)) * tileSize - screenOffset.y))->
 				setSize(Vector2(tileSize, tileSize))->
+				setBackgroundColor(Vector4(0,0,0,1))->
 				setLayer(mUILayer);
 
 		FOR_RANGE(j, 0, atlasSize.y){
@@ -474,6 +500,7 @@ void MapEditorUI::createAtlasSelector() {
 		setLayout(UILayout::VERTICAL)->
 		setPosition(Vector2(baseX, baseY))->
 		setSize(Vector2(size,size))->
+		setBackgroundColor(Vector4(0,0,0,1))->
 		setText("")->
 		setLayer(mUILayer);
 
@@ -566,6 +593,7 @@ void MapEditorUI::createSprites() {
 		setLayout(UILayout::HORIZONTAL)->
 		setPosition(origin)->
 		setSize(Vector2(tileSize, tileSize))->
+		setBackgroundColor(Vector4(0,0,0,1))->
 		setLayer(mUILayer);
 
 	FOR_RANGE(i, 0, spritesCount){
@@ -619,6 +647,7 @@ void MapEditorUI::createLayersBar() {
 		setLayout(UILayout::VERTICAL)->
 		setPosition(Vector2(baseX - size - 0.01f, baseY))->
 		setSize(Vector2(size,size/2.0f))->
+		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		setLayer(mUILayer);
 
 	FOR_RANGE(i, 0, maxLayers){
@@ -637,6 +666,7 @@ void MapEditorUI::createLayersBar() {
 	UI::getInstance()->getBuilder()->
 			setLayout(UILayout::VERTICAL)->
 			setPosition(Vector2(baseX, baseY))->
+			setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 			setSize(Vector2(size,size/2.0f));
 
 	FOR_RANGE(i, 0, maxLayers){
@@ -661,7 +691,7 @@ void MapEditorUI::selectLayer(u32 layer){
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
 
 	FOR_ARRAY(i, mLayerButtons){
-		mLayerButtons->get(i)->getRenderer()->setColor(Vector4(0,0,0,1));
+		mLayerButtons->get(i)->getRenderer()->setColor(Vector4(0.5f,0.5f,0.5f,1));
 	}
 
 	mLayerButtons->get(layer)->getRenderer()->setColor(Vector4(-1.0f,0,0.5f,1));

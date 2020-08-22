@@ -4,9 +4,11 @@
 #include "DE_Class.hpp"
 #include "Singleton.hpp"
 #include "Vector2.hpp"
+#include "Vector4.hpp"
 #include "UIElement.hpp"
 #include "UIButton.hpp"
 #include "UIText.hpp"
+#include "UIDropdown.hpp"
 #include "UIList.hpp"
 
 #include <string>
@@ -21,9 +23,11 @@ template<class T> class List;
 template<class K, class V> class HashMap;
 
 enum class UIElementType {
+	PANEL,
 	BUTTON,
 	TEXT,
-	TEXTBOX
+	TEXTBOX,
+	DROPDOWN
 };
 
 enum class UILayout {
@@ -42,9 +46,25 @@ public:
 	u32 mLayer;
 	bool mIsAffectedByLayout;
 	f32 mSeparatorSize;
+	Vector4 mBackgroundColor;
 
 	void init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer);
-	void copy(UIElementData& otherData);
+
+	UIElementData& operator=(const UIElementData& otherData)
+	{
+		// check for self-assignment
+		if(&otherData == this)
+			return *this;
+
+		mPosition = otherData.mPosition;
+		mSize = otherData.mSize;
+		mText = otherData.mText;
+		mLayer = otherData.mLayer;
+		mIsAffectedByLayout = otherData.mIsAffectedByLayout;
+		mBackgroundColor = otherData.mBackgroundColor;
+
+		return *this;
+	}
 };
 
 class UIBuilder: public DE_Class, public Singleton<UIBuilder> {
@@ -54,15 +74,18 @@ private:
 	UILayout mCurrentLayout;
 	Material* mButtonMaterial;
 	UIElementData mData;
+	List<UIElementData>* mDataStack;
 	UIElementData mLastData;
-	UIElementData mSavedData;
+	//UIElementData mSavedData;
 	UIElement* mLastUIElement; // used for layouts
 	UIElement* mCurrentUIElement;
 
 	void calculateData();
+	UIElement* createPanel();
 	UIButton* createButton();
 	UIText* createText();
 	UIText* createTextBox();
+	UIDropdown* createDropdown();
 
 public:
 
@@ -73,6 +96,7 @@ public:
 	UIBuilder* const setSize(const Vector2& size);
 	UIBuilder* const setLayer(u32 layer);
 	UIBuilder* const setText(const std::string& text);
+	UIBuilder* const setBackgroundColor(Vector4 backgroundColor);
 	UIBuilder* const setLayout(UILayout layout);
 	UIBuilder* const setIsAffectedByLayout(bool affectedByLayout);
 	UIBuilder* const setSeparatorSize(f32 separatorSize);

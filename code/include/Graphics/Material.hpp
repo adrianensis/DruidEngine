@@ -2,6 +2,7 @@
 #define DE_MATERIAL_H
 
 #include "DE_Class.hpp"
+#include "Vector4.hpp"
 
 namespace DE {
 
@@ -13,6 +14,7 @@ class Material: public DE_Class {
 private:
 	Shader* mShader;
 	Texture* mTexture;
+	Vector4 mColor;
 
 public:
 
@@ -24,18 +26,17 @@ public:
 		return mShader;
 	};
 
-	void setShader(Shader *newShader) {
-		mShader = newShader;
+	void setShader(Shader *shader) {
+		mShader = shader;
 	};
 
 	Texture* getTexture() const {
 		return mTexture;
 	};
 
-	void setTexture(Texture *newTexture) {
-		mTexture = newTexture;
+	void setTexture(Texture *texture) {
+		mTexture = texture;
 	};
-
 };
 
 } /* namespace DE */

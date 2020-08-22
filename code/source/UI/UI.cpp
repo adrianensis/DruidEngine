@@ -100,7 +100,7 @@ void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
 		group->mVisible = visibility;
 
 		FOR_LIST(it, mGroups->get(groupName)->mUIElements){
-			it.get()->getRenderer()->setIsActive(group->mVisible);
+			it.get()->setVisibility(group->mVisible);
 		}
 	}
 }
