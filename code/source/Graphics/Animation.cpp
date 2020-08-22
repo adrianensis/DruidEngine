@@ -18,6 +18,10 @@ Animation::Animation() : DE_Class() {
 }
 
 Animation::~Animation() {
+	FOR_LIST(it, mFrames){
+		Memory::free<AnimationFrame>(it.get());
+	}
+
 	Memory::free<List<AnimationFrame*>>(mFrames);
 }
 

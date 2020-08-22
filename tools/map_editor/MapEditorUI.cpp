@@ -486,8 +486,6 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 
 void MapEditorUI::createAtlasSelector() {
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
-	mLayerButtons = Memory::allocate<Array<UIButton*>>();
-	mLayerButtons->init(maxLayers);
 
 	Scene* scene = mMapEditor->getGameObject()->getScene();
 	UIButton* button = nullptr;

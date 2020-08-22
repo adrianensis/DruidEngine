@@ -10,11 +10,6 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 Transform::Transform() : Component() {
-	// mModelMatrix = nullptr;
-	// mTranslationMatrix = nullptr;
-	// mRotationMatrix = nullptr;
-	// mScaleMatrix = nullptr;
-
 	mIsDirtyTranslation = true;
 	mIsDirtyRotation = true;
 	mIsDirtyScale = true;
@@ -25,27 +20,17 @@ Transform::Transform() : Component() {
 }
 
 Transform::~Transform() {
-	// Memory::free<Matrix4>(mModelMatrix);
-	// Memory::free<Matrix4>(mTranslationMatrix);
-	// Memory::free<Matrix4>(mRotationMatrix);
-	// Memory::free<Matrix4>(mScaleMatrix);
+
 }
 
 // ---------------------------------------------------------------------------
 
 void Transform::init() {
 	// TRACE();
-
-	// mModelMatrix = Memory::allocate<Matrix4>();
-	// mModelMatrix->identity();
-
-	// mTranslationMatrix = Memory::allocate<Matrix4>();
 	mTranslationMatrix.identity();
 
-	// mRotationMatrix = Memory::allocate<Matrix4>();
 	mRotationMatrix.identity();
 
-	// mScaleMatrix = Memory::allocate<Matrix4>();
 	mScaleMatrix.identity();
 
 	mWorldPosition = Vector3(0.0f, 0.0f, 0.0f);

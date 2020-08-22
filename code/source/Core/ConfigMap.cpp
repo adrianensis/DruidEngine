@@ -17,7 +17,7 @@ ConfigMap::ConfigMap() : DE_Class() {
 // ---------------------------------------------------------------------------
 
 ConfigMap::~ConfigMap() {
-	// TODO : REMOVE MAP
+	Memory::free<HashMap<std::string, std::string>>(mMap);
 }
 
 // ---------------------------------------------------------------------------

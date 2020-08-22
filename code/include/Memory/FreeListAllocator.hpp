@@ -57,13 +57,13 @@ public:
 
 	DE_CLASS(FreeListAllocator, Allocator)
 
-	void init(u32 size) override;
-	byte* allocate(u32 size) override;
-	byte* allocate(u32 size, u32 alignment) override;
-	void free(const byte *pointer) override;
+	virtual void init(u32 size) override;
+	virtual byte* allocate(u32 size) override;
+	virtual byte* allocate(u32 size, u32 alignment) override;
+	virtual void free(const byte *pointer) override;
 	virtual void flush() override;
-	void reset() override;
-	void terminate() override;
+	virtual void reset() override;
+	virtual void terminate() override;
 
 };
 

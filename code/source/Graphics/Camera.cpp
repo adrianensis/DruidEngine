@@ -10,9 +10,6 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 Camera::Camera() : Component() {
-	// mProjectionMatrix = nullptr;
-	// mViewTranslationMatrix = nullptr;
-	// mInversePVMatrix = nullptr;
 	mFrustum = nullptr;
 
 	mIsOrtho = true;
@@ -20,17 +17,14 @@ Camera::Camera() : Component() {
 }
 
 Camera::~Camera() {
-	// Memory::free<Matrix4>(mViewTranslationMatrix);
 	Memory::free<Frustum>(mFrustum);
 }
 
 void Camera::init() {
 	TRACE();
 
-	// mViewTranslationMatrix = Memory::allocate<Matrix4>();
 	mViewTranslationMatrix.identity();
 
-	// mInversePVMatrix = Memory::allocate<Matrix4>();
 	mInversePVMatrix.identity();
 
 	mFrustum = Memory::allocate<Frustum>();

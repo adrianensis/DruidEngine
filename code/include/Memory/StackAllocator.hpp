@@ -28,10 +28,10 @@ public:
 	byte* getTop();
 
 	void init(u32 size) override;
-	void initFromMemory(u32 size, byte *mem) override;
-	byte* allocate(u32 size) override;
-	byte* allocate(u32 size, u32 alignment) override;
-	void free(const byte *pointer) override;
+	virtual void initFromMemory(u32 size, byte *mem) override;
+	virtual byte* allocate(u32 size) override;
+	virtual byte* allocate(u32 size, u32 alignment) override;
+	virtual void free(const byte *pointer) override;
 
 	/*!
 	 \brief Free the top of the stack.

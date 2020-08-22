@@ -29,6 +29,10 @@ protected:
 	void clean(byte *mem, u32 size);
 	void setMemoryChunk(byte *mem);
 
+	// Debug
+
+	u32 mDebugMaxAllocatedSize;
+
 public:
 
 	DE_CLASS(Allocator, DE_Class)
@@ -39,6 +43,10 @@ public:
 
 	u32 getAllocatedSize() const {
 		return mAllocatedSize;
+	};
+
+	u32 getDebugMaxAllocatedSize() const {
+		return mDebugMaxAllocatedSize;
 	};
 
 
@@ -133,7 +141,7 @@ public:
 	template<class T>
 	static void internalFree(T *object, Allocator *allocator) {
 		if (object != nullptr) {
-			object->~T();
+			object->dynamicDestructor();//~T();
 			allocator->free(reinterpret_cast<byte*>(object));
 		}
 	};

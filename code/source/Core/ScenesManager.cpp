@@ -7,6 +7,7 @@
 #include "Camera.hpp"
 #include "Settings.hpp"
 #include "RenderEngine.hpp"
+#include "Script.hpp"
 #include <string>
 
 namespace DE {
@@ -27,6 +28,10 @@ ScenesManager::~ScenesManager() {
 	}
 
 	Memory::free<List<Scene*>>(mScenes);
+
+	mGameObjectController->getComponents<Script>()->get(0)->terminate();
+	Memory::free<Script>(mGameObjectController->getComponents<Script>()->get(0));
+	Memory::free<GameObject>(mGameObjectController);
 }
 
 // ---------------------------------------------------------------------------

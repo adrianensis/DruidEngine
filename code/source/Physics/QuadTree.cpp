@@ -42,16 +42,14 @@ QuadTree::Node::Node() : DE_Class() {
 QuadTree::Node::~Node() {
 	mTree = nullptr;
 
-	if (!isLeaf() && mChildren && mChildrenCount > 0) {
-		FOR_ARRAY(i, mChildren)
-		{
-			if (mChildren->get(i)) {
-				Memory::free<Node>(mChildren->get(i));
-			}
+	FOR_ARRAY(i, mChildren)
+	{
+		if (mChildren->get(i)) {
+			Memory::free<Node>(mChildren->get(i));
 		}
-
-		Memory::free<Array<Node*>>(mChildren);
 	}
+
+	Memory::free<Array<Node*>>(mChildren);
 
 	FOR_LIST(it, mColliders) {
 		if (it.get() && !(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {

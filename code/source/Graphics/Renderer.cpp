@@ -49,8 +49,7 @@ Renderer::Renderer() : Component() {
 
 Renderer::~Renderer() {
 	if (mAnimations) {
-		FOR_LIST(it, mAnimations->getValues())
-		{
+		FOR_LIST(it, mAnimations->getValues()) {
 			Memory::free<Animation>(it.get());
 		}
 

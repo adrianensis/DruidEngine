@@ -5,6 +5,8 @@
 
 namespace DE {
 
+std::map<std::string, u32> Memory::memoryMapCounter;
+
 // FreeListAllocator Memory::smGlobal;
 LinearAllocator Memory::smGlobal;
 
@@ -60,10 +62,21 @@ void Memory::free() {
 
 	ECHO("MEMORY SIZE (IN MB)");
 	VAL(f32,(smGlobal.getTotalSize() / MB));
+
+	ECHO("MAX ALLOCATED MEMORY(IN MB)");
+	VAL(f32,(smGlobal.getDebugMaxAllocatedSize() / MB));
+
 	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
 	VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
 	smGlobal.terminate();
+
+    std::map<std::string, u32>::iterator it = memoryMapCounter.begin();
+    while(it != memoryMapCounter.end())
+    {
+        std::cout<<it->first<<" :: "<<it->second<<std::endl;
+        it++;
+    }
 
 	// NOTE: Log ends here!!
 	Log::terminate();

@@ -121,7 +121,6 @@ void Engine::run() {
 		mScriptEngine->step();
 
 		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
-		//mPhysicsEngine->updateContacts();
 
 		mRenderEngine->step();
 
@@ -147,6 +146,8 @@ void Engine::terminate() {
 	Memory::free<MaterialManager>(MaterialManager::getInstance());
 
 	Memory::free<ScriptEngine>(mScriptEngine);
+
+	Memory::free<PhysicsEngine>(mPhysicsEngine);
 
 	Memory::free<Settings>(Settings::getInstance());
 	Memory::free<ScenesManager>(ScenesManager::getInstance());

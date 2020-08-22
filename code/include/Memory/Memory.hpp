@@ -2,6 +2,8 @@
 #define DE_MEMORY_H
 
 #include "Allocator.hpp"
+#include <map>
+#include <string>
 
 #define KB (1024.0f)
 #define MB (KB*1024.0f)
@@ -36,6 +38,8 @@ private:
 	Memory();
 	~Memory();
 
+	static std::map<std::string, u32> memoryMapCounter;
+
 public:
 
 	// static FreeListAllocator smGlobal;
@@ -50,20 +54,42 @@ public:
 
 	template<class T>
 	static T* allocate(u32 alignment) {
-		// ECHO("ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
+		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
 		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal), alignment);
 	}
 
 	template<class T>
 	static T* allocate() {
-		// ECHO("ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
+		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
+
+		std::string className = T::getClassNameStatic();
+
+		if(memoryMapCounter.find(className) == memoryMapCounter.end()){
+			memoryMapCounter.insert(std::make_pair(className, 0));
+		}
+
+		memoryMapCounter[className] = memoryMapCounter[className] + 1;
+
+		//VAR(u32, memoryMapCounter[className])
+
 		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal));
 	}
 
 	template<class T>
 	static void free(T *pointer) {
 		if (pointer) {
-			// ECHO("FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
+			//ECHO("MEMORY FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
+
+			std::string className = pointer->getClassName();
+
+			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
+				if(memoryMapCounter[className] > 0){
+					memoryMapCounter[className] = memoryMapCounter[className] - 1;
+				}
+			}
+
+			//VAR(u32, memoryMapCounter[className])
+
 			Allocator::internalFree<T>(pointer, (Allocator*) (&smGlobal));
 		}
 	}

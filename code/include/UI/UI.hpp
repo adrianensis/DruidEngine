@@ -48,11 +48,13 @@ private:
 
 	void internalRemoveUIElement(const Iterator *it);
 
+	UIBuilder* mUIBuilder;
+
 public:
 
 	DE_CLASS(UI, DE_Class);
 
-	UIBuilder* const getBuilder() const;
+	UIBuilder* getBuilder();
 
 	void init();
 	void addUIElement(UIElement* uiElement);

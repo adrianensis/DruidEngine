@@ -51,9 +51,13 @@ UIBuilder::UIBuilder() : DE_Class(), Singleton() {
 
 	mData.init(Vector2(0,0), Vector2(0,0), "", 0);
 	//mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
+
+	mDataStack = nullptr;
 }
 
-UIBuilder::~UIBuilder() = default;
+UIBuilder::~UIBuilder() {
+	Memory::free<List<UIElementData>>(mDataStack);
+}
 
 // ---------------------------------------------------------------------------
 
@@ -141,7 +145,7 @@ void UIBuilder::calculateData(){
 
 UIBuilder* const UIBuilder::saveData() {
 	if(!mDataStack){
-		mDataStack = Memory::allocate<List<UIElementData>>(); // TODO : free this list!!
+		mDataStack = Memory::allocate<List<UIElementData>>();
 		mDataStack->init();
 	}
 

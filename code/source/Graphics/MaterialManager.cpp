@@ -27,6 +27,8 @@ MaterialManager::~MaterialManager() {
 
 	Memory::free<HashMap<std::string, Material*>>(mMaterialsMap);
 
+	Memory::free<Material>(mNoTextureMaterial);
+
 	Shader::freeStaticShaders();
 }
 
@@ -70,10 +72,7 @@ Material* MaterialManager::loadMaterial(const std::string &path) {
 		material->init();
 		material->setTexture(loadTexture(path));
 		material->setShader(Shader::getDefaultShader());
-	}
-
-	if(!material){
-		u32 a = 1+3;
+		mMaterialsMap->set(path, material);
 	}
 
 	return material;

@@ -276,14 +276,14 @@ void RenderEngine::bind() {
 void RenderEngine::terminate() {
 	TRACE();
 
-	// Memory::free<Array<u32>>(mLineRendererIndices);
-	// Memory::free<Shader>(mShaderLine);
-	//
-	// FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount){
-	//   Memory::free<LineRenderer>(mLineRenderers->get(i));
-	// }
-	//
-	// Memory::free<Array<LineRenderer*>>(mLineRenderers);
+	Memory::free<Array<u32>>(mLineRendererIndices);
+	Memory::free<Shader>(mShaderLine);
+
+	FOR_ARRAY(i, mLineRenderers){
+		Memory::free<LineRenderer>(mLineRenderers->get(i));
+	}
+
+	Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
 	Memory::free<BatchesMap>(mBatchesMap);
 	Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
@@ -301,6 +301,8 @@ void RenderEngine::terminate() {
 	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 
 	Memory::free<UI>(UI::getInstance());
+
+	Memory::free<Mesh>(Mesh::getRectangle());
 }
 
 // ---------------------------------------------------------------------------

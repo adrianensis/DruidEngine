@@ -140,6 +140,8 @@ byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 al
 
 void Allocator::setAllocatedSize(u32 size) {
 	mAllocatedSize = size;
+
+	mDebugMaxAllocatedSize = mDebugMaxAllocatedSize < mAllocatedSize ? mAllocatedSize : mDebugMaxAllocatedSize;
 }
 
 // ---------------------------------------------------------------------------
@@ -212,6 +214,7 @@ void Allocator::terminate() {
 
 void Allocator::reset() {
 	mAllocatedSize = 0;
+	mDebugMaxAllocatedSize = 0;
 	Allocator::clean(mStart, mTotalSize);
 }
 

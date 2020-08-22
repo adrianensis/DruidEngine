@@ -339,6 +339,8 @@ void MapEditor::firstStep() {
 	mMapEditorUI.init(this);
 
 	createBrush();
+
+	//createPlayer();
 }
 
 // ---------------------------------------------------------------------------
@@ -529,7 +531,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,movement,0));
 
 		if (renderer) {
-			renderer->setAnimation("run");
+			//renderer->setAnimation("run");
 		}
 	}
 
@@ -540,7 +542,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,-movement,0));
 
 		if (renderer) {
-			renderer->setAnimation("run");
+			//renderer->setAnimation("run");
 		}
 	}
 } else if (Input::isKeyPressed(GLFW_KEY_LEFT)) {
@@ -550,7 +552,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(-movement,0,0));
 
 		if (renderer) {
-			renderer->setAnimation("run");
+			//renderer->setAnimation("run");
 			renderer->setInvertXAxis(true);
 		}
 	}
@@ -561,7 +563,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(movement,0,0));
 
 		if (renderer) {
-			renderer->setAnimation("run");
+			//renderer->setAnimation("run");
 			renderer->setInvertXAxis(false);
 		}
 	}
@@ -570,7 +572,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,0,0));
 
 		if (renderer) {
-			renderer->setAnimation("idle");
+			//renderer->setAnimation("idle");
 		}
 	}
 }
@@ -605,12 +607,14 @@ void MapEditor::loadMapIntoGrid() {
 
 void MapEditor::terminate() {
 
-	FOR_RANGE(i, 0, mGridSize){
-		FOR_RANGE(j, 0, mGridSize){
-			Memory::free<CellData>(mGrid->get(i)->get(j));
-		}
+	if(mGrid){
+		FOR_RANGE(i, 0, mGridSize){
+			FOR_RANGE(j, 0, mGridSize){
+				Memory::free<CellData>(mGrid->get(i)->get(j));
+			}
 
-		Memory::free<Array<CellData*>>(mGrid->get(i));
+			Memory::free<Array<CellData*>>(mGrid->get(i));
+		}
 	}
 
 	Memory::free<Array<Array<CellData*>*>>(mGrid);

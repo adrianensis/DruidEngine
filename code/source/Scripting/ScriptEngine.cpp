@@ -71,6 +71,7 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	mScripts->remove(*castedIt);
 
 	Script* script = (*castedIt).get();
+	script->terminate();
 	script->setDestroyed();
 	Memory::free<Script>(script);
 }
@@ -82,12 +83,12 @@ void ScriptEngine::terminate() {
 	if (mScripts) {
 		FOR_LIST (it, mScripts)
 		{
+			it.get()->terminate();
 			Memory::free<Script>(it.get());
 		}
 
 		Memory::free<List<Script*>>(mScripts);
 	}
-
 }
 
 // ---------------------------------------------------------------------------

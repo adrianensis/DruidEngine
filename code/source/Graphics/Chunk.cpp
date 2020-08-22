@@ -78,6 +78,13 @@ Chunk::Chunk() : DE_Class() {
 }
 
 Chunk::~Chunk() {
+
+	FOR_LIST(it, mRenderers) {
+		if(!it.get()->isDestroyed()){
+			Memory::free<Renderer>(it.get());
+		}
+	}
+
 	Memory::free<List<Renderer*>>(mRenderers);
 }
 

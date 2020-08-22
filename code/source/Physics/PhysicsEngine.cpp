@@ -121,6 +121,8 @@ void PhysicsEngine::terminate() {
 		Memory::free<RigidBody>(it.get());
 	}
 
+	Memory::free<List<RigidBody*>>(mRigidBodies);
+
 	Memory::free<QuadTree>(mQuadTree);
 
 	Memory::free<ContactsManager>(ContactsManager::getInstance());

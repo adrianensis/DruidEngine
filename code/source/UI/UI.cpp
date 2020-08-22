@@ -40,14 +40,18 @@ void UIGroup::init(){
 UI::UI() : DE_Class(), Singleton() {
 	mUIElements = nullptr;
 	mFontMaterial = nullptr;
+	mUIBuilder = nullptr;
 }
 
 UI::~UI() = default;
 
 // ---------------------------------------------------------------------------
 
-UIBuilder* const UI::getBuilder() const {
-	return UIBuilder::getInstance();
+UIBuilder* UI::getBuilder() {
+	if(!mUIBuilder){
+		mUIBuilder = UIBuilder::getInstance();
+	}
+	return mUIBuilder;
 }
 
 // ---------------------------------------------------------------------------
@@ -293,6 +297,10 @@ void UI::terminate() {
 //  FOR_LIST(it, mUIElements){
 //    Memory::free<UIElement>(it.get());
 //  }
+
+	if(mUIBuilder){
+		Memory::free<UIBuilder>(mUIBuilder);
+	}
 
 	Memory::free<HashMap<c8, Vector2>>(mCharMap);
 

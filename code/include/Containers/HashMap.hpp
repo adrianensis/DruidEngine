@@ -87,7 +87,9 @@ public:
 	 */
 	~HashMap() {
 		HashMap<K, V>::clear();
+
 		Memory::free<Array<List<Node*>*>>(mArray);
+
 		Memory::free<List<K>>(mKeys);
 		Memory::free<List<V>>(mValues);
 	}

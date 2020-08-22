@@ -48,6 +48,11 @@ void Scene::destroyGameObjects() {
 			Memory::free<GameObject>(it.get());
 		}
 	}
+
+	if(mCameraGameObject){
+		Memory::free<Camera>(mCameraGameObject->getComponents<Camera>()->get(0));
+		Memory::free<GameObject>(mCameraGameObject);
+	}
 }
 // ---------------------------------------------------------------------------
 

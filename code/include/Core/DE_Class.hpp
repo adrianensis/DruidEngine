@@ -3,6 +3,7 @@
 
 #include "Hash.hpp"
 #include <string>
+#include <iostream>
 
 namespace DE {
 
@@ -20,7 +21,9 @@ namespace DE {
 
 #define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() override { return Class::getClassNameStatic(); };
 
-#define DE_GENERATE_METADATA(Class, ParentClass) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_NAME_VIRTUAL(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_PARENT_ID_STATIC(ParentClass); DE_GENERATE_ID_VIRTUAL(Class); DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
+#define DE_GENERATE_DYNAMIC_DESTRUCTOR(Class, ParentClass) void dynamicDestructor() { ParentClass::dynamicDestructor(); this->~Class(); };
+
+#define DE_GENERATE_METADATA(Class, ParentClass) DE_GENERATE_DYNAMIC_DESTRUCTOR(Class, ParentClass) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_NAME_VIRTUAL(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_PARENT_ID_STATIC(ParentClass); DE_GENERATE_ID_VIRTUAL(Class); DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
 
 #define DE_CLASS(Class, ParentClass) Class(); ~Class() override; DE_GENERATE_METADATA(Class, ParentClass)
 
@@ -47,6 +50,8 @@ public:
 
 	DE_Class() = default;
 	virtual ~DE_Class() = default;
+
+	virtual void dynamicDestructor() { /*~DE_Class();*/ }
 
 	virtual ClassId getClassId() {
 		return 0;
