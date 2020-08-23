@@ -127,10 +127,10 @@ void Engine::run() {
 		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
 		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
 
-		while (glfwGetTime() < lasttime + 1.0/FPS) {
+		/*while (glfwGetTime() < lasttime + 1.0/FPS) {
 		        // TODO: Put the thread to sleep, yield, or simply do nothing
 		    }
-		    lasttime += 1.0/FPS;
+		    lasttime += 1.0/FPS;*/
 	}
 }
 
