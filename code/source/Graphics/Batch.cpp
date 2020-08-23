@@ -250,7 +250,7 @@ u32 Batch::render(u32 layer) {
 						shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
 					}
 
-					shader->addFloat(Time::getDeltaTimeSeconds(), "time");
+					shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
 
 					renderer->updateMaterial(mMaterial);
 

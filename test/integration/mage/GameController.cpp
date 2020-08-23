@@ -386,13 +386,13 @@ void GameController::step() {
 
 	mCrossHair->getTransform()->setLocalPosition(world);
 
-	mEnemySpawnTimeCount += Time::getDeltaTimeSeconds();
+	mEnemySpawnTimeCount += Time::getInstance()->getDeltaTimeSeconds();
 
 	// f32 movement = 350;
 	f32 movementDirection = 0;
 	Vector3 floorMovement = Vector3(0, 0, 0);
 
-	floorMovement.x = -smGlobalSpeed * Time::getDeltaTimeSeconds();
+	floorMovement.x = -smGlobalSpeed * Time::getInstance()->getDeltaTimeSeconds();
 	floorMovement.y = 0;
 	movementDirection = -1; // TILES MOVES TO LEFT
 
@@ -419,12 +419,12 @@ void GameController::step() {
 
 		}
 		if (Input::isKeyPressed(GLFW_KEY_LEFT)) {
-			// floorMovement.x = movement * Time::getDeltaTimeSeconds();
+			// floorMovement.x = movement * Time::getInstance()->getDeltaTimeSeconds();
 			// floorMovement.y = 0;
 			// movementDirection = 1; // TILES MOVES TO RIGHT
 
 		} else if (Input::isKeyPressed(GLFW_KEY_RIGHT)) {
-			// floorMovement.x = -movement * Time::getDeltaTimeSeconds();
+			// floorMovement.x = -movement * Time::getInstance()->getDeltaTimeSeconds();
 			// floorMovement.y = 0;
 			// movementDirection = -1; // TILES MOVES TO LEFT
 		} else if (Input::isKeyPressedOnce(GLFW_KEY_SPACE)) {

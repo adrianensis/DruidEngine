@@ -496,7 +496,7 @@ void MapEditor::removeTile(CellData *cellData) {
 
 void MapEditor::cameraZoom() {
 	f32 scroll = Input::getScroll();
-	mZoom += std::fabs(scroll) * 0.05f * Time::getDeltaTimeSeconds();
+	mZoom += std::fabs(scroll) * 0.05f * Time::getInstance()->getDeltaTimeSeconds();
 
 	if (scroll == 1) {
 		mCamera->setZoom(1.0f / mZoom);
@@ -515,7 +515,7 @@ mCameraControl = !mCameraControl;
 
 void MapEditor::processMovement() {
 
-f32 movement = (mCameraControl ? 2000.0f * Time::getDeltaTimeSeconds() : 500.0f);
+f32 movement = (mCameraControl ? 2000.0f * Time::getInstance()->getDeltaTimeSeconds() : 500.0f);
 
 if (!mCameraControl) {
 mCameraTransform->setParent(mPlayer->getTransform());

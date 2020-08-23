@@ -54,7 +54,7 @@ void TornadoScript::step() {
 		ECHO("TORNADO DESTROY")
 		getGameObject()->destroy();
 	}
-	mDurationTimeCounter += Time::getDeltaTimeSeconds();
+	mDurationTimeCounter += Time::getInstance()->getDeltaTimeSeconds();
 }
 
 // ---------------------------------------------------------------------------

@@ -69,6 +69,9 @@ void Memory::free() {
 	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
 	VAL(f32,(smGlobal.getAllocatedSize() / MB));
 
+	ECHO("REMAINING ALLOCATED MEMORY (BYTES)");
+	VAL(f32,(smGlobal.getAllocatedSize()));
+
 	smGlobal.terminate();
 
     std::map<std::string, u32>::iterator it = memoryMapCounter.begin();

@@ -209,7 +209,7 @@ void Playground::step() {
 
 void Playground::processMovement() {
 
-f32 movement = (mCameraControl ? 2000.0f * Time::getDeltaTimeSeconds() : 500.0f);
+f32 movement = (mCameraControl ? 2000.0f * Time::getInstance()->getDeltaTimeSeconds() : 500.0f);
 
 if (!mCameraControl) {
 mCameraTransform->setParent(mPlayer->getTransform());

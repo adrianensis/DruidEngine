@@ -25,6 +25,15 @@
 #include <iostream>
 
 #include <thread>
+#include <chrono>
+
+using namespace std::chrono_literals;
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 namespace DE {
 
@@ -93,20 +102,17 @@ void Engine::terminateSubSystems() {
 // ---------------------------------------------------------------------------
 
 void Engine::run() {
-	Time::init();
+	Time::getInstance()->init();
 
-	f32 accumulator = 0.0f;
-
-	f32 FPS = 60.0f; // TODO : GLFW is capped to 60 fps.
+	f32 FPS = 60.0f; // TODO : Move to settings.
 	f32 inverseFPS = 1.0f / FPS;
+	f32 inverseFPSMillis = inverseFPS * 1000.0f;
 
-	//initSubsystems();
-
-	double lasttime = glfwGetTime();
+	f32 diff = 0;
 
 	while (!RenderContext::isClosed()) {
 
-		Time::tick();
+		Time::getInstance()->startFrame();
 
 		if (ScenesManager::getInstance()->sceneHasChanged()) {
 			initSubsystems();
@@ -120,17 +126,25 @@ void Engine::run() {
 
 		mScriptEngine->step();
 
-		mPhysicsEngine->step(Time::getDeltaTimeSeconds());
+		mPhysicsEngine->step(inverseFPS);
 
 		mRenderEngine->step();
 
-		// std::cout << (1.0f/Time::getDeltaTimeSeconds()) << std::endl;
-		//VAL(f32, 1.0f/Time::getDeltaTimeSeconds());
+		//std::cout << " " << Time::getInstance()->getElapsedTime() << std::endl;
+		f32 dt = (Time::getInstance()->getElapsedTime());
 
-		/*while (glfwGetTime() < lasttime + 1.0/FPS) {
-		        // TODO: Put the thread to sleep, yield, or simply do nothing
-		    }
-		    lasttime += 1.0/FPS;*/
+		diff = inverseFPSMillis - dt;
+
+		if(inverseFPSMillis > dt){
+			//std::cout << dt/1000.0f;
+			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff/**1000.0f*/));
+			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
+		}
+
+		Time::getInstance()->endFrame();
+		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+
+
 	}
 }
 

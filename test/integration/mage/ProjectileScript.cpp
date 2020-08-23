@@ -61,7 +61,7 @@ void ProjectileScript::step() {
 			ECHO("PROJECTILE DESTROY")
 			getGameObject()->destroy();
 		}
-		mExplosionTimeCounter += Time::getDeltaTimeSeconds();
+		mExplosionTimeCounter += Time::getInstance()->getDeltaTimeSeconds();
 	}
 }
 

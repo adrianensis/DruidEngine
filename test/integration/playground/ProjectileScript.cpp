@@ -64,7 +64,7 @@ void ProjectileScript::step() {
 				ECHO("PROJECTILE DESTROY - EXPLOSION")
 				getGameObject()->getScene()->removeGameObject(getGameObject());
 			}
-			mExplosionTimeCounter += Time::getDeltaTimeSeconds();
+			mExplosionTimeCounter += Time::getInstance()->getDeltaTimeSeconds();
 		}
 
 		if(mRenderer->isOutOfCamera()){

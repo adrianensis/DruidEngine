@@ -2,28 +2,30 @@
 #define DE_TIME_H
 
 #include "BasicTypes.hpp"
+#include "Singleton.hpp"
+#include "DE_Class.hpp"
 #include <chrono>
 
 namespace DE {
 
-//using time_point = std::chrono::time_point<std::chrono::steady_clock>;
+//using time_point = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
-class Time {
+class Time : public DE_Class, public Singleton<Time>{
 private:
-	static f32 mDeltaTimeMillis;
-	static f32 mDeltaTimeSeconds;
-	static std::chrono::time_point<std::chrono::steady_clock> mNow, mLastTime;
+	f32 mDeltaTimeMillis;
+	f32 mDeltaTimeSeconds;
+	std::chrono::milliseconds mDeltaTimeChronoDuration;
+	std::chrono::time_point<std::chrono::high_resolution_clock> mInitializationTime, mStartTime, mLastTime;
 
 public:
-	Time();
-	~Time();
+	DE_CLASS(Time, DE_Class)
 
-	static void init();
-	static void tick();
-	static f32 getNow();
-	static f32 getDeltaTimeMillis();
-	static f32 getDeltaTimeSeconds();
-	static f32 getElapsedTime();
+	void init();
+	void startFrame();
+	void endFrame();
+	f32 getElapsedTime();
+	f32 getDeltaTimeMillis();
+	f32 getDeltaTimeSeconds();
 };
 
 } /* namespace DE */

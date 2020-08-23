@@ -103,7 +103,7 @@ void PlayerScript::step() {
 	} else {
 
 		if (mIsAttackPlaying) {
-			mAttackAnimTimeCount += Time::getDeltaTimeSeconds();
+			mAttackAnimTimeCount += Time::getInstance()->getDeltaTimeSeconds();
 
 			if (mAttackAnimTimeCount >= mAttackAnimTime) {
 				mAttackAnimTimeCount = 0;
