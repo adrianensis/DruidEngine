@@ -300,8 +300,6 @@ void RenderEngine::terminate() {
 
 	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 
-	Memory::free<UI>(UI::getInstance());
-
 	Memory::free<Mesh>(Mesh::getRectangle());
 }
 

@@ -50,6 +50,8 @@ private:
 
 	UIBuilder* mUIBuilder;
 
+	UIElement* mFocusedElement = nullptr;
+
 public:
 
 	DE_CLASS(UI, DE_Class);
@@ -57,7 +59,6 @@ public:
 	UIBuilder* getBuilder();
 
 	void init();
-	void addUIElement(UIElement* uiElement);
 	void step();
 	void terminate();
 
@@ -76,6 +77,11 @@ public:
 	void removeFromGroup(const std::string& groupName, UIElement* uiElement);
 	void removeElementsFromGroup(const std::string& groupName);
 	void setGroupVisibility(const std::string& groupName, bool visibility);
+
+	// focus
+
+	UIElement* getFocusedElement() const { return mFocusedElement; };
+	void setFocusedElement(UIElement* focusedElement) { mFocusedElement = focusedElement; };
 };
 
 } /* namespace DE */

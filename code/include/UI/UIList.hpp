@@ -11,6 +11,8 @@ public:
 
 	DE_CLASS(UIList, UIElement);
 
+	virtual void init();
+
 	virtual void setText(const std::string &text) override;
 };
 

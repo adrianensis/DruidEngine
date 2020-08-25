@@ -66,9 +66,9 @@ void PlayerScript::step() {
 
 	mManaChanged = false;
 
-	if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
 
-		Vector2 mouse = Input::getMousePosition();
+		Vector2 mouse = Input::getInstance()->getMousePosition();
 
 		Vector3 world =
 				getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(
@@ -90,15 +90,15 @@ void PlayerScript::step() {
 			mIsAttackPlaying = true;
 		}
 
-	} else if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)) {
+	} else if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)) {
 		// mRenderer->setAnimation("idle");
-	} else if (Input::isKeyPressed(GLFW_KEY_LEFT)) {
+	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
 		// mRenderer->setAnimation("run");
 		// mRenderer->setInvertXAxis(true);
-	} else if (Input::isKeyPressed(GLFW_KEY_RIGHT)) {
+	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
 		// mRenderer->setAnimation("run");
 		// mRenderer->setInvertXAxis(false);
-	} else if (Input::isKeyPressedOnce(GLFW_KEY_SPACE)) {
+	} else if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_SPACE)) {
 		mRigidBody->addLinear(Vector3(0, +1100, 0));
 	} else {
 

@@ -24,10 +24,12 @@ UIDropdown::~UIDropdown() {
 
 void UIDropdown::init() {
 
-	GameObject::init();
+	UIElement::init();
 
 	mButtons = Memory::allocate<List<UIButton*>>();
 	mButtons->init();
+
+	subscribeToMouseButtonEvents();
 }
 
 void UIDropdown::addOption(const std::string& label) {

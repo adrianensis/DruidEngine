@@ -16,6 +16,7 @@ public:
 	DE_CLASS(UIDropdown, UIButton);
 
 	virtual void init() override;
+
 	void addOption(const std::string& label);
 
 	virtual void toggle() override;

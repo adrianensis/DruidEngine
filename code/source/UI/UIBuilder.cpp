@@ -191,8 +191,6 @@ UIElement* UIBuilder::createPanel() {
 
 	mScene->addGameObject(uiPanel);
 
-	UI::getInstance()->addUIElement(uiPanel);
-
 	mCurrentUIElement = uiPanel;
 
 	if(mData.mIsAffectedByLayout)
@@ -240,8 +238,6 @@ UIButton* UIBuilder::createButton() {
 
 	mScene->addGameObject(uiButton);
 
-	UI::getInstance()->addUIElement(uiButton);
-
 	uiButton->setText(mData.mText);
 
 	mCurrentUIElement = uiButton;
@@ -277,8 +273,6 @@ UIText* UIBuilder::createText() {
 
 	mScene->addGameObject(uiText);
 
-	UI::getInstance()->addUIElement(uiText);
-
 	mCurrentUIElement = uiText;
 
 	if(mData.mIsAffectedByLayout)
@@ -289,11 +283,11 @@ UIText* UIBuilder::createText() {
 
 // ---------------------------------------------------------------------------
 
-UIText* UIBuilder::createTextBox() {
+UITextEditable* UIBuilder::createTextEditable() {
 
 	calculateData();
 
-	UIText* uiText = Memory::allocate<UIText>();
+	UITextEditable* uiText = Memory::allocate<UITextEditable>();
 	uiText->init();
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
@@ -323,11 +317,6 @@ UIText* UIBuilder::createTextBox() {
 
 	uiText->setIsStatic(true);
 
-	uiText->setOnPressedCallback([self = uiText]() {
-		Input::setInputCharReceiver(self);
-		self->setText("");
-	});
-
 	// Background
 	f32 atlasBackgroundMargin = 0.1f;
 
@@ -353,8 +342,6 @@ UIText* UIBuilder::createTextBox() {
 	mScene->addGameObject(background);
 
 	mScene->addGameObject(uiText);
-
-	UI::getInstance()->addUIElement(uiText);
 
 	mCurrentUIElement = uiText;
 
@@ -407,8 +394,6 @@ UIDropdown* UIBuilder::createDropdown() {
 
 	mScene->addGameObject(uiDropdown);
 
-	UI::getInstance()->addUIElement(uiDropdown);
-
 	uiDropdown->setText(mData.mText);
 
 
@@ -435,8 +420,8 @@ UIBuilder* const UIBuilder::create(UIElementType type) {
 		case UIElementType::TEXT:
 			createText();
 			break;
-		case UIElementType::TEXTBOX:
-			createTextBox();
+		case UIElementType::TEXTEDITABLE:
+			createTextEditable();
 			break;
 		case UIElementType::DROPDOWN:
 			createDropdown();

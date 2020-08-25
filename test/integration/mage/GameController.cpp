@@ -372,7 +372,7 @@ void GameController::step() {
 //		mTextMana->setText("MANA: " + std::to_string(mPlayerScript->getMana()));
 //	}
 
-	Vector2 mouse = Input::getMousePosition();
+	Vector2 mouse = Input::getInstance()->getMousePosition();
 
 	Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(
 			mouse);
@@ -396,38 +396,38 @@ void GameController::step() {
 	floorMovement.y = 0;
 	movementDirection = -1; // TILES MOVES TO LEFT
 
-	if (Input::isKeyPressedOnce(GLFW_KEY_1)) {
+	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_1)) {
 		mBookSelector->get(0)->onPressed();
-	} else if (Input::isKeyPressedOnce(GLFW_KEY_2)) {
+	} else if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_2)) {
 		mBookSelector->get(1)->onPressed();
-	} else if (Input::isKeyPressedOnce(GLFW_KEY_3)) {
+	} else if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_3)) {
 		mBookSelector->get(2)->onPressed();
 	}
 
 	if (mPlayer) {
 
-		if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+		if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
 
-			// Vector2 mouse = Input::getMousePosition();
+			// Vector2 mouse = Input::getInstance()->getMousePosition();
 			//
 			// Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(mouse);
 			//
 			// createProjectile(mPlayer->getTransform()->getWorldPosition().x, mPlayer->getTransform()->getWorldPosition().y, world.x, world.y);
 
 		}
-		if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)) {
+		if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)) {
 
 		}
-		if (Input::isKeyPressed(GLFW_KEY_LEFT)) {
+		if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
 			// floorMovement.x = movement * Time::getInstance()->getDeltaTimeSeconds();
 			// floorMovement.y = 0;
 			// movementDirection = 1; // TILES MOVES TO RIGHT
 
-		} else if (Input::isKeyPressed(GLFW_KEY_RIGHT)) {
+		} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
 			// floorMovement.x = -movement * Time::getInstance()->getDeltaTimeSeconds();
 			// floorMovement.y = 0;
 			// movementDirection = -1; // TILES MOVES TO LEFT
-		} else if (Input::isKeyPressedOnce(GLFW_KEY_SPACE)) {
+		} else if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_SPACE)) {
 
 		} else {
 			// floorMovement.x = 0;

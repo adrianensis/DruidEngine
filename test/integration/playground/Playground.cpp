@@ -191,9 +191,9 @@ void Playground::firstStep() {
 
 void Playground::step() {
 
-	if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
 
-		Vector2 mouse(Input::getMousePosition());
+		Vector2 mouse(Input::getInstance()->getMousePosition());
 		Vector3 world = mCamera->screenToWorld(mouse);
 
 		Vector2 projectileOrigin = Vector2(getGameObject()->getTransform()->getWorldPosition());
@@ -218,7 +218,7 @@ mCameraTransform->setLocalPosition(Vector3(0, 0, 0));
 
 Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getComponents<Renderer>()->get(0) : nullptr;
 
-if (Input::isKeyPressed(GLFW_KEY_UP)) {
+if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(0, movement, 0));
 	} else {
@@ -229,7 +229,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 		}
 	}
 
-} else if (Input::isKeyPressed(GLFW_KEY_DOWN)) {
+} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_DOWN)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(0, -movement, 0));
 	} else {
@@ -239,7 +239,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 			renderer->setAnimation("run");
 		}
 	}
-} else if (Input::isKeyPressed(GLFW_KEY_LEFT)) {
+} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(-movement, 0, 0));
 	} else {
@@ -250,7 +250,7 @@ if (Input::isKeyPressed(GLFW_KEY_UP)) {
 			renderer->setInvertXAxis(true);
 		}
 	}
-} else if (Input::isKeyPressed(GLFW_KEY_RIGHT)) {
+} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(movement, 0, 0));
 	} else {

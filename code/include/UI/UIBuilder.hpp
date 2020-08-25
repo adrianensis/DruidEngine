@@ -8,6 +8,7 @@
 #include "UIElement.hpp"
 #include "UIButton.hpp"
 #include "UIText.hpp"
+#include "UITextEditable.hpp"
 #include "UIDropdown.hpp"
 #include "UIList.hpp"
 
@@ -26,7 +27,7 @@ enum class UIElementType {
 	PANEL,
 	BUTTON,
 	TEXT,
-	TEXTBOX,
+	TEXTEDITABLE,
 	DROPDOWN
 };
 
@@ -84,7 +85,7 @@ private:
 	UIElement* createPanel();
 	UIButton* createButton();
 	UIText* createText();
-	UIText* createTextBox();
+	UITextEditable* createTextEditable();
 	UIDropdown* createDropdown();
 
 public:

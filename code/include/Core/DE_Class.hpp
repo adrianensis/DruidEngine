@@ -16,10 +16,10 @@ namespace DE {
 
 #define DE_GENERATE_NAME_STATIC(Class) static std::string getClassNameStatic(){static std::string className = #Class; return #Class;}
 
-#define DE_GENERATE_ID_VIRTUAL(Class) ClassId getClassId() override { return Class::getClassIdStatic(); };
-#define DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass) ClassId getParentClassId() override { return ParentClass::getClassIdStatic(); };
+#define DE_GENERATE_ID_VIRTUAL(Class) ClassId getClassId() const override { return Class::getClassIdStatic(); };
+#define DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass) ClassId getParentClassId() const override { return ParentClass::getClassIdStatic(); };
 
-#define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() override { return Class::getClassNameStatic(); };
+#define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() const override { return Class::getClassNameStatic(); };
 
 #define DE_GENERATE_DYNAMIC_DESTRUCTOR(Class, ParentClass) void dynamicDestructor() { ParentClass::dynamicDestructor(); this->~Class(); };
 
@@ -53,15 +53,15 @@ public:
 
 	virtual void dynamicDestructor() { /*~DE_Class();*/ }
 
-	virtual ClassId getClassId() {
+	virtual ClassId getClassId() const {
 		return 0;
 	};
 
-	virtual ClassId getParentClassId() {
+	virtual ClassId getParentClassId() const {
 		return 0;
 	};
 
-	virtual std::string getClassName() {
+	virtual std::string getClassName() const {
 		return "DE_Class";
 	};
 

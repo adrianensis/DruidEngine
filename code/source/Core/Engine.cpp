@@ -20,6 +20,7 @@
 #include "Settings.hpp"
 #include "MaterialManager.hpp"
 #include "ScenesManager.hpp"
+#include "EventsManager.hpp"
 
 #include <string>
 #include <iostream>
@@ -55,6 +56,9 @@ void Engine::init() {
 	TRACE()
 
 	RenderContext::init();
+
+	EventsManager::getInstance()->init();
+
 	Settings::getInstance()->init();
 	MaterialManager::getInstance()->init();
 
@@ -81,6 +85,7 @@ void Engine::initSubsystems() {
 	mScriptEngine->init();
 	mPhysicsEngine->init(sceneSize);
 	UI::getInstance()->init();
+
 }
 
 // ---------------------------------------------------------------------------
@@ -120,7 +125,7 @@ void Engine::run() {
 
 		ScenesManager::getInstance()->step();
 
-		Input::pollEvents();
+		Input::getInstance()->pollEvents();
 
 		UI::getInstance()->step();
 
@@ -158,13 +163,17 @@ void Engine::terminate() {
 
 	Memory::free<RenderEngine>(mRenderEngine);
 	Memory::free<MaterialManager>(MaterialManager::getInstance());
-
 	Memory::free<ScriptEngine>(mScriptEngine);
-
 	Memory::free<PhysicsEngine>(mPhysicsEngine);
-
+	Memory::free<UI>(UI::getInstance());
 	Memory::free<Settings>(Settings::getInstance());
 	Memory::free<ScenesManager>(ScenesManager::getInstance());
+	Memory::free<Time>(Time::getInstance());
+
+	if (EventsManager::getInstance()){
+		EventsManager::getInstance()->terminate();
+		Memory::free<EventsManager>(EventsManager::getInstance());
+	}
 }
 
 // ---------------------------------------------------------------------------

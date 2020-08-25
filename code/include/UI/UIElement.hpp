@@ -16,10 +16,10 @@ class UIElement: public GameObject {
 
 private:
 
-	Functor mOnPressedFunctor;
-	Functor mOnReleasedFunctor;
+	FunctorVoid mOnPressedFunctor;
+	FunctorVoid mOnReleasedFunctor;
 
-	Functor mOnTextChangedFunctor;
+	FunctorVoid mOnFocusLostFunctor;
 
 	Collider* mCollider;
 	Renderer* mRenderer;
@@ -36,13 +36,25 @@ public:
 
 	DE_CLASS(UIElement, GameObject);
 
-	void inputCharCallback(c8 character);
-	void inputCloseCallback();
+	virtual void init();
+
+	void subscribeToKeyEvents();
+	void subscribeToCharEvents();
+	void subscribeToMouseButtonEvents();
+	void subscribeToEnterEvent();
+	void subscribeToEscEvent();
+
+	bool hasFocus() const;
+
+	void onChar(c8 character);
 
 	virtual void setText(const std::string &text) = 0;
 
 	void onPressed();
 	void onReleased();
+
+	void onFocusLost();
+	void onFocus();
 
 	void setOnPressedCallback(std::function<void()> callback) {
 		mOnPressedFunctor.setCallback(callback);
@@ -53,7 +65,7 @@ public:
 	}
 
 	void setOnTextChangedCallback(std::function<void()> callback) {
-		mOnTextChangedFunctor.setCallback(callback);
+		mOnFocusLostFunctor.setCallback(callback);
 	}
 
 	Collider* getCollider() const {

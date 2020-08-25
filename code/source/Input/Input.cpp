@@ -1,69 +1,87 @@
 #include "Input.hpp"
 #include "Log.hpp"
-#include "UIElement.hpp"
+#include "EventsManager.hpp"
 
 namespace DE {
-
-Vector2 Input::smMouseCoordinates = Vector2();
-u32 Input::smLastMouseButtonPressed = -1;
-u32 Input::smLastKeyPressed = -1;
-u32 Input::smModifier = -1;
-bool Input::smKeyJustPressed = false;
-bool Input::smButtonJustPressed = false;
-f32 Input::smScroll = 0;
-UIElement* Input::smUIElement = nullptr;
 
 // ---------------------------------------------------------------------------
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+	Input::getInstance()->smModifier = mods;
+
 	if (action == GLFW_PRESS) {
-		smLastKeyPressed = key;
-		smKeyJustPressed = true;
+		Input::getInstance()->smLastKeyPressed = key;
+		Input::getInstance()->smKeyJustPressed = true;
 
 		if(key == GLFW_KEY_ENTER){
-			if(smUIElement) {
-				smUIElement->inputCloseCallback();
-				smUIElement = nullptr;
-			}
+			InputEventKeyEnter event;
+			DE_SEND_INPUT_EVENT(event);
+		} else if(key == GLFW_KEY_ESCAPE) {
+			InputEventKeyEsc event;
+			DE_SEND_INPUT_EVENT(event);
+		} else {
+			InputEventKeyPressed event;
+			event.mKey = key;
+			event.mMods = mods;
+			DE_SEND_INPUT_EVENT(event);
 		}
 
 	} else if (action == GLFW_RELEASE) {
-		Input::clearKey();
-	}
 
-	smModifier = mods;
+		InputEventKeyReleased event;
+		event.mKey = key;
+		event.mMods = mods;
+		DE_SEND_INPUT_EVENT(event);
+
+		Input::getInstance()->clearKey();
+	}
 }
 
 // ---------------------------------------------------------------------------
 
 void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-	if (action == GLFW_PRESS) {
-		smLastMouseButtonPressed = button;
-		smButtonJustPressed = true;
-	} else if (action == GLFW_RELEASE) {
-		Input::clearMouseButton();
-	}
+	Input::getInstance()->smModifier = mods;
 
-	smModifier = mods;
+	if (action == GLFW_PRESS) {
+		Input::getInstance()->smLastMouseButtonPressed = button;
+		Input::getInstance()->smButtonJustPressed = true;
+
+		InputEventMouseButtonPressed event;
+		event.mButton = button;
+		event.mMods = mods;
+		DE_SEND_INPUT_EVENT(event);
+	} else if (action == GLFW_RELEASE) {
+
+		InputEventMouseButtonReleased event;
+		event.mButton = button;
+		event.mMods = mods;
+		DE_SEND_INPUT_EVENT(event);
+
+		Input::getInstance()->clearMouseButton();
+	}
 }
 
 // ---------------------------------------------------------------------------
 
 void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
-	smScroll = yoffset;
+	Input::getInstance()->smScroll = yoffset;
+
+	InputEventScroll event;
+	event.mScroll = yoffset;
+	DE_SEND_INPUT_EVENT(event);
 }
 
 // ---------------------------------------------------------------------------
 
 void Input::charCallback(GLFWwindow* window, unsigned int codepoint) {
-	if(smUIElement){
-		smUIElement->inputCharCallback((c8) codepoint);
-	}
+	InputEventChar event;
+	event.mChar = (c8) codepoint;
+	DE_SEND_INPUT_EVENT(event);
 }
 
 // ---------------------------------------------------------------------------
 
-Input::Input() : DE_Class() {
+Input::Input() : DE_Class(), Singleton<Input>() {
 
 }
 
@@ -75,6 +93,14 @@ Input::~Input() {
 
 void Input::init() {
 	TRACE();
+
+	smMouseCoordinates = Vector2();
+	smLastMouseButtonPressed = -1;
+	smLastKeyPressed = -1;
+	smModifier = -1;
+	smKeyJustPressed = false;
+	smButtonJustPressed = false;
+	smScroll = 0;
 
 	glfwSetKeyCallback(RenderContext::smWindow, keyCallback);
 	glfwSetMouseButtonCallback(RenderContext::smWindow, mouseButtonCallback);
@@ -158,16 +184,6 @@ void Input::clearMouseButton() {
 void Input::clearKey() {
 	smLastKeyPressed = -1;
 	smKeyJustPressed = false;
-}
-
-// ---------------------------------------------------------------------------
-
-void Input::setInputCharReceiver(UIElement* uiElement) {
-	if(smUIElement){
-		smUIElement->inputCloseCallback();
-	}
-
-	smUIElement = uiElement;
 }
 
 // ---------------------------------------------------------------------------

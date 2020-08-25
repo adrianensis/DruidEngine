@@ -19,9 +19,15 @@ UIButton::~UIButton() = default;
 
 // ---------------------------------------------------------------------------
 
+void UIButton::init() {
+	UIElement::init();
+
+	subscribeToMouseButtonEvents();
+}
+
 void UIButton::setText(const std::string &text) {
 
-	if(mLabel || (!mLabel && text.length() > 0)){
+	if(text.length() > 0){
 		f32 fontSize = 0.04f;
 		f32 fontOffset = 0.02f;
 		Vector3 buttonScale = getTransform()->getScale();

@@ -6,27 +6,45 @@
 
 namespace DE {
 
+template <class T>
 class Functor {
 
-private:
+protected:
 
-	using voidFunction = std::function<void()>;
-
-	std::function<void()> mCallback;
+	T mCallback;
 
 public:
-	Functor() {
-	};
+	Functor() = default;
+	virtual ~Functor() = default;
 
-	~Functor() {
-	};
+	virtual void execute() = 0;
 
-
-	void execute();
-
-	void setCallback(voidFunction newCallback) {
+	void setCallback(T newCallback) {
 		mCallback = newCallback;
 	};
+
+	// NOTE : Override in children!
+	Functor& operator= (const Functor &functor) {
+		// self-assignment guard
+		if (this == &functor)
+			return *this;
+
+		// do the copy
+		mCallback = functor.mCallback;
+
+		return *this;
+	}
+};
+
+class FunctorVoid : public Functor<std::function<void()>> {
+public:
+	FunctorVoid() = default;
+	~FunctorVoid() override = default;
+
+	virtual void execute() override {
+		if (mCallback)
+			mCallback();
+	}
 
 };
 

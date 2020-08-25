@@ -3,6 +3,7 @@
 
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
+#include <string>
 
 // FOR LOOPS
 

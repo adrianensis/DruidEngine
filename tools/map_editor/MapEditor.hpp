@@ -6,6 +6,8 @@
 #include "MapEditorUI.hpp"
 #include <string>
 
+#include "Event.hpp"
+
 namespace DE {
 
 class Transform;
@@ -23,6 +25,8 @@ template<class T> class Array;
 template<class T> class List;
 class ConfigMap;
 
+
+
 class MapEditor: public Script {
 private:
 
@@ -36,30 +40,6 @@ private:
 		void removeGameObject(u32 layer);
 		GameObject* get(u32 layer);
 	};
-
-	class Brush: public DE_Class {
-	private: Array<GameObject*>* mGrid = nullptr;
-		Vector2 mOriginAtlasPosition = Vector2(0,0);
-
-		void free();
-
-	public: f32 mDrawTileSize = 100;
-		u32 mLastIndex = 0;
-		u32 mMaxGridSize = 16;
-		Vector2 mGridSize = Vector2(1,1);
-		GameObject* mBrushCursor = nullptr;
-		MapEditor* mMapEditor = nullptr;
-
-		DE_CLASS(Brush, DE_Class);
-
-		void init(MapEditor* mapEditor);
-		void addTile(GameObject* tile, Vector2 atlasPosition);
-		GameObject* getTile(u32 i, u32 j);
-		void clear();
-		void setDrawTileSize(f32 size);
-	};
-
-
 
 	u32 mGridSize;
 	Array<Array<CellData*>*>* mGrid = nullptr;
@@ -78,18 +58,11 @@ public:
 	GameObject* mSelectedTile = nullptr;
 	MapEditorUI mMapEditorUI;
 	Material* mMaterial = nullptr;
-	f32 mGridTileSize;
+
 
 	ConfigMap* mConfigMap = nullptr;
 
-	Brush mBrush;
-
-	bool mIsPaintMode = false;
-
 	DE_CLASS(MapEditor, Script);
-
-	void createBrush();
-	void resetBrush();
 
 	GameObject* createTile(f32 x, f32 y);
 	void createPlayer();

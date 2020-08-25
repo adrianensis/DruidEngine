@@ -234,52 +234,11 @@ Vector2 UI::getCharTextureCoordinates(c8 character) {
 
 // ---------------------------------------------------------------------------
 
-void UI::addUIElement(UIElement* uiElement){
-	mUIElements->pushBack(uiElement);
-}
-
-// ---------------------------------------------------------------------------
-
 void UI::step() {
 
-	if (Input::isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+	// TODO : remove UI step
+	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
 
-		Vector2 screenMousePosition(Input::getMousePosition());
-		Vector2 worldMousePosition = Vector2(
-				RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
-
-		bool pressed = false;
-
-		FOR_LIST_COND(it, mUIElements, !pressed) {
-
-			UIElement* element = it.get();
-
-			if(element->isActive()) {
-				Collider* collider = element->getCollider();
-				Renderer* renderer = element->getRenderer();
-
-				bool clickOk = true;
-				if (collider){
-					collider->getBoundingBox(true); // force regenerate bounding box
-					Vector2 mousePosition = element->getTransform()->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
-					clickOk = collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION;
-				}
-
-				bool groupOk = (element->getGroup() && element->getGroup()->mVisible) || !element->getGroup();
-				bool rendererOk = (renderer && renderer->isActive() && !renderer->isOutOfCamera()) || !renderer;
-
-				if (collider && collider->isActive() && rendererOk && clickOk && groupOk) {
-					element->onPressed();
-					pressed = true;
-
-					if (element->isConsumeInput()) {
-						Input::clearMouseButton();
-					}
-				}
-			} else if(element->isPendingToBeDestroyed()) {
-				internalRemoveUIElement(&it);
-			}
-		}
 	}
 }
 
@@ -294,17 +253,18 @@ void UI::internalRemoveUIElement(const Iterator *it) {
 
 void UI::terminate() {
 	TRACE();
-//  FOR_LIST(it, mUIElements){
-//    Memory::free<UIElement>(it.get());
-//  }
 
 	if(mUIBuilder){
 		Memory::free<UIBuilder>(mUIBuilder);
 	}
 
-	Memory::free<HashMap<c8, Vector2>>(mCharMap);
+	if(mCharMap){
+		Memory::free<HashMap<c8, Vector2>>(mCharMap);
+	}
 
-	Memory::free<List<UIElement*>>(mUIElements);
+	if(mUIElements){
+		Memory::free<List<UIElement*>>(mUIElements);
+	}
 
 	if(mGroups){
 		FOR_LIST(it, mGroups->getValues()){

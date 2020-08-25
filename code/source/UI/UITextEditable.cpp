@@ -1,28 +1,28 @@
-#include "UIList.hpp"
+#include "UITextEditable.hpp"
+#include "UI.hpp"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
-UIList::UIList() : UIElement() {
-
+UITextEditable::UITextEditable() : UIText() {
 }
 
 // ---------------------------------------------------------------------------
 
-UIList::~UIList() = default;
+UITextEditable::~UITextEditable() = default;
 
 // ---------------------------------------------------------------------------
 
-void UIList::init() {
-	UIElement::init();
+
+void UITextEditable::init() {
+	UIText::init();
 
 	subscribeToMouseButtonEvents();
+	subscribeToCharEvents();
+	subscribeToEnterEvent();
 }
 
-
-void UIList::setText(const std::string &text) {
-
-}
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

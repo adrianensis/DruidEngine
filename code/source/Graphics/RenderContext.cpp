@@ -81,7 +81,7 @@ void RenderContext::init() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	Input::init();
+	Input::getInstance()->init();
 
 	RenderContext::clear();
 }

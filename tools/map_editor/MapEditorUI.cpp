@@ -56,6 +56,128 @@ const std::string MapEditorUI::StringsUI::smInspectorSize = "size:";
 const std::string MapEditorUI::StringsUI::smInspectorSizeCollider = "collider size:";
 const std::string MapEditorUI::StringsUI::smGrid = "Grid";
 
+
+// ---------------------------------------------------------------------------
+
+Brush::Brush() : DE_Class() {
+
+}
+
+// ---------------------------------------------------------------------------
+
+Brush::~Brush() {
+	free();
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::init(MapEditor* mapEditor) {
+
+	mMapEditor = mapEditor;
+
+	if(mGrid) free();
+
+	mGrid = Memory::allocate<Array<GameObject*>>();
+	mGrid->init(mMaxGridSize);
+
+	Vector2 size(mMapEditor->mMapEditorUI.mGridTileSize / 2.0f, mMapEditor->mMapEditorUI.mGridTileSize / 2.0f);
+
+	if(mBrushCursor) {
+		mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
+	}
+
+	mBrushCursor = Memory::allocate<GameObject>();
+	mBrushCursor->init();
+
+	mBrushCursor->getTransform()->setLocalPosition(Vector3(-1.4f / RenderContext::getAspectRatio(), 0.8f, 0));
+	mBrushCursor->getTransform()->setScale(Vector3(0.1f / RenderContext::getAspectRatio(), 0.1f, 1));
+	mBrushCursor->getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	mBrushCursor->addComponent<Renderer>(renderer);
+
+	renderer->setLayer(mMapEditor->mMapEditorUI.mUILayer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(mMapEditor->mMaterial);
+
+
+	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
+}
+
+// ---------------------------------------------------------------------------
+
+GameObject* Brush::getTile(u32 i, u32 j){
+	return mGrid->get(i * mGridSize.x + j);
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::addTile(GameObject* tile, Vector2 atlasPosition){
+	if(mLastIndex < mMaxGridSize){
+
+		// If it's the first selected tile, take it as coordinates origin.
+		if(! mGrid->get(0)){
+			mOriginAtlasPosition = atlasPosition;
+		}
+
+		Vector2 distance(std::abs(atlasPosition.x - mOriginAtlasPosition.x),
+				std::abs(atlasPosition.y - mOriginAtlasPosition.y));
+
+		mGridSize.x = std::max(mGridSize.x,distance.x + 1);
+		mGridSize.y = std::max(mGridSize.y,distance.y + 1);
+
+		mGrid->set(mLastIndex,tile);
+		mLastIndex++;
+		tile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::free(){
+	Memory::free<Array<GameObject*>>(mGrid);
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::clear(){
+	FOR_RANGE(i, 0, mLastIndex){
+		GameObject* tile = mGrid->get(i);
+
+		if(tile)
+			tile->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+	}
+
+	mLastIndex = 0;
+	mGridSize = Vector2(1,1);
+	mOriginAtlasPosition = Vector2(0,0);
+	mGrid->clear();
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::setDrawTileSize(f32 size) {
+	mDrawTileSize = size;
+	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditorUI::resetBrush() {
+	mIsPaintMode = false;
+	mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(0, 0, 1, 1);
+	mBrush.clear();
+}
+
+// ---------------------------------------------------------------------------
+
+void MapEditorUI::createBrush() {
+	mBrush.init(mMapEditor);
+	mBrush.setDrawTileSize(mGridTileSize);
+}
+
+
 // ---------------------------------------------------------------------------
 
 MapEditorUI::MapEditorUI(){
@@ -82,6 +204,8 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 	createLayersBar();
 
 	toggleAtlas();
+
+	createBrush();
 }
 
 // ---------------------------------------------------------------------------
@@ -214,7 +338,7 @@ void MapEditorUI::createInspector() {
 
 	mTextBoxTag = (UIText*) UI::getInstance()->getBuilder()->
 		setText("")->
-		create(UIElementType::TEXTBOX)->
+		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
 	mTextBoxTag->setOnTextChangedCallback([self = mTextBoxTag, mapEditor = mMapEditor]() {
@@ -275,7 +399,7 @@ void MapEditorUI::createInspector() {
 	mTextBoxSizeX = (UIText*) UI::getInstance()->getBuilder()->
 		setText("0.0")->
 		setLayer(mUILayer)->
-		create(UIElementType::TEXTBOX)->
+		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
 	mTextBoxSizeX->setOnTextChangedCallback([self = mTextBoxSizeX, mapEditor = mMapEditor]() {
@@ -291,7 +415,7 @@ void MapEditorUI::createInspector() {
 	mTextBoxSizeY = (UIText*) UI::getInstance()->getBuilder()->
 		setText("0.0")->
 		setLayer(mUILayer)->
-		create(UIElementType::TEXTBOX)->
+		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
 	mTextBoxSizeY->setOnTextChangedCallback([self = mTextBoxSizeY, mapEditor = mMapEditor]() {
@@ -313,7 +437,7 @@ void MapEditorUI::createInspector() {
 	mTextBoxColliderSizeX = (UIText*) UI::getInstance()->getBuilder()->
 		setText("0.0")->
 		setLayer(mUILayer)->
-		create(UIElementType::TEXTBOX)->
+		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
 	mTextBoxColliderSizeX->setOnTextChangedCallback([self = mTextBoxColliderSizeX, mapEditor = mMapEditor]() {
@@ -331,7 +455,7 @@ void MapEditorUI::createInspector() {
 	mTextBoxColliderSizeY = (UIText*) UI::getInstance()->getBuilder()->
 		setText("0.0")->
 		setLayer(mUILayer)->
-		create(UIElementType::TEXTBOX)->
+		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
 	mTextBoxColliderSizeY->setOnTextChangedCallback([self = mTextBoxColliderSizeY, mapEditor = mMapEditor]() {
@@ -431,22 +555,22 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 
 			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j]() {
 				Renderer* buttonRenderer = self->getRenderer();
-				mapEditor->mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
+				mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
 						buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
 						buttonRenderer->getRegionSize().y);
 
 				Vector2 atlasPosition = Vector2(i, j);
 
-				if((mapEditor->mBrush.mLastIndex < mapEditor->mBrush.mMaxGridSize) &&
-						Input::isModifierPressed(GLFW_MOD_CONTROL)){
-					mapEditor->mBrush.addTile(self, atlasPosition);
+				if((mBrush.mLastIndex < mBrush.mMaxGridSize) &&
+						Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL)){
+					mBrush.addTile(self, atlasPosition);
 				} else {
-					mapEditor->mBrush.clear();
-					mapEditor->mBrush.addTile(self, atlasPosition);
+					mBrush.clear();
+					mBrush.addTile(self, atlasPosition);
 				}
 
-				mapEditor->mBrush.setDrawTileSize(mapEditor->mGridTileSize);
-				mapEditor->mIsPaintMode = true;
+				mBrush.setDrawTileSize(mGridTileSize);
+				mIsPaintMode = true;
 			});
 
 			UI::getInstance()->addToGroup(mAtlasUIGroup, tile);
@@ -513,7 +637,7 @@ void MapEditorUI::createAtlasSelector() {
 
 		button->setOnPressedCallback([&, i=i, material = material, mapEditorUI = this]() {
 			mMapEditor->mMaterial = material;
-			mMapEditor->createBrush(); // TODO : Move brush to UIMapEditor class
+			createBrush();
 			UI::getInstance()->removeElementsFromGroup(mAtlasUIGroup);
 			createAtlas(i, material);
 		});
@@ -539,7 +663,7 @@ void MapEditorUI::updateGridLines() {
 		// GRID LINES
 		FOR_RANGE(i, -halfLinesCount, halfLinesCount){
 
-			f32 pos = (i * mMapEditor->mGridTileSize) + mMapEditor->mGridTileSize/2.0f;
+			f32 pos = (i * mGridTileSize) + mGridTileSize/2.0f;
 
 			RenderEngine::getInstance()->drawLine(Vector3(-lineLength,pos,0), Vector3(lineLength,pos,0), 1, true);
 			RenderEngine::getInstance()->drawLine(Vector3(pos,-lineLength,0), Vector3(pos,lineLength,0), 1, true);
@@ -606,18 +730,18 @@ void MapEditorUI::createSprites() {
 
 		sprite->setOnPressedCallback([&, self = sprite, mapEditor = mMapEditor]() {
 			Renderer* buttonRenderer = self->getRenderer();
-			mapEditor->mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
+			mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
 					buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
 					buttonRenderer->getRegionSize().y);
 
 			Vector2 atlasPosition = Vector2(0, 0);
 
-			mapEditor->mBrush.clear();
-			mapEditor->mBrush.addTile(self, atlasPosition);
+			mBrush.clear();
+			mBrush.addTile(self, atlasPosition);
 
-			mapEditor->mBrush.setDrawTileSize(200);
+			mBrush.setDrawTileSize(200);
 
-			mapEditor->mIsPaintMode = true;
+			mIsPaintMode = true;
 		});
 
 		UI::getInstance()->addToGroup(mSpritesUIGroup, sprite);

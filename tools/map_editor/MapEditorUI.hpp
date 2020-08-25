@@ -23,6 +23,29 @@ template<class T> class List;
 
 class MapEditor;
 
+class Brush: public DE_Class {
+private: Array<GameObject*>* mGrid = nullptr;
+	Vector2 mOriginAtlasPosition = Vector2(0,0);
+
+	void free();
+
+public: f32 mDrawTileSize = 100;
+	u32 mLastIndex = 0;
+	u32 mMaxGridSize = 16;
+	Vector2 mGridSize = Vector2(1,1);
+	GameObject* mBrushCursor = nullptr;
+	MapEditor* mMapEditor = nullptr;
+
+	DE_CLASS(Brush, DE_Class);
+
+	void init(MapEditor* mapEditor);
+	void addTile(GameObject* tile, Vector2 atlasPosition);
+	GameObject* getTile(u32 i, u32 j);
+	void clear();
+	void setDrawTileSize(f32 size);
+};
+
+
 class MapEditorUI : public DE_Class{
 
 private:
@@ -81,13 +104,23 @@ private:
 
 	bool mIsGridShow = false;
 
+
+
 public:
 
 	DE_CLASS(MapEditorUI, DE_Class);
 
 	u32 mUILayer = 3;
 
+	// brush
+	Brush mBrush;
+	bool mIsPaintMode = false;
+	f32 mGridTileSize;
+
 	void init(MapEditor *mapEditor);
+
+	void createBrush();
+	void resetBrush();
 
 	void createMenuBar();
 
