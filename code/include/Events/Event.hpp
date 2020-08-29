@@ -3,6 +3,7 @@
 
 #include "DE_Class.hpp"
 #include "Functor.hpp"
+#include "TimerManager.hpp"
 
 namespace DE {
 
@@ -26,11 +27,7 @@ public: \
 
 #define DE_EVENT_DECLARATION_END(EventClassName) };
 
-enum class EventDelay {
-	NONE,
-	TIMER,
-	NEXT_FRAME
-};
+
 
 class Event : public DE_Class{
 
@@ -39,7 +36,7 @@ public:
 
 	DE_Class* mSender;
 
-	EventDelay mDelayType;
+	TimerDurationType mDelayType;
 	f32 mDelayAmount;
 
 	// NOTE : Override in children!
@@ -64,6 +61,8 @@ class EventFunctor : public Functor<EventCallback> {
 
 public:
 	E* mEvent = nullptr;
+	ClassId mEventClassId = 0;
+	DE_Class* mEventReceiver = nullptr;
 
 	EventFunctor() = default;
 	~EventFunctor() override = default;
@@ -83,12 +82,14 @@ public:
 		// do the copy
 		Functor::operator=(eventFunctor);
 		mEvent = eventFunctor.mEvent;
+		mEventClassId = eventFunctor.mEventClassId;
+		mEventReceiver = eventFunctor.mEventReceiver;
 
 		return *this;
 	}
 
-	bool operator==(const EventFunctor &rhs) const {
-		return this == &rhs;
+	bool operator== (const EventFunctor& eventFunctor) const{
+		return mEventClassId == eventFunctor.mEventClassId && mEventReceiver == eventFunctor.mEventReceiver;
 	}
 };
 

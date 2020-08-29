@@ -122,19 +122,24 @@ void Chunk::update(BatchesMap *batchesMap) {
 	FOR_LIST(it, mRenderers) {
 		Renderer* renderer = it.get();
 
-		if (!renderer->isAlreadyInBatch()) {
-			batchesMap->addRenderer(it.get());
-		}
-
-		if (!it.get()->isStatic() && renderer->isAffectedByProjection() && !this->containsRenderer(renderer)) {
-			Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
-
-			// Only remove the renderer from this chunk if another chunk is found.
-			// If not, keep the renderer here until a new chunk is found.
-			if (chunk) {
-				chunk->addRenderer(renderer);
-				mRenderers->remove(it);
+		if(renderer->isActive()){
+			if (!renderer->isAlreadyInBatch()) {
+				batchesMap->addRenderer(it.get());
 			}
+
+			if (!it.get()->isStatic() && renderer->isAffectedByProjection() && !this->containsRenderer(renderer)) {
+				Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
+
+				// Only remove the renderer from this chunk if another chunk is found.
+				// If not, keep the renderer here until a new chunk is found.
+				if (chunk) {
+					chunk->addRenderer(renderer);
+					mRenderers->remove(it);
+				}
+			}
+		} else if(renderer->isDestroyed()) {
+			mRenderers->remove(it);
+			Memory::free<Renderer>(renderer);
 		}
 	}
 }

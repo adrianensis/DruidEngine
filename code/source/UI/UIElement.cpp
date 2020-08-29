@@ -29,57 +29,83 @@ UIElement::UIElement() : GameObject() {
 
 // ---------------------------------------------------------------------------
 
-UIElement::~UIElement() = default;
+UIElement::~UIElement() {
+
+}
 
 void UIElement::init() {
 	GameObject::init();
 }
 
+void UIElement::onDestroy() {
+	GameObject::onDestroy();
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed);
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed);
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased);
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventChar);
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter);
+	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc);
+}
+
 // ---------------------------------------------------------------------------
 
 void UIElement::subscribeToKeyEvents() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, [](const Event* event){
+	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, [this](const Event* event){
+		if(isActive()){
 
+		}
 	});
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyReleased, [](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyReleased, [this](const Event* event){
+		if(isActive()){
 
-	});
+		}
+	});*/
 }
 
 void UIElement::subscribeToCharEvents() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventChar, [this](const Event* event){
-
-		// TODO : boolean to enable or disable : can receive char input?
-		onChar(((const InputEventChar*)event)->mChar);
-	});
+	/*DE_SUBSCRIBE_TO_EVENT(InputEventChar, [this](const Event* event){
+		if(isActive()){
+			// TODO : boolean to enable or disable : can receive char input?
+			onChar(((const InputEventChar*)event)->mChar);
+		}
+	});*/
 }
 
 void UIElement::subscribeToMouseButtonEvents() {
 	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, [this](const Event* event){
-		//ECHO("InputEventMouseButtonPressed")
-		const InputEventMouseButtonPressed* e = (const InputEventMouseButtonPressed*)event;
+		if(isActive()){
+			//ECHO("InputEventMouseButtonPressed")
+			const InputEventMouseButtonPressed* e = (const InputEventMouseButtonPressed*)event;
 
-		if(e->mButton == GLFW_MOUSE_BUTTON_LEFT){
-			onPressed();
+			if(e->mButton == GLFW_MOUSE_BUTTON_LEFT){
+				onPressed();
+			}
 		}
 	});
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, [this](const Event* event){
+	/*DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, [this](const Event* event){
+		if(isActive()){
 
-	});
+		}
+	});*/
 }
 
 void UIElement::subscribeToEnterEvent() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEnter, [this](const Event* event){
-		onFocusLost(); // TODO : call something more generic
-	});
+	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyEnter, [this](const Event* event){
+		if(isActive()){
+			onFocusLost(); // TODO : call something more generic
+		}
+	});*/
 }
 
 void UIElement::subscribeToEscEvent() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEsc, [this](const Event* event){
-		onFocusLost(); // TODO : call something more generic
-	});
+	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyEsc, [this](const Event* event){
+		if(isActive()){
+			onFocusLost(); // TODO : call something more generic
+		}
+	});*/
 }
 
 // ---------------------------------------------------------------------------

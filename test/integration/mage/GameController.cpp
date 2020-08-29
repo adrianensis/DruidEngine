@@ -1,4 +1,6 @@
 #include "GameController.hpp"
+
+#include <Time.hpp>
 #include "Log.hpp"
 
 #include "GameObject.hpp"
@@ -10,7 +12,6 @@
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
-#include "Time2.hpp"
 #include "Input.hpp"
 #include "List.hpp"
 #include "HashMap.hpp"

@@ -108,6 +108,8 @@ public:
 
 	void destroy();
 
+	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
+
 	bool shouldPersist() const {
 		return mShouldPersist;
 	};

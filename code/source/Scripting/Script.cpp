@@ -1,10 +1,10 @@
+#include <Time.hpp>
 #include "Script.hpp"
 #include "Log.hpp"
 
 #include "GameObject.hpp"
 #include "Transform.hpp"
 #include "Vector3.hpp"
-#include "Time2.hpp"
 
 namespace DE {
 

@@ -1,4 +1,6 @@
 #include "TornadoScript.hpp"
+
+#include <Time.hpp>
 #include "Log.hpp"
 
 #include "GameObject.hpp"
@@ -19,7 +21,6 @@
 #include "Transform.hpp"
 #include "Scene.hpp"
 #include "Camera.hpp"
-#include "Time2.hpp"
 
 namespace DE {
 

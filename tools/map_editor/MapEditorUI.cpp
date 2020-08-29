@@ -1,4 +1,7 @@
 #include "MapEditorUI.hpp"
+
+#include <Time.hpp>
+
 #include "MapEditor.hpp"
 #include "Log.hpp"
 
@@ -12,7 +15,6 @@
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
-#include "Time2.hpp"
 #include "Input.hpp"
 #include "List.hpp"
 #include "HashMap.hpp"
@@ -37,6 +39,8 @@
 #include "UIText.hpp"
 
 #include "Settings.hpp"
+
+#include "TimerManager.hpp"
 
 namespace DE {
 
@@ -185,8 +189,6 @@ MapEditorUI::MapEditorUI(){
 }
 
 MapEditorUI::~MapEditorUI(){
-	/*Memory::free<Array<UIButton*>>(mAtlasButtons);
-	Memory::free<Array<UIButton*>>(mSpriteButtons);*/
 	Memory::free<Array<UIButton*>>(mLayerButtons);
 }
 
@@ -524,9 +526,6 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 	Vector2 atlasSize = Vector2(mMapEditor->mConfigMap->getU32("atlases["+ std::to_string(index) +"].size.width"), mMapEditor->mConfigMap->getU32("atlases["+ std::to_string(index) +"].size.height"));
 	Vector2 atlasTextureSize = Vector2(1.0f / atlasSize.x, 1.0f / atlasSize.y);
 
-	/*mAtlasButtons = Memory::allocate<Array<UIButton*>>();
-	mAtlasButtons->init(atlasSize.x*atlasSize.y);*/
-
 	UIElementData data;
 
 	UI::getInstance()->getBuilder()->
@@ -635,7 +634,7 @@ void MapEditorUI::createAtlasSelector() {
 		Material* material = MaterialManager::getInstance()->loadMaterial(mMapEditor->mConfigMap->getString("atlases["+ std::to_string(i) +"].texture"));
 		button->getRenderer()->setMaterial(material);
 
-		button->setOnPressedCallback([&, i=i, material = material, mapEditorUI = this]() {
+		button->setOnPressedCallback([&, i=i, material=material, mapEditorUI = this]() {
 			mMapEditor->mMaterial = material;
 			createBrush();
 			UI::getInstance()->removeElementsFromGroup(mAtlasUIGroup);
@@ -705,9 +704,6 @@ void MapEditorUI::createSprites() {
 	f32 j = 0.5f;
 
 	u32 spritesCount = 4;
-
-	/*mSpriteButtons = Memory::allocate<Array<UIButton*>>();
-	mSpriteButtons->init(spritesCount);*/
 
 	UIElementData data;
 

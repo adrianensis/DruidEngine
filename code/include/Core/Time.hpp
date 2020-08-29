@@ -8,8 +8,6 @@
 
 namespace DE {
 
-//using time_point = std::chrono::time_point<std::chrono::high_resolution_clock>;
-
 class Time : public DE_Class, public Singleton<Time>{
 private:
 	f32 mDeltaTimeMillis;

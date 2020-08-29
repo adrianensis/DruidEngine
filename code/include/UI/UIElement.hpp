@@ -37,6 +37,7 @@ public:
 	DE_CLASS(UIElement, GameObject);
 
 	virtual void init();
+	virtual void onDestroy();
 
 	void subscribeToKeyEvents();
 	void subscribeToCharEvents();

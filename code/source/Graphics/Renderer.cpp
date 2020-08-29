@@ -165,14 +165,19 @@ Chunk* Renderer::getChunk() {
 };
 
 bool Renderer::isAffectedByProjection() {
-	return getGameObject()->getTransform()->isAffectedByProjection();
+
+	if(getGameObject()){
+		mIsAffectedByProjection = getGameObject()->getTransform()->isAffectedByProjection();
+	}
+
+	return mIsAffectedByProjection;
 }
 
 // ---------------------------------------------------------------------------
 
 void Renderer::renderCollider() {
 
-	//if (mIsAffectedByProjection) {
+	if (mIsAffectedByProjection) {
 		List<Collider*>* colliders = getGameObject()->getComponents<Collider>();
 
 		if (colliders && !colliders->isEmpty()) {
@@ -185,7 +190,7 @@ void Renderer::renderCollider() {
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), lineSize, mIsAffectedByProjection);
 			RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), lineSize, mIsAffectedByProjection);
 		}
-	//}
+	}
 }
 
 // ---------------------------------------------------------------------------

@@ -26,12 +26,18 @@ namespace DE {
 #define DE_SEND_EVENT(event) DE_SEND_EVENT_SPECIFIC_SENDER(this, event);
 
 template<class K, class V> class HashMap;
+template<class T> class List;
+
+enum class EventAction{
+	SUBSCRIBE, UNSUBSCRIBE, SEND
+};
+
 
 class EventsManager : public DE_Class, public Singleton<EventsManager>{
 
 private:
 
-	HashMap<ClassId, HashMap<DE_Class*, EventFunctor<Event>>*>* mEventsMap; // TODO: Free this map!!!
+	HashMap<ClassId, HashMap<DE_Class*, EventFunctor<Event>>*>* mEventsMap;
 
 	void subscribe(ClassId eventClassId, DE_Class* eventReceiver, EventCallback eventCallback);
 	void unsubscribe(ClassId eventClassId, DE_Class* eventReceiver);
@@ -61,6 +67,8 @@ public:
 	}
 
 	void send(DE_Class* sender, Event* event);
+
+	void step();
 };
 
 

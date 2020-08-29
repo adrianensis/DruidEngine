@@ -29,7 +29,9 @@ private: Array<GameObject*>* mGrid = nullptr;
 
 	void free();
 
-public: f32 mDrawTileSize = 100;
+public:
+
+	f32 mDrawTileSize = 100;
 	u32 mLastIndex = 0;
 	u32 mMaxGridSize = 16;
 	Vector2 mGridSize = Vector2(1,1);
@@ -103,8 +105,6 @@ private:
 	Array<UIButton*>* mLayerButtons = nullptr;
 
 	bool mIsGridShow = false;
-
-
 
 public:
 

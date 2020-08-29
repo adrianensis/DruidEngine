@@ -188,8 +188,6 @@ void RenderEngine::step() {
 		Chunk* chunk = mChunks->get(i);
 
 		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
-		// bool chunkInCameraView = mCamera->getFrustum()->testSphere(chunk->mCenter, chunk->mRadius*2);
-		// bool chunkInCameraView = mCamera->getFrustum()->testRectangle(chunk->mLeftTop, chunk->mSize, chunk->mSize);
 
 		if (chunkInCameraView) {
 			chunk->load();

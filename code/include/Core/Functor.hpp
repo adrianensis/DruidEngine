@@ -34,6 +34,10 @@ public:
 
 		return *this;
 	}
+
+	bool operator== (const Functor& functor) const{
+	    return this == &functor;
+	}
 };
 
 class FunctorVoid : public Functor<std::function<void()>> {

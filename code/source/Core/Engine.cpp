@@ -1,6 +1,6 @@
+#include <Time.hpp>
 #include "Engine.hpp"
 #include "Memory.hpp"
-#include "Time2.hpp"
 #include "List.hpp"
 #include "Singleton.hpp"
 #include "RenderContext.hpp"
@@ -21,6 +21,7 @@
 #include "MaterialManager.hpp"
 #include "ScenesManager.hpp"
 #include "EventsManager.hpp"
+#include "TimerManager.hpp"
 
 #include <string>
 #include <iostream>
@@ -29,12 +30,6 @@
 #include <chrono>
 
 using namespace std::chrono_literals;
-
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
 
 namespace DE {
 
@@ -57,6 +52,7 @@ void Engine::init() {
 
 	RenderContext::init();
 
+	TimerManager::getInstance()->init();
 	EventsManager::getInstance()->init();
 
 	Settings::getInstance()->init();
@@ -102,6 +98,10 @@ void Engine::terminateSubSystems() {
 		mPhysicsEngine->terminate();
 	if (UI::getInstance())
 		UI::getInstance()->terminate();
+	if (EventsManager::getInstance())
+		EventsManager::getInstance()->terminate();
+	if(TimerManager::getInstance())
+		TimerManager::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
@@ -129,6 +129,8 @@ void Engine::run() {
 
 		UI::getInstance()->step();
 
+		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
+
 		mScriptEngine->step();
 
 		mPhysicsEngine->step(inverseFPS);
@@ -147,7 +149,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}
@@ -171,8 +173,11 @@ void Engine::terminate() {
 	Memory::free<Time>(Time::getInstance());
 
 	if (EventsManager::getInstance()){
-		EventsManager::getInstance()->terminate();
 		Memory::free<EventsManager>(EventsManager::getInstance());
+	}
+
+	if (TimerManager::getInstance()){
+		Memory::free<TimerManager>(TimerManager::getInstance());
 	}
 }
 

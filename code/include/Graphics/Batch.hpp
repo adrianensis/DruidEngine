@@ -43,8 +43,6 @@ private:
 
 	u32 mTextureId;
 
-	Chunk* mChunk;
-
 	bool checkInFrustum(Camera *cam, Renderer *renderer);
 	bool checkDistance(Camera *cam, Renderer *renderer);
 	bool checkOutOfCamera(Camera *cam, Renderer *renderer);
@@ -80,9 +78,6 @@ public:
 	void setMaterial(Material *newMaterial) {
 		mMaterial = newMaterial;
 	};
-
-	void setChunk(Chunk *chunk);
-	Chunk* getChunk();
 };
 
 } /* namespace DE */

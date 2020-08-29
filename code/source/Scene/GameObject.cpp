@@ -95,6 +95,8 @@ void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
+	onDestroy();
+
 	FOR_LIST(it, mComponentsMap->getKeys()) {
 
 		ClassId id = it.get();
@@ -102,9 +104,12 @@ void GameObject::destroy() {
 
 		FOR_LIST(itComponent, list)
 		{
+			itComponent.get()->setGameObject(nullptr);
 			removeComponent(itComponent.get(), id);
 		}
 	}
+
+	mComponentsMap->clear();
 };
 
 // ---------------------------------------------------------------------------

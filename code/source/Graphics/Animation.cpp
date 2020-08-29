@@ -1,8 +1,8 @@
+#include <Time.hpp>
 #include "Animation.hpp"
 
 #include "Memory.hpp"
 #include "AnimationFrame.hpp"
-#include "Time2.hpp"
 #include "List.hpp"
 #include "Log.hpp"
 

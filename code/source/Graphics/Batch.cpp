@@ -1,3 +1,4 @@
+#include <Time.hpp>
 #include "Batch.hpp"
 #include "Material.hpp"
 #include "Texture.hpp"
@@ -15,7 +16,6 @@
 #include "GameObject.hpp"
 #include "Transform.hpp"
 #include "MathUtils.hpp"
-#include "Time2.hpp"
 #include "Chunk.hpp"
 #include "Settings.hpp"
 
@@ -59,8 +59,6 @@ Batch::Batch() : DE_Class() {
 	mTextureId = 0;
 
 	mBinded = false;
-
-	mChunk = nullptr;
 }
 
 Batch::~Batch() {
@@ -70,7 +68,7 @@ Batch::~Batch() {
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->isDestroyed()) {
 					itRenderer.get()->setDestroyed();
-					Memory::free<Renderer>(itRenderer.get());
+					//Memory::free<Renderer>(itRenderer.get());
 				}
 			}
 
@@ -225,62 +223,61 @@ u32 Batch::render(u32 layer) {
 			Chunk* chunk = renderer->getChunk();
 			bool chunkOk = (!chunk) || (chunk && chunk->isLoaded());
 
-			if (renderer->isActive() && chunkOk) {
+			if(renderer->isActive()) {
+				if (chunkOk) {
+					Transform* t = renderer->getGameObject()->getTransform();
 
-				Transform* t = renderer->getGameObject()->getTransform();
+					if (renderer->getLayer() == layer && !checkOutOfCamera(camera, renderer)) {
 
-				if (renderer->getLayer() == layer && !checkOutOfCamera(camera, renderer)) {
+						const Matrix4& translationMatrix = t->getTranslationMatrix();
+						const Matrix4& rotationMatrix = t->getRotationMatrix();
+						const Matrix4& scaleMatrix = t->getScaleMatrix();
 
-					const Matrix4& translationMatrix = t->getTranslationMatrix();
-					const Matrix4& rotationMatrix = t->getRotationMatrix();
-					const Matrix4& scaleMatrix = t->getScaleMatrix();
+						shader->addMatrix(translationMatrix, "translationMatrix");
+						shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
+						shader->addMatrix(rotationMatrix, "rotationMatrix");
+						shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-					shader->addMatrix(translationMatrix, "translationMatrix");
-					shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
-					shader->addMatrix(rotationMatrix, "rotationMatrix");
-					shader->addMatrix(scaleMatrix, "scaleMatrix");
+						if (renderer->isAffectedByProjection()) {
+							shader->addMatrix(projectionMatrix, "projectionMatrix");
+							shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+							shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+						} else {
+							shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
+							shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
+							shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
+						}
 
-					if (renderer->isAffectedByProjection()) {
-						shader->addMatrix(projectionMatrix, "projectionMatrix");
-						shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-						shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-					} else {
-						shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
-						shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
-						shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
+						shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
+
+						renderer->updateMaterial(mMaterial);
+
+						bool lineMode = it.get()->isLineMode();
+
+						glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+
+						glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(),
+						GL_UNSIGNED_INT, 0);
+
+						drawCallCounter++;
+
+						if (mRenderEngine->getDebugColliders()) {
+							renderer->renderCollider();
+						}
+
 					}
-
-					shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
-
-					renderer->updateMaterial(mMaterial);
-
-					bool lineMode = it.get()->isLineMode();
-
-					glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
-
-					glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(),
-					GL_UNSIGNED_INT, 0);
-
-					drawCallCounter++;
-
-					if (mRenderEngine->getDebugColliders()) {
-						renderer->renderCollider();
-					}
-
-				} else if (renderer->isPendingToBeDestroyed()) {
-					// destroy renderer and remove from list
-					internalRemoveRenderer(&it, renderers);
-				}
-			} else if (renderer->isAffectedByProjection()) {
-				if (!chunk->isLoaded()) {
+				} else if (renderer->isAffectedByProjection() && !chunk->isLoaded()) {
 					internalRemoveRendererFromList(&it, renderers);
 				}
-			}
 
-			if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
-				internalRemoveRendererFromList(&it, renderers);
-			}
+				if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
+					internalRemoveRendererFromList(&it, renderers);
+				}
 
+			} else if (renderer->isPendingToBeDestroyed()) {
+				// destroy renderer and remove from list
+				internalRemoveRenderer(&it, renderers);
+			}
 		}
 
 		RenderContext::enableVAO(0);
@@ -302,10 +299,13 @@ void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 		renderers->pushBack(renderer);
 	} else {
 
+		Renderer* first = renderers->getFirst().get();
+		Renderer* last = renderers->getLast().get();
+
 		// CASE 2 : RENDERER IS IN THE LAST/FIRST LAYER
-		if (y <= renderers->getLast().get()->getGameObject()->getTransform()->getWorldPosition().y) {
+		if (last->isActive() && (y <= last->getGameObject()->getTransform()->getWorldPosition().y)) {
 			renderers->pushBack(renderer);
-		} else if (y >= renderers->getFirst().get()->getGameObject()->getTransform()->getWorldPosition().y) {
+		} else if (first->isActive() && (y >= first->getGameObject()->getTransform()->getWorldPosition().y)) {
 			renderers->pushFront(renderer);
 		} else {
 
@@ -317,11 +317,13 @@ void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 			FOR_LIST_COND(it, renderers, !foundSmallerY)
 			{
 				Renderer* otherRenderer = it.get();
-				f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
+				if(otherRenderer->isActive()){
+					f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
 
-				if (y >= otherY) {
-					foundSmallerY = true;
-					itSmallerY = it;
+					if (y >= otherY) {
+						foundSmallerY = true;
+						itSmallerY = it;
+					}
 				}
 			}
 
@@ -373,7 +375,7 @@ void Batch::internalRemoveRenderer(const Iterator *it, List<Renderer*> *list) {
 	auto castedIt = it->cast<Renderer*>();
 	Renderer* renderer = (*castedIt).get();
 	renderer->setDestroyed();
-	Memory::free<Renderer>(renderer);
+	//Memory::free<Renderer>(renderer);
 }
 // ---------------------------------------------------------------------------
 
@@ -385,19 +387,9 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	renderer->setIsAlreadyInBatch(false);
 
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
-		// renderer->setChunk(nullptr);
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}
 }
-
-// ---------------------------------------------------------------------------
-
-void Batch::setChunk(Chunk *chunk) {
-	mChunk = chunk;
-};
-Chunk* Batch::getChunk() {
-	return mChunk;
-};
 
 // ---------------------------------------------------------------------------
 

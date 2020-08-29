@@ -283,10 +283,11 @@ void Scene::updateComponents(GameObject *gameObject) {
 // ---------------------------------------------------------------------------
 
 void Scene::removeGameObject(GameObject *gameObject) {
-	auto it = mGameObjects->find(gameObject);
-	mGameObjects->remove(it);
 
 	if (!gameObject->isDestroyed()) {
+		auto it = mGameObjects->find(gameObject);
+		mGameObjects->remove(it);
+
 		gameObject->destroy();
 		gameObject->setDestroyed();
 		Memory::free<GameObject>(gameObject);

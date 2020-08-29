@@ -16,6 +16,7 @@ private:
 	bool mIsDestroyed;
 	bool mIsPendingToBeDestroyed;
 	bool mAlreadyAddedToEngine;
+	bool mIsStatic;
 
 public:
 
@@ -43,11 +44,11 @@ public:
 
 	bool isStatic();
 	bool isActive() const {
-		return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive;
+		return (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : mIsActive;
 	};
 
 	void setIsActive(bool isActive) {
-		mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
+		mIsActive = (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : isActive;
 	};
 
 	bool isPendingToBeDestroyed() const {
@@ -66,7 +67,10 @@ public:
 	void destroy() {
 		mIsPendingToBeDestroyed = true;
 		mIsActive = false;
+		onDestroy();
 	};
+
+	virtual void onDestroy() { };
 
 };
 

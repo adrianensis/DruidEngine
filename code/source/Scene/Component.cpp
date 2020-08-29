@@ -10,6 +10,7 @@ Component::Component() : DE_Class() {
 	mGameObject = nullptr;
 	mIsActive = true;
 	mIsDestroyed = false;
+	mIsStatic = false;
 }
 
 Component::~Component() = default;
@@ -17,7 +18,12 @@ Component::~Component() = default;
 // ---------------------------------------------------------------------------
 
 bool Component::isStatic() {
-	return mGameObject->isStatic();
+
+	if(mGameObject){
+		mIsStatic = mGameObject->isStatic();
+	}
+
+	return mIsStatic;
 }
 
 // ---------------------------------------------------------------------------

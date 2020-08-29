@@ -184,7 +184,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	bool contains(K key) {
+	bool contains(const K key) {
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
 
 		// iterate over list to find element.
@@ -230,7 +230,7 @@ public:
 		}
 
 		if (found) {
-			mValues->remove(mValues->find(selectedIt.get()->mElement));
+			mValues->remove(selectedIt.get()->mElement);
 			list->removeAt(index - 1);
 			BaseContainer::mLength--;
 

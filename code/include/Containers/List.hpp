@@ -395,12 +395,14 @@ public:
 	 */
 	void init(const List &other) {
 		this->_init(other.mElementSize);
-		ListIterator it = other.getIterator();
 
-		for (; it.hasNext(); it.next())
+		if(!other.isEmpty()){
+			ListIterator it = other.getIterator();
+			for (; it.hasNext(); it.next())
+				this->pushBack(it.get());
+
 			this->pushBack(it.get());
-
-		this->pushBack(it.get());
+		}
 	}
 
 	// ---------------------------------------------------------------------------
@@ -718,7 +720,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void remove(T element) {
+	void remove(const T element) {
 		remove(find(element));
 	}
 
@@ -765,7 +767,7 @@ public:
 	/*!
 	 \brief Finds with default comparator.
 	 */
-	ListIterator find(T element) {
+	ListIterator find(const T element) const {
 		//return find(element, defaultComparator);
 
 		ListIterator selectedIt;
@@ -787,7 +789,7 @@ public:
 	/*!
 	 \brief Finds with custom comparator.
 	 */
-	ListIterator find(T element, u8 (*comparator)(const T &a, const T &b)) {
+	ListIterator find(const T element, u8 (*comparator)(const T &a, const T &b)) const {
 		ListIterator selectedIt;
 		bool found = false;
 

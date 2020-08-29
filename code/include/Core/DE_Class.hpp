@@ -64,7 +64,6 @@ public:
 	virtual std::string getClassName() const {
 		return "DE_Class";
 	};
-
 };
 
 // ---------------------------------------------------------------------------

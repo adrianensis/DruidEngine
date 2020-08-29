@@ -4,7 +4,7 @@ namespace DE {
 
 Event::Event() : DE_Class() {
 	mDelayAmount = 0;
-	mDelayType = EventDelay::NONE;
+	mDelayType = TimerDurationType::NONE;
 	mSender = nullptr;
 }
 

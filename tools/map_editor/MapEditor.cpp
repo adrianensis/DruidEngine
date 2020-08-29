@@ -1,4 +1,6 @@
 #include "MapEditor.hpp"
+
+#include <Time.hpp>
 #include "Log.hpp"
 
 #include "GameObject.hpp"
@@ -11,7 +13,6 @@
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
-#include "Time2.hpp"
 #include "Input.hpp"
 #include "List.hpp"
 #include "HashMap.hpp"
@@ -411,7 +412,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,movement,0));
 
 		if (renderer) {
-			//renderer->setAnimation("run");
+			renderer->setAnimation("run");
 		}
 	}
 
@@ -422,7 +423,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,-movement,0));
 
 		if (renderer) {
-			//renderer->setAnimation("run");
+			renderer->setAnimation("run");
 		}
 	}
 } else if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
@@ -432,7 +433,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(-movement,0,0));
 
 		if (renderer) {
-			//renderer->setAnimation("run");
+			renderer->setAnimation("run");
 			renderer->setInvertXAxis(true);
 		}
 	}
@@ -443,7 +444,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(movement,0,0));
 
 		if (renderer) {
-			//renderer->setAnimation("run");
+			renderer->setAnimation("run");
 			renderer->setInvertXAxis(false);
 		}
 	}
@@ -452,7 +453,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,0,0));
 
 		if (renderer) {
-			//renderer->setAnimation("idle");
+			renderer->setAnimation("idle");
 		}
 	}
 }
