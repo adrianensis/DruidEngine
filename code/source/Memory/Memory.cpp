@@ -77,7 +77,7 @@ void Memory::free() {
     std::map<std::string, u32>::iterator it = memoryMapCounter.begin();
     while(it != memoryMapCounter.end())
     {
-        std::cout<<it->first<<" :: "<<it->second<<std::endl;
+        std::cout<< (it->second == 0 ? "OK" : "!!") << " " << it->second<<" :: "<<it->first<<std::endl;
         it++;
     }
 

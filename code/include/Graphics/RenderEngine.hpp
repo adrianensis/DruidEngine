@@ -48,6 +48,8 @@ private:
 	Array<LineRenderer*>* mLineRenderers;
 	u32 mLineRenderersCount;
 
+	List<Renderer*>* mRenderersToFree;
+
 	Array<Chunk*>* mChunks;
 
 	BatchesMap* mBatchesMap;
@@ -84,6 +86,7 @@ public:
 
 	void addRenderer(Renderer *renderer);
 	Chunk* assignChunk(Renderer *renderer);
+	void freeRenderer(Renderer *renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
 
 	bool getDebugColliders() const {

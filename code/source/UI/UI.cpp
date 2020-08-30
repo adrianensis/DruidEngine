@@ -38,7 +38,7 @@ void UIGroup::init(){
 // ---------------------------------------------------------------------------
 
 UI::UI() : DE_Class(), Singleton() {
-	mUIElements = nullptr;
+	//mUIElements = nullptr;
 	mFontMaterial = nullptr;
 	mUIBuilder = nullptr;
 }
@@ -112,8 +112,8 @@ void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
 // ---------------------------------------------------------------------------
 
 void UI::init() {
-	mUIElements = Memory::allocate<List<UIElement*>>();
-	mUIElements->init();
+	/*mUIElements = Memory::allocate<List<UIElement*>>();
+	mUIElements->init();*/
 
 	mGroups = Memory::allocate<HashMap<std::string, UIGroup*>>();
 	mGroups->init();
@@ -245,8 +245,8 @@ void UI::step() {
 // ---------------------------------------------------------------------------
 
 void UI::internalRemoveUIElement(const Iterator *it) {
-	auto castedIt = it->cast<UIElement*>();
-	mUIElements->remove(*castedIt);
+	/*auto castedIt = it->cast<UIElement*>();
+	mUIElements->remove(*castedIt);*/
 }
 
 // ---------------------------------------------------------------------------
@@ -262,9 +262,9 @@ void UI::terminate() {
 		Memory::free<HashMap<c8, Vector2>>(mCharMap);
 	}
 
-	if(mUIElements){
+	/*if(mUIElements){
 		Memory::free<List<UIElement*>>(mUIElements);
-	}
+	}*/
 
 	if(mGroups){
 		FOR_LIST(it, mGroups->getValues()){

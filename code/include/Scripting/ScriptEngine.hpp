@@ -14,6 +14,7 @@ class ScriptEngine: public DE_Class, public Singleton<ScriptEngine> {
 private:
 
 	List<Script*>* mScripts;
+	Script* mController;
 	void internalRemoveScript(const Iterator *it);
 
 public:DE_CLASS(ScriptEngine, DE_Class);

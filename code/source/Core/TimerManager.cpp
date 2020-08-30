@@ -40,23 +40,25 @@ void TimerManager::endTimer(Timer* timer) {
 
 void TimerManager::step(f32 deltaTime) {
 
-	List<Timer*>* timers = Memory::allocate<List<Timer*>>();
-	timers->init(*mTimers);
+	if(! mTimers->isEmpty()){
+		List<Timer*>* timers = Memory::allocate<List<Timer*>>();
+		timers->init(*mTimers);
 
-	FOR_LIST(itTimer, timers){
-		Timer* timer = itTimer.get();
+		FOR_LIST(itTimer, timers){
+			Timer* timer = itTimer.get();
 
-		timer->mTimeCounter += deltaTime;
+			timer->mTimeCounter += deltaTime;
 
-		VAR(f32, timer->mTimeCounter);
+			//VAR(f32, timer->mTimeCounter);
 
-		if(timer->mTimeCounter >= timer->mDuration){
-			timer->mFunctor.execute();
-			endTimer(timer);
+			if(timer->mTimeCounter >= timer->mDuration){
+				timer->mFunctor.execute();
+				endTimer(timer);
+			}
 		}
-	}
 
-	Memory::free<List<Timer*>>(timers);
+		Memory::free<List<Timer*>>(timers);
+	}
 }
 
 TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback) {

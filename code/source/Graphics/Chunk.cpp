@@ -80,9 +80,10 @@ Chunk::Chunk() : DE_Class() {
 Chunk::~Chunk() {
 
 	FOR_LIST(it, mRenderers) {
-		if(!it.get()->isDestroyed()){
+		//if(!it.get()->isDestroyed()){
+			it.get()->setDestroyed();
 			Memory::free<Renderer>(it.get());
-		}
+		//}
 	}
 
 	Memory::free<List<Renderer*>>(mRenderers);
@@ -124,10 +125,10 @@ void Chunk::update(BatchesMap *batchesMap) {
 
 		if(renderer->isActive()){
 			if (!renderer->isAlreadyInBatch()) {
-				batchesMap->addRenderer(it.get());
+				batchesMap->addRenderer(renderer);
 			}
 
-			if (!it.get()->isStatic() && renderer->isAffectedByProjection() && !this->containsRenderer(renderer)) {
+			if (!renderer->isStatic() && renderer->isAffectedByProjection() && ! containsRenderer(renderer)) {
 				Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
@@ -137,9 +138,15 @@ void Chunk::update(BatchesMap *batchesMap) {
 					mRenderers->remove(it);
 				}
 			}
-		} else if(renderer->isDestroyed()) {
+		}
+
+		if(renderer->isPendingToBeDestroyed()) {
+			renderer->setDestroyed();
+			RenderEngine::getInstance()->freeRenderer(renderer);
+		}
+
+		if(renderer->isDestroyed()) {
 			mRenderers->remove(it);
-			Memory::free<Renderer>(renderer);
 		}
 	}
 }

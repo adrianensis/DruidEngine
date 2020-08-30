@@ -152,8 +152,7 @@ public:
 
 	public:
 
-		DE_GENERATE_METADATA(ListIterator, Iterator)
-		;
+		DE_GENERATE_METADATA(ListIterator, Iterator);
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;

@@ -68,7 +68,7 @@ Batch::~Batch() {
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->isDestroyed()) {
 					itRenderer.get()->setDestroyed();
-					//Memory::free<Renderer>(itRenderer.get());
+					Memory::free<Renderer>(itRenderer.get());
 				}
 			}
 
@@ -276,7 +276,8 @@ u32 Batch::render(u32 layer) {
 
 			} else if (renderer->isPendingToBeDestroyed()) {
 				// destroy renderer and remove from list
-				internalRemoveRenderer(&it, renderers);
+				//internalRemoveRenderer(&it, renderers);
+				internalRemoveRendererFromList(&it, renderers);
 			}
 		}
 
@@ -376,6 +377,8 @@ void Batch::internalRemoveRenderer(const Iterator *it, List<Renderer*> *list) {
 	Renderer* renderer = (*castedIt).get();
 	renderer->setDestroyed();
 	//Memory::free<Renderer>(renderer);
+	// NOTE : renderer is freed in Chunk.
+	// TODO : DEPRECATED
 }
 // ---------------------------------------------------------------------------
 
@@ -386,6 +389,7 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	Renderer* renderer = (*castedIt).get();
 	renderer->setIsAlreadyInBatch(false);
 
+	// TODO BUG : Why a freed rendere reachs this code?????
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}

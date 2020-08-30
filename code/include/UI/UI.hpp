@@ -36,7 +36,7 @@ public:
 class UI: public DE_Class, public Singleton<UI> {
 private:
 
-	List<UIElement*>* mUIElements;
+	//List<UIElement*>* mUIElements;
 	HashMap<std::string, UIGroup*>* mGroups;
 
 	HashMap<c8, Vector2>* mCharMap;

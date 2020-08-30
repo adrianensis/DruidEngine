@@ -123,6 +123,9 @@ void RenderEngine::init(f32 sceneSize) {
 		mLineRenderers->set(i, lineRenderer);
 	}
 
+	mRenderersToFree = Memory::allocate<List<Renderer*>>();
+	mRenderersToFree->init();
+
 	// Static Chunks grid
 
 	f32 chunksGridSize = Settings::getInstance()->getF32("scene.chunks.count");
@@ -165,6 +168,12 @@ void RenderEngine::init(f32 sceneSize) {
 	}
 }
 
+void RenderEngine::freeRenderer(Renderer *renderer) {
+	if(mRenderersToFree->find(renderer).isNull()){
+		mRenderersToFree->pushBack(renderer);
+	}
+}
+
 // ---------------------------------------------------------------------------
 
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
@@ -181,23 +190,6 @@ void RenderEngine::step() {
 		}
 
 		mCamera->calculateInverseMatrix();
-	}
-
-	//check Chunks
-	FOR_ARRAY(i, mChunks) {
-		Chunk* chunk = mChunks->get(i);
-
-		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
-
-		if (chunkInCameraView) {
-			chunk->load();
-		} else {
-			chunk->unload();
-		}
-
-		if (chunk->isLoaded()) {
-			chunk->update(mBatchesMap);
-		}
 	}
 
 	u32 drawCallCounter = 0;
@@ -221,6 +213,29 @@ void RenderEngine::step() {
 	stepDebug();
 
 	RenderContext::swap();
+
+	//check Chunks
+	FOR_ARRAY(i, mChunks) {
+		Chunk* chunk = mChunks->get(i);
+
+		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
+
+		if (chunkInCameraView) {
+			chunk->load();
+		} else {
+			chunk->unload();
+		}
+
+		if (chunk->isLoaded()) {
+			chunk->update(mBatchesMap);
+		}
+	}
+
+	FOR_LIST(it, mRenderersToFree){
+		Memory::free<Renderer>(it.get());
+	}
+
+	mRenderersToFree->clear();
 
 } // ---------------------------------------------------------------------------
 
@@ -283,14 +298,14 @@ void RenderEngine::terminate() {
 
 	Memory::free<Array<LineRenderer*>>(mLineRenderers);
 
-	Memory::free<BatchesMap>(mBatchesMap);
-	Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
-
 	FOR_ARRAY(i, mChunks) {
 		Memory::free<Chunk>(mChunks->get(i));
 	}
 
 	Memory::free<Array<Chunk*>>(mChunks);
+
+	Memory::free<BatchesMap>(mBatchesMap);
+	Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
 
 	FOR_LIST(it, mLayersData->getValues()) {
 		Memory::free<LayerData>(it.get());
@@ -299,6 +314,12 @@ void RenderEngine::terminate() {
 	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 
 	Memory::free<Mesh>(Mesh::getRectangle());
+
+	FOR_LIST(it, mRenderersToFree){
+		Memory::free<Renderer>(it.get());
+	}
+
+	Memory::free<List<Renderer*>>(mRenderersToFree);
 }
 
 // ---------------------------------------------------------------------------

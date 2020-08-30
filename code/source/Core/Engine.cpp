@@ -179,6 +179,9 @@ void Engine::terminate() {
 	if (TimerManager::getInstance()){
 		Memory::free<TimerManager>(TimerManager::getInstance());
 	}
+
+	Memory::free<Input>(Input::getInstance());
+
 }
 
 // ---------------------------------------------------------------------------

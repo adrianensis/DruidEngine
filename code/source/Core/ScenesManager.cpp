@@ -29,8 +29,9 @@ ScenesManager::~ScenesManager() {
 
 	Memory::free<List<Scene*>>(mScenes);
 
-	mGameObjectController->getComponents<Script>()->get(0)->terminate();
-	Memory::free<Script>(mGameObjectController->getComponents<Script>()->get(0));
+	//mGameObjectController->getComponents<Script>()->get(0)->terminate();
+	//Memory::free<Script>(mGameObjectController->getComponents<Script>()->get(0));
+	mGameObjectController->destroy();
 	Memory::free<GameObject>(mGameObjectController);
 }
 

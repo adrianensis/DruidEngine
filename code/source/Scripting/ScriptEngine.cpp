@@ -13,6 +13,7 @@ namespace DE {
 
 ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
 	mScripts = nullptr;
+	mController = nullptr;
 }
 
 ScriptEngine::~ScriptEngine() = default;
@@ -24,6 +25,8 @@ void ScriptEngine::init() {
 
 	mScripts = Memory::allocate<List<Script*>>();
 	mScripts->init();
+
+	mController = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
 }
 
 // ---------------------------------------------------------------------------
@@ -36,15 +39,13 @@ void ScriptEngine::addScript(Script *newScript) {
 
 void ScriptEngine::step() {
 
-	Script* controller = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
-
-	if (controller) {
-		if (!controller->isFirstStepDone()) {
-			controller->firstStep();
-			controller->firstStepDone();
+	if (mController) {
+		if (!mController->isFirstStepDone()) {
+			mController->firstStep();
+			mController->firstStepDone();
 		}
 
-		controller->step();
+		mController->step();
 	}
 
 	FOR_LIST (it, mScripts) {
@@ -80,11 +81,15 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 
 void ScriptEngine::terminate() {
 	TRACE();
+
+	mController->terminate();
+	Memory::free<Script>(mController);
+
 	if (mScripts) {
-		FOR_LIST (it, mScripts)
-		{
-			it.get()->terminate();
-			Memory::free<Script>(it.get());
+		FOR_LIST (it, mScripts) {
+			Script* script = it.get();
+			script->terminate();
+			Memory::free<Script>(script);
 		}
 
 		Memory::free<List<Script*>>(mScripts);

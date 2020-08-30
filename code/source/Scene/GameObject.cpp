@@ -19,9 +19,9 @@ GameObject::GameObject() : DE_Class() {
 }
 
 GameObject::~GameObject() {
-	FOR_LIST(it, mComponentsMap->getValues()){
+	/*FOR_LIST(it, mComponentsMap->getValues()){
 		Memory::free<List<Component*>>(it.get());
-	}
+	}*/
 
 	Memory::free<HashMap<ClassId, List<Component*>*>>(mComponentsMap);
 	Memory::free<Transform>(mTransform);
@@ -107,6 +107,8 @@ void GameObject::destroy() {
 			itComponent.get()->setGameObject(nullptr);
 			removeComponent(itComponent.get(), id);
 		}
+
+		Memory::free<List<Component*>>(list);
 	}
 
 	mComponentsMap->clear();

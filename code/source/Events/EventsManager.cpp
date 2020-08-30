@@ -27,7 +27,7 @@ void EventsManager::init(){
 void EventsManager::subscribe(ClassId eventClassId, DE_Class* eventReceiver, EventCallback eventCallback){
 
 	if(!mEventsMap->contains(eventClassId)){
-		HashMap<DE_Class*, EventFunctor<Event>>* subMap = subMap = Memory::allocate<HashMap<DE_Class*, EventFunctor<Event>>>();
+		HashMap<DE_Class*, EventFunctor<Event>>* subMap = Memory::allocate<HashMap<DE_Class*, EventFunctor<Event>>>();
 		subMap->init();
 
 		mEventsMap->set(eventClassId, subMap);

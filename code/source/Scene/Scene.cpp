@@ -51,6 +51,7 @@ void Scene::destroyGameObjects() {
 
 	if(mCameraGameObject){
 		Memory::free<Camera>(mCameraGameObject->getComponents<Camera>()->get(0));
+		mCameraGameObject->destroy();
 		Memory::free<GameObject>(mCameraGameObject);
 	}
 }
