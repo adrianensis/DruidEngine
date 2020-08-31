@@ -1,6 +1,6 @@
 #include "MapEditor.hpp"
 
-#include <Time.hpp>
+#include <TimeUtils.hpp>
 #include "Log.hpp"
 
 #include "GameObject.hpp"
@@ -41,51 +41,6 @@
 #include "EventsManager.hpp"
 
 namespace DE {
-
-// ---------------------------------------------------------------------------
-
-MapEditor::CellData::CellData() : DE_Class() {
-
-}
-
-// ---------------------------------------------------------------------------
-
-MapEditor::CellData::~CellData() {
-	if (layers) {
-		Memory::free<Array<GameObject*>>(layers);
-	}
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::CellData::addGameObject(GameObject *gameObject, u32 layer) {
-	if (!layers) {
-		layers = Memory::allocate<Array<GameObject*>>();
-		layers->init(10); // MAX LAYERS
-	}
-
-	if (layer >= 0 && layer < 10) {
-		layers->set(layer, gameObject);
-	}
-}
-
-void MapEditor::CellData::removeGameObject(u32 layer) {
-	if (layers) {
-		if (layer >= 0 && layer < 10) {
-			layers->set(layer, nullptr);
-		}
-	}
-}
-
-GameObject* MapEditor::CellData::get(u32 layer) {
-	GameObject* gameObject = nullptr;
-
-	if (layers) {
-		gameObject = layers->get(layer);
-	}
-
-	return gameObject;
-}
 
 // ---------------------------------------------------------------------------
 
@@ -150,34 +105,6 @@ void MapEditor::destroyPlayer(){
 
 // ---------------------------------------------------------------------------
 
-GameObject* MapEditor::createTile(f32 x, f32 y) {
-	Vector2 size(mMapEditorUI.mBrush.mDrawTileSize, mMapEditorUI.mBrush.mDrawTileSize);
-
-	GameObject* tile = Memory::allocate<GameObject>();
-	tile->init();
-
-	tile->getTransform()->setLocalPosition(Vector3(x, y, 0));
-	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	tile->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mMaterial);
-
-	renderer->setLayer(mLayer);
-
-	tile->setIsStatic(true);
-	tile->setShouldPersist(true);
-
-	getGameObject()->getScene()->addGameObject(tile);
-
-	return tile;
-}
-
-
-// ---------------------------------------------------------------------------
-
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
 
@@ -186,8 +113,7 @@ void MapEditor::init() {
 
 	mConfigMap->readConfigFile("config/editor.conf");
 
-	mGridSize = mConfigMap->getF32("grid.size");
-	mMapEditorUI.mGridTileSize = mConfigMap->getF32("grid.tile.size");
+
 }
 
 // ---------------------------------------------------------------------------
@@ -198,24 +124,10 @@ void MapEditor::firstStep() {
 	mCameraTransform = mCamera->getGameObject()->getTransform();
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
-	// TODO : brush will need to change material dinamically.
-	// OR Destroy brush cursor and create again.
 
-	mGrid = Memory::allocate<Array<Array<CellData*>*>>();
-	mGrid->init(mGridSize);
+	mGrid.init(getGameObject()->getScene(), mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
 
-	f32 halfGridSize = mGridSize / 2.0f;
-
-	FOR_RANGE(i, 0, mGridSize){
-		mGrid->set(i, Memory::allocate<Array<CellData*>>());
-		mGrid->get(i)->init(mGridSize);
-		FOR_RANGE(j, 0, mGridSize){
-			CellData* cellData = Memory::allocate<CellData>();
-			mGrid->get(i)->set(j, cellData);
-		}
-	}
-
-	loadMapIntoGrid();
+	mGrid.loadMapIntoGrid(getGameObject()->getScene()->getNewGameObjects());
 
 	mMapEditorUI.init(this);
 
@@ -228,20 +140,23 @@ void MapEditor::firstStep() {
 
 void MapEditor::step() {
 
-	Vector2 mouse(Input::getInstance()->getMousePosition());
-	Vector3 world = mCamera->screenToWorld(mouse);
-
-	Vector3 clampedPosition(std::roundf(world.x / mMapEditorUI.mGridTileSize) * mMapEditorUI.mGridTileSize, std::roundf(world.y / mMapEditorUI.mGridTileSize) * mMapEditorUI.mGridTileSize, 0);
 
 	//click(clampedPosition);
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)
 	|| Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 
 		if(RenderEngine::getInstance()->getLayersData()->get(mLayer)->mVisible){
-			FOR_RANGE(i, 0, mMapEditorUI.mBrush.mGridSize.y){
-				FOR_RANGE(j, 0, mMapEditorUI.mBrush.mGridSize.x){
-					f32 offset = mMapEditorUI.mGridTileSize;
-					click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j));
+			FOR_RANGE(i, 0, mMapEditorUI.mBrush.mBrushGridSize.y){
+				FOR_RANGE(j, 0, mMapEditorUI.mBrush.mBrushGridSize.x){
+					f32 offset = mGrid.getGridTileSize();
+
+					Vector2 mouse(Input::getInstance()->getMousePosition());
+					Vector3 world = mCamera->screenToWorld(mouse);
+
+					Vector3 clampedPosition(std::roundf(world.x / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), std::roundf(world.y / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), 0);
+
+
+					mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
 				}
 			}
 		}
@@ -280,38 +195,6 @@ void MapEditor::step() {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::click(const Vector3 &clampedPosition, GameObject* brush) {
-
-	f32 halfSize = (mGridSize * mMapEditorUI.mGridTileSize / 2.0f);
-	if (std::fabs(clampedPosition.x) < halfSize && std::fabs(clampedPosition.y) < halfSize) {
-
-		Vector2 gridPosition(clampedPosition.x / mMapEditorUI.mGridTileSize + mGridSize / 2.0f,
-				clampedPosition.y / mMapEditorUI.mGridTileSize + mGridSize / 2.0f);
-
-		if (gridPosition.x >= 0 && gridPosition.x < mGridSize && gridPosition.y >= 0 && gridPosition.y < mGridSize) {
-
-			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-
-			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
-				if(mMapEditorUI.mIsPaintMode){
-					drawTile(cellData, clampedPosition, brush);
-				} else {
-					selectTile(cellData);
-				}
-			}
-
-			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
-
-				if(mMapEditorUI.mIsPaintMode){
-					removeTile(cellData);
-				}
-			}
-		}
-	}
-}
-
-// ---------------------------------------------------------------------------
-
 void MapEditor::addColliderToTile(GameObject *tile) {
 	if(tile){
 		List<RigidBody*>* rigidBodies = tile->getComponents<RigidBody>();
@@ -327,50 +210,6 @@ void MapEditor::addColliderToTile(GameObject *tile) {
 			getGameObject()->getScene()->updateComponents(tile);
 		}
 	}
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::selectTile(CellData *cellData) {
-	if (cellData->get(mLayer)) {
-		if(mSelectedTile && mSelectedTile->isActive()){
-			mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
-		}
-
-		mSelectedTile = cellData->get(mLayer);
-		mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
-
-		mMapEditorUI.updateInspectorOnSelectTile();
-	}
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush) {
-	if(brush){
-		removeTile(cellData);
-
-		GameObject* newTile = createTile(worldPosition.x, worldPosition.y);
-		cellData->addGameObject(newTile, mLayer);
-
-		Renderer* renderer = newTile->getComponents<Renderer>()->get(0);
-		Renderer* brushRenderer = brush->getComponents<Renderer>()->get(0);
-
-		renderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y,
-			brushRenderer->getRegionSize().x, brushRenderer->getRegionSize().y);
-	}
-
-}
-
-// ---------------------------------------------------------------------------
-
-void MapEditor::removeTile(CellData *cellData) {
-	if (cellData->get(mLayer)) {
-		getGameObject()->getScene()->removeGameObject(cellData->get(mLayer));
-		cellData->removeGameObject(mLayer);
-	}
-
-	mSelectedTile = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -461,44 +300,9 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 
 // ---------------------------------------------------------------------------
 
-void MapEditor::loadMapIntoGrid() {
-		// getGameObject()->getScene()->loadScene("config/scene.conf");
-
-	const List<GameObject*>* gameObects = getGameObject()->getScene()->getNewGameObjects();
-
-	FOR_LIST (it, gameObects){
-
-		GameObject* gameObject = it.get();
-
-		if (gameObject->isStatic()) {
-
-			Transform* t = gameObject->getTransform();
-			Vector3 worldPosition(t->getWorldPosition());
-			Vector2 gridPosition(worldPosition.x / mMapEditorUI.mGridTileSize + mGridSize / 2.0f,
-					worldPosition.y / mMapEditorUI.mGridTileSize + mGridSize / 2.0f);
-
-			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-			cellData->addGameObject(gameObject, gameObject->getComponents<Renderer>()->get(0)->getLayer());
-		}
-
-	}
-}
-
-// ---------------------------------------------------------------------------
-
 void MapEditor::terminate() {
 
-	if(mGrid){
-		FOR_RANGE(i, 0, mGridSize){
-			FOR_RANGE(j, 0, mGridSize){
-				Memory::free<CellData>(mGrid->get(i)->get(j));
-			}
 
-			Memory::free<Array<CellData*>>(mGrid->get(i));
-		}
-	}
-
-	Memory::free<Array<Array<CellData*>*>>(mGrid);
 
 	Memory::free<ConfigMap>(mConfigMap);
 }

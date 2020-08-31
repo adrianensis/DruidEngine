@@ -1,4 +1,4 @@
-#include <Time.hpp>
+#include <TimeUtils.hpp>
 #include "Batch.hpp"
 #include "Material.hpp"
 #include "Texture.hpp"
@@ -276,7 +276,6 @@ u32 Batch::render(u32 layer) {
 
 			} else if (renderer->isPendingToBeDestroyed()) {
 				// destroy renderer and remove from list
-				//internalRemoveRenderer(&it, renderers);
 				internalRemoveRendererFromList(&it, renderers);
 			}
 		}
@@ -375,10 +374,8 @@ void Batch::internalRemoveRenderer(const Iterator *it, List<Renderer*> *list) {
 
 	auto castedIt = it->cast<Renderer*>();
 	Renderer* renderer = (*castedIt).get();
-	renderer->setDestroyed();
-	//Memory::free<Renderer>(renderer);
-	// NOTE : renderer is freed in Chunk.
-	// TODO : DEPRECATED
+
+
 }
 // ---------------------------------------------------------------------------
 
@@ -392,6 +389,13 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	// TODO BUG : Why a freed rendere reachs this code?????
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
+	}
+
+	// NOTE: UI CASE
+	// UI is not Freed in Chunk so it has to ve freed here.
+	if(! renderer->isAffectedByProjection()){
+		renderer->setDestroyed();
+		Memory::free<Renderer>(renderer);
 	}
 }
 

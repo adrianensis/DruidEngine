@@ -292,34 +292,48 @@ void RenderEngine::terminate() {
 	Memory::free<Array<u32>>(mLineRendererIndices);
 	Memory::free<Shader>(mShaderLine);
 
-	FOR_ARRAY(i, mLineRenderers){
-		Memory::free<LineRenderer>(mLineRenderers->get(i));
+	if(mLineRenderers){
+		FOR_ARRAY(i, mLineRenderers){
+			Memory::free<LineRenderer>(mLineRenderers->get(i));
+		}
+
+		Memory::free<Array<LineRenderer*>>(mLineRenderers);
 	}
 
-	Memory::free<Array<LineRenderer*>>(mLineRenderers);
+	if(mChunks){
+		FOR_ARRAY(i, mChunks) {
+			Memory::free<Chunk>(mChunks->get(i));
+		}
 
-	FOR_ARRAY(i, mChunks) {
-		Memory::free<Chunk>(mChunks->get(i));
+		Memory::free<Array<Chunk*>>(mChunks);
 	}
 
-	Memory::free<Array<Chunk*>>(mChunks);
 
-	Memory::free<BatchesMap>(mBatchesMap);
-	Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
-
-	FOR_LIST(it, mLayersData->getValues()) {
-		Memory::free<LayerData>(it.get());
+	if(mBatchesMap){
+		Memory::free<BatchesMap>(mBatchesMap);
 	}
 
-	Memory::free<HashMap<u32, LayerData*>>(mLayersData);
+	if(mBatchesMapNotAffectedByProjection){
+		Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
+	}
+
+	if(mLayersData){
+		FOR_LIST(it, mLayersData->getValues()) {
+			Memory::free<LayerData>(it.get());
+		}
+
+		Memory::free<HashMap<u32, LayerData*>>(mLayersData);
+	}
 
 	Memory::free<Mesh>(Mesh::getRectangle());
 
-	FOR_LIST(it, mRenderersToFree){
-		Memory::free<Renderer>(it.get());
-	}
+	if(mRenderersToFree){
+		FOR_LIST(it, mRenderersToFree){
+			Memory::free<Renderer>(it.get());
+		}
 
-	Memory::free<List<Renderer*>>(mRenderersToFree);
+		Memory::free<List<Renderer*>>(mRenderersToFree);
+	}
 }
 
 // ---------------------------------------------------------------------------

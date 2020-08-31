@@ -1,11 +1,11 @@
 #ifndef DE_TIMERMANAGER_H
 #define DE_TIMERMANAGER_H
 
+#include <TimeUtils.hpp>
 #include "BasicTypes.hpp"
 #include "Singleton.hpp"
 #include "DE_Class.hpp"
 #include "Functor.hpp"
-#include "Time.hpp"
 
 namespace DE {
 

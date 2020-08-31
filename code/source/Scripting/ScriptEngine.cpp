@@ -82,8 +82,10 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 void ScriptEngine::terminate() {
 	TRACE();
 
-	mController->terminate();
-	Memory::free<Script>(mController);
+	if(mController){
+		mController->terminate();
+		Memory::free<Script>(mController);
+	}
 
 	if (mScripts) {
 		FOR_LIST (it, mScripts) {

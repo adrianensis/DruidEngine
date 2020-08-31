@@ -49,18 +49,22 @@ ContactsManager::ContactsManager() : DE_Class(), Singleton() {
 }
 
 ContactsManager::~ContactsManager() {
-	FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
-		FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
-			Memory::free<Contact>(itContacts.get());
+	if(mContactsMap){
+		FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
+			FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
+				Memory::free<Contact>(itContacts.get());
+			}
+			Memory::free<HashMap<Collider*, Contact*>>(itSubHashMaps.get());
 		}
-		Memory::free<HashMap<Collider*, Contact*>>(itSubHashMaps.get());
+		Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
 	}
-	Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
 
-	FOR_LIST (it, mContactsToRemove) {
-		Memory::free<Contact>(it.get());
+	if(mContactsToRemove){
+		FOR_LIST (it, mContactsToRemove) {
+			Memory::free<Contact>(it.get());
+		}
+		Memory::free<List<Contact*>>(mContactsToRemove);
 	}
-	Memory::free<List<Contact*>>(mContactsToRemove);
 }
 
 // ---------------------------------------------------------------------------

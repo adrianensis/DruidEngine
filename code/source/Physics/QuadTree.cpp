@@ -51,12 +51,12 @@ QuadTree::Node::~Node() {
 
 	Memory::free<Array<Node*>>(mChildren);
 
-	FOR_LIST(it, mColliders) {
-		if (it.get() && !(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
+	/*FOR_LIST(it, mColliders) {
+		if (!(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
 			it.get()->setDestroyed();
 			Memory::free<Collider>(it.get());
 		}
-	}
+	}*/
 
 	Memory::free<List<Collider*>>(mColliders);
 	Memory::free<List<Collider*>>(mExitingColliders);
@@ -293,7 +293,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 								}
 							} else if (colliderB->isPendingToBeDestroyed()) {
 								internalRemoveColliderFromList(&itB);
-								internalFreeCollider(colliderB);
+								//internalFreeCollider(colliderB);
 							} else if (colliderB->isDestroyed()) {
 								internalRemoveColliderFromList(&itB);
 							}
@@ -302,7 +302,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 				}
 			} else if (colliderA->isPendingToBeDestroyed()) {
 				internalRemoveColliderFromList(&itA);
-				internalFreeCollider(colliderA);
+				//internalFreeCollider(colliderA);
 			} else if (colliderA->isDestroyed()) {
 				internalRemoveColliderFromList(&itA);
 			}

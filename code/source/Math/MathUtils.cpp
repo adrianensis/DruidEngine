@@ -4,7 +4,7 @@
 
 namespace DE {
 
-f32 MathUtils::FLOAT_EPSILON = 0.00001f;
+f32 MathUtils::FLOAT_EPSILON = 0.0000001f;
 
 f32 MathUtils::PI = acosf(-1.0f); // pi
 f32 MathUtils::PI_2 = PI / 2.0f; // pi/2

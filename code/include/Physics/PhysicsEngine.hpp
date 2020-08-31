@@ -17,6 +17,7 @@ class PhysicsEngine: public DE_Class, public Singleton<PhysicsEngine> {
 private:
 
 	List<RigidBody*>* mRigidBodies;
+	List<RigidBody*>* mRigidBodiesToFree;
 	QuadTree* mQuadTree;
 
 	void internalRemoveRigidBody(const Iterator *it);

@@ -4,6 +4,7 @@
 #include "Script.hpp"
 #include "Vector2.hpp"
 #include "MapEditorUI.hpp"
+#include "Grid.hpp"
 #include <string>
 
 #include "Event.hpp"
@@ -30,20 +31,6 @@ class ConfigMap;
 class MapEditor: public Script {
 private:
 
-	class CellData: public DE_Class {
-	public: DE_CLASS(CellData, DE_Class);
-
-		GameObject* tile = nullptr;
-		Array<GameObject*>* layers = nullptr;
-
-		void addGameObject(GameObject *gameObject, u32 layer);
-		void removeGameObject(u32 layer);
-		GameObject* get(u32 layer);
-	};
-
-	u32 mGridSize;
-	Array<Array<CellData*>*>* mGrid = nullptr;
-
 	Transform* mTransform = nullptr;
 	Camera* mCamera = nullptr;
 	Transform* mCameraTransform = nullptr;
@@ -55,26 +42,18 @@ public:
 	u32 mLayer = 0;
 	f32 mZoom = 1;
 	GameObject* mPlayer = nullptr;
-	GameObject* mSelectedTile = nullptr;
 	MapEditorUI mMapEditorUI;
 	Material* mMaterial = nullptr;
 
-
+	Grid mGrid;
 	ConfigMap* mConfigMap = nullptr;
 
 	DE_CLASS(MapEditor, Script);
 
-	GameObject* createTile(f32 x, f32 y);
 	void createPlayer();
 	void destroyPlayer();
 
-	void click(const Vector3 &clampedPosition, GameObject* brush);
-	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush);
-	void removeTile(CellData *cellData);
-	void selectTile(CellData *cellData);
 	void addColliderToTile(GameObject* tile);
-
-	void loadMapIntoGrid();
 
 	void cameraZoom();
 	void processMovement();

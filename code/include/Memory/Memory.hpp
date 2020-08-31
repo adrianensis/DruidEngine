@@ -83,7 +83,7 @@ public:
 			//ECHO("MEMORY FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
 
 			std::string className = pointer->getClassName();
-			//className = className + " " + typeid(pointer).name();
+			//className = className + " " + typeid(T).name();
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
 				if(memoryMapCounter[className] > 0){

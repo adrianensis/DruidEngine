@@ -1,4 +1,4 @@
-#include <Time.hpp>
+#include <TimeUtils.hpp>
 #include "PhysicsEngine.hpp"
 #include "RigidBody.hpp"
 #include "Collider.hpp"
@@ -52,7 +52,10 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 
 	RigidBody* rigidBody = (*castedIt).get();
 	rigidBody->setDestroyed();
-	Memory::free<RigidBody>(rigidBody);
+
+	/*Memory::free<Collider>(rigidBody->getCollider());
+
+	Memory::free<RigidBody>(rigidBody);*/
 }
 
 // ---------------------------------------------------------------------------
@@ -64,6 +67,9 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 	mRigidBodies = Memory::allocate<List<RigidBody*>>();
 	mRigidBodies->init();
+
+	mRigidBodiesToFree = Memory::allocate<List<RigidBody*>>();
+	mRigidBodiesToFree->init();
 
 	mQuadTree = Memory::allocate<QuadTree>();
 	mQuadTree->init(sceneSize);
@@ -91,6 +97,7 @@ void PhysicsEngine::step(f32 deltaTime) {
 					it.get()->integrate(dt);
 				}
 			} else if (it.get()->isPendingToBeDestroyed()) {
+				mRigidBodiesToFree->pushBack(it.get());
 				internalRemoveRigidBody(&it);
 			}
 		}
@@ -100,6 +107,13 @@ void PhysicsEngine::step(f32 deltaTime) {
 		mQuadTree->setStatus(ColliderStatus::STATUS_NONE); // Reset status and try again.
 
 		updateContacts();
+
+		FOR_LIST (it, mRigidBodiesToFree) {
+			Memory::free<Collider>(it.get()->getCollider());
+			Memory::free<RigidBody>(it.get());
+		}
+
+		mRigidBodiesToFree->clear();
 
 	}
 
@@ -117,11 +131,23 @@ void PhysicsEngine::updateContacts() {
 void PhysicsEngine::terminate() {
 	TRACE();
 
-	FOR_LIST(it, mRigidBodies) {
-		Memory::free<RigidBody>(it.get());
+	if(mRigidBodies){
+		FOR_LIST(it, mRigidBodies) {
+			Memory::free<Collider>(it.get()->getCollider());
+			Memory::free<RigidBody>(it.get());
+		}
+
+		Memory::free<List<RigidBody*>>(mRigidBodies);
 	}
 
-	Memory::free<List<RigidBody*>>(mRigidBodies);
+	if(mRigidBodiesToFree){
+		FOR_LIST(it, mRigidBodiesToFree) {
+			Memory::free<Collider>(it.get()->getCollider());
+			Memory::free<RigidBody>(it.get());
+		}
+
+		Memory::free<List<RigidBody*>>(mRigidBodiesToFree);
+	}
 
 	Memory::free<QuadTree>(mQuadTree);
 
