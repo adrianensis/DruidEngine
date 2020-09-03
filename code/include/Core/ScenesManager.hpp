@@ -29,6 +29,8 @@ public:
 	void init();
 	void step();
 
+	void loadCurrentScene();
+
 	void setScene(u32 i);
 	Scene* getCurrentScene();
 

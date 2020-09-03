@@ -75,12 +75,20 @@ void ScenesManager::init() {
 
 void ScenesManager::step() {
 
+	/*if (mSceneHasChanged) {
+
+	} else {
+
+	}*/
+
+	mCurrentScene->step();
+}
+
+void ScenesManager::loadCurrentScene() {
 	if (mSceneHasChanged) {
 		mCurrentScene = mScenes->get(mCurrentSceneIndex);
 		internalLoadScene();
 		mSceneHasChanged = false;
-	} else {
-		mCurrentScene->step();
 	}
 }
 

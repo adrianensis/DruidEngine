@@ -79,12 +79,17 @@ Chunk::Chunk() : DE_Class() {
 
 Chunk::~Chunk() {
 
+	VAR(u32, mRenderers->getLength());
+	u32 remainingInChunk = mRenderers->getLength();
 	FOR_LIST(it, mRenderers) {
 		//if(!it.get()->isDestroyed()){
 			it.get()->setDestroyed();
 			Memory::free<Renderer>(it.get());
+			remainingInChunk--;
 		//}
 	}
+
+	VAR(u32, remainingInChunk);
 
 	Memory::free<List<Renderer*>>(mRenderers);
 }

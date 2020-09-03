@@ -119,6 +119,11 @@ Mesh* Mesh::getRectangle() {
 	return smRectangle;
 }
 
+void Mesh::freeRectangle() {
+	Memory::free<Mesh>(smRectangle);
+	smRectangle = nullptr;
+}
+
 // ---------------------------------------------------------------------------
 
 } /* namespace DE */

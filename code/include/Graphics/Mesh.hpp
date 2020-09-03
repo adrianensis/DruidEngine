@@ -52,6 +52,7 @@ public:
 
 
 	static Mesh* getRectangle();
+	static void freeRectangle();
 };
 
 } /* namespace DE */

@@ -289,8 +289,13 @@ void RenderEngine::bind() {
 void RenderEngine::terminate() {
 	TRACE();
 
-	Memory::free<Array<u32>>(mLineRendererIndices);
-	Memory::free<Shader>(mShaderLine);
+	if(mLineRendererIndices){
+		Memory::free<Array<u32>>(mLineRendererIndices);
+	}
+
+	if(mShaderLine) {
+		Memory::free<Shader>(mShaderLine);
+	}
 
 	if(mLineRenderers){
 		FOR_ARRAY(i, mLineRenderers){
@@ -325,12 +330,16 @@ void RenderEngine::terminate() {
 		Memory::free<HashMap<u32, LayerData*>>(mLayersData);
 	}
 
-	Memory::free<Mesh>(Mesh::getRectangle());
+	//Memory::free<Mesh>(Mesh::getRectangle());
+
+	Mesh::freeRectangle();
 
 	if(mRenderersToFree){
 		FOR_LIST(it, mRenderersToFree){
 			Memory::free<Renderer>(it.get());
 		}
+
+		VAR(u32, mRenderersToFree->getLength())
 
 		Memory::free<List<Renderer*>>(mRenderersToFree);
 	}
@@ -344,6 +353,8 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 		Chunk* chunk = assignChunk(renderer);
 		if(chunk){
 			chunk->addRenderer(renderer);
+		} else {
+			//DE_ASSERT(false, "Renderer can't find a chunk.")
 		}
 	} else {
 		// UI Case!

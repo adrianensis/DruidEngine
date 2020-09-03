@@ -62,15 +62,19 @@ Batch::Batch() : DE_Class() {
 }
 
 Batch::~Batch() {
-
 	FOR_LIST(itList, mRenderers->getValues()) {
 		if (itList.get()) {
+			VAR(u32, itList.get()->getLength());
+			u32 remainingInBatch = itList.get()->getLength();
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->isDestroyed()) {
 					itRenderer.get()->setDestroyed();
 					Memory::free<Renderer>(itRenderer.get());
+					remainingInBatch--;
 				}
 			}
+
+			VAR(u32, remainingInBatch);
 
 			Memory::free<List<Renderer*>>(itList.get());
 		}
@@ -216,67 +220,68 @@ u32 Batch::render(u32 layer) {
 		const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
 		const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
 
-		FOR_LIST(it, renderers)
-		{
+		FOR_LIST(it, renderers) {
 			Renderer* renderer = it.get();
 
-			Chunk* chunk = renderer->getChunk();
-			bool chunkOk = (!chunk) || (chunk && chunk->isLoaded());
+			if(renderer->getLayer() == layer) {
+				if(renderer->isActive()) {
+					Chunk* chunk = renderer->getChunk();
+					bool chunkOk = (!chunk) || (chunk && chunk->isLoaded());
 
-			if(renderer->isActive()) {
-				if (chunkOk) {
-					Transform* t = renderer->getGameObject()->getTransform();
+					if (chunkOk) {
+						Transform* t = renderer->getGameObject()->getTransform();
 
-					if (renderer->getLayer() == layer && !checkOutOfCamera(camera, renderer)) {
+						if (!checkOutOfCamera(camera, renderer)) {
 
-						const Matrix4& translationMatrix = t->getTranslationMatrix();
-						const Matrix4& rotationMatrix = t->getRotationMatrix();
-						const Matrix4& scaleMatrix = t->getScaleMatrix();
+							const Matrix4& translationMatrix = t->getTranslationMatrix();
+							const Matrix4& rotationMatrix = t->getRotationMatrix();
+							const Matrix4& scaleMatrix = t->getScaleMatrix();
 
-						shader->addMatrix(translationMatrix, "translationMatrix");
-						shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
-						shader->addMatrix(rotationMatrix, "rotationMatrix");
-						shader->addMatrix(scaleMatrix, "scaleMatrix");
+							shader->addMatrix(translationMatrix, "translationMatrix");
+							shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
+							shader->addMatrix(rotationMatrix, "rotationMatrix");
+							shader->addMatrix(scaleMatrix, "scaleMatrix");
 
-						if (renderer->isAffectedByProjection()) {
-							shader->addMatrix(projectionMatrix, "projectionMatrix");
-							shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-							shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-						} else {
-							shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
-							shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
-							shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
+							if (renderer->isAffectedByProjection()) {
+								shader->addMatrix(projectionMatrix, "projectionMatrix");
+								shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+								shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+							} else {
+								shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
+								shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
+								shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
+							}
+
+							shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
+
+							renderer->updateMaterial(mMaterial);
+
+							bool lineMode = it.get()->isLineMode();
+
+							glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
+
+							glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(),
+							GL_UNSIGNED_INT, 0);
+
+							drawCallCounter++;
+
+							if (mRenderEngine->getDebugColliders()) {
+								renderer->renderCollider();
+							}
+
 						}
-
-						shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
-
-						renderer->updateMaterial(mMaterial);
-
-						bool lineMode = it.get()->isLineMode();
-
-						glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
-
-						glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(),
-						GL_UNSIGNED_INT, 0);
-
-						drawCallCounter++;
-
-						if (mRenderEngine->getDebugColliders()) {
-							renderer->renderCollider();
-						}
-
+					} else if (renderer->isAffectedByProjection() && !chunk->isLoaded()) {
+						internalRemoveRendererFromList(&it, renderers);
 					}
-				} else if (renderer->isAffectedByProjection() && !chunk->isLoaded()) {
+
+					if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
+						internalRemoveRendererFromList(&it, renderers);
+					}
+
+				} else if (renderer->isPendingToBeDestroyed()) {
+					// destroy renderer and remove from list
 					internalRemoveRendererFromList(&it, renderers);
 				}
-
-				if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
-					internalRemoveRendererFromList(&it, renderers);
-				}
-
-			} else if (renderer->isPendingToBeDestroyed()) {
-				// destroy renderer and remove from list
-				internalRemoveRendererFromList(&it, renderers);
 			}
 		}
 

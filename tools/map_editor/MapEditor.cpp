@@ -140,7 +140,6 @@ void MapEditor::firstStep() {
 
 void MapEditor::step() {
 
-
 	//click(clampedPosition);
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)
 	|| Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
@@ -153,10 +152,17 @@ void MapEditor::step() {
 					Vector2 mouse(Input::getInstance()->getMousePosition());
 					Vector3 world = mCamera->screenToWorld(mouse);
 
-					Vector3 clampedPosition(std::roundf(world.x / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), std::roundf(world.y / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), 0);
+					u32 sceneSize = getGameObject()->getScene()->getSize() / 2.0f;
+					if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
+						ECHO("---------")
+						VAR(f32, world.x)
+						VAR(f32, world.y)
+						ECHO("---------")
+						Vector3 clampedPosition(std::roundf(world.x / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), std::roundf(world.y / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), 0);
 
-
-					mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
+						// TODO : how many times is this called?
+						mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
+					}
 				}
 			}
 		}

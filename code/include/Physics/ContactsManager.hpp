@@ -56,6 +56,8 @@ public:
 	// void updateContact(Collider* colliderA, Collider* colliderB);
 	void removeContact(Collider *colliderA, Collider *colliderB);
 	Contact* findContact(Collider *colliderA, Collider *colliderB);
+
+	void terminate();
 };
 
 } /* namespace DE */

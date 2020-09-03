@@ -49,22 +49,9 @@ ContactsManager::ContactsManager() : DE_Class(), Singleton() {
 }
 
 ContactsManager::~ContactsManager() {
-	if(mContactsMap){
-		FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
-			FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
-				Memory::free<Contact>(itContacts.get());
-			}
-			Memory::free<HashMap<Collider*, Contact*>>(itSubHashMaps.get());
-		}
-		Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
-	}
-
-	if(mContactsToRemove){
-		FOR_LIST (it, mContactsToRemove) {
-			Memory::free<Contact>(it.get());
-		}
-		Memory::free<List<Contact*>>(mContactsToRemove);
-	}
+	terminate();
+	Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
+	Memory::free<List<Contact*>>(mContactsToRemove);
 }
 
 // ---------------------------------------------------------------------------
@@ -363,5 +350,24 @@ Contact* ContactsManager::findContact(Collider *colliderA, Collider *colliderB) 
 }
 
 // ---------------------------------------------------------------------------
+
+void ContactsManager::terminate() {
+	if(mContactsMap){
+		FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
+			FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
+				Memory::free<Contact>(itContacts.get());
+			}
+			Memory::free<HashMap<Collider*, Contact*>>(itSubHashMaps.get());
+		}
+		mContactsMap->clear();
+	}
+
+	if(mContactsToRemove){
+		FOR_LIST (it, mContactsToRemove) {
+			Memory::free<Contact>(it.get());
+		}
+		mContactsToRemove->clear();
+	}
+}
 
 } /* namespace DE */

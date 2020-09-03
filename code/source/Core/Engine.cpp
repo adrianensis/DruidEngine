@@ -65,11 +65,11 @@ void Engine::init() {
 
 void Engine::initSubsystems() {
 
-	terminateSubSystems();
 
-	mRenderEngine = RenderEngine::getInstance();
-	mScriptEngine = ScriptEngine::getInstance();
-	mPhysicsEngine = PhysicsEngine::getInstance();
+
+	//mRenderEngine = RenderEngine::getInstance();
+	//mScriptEngine = ScriptEngine::getInstance();
+	//mPhysicsEngine = PhysicsEngine::getInstance();
 
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 
@@ -77,9 +77,9 @@ void Engine::initSubsystems() {
 		sceneSize = Settings::getInstance()->getF32("scene.defaultSize");
 	}
 
-	mRenderEngine->init(sceneSize);
-	mScriptEngine->init();
-	mPhysicsEngine->init(sceneSize);
+	RenderEngine::getInstance()->init(sceneSize);
+	ScriptEngine::getInstance()->init();
+	PhysicsEngine::getInstance()->init(sceneSize);
 	UI::getInstance()->init();
 
 }
@@ -90,17 +90,17 @@ void Engine::terminateSubSystems() {
 
 	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
 
-	if (mScriptEngine)
-		mScriptEngine->terminate();
-	if (mRenderEngine)
-		mRenderEngine->terminate();
-	if (mPhysicsEngine)
-		mPhysicsEngine->terminate();
-	if (UI::getInstance())
+	//if (ScriptEngine::getInstance())
+		ScriptEngine::getInstance()->terminate();
+	//if (RenderEngine::getInstance())
+		RenderEngine::getInstance()->terminate();
+	//if (PhysicsEngine::getInstance())
+		PhysicsEngine::getInstance()->terminate();
+	//if (UI::getInstance())
 		UI::getInstance()->terminate();
-	if (EventsManager::getInstance())
+	//if (EventsManager::getInstance())
 		EventsManager::getInstance()->terminate();
-	if(TimerManager::getInstance())
+	//if(TimerManager::getInstance())
 		TimerManager::getInstance()->terminate();
 }
 
@@ -120,6 +120,8 @@ void Engine::run() {
 		Time::getInstance()->startFrame();
 
 		if (ScenesManager::getInstance()->sceneHasChanged()) {
+			terminateSubSystems();
+			ScenesManager::getInstance()->loadCurrentScene();
 			initSubsystems();
 		}
 
@@ -131,11 +133,11 @@ void Engine::run() {
 
 		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 
-		mScriptEngine->step();
+		ScriptEngine::getInstance()->step();
 
-		mPhysicsEngine->step(inverseFPS);
+		PhysicsEngine::getInstance()->step(inverseFPS);
 
-		mRenderEngine->step();
+		RenderEngine::getInstance()->step();
 
 		//std::cout << " " << Time::getInstance()->getElapsedTime() << std::endl;
 		f32 dt = (Time::getInstance()->getElapsedTime());
@@ -149,7 +151,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}
@@ -163,10 +165,10 @@ void Engine::terminate() {
 
 	RenderContext::terminate();
 
-	Memory::free<RenderEngine>(mRenderEngine);
+	Memory::free<RenderEngine>(RenderEngine::getInstance());
 	Memory::free<MaterialManager>(MaterialManager::getInstance());
-	Memory::free<ScriptEngine>(mScriptEngine);
-	Memory::free<PhysicsEngine>(mPhysicsEngine);
+	Memory::free<ScriptEngine>(ScriptEngine::getInstance());
+	Memory::free<PhysicsEngine>(PhysicsEngine::getInstance());
 	Memory::free<UI>(UI::getInstance());
 	Memory::free<Settings>(Settings::getInstance());
 	Memory::free<ScenesManager>(ScenesManager::getInstance());

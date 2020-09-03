@@ -22,7 +22,9 @@ PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton() {
 
 // ---------------------------------------------------------------------------
 
-PhysicsEngine::~PhysicsEngine() = default;
+PhysicsEngine::~PhysicsEngine() {
+	Memory::free<ContactsManager>(ContactsManager::getInstance());
+}
 
 // ---------------------------------------------------------------------------
 
@@ -150,8 +152,9 @@ void PhysicsEngine::terminate() {
 	}
 
 	Memory::free<QuadTree>(mQuadTree);
+	mQuadTree = nullptr;
 
-	Memory::free<ContactsManager>(ContactsManager::getInstance());
+	ContactsManager::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
