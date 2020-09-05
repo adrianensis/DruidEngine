@@ -80,7 +80,7 @@ public:
 	/*!
 	 \brief Destructor.
 	 */
-	~DynamicArray() {
+	virtual ~DynamicArray() override {
 		if (mArrays != nullptr) {
 
 			FOR_LIST (it, mArrays) {

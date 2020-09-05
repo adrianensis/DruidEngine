@@ -58,7 +58,7 @@ void Scene::destroyGameObjects() {
 // ---------------------------------------------------------------------------
 
 void Scene::init() {
-	TRACE();
+	DE_TRACE();
 
 	mGameObjects = Memory::allocate<List<GameObject*>>();
 	mGameObjects->init();

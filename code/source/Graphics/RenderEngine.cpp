@@ -98,7 +98,7 @@ RenderEngine::~RenderEngine() = default;
 // ---------------------------------------------------------------------------
 
 void RenderEngine::init(f32 sceneSize) {
-	TRACE();
+	DE_TRACE();
 
 	mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
 	mLineRendererIndices = Memory::allocate<Array<u32>>();
@@ -287,7 +287,7 @@ void RenderEngine::bind() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
-	TRACE();
+	DE_TRACE();
 
 	if(mLineRendererIndices){
 		Memory::free<Array<u32>>(mLineRendererIndices);

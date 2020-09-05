@@ -48,7 +48,7 @@ Engine::~Engine() = default;
 
 void Engine::init() {
 
-	TRACE()
+	DE_TRACE()
 
 	RenderContext::init();
 
@@ -151,7 +151,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}

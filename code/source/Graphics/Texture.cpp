@@ -18,7 +18,7 @@ Texture::~Texture() {
 // ---------------------------------------------------------------------------
 
 void Texture::init(const std::string &path) {
-	TRACE();
+	DE_TRACE();
 
 	if (!mData) {
 		mPath = path;

@@ -436,14 +436,14 @@ QuadTree::QuadTree() : DE_Class() {
 // ---------------------------------------------------------------------------
 
 QuadTree::~QuadTree() {
-	TRACE();
+	DE_TRACE();
 	Memory::free<Node>(mRoot);
 }
 
 // ---------------------------------------------------------------------------
 
 void QuadTree::init(f32 size) {
-	TRACE();
+	DE_TRACE();
 
 	mWidth = size;
 	mHeight = size;

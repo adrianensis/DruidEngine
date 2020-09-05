@@ -15,10 +15,10 @@ LinearAllocator::~LinearAllocator() {
 // ---------------------------------------------------------------------------
 
 void LinearAllocator::init(u32 size) {
-	TRACE();
+	DE_TRACE();
 
 	Allocator::init(size);
-TRACE()
+DE_TRACE()
 }
 
 // ---------------------------------------------------------------------------

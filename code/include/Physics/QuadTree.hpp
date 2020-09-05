@@ -51,7 +51,7 @@ private:
 		;
 
 		Node();
-		~Node();
+		virtual ~Node() override;
 		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
 		void addCollider(Collider *collider);

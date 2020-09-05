@@ -111,7 +111,7 @@ public:
 	/*!
 	 \brief Destructor.
 	 */
-	~Array() {
+	virtual ~Array() override {
 		if (mStart != nullptr) {
 			this->mAllocator->free(mStart);
 			mStart = nullptr;

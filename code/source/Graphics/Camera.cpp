@@ -21,7 +21,7 @@ Camera::~Camera() {
 }
 
 void Camera::init() {
-	TRACE();
+	DE_TRACE();
 
 	mViewTranslationMatrix.identity();
 

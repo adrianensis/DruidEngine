@@ -15,7 +15,7 @@ Time::~Time() = default;
 // ---------------------------------------------------------------------------
 
 void Time::init() {
-	TRACE();
+	DE_TRACE();
 
 	mDeltaTimeMillis = 0.0;
 	mDeltaTimeSeconds = 0.0;

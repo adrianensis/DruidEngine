@@ -33,7 +33,7 @@ private:
 		}
 		;
 
-		~Node() {
+		virtual ~Node() override {
 			mParent = nullptr;
 			Memory::free<Array<Node*>>(mChildren);
 		}
@@ -135,7 +135,7 @@ public:
 		mRoot = nullptr;
 	}
 
-	~Tree() {
+	virtual ~Tree() override {
 		Tree<T>::clear();
 	}
 

@@ -63,7 +63,7 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::init(f32 sceneSize) {
-	TRACE();
+	DE_TRACE();
 
 	ContactsManager::getInstance()->init();
 
@@ -131,7 +131,7 @@ void PhysicsEngine::updateContacts() {
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::terminate() {
-	TRACE();
+	DE_TRACE();
 
 	if(mRigidBodies){
 		FOR_LIST(it, mRigidBodies) {

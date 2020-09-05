@@ -33,7 +33,7 @@ private:
 		Node() : 		DE_Class() {
 		}
 		;
-		~Node() {
+		virtual ~Node() override {
 		}
 		;
 
@@ -45,28 +45,30 @@ private:
 
 	// ---------------------------------------------------------------------------
 
-	static const u32 smNodeSize = sizeof(Node);
+	static const u32 smNodeSize = sizeof(HashMap<K,V>::Node);
+	using NodeClass = HashMap<K,V>::Node;
 
-	Node* newNode(const K key, const V element) {
-		Node* node = Memory::allocate<Node>();
+	HashMap<K,V>::Node* newNode(const K key, const V element) {
+		HashMap<K,V>::Node* node = Memory::allocate<Node>();
 		node->init(key, element);
 		return node;
 	}
 
-	void freeNode(Node *node) {
-		Memory::free<Node>(node);
+	void freeNode(HashMap<K,V>::Node* node) {
+		Memory::free<HashMap<K,V>::Node>(node);
 	}
 
 	// ---------------------------------------------------------------------------
 
-	Array<List<Node*>*>* mArray;
+	Array<List<HashMap<K,V>::Node*>*>* mArray;
 
 	List<K>* mKeys;
 	List<V>* mValues;
 
 public:
 
-	using HashMapKV = HashMap<K,V>;DE_GENERATE_METADATA(HashMapKV, BaseContainer);
+	using HashMapKV = HashMap<K,V>;
+	DE_GENERATE_METADATA(HashMapKV, BaseContainer);
 
 	/*!
 	 \brief Default Constructor.
@@ -85,10 +87,10 @@ public:
 	/*!
 	 \brief Destructor.
 	 */
-	~HashMap() {
+	virtual ~HashMap() override {
 		HashMap<K, V>::clear();
 
-		Memory::free<Array<List<Node*>*>>(mArray);
+		Memory::free<Array<List<HashMap<K,V>::Node*>*>>(mArray);
 
 		Memory::free<List<K>>(mKeys);
 		Memory::free<List<V>>(mValues);
@@ -101,7 +103,7 @@ public:
 	 */
 	void init() {
 		BaseContainer::init(0, sizeof(V), 1);
-		mArray = Memory::allocate<Array<List<Node*>*>>();
+		mArray = Memory::allocate<Array<List<HashMap<K,V>::Node*>*>>();
 		mArray->init(20); // TODO : find a good number.
 
 		mKeys = Memory::allocate<List<K>>();
@@ -117,17 +119,17 @@ public:
 
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
 
-		List<Node*>* list = mArray->get(hashIndex);
+		List<HashMap<K,V>::Node*>* list = mArray->get(hashIndex);
 
 		// if there is no list, create it
 		if (list == nullptr) {
-			list = Memory::allocate<List<Node*>>();
+			list = Memory::allocate<List<HashMap<K,V>::Node*>>();
 			list->init();
 			mArray->set(hashIndex, list);
 		}
 
 		bool found = false;
-		Node* node = nullptr;
+		HashMap<K,V>::Node* node = nullptr;
 
 		FOR_LIST_COND(it, list, !found)
 		{
@@ -215,7 +217,7 @@ public:
 
 		bool found = false;
 		u32 index = 0;
-		typename List<Node*>::ListIterator selectedIt;
+		typename List<HashMap<K,V>::Node*>::ListIterator selectedIt;
 
 		if (list) {
 			// iterate over list to find element.
@@ -263,14 +265,14 @@ public:
 
 			FOR_ARRAY(i, mArray) {
 
-				List<Node*>* list = mArray->get(i);
+				List<HashMap<K,V>::Node*>* list = mArray->get(i);
 				if (list) {
 
 					FOR_LIST(it, list) {
 						freeNode(it.get());
 					}
 
-					Memory::free<List<Node*>>(list);
+					Memory::free<List<HashMap<K,V>::Node*>>(list);
 				}
 
 				mArray->set(i, nullptr);

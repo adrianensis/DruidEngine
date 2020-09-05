@@ -5,6 +5,8 @@
 #include "Allocator.hpp"
 #include "Basic.hpp"
 
+#include <type_traits>
+
 namespace DE {
 
 template<class T>
@@ -17,7 +19,7 @@ public:DE_GENERATE_METADATA(Iterator, DE_Class);
 	Iterator() {
 	};
 
-	~Iterator() {
+	virtual ~Iterator() override {
 	};
 
 
@@ -46,8 +48,8 @@ private:
 
 	class Node: public DE_Class {
 
-	public: Node* mNext;
-		Node* mPrev;
+	public: List<T>::Node* mNext;
+		List<T>::Node* mPrev;
 		T mElement;
 
 		DE_GENERATE_METADATA(Node, DE_Class)
@@ -56,7 +58,7 @@ private:
 		Node() : 		DE_Class() {
 		}
 
-		~Node() {
+		virtual ~Node() override {
 		}
 
 		void init() {
@@ -80,11 +82,11 @@ private:
 
 	static const u32 smNodeSize = sizeof(Node);
 
-	Node* mFirst;
-	Node* mLast;
+	List<T>::Node* mFirst;
+	List<T>::Node* mLast;
 
-	Node* newNode() {
-		Node* node = reinterpret_cast<Node*>(BaseContainer::mAllocator->allocate(sizeof(Node)));
+	List<T>::Node* newNode() {
+		List<T>::Node* node = reinterpret_cast<List<T>::Node*>(BaseContainer::mAllocator->allocate(sizeof(Node)));
 		return node;
 	}
 
@@ -138,7 +140,7 @@ public:
 
 	private:
 
-		Node* mNode;
+		List<T>::Node* mNode;
 		bool mReverse;
 
 		// ---------------------------------------------------------------------------
@@ -376,13 +378,14 @@ public:
 
 	DE_GENERATE_METADATA(List<T>, SequentialContainer<T>);
 
+
 	List() : 	SequentialContainer<T>() {
 		mFirst = nullptr;
 		mLast = nullptr;
 		mLastAccessedIndex = -1;
 	}
 
-	~List() {
+	virtual ~List() override {
 		List::clear();
 	}
 
@@ -536,7 +539,7 @@ public:
 
 	void pushFront(T element) {
 		resetCache();
-		Node* node = newNode();
+		List<T>::Node* node = newNode();
 		node->init(element);
 
 		if (!List::isEmpty()) {
@@ -555,7 +558,7 @@ public:
 
 	void pushBack(T element) {
 		resetCache();
-		Node* node = newNode();
+		List<T>::Node* node = newNode();
 		node->init(element);
 
 		if (!List::isEmpty()) {
@@ -580,7 +583,7 @@ public:
 			BaseContainer::mLength--;
 
 			element = &mFirst->mElement;
-			Node* old = mFirst;
+			List<T>::Node* old = mFirst;
 
 			if (!List::isEmpty()) {
 				mFirst = mFirst->mNext;
@@ -606,7 +609,7 @@ public:
 			BaseContainer::mLength--;
 
 			element = &mLast->mElement;
-			Node* old = mLast;
+			List<T>::Node* old = mLast;
 
 			if (!List::isEmpty()) {
 				mLast = mLast->mPrev;
@@ -691,8 +694,8 @@ public:
 		if (!it.isNull() && !List::isEmpty()) {
 			BaseContainer::mLength--;
 
-			Node* prev = it.mNode->mPrev;
-			Node* next = it.mNode->mNext;
+			List<T>::Node* prev = it.mNode->mPrev;
+			List<T>::Node* next = it.mNode->mNext;
 
 			// check First and Last
 			if (it.mNode == mFirst)
@@ -746,7 +749,7 @@ public:
 	void insert(ListIterator &it, T element) {
 		resetCache();
 		if (it.mNode != mFirst) {
-			Node* node = newNode();
+			List<T>::Node* node = newNode();
 			node->init(element);
 
 			// this function inserts new node before the current node (it.mNode)

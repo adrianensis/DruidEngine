@@ -141,7 +141,7 @@ public:
 	template<class T>
 	static void internalFree(T *object, Allocator *allocator) {
 		if (object != nullptr) {
-			object->dynamicDestructor();//~T();
+			object->~T(); // dynamicDestructor();
 			allocator->free(reinterpret_cast<byte*>(object));
 		}
 	};

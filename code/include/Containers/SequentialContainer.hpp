@@ -45,7 +45,7 @@ public:
 	/*!
 	 \brief Destructor.
 	 */
-	~SequentialContainer() = default;
+	virtual ~SequentialContainer() override {};
 
 	// ---------------------------------------------------------------------------
 

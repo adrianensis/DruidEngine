@@ -21,7 +21,7 @@ ScriptEngine::~ScriptEngine() = default;
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::init() {
-	TRACE();
+	DE_TRACE();
 
 	mScripts = Memory::allocate<List<Script*>>();
 	mScripts->init();
@@ -80,7 +80,7 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 // ---------------------------------------------------------------------------
 
 void ScriptEngine::terminate() {
-	TRACE();
+	DE_TRACE();
 
 	if(mController){
 		mController->terminate();

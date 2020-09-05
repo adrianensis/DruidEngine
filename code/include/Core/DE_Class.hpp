@@ -21,11 +21,9 @@ namespace DE {
 
 #define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() const override { return Class::getClassNameStatic(); };
 
-#define DE_GENERATE_DYNAMIC_DESTRUCTOR(Class, ParentClass) void dynamicDestructor() { ParentClass::dynamicDestructor(); this->~Class(); };
+#define DE_GENERATE_METADATA(Class, ParentClass) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_NAME_VIRTUAL(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_PARENT_ID_STATIC(ParentClass); DE_GENERATE_ID_VIRTUAL(Class); DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
 
-#define DE_GENERATE_METADATA(Class, ParentClass) DE_GENERATE_DYNAMIC_DESTRUCTOR(Class, ParentClass) DE_GENERATE_NAME_STATIC(Class); DE_GENERATE_NAME_VIRTUAL(Class); DE_GENERATE_ID_STATIC(Class); DE_GENERATE_PARENT_ID_STATIC(ParentClass); DE_GENERATE_ID_VIRTUAL(Class); DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
-
-#define DE_CLASS(Class, ParentClass) Class(); ~Class() override; DE_GENERATE_METADATA(Class, ParentClass)
+#define DE_CLASS(Class, ParentClass) Class(); virtual ~Class() override; DE_GENERATE_METADATA(Class, ParentClass)
 
 #define DE_GET(Class, BaseName) Class get ## BaseName() const { return m ## BaseName; }
 #define DE_SET(Class, BaseName) void set ## BaseName (Class new ## BaseName){ m ## BaseName = new ## BaseName; }

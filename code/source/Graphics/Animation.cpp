@@ -26,7 +26,7 @@ Animation::~Animation() {
 }
 
 void Animation::init() {
-	TRACE();
+	DE_TRACE();
 
 	mFrames = Memory::allocate<List<AnimationFrame*>>();
 	mFrames->init();

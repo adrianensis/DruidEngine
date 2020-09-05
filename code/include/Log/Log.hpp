@@ -49,7 +49,7 @@ public:
 };
 
 #ifdef DE_ENABLE_LOGS
-  #define TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
+  #define DE_TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
   #define TO_STR(s) #s
   #define ECHO(x) Log::echo(x);
   #define VAR(T,x) Log::var<T>(#x, x);
@@ -57,7 +57,7 @@ public:
   #define ERROR(x) Log::error(x);
   #define BRLINE() Log::brline();
 #else
-#define TRACE()
+#define DE_TRACE()
 #define TO_STR(s)
 #define ECHO(x)
 #define VAR(T,x)
