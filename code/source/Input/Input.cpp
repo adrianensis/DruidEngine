@@ -44,8 +44,6 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 
 	if (action == GLFW_PRESS) {
 
-		bool pressedOnce = Input::getInstance()->isMouseButtonPressedOnce(button);
-
 		Input::getInstance()->smLastMouseButtonPressed = button;
 		Input::getInstance()->smButtonJustPressed = true;
 

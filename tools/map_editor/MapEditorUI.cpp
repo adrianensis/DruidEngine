@@ -234,7 +234,6 @@ void MapEditorUI::createMenuBar() {
 		setSize(Vector2(sizeChar * StringsUI::smSave.length(), 0.1f))->
 		setText(StringsUI::smSave)->
 		setLayer(mUILayer)->
-		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		create(UIElementType::BUTTON)->
 		getUIElement();
 
@@ -331,7 +330,6 @@ void MapEditorUI::createInspector() {
 		setPosition(Vector2(baseX + panelSize.x/2.0f + panelOffset.x, baseY - panelSize.y/2.0f + panelOffset.y))->
 		setLayer(mUILayer-1)->
 		setSize(panelSize)->
-		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		create(UIElementType::PANEL)->
 		getUIElement();
 
@@ -341,7 +339,6 @@ void MapEditorUI::createInspector() {
 		setSize(mTextSize)->
 		setText(StringsUI::smInspectorTileTag)->
 		setLayer(mUILayer)->
-		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 		create(UIElementType::TEXT)->
 		getUIElement();
 
@@ -351,9 +348,9 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxTag->setOnTextChangedCallback([self = mTextBoxTag, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
+		if(mapEditor->mGrid.getFirstSelectedTile()){
 			std::string tag(self->getInputString());
-			mapEditor->mGrid.mSelectedTile->setTag(tag);
+			mapEditor->mGrid.getFirstSelectedTile()->setTag(tag);
 		}
 	});
 
@@ -384,16 +381,21 @@ void MapEditorUI::createInspector() {
 			getUIElement();
 
 	mButtonInspectorCollider->setOnPressedCallback([&, self = mButtonInspectorCollider, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
-			List<Collider*>* colliders = mapEditor->mGrid.mSelectedTile->getComponents<Collider>();
+		FOR_LIST(it, mapEditor->mGrid.getSelectedTiles()){
 
-			if(colliders && !colliders->isEmpty()) {
-				mapEditor->mGrid.mSelectedTile->removeComponent<Collider>(colliders->get(0));
-				mapEditor->mGrid.mSelectedTile->removeComponent<RigidBody>(mapEditor->mGrid.mSelectedTile->getComponents<RigidBody>()->get(0));
-				self->setText("[ ]");
-			} else {
-				mapEditor->addColliderToTile(mapEditor->mGrid.mSelectedTile);
-				self->setText("[X]");
+			GameObject* tile = it.get();
+
+			if(tile){
+				List<Collider*>* colliders = tile->getComponents<Collider>();
+
+				if(colliders && !colliders->isEmpty()) {
+					tile->removeComponent<Collider>(colliders->get(0));
+					tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
+					self->setText("[ ]");
+				} else {
+					mapEditor->addColliderToTile(tile);
+					self->setText("[X]");
+				}
 			}
 		}
 	});
@@ -412,10 +414,10 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxSizeX->setOnTextChangedCallback([self = mTextBoxSizeX, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
+		if(mapEditor->mGrid.getFirstSelectedTile()){
 			std::string width(self->getInputString());
 
-			Transform* tileTransform = mapEditor->mGrid.mSelectedTile->getTransform();
+			Transform* tileTransform = mapEditor->mGrid.getFirstSelectedTile()->getTransform();
 			Vector3 scale = tileTransform->getScale();
 			tileTransform->setScale(Vector3(std::stof(width.length() > 0 ? width : "0"), scale.y, scale.z));
 		}
@@ -428,10 +430,10 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxSizeY->setOnTextChangedCallback([self = mTextBoxSizeY, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
+		if(mapEditor->mGrid.getFirstSelectedTile()){
 			std::string height(self->getInputString());
 
-			Transform* tileTransform = mapEditor->mGrid.mSelectedTile->getTransform();
+			Transform* tileTransform = mapEditor->mGrid.getFirstSelectedTile()->getTransform();
 			Vector3 scale = tileTransform->getScale();
 			tileTransform->setScale(Vector3(scale.x, std::stof(height.length() > 0 ? height : "0"), scale.z));
 		}
@@ -450,10 +452,10 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxColliderSizeX->setOnTextChangedCallback([self = mTextBoxColliderSizeX, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
+		if(mapEditor->mGrid.getFirstSelectedTile()){
 			std::string width(self->getInputString());
 
-			auto colliderList = mapEditor->mGrid.mSelectedTile->getComponents<Collider>();
+			auto colliderList = mapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
 			if(collider)
@@ -468,10 +470,10 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxColliderSizeY->setOnTextChangedCallback([self = mTextBoxColliderSizeY, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.mSelectedTile){
+		if(mapEditor->mGrid.getFirstSelectedTile()){
 			std::string height(self->getInputString());
 
-			auto colliderList = mapEditor->mGrid.mSelectedTile->getComponents<Collider>();
+			auto colliderList = mapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
 			if(collider)
@@ -485,13 +487,13 @@ void MapEditorUI::createInspector() {
 
 void MapEditorUI::updateInspector() {
 
-	if(mMapEditor->mGrid.mSelectedTile){
-		Transform* tileTransform = mMapEditor->mGrid.mSelectedTile->getTransform();
+	if(mMapEditor->mGrid.getFirstSelectedTile()){
+		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
 
 		mTextInspectorX->setText(StringsUI::smInspectorTileX + std::to_string(tileTransform->getLocalPosition().x));
 		mTextInspectorY->setText(StringsUI::smInspectorTileY + std::to_string(tileTransform->getLocalPosition().y));
 
-		List<Collider*>* colliders = mMapEditor->mGrid.mSelectedTile->getComponents<Collider>();
+		List<Collider*>* colliders = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 		bool hasCollider = colliders && !colliders->isEmpty();
 
 		mButtonInspectorCollider->setText(hasCollider ? "[X]" : "[ ]");
@@ -502,18 +504,18 @@ void MapEditorUI::updateInspector() {
 
 void MapEditorUI::updateInspectorOnSelectTile() {
 
-	if(mMapEditor->mGrid.mSelectedTile){
+	if(mMapEditor->mGrid.getFirstSelectedTile()){
 		updateInspector();
 
-		std::string tag = mMapEditor->mGrid.mSelectedTile->getTag();
+		std::string tag = mMapEditor->mGrid.getFirstSelectedTile()->getTag();
 		mTextBoxTag->setText(/*tag.length() > 0 ?*/ tag /*: "none"*/);
 
-		Transform* tileTransform = mMapEditor->mGrid.mSelectedTile->getTransform();
+		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
 
 		mTextBoxSizeX->setText(std::to_string(tileTransform->getScale().x));
 		mTextBoxSizeY->setText(std::to_string(tileTransform->getScale().y));
 
-		auto colliderList = mMapEditor->mGrid.mSelectedTile->getComponents<Collider>();
+		auto colliderList = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 		Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
 
 		mTextBoxColliderSizeX->setText(std::to_string(collider ? collider->getWidth() : 0.0f));
@@ -774,7 +776,7 @@ void MapEditorUI::createLayersBar() {
 		setLayout(UILayout::VERTICAL)->
 		setPosition(Vector2(baseX - size - 0.01f, baseY))->
 		setSize(Vector2(size,size/2.0f))->
-		setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
+		restoreColors()->
 		setLayer(mUILayer);
 
 	FOR_RANGE(i, 0, maxLayers){
@@ -793,7 +795,6 @@ void MapEditorUI::createLayersBar() {
 	UI::getInstance()->getBuilder()->
 			setLayout(UILayout::VERTICAL)->
 			setPosition(Vector2(baseX, baseY))->
-			setBackgroundColor(Vector4(0.5f,0.5f,0.5f,1))->
 			setSize(Vector2(size,size/2.0f));
 
 	FOR_RANGE(i, 0, maxLayers){
@@ -818,7 +819,7 @@ void MapEditorUI::selectLayer(u32 layer){
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
 
 	FOR_ARRAY(i, mLayerButtons){
-		mLayerButtons->get(i)->getRenderer()->setColor(Vector4(0.5f,0.5f,0.5f,1));
+		mLayerButtons->get(i)->getRenderer()->setColor(Vector4(0.6f,0.6f,0.6f,1));
 	}
 
 	mLayerButtons->get(layer)->getRenderer()->setColor(Vector4(-1.0f,0,0.5f,1));

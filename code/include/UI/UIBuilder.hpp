@@ -48,6 +48,9 @@ public:
 	bool mIsAffectedByLayout;
 	f32 mSeparatorSize;
 	Vector4 mBackgroundColor;
+	Vector4 mBackgroundColor2;
+	Vector4 mBackgroundColor3;
+	Vector4 mBackgroundColor4;
 
 	void init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer);
 
@@ -63,6 +66,9 @@ public:
 		mLayer = otherData.mLayer;
 		mIsAffectedByLayout = otherData.mIsAffectedByLayout;
 		mBackgroundColor = otherData.mBackgroundColor;
+		mBackgroundColor2 = otherData.mBackgroundColor2;
+		mBackgroundColor3 = otherData.mBackgroundColor3;
+		mBackgroundColor4 = otherData.mBackgroundColor4;
 
 		return *this;
 	}
@@ -98,6 +104,7 @@ public:
 	UIBuilder* const setLayer(u32 layer);
 	UIBuilder* const setText(const std::string& text);
 	UIBuilder* const setBackgroundColor(Vector4 backgroundColor);
+	UIBuilder* const restoreColors();
 	UIBuilder* const setLayout(UILayout layout);
 	UIBuilder* const setIsAffectedByLayout(bool affectedByLayout);
 	UIBuilder* const setSeparatorSize(f32 separatorSize);

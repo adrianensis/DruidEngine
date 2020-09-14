@@ -36,7 +36,10 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mLayer = layer;
 	mIsAffectedByLayout = true;
 	mSeparatorSize = 0.01f;
-	mBackgroundColor = Vector4(0,0,0,1);
+	mBackgroundColor = Vector4(0.5,0.5,0.5,1);
+	mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
+	mBackgroundColor3 = Vector4(0.4,0.4,0.4,1);
+	mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
 }
 
 // ---------------------------------------------------------------------------
@@ -115,6 +118,14 @@ UIBuilder* const UIBuilder::setSeparatorSize(f32 separatorSize) {
 	return this;
 }
 
+UIBuilder* const UIBuilder::restoreColors() {
+	mData.mBackgroundColor = Vector4(0.5,0.5,0.5,1);
+	mData.mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
+	mData.mBackgroundColor3 = Vector4(0.4,0.4,0.4,1);
+	mData.mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
+	return this;
+}
+
 UIBuilder* const UIBuilder::restoreSeparatorSize() {
 	mData.mSeparatorSize = 0.01f;
 	return this;
@@ -181,9 +192,9 @@ UIElement* UIBuilder::createPanel() {
 	renderer->setMesh(Mesh::getRectangle());
 	//renderer->setMaterial(mButtonMaterial);
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor);
+	renderer->setColor(mData.mBackgroundColor4);
 	renderer->setLayer(mData.mLayer);
-	renderer->setHasBorder(true);
+	//renderer->setHasBorder(true);
 
 	uiPanel->setComponentsCache();
 
@@ -220,8 +231,8 @@ UIButton* UIBuilder::createButton() {
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setLayer(mData.mLayer);
-	renderer->setColor(mData.mBackgroundColor);
-	renderer->setHasBorder(true);
+	renderer->setColor(mData.mBackgroundColor2);
+	//renderer->setHasBorder(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiButton->addComponent<RigidBody>(rigidBody);
@@ -336,8 +347,8 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor);
-	renderer->setHasBorder(true);
+	renderer->setColor(mData.mBackgroundColor3);
+	//renderer->setHasBorder(true);
 
 	mScene->addGameObject(background);
 
@@ -371,9 +382,9 @@ UIDropdown* UIBuilder::createDropdown() {
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor);
+	renderer->setColor(mData.mBackgroundColor2);
 	renderer->setLayer(mData.mLayer);
-	renderer->setHasBorder(true);
+	//renderer->setHasBorder(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiDropdown->addComponent<RigidBody>(rigidBody);

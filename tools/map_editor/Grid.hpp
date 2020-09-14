@@ -49,7 +49,7 @@ private:
 
 public:
 
-	GameObject* mSelectedTile = nullptr;
+	List<GameObject*>* mSelectedTiles = nullptr;
 	bool mIsPaintMode = false;
 
 	DE_CLASS(Grid, DE_Class);
@@ -60,7 +60,10 @@ public:
 	bool isSameTile(GameObject* tileA, GameObject* tileB);
 	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush, u32 size, u32 layer);
 	void removeTile(CellData *cellData, u32 layer);
-	void selectTile(CellData *cellData, u32 layer);
+	void selectTile(CellData *cellData, u32 layer, bool multi);
+
+	GameObject* getFirstSelectedTile();
+	const List<GameObject*>* getSelectedTiles() const { return mSelectedTiles; };
 
 	void init(Scene* scene, u32 gridSize, f32 gridTileSize);
 

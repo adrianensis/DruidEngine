@@ -65,17 +65,9 @@ void Engine::init() {
 
 void Engine::initSubsystems() {
 
-
-
-	//mRenderEngine = RenderEngine::getInstance();
-	//mScriptEngine = ScriptEngine::getInstance();
-	//mPhysicsEngine = PhysicsEngine::getInstance();
-
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 
-	if (sceneSize == 0) {
-		sceneSize = Settings::getInstance()->getF32("scene.defaultSize");
-	}
+	// TODO : set default scene size if scene size is 0
 
 	RenderEngine::getInstance()->init(sceneSize);
 	ScriptEngine::getInstance()->init();
@@ -151,7 +143,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}

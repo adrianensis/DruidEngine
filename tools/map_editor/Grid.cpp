@@ -108,6 +108,8 @@ Grid::~Grid() {
 	}
 
 	Memory::free<Array<Array<CellData*>*>>(mGrid);
+
+	Memory::free<List<GameObject*>>(mSelectedTiles);
 }
 
 // ---------------------------------------------------------------------------
@@ -133,6 +135,8 @@ GameObject* Grid::createTile(f32 x, f32 y, f32 size, Material* material, u32 lay
 
 	tile->setIsStatic(true);
 	tile->setShouldPersist(true);
+
+	tile->setTag("tile");
 
 	mScene->addGameObject(tile);
 
@@ -160,6 +164,9 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 			mGrid->get(i)->set(j, cellData);
 		}
 	}
+
+	mSelectedTiles = Memory::allocate<List<GameObject*>>();
+	mSelectedTiles->init();
 }
 
 
@@ -181,7 +188,7 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, u32 tile
 				if(mIsPaintMode){
 					drawTile(cellData, clampedPosition, brushTile, tileSize, layer);
 				} else {
-					selectTile(cellData, layer);
+					selectTile(cellData, layer, Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL));
 				}
 			}
 
@@ -197,19 +204,35 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, u32 tile
 
 // ---------------------------------------------------------------------------
 
-void Grid::selectTile(CellData *cellData, u32 layer) {
-	if (cellData->get(layer)) {
-		if(mSelectedTile && mSelectedTile->isActive()){
-			mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
+
+	if(!multi){
+		FOR_LIST(it, mSelectedTiles){
+			if(it.get()/*mSelectedTile && mSelectedTile->isActive()*/){
+				it.get()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+			}
 		}
 
-		mSelectedTile = cellData->get(layer);
-		mSelectedTile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
-
-		//mMapEditorUI.updateInspectorOnSelectTile();
-		MapEditorOnSelectTile event;
-		DE_SEND_EVENT(event);
+		mSelectedTiles->clear();
 	}
+
+	if (cellData->get(layer)) {
+
+		GameObject* tile = cellData->get(layer);
+		if(mSelectedTiles->find(tile).isNull()) {
+			tile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
+
+			mSelectedTiles->pushBack(tile);
+
+			//mMapEditorUI.updateInspectorOnSelectTile();
+			MapEditorOnSelectTile event;
+			DE_SEND_EVENT(event);
+		}
+	}
+}
+
+GameObject* Grid::getFirstSelectedTile() {
+	return mSelectedTiles->isEmpty() ? nullptr : mSelectedTiles->get(0);
 }
 
 // ---------------------------------------------------------------------------
@@ -256,8 +279,6 @@ void Grid::removeTile(CellData *cellData, u32 layer) {
 		mScene->removeGameObject(cellData->get(layer));
 		cellData->removeGameObject(layer);
 	}
-
-	mSelectedTile = nullptr;
 }
 
 // ---------------------------------------------------------------------------
@@ -268,7 +289,7 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 
 		GameObject* gameObject = it.get();
 
-		if (gameObject->isStatic()) {
+		if (gameObject->isStatic() && gameObject->getTag() == "tile") {
 
 			Transform* t = gameObject->getTransform();
 			Vector3 worldPosition(t->getWorldPosition());
@@ -278,7 +299,6 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 			cellData->addGameObject(gameObject, gameObject->getComponents<Renderer>()->get(0)->getLayer());
 		}
-
 	}
 }
 

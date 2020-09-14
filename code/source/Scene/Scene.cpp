@@ -89,6 +89,9 @@ void Scene::init() {
 	cameraComponent->setOrtho(-720, 720, -720, 720, 1, -1);
 
 	setCameraGameObject(cameraGameObject);
+
+	// SET DEFAULT SIZE
+	mSize = Settings::getInstance()->getF32("scene.defaultSize");
 }
 
 // ---------------------------------------------------------------------------
@@ -104,6 +107,10 @@ void Scene::loadScene(const std::string &path) {
 
 	mSize = configMap->getF32("scene.size");
 
+	if (mSize == 0) {
+		mSize = Settings::getInstance()->getF32("scene.defaultSize");
+	}
+
 	u32 length = configMap->getU32("objects.length");
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
@@ -111,6 +118,11 @@ void Scene::loadScene(const std::string &path) {
 	FOR_RANGE(i, 0, length) {
 		std::string indexStr = std::to_string(i);
 		std::string objectStr = "objects[" + indexStr + "]";
+
+		GameObject* gameObject = Memory::allocate<GameObject>();
+		gameObject->init();
+
+		gameObject->setTag(configMap->getString(objectStr + ".tag"));
 
 		Vector2 worldPosition(configMap->getF32(objectStr + ".worldPosition.x"),
 				configMap->getF32(objectStr + ".worldPosition.y"));
@@ -120,9 +132,6 @@ void Scene::loadScene(const std::string &path) {
 				configMap->getF32(objectStr + ".texture.region.v"));
 		Vector2 textureRegionSize(configMap->getF32(objectStr + ".texture.region.width"),
 				configMap->getF32(objectStr + ".texture.region.height"));
-
-		GameObject* gameObject = Memory::allocate<GameObject>();
-		gameObject->init();
 
 		gameObject->getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
 		gameObject->getTransform()->setScale(Vector3(size.x, size.y, 1));
@@ -171,6 +180,8 @@ void Scene::saveScene(const std::string &path) {
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects[" + indexStr + "]";
+
+			configMap->setString(objectStr + ".tag", it.get()->getTag());
 
 			Transform* t = it.get()->getTransform();
 			Vector3 worldPosition = t->getWorldPosition();

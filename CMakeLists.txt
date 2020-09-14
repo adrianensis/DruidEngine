@@ -22,7 +22,7 @@ endif(ENABLE_LOGS)
 if(UNIX)
   set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -std=c++17") # this macro was invented by me
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL} -D DE_DEBUG -ffast-math -mavx")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -ffast-math -mavx")
   #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
 endif(UNIX)
 

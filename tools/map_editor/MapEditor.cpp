@@ -93,7 +93,8 @@ void MapEditor::createPlayer() {
 
 	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
-	collider->setSize(size.x / 1.5f, size.y);
+	collider->setSize(size.x / 1.5f, size.y/3.0f);
+	collider->setPositionOffset(Vector3(0,-size.y/2,0));
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
@@ -127,7 +128,8 @@ void MapEditor::firstStep() {
 
 	mGrid.init(getGameObject()->getScene(), mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
 
-	mGrid.loadMapIntoGrid(getGameObject()->getScene()->getNewGameObjects());
+	//mGrid.loadMapIntoGrid(getGameObject()->getScene()->getNewGameObjects());
+	mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());
 
 	mMapEditorUI.init(this);
 
@@ -154,12 +156,9 @@ void MapEditor::step() {
 
 					u32 sceneSize = getGameObject()->getScene()->getSize() / 2.0f;
 					if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
-						ECHO("---------")
-						VAR(f32, world.x)
-						VAR(f32, world.y)
-						ECHO("---------")
 						Vector3 clampedPosition(std::roundf(world.x / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), std::roundf(world.y / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), 0);
 
+						//ECHO("CLICK")
 						// TODO : how many times is this called?
 						mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
 					}
