@@ -15,6 +15,8 @@ private:
 	Shader* mShader;
 	Texture* mTexture;
 	Vector4 mColor;
+	bool mAlphaEnabled;
+	bool mHasBorder;
 
 public:
 
@@ -37,6 +39,24 @@ public:
 	void setTexture(Texture *texture) {
 		mTexture = texture;
 	};
+
+	void setAlphaEnabled(bool newAlphaEnabled) {
+		mAlphaEnabled = newAlphaEnabled;
+	};
+
+	bool getAlphaEnabled() {
+		return mAlphaEnabled;
+	};
+
+	bool hasBorder() {
+		return mHasBorder;
+	};
+
+	void setHasBorder(bool border) {
+		mHasBorder = border;
+	};
+
+
 };
 
 } /* namespace DE */

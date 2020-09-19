@@ -123,6 +123,10 @@ const AnimationFrame* Animation::getNextFrame() {
 	return frame;
 }
 
+const AnimationFrame* Animation::getCurrentFrame() const {
+	return mFrames->get(mCurrentFrameNumber);
+}
+
 // ---------------------------------------------------------------------------
 
 } /* namespace DE */

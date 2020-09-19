@@ -16,6 +16,7 @@
 #include "GameObject.hpp"
 #include "Transform.hpp"
 #include "MathUtils.hpp"
+#include "Animation.hpp"
 #include "Chunk.hpp"
 #include "Settings.hpp"
 
@@ -102,6 +103,7 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mMaxVertexBufferSize = mVerticesPerMesh * mMaxMeshes;
 	mVertexPositionSize = 3;
 	mVertexTextureSize = 2;
+	mVertexColorSize = 4;
 	mFacesSize = 6;
 
 	mPositionBuffer = Memory::allocate<Array<f32>>();
@@ -111,6 +113,10 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mTextureBuffer = Memory::allocate<Array<f32>>();
 	mTextureBuffer->init(mMaxVertexBufferSize * mVertexTextureSize);
 	mTextureBufferIndex = 0;
+
+	mColorBuffer = Memory::allocate<Array<f32>>();
+	mColorBuffer->init(mMaxVertexBufferSize * mVertexColorSize);
+	mColorBufferIndex = 0;
 
 	mFacesBuffer = Memory::allocate<Array<u32>>();
 	mFacesBuffer->init(mMaxVertexBufferSize * mFacesSize);
@@ -141,7 +147,7 @@ void Batch::bind() {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(mVertexPositionSize, 0);
 	mVBOTexture = RenderContext::createVBO(mVertexTextureSize, 1);
-	//mVBOColor = RenderContext::createVBO(mMesh->getColors(), 4, 2);
+	mVBOColor = RenderContext::createVBO(mVertexColorSize, 2);
 	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
 	mEBO = RenderContext::createEBO();
 
@@ -255,6 +261,12 @@ u32 Batch::render(u32 layer) {
 		shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 		shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
 
+		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
+		shader->addBool(mMaterial->getAlphaEnabled(), "alphaEnabled");
+		shader->addBool(mMaterial->hasBorder(), "hasBorder");
+
+		shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
+
 		FOR_LIST(it, renderers) {
 			Renderer* renderer = it.get();
 
@@ -268,11 +280,9 @@ u32 Batch::render(u32 layer) {
 
 						if (!checkOutOfCamera(camera, renderer)) {
 
-
-							shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
 							shader->addBool(renderer->isAffectedByProjection(), "isAffectedByProjection");
 
-							renderer->updateMaterial(mMaterial);
+							renderer->updateAnimation(mMaterial);
 
 							bool lineMode = it.get()->isLineMode();
 
@@ -303,6 +313,7 @@ u32 Batch::render(u32 layer) {
 		if(mMeshesIndex > 0) {
 			RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
 			RenderContext::setDataVBO(mVBOTexture, mTextureBuffer);
+			RenderContext::setDataVBO(mVBOColor, mColorBuffer);
 
 			RenderContext::drawTriangles(mMeshesIndex * 6);
 		}
@@ -388,11 +399,6 @@ void Batch::addRenderer(Renderer *renderer) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount++;
 	}
 
-	if(!renderer->isStatic()){
-		u32 a = 0;
-		a = a + 1;
-	}
-
 	if(mRenderEngine->getLayersData()->get(renderer->getLayer())->mSorted){
 		insertSorted(renderer, renderers);
 	} else {
@@ -454,8 +460,27 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 		Vector2 regionSize = renderer->getRegionSize();
 		Vector2 regionPosition = renderer->getRegionPosition();
-		mTextureBuffer->set(mTextureBufferIndex, vertexTexture.x*regionSize.x + regionPosition.x); mTextureBufferIndex++;
-		mTextureBuffer->set(mTextureBufferIndex, (1.0f-vertexTexture.y)*regionSize.y + regionPosition.y); mTextureBufferIndex++;
+
+		Vector2 textureCoord(vertexTexture.x*regionSize.x + regionPosition.x, (1.0f-vertexTexture.y)*regionSize.y + regionPosition.y);
+
+		if(renderer->getInvertXAxis()){
+
+			textureCoord.x = 1.0f - textureCoord.x;
+
+			const Animation* animation = renderer->getCurrentAnimation();
+
+			if(animation) {
+				textureCoord.x = textureCoord.x - (1.0f - (animation->getNumberOfFrames()*regionSize.x));
+			}
+		}
+
+		mTextureBuffer->set(mTextureBufferIndex, textureCoord.x); mTextureBufferIndex++;
+		mTextureBuffer->set(mTextureBufferIndex, textureCoord.y); mTextureBufferIndex++;
+
+		mColorBuffer->set(mColorBufferIndex, renderer->getColor()->get(0)); mColorBufferIndex++;
+		mColorBuffer->set(mColorBufferIndex, renderer->getColor()->get(1)); mColorBufferIndex++;
+		mColorBuffer->set(mColorBufferIndex, renderer->getColor()->get(2)); mColorBufferIndex++;
+		mColorBuffer->set(mColorBufferIndex, renderer->getColor()->get(3)); mColorBufferIndex++;
 	}
 
 	mMeshesIndex++;
@@ -464,6 +489,7 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 void Batch::clearVertexBuffer() {
 	mPositionBufferIndex = 0;
 	mTextureBufferIndex = 0;
+	mColorBufferIndex = 0;
 
 	mMeshesIndex = 0;
 }

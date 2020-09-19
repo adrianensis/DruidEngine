@@ -34,7 +34,7 @@ Renderer::Renderer() : Component() {
 	mRegionSize = Vector2(1.0, 1.0);
 
 	mInvertXAxis = false;
-	mAlphaEnabled = true;
+
 	mLineMode = false;
 
 	mLayer = 0;
@@ -91,6 +91,12 @@ void Renderer::init() {
 
 bool Renderer::hasAnimations() const { return mAnimations && mAnimations->getLength() > 0; } ;
 
+const Animation* Renderer::getCurrentAnimation() const {
+	return mCurrentAnimation;
+}
+
+// ---------------------------------------------------------------------------
+
 void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
 	mRegionPosition.x = u;
 	mRegionPosition.y = v;
@@ -122,36 +128,16 @@ void Renderer::addAnimation(const std::string &name, Animation *animation) {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::updateMaterial(Material *material) {
+void Renderer::updateAnimation(Material *material) {
 	if (mMaterial) {
 
 		Shader* shader = mMaterial->getShader();
 
-		shader->addBool(mInvertXAxis, "invertXAxis");
-		shader->addBool(mAlphaEnabled && !mLineMode, "alphaEnabled");
-
-		shader->addVector4(mColor, "color");
-
-		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
-		shader->addBool(mHasBorder, "hasBorder");
-
 		if (hasAnimations()) {
 			const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
-
-			shader->addUInt(mCurrentAnimation->getNumberOfFrames(), "animationSize");
-
 			mRegionPosition = frame->getPosition();
 			mRegionSize = Vector2(frame->getWidth(), frame->getHeight());
-
-		} else {
-
-			shader->addFloat(1.0f, "animationSize");
 		}
-
-		/*shader->addFloat(mRegionPosition.x, "regionX");
-		shader->addFloat(mRegionPosition.y, "regionY");
-		shader->addFloat(mRegionSize.x, "regionWidth");
-		shader->addFloat(mRegionSize.y, "regionHeight");*/
 	}
 };
 

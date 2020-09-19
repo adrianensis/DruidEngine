@@ -11,6 +11,8 @@ namespace DE {
 Material::Material() : DE_Class() {
 	mShader = nullptr;
 	mTexture = nullptr;
+	mAlphaEnabled = true;
+	mHasBorder = false;
 }
 
 Material::~Material() {

@@ -40,7 +40,7 @@ void BatchesMap::init() {
 
 void BatchesMap::addRenderer(Renderer *renderer) {
 
-	Texture* texture = renderer->getMaterial()->getTexture();
+	Texture* texture = renderer->getMaterial()->getTexture(); // NOTE : Texture can be nullptr as a valid hash key.
 
 	if (!mBatches->contains(texture)) {
 

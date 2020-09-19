@@ -42,7 +42,6 @@ private:
 	bool mInvertXAxis;
 
 	bool mLineMode;
-	bool mAlphaEnabled;
 	bool mHasBorder;
 
 	u32 mLayer;
@@ -78,13 +77,16 @@ public:
 
 	bool hasAnimations() const;
 
+	const Animation* getCurrentAnimation() const;
+
 	/**
 	 * Update de material with information about the region, the alphacolor and the animation.
 	 * \param Material material The material.
 	 */
-	void updateMaterial(Material *material);
+	void updateAnimation(Material *material);
 
 	void setColor(const Vector4 &color);
+	const Array<f32>* getColor() const { return mColor; };
 
 	Vector2 getRegionPosition() const {
 		return mRegionPosition;
@@ -123,8 +125,8 @@ public:
 		mInvertXAxis = newInvertXAxis;
 	};
 
-	void setAlphaEnabled(bool newAlphaEnabled) {
-		mAlphaEnabled = newAlphaEnabled;
+	bool getInvertXAxis() {
+		return mInvertXAxis;
 	};
 
 	bool isLineMode() {
@@ -133,14 +135,6 @@ public:
 
 	void setLineMode(bool newLineMode) {
 		mLineMode = newLineMode;
-	};
-
-	bool hasBorder() {
-		return mHasBorder;
-	};
-
-	void setHasBorder(bool border) {
-		mHasBorder = border;
 	};
 
 	u32 getLayer() const {

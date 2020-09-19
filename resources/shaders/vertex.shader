@@ -10,8 +10,10 @@ uniform vec4 positionOffset;
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texcoord;
+layout (location = 2) in vec4 color;
 
 varying vec2 vTexcoord;
+varying vec4 vColor;
 
 void main()
 {
@@ -23,6 +25,7 @@ void main()
   
   gl_Position = PV_Matrix * vec4(position.x, position.y, position.z, 1.0);
 
-  // Pass the texcoord to the fragment shader.
+  // Pass data to the fragment shader.
   vTexcoord = texcoord;
+  vColor = color;
 }

@@ -33,6 +33,7 @@ private:
 	u32 mVBOPosition; // TODO: change u32 for GLuint
 	u32 mEBO;
 	u32 mVBOTexture;
+	u32 mVBOColor;
 	u32 mVBONormal;
 	u32 mVAO;
 
@@ -42,11 +43,14 @@ private:
 	u32 mVerticesPerMesh;
 	u32 mVertexPositionSize;
 	u32 mVertexTextureSize;
+	u32 mVertexColorSize;
 	u32 mFacesSize;
 	u32 mPositionBufferIndex;
 	u32 mTextureBufferIndex;
+	u32 mColorBufferIndex;
 	Array<f32>* mPositionBuffer;
 	Array<f32>* mTextureBuffer;
+	Array<f32>* mColorBuffer;
 	Array<u32>* mFacesBuffer;
 
 	void addToVertexBuffer(Renderer* renderer);

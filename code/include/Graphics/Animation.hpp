@@ -42,6 +42,7 @@ public:
 
 	u32 getNumberOfFrames() const;
 	const AnimationFrame* getNextFrame();
+	const AnimationFrame* getCurrentFrame() const;
 
 	void setSpeed(f32 newSpeed) {
 		mSpeed = newSpeed;
