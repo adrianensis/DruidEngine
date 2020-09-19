@@ -12,15 +12,10 @@ uniform float time;
 uniform bool invertXAxis;
 uniform bool alphaEnabled;
 
-uniform float regionX;
-uniform float regionY;
-uniform float regionWidth;
-uniform float regionHeight;
-
-// uniform float animationX;
-// uniform float animationY;
-// uniform float animationWidth;
-// uniform float animationHeight;
+//uniform float regionX;
+//uniform float regionY;
+//uniform float regionWidth;
+//uniform float regionHeight;
 
 uniform uint animationSize;
 
@@ -40,17 +35,14 @@ void main()
     vec2 t = vTexcoord;
 
     if(hasTexture) {
-      t.y = 1.0 - t.y; // flip the texture along the y-Axis!
+      //t.y = 1.0 - t.y; // flip the texture along the y-Axis!
   
-      t.x = t.x * regionWidth + regionX;
-      t.y = t.y * regionHeight + regionY;
+      //t.x = t.x * regionWidth + regionX;
+      //t.y = t.y * regionHeight + regionY;
   
-      // t.x = t.x * animationWidth + animationX;
-      // t.y = t.y * animationHeight + animationY;
-  
-      if(invertXAxis){
+      /*if(invertXAxis){
         t.x = 1.0 - t.x - (1.0-(animationSize*regionWidth));
-      }
+      }*/
   
       FragColor = texture2D(uSampler, t);
       

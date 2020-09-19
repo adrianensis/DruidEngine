@@ -94,6 +94,7 @@ void Brush::init(MapEditor* mapEditor) {
 
 	mBrushCursor = Memory::allocate<GameObject>();
 	mBrushCursor->init();
+	mBrushCursor->setIsStatic(true);
 
 	mBrushCursor->getTransform()->setLocalPosition(Vector3(-1.4f / RenderContext::getAspectRatio(), 0.8f, 0));
 	mBrushCursor->getTransform()->setScale(Vector3(0.1f / RenderContext::getAspectRatio(), 0.1f, 1));

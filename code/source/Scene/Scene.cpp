@@ -122,6 +122,9 @@ void Scene::loadScene(const std::string &path) {
 		GameObject* gameObject = Memory::allocate<GameObject>();
 		gameObject->init();
 
+		gameObject->setIsStatic(configMap->getBool(objectStr + ".isStatic"));
+		gameObject->setShouldPersist(configMap->getBool(objectStr + ".shouldPersist"));
+
 		gameObject->setTag(configMap->getString(objectStr + ".tag"));
 
 		Vector2 worldPosition(configMap->getF32(objectStr + ".worldPosition.x"),
@@ -155,10 +158,6 @@ void Scene::loadScene(const std::string &path) {
 			collider->setSize(configMap->getF32(objectStr + ".collider.width"), configMap->getF32(objectStr + ".collider.height"));
 		}
 
-		gameObject->setIsStatic(configMap->getBool(objectStr + ".isStatic"));
-
-		gameObject->setShouldPersist(configMap->getBool(objectStr + ".shouldPersist"));
-
 		addGameObject(gameObject);
 	}
 
@@ -180,6 +179,9 @@ void Scene::saveScene(const std::string &path) {
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects[" + indexStr + "]";
+
+			configMap->setBool(objectStr + ".isStatic", it.get()->isStatic());
+			configMap->setBool(objectStr + ".shouldPersist", it.get()->shouldPersist());
 
 			configMap->setString(objectStr + ".tag", it.get()->getTag());
 
@@ -221,8 +223,7 @@ void Scene::saveScene(const std::string &path) {
 				configMap->setF32(objectStr + ".collider.height", collider->getHeight());
 			}
 
-			configMap->setBool(objectStr + ".isStatic", it.get()->isStatic());
-			configMap->setBool(objectStr + ".shouldPersist", it.get()->shouldPersist());
+
 
 			counter++;
 		}
@@ -247,6 +248,9 @@ void Scene::unloadScene() {
 void Scene::addGameObject(GameObject *gameObject) {
 	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
+
+	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
+	Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
 }
 
 // ---------------------------------------------------------------------------

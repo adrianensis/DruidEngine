@@ -65,8 +65,11 @@ void RenderEngine::LineRenderer::set(const Vector3 &start, const Vector3 &end) {
 
 void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
 	mVAO = RenderContext::createVAO();
-	mVBOPosition = RenderContext::createVBO(mVertices, 3, 0);
-	mEBO = RenderContext::createEBO(indices);
+	mVBOPosition = RenderContext::createVBO(3, 0);
+	mEBO = RenderContext::createEBO();
+
+	RenderContext::setDataVBO(mVBOPosition, mVertices);
+	RenderContext::setDataEBO(mEBO, indices);
 
 	RenderContext::enableVAO(mVAO);
 }
@@ -128,7 +131,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Static Chunks grid
 
-	f32 chunksGridSize = Settings::getInstance()->getF32("scene.chunks.count");
+	f32 chunksGridSize = Settings::getInstance()->getF32("scene.chunks.gridSize");
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f;
 
 	mChunks = Memory::allocate<Array<Chunk*>>();

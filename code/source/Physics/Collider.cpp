@@ -85,7 +85,7 @@ Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = fals
 
 	Transform* t = getGameObject()->getTransform();
 
-	if (t->isDirtyTranslation() || forceCalculateBoundingBox) {
+	if (t->isDirtyTranslation() || forceCalculateBoundingBox) { // TODO : add condition -> !isStatic() ?
 		Vector3 center = getCenter();
 
 		mBoxVertices->set(0, Vector2(center.x - mHalfWidth, center.y + mHalfHeight)); // LEFT TOP VERTEX

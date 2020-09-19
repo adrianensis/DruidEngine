@@ -179,6 +179,7 @@ UIElement* UIBuilder::createPanel() {
 
 	UIElement* uiPanel = Memory::allocate<UIButton>();
 	uiPanel->init();
+	uiPanel->setIsStatic(true);
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
@@ -198,7 +199,6 @@ UIElement* UIBuilder::createPanel() {
 
 	uiPanel->setComponentsCache();
 
-	uiPanel->setIsStatic(true);
 
 	mScene->addGameObject(uiPanel);
 
@@ -218,6 +218,7 @@ UIButton* UIBuilder::createButton() {
 
 	UIButton* uiButton = Memory::allocate<UIButton>();
 	uiButton->init();
+	uiButton->setIsStatic(true);
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
@@ -245,7 +246,6 @@ UIButton* UIBuilder::createButton() {
 
 	uiButton->setComponentsCache();
 
-	uiButton->setIsStatic(true);
 
 	mScene->addGameObject(uiButton);
 
@@ -267,6 +267,7 @@ UIText* UIBuilder::createText() {
 
 	UIText* uiText = Memory::allocate<UIText>();
 	uiText->init();
+	uiText->setIsStatic(true);
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
@@ -279,8 +280,6 @@ UIText* UIBuilder::createText() {
 	uiText->setText(mData.mText);
 
 	uiText->setComponentsCache();
-
-	uiText->setIsStatic(true);
 
 	mScene->addGameObject(uiText);
 
@@ -300,6 +299,7 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	UITextEditable* uiText = Memory::allocate<UITextEditable>();
 	uiText->init();
+	uiText->setIsStatic(true);
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
@@ -326,13 +326,12 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	uiText->setComponentsCache();
 
-	uiText->setIsStatic(true);
-
 	// Background
 	f32 atlasBackgroundMargin = 0.1f;
 
 	GameObject* background = Memory::allocate<GameObject>();
 	background->init();
+	background->setIsStatic(true);
 
 	background->setShouldPersist(false);
 
@@ -370,6 +369,7 @@ UIDropdown* UIBuilder::createDropdown() {
 
 	UIDropdown* uiDropdown = Memory::allocate<UIDropdown>();
 	uiDropdown->init();
+	uiDropdown->setIsStatic(true);
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
@@ -396,8 +396,6 @@ UIDropdown* UIBuilder::createDropdown() {
 	collider->getBoundingBox();
 
 	uiDropdown->setComponentsCache();
-
-	uiDropdown->setIsStatic(true);
 
 	uiDropdown->setOnPressedCallback([self = uiDropdown]() {
 		self->toggle();

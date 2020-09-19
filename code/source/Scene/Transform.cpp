@@ -17,6 +17,7 @@ Transform::Transform() : Component() {
 	mParent = nullptr;
 
 	mIsAffectedByProjection = true;
+	mModelMatrixGenerated = false;
 }
 
 Transform::~Transform() {
@@ -37,6 +38,8 @@ void Transform::init() {
 	mLocalPosition = Vector3(0.0f, 0.0f, 0.0f);
 	mRotation = Vector3(0.0f, 0.0f, 0.0f);
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
+
+	mModelMatrixGenerated = false;
 }
 
 bool Transform::isDirtyTranslation() const {
@@ -45,11 +48,6 @@ bool Transform::isDirtyTranslation() const {
 void Transform::setDirtyTranslation(bool dirty) {
 	mIsDirtyTranslation = dirty;
 }
-
-// void Transform::setWorldPosition(const Vector3& vector){
-// 	mIsDirtyTranslation = true;
-// 	mWorldPosition = vector;
-// }
 
 void Transform::setLocalPosition(const Vector3 &vector) {
 	mIsDirtyTranslation = true;
@@ -147,7 +145,7 @@ const Matrix4& Transform::getTranslationMatrix() {
 	return mTranslationMatrix;
 }
 
-const Matrix4& Transform::getRotationMatrix() const {
+const Matrix4& Transform::getRotationMatrix() {
 	if (mIsDirtyRotation) {
 		mRotationMatrix.rotation(mRotation);
 		mIsDirtyRotation = false;
@@ -156,13 +154,28 @@ const Matrix4& Transform::getRotationMatrix() const {
 	return mRotationMatrix;
 }
 
-const Matrix4& Transform::getScaleMatrix() const {
+const Matrix4& Transform::getScaleMatrix() {
 	if (mIsDirtyScale) {
 		mScaleMatrix.scale(mScale);
 		mIsDirtyScale = false;
 	}
 
 	return mScaleMatrix;
+}
+
+const Matrix4& Transform::getModelMatrix() {
+	if (!isStatic() || (isStatic() && !mModelMatrixGenerated)) {
+		mModelMatrix.init(getTranslationMatrix());
+		Matrix4 rotationMatrix(getRotationMatrix());
+		Matrix4 scaleMatrix(getScaleMatrix());
+
+		scaleMatrix.mul(rotationMatrix);
+		mModelMatrix.mul(scaleMatrix);
+
+		mModelMatrixGenerated = true;
+	}
+
+	return mModelMatrix;
 }
 
 // ---------------------------------------------------------------------------

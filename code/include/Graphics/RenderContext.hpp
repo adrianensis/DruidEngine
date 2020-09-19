@@ -33,8 +33,6 @@ public:
 
 	static Vector2 getWindowSize();
 	static f32 getAspectRatio();
-	// static void setCamera(Camera* camera) { mCamera = camera; };
-	// static Camera* getCamera() const { return mCamera; };
 
 	static void init();
 	static bool isClosed();
@@ -42,13 +40,17 @@ public:
 	static void clear();
 	static void terminate();
 
-	static GLuint createVBO(const Array<f32> *data, u32 elementSize, u32 attributeArrayIndex);
-	static GLuint createEBO(const Array<u32> *data);
+	static GLuint createVBO(u32 elementSize, u32 attributeArrayIndex);
+	static GLuint createEBO();
 	static GLuint createVAO();
+	static void setDataVBO(u32 VBO, const Array<f32> *data);
+	static void setDataEBO(u32 EBO, const Array<u32> *data);
 
 	static void enableAttribute(u32 attributeArrayIndex);
 	static void disableAttribute(u32 attributeArrayIndex);
 	static void enableVAO(u32 VAO);
+
+	static void drawTriangles(u32 indices);
 };
 
 } /* namespace DE */

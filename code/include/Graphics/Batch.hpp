@@ -24,11 +24,8 @@ private:
 
 	RenderEngine* mRenderEngine;
 
-
-
 	HashMap<u32, List<Renderer*>*>* mRenderers;
 	HashMap<u32, List<Renderer*>*>* mDynamicRenderers;
-
 
 	Material* mMaterial;
 	const Mesh* mMesh;
@@ -38,6 +35,22 @@ private:
 	u32 mVBOTexture;
 	u32 mVBONormal;
 	u32 mVAO;
+
+	u32 mMaxVertexBufferSize;
+	u32 mMaxMeshes;
+	u32 mMeshesIndex;
+	u32 mVerticesPerMesh;
+	u32 mVertexPositionSize;
+	u32 mVertexTextureSize;
+	u32 mFacesSize;
+	u32 mPositionBufferIndex;
+	u32 mTextureBufferIndex;
+	Array<f32>* mPositionBuffer;
+	Array<f32>* mTextureBuffer;
+	Array<u32>* mFacesBuffer;
+
+	void addToVertexBuffer(Renderer* renderer);
+	void clearVertexBuffer();
 
 	bool mBinded;
 

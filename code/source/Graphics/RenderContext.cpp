@@ -55,8 +55,8 @@ void RenderContext::init() {
 
 	smWindowSize.set(1080, 720);
 
-	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine",
-	NULL, NULL);
+	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
+
 	if (!smWindow) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -115,48 +115,46 @@ void RenderContext::terminate() {
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVBO(const Array<f32> *data, u32 elementSize, u32 attributeArrayIndex) {
-
-	DE_ASSERT(data != nullptr, "Data must be not null.");
-
+GLuint RenderContext::createVBO(u32 elementSize, u32 attributeArrayIndex) {
 	u32 VBO;
 	glGenBuffers(1, &VBO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, 1000, nullptr, GL_DYNAMIC_DRAW);
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);
 	RenderContext::enableAttribute(attributeArrayIndex);
-
+	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);
 	return VBO;
 }
 
 // ---------------------------------------------------------------------------
 
 GLuint RenderContext::createVAO() {
-	unsigned int VAO;
+	u32 VAO;
 	glGenVertexArrays(1, &VAO);
-
 	RenderContext::enableVAO(VAO);
-
 	return VAO;
 }
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createEBO(const Array<u32> *data) {
-
-	DE_ASSERT(data != nullptr, "Data must be not null.");
-
-	unsigned int EBO;
+GLuint RenderContext::createEBO() {
+	u32 EBO;
 	glGenBuffers(1, &EBO);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(),
-	GL_STATIC_DRAW);
-
 	return EBO;
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderContext::setDataVBO(u32 VBO, const Array<f32> *data) {
+	DE_ASSERT(data != nullptr, "Data must be not null.");
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_DYNAMIC_DRAW);
+}
+
+void RenderContext::setDataEBO(u32 EBO, const Array<u32> *data) {
+	DE_ASSERT(data != nullptr, "Data must be not null.");
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 }
 
 // ---------------------------------------------------------------------------
@@ -178,5 +176,9 @@ void RenderContext::enableVAO(u32 VAO) {
 }
 
 // ---------------------------------------------------------------------------
+
+void RenderContext::drawTriangles(u32 indices) {
+	glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, 0);
+}
 
 } /* namespace DE */

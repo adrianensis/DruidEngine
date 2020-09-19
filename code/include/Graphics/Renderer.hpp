@@ -31,6 +31,10 @@ private:
 
 	Vector3 mPositionOffset;
 	Matrix4 mPositionOffsetMatrix;
+	Matrix4 mRenderereModelMatrix;
+	bool mPositionOffsetDirty;
+
+	Array<Vector2>* mVertices;
 
 	Vector2 mRegionPosition;
 	Vector2 mRegionSize;
@@ -71,6 +75,8 @@ public:
 	 * \param Animation animation The animation.
 	 */
 	void addAnimation(const std::string &name, Animation *animation);
+
+	bool hasAnimations() const;
 
 	/**
 	 * Update de material with information about the region, the alphacolor and the animation.
@@ -174,6 +180,10 @@ public:
 	bool isAffectedByProjection();
 
 	void renderCollider();
+
+	const Matrix4& getRendererModelMatrix();
+
+	Array<Vector2>* getVertices();
 };
 
 } /* namespace DE */

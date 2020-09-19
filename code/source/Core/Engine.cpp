@@ -101,7 +101,7 @@ void Engine::terminateSubSystems() {
 void Engine::run() {
 	Time::getInstance()->init();
 
-	f32 FPS = 60.0f; // TODO : Move to settings.
+	f32 FPS = 80.0f; // TODO : Move to settings.
 	f32 inverseFPS = 1.0f / FPS;
 	f32 inverseFPSMillis = inverseFPS * 1000.0f;
 
@@ -143,7 +143,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}

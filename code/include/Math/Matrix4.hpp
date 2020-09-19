@@ -45,7 +45,7 @@ public:
 	void invert();
 
 	void mul(const Matrix4 &other);
-	Vector4 mulVector(const Vector4 &vector);
+	Vector4 mulVector(const Vector4 &vector) const;
 
 	void zeros();
 	void identity();

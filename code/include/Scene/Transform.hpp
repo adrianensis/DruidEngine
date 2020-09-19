@@ -23,6 +23,8 @@ private:
 	mutable Matrix4 mRotationMatrix;
 	mutable Matrix4 mScaleMatrix;
 
+	bool mModelMatrixGenerated;
+
 	mutable bool mIsDirtyTranslation;
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
@@ -85,10 +87,11 @@ public:
 		return mScale;
 	};
 
-
 	const Matrix4& getTranslationMatrix();
-	const Matrix4& getRotationMatrix() const;
-	const Matrix4& getScaleMatrix() const;
+	const Matrix4& getRotationMatrix();
+	const Matrix4& getScaleMatrix();
+
+	const Matrix4& getModelMatrix();
 
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);

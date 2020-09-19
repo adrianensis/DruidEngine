@@ -27,6 +27,7 @@ Renderer::Renderer() : Component() {
 	mColor = nullptr;
 
 	mPositionOffset = Vector3(0.0, 0.0, 0.0);
+	mPositionOffsetDirty = true;
 
 	// texture region
 	mRegionPosition = Vector2(0.0, 0.0);
@@ -57,6 +58,11 @@ Renderer::~Renderer() {
 	}
 
 	Memory::free<Array<f32>>(mColor);
+
+	if (mVertices) {
+		Memory::free<Array<Vector2>>(mVertices);
+	}
+
 }
 
 // ---------------------------------------------------------------------------
@@ -69,10 +75,21 @@ void Renderer::init() {
 
 	setColor(Vector4(0, 0, 0, 1));
 
-	mPositionOffsetMatrix.identity();
+	//mPositionOffsetMatrix.identity();
+
+	mVertices = Memory::allocate<Array<Vector2>>();
+	mVertices->init(4);
+
+	mVertices->set(0, Vector2(0, 0)); // LEFT TOP VERTEX
+	mVertices->set(1, Vector2(0, 0)); // LEFT BOTTOM
+	mVertices->set(2, Vector2(0, 0)); // RIGHT BOTTOM
+	mVertices->set(3, Vector2(0, 0)); // RIGHT TOP
+
 }
 
 // ---------------------------------------------------------------------------
+
+bool Renderer::hasAnimations() const { return mAnimations && mAnimations->getLength() > 0; } ;
 
 void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
 	mRegionPosition.x = u;
@@ -118,22 +135,23 @@ void Renderer::updateMaterial(Material *material) {
 		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
 		shader->addBool(mHasBorder, "hasBorder");
 
-		if (mAnimations && mAnimations->getLength() > 0) {
+		if (hasAnimations()) {
 			const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
 
-			shader->addFloat(frame->getPosition().x, "regionX");
-			shader->addFloat(frame->getPosition().y, "regionY");
-			shader->addFloat(frame->getWidth(), "regionWidth");
-			shader->addFloat(frame->getHeight(), "regionHeight");
 			shader->addUInt(mCurrentAnimation->getNumberOfFrames(), "animationSize");
 
+			mRegionPosition = frame->getPosition();
+			mRegionSize = Vector2(frame->getWidth(), frame->getHeight());
+
 		} else {
-			shader->addFloat(mRegionPosition.x, "regionX");
-			shader->addFloat(mRegionPosition.y, "regionY");
-			shader->addFloat(mRegionSize.x, "regionWidth");
-			shader->addFloat(mRegionSize.y, "regionHeight");
+
 			shader->addFloat(1.0f, "animationSize");
 		}
+
+		/*shader->addFloat(mRegionPosition.x, "regionX");
+		shader->addFloat(mRegionPosition.y, "regionY");
+		shader->addFloat(mRegionSize.x, "regionWidth");
+		shader->addFloat(mRegionSize.y, "regionHeight");*/
 	}
 };
 
@@ -141,7 +159,8 @@ void Renderer::updateMaterial(Material *material) {
 
 void Renderer::setPositionOffset(Vector3 newPositionOffset) {
 	mPositionOffset = newPositionOffset;
-	mPositionOffsetMatrix.translation(mPositionOffset);
+	//mPositionOffsetMatrix.translation(mPositionOffset);
+	mPositionOffsetDirty = true;
 };
 
 // ---------------------------------------------------------------------------
@@ -194,5 +213,36 @@ void Renderer::renderCollider() {
 }
 
 // ---------------------------------------------------------------------------
+
+const Matrix4& Renderer::getRendererModelMatrix() {
+	if (mPositionOffsetDirty || !isStatic()) {
+
+		mRenderereModelMatrix.translation(mPositionOffset);
+
+		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
+		mPositionOffsetDirty = false;
+	}
+
+	return mRenderereModelMatrix;
+};
+
+Array<Vector2>* Renderer::getVertices() {
+
+	if(mPositionOffsetDirty || !isStatic()){
+		FOR_ARRAY(i, mVertices) {
+			Vector3 vertexPosition(
+			mMesh->getVertices()->get(i*3 + 0),
+			mMesh->getVertices()->get(i*3 + 1),
+			mMesh->getVertices()->get(i*3 + 2));
+
+			vertexPosition = getRendererModelMatrix().mulVector(Vector4(vertexPosition,1));
+
+			mVertices->set(i, vertexPosition);
+		}
+	}
+
+	return mVertices;
+}
+
 
 } /* namespace DE */

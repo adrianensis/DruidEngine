@@ -82,7 +82,9 @@ Batch::~Batch() {
 
 	Memory::free<HashMap<u32, List<Renderer*>*>>(mRenderers);
 
-
+	Memory::free<Array<f32>>(mPositionBuffer);
+	Memory::free<Array<f32>>(mTextureBuffer);
+	Memory::free<Array<u32>>(mFacesBuffer);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -93,6 +95,25 @@ Batch::~Batch() {
 
 void Batch::init(const Mesh *mesh, Material *material) {
 	// TRACE();
+
+	mMaxMeshes = 2000;
+	mVerticesPerMesh = 4;
+	mMeshesIndex = 0;
+	mMaxVertexBufferSize = mVerticesPerMesh * mMaxMeshes;
+	mVertexPositionSize = 3;
+	mVertexTextureSize = 2;
+	mFacesSize = 6;
+
+	mPositionBuffer = Memory::allocate<Array<f32>>();
+	mPositionBuffer->init(mMaxVertexBufferSize * mVertexPositionSize);
+	mPositionBufferIndex = 0;
+
+	mTextureBuffer = Memory::allocate<Array<f32>>();
+	mTextureBuffer->init(mMaxVertexBufferSize * mVertexTextureSize);
+	mTextureBufferIndex = 0;
+
+	mFacesBuffer = Memory::allocate<Array<u32>>();
+	mFacesBuffer->init(mMaxVertexBufferSize * mFacesSize);
 
 	mRenderEngine = RenderEngine::getInstance();
 
@@ -118,11 +139,19 @@ void Batch::init(const Mesh *mesh, Material *material) {
 
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
-	mVBOPosition = RenderContext::createVBO(mMesh->getVertices(), 3, 0);
-	mVBOTexture = RenderContext::createVBO(mMesh->getTextureCoordinates(), 2, 1);
+	mVBOPosition = RenderContext::createVBO(mVertexPositionSize, 0);
+	mVBOTexture = RenderContext::createVBO(mVertexTextureSize, 1);
 	//mVBOColor = RenderContext::createVBO(mMesh->getColors(), 4, 2);
 	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
-	mEBO = RenderContext::createEBO(mMesh->getFaces());
+	mEBO = RenderContext::createEBO();
+
+	FOR_RANGE(i, 0, mMaxMeshes) {
+		FOR_RANGE(j, 0, 6) {
+			mFacesBuffer->set(j + 6*i, mMesh->getFaces()->get(j) + (4*i));
+		}
+	}
+
+	RenderContext::setDataEBO(mEBO, mFacesBuffer);
 
 	Texture* texture = mMaterial->getTexture();
 
@@ -197,6 +226,8 @@ bool Batch::checkOutOfCamera(Camera *cam, Renderer *renderer) {
 
 u32 Batch::render(u32 layer) {
 
+	clearVertexBuffer();
+
 	u32 drawCallCounter = 0;
 
 	List<Renderer*>* renderers = mRenderers->get(layer);
@@ -220,6 +251,10 @@ u32 Batch::render(u32 layer) {
 		const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
 		const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
 
+		shader->addMatrix(projectionMatrix, "projectionMatrix");
+		shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
+		shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
+
 		FOR_LIST(it, renderers) {
 			Renderer* renderer = it.get();
 
@@ -233,35 +268,15 @@ u32 Batch::render(u32 layer) {
 
 						if (!checkOutOfCamera(camera, renderer)) {
 
-							const Matrix4& translationMatrix = t->getTranslationMatrix();
-							const Matrix4& rotationMatrix = t->getRotationMatrix();
-							const Matrix4& scaleMatrix = t->getScaleMatrix();
-
-							shader->addMatrix(translationMatrix, "translationMatrix");
-							shader->addMatrix(renderer->getPositionOffsetMatrix(), "positionOffsetMatrix");
-							shader->addMatrix(rotationMatrix, "rotationMatrix");
-							shader->addMatrix(scaleMatrix, "scaleMatrix");
-
-							if (renderer->isAffectedByProjection()) {
-								shader->addMatrix(projectionMatrix, "projectionMatrix");
-								shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-								shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-							} else {
-								shader->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
-								shader->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
-								shader->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
-							}
 
 							shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
+							shader->addBool(renderer->isAffectedByProjection(), "isAffectedByProjection");
 
 							renderer->updateMaterial(mMaterial);
 
 							bool lineMode = it.get()->isLineMode();
 
-							glPolygonMode(GL_FRONT_AND_BACK, lineMode ? GL_LINE : GL_FILL);
-
-							glDrawElements(GL_TRIANGLES, mMesh->getFaces()->getLength(),
-							GL_UNSIGNED_INT, 0);
+							addToVertexBuffer(renderer);
 
 							drawCallCounter++;
 
@@ -285,7 +300,16 @@ u32 Batch::render(u32 layer) {
 			}
 		}
 
+		if(mMeshesIndex > 0) {
+			RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
+			RenderContext::setDataVBO(mVBOTexture, mTextureBuffer);
+
+			RenderContext::drawTriangles(mMeshesIndex * 6);
+		}
+
 		RenderContext::enableVAO(0);
+
+
 	}
 
 	return drawCallCounter;
@@ -359,10 +383,14 @@ void Batch::addRenderer(Renderer *renderer) {
 	}
 
 	renderer->setIsAlreadyInBatch(true);
-	// renderers->pushBack(renderer);
 
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount++;
+	}
+
+	if(!renderer->isStatic()){
+		u32 a = 0;
+		a = a + 1;
 	}
 
 	if(mRenderEngine->getLayersData()->get(renderer->getLayer())->mSorted){
@@ -391,7 +419,6 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	Renderer* renderer = (*castedIt).get();
 	renderer->setIsAlreadyInBatch(false);
 
-	// TODO BUG : Why a freed rendere reachs this code?????
 	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}
@@ -405,5 +432,40 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 }
 
 // ---------------------------------------------------------------------------
+
+void Batch::addToVertexBuffer(Renderer* renderer) {
+
+	Transform* t = renderer->getGameObject()->getTransform();
+
+
+	Array<Vector2>* vertexPositions = renderer->getVertices();
+
+	FOR_RANGE(i,0,mVerticesPerMesh) {
+
+		Vector3 vertexPosition(vertexPositions->get(i));
+
+		mPositionBuffer->set(mPositionBufferIndex, vertexPosition.x); mPositionBufferIndex++;
+		mPositionBuffer->set(mPositionBufferIndex, vertexPosition.y); mPositionBufferIndex++;
+		mPositionBuffer->set(mPositionBufferIndex, vertexPosition.z); mPositionBufferIndex++;
+
+		Vector2 vertexTexture(
+		mMesh->getTextureCoordinates()->get(i*mVertexTextureSize + 0),
+		mMesh->getTextureCoordinates()->get(i*mVertexTextureSize + 1));
+
+		Vector2 regionSize = renderer->getRegionSize();
+		Vector2 regionPosition = renderer->getRegionPosition();
+		mTextureBuffer->set(mTextureBufferIndex, vertexTexture.x*regionSize.x + regionPosition.x); mTextureBufferIndex++;
+		mTextureBuffer->set(mTextureBufferIndex, (1.0f-vertexTexture.y)*regionSize.y + regionPosition.y); mTextureBufferIndex++;
+	}
+
+	mMeshesIndex++;
+}
+
+void Batch::clearVertexBuffer() {
+	mPositionBufferIndex = 0;
+	mTextureBufferIndex = 0;
+
+	mMeshesIndex = 0;
+}
 
 } /* namespace DE */
