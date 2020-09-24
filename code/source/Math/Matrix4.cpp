@@ -2,6 +2,7 @@
 #include "MathUtils.hpp"
 #include "Vector4.hpp"
 #include "Vector3.hpp"
+#include "Quaternion.hpp"
 #include "Array.hpp"
 
 #include <cstring>
@@ -275,7 +276,10 @@ void Matrix4::translation(const Vector3 &vector) {
 
 void Matrix4::rotation(const Vector3 &vector) {
 
-	this->identity();
+	Quaternion q(vector);
+	q.toMatrix(this);
+
+	/*this->identity();
 
 	f32 radians, cos, sin;
 
@@ -303,7 +307,7 @@ void Matrix4::rotation(const Vector3 &vector) {
 		this->set(0, 1, -sin);
 		this->set(1, 0, sin);
 		this->set(1, 1, cos);
-	}
+	}*/
 
 };
 

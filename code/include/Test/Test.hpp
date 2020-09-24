@@ -30,7 +30,7 @@ using namespace DE;
 #define DE_test_expected_float(x,exp) DE_test_expected_any(__test__float,x,exp)
 #define DE_test_expected_sint(x,exp) DE_test_expected_any(__test__sint,x,exp)
 #define DE_test_expected_uint(x,exp) DE_test_expected_any(__test__uint,x,exp)
-#define DE_test_expected_float_eps(x,exp,eps) DE_test_tick(); __test__float_precision = (x); DE_test_tock(); __test__total++; __test__b = ( std::max(0.0f,fabsf(__test__float_precision)-fabsf(exp)) < fabsf(eps)); if (__test__b){ __test__ok++; } __test__output  << (__test__b ? "[ OK ]" : "[ FAIL ]") << "\t" << #x << std::endl << "\t" << "result: " << __PRECISION << __test__float << std::endl << "\t" << "DE_test_expected: " << __PRECISION << (exp) << std::endl << "\t" << "epsilon: " << __PRECISION << (eps) << std::endl << std::endl
+#define DE_test_expected_float_eps(x,exp,eps) DE_test_tick(); __test__float_precision = (x); DE_test_tock(); __test__total++; __test__b = ( std::max(0.0f,fabsf(fabsf(__test__float_precision)-fabsf(exp))) < fabsf(eps)); if (__test__b){ __test__ok++; } __test__output  << (__test__b ? "[ OK ]" : "[ FAIL ]") << "\t" << #x << std::endl << "\t" << "result: " << __PRECISION << __test__float_precision << std::endl << "\t" << "DE_test_expected: " << __PRECISION << (exp) << std::endl << "\t" << "epsilon: " << __PRECISION << (eps) << std::endl << std::endl
 #define DE_test_expected(x,exp) DE_test_expected_any(__test__any,x,exp)
 
 #define summary() __test__output << std::endl << std::setprecision(4) << (isnan(__test__totaltime) ? 0 : __test__totaltime) << "ms " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; std::cout << __test__output.str();

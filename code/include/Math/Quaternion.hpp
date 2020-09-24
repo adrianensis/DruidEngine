@@ -67,9 +67,9 @@ public:
 	Quaternion& squad(); // TODO: implement
 	void fromEuler(f32 roll, f32 pitch, f32 yaw);
 	void fromEuler(const Vector3 &v);
-	Vector3 toEuler() const;
+	//Vector3 toEuler() const;
 	void toMatrix(Matrix4 *outMatrix) const;
-	void fromMatrix(const Matrix4 &m);
+	//void fromMatrix(const Matrix4 &m);
 
 	//-------------------------------------------------------------------
 	// OPERATORS

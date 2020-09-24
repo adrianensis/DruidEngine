@@ -747,7 +747,7 @@ void MapEditorUI::createSprites() {
 			mBrush.clear();
 			mBrush.addTile(self, atlasPosition);
 
-			mBrush.setDrawTileSize(200);
+			mBrush.setDrawTileSize(200); // TODO : get this value from a config.
 
 			mapEditor->mGrid.mIsPaintMode = true;
 		});

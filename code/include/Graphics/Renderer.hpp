@@ -79,11 +79,7 @@ public:
 
 	const Animation* getCurrentAnimation() const;
 
-	/**
-	 * Update de material with information about the region, the alphacolor and the animation.
-	 * \param Material material The material.
-	 */
-	void updateAnimation(Material *material);
+	void updateAnimation();
 
 	void setColor(const Vector4 &color);
 	const Array<f32>* getColor() const { return mColor; };
@@ -177,7 +173,7 @@ public:
 
 	const Matrix4& getRendererModelMatrix();
 
-	Array<Vector2>* getVertices();
+	const Array<Vector2>* getVertices();
 };
 
 } /* namespace DE */

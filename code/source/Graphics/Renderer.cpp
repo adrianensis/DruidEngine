@@ -128,11 +128,8 @@ void Renderer::addAnimation(const std::string &name, Animation *animation) {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::updateAnimation(Material *material) {
+void Renderer::updateAnimation() {
 	if (mMaterial) {
-
-		Shader* shader = mMaterial->getShader();
-
 		if (hasAnimations()) {
 			const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
 			mRegionPosition = frame->getPosition();
@@ -212,7 +209,7 @@ const Matrix4& Renderer::getRendererModelMatrix() {
 	return mRenderereModelMatrix;
 };
 
-Array<Vector2>* Renderer::getVertices() {
+const Array<Vector2>* Renderer::getVertices() {
 
 	if(mPositionOffsetDirty || !isStatic()){
 		FOR_ARRAY(i, mVertices) {

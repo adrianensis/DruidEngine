@@ -282,10 +282,9 @@ u32 Batch::render(u32 layer) {
 
 							shader->addBool(renderer->isAffectedByProjection(), "isAffectedByProjection");
 
-							renderer->updateAnimation(mMaterial);
-
 							bool lineMode = it.get()->isLineMode();
 
+							renderer->updateAnimation();
 							addToVertexBuffer(renderer);
 
 							drawCallCounter++;
@@ -443,8 +442,7 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 	Transform* t = renderer->getGameObject()->getTransform();
 
-
-	Array<Vector2>* vertexPositions = renderer->getVertices();
+	const Array<Vector2>* vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i,0,mVerticesPerMesh) {
 

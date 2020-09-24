@@ -197,7 +197,7 @@ void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 
 	projectile->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	projectile->getTransform()->setScale(Vector3(size.x, size.y, 1));
-	projectile->getTransform()->setRotation(Vector3(0, 0, MathUtils::deg(std::atan(direction.y / direction.x))));
+	projectile->getTransform()->setRotation(Vector3(0, 0, MathUtils::deg(std::atan2(direction.y, direction.x))));
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	projectile->addComponent<Renderer>(renderer);
@@ -229,10 +229,10 @@ void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 	projectile->addComponent<RigidBody>(rigidBody);
 	rigidBody->setLinear(direction * 800);
 
-	Collider* collider = Memory::allocate<Collider>();
+	/*Collider* collider = Memory::allocate<Collider>();
 	projectile->addComponent<Collider>(collider);
 	collider->setSize(size.x / 2.0f, size.y / 2.0f);
-	collider->setIsSolid(false);
+	collider->setIsSolid(false);*/
 
 	ProjectileScript* script = Memory::allocate<ProjectileScript>();
 	script->setElement(mElement);

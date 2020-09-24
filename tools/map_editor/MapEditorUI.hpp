@@ -31,7 +31,7 @@ private: Array<GameObject*>* mGrid = nullptr;
 
 public:
 
-	f32 mDrawTileSize = 100;
+	f32 mDrawTileSize = 1;
 	u32 mLastIndex = 0;
 	u32 mBrushMaxGridSize = 16;
 	Vector2 mBrushGridSize = Vector2(1,1);

@@ -177,7 +177,7 @@ Quaternion& Quaternion::slerp(const Quaternion &target, f32 t) {
 	return *this;
 }
 
-void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
+void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) { // pitch attitude, yaw heading, or roll bank
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
@@ -185,22 +185,21 @@ void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
 	f32 pitch2 = MathUtils::rad(pitch) * 0.5f; // y
 	f32 yaw2 = MathUtils::rad(yaw) * 0.5f; // z
 
-	f32 c3 = cosf(yaw2);
-	f32 c2 = cosf(pitch2);
-	f32 c1 = cosf(roll2);
-
-	f32 s3 = sinf(yaw2);
-	f32 s2 = sinf(pitch2);
-	f32 s1 = sinf(roll2);
+	f32 cy = cos(yaw2);
+	f32 sy = sin(yaw2);
+	f32 cp = cos(pitch2);
+	f32 sp = sin(pitch2);
+	f32 cr = cos(roll2);
+	f32 sr = sin(roll2);
 
 	// original
-	// w   = c3*c2*c1 + s3*s2*s1;
-	// v.x = c3*c2*s1 - s3*s2*c1;
-	// v.y = c3*s2*c1 + s3*c2*s1;
-	// v.z = s3*c2*c1 - c3*s2*s1;
+	w = cr * cp * cy + sr * sp * sy;
+	v.x = sr * cp * cy - cr * sp * sy;
+	v.y = cr * sp * cy + sr * cp * sy;
+	v.z = cr * cp * sy - sr * sp * cy;
 
 	// SIMD-optimized
-	f32 c3c2 = c3 * c2;
+	/*f32 c3c2 = c3 * c2;
 	f32 s3s2 = s3 * s2;
 	f32 c3s2 = c3 * s2;
 	f32 s3c2 = s3 * c2;
@@ -213,19 +212,19 @@ void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) {
 	f32 aux4 = s3s2 * s1;
 	f32 aux5 = s3s2 * c1;
 	f32 aux6 = s3c2 * s1;
-	f32 aux7 = c3s2 * s1;
+	f32 aux7 = c3s2 * s1;*/
 
-	w = aux0 + aux4;
+	/*w = aux0 + aux4;
 	v.x = aux1 - aux5;
 	v.y = aux2 + aux6;
-	v.z = aux3 - aux7;
+	v.z = aux3 - aux7;*/
 }
 
 void Quaternion::fromEuler(const Vector3 &v) {
 	fromEuler(v.x, v.y, v.z);
 }
 
-Vector3 Quaternion::toEuler() const {
+/*Vector3 Quaternion::toEuler() const {
 
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
@@ -256,9 +255,9 @@ Vector3 Quaternion::toEuler() const {
 	f32 yaw = atan2f(t3, t4);
 
 	return Vector3(MathUtils::deg(roll), MathUtils::deg(pitch), MathUtils::deg(yaw));
-}
+}*/
 
-void Quaternion::fromMatrix(const Matrix4 &m) {
+/*void Quaternion::fromMatrix(const Matrix4 &m) {
 
 	// https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
@@ -303,35 +302,38 @@ void Quaternion::fromMatrix(const Matrix4 &m) {
 
 	}
 
-}
+}*/
 
 void Quaternion::toMatrix(Matrix4 *outMatrix) const {
 
-	f32 xx2 = 2 * v.x * v.x;
-	f32 yy2 = 2 * v.y * v.y;
-	f32 zz2 = 2 * v.z * v.z;
+	Quaternion copy((*this));
+	copy.nor();
 
-	f32 xy2 = 2 * v.x * v.y;
-	f32 xz2 = 2 * v.x * v.z;
-	f32 yz2 = 2 * v.y * v.z;
+	f32 xx2 = 2 * copy.v.x * copy.v.x;
+	f32 yy2 = 2 * copy.v.y * copy.v.y;
+	f32 zz2 = 2 * copy.v.z * copy.v.z;
 
-	f32 wx2 = 2 * w * v.x;
-	f32 wy2 = 2 * w * v.y;
-	f32 wz2 = 2 * w * v.z;
+	f32 xy2 = 2 * copy.v.x * copy.v.y;
+	f32 xz2 = 2 * copy.v.x * copy.v.z;
+	f32 yz2 = 2 * copy.v.y * copy.v.z;
+
+	f32 wx2 = 2 * copy.w * copy.v.x;
+	f32 wy2 = 2 * copy.w * copy.v.y;
+	f32 wz2 = 2 * copy.w * copy.v.z;
 
 	outMatrix->identity();
 
-	outMatrix->set(0, 0, 1 - yy2 - zz2);
-	outMatrix->set(0, 1, xy2 + wz2);
-	outMatrix->set(0, 2, xz2 - wy2);
+	outMatrix->set(0, 0, 1 - (yy2 + zz2));
+	outMatrix->set(0, 1, xy2 - wz2);
+	outMatrix->set(0, 2, xz2 + wy2);
 
-	outMatrix->set(1, 0, xy2 - wz2);
-	outMatrix->set(1, 1, 1 - xx2 - zz2);
-	outMatrix->set(1, 2, yz2 + wx2);
+	outMatrix->set(1, 0, xy2 + wz2);
+	outMatrix->set(1, 1, 1 - (xx2 + zz2));
+	outMatrix->set(1, 2, yz2 - wx2);
 
-	outMatrix->set(2, 0, xz2 + wy2);
-	outMatrix->set(2, 1, yz2 - wx2);
-	outMatrix->set(2, 2, 1 - xx2 - yy2);
+	outMatrix->set(2, 0, xz2 - wy2);
+	outMatrix->set(2, 1, yz2 + wx2);
+	outMatrix->set(2, 2, 1 - (xx2 + yy2));
 
 }
 

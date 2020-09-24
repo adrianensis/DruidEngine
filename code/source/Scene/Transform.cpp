@@ -102,7 +102,7 @@ void Transform::rotate(const Vector3 &vector) {
 
 void Transform::lookAt(const Vector3 &targetPosition) {
 
-	mIsDirtyRotation = true;
+	/*mIsDirtyRotation = true;
 
 	Vector3 target(targetPosition);
 
@@ -120,7 +120,7 @@ void Transform::lookAt(const Vector3 &targetPosition) {
 
 	q.fromMatrix(lookAtMatrix);
 
-	mRotation = q.toEuler();
+	mRotation = q.toEuler();*/
 }
 
 // ---------------------------------------------------------------------------
