@@ -33,6 +33,8 @@ private:
 
 	bool mIsAffectedByProjection;
 
+	bool mForceModelMatrixCalculation;
+
 public:
 
 	static const Vector3 smRight;
@@ -91,7 +93,7 @@ public:
 	const Matrix4& getRotationMatrix();
 	const Matrix4& getScaleMatrix();
 
-	const Matrix4& getModelMatrix();
+	const Matrix4& getModelMatrix(bool force = false);
 
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
@@ -104,6 +106,10 @@ public:
 	}
 	void setAffectedByProjection(bool affectedByProjection) {
 		mIsAffectedByProjection = affectedByProjection;
+	}
+
+	void forceModelMatrixCalculation() {
+		mForceModelMatrixCalculation = true;
 	}
 
 	// ---------------------------------------------------------------------------

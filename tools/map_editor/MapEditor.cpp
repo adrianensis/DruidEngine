@@ -223,10 +223,15 @@ void MapEditor::cameraZoom() {
 	f32 scroll = Input::getInstance()->getScroll();
 	mZoom += std::fabs(scroll) * 0.05f * Time::getInstance()->getDeltaTimeSeconds();
 
+	f32 finalZoom = mZoom;
+	if(Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+		finalZoom = mZoom * 2.0f;
+	}
+
 	if (scroll == 1) {
-		mCamera->setZoom(1.0f / mZoom);
+		mCamera->setZoom(1.0f / finalZoom);
 	} else if (scroll == -1) {
-		mCamera->setZoom(mZoom);
+		mCamera->setZoom(finalZoom);
 	}
 }
 

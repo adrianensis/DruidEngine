@@ -349,10 +349,10 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxTag->setOnTextChangedCallback([self = mTextBoxTag, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.getFirstSelectedTile()){
+		mapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
 			std::string tag(self->getInputString());
-			mapEditor->mGrid.getFirstSelectedTile()->setTag(tag);
-		}
+			tile->setTag(tag);
+		});
 	});
 
 	mTextInspectorX = (UIText*) UI::getInstance()->getBuilder()->
@@ -382,23 +382,18 @@ void MapEditorUI::createInspector() {
 			getUIElement();
 
 	mButtonInspectorCollider->setOnPressedCallback([&, self = mButtonInspectorCollider, mapEditor = mMapEditor]() {
-		FOR_LIST(it, mapEditor->mGrid.getSelectedTiles()){
+		mapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
+			List<Collider*>* colliders = tile->getComponents<Collider>();
 
-			GameObject* tile = it.get();
-
-			if(tile){
-				List<Collider*>* colliders = tile->getComponents<Collider>();
-
-				if(colliders && !colliders->isEmpty()) {
-					tile->removeComponent<Collider>(colliders->get(0));
-					tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
-					self->setText("[ ]");
-				} else {
-					mapEditor->addColliderToTile(tile);
-					self->setText("[X]");
-				}
+			if(colliders && !colliders->isEmpty()) {
+				tile->removeComponent<Collider>(colliders->get(0));
+				tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
+				self->setText("[ ]");
+			} else {
+				mapEditor->addColliderToTile(tile);
+				self->setText("[X]");
 			}
-		}
+		});
 	});
 
 	mTextTileSize = (UIText*) UI::getInstance()->getBuilder()->
@@ -415,13 +410,14 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxSizeX->setOnTextChangedCallback([self = mTextBoxSizeX, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.getFirstSelectedTile()){
+		mapEditor->mGrid.forEachSelectedTile([self = self, mapEditor = mapEditor](GameObject* tile){
 			std::string width(self->getInputString());
 
-			Transform* tileTransform = mapEditor->mGrid.getFirstSelectedTile()->getTransform();
+			Transform* tileTransform = tile->getTransform();
 			Vector3 scale = tileTransform->getScale();
 			tileTransform->setScale(Vector3(std::stof(width.length() > 0 ? width : "0"), scale.y, scale.z));
-		}
+			tile->getComponents<Renderer>()->get(0)->forceRecalculateVertices();
+		});
 	});
 
 	mTextBoxSizeY = (UIText*) UI::getInstance()->getBuilder()->
@@ -431,13 +427,14 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxSizeY->setOnTextChangedCallback([self = mTextBoxSizeY, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.getFirstSelectedTile()){
+		mapEditor->mGrid.forEachSelectedTile([self = self, mapEditor = mapEditor](GameObject* tile){
 			std::string height(self->getInputString());
 
-			Transform* tileTransform = mapEditor->mGrid.getFirstSelectedTile()->getTransform();
+			Transform* tileTransform = tile->getTransform();
 			Vector3 scale = tileTransform->getScale();
 			tileTransform->setScale(Vector3(scale.x, std::stof(height.length() > 0 ? height : "0"), scale.z));
-		}
+			tile->getComponents<Renderer>()->get(0)->forceRecalculateVertices();
+		});
 	});
 
 	mTextColliderSize = (UIText*) UI::getInstance()->getBuilder()->
@@ -453,15 +450,15 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxColliderSizeX->setOnTextChangedCallback([self = mTextBoxColliderSizeX, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.getFirstSelectedTile()){
+		mapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
 			std::string width(self->getInputString());
 
-			auto colliderList = mapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
+			auto colliderList = tile->getComponents<Collider>();
 			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
 			if(collider)
 				collider->setSize(std::stof(width.length() > 0 ? width : "0"), collider->getHeight());
-		}
+		});
 	});
 
 	mTextBoxColliderSizeY = (UIText*) UI::getInstance()->getBuilder()->
@@ -471,15 +468,15 @@ void MapEditorUI::createInspector() {
 		getUIElement();
 
 	mTextBoxColliderSizeY->setOnTextChangedCallback([self = mTextBoxColliderSizeY, mapEditor = mMapEditor]() {
-		if(mapEditor->mGrid.getFirstSelectedTile()){
+		mapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
 			std::string height(self->getInputString());
 
-			auto colliderList = mapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
+			auto colliderList = tile->getComponents<Collider>();
 			Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
 			if(collider)
 				collider->setSize(collider->getWidth(), std::stof(height.length() > 0 ? height : "0"));
-		}
+		});
 	});
 
 }

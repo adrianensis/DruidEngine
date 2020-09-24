@@ -39,19 +39,19 @@ void UIElement::init() {
 
 void UIElement::onDestroy() {
 	GameObject::onDestroy();
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed);
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased);
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed);
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased);
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventChar);
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter);
-	//DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventChar);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter);
+	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc);
 }
 
 // ---------------------------------------------------------------------------
 
 void UIElement::subscribeToKeyEvents() {
-	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, [this](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, [this](const Event* event){
 		if(isActive()){
 
 		}
@@ -61,16 +61,16 @@ void UIElement::subscribeToKeyEvents() {
 		if(isActive()){
 
 		}
-	});*/
+	});
 }
 
 void UIElement::subscribeToCharEvents() {
-	/*DE_SUBSCRIBE_TO_EVENT(InputEventChar, [this](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventChar, [this](const Event* event){
 		if(isActive()){
 			// TODO : boolean to enable or disable : can receive char input?
 			onChar(((const InputEventChar*)event)->mChar);
 		}
-	});*/
+	});
 }
 
 void UIElement::subscribeToMouseButtonEvents() {
@@ -85,27 +85,27 @@ void UIElement::subscribeToMouseButtonEvents() {
 		}
 	});
 
-	/*DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, [this](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, [this](const Event* event){
 		if(isActive()){
 
 		}
-	});*/
+	});
 }
 
 void UIElement::subscribeToEnterEvent() {
-	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyEnter, [this](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEnter, [this](const Event* event){
 		if(isActive()){
 			onFocusLost(); // TODO : call something more generic
 		}
-	});*/
+	});
 }
 
 void UIElement::subscribeToEscEvent() {
-	/*DE_SUBSCRIBE_TO_EVENT(InputEventKeyEsc, [this](const Event* event){
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEsc, [this](const Event* event){
 		if(isActive()){
 			onFocusLost(); // TODO : call something more generic
 		}
-	});*/
+	});
 }
 
 // ---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ void UIElement::onChar(c8 character) {
 void UIElement::onFocusLost() {
 	if(hasFocus()){
 		mOnFocusLostFunctor.execute();
-		mInputString.clear();
+		UI::getInstance()->setFocusedElement(nullptr);
 	}
 }
 

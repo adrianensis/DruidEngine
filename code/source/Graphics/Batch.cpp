@@ -50,7 +50,7 @@ Batch::Batch() : DE_Class() {
 	mVBOPosition = 0;
 	mEBO = 0;
 	mVBOTexture = 0;
-	//mVBOColor = 0;
+	mVBOColor = 0;
 	mVBONormal = 0;
 	mVAO = 0;
 	mMesh = nullptr;

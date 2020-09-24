@@ -25,4 +25,15 @@ void UITextEditable::init() {
 
 // ---------------------------------------------------------------------------
 
+void UITextEditable::onFocusLost() {
+	if(hasFocus()){
+		UIText::onFocusLost();
+
+		mOnTextChangedFunctor.execute();
+		mInputString.clear();
+
+		UIText::onFocusLost();
+	}
+}
+
 } /* namespace DE */

@@ -14,11 +14,12 @@ class UIGroup;
 
 class UIElement: public GameObject {
 
-private:
+protected:
 
 	FunctorVoid mOnPressedFunctor;
 	FunctorVoid mOnReleasedFunctor;
 
+	FunctorVoid mOnTextChangedFunctor;
 	FunctorVoid mOnFocusLostFunctor;
 
 	Collider* mCollider;
@@ -54,7 +55,7 @@ public:
 	void onPressed();
 	void onReleased();
 
-	void onFocusLost();
+	virtual void onFocusLost();
 	void onFocus();
 
 	void setOnPressedCallback(std::function<void()> callback) {
@@ -66,6 +67,11 @@ public:
 	}
 
 	void setOnTextChangedCallback(std::function<void()> callback) {
+		//mOnFocusLostFunctor.setCallback(callback);
+		mOnTextChangedFunctor.setCallback(callback);
+	}
+
+	void setOnFocusLostCallback(std::function<void()> callback) {
 		mOnFocusLostFunctor.setCallback(callback);
 	}
 

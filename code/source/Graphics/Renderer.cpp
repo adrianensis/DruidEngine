@@ -46,6 +46,8 @@ Renderer::Renderer() : Component() {
 
 	mChunk = nullptr;
 	mIsAlreadyInBatch = false;
+
+	mForceRecalculateVertices = false;
 }
 
 Renderer::~Renderer() {
@@ -84,6 +86,8 @@ void Renderer::init() {
 	mVertices->set(1, Vector2(0, 0)); // LEFT BOTTOM
 	mVertices->set(2, Vector2(0, 0)); // RIGHT BOTTOM
 	mVertices->set(3, Vector2(0, 0)); // RIGHT TOP
+
+	mForceRecalculateVertices = false;
 
 }
 
@@ -195,37 +199,35 @@ void Renderer::renderCollider() {
 	}
 }
 
-// ---------------------------------------------------------------------------
+const Array<Vector2>* Renderer::getVertices(bool force /*= false*/) {
 
-const Matrix4& Renderer::getRendererModelMatrix() {
-	if (mPositionOffsetDirty || !isStatic()) {
+	if(mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices ){
 
 		mRenderereModelMatrix.translation(mPositionOffset);
 
 		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
 		mPositionOffsetDirty = false;
-	}
 
-	return mRenderereModelMatrix;
-};
-
-const Array<Vector2>* Renderer::getVertices() {
-
-	if(mPositionOffsetDirty || !isStatic()){
 		FOR_ARRAY(i, mVertices) {
 			Vector3 vertexPosition(
 			mMesh->getVertices()->get(i*3 + 0),
 			mMesh->getVertices()->get(i*3 + 1),
 			mMesh->getVertices()->get(i*3 + 2));
 
-			vertexPosition = getRendererModelMatrix().mulVector(Vector4(vertexPosition,1));
+			vertexPosition = mRenderereModelMatrix.mulVector(Vector4(vertexPosition,1));
 
 			mVertices->set(i, vertexPosition);
 		}
+
+		mForceRecalculateVertices = false;
 	}
 
 	return mVertices;
 }
 
+void Renderer::forceRecalculateVertices() {
+	getGameObject()->getTransform()->forceModelMatrixCalculation();
+	mForceRecalculateVertices = true;
+}
 
 } /* namespace DE */

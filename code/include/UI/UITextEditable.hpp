@@ -12,6 +12,7 @@ public:
 	DE_CLASS(UITextEditable, UIText);
 
 	virtual void init();
+	virtual void onFocusLost();
 
 };
 

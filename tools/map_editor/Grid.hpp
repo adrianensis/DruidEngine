@@ -5,6 +5,7 @@
 #include "Vector2.hpp"
 #include "MapEditorUI.hpp"
 #include <string>
+#include "Functor.hpp"
 
 #include "EditorEvents.hpp"
 
@@ -71,6 +72,8 @@ public:
 	f32 getGridTileSize() const { return mGridTileSize; }
 
 	void loadMapIntoGrid(const List<GameObject*>* gameObjects);
+
+	void forEachSelectedTile(std::function<void(GameObject*)> callback);
 };
 
 } /* namespace DE */

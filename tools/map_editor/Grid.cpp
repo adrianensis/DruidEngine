@@ -302,4 +302,13 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 	}
 }
 
+void Grid::forEachSelectedTile(std::function<void(GameObject*)> callback) {
+	FOR_LIST(it, getSelectedTiles()){
+		GameObject* tile = it.get();
+		if(tile){
+			callback(tile);
+		}
+	}
+}
+
 } /* namespace DE */

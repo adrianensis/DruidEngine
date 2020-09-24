@@ -143,7 +143,7 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
-		std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
 	}

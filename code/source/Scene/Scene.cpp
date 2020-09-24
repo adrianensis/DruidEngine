@@ -86,7 +86,8 @@ void Scene::init() {
 	 ortho(-50.0, 50.0, -50.0 / aspect, 50.0 / aspect, 1.0, -1.0);
 	 */
 	// f32 aspect = RenderContext::getAspectRatio();
-	cameraComponent->setOrtho(-720, 720, -720, 720, 1, -1);
+	f32 size = RenderContext::getWindowSize().y;
+	cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
 
 	setCameraGameObject(cameraGameObject);
 

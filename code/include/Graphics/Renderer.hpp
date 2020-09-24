@@ -34,6 +34,8 @@ private:
 	Matrix4 mRenderereModelMatrix;
 	bool mPositionOffsetDirty;
 
+	bool mForceRecalculateVertices;
+
 	Array<Vector2>* mVertices;
 
 	Vector2 mRegionPosition;
@@ -171,9 +173,9 @@ public:
 
 	void renderCollider();
 
-	const Matrix4& getRendererModelMatrix();
+	const Array<Vector2>* getVertices(bool force = false);
 
-	const Array<Vector2>* getVertices();
+	void forceRecalculateVertices();
 };
 
 } /* namespace DE */
