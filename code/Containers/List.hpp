@@ -9,6 +9,9 @@
 
 namespace DE {
 
+/*!
+ \brief List of elements. Variable size.
+ */
 template<class T>
 class List;
 

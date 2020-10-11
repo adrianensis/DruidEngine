@@ -12,7 +12,7 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 /*!
- \brief DynamicArray of elements. Fixed size.
+ \brief DynamicArray of elements. Variable size.
  \tparam Elements class.
  */
 template<class T>

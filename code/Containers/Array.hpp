@@ -10,7 +10,6 @@ namespace DE {
 
 /*!
  \brief Array of elements. Fixed size.
- \tparam Elements class.
  */
 template<class T>
 class Array: public SequentialContainer<T> {

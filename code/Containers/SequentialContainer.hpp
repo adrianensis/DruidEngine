@@ -9,6 +9,7 @@ namespace DE {
 
 /*!
  \brief SequentialContainer.
+ \tparam Elements class.
  */
 template<class T>
 class SequentialContainer: public BaseContainer {

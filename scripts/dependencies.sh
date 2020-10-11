@@ -1,6 +1,5 @@
 #! /bin/bash
 
-tmpDir=".tmp"
 destiny="dependencies"
 
 projectDir="$PWD"
@@ -17,37 +16,17 @@ sudo apt-get -y install build-essential wget unzip cmake clang cmake-data  libgl
 # ------------------------------------------------------------------------
 
 # GLFW
-wget -P $tmpDir https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip
-unzip $tmpDir/glfw-3.2.1.zip -d $destiny
+unzip scripts/dependencies-zip/glfw-3.2.1.zip -d $destiny
 
 # ------------------------------------------------------------------------
 
 # SOIL
-wget -P $tmpDir www.lonesock.net/files/soil.zip
-unzip $tmpDir/soil.zip -d $destiny
-
-mv "$destiny/Simple OpenGL Image Library" $destiny/SOIL
-
-# cd $destiny/SOIL/projects/makefile
-
-# mkdir "obj"
-# make
-# sudo make install
-
-# cd $projectDir
+unzip scripts/dependencies-zip/soil.zip -d $destiny
+mv "$destiny/soil-master" $destiny/SOIL
 
 # ------------------------------------------------------------------------
 
 # glad
-#pip install --user glad
-
-# generate glad source
-#python -m glad --generator=c --extensions=GL_EXT_framebuffer_multisample,GL_EXT_texture_filter_anisotropic --out-path=$destiny/glad
-
-unzip scripts/glad.zip -d $destiny/glad
-
-# ------------------------------------------------------------------------
-
-rm -R $tmpDir 2> /dev/null
+unzip scripts/dependencies-zip/glad.zip -d $destiny/glad
 
 # ------------------------------------------------------------------------

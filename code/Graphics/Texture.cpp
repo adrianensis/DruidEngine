@@ -1,6 +1,6 @@
 #include "Texture.hpp"
 #include "Log.hpp"
-#include "SOIL.h"
+#include "SOIL/SOIL.h"
 
 namespace DE {
 

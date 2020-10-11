@@ -14,7 +14,7 @@ Log::Log() : DE_Class() {
 Log::~Log() = default;
 
 void Log::init() {
-	logFile.open("log/log.txt");
+	logFile.open("log.txt");
 }
 
 void Log::terminate() {

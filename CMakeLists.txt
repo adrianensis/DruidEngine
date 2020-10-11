@@ -70,7 +70,7 @@ set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
 # SOIL
-include_directories("${DEPENDENCIES_DIR}/SOIL/src")
+include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
 #link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
 file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
