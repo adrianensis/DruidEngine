@@ -80,7 +80,7 @@ message(${SOIL_SOURCE})
 # ENGINE PACKAGES
 # ----------------------------------------------------------------------------
 
-file(GLOB PACKAGES_PATHS "code/source/*")
+file(GLOB PACKAGES_PATHS "code/*")
 set(PACKAGES "")
 
 foreach(PACKAGE_PATH ${PACKAGES_PATHS})
@@ -92,11 +92,11 @@ endforeach()
 # PACKAGES INCLUDE DIRECTORIES
 # ----------------------------------------------------------------------------
 
-file(GLOB INCLUDE_PATHS "code/include/*")
+file(GLOB INCLUDE_PATHS "code/*")
 
 foreach(INCLUDE_PATH ${INCLUDE_PATHS})
   get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
-  include_directories("code/include/${INCLUDE_NAME}")
+  include_directories("code/${INCLUDE_NAME}")
 endforeach()
 
 # ----------------------------------------------------------------------------
@@ -107,7 +107,7 @@ endforeach()
 # Alternative: CMakeLists.txt with this code into source directory.
 # add_subdirectory(source)
 foreach(PACKAGE ${PACKAGES})
-  file(GLOB PACKAGE_SOURCE "code/source/${PACKAGE}/*.cpp")
+  file(GLOB PACKAGE_SOURCE "code/${PACKAGE}/*")
   add_library(${PACKAGE} OBJECT ${PACKAGE_SOURCE})
 endforeach()
 
