@@ -15,7 +15,7 @@ class Contact: public DE_Class {
 public:
 
 	enum class ContactStatus {
-		CONTACT_STATUS_ENTER, CONTACT_STATUS_UPDATE, CONTACT_STATUS_EXIT
+		CONTACT_STATUS_ENTER, CONTACT_STATUS_UPDATE, CONTACT_STATUS_EXIT, CONTACT_DESTROYED_COLLIDER
 	};
 
 	DE_CLASS(Contact, DE_Class);
@@ -56,6 +56,7 @@ public:
 	// void updateContact(Collider* colliderA, Collider* colliderB);
 	void removeContact(Collider *colliderA, Collider *colliderB);
 	Contact* findContact(Collider *colliderA, Collider *colliderB);
+	void notifyDestroyedCollider(Collider *collider);
 
 	void terminate();
 };

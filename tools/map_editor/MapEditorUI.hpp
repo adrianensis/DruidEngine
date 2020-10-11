@@ -24,10 +24,10 @@ template<class T> class List;
 class MapEditor;
 
 class Brush: public DE_Class {
-private: Array<GameObject*>* mGrid = nullptr;
+private:
+
+	Array<GameObject*>* mGrid = nullptr;
 	Vector2 mOriginAtlasPosition = Vector2(0,0);
-
-
 
 public:
 
@@ -54,23 +54,26 @@ class MapEditorUI : public DE_Class{
 private:
 
 	class StringsUI {
-	public: static const std::string smLayer;
-		static const std::string smTile;
-		static const std::string smZoom;
-		static const std::string smBrush;
-		static const std::string smSave;
-		static const std::string smCollider;
-		static const std::string smAtlas;
-		static const std::string smPlay;
-		static const std::string smCreateSprite;
-		static const std::string smInspectorTileX;
-		static const std::string smInspectorTileY;
-		static const std::string smInspectorTileCollider;
-		static const std::string smInspectorTileTag;
-		static const std::string smInspectorSize;
-		static const std::string smInspectorSizeCollider;
-		static const std::string smGrid;
+	public:
+		std::string smTile = "Tile";
+		std::string smZoom = "Zoom";
+		std::string smBrush = "Brush";
+		std::string smSave = "Save";
+		std::string smCollider = "Colliders";
+		std::string smAtlas = "Atlas";
+		std::string smPlay = "Play";
+		std::string smCreateSprite = "Create Sprite";
+		std::string smInspectorTileX = "x:";
+		std::string smInspectorTileY = "y:";
+		std::string smInspectorTileCollider = "collider:";
+		std::string smInspectorTileTag = "tag:";
+		std::string smInspectorSize = "size:";
+		std::string smInspectorSizeCollider = "collider size:";
+		std::string smInspectorPosCollider = "collider offset:";
+		std::string smGrid = "Grid";
 	};
+
+	const StringsUI mStringsUI;
 
 	std::string mAtlasSelectorUIGroup = "atlasSelector";
 	std::string mAtlasUIGroup = "atlas";
@@ -94,7 +97,10 @@ private:
 	UIText* mTextTileSize = nullptr;
 	UIText* mTextBoxSizeX = nullptr;
 	UIText* mTextBoxSizeY = nullptr;
+	UIText* mTextColliderPos = nullptr;
 	UIText* mTextColliderSize = nullptr;
+	UIText* mTextBoxColliderPosX = nullptr;
+	UIText* mTextBoxColliderPosY = nullptr;
 	UIText* mTextBoxColliderSizeX = nullptr;
 	UIText* mTextBoxColliderSizeY = nullptr;
 

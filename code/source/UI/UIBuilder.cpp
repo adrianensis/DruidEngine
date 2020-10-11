@@ -34,6 +34,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mSize = size;
 	mText = text;
 	mLayer = layer;
+	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
 	mSeparatorSize = 0.01f;
 	mBackgroundColor = Vector4(0.5,0.5,0.5,1);
@@ -108,6 +109,11 @@ UIBuilder* const UIBuilder::setText(const std::string &text) {
 	return this;
 }
 
+UIBuilder* const UIBuilder::setAdjustSizeToText(bool adjustSizeToText) {
+	mData.mAdjustSizeToText = adjustSizeToText;
+	return this;
+}
+
 UIBuilder* const UIBuilder::setBackgroundColor(Vector4 backgroundColor) {
 	mData.mBackgroundColor = backgroundColor;
 	return this;
@@ -132,6 +138,15 @@ UIBuilder* const UIBuilder::restoreSeparatorSize() {
 }
 
 void UIBuilder::calculateData(){
+
+	/*if(mData.mAdjustSizeToText) {
+		mData.mSize.x = (mData.mSize.y * 0.4f) * mData.mText.length();
+	}*/
+
+	if(mData.mAdjustSizeToText) {
+		mData.mSize.x = (mData.mSize.y * 0.4f) * mData.mText.length();
+	}
+
 	if(mData.mIsAffectedByLayout && mLastUIElement) {
 		Vector2 offset = Vector2(0,0);
 
@@ -222,8 +237,12 @@ UIButton* UIBuilder::createButton() {
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
+	Vector3 size = mData.mSize;
+	size.z = 1;
+	size.x = size.x / RenderContext::getAspectRatio();
+
 	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiButton->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiButton->getTransform()->setScale(size);
 	uiButton->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
@@ -232,7 +251,7 @@ UIButton* UIBuilder::createButton() {
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setLayer(mData.mLayer);
-	renderer->setColor(mData.mBackgroundColor2);
+	renderer->setColor(mData.mBackgroundColor);
 	//renderer->setHasBorder(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
@@ -241,7 +260,7 @@ UIButton* UIBuilder::createButton() {
 
 	Collider* collider = Memory::allocate<Collider>();
 	uiButton->addComponent<Collider>(collider);
-	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
+	collider->setSize(size.x, size.y);
 	collider->getBoundingBox();
 
 	uiButton->setComponentsCache();

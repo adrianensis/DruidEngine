@@ -114,8 +114,6 @@ void Scene::loadScene(const std::string &path) {
 
 	u32 length = configMap->getU32("objects.length");
 
-	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
-
 	FOR_RANGE(i, 0, length) {
 		std::string indexStr = std::to_string(i);
 		std::string objectStr = "objects[" + indexStr + "]";
@@ -132,6 +130,7 @@ void Scene::loadScene(const std::string &path) {
 				configMap->getF32(objectStr + ".worldPosition.y"));
 
 		Vector2 size(configMap->getF32(objectStr + ".size.width"), configMap->getF32(objectStr + ".size.height"));
+		Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectStr + ".texture.path"));
 		Vector2 textureRegionPosition(configMap->getF32(objectStr + ".texture.region.u"),
 				configMap->getF32(objectStr + ".texture.region.v"));
 		Vector2 textureRegionSize(configMap->getF32(objectStr + ".texture.region.width"),
@@ -223,8 +222,6 @@ void Scene::saveScene(const std::string &path) {
 				configMap->setF32(objectStr + ".collider.width", collider->getWidth());
 				configMap->setF32(objectStr + ".collider.height", collider->getHeight());
 			}
-
-
 
 			counter++;
 		}

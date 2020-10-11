@@ -269,14 +269,14 @@ void QuadTree::Node::update(/*contactManager*/) {
 													colliderA->markPenetratedBy(colliderB);
 													colliderB->markPenetratedBy(colliderA);
 
-//													colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
-//													colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+													//colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
+													//colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,0,0,1));
 												}
 											}
 
 											if (status == ColliderStatus::STATUS_COLLISION) {
-//												colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
-//												colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+												//colliderA->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
+												//colliderB->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(1,1,0,1));
 											}
 
 											ContactsManager::getInstance()->addContact(contact);
@@ -338,7 +338,7 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
 
-	if (!collider->isStatic()) {
+	if (!collider->isStatic() || collider->hasSizeChanged()) {
 
 //		bool collision = MathUtils::testRectangleSphere(mLeftTop, mWidth, mHeight,
 //						Vector2(collider->getCenter()), collider->getRadius(), 0);
@@ -346,7 +346,7 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 		bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight,
 								Vector2(collider->getCenter()), -collider->getRadius());
 
-		if(!collision){
+		if(!collision || collider->hasSizeChanged()){
 			mExitingColliders->pushBack(collider);
 			mTree->addCollider(collider);
 		}
@@ -463,6 +463,7 @@ void QuadTree::update() {
 // ---------------------------------------------------------------------------
 
 void QuadTree::addCollider(Collider *collider) {
+	collider->resetHasSizeChaged();
 	mRoot->addCollider(collider);
 }
 

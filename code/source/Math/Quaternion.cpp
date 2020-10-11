@@ -197,27 +197,6 @@ void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw) { // pitch attitude, ya
 	v.x = sr * cp * cy - cr * sp * sy;
 	v.y = cr * sp * cy + sr * cp * sy;
 	v.z = cr * cp * sy - sr * sp * cy;
-
-	// SIMD-optimized
-	/*f32 c3c2 = c3 * c2;
-	f32 s3s2 = s3 * s2;
-	f32 c3s2 = c3 * s2;
-	f32 s3c2 = s3 * c2;
-
-	f32 aux0 = c3c2 * c1;
-	f32 aux1 = c3c2 * s1;
-	f32 aux2 = c3s2 * c1;
-	f32 aux3 = s3c2 * c1;
-
-	f32 aux4 = s3s2 * s1;
-	f32 aux5 = s3s2 * c1;
-	f32 aux6 = s3c2 * s1;
-	f32 aux7 = c3s2 * s1;*/
-
-	/*w = aux0 + aux4;
-	v.x = aux1 - aux5;
-	v.y = aux2 + aux6;
-	v.z = aux3 - aux7;*/
 }
 
 void Quaternion::fromEuler(const Vector3 &v) {

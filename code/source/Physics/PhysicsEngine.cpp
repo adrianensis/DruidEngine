@@ -55,9 +55,9 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 	RigidBody* rigidBody = (*castedIt).get();
 	rigidBody->setDestroyed();
 
-	/*Memory::free<Collider>(rigidBody->getCollider());
+	rigidBody->getCollider()->setIsActive(false);
 
-	Memory::free<RigidBody>(rigidBody);*/
+	ContactsManager::getInstance()->notifyDestroyedCollider(rigidBody->getCollider());
 }
 
 // ---------------------------------------------------------------------------

@@ -35,6 +35,7 @@ void UIButton::setText(const std::string &text) {
 		if (!mLabel) {
 
 			UI::getInstance()->getBuilder()->saveData()->
+					setAdjustSizeToText(false)->
 					setPosition(Vector2(0, 0))->
 					setSize(Vector2(fontSize/1.5f, fontSize))->
 					setText(text)->

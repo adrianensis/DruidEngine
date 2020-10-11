@@ -12,7 +12,7 @@ TimerHandle::TimerHandle() : DE_Class(){
 
 TimerHandle::~TimerHandle() = default;
 
-Timer::Timer() : DE_Class(), Singleton<Timer>() { };
+Timer::Timer() : DE_Class() { };
 
 Timer::~Timer() = default;
 

@@ -192,85 +192,79 @@ void ContactsManager::updateContacts() {
 			Collider* colliderA = contact->colliderA;
 			Collider* colliderB = contact->colliderB;
 
-			if (contact->status == Contact::ContactStatus::CONTACT_STATUS_ENTER) {
-//				ECHO("CONTACT_STATUS_ENTER")
-				GameObject* gameObjectA = colliderA->getGameObject();
-				GameObject* gameObjectB = colliderB->getGameObject();
-//				ECHO("A - " + gameObjectA->getTag())
-//				ECHO("B - " + gameObjectB->getTag())
+			if(colliderA->isActive() && colliderB->isActive()) {
+				if (contact->status == Contact::ContactStatus::CONTACT_STATUS_ENTER) {
+					GameObject* gameObjectA = colliderA->getGameObject();
+					GameObject* gameObjectB = colliderB->getGameObject();
 
-				resolveContact(contact);
-
-				if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
-					Script* script = gameObjectA->getComponents<Script>()->get(0);
-					script->onEnterCollision(gameObjectB);
-				}
-
-				if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
-					Script* script = gameObjectB->getComponents<Script>()->get(0);
-					script->onEnterCollision(gameObjectA);
-				}
-
-				contact->status = Contact::ContactStatus::CONTACT_STATUS_UPDATE;
-
-			} else if (contact->status == Contact::ContactStatus::CONTACT_STATUS_UPDATE) {
-				//ECHO("CONTACT_STATUS_UPDATE"C)
-				GameObject* gameObjectA = colliderA->getGameObject();
-				GameObject* gameObjectB = colliderB->getGameObject();
-				//ECHO("A - " + gameObjectA->getTag())
-				//ECHO("B - " + gameObjectB->getTag())
-
-				ColliderStatus status = colliderA->testCollider(colliderB);
-
-				if(status == ColliderStatus::STATUS_NONE){
-					ColliderStatus status2 = colliderB->testCollider(colliderA);
-					if(status < status2){
-						status = status2;
-					}
-				}
-
-				if(status == ColliderStatus::STATUS_NONE){
-					removeContact(colliderA, colliderB);
-				} else {
-					if(colliderA->isPenetrated() || colliderB->isPenetrated()){
-						resolveContact(contact);
-					}
-
-					/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
-					RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);*/
+					resolveContact(contact);
 
 					if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 						Script* script = gameObjectA->getComponents<Script>()->get(0);
-						script->onCollision(gameObjectB);
+						script->onEnterCollision(gameObjectB);
 					}
 
 					if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
 						Script* script = gameObjectB->getComponents<Script>()->get(0);
-						script->onCollision(gameObjectA);
+						script->onEnterCollision(gameObjectA);
 					}
+
+					contact->status = Contact::ContactStatus::CONTACT_STATUS_UPDATE;
+
+				} else if (contact->status == Contact::ContactStatus::CONTACT_STATUS_UPDATE) {
+					GameObject* gameObjectA = colliderA->getGameObject();
+					GameObject* gameObjectB = colliderB->getGameObject();
+
+					ColliderStatus status = colliderA->testCollider(colliderB);
+
+					if(status == ColliderStatus::STATUS_NONE){
+						ColliderStatus status2 = colliderB->testCollider(colliderA);
+						if(status < status2){
+							status = status2;
+						}
+					}
+
+					if(status == ColliderStatus::STATUS_NONE){
+						removeContact(colliderA, colliderB);
+					} else {
+						if(colliderA->isPenetrated() || colliderB->isPenetrated()){
+							resolveContact(contact);
+						}
+
+						/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
+						RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);*/
+
+						if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
+							Script* script = gameObjectA->getComponents<Script>()->get(0);
+							script->onCollision(gameObjectB);
+						}
+
+						if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
+							Script* script = gameObjectB->getComponents<Script>()->get(0);
+							script->onCollision(gameObjectA);
+						}
+					}
+
+				} else if (contact->status == Contact::ContactStatus::CONTACT_STATUS_EXIT) {
+					GameObject* gameObjectA = colliderA->getGameObject();
+					GameObject* gameObjectB = colliderB->getGameObject();
+
+					if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
+						Script* script = gameObjectA->getComponents<Script>()->get(0);
+						script->onExitCollision(gameObjectB);
+					}
+
+					if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
+						Script* script = gameObjectB->getComponents<Script>()->get(0);
+						script->onExitCollision(gameObjectA);
+					}
+
+					//removeContactFromMap(colliderA, colliderB);
+
+					mContactsToRemove->pushBack(contact);
+				} else if (contact->status == Contact::ContactStatus::CONTACT_DESTROYED_COLLIDER) {
+					mContactsToRemove->pushBack(contact);
 				}
-
-			} else if (contact->status == Contact::ContactStatus::CONTACT_STATUS_EXIT) {
-//				ECHO("CONTACT_STATUS_EXIT")
-				GameObject* gameObjectA = colliderA->getGameObject();
-				GameObject* gameObjectB = colliderB->getGameObject();
-//				ECHO("A - " + gameObjectA->getTag())
-//				ECHO("B - " + gameObjectB->getTag())
-//				BRLINE()
-
-				if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
-					Script* script = gameObjectA->getComponents<Script>()->get(0);
-					script->onExitCollision(gameObjectB);
-				}
-
-				if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
-					Script* script = gameObjectB->getComponents<Script>()->get(0);
-					script->onExitCollision(gameObjectA);
-				}
-
-				//removeContactFromMap(colliderA, colliderB);
-
-				mContactsToRemove->pushBack(contact);
 			}
 		}
 	}
@@ -348,6 +342,22 @@ Contact* ContactsManager::findContact(Collider *colliderA, Collider *colliderB) 
 
 	return contact;
 }
+
+// ---------------------------------------------------------------------------
+
+void ContactsManager::notifyDestroyedCollider(Collider *collider) {
+
+	FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
+		FOR_LIST (itContacts, itSubHashMaps.get()->getValues()){
+			Contact* contact = itContacts.get();
+
+			if(contact->colliderA == collider || contact->colliderB == collider) {
+				contact->status = Contact::ContactStatus::CONTACT_DESTROYED_COLLIDER;
+			}
+		}
+	}
+}
+
 
 // ---------------------------------------------------------------------------
 

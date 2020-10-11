@@ -96,6 +96,8 @@ void ProjectileScript::onEnterCollision(GameObject *otherGameObject) {
 	} else {
 		rigidBody->setLinear(rigidBody->getLinear() / 2.0f * -1);
 	}*/
+
+	getGameObject()->getScene()->removeGameObject(getGameObject());
 }
 
 void ProjectileScript::onCollision(GameObject *otherGameObject) {

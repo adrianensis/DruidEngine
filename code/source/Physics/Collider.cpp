@@ -31,6 +31,7 @@ Collider::Collider() : Component() {
 	mIsSolid = true;
 	mColliderShape = ColliderShape::RECTANGLE;
 	mLastContact = nullptr;
+	mHasSizeChanged = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -77,6 +78,8 @@ void Collider::setSize(f32 width, f32 height) {
 	mRadius = sqrt((mWidth * mWidth) + (mHeight * mHeight)) / 2.0f;
 
 	getBoundingBox(true);
+
+	mHasSizeChanged = true;
 }
 
 // ---------------------------------------------------------------------------

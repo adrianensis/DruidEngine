@@ -105,6 +105,7 @@ void GameObject::destroy() {
 		FOR_LIST(itComponent, list)
 		{
 			itComponent.get()->setGameObject(nullptr);
+			itComponent.get()->setIsActive(false);
 			removeComponent(itComponent.get(), id);
 		}
 

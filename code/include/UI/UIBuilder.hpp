@@ -44,6 +44,7 @@ public:
 	Vector2 mPosition;
 	Vector2 mSize;
 	std::string mText;
+	bool mAdjustSizeToText;
 	u32 mLayer;
 	bool mIsAffectedByLayout;
 	f32 mSeparatorSize;
@@ -63,6 +64,7 @@ public:
 		mPosition = otherData.mPosition;
 		mSize = otherData.mSize;
 		mText = otherData.mText;
+		mAdjustSizeToText = otherData.mAdjustSizeToText;
 		mLayer = otherData.mLayer;
 		mIsAffectedByLayout = otherData.mIsAffectedByLayout;
 		mBackgroundColor = otherData.mBackgroundColor;
@@ -103,6 +105,7 @@ public:
 	UIBuilder* const setSize(const Vector2& size);
 	UIBuilder* const setLayer(u32 layer);
 	UIBuilder* const setText(const std::string& text);
+	UIBuilder* const setAdjustSizeToText(bool adjustSizeToText);
 	UIBuilder* const setBackgroundColor(Vector4 backgroundColor);
 	UIBuilder* const restoreColors();
 	UIBuilder* const setLayout(UILayout layout);

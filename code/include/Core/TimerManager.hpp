@@ -46,7 +46,7 @@ public:
 	}
 };
 
-class Timer : public DE_Class, public Singleton<Timer>{
+class Timer : public DE_Class{
 
 public:
 	DE_CLASS(Timer, DE_Class)

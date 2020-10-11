@@ -46,6 +46,8 @@ private:
 
 	Contact* mLastContact;
 
+	bool mHasSizeChanged;
+
 public:
 
 	DE_CLASS(Collider, Component);
@@ -53,6 +55,8 @@ public:
 	void init() override;
 
 	void setSize(f32 width, f32 height);
+	bool hasSizeChanged() const { return mHasSizeChanged; }
+	void resetHasSizeChaged() { mHasSizeChanged = false; }
 	f32 getHeight() const { return mHeight; }
 	f32 getWidth() const { return mWidth; }
 	Array<Vector2>* getBoundingBox(bool forceCalculateBoundingBox = false);
