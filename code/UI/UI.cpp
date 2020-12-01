@@ -234,16 +234,6 @@ Vector2 UI::getCharTextureCoordinates(c8 character) {
 
 // ---------------------------------------------------------------------------
 
-void UI::step() {
-
-	// TODO : remove UI step
-	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
-
-	}
-}
-
-// ---------------------------------------------------------------------------
-
 void UI::internalRemoveUIElement(const Iterator *it) {
 	/*auto castedIt = it->cast<UIElement*>();
 	mUIElements->remove(*castedIt);*/

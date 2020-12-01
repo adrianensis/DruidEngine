@@ -9,7 +9,7 @@ namespace DE {
 
 template<class T> class Array;
 
-class Matrix4: public DE_Class /*16 bytes alignment*/{
+class Matrix4: public DE_Class{
 private:
 
 	static bool smIdentityCreated;

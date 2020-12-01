@@ -47,6 +47,7 @@ private:
 	Array<u32>* mLineRendererIndices; // [0,1]
 	Array<LineRenderer*>* mLineRenderers;
 	u32 mLineRenderersCount;
+	bool mThereAreActiveDebugRenderer;
 
 	List<Renderer*>* mRenderersToFree;
 
@@ -55,9 +56,8 @@ private:
 	BatchesMap* mBatchesMap;
 	BatchesMap* mBatchesMapNotAffectedByProjection;
 
-	u32 mMaxLayersCount;
 	u32 mMaxLayersUsed;
-	u32 mMaxLayers = 10; // MOVE TO SETTINGS
+	u32 mMaxLayers;
 
 	class LayerData: public DE_Class {
 	public:

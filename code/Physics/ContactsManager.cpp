@@ -86,9 +86,9 @@ void ContactsManager::resolveContact(Contact* contact) {
 	Collider* colliderB = contact->colliderB;
 	GameObject* gameObjectA = colliderA->getGameObject();
 	GameObject* gameObjectB = colliderB->getGameObject();
-	//ECHO("RESOLVE")
-	//ECHO("A - " + gameObjectA->getTag())
-	//ECHO("B - " + gameObjectB->getTag())
+	/*ECHO("RESOLVE")
+	ECHO("A - " + gameObjectA->getTag())
+	ECHO("B - " + gameObjectB->getTag())*/
 
 	Vector3 relativeVelocity = contact->relativeVelocity;
 

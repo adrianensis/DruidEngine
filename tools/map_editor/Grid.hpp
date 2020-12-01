@@ -55,11 +55,11 @@ public:
 
 	DE_CLASS(Grid, DE_Class);
 
-	GameObject* createTile(f32 x, f32 y, f32 size, Material* material, u32 layer);
+	GameObject* createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer);
 
-	void click(const Vector3 &clampedPosition, GameObject* brush, u32 tileSize, u32 layer);
+	void click(const Vector3 &clampedPosition, GameObject* brush, const Vector2& tileSize, u32 layer);
 	bool isSameTile(GameObject* tileA, GameObject* tileB);
-	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush, u32 size, u32 layer);
+	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush, const Vector2& size, u32 layer);
 	void removeTile(CellData *cellData, u32 layer);
 	void selectTile(CellData *cellData, u32 layer, bool multi);
 

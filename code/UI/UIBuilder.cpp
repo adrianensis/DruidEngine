@@ -34,6 +34,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mSize = size;
 	mText = text;
 	mLayer = layer;
+	mTextSize = UI::getInstance()->getDefaultFontSize();
 	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
 	mSeparatorSize = 0.01f;
@@ -65,86 +66,12 @@ UIBuilder::~UIBuilder() {
 
 // ---------------------------------------------------------------------------
 
-UIBuilder* const UIBuilder::setScene(Scene *scene) {
-	mScene = scene;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setLayout(UILayout layout) {
-	mCurrentLayout = layout;
-
-	// reset Last Element
-	mLastUIElement = nullptr;
-
-	return this;
-}
-
-UIBuilder* const UIBuilder::setIsAffectedByLayout(bool affectedByLayout){
-	mData.mIsAffectedByLayout = affectedByLayout;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setData(UIElementData data) {
-	mData = data;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setPosition(const Vector2 &position) {
-	mData.mPosition = position;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setSize(const Vector2 &size) {
-	mData.mSize = size;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setLayer(u32 layer) {
-	mData.mLayer = layer;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setText(const std::string &text) {
-	mData.mText = text;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setAdjustSizeToText(bool adjustSizeToText) {
-	mData.mAdjustSizeToText = adjustSizeToText;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setBackgroundColor(Vector4 backgroundColor) {
-	mData.mBackgroundColor = backgroundColor;
-	return this;
-}
-
-UIBuilder* const UIBuilder::setSeparatorSize(f32 separatorSize) {
-	mData.mSeparatorSize = separatorSize;
-	return this;
-}
-
-UIBuilder* const UIBuilder::restoreColors() {
-	mData.mBackgroundColor = Vector4(0.5,0.5,0.5,1);
-	mData.mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
-	mData.mBackgroundColor3 = Vector4(0.4,0.4,0.4,1);
-	mData.mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
-	return this;
-}
-
-UIBuilder* const UIBuilder::restoreSeparatorSize() {
-	mData.mSeparatorSize = 0.01f;
-	return this;
-}
-
 void UIBuilder::calculateData(){
 
-	/*if(mData.mAdjustSizeToText) {
-		mData.mSize.x = (mData.mSize.y * 0.4f) * mData.mText.length();
-	}*/
-
 	if(mData.mAdjustSizeToText) {
-		mData.mSize.x = (mData.mSize.y * 0.4f) * mData.mText.length();
+		f32 offset = mData.mTextSize.x;
+		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) + offset;
+		mData.mSize.y = mData.mTextSize.y;
 	}
 
 	if(mData.mIsAffectedByLayout && mLastUIElement) {
@@ -291,10 +218,10 @@ UIText* UIBuilder::createText() {
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
 
-	uiText->setSize(mData.mSize);
+	uiText->setSize(mData.mTextSize);
 	uiText->setLayer(mData.mLayer);
 	uiText->setText(mData.mText);
 
@@ -323,23 +250,23 @@ UITextEditable* UIBuilder::createTextEditable() {
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	f32 halfSizeX = (mData.mSize.x * 4) / RenderContext::getAspectRatio();
+	f32 halfSizeX = (mData.mTextSize.x * 4) / RenderContext::getAspectRatio();
 
 	//f32 width = mData.mSize.x * mData.mText.length() / RenderContext::getAspectRatio();
 	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
-	collider->setSize(halfSizeX * 2.0f, mData.mSize.y);
+	collider->setSize(halfSizeX * 2.0f, mData.mTextSize.y);
 	collider->setPositionOffset(Vector3(halfSizeX,0,0));
 	collider->getBoundingBox();
 
-	uiText->setSize(mData.mSize);
+	uiText->setSize(mData.mTextSize);
 	uiText->setLayer(mData.mLayer);
 	uiText->setText(mData.mText);
 

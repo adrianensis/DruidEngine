@@ -116,6 +116,8 @@ void RenderEngine::init(f32 sceneSize) {
 	mLineRendererIndices->set(0, 0.0f);
 	mLineRendererIndices->set(1, 1.0f);
 
+	mThereAreActiveDebugRenderer = false;
+
 	mShaderLine->initDebug();
 
 	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
@@ -157,7 +159,6 @@ void RenderEngine::init(f32 sceneSize) {
 	mBatchesMapNotAffectedByProjection = Memory::allocate<BatchesMap>();
 	mBatchesMapNotAffectedByProjection->init();
 
-	mMaxLayersCount = 10;
 	mMaxLayersUsed = 0;
 
 	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
@@ -275,6 +276,8 @@ void RenderEngine::stepDebug() {
 			lineRenderer->mActive = false;
 		}
 	}
+
+	mThereAreActiveDebugRenderer = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -406,6 +409,8 @@ void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /
 			lineRenderer->mActive = true;
 			lineRenderer->mIsAffectedByProjection = isAffectedByProjection;
 			lineRenderer->mSize = size;
+
+			mThereAreActiveDebugRenderer = true;
 		}
 	}
 }

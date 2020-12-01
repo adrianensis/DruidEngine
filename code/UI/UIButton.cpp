@@ -28,22 +28,19 @@ void UIButton::init() {
 void UIButton::setText(const std::string &text) {
 
 	if(text.length() > 0){
-		f32 fontSize = 0.04f;
-		f32 fontOffset = 0.02f;
+		f32 fontOffset = UI::getInstance()->getDefaultFontSize().x;
 		Vector3 buttonScale = getTransform()->getScale();
 
 		if (!mLabel) {
 
-			UI::getInstance()->getBuilder()->saveData()->
-					setAdjustSizeToText(false)->
-					setPosition(Vector2(0, 0))->
-					setSize(Vector2(fontSize/1.5f, fontSize))->
-					setText(text)->
-					setLayer(getRenderer()->getLayer() + 1)->
-					setIsAffectedByLayout(false)->
-					create(UIElementType::TEXT);
-
-			mLabel = (UIText*) UI::getInstance()->getBuilder()->getUIElement();
+			mLabel = (UIText*) UI::getInstance()->getBuilder()->saveData()->
+				setAdjustSizeToText(true)->
+				setPosition(Vector2(0, 0))->
+				setText(text)->
+				setLayer(getRenderer()->getLayer() + 1)->
+				setIsAffectedByLayout(false)->
+				create(UIElementType::TEXT)
+				->getUIElement();
 
 			UI::getInstance()->getBuilder()->restoreData();
 
@@ -53,7 +50,7 @@ void UIButton::setText(const std::string &text) {
 		mLabel->setText(text);
 
 		mLabel->getTransform()->setLocalPosition(
-				Vector3(-buttonScale.x / 2.0f /*+ fontSize / 2.0f*/ + fontOffset, 0, 0));
+				Vector3((-buttonScale.x + fontOffset) / 2.0f /*+ fontSize / 2.0f*/, 0, 0));
 	}
 }
 

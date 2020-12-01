@@ -46,6 +46,8 @@ private:
 
 	Material* mFontMaterial;
 
+	Vector2 mDefaultFontSize = Vector2(0.04f / 1.5f, 0.04f);
+
 	void internalRemoveUIElement(const Iterator *it);
 
 	UIBuilder* mUIBuilder;
@@ -59,17 +61,14 @@ public:
 	UIBuilder* getBuilder();
 
 	void init();
-	void step();
 	void terminate();
 
 	// fonts
 
 	Vector2 getCharTextureCoordinates(c8 character);
-	Vector2 getFontTileTextureSize() const {
-		return mFontTileTextureSize;
-	};
-
+	Vector2 getFontTileTextureSize() const { return mFontTileTextureSize; }
 	Material* getFontMaterial();
+	const Vector2& getDefaultFontSize() const { return mDefaultFontSize; }
 
 	// groups
 

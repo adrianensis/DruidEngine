@@ -121,8 +121,6 @@ void Engine::run() {
 
 		Input::getInstance()->pollEvents();
 
-		UI::getInstance()->step();
-
 		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 
 		ScriptEngine::getInstance()->step();

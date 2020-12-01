@@ -43,6 +43,7 @@ public:
 
 	Vector2 mPosition;
 	Vector2 mSize;
+	Vector2 mTextSize;
 	std::string mText;
 	bool mAdjustSizeToText;
 	u32 mLayer;
@@ -63,6 +64,7 @@ public:
 
 		mPosition = otherData.mPosition;
 		mSize = otherData.mSize;
+		mTextSize = otherData.mTextSize;
 		mText = otherData.mText;
 		mAdjustSizeToText = otherData.mAdjustSizeToText;
 		mLayer = otherData.mLayer;
@@ -76,6 +78,9 @@ public:
 	}
 };
 
+#define DE_UI_BUILDER_DATA_SETTER(Class, Name) UIBuilder* const set##Name(Class _##Name)\
+ { mData.m##Name = _##Name; return this; }
+
 class UIBuilder: public DE_Class, public Singleton<UIBuilder> {
 private:
 
@@ -85,7 +90,6 @@ private:
 	UIElementData mData;
 	List<UIElementData>* mDataStack;
 	UIElementData mLastData;
-	//UIElementData mSavedData;
 	UIElement* mLastUIElement; // used for layouts
 	UIElement* mCurrentUIElement;
 
@@ -100,19 +104,40 @@ public:
 
 	DE_CLASS(UIBuilder, DE_Class);
 
-	UIBuilder* const setScene(Scene* scene);
-	UIBuilder* const setPosition(const Vector2& position);
-	UIBuilder* const setSize(const Vector2& size);
-	UIBuilder* const setLayer(u32 layer);
-	UIBuilder* const setText(const std::string& text);
-	UIBuilder* const setAdjustSizeToText(bool adjustSizeToText);
-	UIBuilder* const setBackgroundColor(Vector4 backgroundColor);
-	UIBuilder* const restoreColors();
-	UIBuilder* const setLayout(UILayout layout);
-	UIBuilder* const setIsAffectedByLayout(bool affectedByLayout);
-	UIBuilder* const setSeparatorSize(f32 separatorSize);
-	UIBuilder* const restoreSeparatorSize();
-	UIBuilder* const setData(UIElementData initialData);
+	UIBuilder* const setLayout(UILayout layout) {
+		mCurrentLayout = layout;
+
+		// reset Last Element
+		mLastUIElement = nullptr;
+
+		return this;
+	}
+
+	UIBuilder* const setScene(Scene *scene) { mScene = scene; return this; }
+	UIBuilder* const setData(UIElementData data) { mData = data; return this; }
+
+	DE_UI_BUILDER_DATA_SETTER(bool, IsAffectedByLayout)
+	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Position)
+	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Size)
+	DE_UI_BUILDER_DATA_SETTER(u32, Layer)
+	DE_UI_BUILDER_DATA_SETTER(const std::string&, Text)
+	DE_UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
+	DE_UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)
+	DE_UI_BUILDER_DATA_SETTER(f32, SeparatorSize)
+
+	UIBuilder* const restoreColors() {
+		mData.mBackgroundColor = Vector4(0.5,0.5,0.5,1);
+		mData.mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
+		mData.mBackgroundColor3 = Vector4(0.4,0.4,0.4,1);
+		mData.mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
+		return this;
+	}
+
+	UIBuilder* const restoreSeparatorSize() {
+		mData.mSeparatorSize = 0.01f;
+		return this;
+	}
+
 	UIBuilder* const create(UIElementType type);
 
 	UIBuilder* const saveData();

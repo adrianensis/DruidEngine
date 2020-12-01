@@ -12,6 +12,24 @@ class Collider;
 class Renderer;
 class UIGroup;
 
+class UIElement;
+
+using OnTextChangedCallback = std::function<void(UIElement* uiElement)>;
+
+class FunctorOnTextChanged : public Functor<OnTextChangedCallback> {
+public:
+	UIElement* mUIElement = nullptr;
+
+	FunctorOnTextChanged() = default;
+	~FunctorOnTextChanged() override = default;
+
+	virtual void execute() override {
+		if (mCallback)
+			mCallback(mUIElement);
+	}
+
+};
+
 class UIElement: public GameObject {
 
 protected:
@@ -19,7 +37,7 @@ protected:
 	FunctorVoid mOnPressedFunctor;
 	FunctorVoid mOnReleasedFunctor;
 
-	FunctorVoid mOnTextChangedFunctor;
+	FunctorOnTextChanged mOnTextChangedFunctor;
 	FunctorVoid mOnFocusLostFunctor;
 
 	Collider* mCollider;
@@ -66,8 +84,9 @@ public:
 		mOnReleasedFunctor.setCallback(callback);
 	}
 
-	void setOnTextChangedCallback(std::function<void()> callback) {
+	void setOnTextChangedCallback(std::function<void(UIElement* uiElement)> callback) {
 		//mOnFocusLostFunctor.setCallback(callback);
+		mOnTextChangedFunctor.mUIElement = this;
 		mOnTextChangedFunctor.setCallback(callback);
 	}
 

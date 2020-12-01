@@ -4,6 +4,7 @@
 #include "Script.hpp"
 #include "Vector2.hpp"
 #include <string>
+#include <functional>
 
 namespace DE {
 
@@ -13,8 +14,10 @@ class RigidBody;
 class Collider;
 class GameObject;
 class Camera;
+class UIElement;
 class UIButton;
 class UIText;
+class UITextEditable;
 class Texture;
 class Material;
 template<class K, class V> class HashMap;
@@ -31,7 +34,7 @@ private:
 
 public:
 
-	f32 mDrawTileSize = 1;
+	Vector2 mDrawTileSize = Vector2(1,1);
 	u32 mLastIndex = 0;
 	u32 mBrushMaxGridSize = 16;
 	Vector2 mBrushGridSize = Vector2(1,1);
@@ -41,77 +44,80 @@ public:
 	DE_CLASS(Brush, DE_Class);
 
 	void init(MapEditor* mapEditor);
-	void addTile(GameObject* tile, Vector2 atlasPosition);
+	void clickTile(UIButton* tileButton, Vector2 atlasPosition);
 	GameObject* getTile(u32 i, u32 j);
 	void free();
 	void clear();
-	void setDrawTileSize(f32 size);
+	void setDrawTileSize(const Vector2& size);
 };
 
+// Vector2 Text Editable
+class TextEditableVector2 {
+public:
+	UITextEditable* TextEditableX = nullptr;
+	UITextEditable* TextEditableY = nullptr;
+};
 
+/**
+ * @brief
+ */
 class MapEditorUI : public DE_Class{
 
 private:
 
+	// STRINGS
 	class StringsUI {
 	public:
-		std::string smTile = "Tile";
-		std::string smZoom = "Zoom";
-		std::string smBrush = "Brush";
-		std::string smSave = "Save";
-		std::string smCollider = "Colliders";
-		std::string smAtlas = "Atlas";
-		std::string smPlay = "Play";
-		std::string smCreateSprite = "Create Sprite";
-		std::string smInspectorTileX = "x:";
-		std::string smInspectorTileY = "y:";
-		std::string smInspectorTileCollider = "collider:";
-		std::string smInspectorTileTag = "tag:";
-		std::string smInspectorSize = "size:";
-		std::string smInspectorSizeCollider = "collider size:";
-		std::string smInspectorPosCollider = "collider offset:";
-		std::string smGrid = "Grid";
+		std::string Tile = "Tile";
+		std::string Zoom = "Zoom";
+		std::string Brush = "Brush";
+		std::string Save = "Save";
+		std::string Collider = "Colliders";
+		std::string Atlas = "Atlas";
+		std::string Play = "Play";
+		std::string AddSprite = "Add Sprite";
+		std::string InspectorTileX = "x:";
+		std::string InspectorTileY = "y:";
+		std::string InspectorTileCollider = "collider:";
+		std::string InspectorTileTag = "tag:";
+		std::string InspectorSize = "size:";
+		std::string InspectorSizeCollider = "collider size:";
+		std::string InspectorPosCollider = "collider offset:";
+		std::string Grid = "Grid";
 	};
 
 	const StringsUI mStringsUI;
 
+	// ATLAS
 	std::string mAtlasSelectorUIGroup = "atlasSelector";
 	std::string mAtlasUIGroup = "atlas";
-	std::string mSpritesUIGroup = "sprites";
-
 	Array<UIButton*>* mAtlasButtons = nullptr;
 	bool mIsAtlasShow = true;
 	GameObject* mAtlasBackground = nullptr;
 
-	MapEditor* mMapEditor;
+	// SPRITES
+	std::string mSpritesUIGroup = "sprites";
+	Array<UIButton*>* mSpriteButtons = nullptr;
 
-	UIText* mTextTile = nullptr;
-	UIText* mTextZoom = nullptr;
-	UIText* mTextBrush = nullptr;
+	// GRID
+	bool mIsGridShow = false;
 
-	UIText* mTextInspectorTag = nullptr;
+	// LAYERS
+	Array<UIButton*>* mLayerButtons = nullptr;
+
+	// INSPECTOR
 	UIText* mTextBoxTag = nullptr;
 	UIText* mTextInspectorX = nullptr;
 	UIText* mTextInspectorY = nullptr;
-	UIText* mTextInspectorCollider = nullptr;
-	UIText* mTextTileSize = nullptr;
 	UIText* mTextBoxSizeX = nullptr;
 	UIText* mTextBoxSizeY = nullptr;
-	UIText* mTextColliderPos = nullptr;
-	UIText* mTextColliderSize = nullptr;
 	UIText* mTextBoxColliderPosX = nullptr;
 	UIText* mTextBoxColliderPosY = nullptr;
 	UIText* mTextBoxColliderSizeX = nullptr;
 	UIText* mTextBoxColliderSizeY = nullptr;
-
 	UIButton* mButtonInspectorCollider = nullptr;
 
-	Vector2 mTextSize = Vector2(0.04f / 1.5f, 0.04f);
-
-	Array<UIButton*>* mSpriteButtons = nullptr;
-	Array<UIButton*>* mLayerButtons = nullptr;
-
-	bool mIsGridShow = false;
+	MapEditor* mMapEditor;
 
 public:
 
@@ -127,15 +133,22 @@ public:
 	void createBrush();
 	void resetBrush();
 
+	void createPanel(const Vector2& position, const Vector2& size);
+
+	void addMenuEntry(const std::string& title, std::function<void()> onPressedCallback);
 	void createMenuBar();
 
+	UIText* createInspectorLabel(const std::string& text);
+	UITextEditable* createInspectorTextBoxSimple(const std::string& text, std::function<void(UIElement* uiElement)> onTextChangedCallback);
+	UITextEditable* createInspectorTextBoxLabeled(const std::string& textLabel, const std::string& text, std::function<void(UIElement* uiElement)> onTextChangedCallback);
+	TextEditableVector2 createInspectorTextBoxVector2(const std::string& textLabel, std::function<void(UIElement* uiElement)> onTextChangedCallbackX, std::function<void(UIElement* uiElement)> onTextChangedCallbackY);
 	void createInspector();
 
 	void createAtlasSelector();
 	void createAtlas(u32 index, Material* material);
 	void toggleAtlas();
 
-	void createSprites();
+	void createSpriteFromBrush();
 
 	void createLayersBar();
 

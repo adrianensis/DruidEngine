@@ -90,7 +90,7 @@ GameObject* Grid::CellData::get(u32 layer) {
 
 Grid::Grid() : DE_Class() {
 	mScene = nullptr;
-	mGridTileSize = 0;
+	mGridTileSize = 1;
 }
 
 // ---------------------------------------------------------------------------
@@ -116,14 +116,14 @@ Grid::~Grid() {
 
 // ---------------------------------------------------------------------------
 
-GameObject* Grid::createTile(f32 x, f32 y, f32 size, Material* material, u32 layer) {
+GameObject* Grid::createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer) {
 	//Vector2 size(mMapEditorUI.mBrush.mDrawTileSize, mMapEditorUI.mBrush.mDrawTileSize);
 
 	GameObject* tile = Memory::allocate<GameObject>();
 	tile->init();
 
 	tile->getTransform()->setLocalPosition(Vector3(x, y, 0));
-	tile->getTransform()->setScale(Vector3(size, size, 1));
+	tile->getTransform()->setScale(Vector3(size, 1));
 
 	Renderer* renderer = Memory::allocate<Renderer>();
 	tile->addComponent<Renderer>(renderer);
@@ -172,10 +172,11 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 
 // ---------------------------------------------------------------------------
 
-void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, u32 tileSize, u32 layer) {
+void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
 
-	f32 halfSize = (mGridSize * mGridTileSize / 2.0f);
-	if (std::fabs(clampedPosition.x) < halfSize && std::fabs(clampedPosition.y) < halfSize) {
+	f32 halfSizeX = (mGridSize * mGridTileSize / 2.0f);
+	f32 halfSizeY = (mGridSize * mGridTileSize / 2.0f);
+	if (std::fabs(clampedPosition.x) < halfSizeX && std::fabs(clampedPosition.y) < halfSizeY) {
 
 		Vector2 gridPosition(clampedPosition.x / mGridTileSize + mGridSize / 2.0f,
 				clampedPosition.y / mGridTileSize + mGridSize / 2.0f);
@@ -250,7 +251,7 @@ bool Grid::isSameTile(GameObject* tileA, GameObject* tileB) {
 	return false;
 }
 
-void Grid::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, u32 size, u32 layer) {
+void Grid::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, const Vector2& size, u32 layer) {
 	if(brushTile){
 
 		GameObject* lastTile = cellData->get(layer);
