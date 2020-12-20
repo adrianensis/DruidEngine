@@ -14,14 +14,16 @@ class UIGroup;
 
 class UIElement;
 
-using OnTextChangedCallback = std::function<void(UIElement* uiElement)>;
+using UIElementCallback = std::function<void(UIElement* uiElement)>;
 
-class FunctorOnTextChanged : public Functor<OnTextChangedCallback> {
+class FunctorUIElement : public Functor<UIElementCallback> {
 public:
+	DE_GENERATE_METADATA(FunctorUIElement, Functor<UIElementCallback>);
+
 	UIElement* mUIElement = nullptr;
 
-	FunctorOnTextChanged() = default;
-	~FunctorOnTextChanged() override = default;
+	FunctorUIElement():Functor<UIElementCallback>() {};
+	~FunctorUIElement() override {};
 
 	virtual void execute() override {
 		if (mCallback)
@@ -34,11 +36,11 @@ class UIElement: public GameObject {
 
 protected:
 
-	FunctorVoid mOnPressedFunctor;
-	FunctorVoid mOnReleasedFunctor;
+	FunctorUIElement mOnPressedFunctor;
+	FunctorUIElement mOnReleasedFunctor;
 
-	FunctorOnTextChanged mOnTextChangedFunctor;
-	FunctorVoid mOnFocusLostFunctor;
+	FunctorUIElement mOnTextChangedFunctor;
+	FunctorUIElement mOnFocusLostFunctor;
 
 	Collider* mCollider;
 	Renderer* mRenderer;
@@ -76,21 +78,23 @@ public:
 	virtual void onFocusLost();
 	void onFocus();
 
-	void setOnPressedCallback(std::function<void()> callback) {
+	void setOnPressedCallback(UIElementCallback callback) {
+		mOnPressedFunctor.mUIElement = this;
 		mOnPressedFunctor.setCallback(callback);
 	}
 
-	void setOnReleasedCallback(std::function<void()> callback) {
+	void setOnReleasedCallback(UIElementCallback callback) {
+		mOnReleasedFunctor.mUIElement = this;
 		mOnReleasedFunctor.setCallback(callback);
 	}
 
-	void setOnTextChangedCallback(std::function<void(UIElement* uiElement)> callback) {
-		//mOnFocusLostFunctor.setCallback(callback);
+	void setOnTextChangedCallback(UIElementCallback callback) {
 		mOnTextChangedFunctor.mUIElement = this;
 		mOnTextChangedFunctor.setCallback(callback);
 	}
 
-	void setOnFocusLostCallback(std::function<void()> callback) {
+	void setOnFocusLostCallback(UIElementCallback callback) {
+		mOnFocusLostFunctor.mUIElement = this;
 		mOnFocusLostFunctor.setCallback(callback);
 	}
 

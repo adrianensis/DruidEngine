@@ -14,6 +14,10 @@ namespace DE {
  */
 
 void Allocator::checkAllocate(u32 size) const {
+	/*VAR(u32, mTotalSize)
+	VAR(u32, mAllocatedSize)
+	VAR(u32, size)
+	VAR(u32, mAllocatedSize + size)*/
 	DE_ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
 }
 

@@ -65,7 +65,7 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(DynamicArray<T>, SequentialContainer<T>);
+	DE_CLASS_TEMPLATE(DynamicArray<T>, SequentialContainer<T>, T);
 
 	/*!
 	 \brief Default Constructor.
@@ -143,7 +143,7 @@ public:
 	 \param rawArray The raw array.
 	 \param length The length of the raw array.
 	 */
-	void init(const T *rawArray, u32 length) override {
+	void init(const T rawArray[], u32 length) override {
 		DynamicArray::init(rawArray, length, 1);
 	}
 
@@ -155,7 +155,7 @@ public:
 	 \param length The length of the raw array.
 	 \param alignment Bytes alignment.
 	 */
-	void init(const T *rawArray, u32 length, u32 alignment) override {
+	void init(const T rawArray[], u32 length, u32 alignment) override {
 		BaseContainer::setAllocator(&Memory::getGlobal());
 		Array<T>* array = Memory::allocate<Array<T>>(alignment);
 		array->init(rawArray, length);

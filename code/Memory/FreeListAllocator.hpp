@@ -42,11 +42,9 @@ private:
 	// List<Block>* mFreeBlocks; // TODO: change to Block*
 	// List<Block>* mUsedBlocks;
 
-	Block* firstBlockUsed;
-	Block* lastBlockUsed;
-	Block* firstBlockFree;
-	Block* lastBlockFree;
-
+	Block* mFirstBlockUsed;
+	Block* mFirstBlockFree;
+	
 	void moveToUsedList(Block *block);
 	void moveToFreeList(Block *block);
 

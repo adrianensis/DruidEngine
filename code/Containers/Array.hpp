@@ -43,12 +43,12 @@ private:
 
 	// ---------------------------------------------------------------------------
 
-	void raw_init(const T *rawArray, u32 length, u32 elementSize) {
+	void raw_init(const T rawArray[], u32 length, u32 elementSize) {
 		raw_init(length, elementSize, 1);
 		raw_set(reinterpret_cast<const byte*>(rawArray));
 	}
 
-	void raw_init(const T *rawArray, u32 length, u32 elementSize, u32 alignment) {
+	void raw_init(const T rawArray[], u32 length, u32 elementSize, u32 alignment) {
 		raw_init(length, elementSize, alignment);
 		raw_set(reinterpret_cast<const byte*>(rawArray));
 	}
@@ -95,12 +95,12 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	DE_GENERATE_METADATA(Array<T>, SequentialContainer<T>);
+	DE_CLASS_TEMPLATE(Array<T>, SequentialContainer<T>, T);
 
 	/*!
 	 \brief Default Constructor.
 	 */
-	Array() : 	SequentialContainer<T>()/*, BaseArray()*/{
+	Array() : 	SequentialContainer<T>(){
 		mStart = nullptr;
 		mTStart = nullptr;
 	}
@@ -140,14 +140,14 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void init(const T *rawArray, u32 length) override {
+	void init(const T rawArray[], u32 length) override {
 		raw_init(rawArray, length, sizeof(T));
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
 	// ---------------------------------------------------------------------------
 
-	void init(const T *rawArray, u32 length, u32 alignment) override {
+	void init(const T rawArray[], u32 length, u32 alignment) override {
 		raw_init(rawArray, length, sizeof(T), alignment);
 		mTStart = reinterpret_cast<T*>(mStart);
 	}

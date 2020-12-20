@@ -85,6 +85,7 @@ Batch::~Batch() {
 
 	Memory::free<Array<f32>>(mPositionBuffer);
 	Memory::free<Array<f32>>(mTextureBuffer);
+	Memory::free<Array<f32>>(mColorBuffer);
 	Memory::free<Array<u32>>(mFacesBuffer);
 
 	glDeleteVertexArrays(1, &mVAO);

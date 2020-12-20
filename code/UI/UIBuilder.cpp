@@ -30,7 +30,9 @@ UIElementData::UIElementData() : DE_Class() {
 UIElementData::~UIElementData() = default;
 
 void UIElementData::init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer){
+	mElementType = UIElementType::PANEL;
 	mPosition = position;
+	mDisplayPosition = Vector2(0,0);
 	mSize = size;
 	mText = text;
 	mLayer = layer;
@@ -69,8 +71,8 @@ UIBuilder::~UIBuilder() {
 void UIBuilder::calculateData(){
 
 	if(mData.mAdjustSizeToText) {
-		f32 offset = mData.mTextSize.x;
-		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) + offset;
+		f32 textOffset = mData.mTextSize.x;
+		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) + textOffset;
 		mData.mSize.y = mData.mTextSize.y;
 	}
 
@@ -79,20 +81,29 @@ void UIBuilder::calculateData(){
 
 		switch (mCurrentLayout) {
 			case UILayout::HORIZONTAL: {
-				f32 lastElementHalfSize = mLastData.mSize.x / 2.0f;
-				f32 newElementHalfSize = mData.mSize.x / 2.0f;
-				offset = Vector2(lastElementHalfSize + newElementHalfSize + mData.mSeparatorSize, 0);
+				offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
 				break;
 			}
 			case UILayout::VERTICAL:{
-				f32 lastElementHalfSize = mLastData.mSize.y / 2.0f;
-				f32 newElementHalfSize = mData.mSize.y / 2.0f;
-				offset = Vector2(0, -(lastElementHalfSize + newElementHalfSize + mData.mSeparatorSize));
+				offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
 				break;
 			}
 		}
 
 		mData.mPosition = mLastData.mPosition + offset;
+	}
+
+	// Offset the UI Element so its Top-Left corner is the origin.
+	mData.mDisplayPosition = mData.mPosition;
+	switch (mData.mElementType) {
+		case UIElementType::TEXT:
+		case UIElementType::TEXTEDITABLE:
+			mData.mDisplayPosition.x += mData.mTextSize.x/2.0f;
+			mData.mDisplayPosition.y -= mData.mTextSize.y/2.0f;
+			break;
+		default:
+			mData.mDisplayPosition.x += mData.mSize.x/2.0f;
+			mData.mDisplayPosition.y -= mData.mSize.y/2.0f;
 	}
 }
 
@@ -123,7 +134,7 @@ UIElement* UIBuilder::createPanel() {
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
 	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
@@ -162,7 +173,7 @@ UIButton* UIBuilder::createButton() {
 	uiButton->init();
 	uiButton->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
 	Vector3 size = mData.mSize;
 	size.z = 1;
@@ -192,7 +203,6 @@ UIButton* UIBuilder::createButton() {
 
 	uiButton->setComponentsCache();
 
-
 	mScene->addGameObject(uiButton);
 
 	uiButton->setText(mData.mText);
@@ -215,7 +225,7 @@ UIText* UIBuilder::createText() {
 	uiText->init();
 	uiText->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
@@ -247,7 +257,7 @@ UITextEditable* UIBuilder::createTextEditable() {
 	uiText->init();
 	uiText->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
@@ -317,7 +327,7 @@ UIDropdown* UIBuilder::createDropdown() {
 	uiDropdown->init();
 	uiDropdown->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mPosition.x / RenderContext::getAspectRatio(), mData.mPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
 	uiDropdown->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiDropdown->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
@@ -343,7 +353,7 @@ UIDropdown* UIBuilder::createDropdown() {
 
 	uiDropdown->setComponentsCache();
 
-	uiDropdown->setOnPressedCallback([self = uiDropdown]() {
+	uiDropdown->setOnPressedCallback([self = uiDropdown](UIElement* uiElement) {
 		self->toggle();
 	});
 
@@ -364,6 +374,8 @@ UIDropdown* UIBuilder::createDropdown() {
 // ---------------------------------------------------------------------------
 
 UIBuilder* const UIBuilder::create(UIElementType type) {
+
+	mData.mElementType = type;
 
 	switch (type) {
 		case UIElementType::PANEL:

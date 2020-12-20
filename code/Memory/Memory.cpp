@@ -33,7 +33,8 @@ void Memory::init() {
 
 	smGlobal.init(2 * GB);
 
-	ECHO("TOTAL MEMORY (IN MB)");VAL(f32,(smGlobal.getTotalSize() / MB));
+	ECHO("TOTAL MEMORY (IN MB)");
+	VAL(f32,(smGlobal.getTotalSize() / MB));
 }
 
 // ---------------------------------------------------------------------------

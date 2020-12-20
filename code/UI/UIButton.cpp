@@ -21,8 +21,6 @@ UIButton::~UIButton() = default;
 
 void UIButton::init() {
 	UIElement::init();
-
-	subscribeToMouseButtonEvents();
 }
 
 void UIButton::setText(const std::string &text) {

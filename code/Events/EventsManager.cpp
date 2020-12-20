@@ -6,31 +6,43 @@
 namespace DE {
 
 EventsManager::EventsManager() : DE_Class() {
-	mEventsMap = nullptr;
+	mOwnersReceiversMap = nullptr;
 }
 
 EventsManager::~EventsManager() {
-	if(mEventsMap){
-		FOR_LIST(it, mEventsMap->getValues()) {
-			Memory::free<HashMap<DE_Class*, EventFunctor<Event>>>(it.get());
+	if(mOwnersReceiversMap){
+		removeMapContent();
+		Memory::free<OwnersReceiversMap>(mOwnersReceiversMap);
+	}
+}
+
+void EventsManager::removeMapContent(){
+	FOR_LIST(itEventReceivers, mOwnersReceiversMap->getValues()) {
+		FOR_LIST(itFunctor, itEventReceivers.get()->getValues()) {
+			Memory::free<ReceiverFunctorsMap>(itFunctor.get());
 		}
 
-		Memory::free<HashMap<ClassId, HashMap<DE_Class*, EventFunctor<Event>>*>>(mEventsMap);
+		Memory::free<EventReceiversMap>(itEventReceivers.get());
 	}
 }
 
 void EventsManager::init(){
-	mEventsMap = Memory::allocate<HashMap<ClassId, HashMap<DE_Class*, EventFunctor<Event>>*>>();
-	mEventsMap->init();
+	mOwnersReceiversMap = Memory::allocate<OwnersReceiversMap>();
+	mOwnersReceiversMap->init();
 }
 
-void EventsManager::subscribe(ClassId eventClassId, DE_Class* eventReceiver, EventCallback eventCallback){
+void EventsManager::subscribe(ClassId eventClassId, DE_Class* eventOwner, DE_Class* eventReceiver, EventCallback eventCallback){
 
-	if(!mEventsMap->contains(eventClassId)){
-		HashMap<DE_Class*, EventFunctor<Event>>* subMap = Memory::allocate<HashMap<DE_Class*, EventFunctor<Event>>>();
-		subMap->init();
+	if(!mOwnersReceiversMap->contains(eventOwner)){
+		EventReceiversMap* eventsReceiverMap = Memory::allocate<EventReceiversMap>();
+		eventsReceiverMap->init();
+		mOwnersReceiversMap->set(eventOwner, eventsReceiverMap);
+	}
 
-		mEventsMap->set(eventClassId, subMap);
+	if(!mOwnersReceiversMap->get(eventOwner)->contains(eventClassId)){
+		ReceiverFunctorsMap* receiversFunctorMap = Memory::allocate<ReceiverFunctorsMap>();
+		receiversFunctorMap->init();
+		mOwnersReceiversMap->get(eventOwner)->set(eventClassId, receiversFunctorMap);
 	}
 
 	EventFunctor<Event> eventFunctor;
@@ -38,60 +50,45 @@ void EventsManager::subscribe(ClassId eventClassId, DE_Class* eventReceiver, Eve
 	eventFunctor.mEventClassId = eventClassId;
 	eventFunctor.mEventReceiver = eventReceiver;
 
-	mEventsMap->get(eventClassId)->set(eventReceiver, eventFunctor);
-
-	//TRACE();
-	//VAR(u32, mEventsMap->get(eventClassId)->getValues()->getLength())
+	mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->set(eventReceiver, eventFunctor);
 }
 
-void EventsManager::unsubscribe(ClassId eventClassId, DE_Class* eventReceiver){
-	if(mEventsMap->contains(eventClassId)){
-		if(mEventsMap->get(eventClassId)->contains(eventReceiver)){
-			mEventsMap->get(eventClassId)->remove(eventReceiver);
-			//TRACE();
-			//VAR(u32, mEventsMap->get(eventClassId)->getValues()->getLength())
-
-			/*if(mEventsMap->get(eventClassId)->contains(eventReceiver)){
-				ECHO("true")
-			} else {
-				ECHO("false")
-			}*/
+void EventsManager::unsubscribe(ClassId eventClassId, DE_Class* eventOwner, DE_Class* eventReceiver){
+	if(mOwnersReceiversMap->contains(eventOwner)){
+		if(mOwnersReceiversMap->get(eventOwner)->contains(eventClassId)){
+			if(mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->contains(eventReceiver)){
+				mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->remove(eventReceiver);
+			}
 		}
 	}
 }
 
-void EventsManager::send(DE_Class* sender, Event* event) {
-	ClassId eventClassId = event->getClassId();
-	if(mEventsMap->contains(eventClassId)){
-		List<EventFunctor<Event>>* eventFunctors = Memory::allocate<List<EventFunctor<Event>>>();
-		eventFunctors->init(*mEventsMap->get(eventClassId)->getValues());
+void EventsManager::send(DE_Class* eventOwner, DE_Class* eventInstigator, Event* event) {
+	if(mOwnersReceiversMap->contains(eventOwner)){
 
-		//TRACE();
-		//VAR(u32, mEventsMap->get(eventClassId)->getValues()->getLength())
-		FOR_LIST(it, mEventsMap->get(eventClassId)->getValues()){
-			EventFunctor<Event> functor = it.get();
-			functor.mEvent = event;
-			functor.mEvent->mSender = sender;
-			functor.execute();
+		ClassId eventClassId = event->getClassId();
+		if(mOwnersReceiversMap->get(eventOwner)->contains(eventClassId)){
+			// Duplicate List. New event-receivers can subscribe during the iteration.
+			// So we don't want to iterate a mutable list.
+			List<EventFunctor<Event>>* eventFunctors = Memory::allocate<List<EventFunctor<Event>>>();
+			eventFunctors->init(*mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->getValues());
+
+			FOR_LIST(it, mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->getValues()){
+				EventFunctor<Event> functor = it.get();
+				functor.mEvent = event;
+				functor.mEvent->mInstigator = eventInstigator;
+				functor.execute();
+			}
+
+			Memory::free<List<EventFunctor<Event>>>(eventFunctors);
 		}
-		//ECHO("End Send")
-		//BRLINE()
-
-		Memory::free<List<EventFunctor<Event>>>(eventFunctors);
 	}
-}
-
-void EventsManager::step() {
-
 }
 
 void EventsManager::terminate(){
-	if(mEventsMap){
-		FOR_LIST(it, mEventsMap->getValues()) {
-			Memory::free<HashMap<DE_Class*, EventFunctor<Event>>>(it.get());
-		}
-
-		mEventsMap->clear();
+	if(mOwnersReceiversMap){
+		removeMapContent();
+		mOwnersReceiversMap->clear();
 	}
 }
 

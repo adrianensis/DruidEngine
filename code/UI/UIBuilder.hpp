@@ -41,7 +41,9 @@ public:
 
 	DE_CLASS(UIElementData, DE_Class);
 
+	UIElementType mElementType;
 	Vector2 mPosition;
+	Vector2 mDisplayPosition;
 	Vector2 mSize;
 	Vector2 mTextSize;
 	std::string mText;
@@ -62,7 +64,9 @@ public:
 		if(&otherData == this)
 			return *this;
 
+		mElementType = otherData.mElementType;
 		mPosition = otherData.mPosition;
+		mDisplayPosition = otherData.mDisplayPosition;
 		mSize = otherData.mSize;
 		mTextSize = otherData.mTextSize;
 		mText = otherData.mText;

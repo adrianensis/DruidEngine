@@ -5,7 +5,7 @@ namespace DE {
 Event::Event() : DE_Class() {
 	mDelayAmount = 0;
 	mDelayType = TimerDurationType::NONE;
-	mSender = nullptr;
+	mInstigator = nullptr;
 }
 
 Event::~Event() {

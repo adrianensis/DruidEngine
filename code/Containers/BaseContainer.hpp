@@ -3,6 +3,7 @@
 
 #include "Basic.hpp"
 #include "Allocator.hpp"
+#include <string>
 
 namespace DE {
 

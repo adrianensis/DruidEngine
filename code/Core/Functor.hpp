@@ -7,15 +7,18 @@
 namespace DE {
 
 template <class T>
-class Functor {
+class Functor: public DE_Class {
 
 protected:
 
 	T mCallback;
 
 public:
-	Functor() = default;
-	virtual ~Functor() = default;
+
+	DE_CLASS_TEMPLATE(Functor<T>, DE_Class, T);
+
+	Functor() : DE_Class(){};
+	virtual ~Functor() override {};
 
 	virtual void execute() = 0;
 
@@ -42,8 +45,11 @@ public:
 
 class FunctorVoid : public Functor<std::function<void()>> {
 public:
-	FunctorVoid() = default;
-	~FunctorVoid() override = default;
+
+	DE_GENERATE_METADATA(FunctorVoid, Functor<std::function<void()>>);
+
+	FunctorVoid() : Functor<std::function<void()>>(){};
+	virtual ~FunctorVoid() override {};
 
 	virtual void execute() override {
 		if (mCallback)

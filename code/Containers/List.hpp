@@ -17,14 +17,13 @@ class List;
 
 class Iterator: public DE_Class {
 
-public:DE_GENERATE_METADATA(Iterator, DE_Class);
+public:
 
-	Iterator() {
-	};
+	DE_GENERATE_METADATA(Iterator, DE_Class);
 
-	virtual ~Iterator() override {
-	};
+	Iterator() { };
 
+	virtual ~Iterator() override { };
 
 	virtual bool isNull() const = 0;
 
@@ -55,10 +54,9 @@ private:
 		List<T>::Node* mPrev;
 		T mElement;
 
-		DE_GENERATE_METADATA(Node, DE_Class)
-		;
+		DE_CLASS_TEMPLATE(Node, DE_Class, T);
 
-		Node() : 		DE_Class() {
+		Node() : DE_Class() {
 		}
 
 		virtual ~Node() override {
@@ -157,7 +155,7 @@ public:
 
 	public:
 
-		DE_GENERATE_METADATA(ListIterator, Iterator);
+		DE_CLASS_TEMPLATE(ListIterator, Iterator, T);
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;
@@ -379,7 +377,7 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(List<T>, SequentialContainer<T>);
+	DE_CLASS_TEMPLATE(List<T>, SequentialContainer<T>, T);
 
 
 	List() : 	SequentialContainer<T>() {
@@ -421,7 +419,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void init(const T *rawArray, u32 length) override {
+	void init(const T rawArray[], u32 length) override {
 		List::init();
 		const T* typedArray = reinterpret_cast<const T*>(rawArray);
 
@@ -431,7 +429,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	void init(const T *rawArray, u32 length, u32 alignment) override {
+	void init(const T rawArray[], u32 length, u32 alignment) override {
 		List::init(rawArray, length);
 	}
 

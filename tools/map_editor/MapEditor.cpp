@@ -133,8 +133,6 @@ void MapEditor::firstStep() {
 
 	mMapEditorUI.init(this);
 
-
-
 	//createPlayer();
 }
 

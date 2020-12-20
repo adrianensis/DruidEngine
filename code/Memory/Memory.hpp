@@ -63,7 +63,7 @@ public:
 	static T* allocate() {
 		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
 
-		std::string className = T::getClassNameStatic();
+		std::string className(T::getClassNameStatic());
 		//className = className + " " + typeid(T).name();
 
 		if(memoryMapCounter.find(className) == memoryMapCounter.end()){
@@ -82,7 +82,7 @@ public:
 		if (pointer) {
 			//ECHO("MEMORY FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
 
-			std::string className = pointer->getClassName();
+			std::string className(pointer->getClassName());
 			//className = className + " " + typeid(T).name();
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){

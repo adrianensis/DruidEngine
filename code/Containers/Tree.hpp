@@ -25,8 +25,7 @@ private:
 		T mElement;
 		Array<Node*>* mChildren;
 
-		DE_GENERATE_METADATA(Node, DE_Class)
-		;
+		DE_CLASS_TEMPLATE(Node, DE_Class, T);
 
 		Node() : 		DE_Class() {
 			mChildren = nullptr;
@@ -129,7 +128,7 @@ private:
 
 public:
 
-	DE_GENERATE_METADATA(Tree<T>, BaseContainer);
+	DE_CLASS_TEMPLATE(Tree<T>, BaseContainer, T);
 
 	Tree() : 	BaseContainer() {
 		mRoot = nullptr;

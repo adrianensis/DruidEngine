@@ -33,12 +33,12 @@ protected:
 
 public:
 
-	DE_GENERATE_METADATA(SequentialContainer<T>, BaseContainer);
+	DE_CLASS_TEMPLATE(SequentialContainer<T>, BaseContainer, T);
 
 	/*!
 	 \brief Default Constructor.
 	 */
-	SequentialContainer() : 	BaseContainer() {
+	SequentialContainer() : BaseContainer() {
 
 	};
 
@@ -72,7 +72,7 @@ public:
 	 \param rawArray The raw array.
 	 \param length The length of the raw array.
 	 */
-	virtual void init(const T *rawArray, u32 length) = 0;
+	virtual void init(const T rawArray[], u32 length) = 0;
 
 	// ---------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ public:
 	 \param length The length of the raw array.
 	 \param alignment Bytes alignment.
 	 */
-	virtual void init(const T *rawArray, u32 length, u32 alignment) = 0;
+	virtual void init(const T rawArray[], u32 length, u32 alignment) = 0;
 
 	// ---------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@
 #define DE_HASH_H
 
 #include "BasicTypes.hpp"
+#include "Assert.hpp"
 #include <string>
 
 namespace DE {
@@ -35,44 +36,18 @@ public:
 
 	template<class H>
 	static u64 hash(H key) {
-		if (std::is_base_of<Hash, H>::value) {
+		if constexpr (std::is_base_of<Hash, H>::value) {
 			return ((Hash*) &key)->hash();
-		} else if (std::is_pointer<int*>::value) {
+		} else if constexpr (std::is_integral<H>::value || std::is_pointer<H>::value) {
 			return (u64) key;
+		} else {
+			DE_ASSERT(false, "Object or Class is not Hash compatible.");
 		}
 	}
-
 };
 
-template<>
-u64 Hash::hash<std::string>(std::string key);
-
-template<>
-u64 Hash::hash<const c8*>(const c8 *key);
-
-template<>
-u64 Hash::hash<u64>(u64 key);
-
-template<>
-u64 Hash::hash<u32>(u32 key);
-
-template<>
-u64 Hash::hash<i32>(i32 key);
-
-template<>
-u64 Hash::hash<i64>(i64 key);
-
-template<>
-u64 Hash::hash<u16>(u16 key);
-
-template<>
-u64 Hash::hash<i16>(i16 key);
-
-template<>
-u64 Hash::hash<u8>(u8 key);
-
-template<>
-u64 Hash::hash<i8>(i8 key);
+template<> u64 Hash::hash<std::string>(std::string key);
+template<> u64 Hash::hash<const c8 *>(const c8 * key);
 
 } /* namespace DE */
 

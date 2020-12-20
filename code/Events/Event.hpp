@@ -22,19 +22,17 @@ namespace DE {
 #define DE_EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
 public: \
 	DE_GENERATE_METADATA(EventClassName, Event); \
-	EventClassName() = default; \
-~EventClassName() override = default; \
+	EventClassName():Event() {}; \
+	~EventClassName() override {}; \
 
 #define DE_EVENT_DECLARATION_END(EventClassName) };
-
-
 
 class Event : public DE_Class{
 
 public:
 	DE_CLASS(Event, DE_Class);
 
-	DE_Class* mSender;
+	DE_Class* mInstigator;
 
 	TimerDurationType mDelayType;
 	f32 mDelayAmount;
@@ -46,7 +44,7 @@ public:
 	        return *this;
 
 	    // do the copy
-	    mSender = event.mSender; // can handle self-assignment
+	    mInstigator = event.mInstigator; // can handle self-assignment
 	    mDelayType = event.mDelayType; // can handle self-assignment
 	    mDelayAmount = event.mDelayAmount;
 
@@ -60,12 +58,14 @@ template<class E>
 class EventFunctor : public Functor<EventCallback> {
 
 public:
+	DE_GENERATE_METADATA(EventFunctor, Functor<EventCallback>);
+
 	E* mEvent = nullptr;
 	ClassId mEventClassId = 0;
 	DE_Class* mEventReceiver = nullptr;
 
-	EventFunctor() = default;
-	~EventFunctor() override = default;
+	EventFunctor():Functor<EventCallback>() {};
+	~EventFunctor() override {};
 
 	void execute() override {
 		if(mCallback){

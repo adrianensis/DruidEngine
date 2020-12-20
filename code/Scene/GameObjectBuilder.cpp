@@ -34,6 +34,8 @@ GameObjectBuilder* GameObjectBuilder::createSprite(Material* material, u32 layer
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(material);
+
+	return this;
 }
 
 GameObject* GameObjectBuilder::getGameObject() {

@@ -227,7 +227,7 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 
 			//mMapEditorUI.updateInspectorOnSelectTile();
 			MapEditorOnSelectTile event;
-			DE_SEND_EVENT(event);
+			DE_SEND_EVENT(this, this, event);
 		}
 	}
 }

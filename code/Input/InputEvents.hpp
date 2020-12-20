@@ -7,7 +7,7 @@
 
 namespace DE {
 
-#define DE_SEND_INPUT_EVENT(event) DE_SEND_EVENT_SPECIFIC_SENDER(Input::getInstance(), event);
+#define DE_SEND_INPUT_EVENT(event) DE_SEND_EVENT(nullptr, Input::getInstance(), event);
 
 DE_EVENT_DECLARATION_BEGIN(InputEventKeyEnter)
 DE_EVENT_DECLARATION_END(InputEventKeyEnter)

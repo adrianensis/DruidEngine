@@ -25,15 +25,15 @@ void FreeListAllocator::Block::init(byte *unalignedAddress, u32 size) {
 // ---------------------------------------------------------------------------
 
 void FreeListAllocator::moveToUsedList(Block *block) {
-	block->next = firstBlockUsed;
-	firstBlockUsed = block;
+	block->next = mFirstBlockUsed;
+	mFirstBlockUsed = block;
 }
 
 // ---------------------------------------------------------------------------
 
 void FreeListAllocator::moveToFreeList(Block *block) {
-	block->next = firstBlockFree;
-	firstBlockFree = block;
+	block->next = mFirstBlockFree;
+	mFirstBlockFree = block;
 }
 
 // ---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ void FreeListAllocator::moveToFreeList(Block *block) {
 FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 	bool found = false;
 
-	Block* it = firstBlockFree;
+	Block* it = mFirstBlockFree;
 	Block* selectedBlock = nullptr;
 	Block* previousBlock = nullptr;
 	Block* previousBlockTmp = nullptr;
@@ -67,7 +67,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 			previousBlock->next = selectedBlock->next; // remove block
 
 		if (!previousBlock)
-			firstBlockFree = selectedBlock->next;
+			mFirstBlockFree = selectedBlock->next;
 
 		selectedBlock->blockStatus = BlockStatus::USED;
 		moveToUsedList(selectedBlock);
@@ -83,7 +83,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 		newFreeBlock->blockStatus = BlockStatus::FREE;
 
 		if (!previousBlock)
-			firstBlockFree = selectedBlock->next;
+			mFirstBlockFree = selectedBlock->next;
 		moveToFreeList(newFreeBlock);
 
 		Block* newUsedBlock = selectedBlock; //Allocator::internalAllocate<Block>(&mLinearAllocator);
@@ -100,7 +100,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 	bool found = false;
 
-	Block* it = firstBlockUsed;
+	Block* it = mFirstBlockUsed;
 	Block* previousBlock = nullptr;
 	Block* previousBlockTmp = nullptr;
 	Block* selectedBlock = nullptr;
@@ -125,7 +125,7 @@ u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 		previousBlock->next = selectedBlock->next; // remove block
 
 	if (!previousBlock)
-		firstBlockUsed = selectedBlock->next;
+		mFirstBlockUsed = selectedBlock->next;
 
 	selectedBlock->blockStatus = BlockStatus::FREE;
 
@@ -194,10 +194,10 @@ void FreeListAllocator::reset() {
 
 	mLinearAllocator.init(std::max(1024.0f * 10.0f, mTotalSize * 0.1f));
 
-	firstBlockFree = Allocator::internalAllocate<Block>(&mLinearAllocator);
-	firstBlockFree->init(mStart, mTotalSize);
+	mFirstBlockFree = Allocator::internalAllocate<Block>(&mLinearAllocator);
+	mFirstBlockFree->init(mStart, mTotalSize);
 
-	firstBlockUsed = nullptr;
+	mFirstBlockUsed = nullptr;
 }
 
 // ---------------------------------------------------------------------------
