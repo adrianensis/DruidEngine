@@ -289,11 +289,6 @@ u32 Batch::render(u32 layer) {
 							addToVertexBuffer(renderer);
 
 							drawCallCounter++;
-
-							if (mRenderEngine->getDebugColliders()) {
-								renderer->renderCollider();
-							}
-
 						}
 					} else if (renderer->isAffectedByProjection() && !chunk->isLoaded()) {
 						internalRemoveRendererFromList(&it, renderers);

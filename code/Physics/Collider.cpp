@@ -354,4 +354,47 @@ bool Collider::checkCollisionRadius(Collider *otherCollider) const {
 
 // ---------------------------------------------------------------------------
 
+void Collider::render() {
+
+	bool isAffectedByProjection = getGameObject()->getTransform()->isAffectedByProjection();
+
+	if (isAffectedByProjection) {
+		Collider* collider = this;
+		f32 lineSize = 1;
+
+		// TODO : make custom debug shapes for rectangle and circle.
+		if(collider->getShape() == ColliderShape::RECTANGLE) {
+			Array<Vector2>* box = collider->getBoundingBox(true);
+
+			RenderEngine::getInstance()->drawLine(Vector3(box->get(0)), Vector3(box->get(1)), lineSize, isAffectedByProjection);
+			RenderEngine::getInstance()->drawLine(Vector3(box->get(1)), Vector3(box->get(2)), lineSize, isAffectedByProjection);
+			RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), lineSize, isAffectedByProjection);
+			RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), lineSize, isAffectedByProjection);
+		}
+
+		if(collider->getShape() == ColliderShape::SPHERE) {
+			Vector3 center = collider->getCenter();
+			Vector2 radiusVector(0,collider->getRadius());
+			Vector3 firstVertex = Vector3(center) + radiusVector;
+			Vector3 lastVertex = firstVertex;
+			Matrix4 rotation;
+			f32 edgesCount = 10;
+
+			FOR_RANGE(i, 0, edgesCount){
+
+				rotation.rotation(Vector3(0,0, i * (360.0f/edgesCount)));
+
+				Vector3 rotatedVector = rotation.mulVector(radiusVector);
+				rotatedVector += Vector3(center);
+
+				RenderEngine::getInstance()->drawLine( lastVertex, rotatedVector, lineSize, isAffectedByProjection);
+
+				lastVertex = rotatedVector;
+			}
+
+			RenderEngine::getInstance()->drawLine( lastVertex, firstVertex, lineSize, isAffectedByProjection);
+		}
+	}
+}
+
 } /* namespace DE */

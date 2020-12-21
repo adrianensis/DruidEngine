@@ -128,6 +128,8 @@ public:
 	ColliderStatus testSphereSphere(Collider *otherCollider);
 
 	ColliderStatus testPoint(Vector2 point);
+
+	void render();
 };
 } /* namespace DE */
 #endif /* DE_COLLIDER_H */

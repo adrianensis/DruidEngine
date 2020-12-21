@@ -7,6 +7,7 @@
 #include "Memory.hpp"
 #include "Log.hpp"
 #include "RenderEngine.hpp"
+#include "PhysicsEngine.hpp"
 #include "Renderer.hpp"
 #include "Settings.hpp"
 #include "ContactsManager.hpp"
@@ -211,6 +212,10 @@ void QuadTree::Node::update(/*contactManager*/) {
 		FOR_LIST(itA, mColliders) {
 
 			Collider* colliderA = itA.get();
+
+			if(PhysicsEngine::getInstance()->shouldDebugColliders()) {
+				colliderA->render();
+			}
 
 			if (colliderA->isActive()) {
 				if (colliderA->isSimulate()) {

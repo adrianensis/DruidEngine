@@ -26,6 +26,7 @@
 #include "MaterialManager.hpp"
 #include "Animation.hpp"
 
+#include "PhysicsEngine.hpp"
 #include "Collider.hpp"
 #include "RigidBody.hpp"
 
@@ -233,7 +234,7 @@ void MapEditorUI::createMenuBar() {
 	});
 
 	addMenuEntry(mStringsUI.Collider,[&](UIElement* uiElement) {
-		RenderEngine::getInstance()->setDebugColliders(!RenderEngine::getInstance()->getDebugColliders());
+		PhysicsEngine::getInstance()->setDebugColliders(!PhysicsEngine::getInstance()->shouldDebugColliders());
 	});
 
 	addMenuEntry(mStringsUI.Atlas,[&, mapEditorUI = this](UIElement* uiElement) {

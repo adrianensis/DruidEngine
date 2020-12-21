@@ -72,7 +72,6 @@ private:
 	HashMap<u32, LayerData*>* mLayersData;
 
 	bool mCameraDirtyTranslation;
-	bool mDebugColliders;
 
 public:
 
@@ -88,14 +87,6 @@ public:
 	Chunk* assignChunk(Renderer *renderer);
 	void freeRenderer(Renderer *renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
-
-	bool getDebugColliders() const {
-		return mDebugColliders;
-	};
-
-	void setDebugColliders(bool debugColliders) {
-		mDebugColliders = debugColliders;
-	};
 
 	Camera* getCamera() const {
 		return mCamera;

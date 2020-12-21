@@ -181,24 +181,6 @@ bool Renderer::isAffectedByProjection() {
 
 // ---------------------------------------------------------------------------
 
-void Renderer::renderCollider() {
-
-	if (mIsAffectedByProjection) {
-		List<Collider*>* colliders = getGameObject()->getComponents<Collider>();
-
-		if (colliders && !colliders->isEmpty()) {
-			Array<Vector2>* box = colliders->get(0)->getBoundingBox(true);
-
-			f32 lineSize = 1;
-
-			RenderEngine::getInstance()->drawLine(Vector3(box->get(0)), Vector3(box->get(1)), lineSize, mIsAffectedByProjection);
-			RenderEngine::getInstance()->drawLine(Vector3(box->get(1)), Vector3(box->get(2)), lineSize, mIsAffectedByProjection);
-			RenderEngine::getInstance()->drawLine(Vector3(box->get(2)), Vector3(box->get(3)), lineSize, mIsAffectedByProjection);
-			RenderEngine::getInstance()->drawLine(Vector3(box->get(3)), Vector3(box->get(0)), lineSize, mIsAffectedByProjection);
-		}
-	}
-}
-
 const Array<Vector2>* Renderer::getVertices(bool force /*= false*/) {
 
 	if(mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices ){

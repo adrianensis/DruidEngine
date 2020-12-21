@@ -110,7 +110,6 @@ public:
 		mMesh = newMesh;
 	};
 
-
 	Material* getMaterial() const {
 		return mMaterial;
 	};
@@ -170,8 +169,6 @@ public:
 	};
 
 	bool isAffectedByProjection();
-
-	void renderCollider();
 
 	const Array<Vector2>* getVertices(bool force = false);
 

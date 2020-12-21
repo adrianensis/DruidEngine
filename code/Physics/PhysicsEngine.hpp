@@ -20,6 +20,8 @@ private:
 	List<RigidBody*>* mRigidBodiesToFree;
 	QuadTree* mQuadTree;
 
+	bool mDebugColliders;
+
 	void internalRemoveRigidBody(const Iterator *it);
 
 public:
@@ -34,6 +36,15 @@ public:
 	void init(f32 sceneSize);
 	void step(f32 deltaTime);
 	void updateContacts();
+
+	bool shouldDebugColliders() const {
+		return mDebugColliders;
+	};
+
+	void setDebugColliders(bool debugColliders) {
+		mDebugColliders = debugColliders;
+	};
+
 	void terminate();
 
 };
