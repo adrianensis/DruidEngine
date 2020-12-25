@@ -13,7 +13,9 @@ private:
 
 public:
 
-	DE_CLASS(Script, Component);
+	DE_CLASS(Script, Component)
+
+	DE_GET(FirstStepDone)
 
 	virtual void init();
 	virtual void firstStep();
@@ -24,9 +26,6 @@ public:
 	virtual void onCollision(GameObject *otherGameObject);
 	virtual void onExitCollision(GameObject *otherGameObject);
 
-	bool isFirstStepDone() const {
-		return mFirstStepDone;
-	}
 	void firstStepDone() {
 		mFirstStepDone = true;
 	}

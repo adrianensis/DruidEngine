@@ -35,7 +35,7 @@ private:
 	void unsubscribe(ClassId eventClassId, DE_Class* eventOwner, DE_Class* eventReceiver);
 
 public:
-	DE_CLASS(EventsManager, DE_Class);
+	DE_CLASS(EventsManager, DE_Class)
 
 	void init();
 	void terminate();

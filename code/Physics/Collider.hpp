@@ -31,93 +31,42 @@ private:
 	f32 mRadius;
 	bool mIsSolid;
 	Vector3 mPositionOffset;
-
 	static f32 msDepthEpsilon;
-
 	RigidBody* mRigidBody;
-
 	ColliderStatus mStatus;
-
 	bool mIsPenetrated;
-
 	u32 mCollisionLayer;
-
-	ColliderShape mColliderShape;
-
+	ColliderShape mShape;
 	Contact* mLastContact;
-
 	bool mHasSizeChanged;
 
 public:
 
-	DE_CLASS(Collider, Component);
+	DE_CLASS(Collider, Component)
+
+
+	DE_GET(Radius)
+	DE_GET(Height)
+	DE_GET(Width)
+	DE_GET_SET(PositionOffset)
+	DE_GET_SET(RigidBody)
+	DE_GET_SET(CollisionLayer)
+	DE_GET_SET(Shape)
+	DE_GET_SET(IsSolid)
+	DE_GET(LastContact)
+	DE_GET(IsPenetrated)
+	DE_GET(HasSizeChanged)
 
 	void init() override;
 
+	Vector3 getCenter() const;
 	void setSize(f32 width, f32 height);
-	bool hasSizeChanged() const { return mHasSizeChanged; }
 	void resetHasSizeChaged() { mHasSizeChanged = false; }
-	f32 getHeight() const { return mHeight; }
-	f32 getWidth() const { return mWidth; }
 	Array<Vector2>* getBoundingBox(bool forceCalculateBoundingBox = false);
 	Vector3 getRelativeVelocity(Collider *otherCollider);
-	f32 getRadius() const {
-		return mRadius;
-	};
-
-	const Vector3& getPositionOffset() const {
-		return mPositionOffset;
-	};
-
-	void setPositionOffset(Vector3 newPositionOffset) {
-		mPositionOffset = newPositionOffset;
-	};
-
-	Vector3 getCenter() const;
-
-	RigidBody* getRigidBody() const {
-		return mRigidBody;
-	};
-
-	void setRigidBody(RigidBody *newRigidBody) {
-		mRigidBody = newRigidBody;
-	};
-
-	u32 getCollisionLayer() const {
-		return mCollisionLayer;
-	};
-
-	void setCollisionLayer(u32 collisionLayer) {
-		mCollisionLayer = collisionLayer;
-	};
-
-	bool isSolid() const {
-		return mIsSolid;
-	};
-
-	void setIsSolid(bool isSolid) {
-		mIsSolid = isSolid;
-	};
-
-	ColliderShape getShape() const {
-		return mColliderShape;
-	};
-
-	void setShape(ColliderShape colliderShape) {
-		mColliderShape = colliderShape;
-	};
-
-	Contact* getLastContact() const {
-		return mLastContact;
-	}
 
 	void markPenetratedBy(Collider* otherCollider);
 	void unmarkPenetrated();
-
-	bool isPenetrated() const {
-		return mIsPenetrated;
-	}
-
 	bool isSimulate();
 
 	bool checkCollisionRadius(Collider *otherCollider) const;

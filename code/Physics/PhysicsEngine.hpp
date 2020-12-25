@@ -26,7 +26,9 @@ private:
 
 public:
 
-	DE_CLASS(PhysicsEngine, DE_Class);
+	DE_CLASS(PhysicsEngine, DE_Class)
+
+	DE_GET_SET(DebugColliders)
 
 	void addRigidBody(RigidBody *rigidBody);
 	void addCollider(RigidBody *rigidBody, Collider *collider);
@@ -36,14 +38,6 @@ public:
 	void init(f32 sceneSize);
 	void step(f32 deltaTime);
 	void updateContacts();
-
-	bool shouldDebugColliders() const {
-		return mDebugColliders;
-	};
-
-	void setDebugColliders(bool debugColliders) {
-		mDebugColliders = debugColliders;
-	};
 
 	void terminate();
 

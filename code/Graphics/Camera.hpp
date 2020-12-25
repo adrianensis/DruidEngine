@@ -35,7 +35,10 @@ private:
 
 public:
 
-	DE_CLASS(Camera, Component);
+	DE_CLASS(Camera, Component)
+
+	DE_GET(Frustum)
+	DE_GET(Zoom)
 
 	void init() override;
 
@@ -49,21 +52,11 @@ public:
 	Vector3 screenToWorld(Vector2 screenPosition);
 	void calculateInverseMatrix(bool forceCalculate = false);
 
-	Frustum* getFrustum() const {
-		return mFrustum;
-	};
-
-
 	void setZoom(f32 zoom);
 	void resetZoom() {
 		mZoom = 1;
 		setZoom(mZoom);
 	};
-
-	f32 getZoom() {
-		return mZoom;
-	};
-
 };
 
 } /* namespace DE */

@@ -124,11 +124,11 @@ void Chunk::update(BatchesMap *batchesMap) {
 		Renderer* renderer = it.get();
 
 		if(renderer->isActive()){
-			if (!renderer->isAlreadyInBatch()) {
+			if (!renderer->getIsAlreadyInBatch()) {
 				batchesMap->addRenderer(renderer);
 			}
 
-			if (!renderer->isStatic() && renderer->isAffectedByProjection() && ! containsRenderer(renderer)) {
+			if (!renderer->isStatic() && renderer->getIsAffectedByProjection() && ! containsRenderer(renderer)) {
 				Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
@@ -140,12 +140,12 @@ void Chunk::update(BatchesMap *batchesMap) {
 			}
 		}
 
-		if(renderer->isPendingToBeDestroyed()) {
+		if(renderer->getIsPendingToBeDestroyed()) {
 			renderer->setDestroyed();
 			RenderEngine::getInstance()->freeRenderer(renderer);
 		}
 
-		if(renderer->isDestroyed()) {
+		if(renderer->getIsDestroyed()) {
 			mRenderers->remove(it);
 		}
 	}
@@ -163,9 +163,6 @@ void Chunk::unload() {
 		mIsLoaded = false; /*ECHO("unload")*/
 	}
 }
-bool Chunk::isLoaded() {
-	return mIsLoaded;
-}
 
 // ---------------------------------------------------------------------------
 
@@ -175,7 +172,7 @@ void Chunk::addRenderer(Renderer *renderer) {
 
 // ---------------------------------------------------------------------------
 
-bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) {
+bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	bool contains = MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
@@ -183,7 +180,7 @@ bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) {
 
 // ---------------------------------------------------------------------------
 
-bool Chunk::containsRendererSphere(const Renderer *renderer) {
+bool Chunk::containsRendererSphere(const Renderer *renderer) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius,
 			renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);

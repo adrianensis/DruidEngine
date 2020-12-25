@@ -31,7 +31,7 @@ private:
 
 	Transform* mParent;
 
-	bool mIsAffectedByProjection;
+	bool mAffectedByProjection;
 
 	bool mForceModelMatrixCalculation;
 
@@ -41,7 +41,12 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	DE_CLASS(Transform, Component);
+	DE_CLASS(Transform, Component)
+
+	DE_GET(LocalPosition)
+	DE_GET(Rotation)
+	DE_GET(Scale)
+	DE_GET_SET(AffectedByProjection)
 
 	void init() override;
 
@@ -77,17 +82,6 @@ public:
 	void setScale(const Vector3 &vector);
 
 	const Vector3& getWorldPosition();
-	const Vector3& getLocalPosition() const {
-		return mLocalPosition;
-	};
-
-	const Vector3& getRotation() const {
-		return mRotation;
-	};
-
-	const Vector3& getScale() const {
-		return mScale;
-	};
 
 	const Matrix4& getTranslationMatrix();
 	const Matrix4& getRotationMatrix();
@@ -100,13 +94,6 @@ public:
 
 	void setParent(Transform *parent);
 	Transform* getParent();
-
-	bool isAffectedByProjection() {
-		return mIsAffectedByProjection;
-	}
-	void setAffectedByProjection(bool affectedByProjection) {
-		mIsAffectedByProjection = affectedByProjection;
-	}
 
 	void forceModelMatrixCalculation() {
 		mForceModelMatrixCalculation = true;

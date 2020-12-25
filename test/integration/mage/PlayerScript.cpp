@@ -95,10 +95,10 @@ void PlayerScript::step() {
 		// mRenderer->setAnimation("idle");
 	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
 		// mRenderer->setAnimation("run");
-		// mRenderer->setInvertXAxis(true);
+		// mRenderer->setIsInvertAxis(true);
 	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
 		// mRenderer->setAnimation("run");
-		// mRenderer->setInvertXAxis(false);
+		// mRenderer->setIsInvertAxis(false);
 	} else if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_SPACE)) {
 		mRigidBody->addLinear(Vector3(0, +1100, 0));
 	} else {

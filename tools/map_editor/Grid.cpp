@@ -290,7 +290,7 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 
 		GameObject* gameObject = it.get();
 
-		if (gameObject->isStatic() && gameObject->getTag() == "tile") {
+		if (gameObject->getIsStatic() && gameObject->getTag() == "tile") {
 
 			Transform* t = gameObject->getTransform();
 			Vector3 worldPosition(t->getWorldPosition());

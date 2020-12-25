@@ -35,12 +35,17 @@ private:
 
 public:
 
-	DE_CLASS(RigidBody, Component);
+	DE_CLASS(RigidBody, Component)
 
-	void integrate(f32 deltaTime);
+	DE_GET(ForceAccumulator)
+	DE_GET_SET(Mass)
+	DE_GET_SET(Linear)
+	DE_GET_SET(Simulate)
+	DE_GET_SET(Collider)
 
 	void init() override;
 
+	void integrate(f32 deltaTime);
 	void stopMovement();
 
 	void saveState();
@@ -49,43 +54,9 @@ public:
 	void addForce(const Vector3 &force) {
 		mForceAccumulator.add(force);
 	}
-	Vector3 getForceAccumulator() const {
-		return mForceAccumulator;
-	};
-
-	f32 getMass() const {
-		return mMass;
-	};
-
-	void setMass(f32 newMass) {
-		mMass = newMass;
-	};
 
 	void addLinear(const Vector3 &linear) {
 		mLinear.add(linear);
-	}
-	Vector3 getLinear() const {
-		return mLinear;
-	};
-
-	void setLinear(Vector3 newLinear) {
-		mLinear = newLinear;
-	};
-
-	bool isSimulate() const {
-		return mSimulate;
-	};
-
-	void setSimulate(bool newSimulate) {
-		mSimulate = newSimulate;
-	};
-
-	Collider* getCollider() const {
-		return mCollider;
-	};
-
-	void setCollider(Collider* collider) {
-		mCollider = collider;
 	}
 
 	void addAntiPenetrationForce(Vector3 newAntiPenetrationForce) {

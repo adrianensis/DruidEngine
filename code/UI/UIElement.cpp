@@ -148,7 +148,7 @@ void UIElement::onPressed() {
 				RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
 
 		collider->getBoundingBox(true); // force regenerate bounding box
-		Vector2 mousePosition = getTransform()->isAffectedByProjection() ? worldMousePosition : screenMousePosition;
+		Vector2 mousePosition = getTransform()->getAffectedByProjection() ? worldMousePosition : screenMousePosition;
 		bool clickOk = collider->testPoint(mousePosition) == ColliderStatus::STATUS_PENETRATION;
 
 		if(clickOk){
@@ -167,7 +167,7 @@ void UIElement::onPressed() {
 				onFocus();
 			}
 
-			if (isConsumeInput()) {
+			if (getConsumeInput()) {
 				Input::getInstance()->clearMouseButton();
 			}
 		}

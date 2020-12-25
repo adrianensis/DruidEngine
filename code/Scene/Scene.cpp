@@ -43,7 +43,7 @@ Scene::~Scene() {
 
 void Scene::destroyGameObjects() {
 	FOR_LIST (it, mGameObjects) {
-		if (!it.get()->isDestroyed()) {
+		if (!it.get()->getIsDestroyed()) {
 			it.get()->destroy();
 			Memory::free<GameObject>(it.get());
 		}
@@ -175,13 +175,13 @@ void Scene::saveScene(const std::string &path) {
 
 	u32 counter = 0;
 	FOR_LIST(it, mGameObjects) {
-		if (it.get()->isStatic() && it.get()->shouldPersist()) {
+		if (it.get()->getIsStatic() && it.get()->getShouldPersist()) {
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectStr = "objects[" + indexStr + "]";
 
-			configMap->setBool(objectStr + ".isStatic", it.get()->isStatic());
-			configMap->setBool(objectStr + ".shouldPersist", it.get()->shouldPersist());
+			configMap->setBool(objectStr + ".isStatic", it.get()->getIsStatic());
+			configMap->setBool(objectStr + ".shouldPersist", it.get()->getShouldPersist());
 
 			configMap->setString(objectStr + ".tag", it.get()->getTag());
 
@@ -262,7 +262,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 	Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
 	RigidBody* rigidBody = rigidBodyList ? rigidBodyList->get(0) : nullptr;
 
-	if (script && !script->isAlreadyAddedToEngine()) {
+	if (script && !script->getAlreadyAddedToEngine()) {
 		ScriptEngine::getInstance()->addScript(script);
 		script->setAlreadyAddedToEngine(true);
 	}
@@ -270,7 +270,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 	if (rendererList) {
 		FOR_LIST (it, rendererList)
 		{
-			if (!it.get()->isAlreadyAddedToEngine()) {
+			if (!it.get()->getAlreadyAddedToEngine()) {
 				RenderEngine::getInstance()->addRenderer(it.get());
 				it.get()->setAlreadyAddedToEngine(true);
 			}
@@ -278,7 +278,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 	}
 
 	if (rigidBody) {
-		if (!rigidBody->isAlreadyAddedToEngine()) {
+		if (!rigidBody->getAlreadyAddedToEngine()) {
 			PhysicsEngine::getInstance()->addRigidBody(rigidBody);
 			rigidBody->setAlreadyAddedToEngine(true);
 		}
@@ -287,7 +287,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 
 		Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
-		if (collider && !collider->isAlreadyAddedToEngine()) {
+		if (collider && !collider->getAlreadyAddedToEngine()) {
 			PhysicsEngine::getInstance()->addCollider(rigidBody, collider);
 			collider->setAlreadyAddedToEngine(true);
 		}
@@ -298,7 +298,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 
 void Scene::removeGameObject(GameObject *gameObject) {
 
-	if (!gameObject->isDestroyed()) {
+	if (!gameObject->getIsDestroyed()) {
 		auto it = mGameObjects->find(gameObject);
 		mGameObjects->remove(it);
 

@@ -9,7 +9,7 @@ class UITextEditable: public UIText {
 
 public:
 
-	DE_CLASS(UITextEditable, UIText);
+	DE_CLASS(UITextEditable, UIText)
 
 	virtual void init();
 	virtual void onFocusLost();

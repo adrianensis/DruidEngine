@@ -63,7 +63,7 @@ void EnemyScript::step() {
 		mSpeed = GameController::smGlobalSpeed;
 	}
 
-	if (mRenderer->isOutOfCamera() && (getGameObject()->getTransform()->getWorldPosition().x < 0 || mFalling)) {
+	if (mRenderer->getIsOutOfCamera() && (getGameObject()->getTransform()->getWorldPosition().x < 0 || mFalling)) {
 		ECHO("DESTROY ENEMY OUT OF CAMERA")
 		getGameObject()->destroy();
 	}
@@ -73,7 +73,7 @@ void EnemyScript::step() {
 
 void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 
-	if (!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed()) {
+	if (!mFalling && !otherGameObject->getIsPendingToBeDestroyed() && !otherGameObject->getIsDestroyed()) {
 
 		if (otherGameObject->getTag() == "projectile") {
 			ProjectileScript* projectileScript = (ProjectileScript*) otherGameObject->getComponents<Script>()->get(0);
@@ -97,7 +97,7 @@ void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 
 void EnemyScript::onCollision(GameObject *otherGameObject) {
 
-	if (!mFalling && !otherGameObject->isPendingToBeDestroyed() && !otherGameObject->isDestroyed()
+	if (!mFalling && !otherGameObject->getIsPendingToBeDestroyed() && !otherGameObject->getIsDestroyed()
 			&& otherGameObject->getTag() == "tornado") {
 		TornadoScript* projectileScript = (TornadoScript*) otherGameObject->getComponents<Script>()->get(0);
 

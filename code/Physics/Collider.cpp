@@ -29,7 +29,7 @@ Collider::Collider() : Component() {
 	mRigidBody = nullptr;
 	mIsPenetrated = false;
 	mIsSolid = true;
-	mColliderShape = ColliderShape::RECTANGLE;
+	mShape = ColliderShape::RECTANGLE;
 	mLastContact = nullptr;
 	mHasSizeChanged = false;
 }
@@ -119,7 +119,7 @@ Vector3 Collider::getRelativeVelocity(Collider *otherCollider) {
 // ---------------------------------------------------------------------------
 
 bool Collider::isSimulate() {
-	return mRigidBody->isSimulate();
+	return mRigidBody->getSimulate();
 }
 
 void Collider::markPenetratedBy(Collider* otherCollider) {
@@ -143,17 +143,17 @@ ColliderStatus Collider::testCollider(Collider *otherCollider) {
 
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
-	if(mColliderShape == ColliderShape::RECTANGLE && otherCollider->getShape() == ColliderShape::RECTANGLE){
+	if(mShape == ColliderShape::RECTANGLE && otherCollider->getShape() == ColliderShape::RECTANGLE){
 		result = testRectangleRectangle(otherCollider);
-	} else if(mColliderShape == ColliderShape::RECTANGLE && otherCollider->getShape() == ColliderShape::SPHERE){
+	} else if(mShape == ColliderShape::RECTANGLE && otherCollider->getShape() == ColliderShape::SPHERE){
 		result = testRectangleSphere(otherCollider);
-	} else if(mColliderShape == ColliderShape::SPHERE && otherCollider->getShape() == ColliderShape::RECTANGLE){
+	} else if(mShape == ColliderShape::SPHERE && otherCollider->getShape() == ColliderShape::RECTANGLE){
 		//result = otherCollider->testRectangleSphere(this);
-	} else if(mColliderShape == ColliderShape::SPHERE && otherCollider->getShape() == ColliderShape::SPHERE){
+	} else if(mShape == ColliderShape::SPHERE && otherCollider->getShape() == ColliderShape::SPHERE){
 		result = testSphereSphere(otherCollider);
 	}
 
-	if (result != ColliderStatus::STATUS_NONE && !(mIsSolid && otherCollider->isSolid())) {
+	if (result != ColliderStatus::STATUS_NONE && !(mIsSolid && otherCollider->getIsSolid())) {
 
 		// SEND DIRECTLY TO PENETRATION
 		result = ColliderStatus::STATUS_PENETRATION;
@@ -162,7 +162,7 @@ ColliderStatus Collider::testCollider(Collider *otherCollider) {
 
 	if (result == ColliderStatus::STATUS_PENETRATION) {
 
-		if (mIsSolid && otherCollider->isSolid()) {
+		if (mIsSolid && otherCollider->getIsSolid()) {
 
 		} else {
 			result = ColliderStatus::STATUS_COLLISION;
@@ -356,7 +356,7 @@ bool Collider::checkCollisionRadius(Collider *otherCollider) const {
 
 void Collider::render() {
 
-	bool isAffectedByProjection = getGameObject()->getTransform()->isAffectedByProjection();
+	bool isAffectedByProjection = getGameObject()->getTransform()->getAffectedByProjection();
 
 	if (isAffectedByProjection) {
 		Collider* collider = this;

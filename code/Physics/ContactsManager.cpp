@@ -118,7 +118,7 @@ void ContactsManager::resolveContact(Contact* contact) {
 
 			//RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
 
-			if ((colliderA->isPenetrated())) {
+			if ((colliderA->getIsPenetrated())) {
 				colliderA->getRigidBody()->restoreState();
 				//it.get()->stopMovement();
 				colliderA->unmarkPenetrated();
@@ -134,37 +134,39 @@ void ContactsManager::resolveContact(Contact* contact) {
 			//VAR(f32, linear.y)
 			//VAR(f32, linear.z)
 
-			RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
+			//Vector3 linear(colliderA->getRigidBody()->getLinear());
+			RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (linear.nor() * 100), 2.0f, true);
 		}
 
 		if(!colliderB->isStatic()){
 
 
 			//ECHO("B - " + gameObjectB->getTag())
-			Vector3 linear = colliderB->getRigidBody()->getLinear();
+			Vector3 linear = Vector3(colliderB->getRigidBody()->getLinear());
 			//VAR(f32, linear.x)
 			//VAR(f32, linear.y)
 			//VAR(f32, linear.z)
 
-			//RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
+			//RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (Vector3(colliderB->getRigidBody()->getLinear()).nor() * 100), 2.0f, true);
 
-			if ((colliderB->isPenetrated())) {
+			if ((colliderB->getIsPenetrated())) {
 				colliderB->getRigidBody()->restoreState();
 				//it.get()->stopMovement();
 				colliderA->unmarkPenetrated();
 				colliderB->unmarkPenetrated();
 			}
 
-			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() + ((normal * j) / massB));
-			colliderB->getRigidBody()->setLinear(colliderB->getRigidBody()->getLinear() / 2.0f);
+			colliderB->getRigidBody()->setLinear(Vector3(colliderB->getRigidBody()->getLinear()) + ((normal * j) / massB));
+			colliderB->getRigidBody()->setLinear(Vector3(colliderB->getRigidBody()->getLinear()) / 2.0f);
 
 			//ECHO("NEW LINEAR")
-			linear = colliderB->getRigidBody()->getLinear();
+			linear = Vector3(colliderB->getRigidBody()->getLinear());
 			//VAR(f32, linear.x)
 			//VAR(f32, linear.y)
 			//VAR(f32, linear.z)
 
-			RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 2.0f, true);
+			//Vector3 linear(colliderB->getRigidBody()->getLinear());
+			RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (linear.nor() * 100), 2.0f, true);
 		}
 	}
 
@@ -227,12 +229,12 @@ void ContactsManager::updateContacts() {
 					if(status == ColliderStatus::STATUS_NONE){
 						removeContact(colliderA, colliderB);
 					} else {
-						if(colliderA->isPenetrated() || colliderB->isPenetrated()){
+						if(colliderA->getIsPenetrated() || colliderB->getIsPenetrated()){
 							resolveContact(contact);
 						}
 
 						/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
-						RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (colliderB->getRigidBody()->getLinear().nor() * 100), 3.0f, true);*/
+						RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (Vector3(colliderB->getRigidBody()->getLinear()).nor() * 100), 3.0f, true);*/
 
 						if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
 							Script* script = gameObjectA->getComponents<Script>()->get(0);

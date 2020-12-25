@@ -32,7 +32,7 @@ public:
 	bool smButtonJustPressed;
 	f32 smScroll;
 
-	DE_CLASS(Input, DE_Class);
+	DE_CLASS(Input, DE_Class)
 
 	void init();
 	void pollEvents();

@@ -234,7 +234,7 @@ void MapEditorUI::createMenuBar() {
 	});
 
 	addMenuEntry(mStringsUI.Collider,[&](UIElement* uiElement) {
-		PhysicsEngine::getInstance()->setDebugColliders(!PhysicsEngine::getInstance()->shouldDebugColliders());
+		PhysicsEngine::getInstance()->setDebugColliders(!PhysicsEngine::getInstance()->getDebugColliders());
 	});
 
 	addMenuEntry(mStringsUI.Atlas,[&, mapEditorUI = this](UIElement* uiElement) {

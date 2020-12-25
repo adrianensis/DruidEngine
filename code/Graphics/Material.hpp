@@ -20,43 +20,14 @@ private:
 
 public:
 
-	DE_CLASS(Material, DE_Class);
+	DE_CLASS(Material, DE_Class)
+
+	DE_GET_SET(Shader)
+	DE_GET_SET(Texture)
+	DE_GET_SET(AlphaEnabled)
+	DE_GET_SET(HasBorder)
 
 	void init();
-
-	Shader* getShader() const {
-		return mShader;
-	};
-
-	void setShader(Shader *shader) {
-		mShader = shader;
-	};
-
-	Texture* getTexture() const {
-		return mTexture;
-	};
-
-	void setTexture(Texture *texture) {
-		mTexture = texture;
-	};
-
-	void setAlphaEnabled(bool newAlphaEnabled) {
-		mAlphaEnabled = newAlphaEnabled;
-	};
-
-	bool getAlphaEnabled() {
-		return mAlphaEnabled;
-	};
-
-	bool hasBorder() {
-		return mHasBorder;
-	};
-
-	void setHasBorder(bool border) {
-		mHasBorder = border;
-	};
-
-
 };
 
 } /* namespace DE */

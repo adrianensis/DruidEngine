@@ -24,7 +24,7 @@ private:
 
 public:
 
-	DE_CLASS(Scene, DE_Class);
+	DE_CLASS(Scene, DE_Class)
 
 	void init();
 	f32 getSize() const {

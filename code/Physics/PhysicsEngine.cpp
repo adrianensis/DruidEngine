@@ -94,11 +94,11 @@ void PhysicsEngine::step(f32 deltaTime) {
 				//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 
 				// TODO: move dynamic objects to a dynamic list. Don't iterate over static objects.
-				if (!it.get()->getGameObject()->isStatic() && it.get()->isSimulate()) {
+				if (!it.get()->getGameObject()->getIsStatic() && it.get()->getSimulate()) {
 					it.get()->saveState();
 					it.get()->integrate(dt);
 				}
-			} else if (it.get()->isPendingToBeDestroyed()) {
+			} else if (it.get()->getIsPendingToBeDestroyed()) {
 				mRigidBodiesToFree->pushBack(it.get());
 				internalRemoveRigidBody(&it);
 			}

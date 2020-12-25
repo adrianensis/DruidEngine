@@ -20,7 +20,7 @@ Component::~Component() = default;
 bool Component::isStatic() {
 
 	if(mGameObject){
-		mIsStatic = mGameObject->isStatic();
+		mIsStatic = mGameObject->getIsStatic();
 	}
 
 	return mIsStatic;

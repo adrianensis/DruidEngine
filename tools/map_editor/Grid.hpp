@@ -32,7 +32,7 @@ class Grid: public DE_Class {
 private:
 
 	class CellData: public DE_Class {
-	public: DE_CLASS(CellData, DE_Class);
+	public: DE_CLASS(CellData, DE_Class)
 
 		GameObject* tile = nullptr;
 		Array<GameObject*>* layers = nullptr;
@@ -53,7 +53,11 @@ public:
 	List<GameObject*>* mSelectedTiles = nullptr;
 	bool mIsPaintMode = false;
 
-	DE_CLASS(Grid, DE_Class);
+	DE_CLASS(Grid, DE_Class)
+
+	DE_GET(GridTileSize)
+	DE_GET(GridSize)
+	DE_GET(SelectedTiles)
 
 	GameObject* createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer);
 
@@ -64,12 +68,8 @@ public:
 	void selectTile(CellData *cellData, u32 layer, bool multi);
 
 	GameObject* getFirstSelectedTile();
-	const List<GameObject*>* getSelectedTiles() const { return mSelectedTiles; };
 
 	void init(Scene* scene, u32 gridSize, f32 gridTileSize);
-
-	u32 getGridSize() const { return mGridSize; }
-	f32 getGridTileSize() const { return mGridTileSize; }
 
 	void loadMapIntoGrid(const List<GameObject*>* gameObjects);
 

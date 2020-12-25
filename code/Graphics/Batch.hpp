@@ -62,7 +62,7 @@ private:
 
 	bool checkInFrustum(Camera *cam, Renderer *renderer);
 	bool checkDistance(Camera *cam, Renderer *renderer);
-	bool checkOutOfCamera(Camera *cam, Renderer *renderer);
+	bool checkIsOutOfCamera(Camera *cam, Renderer *renderer);
 
 	void internalRemoveRenderer(const Iterator *it, List<Renderer*> *list);
 	void internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *list);
@@ -77,7 +77,10 @@ private:
 
 public:
 
-	DE_CLASS(Batch, DE_Class);
+	DE_CLASS(Batch, DE_Class)
+
+	DE_SET(Material)
+	DE_SET(Mesh)
 
 	void init(const Mesh *mesh, Material *material);
 	void bind();
@@ -87,14 +90,6 @@ public:
 	u32 render(u32 layer);
 
 	void addRenderer(Renderer *renderer);
-
-	void setMesh(const Mesh *newMesh) {
-		mMesh = newMesh;
-	};
-
-	void setMaterial(Material *newMaterial) {
-		mMaterial = newMaterial;
-	};
 };
 
 } /* namespace DE */

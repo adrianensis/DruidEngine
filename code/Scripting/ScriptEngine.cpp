@@ -40,7 +40,7 @@ void ScriptEngine::addScript(Script *newScript) {
 void ScriptEngine::step() {
 
 	if (mController) {
-		if (!mController->isFirstStepDone()) {
+		if (!mController->getFirstStepDone()) {
 			mController->firstStep();
 			mController->firstStepDone();
 		}
@@ -52,13 +52,13 @@ void ScriptEngine::step() {
 		Script* script = it.get();
 
 		if (script->isActive()) {
-			if (!script->isFirstStepDone()) {
+			if (!script->getFirstStepDone()) {
 				script->firstStep();
 				script->firstStepDone();
 			}
 
 			script->step();
-		} else if (it.get()->isPendingToBeDestroyed()) {
+		} else if (it.get()->getIsPendingToBeDestroyed()) {
 			internalRemoveScript(&it);
 		}
 

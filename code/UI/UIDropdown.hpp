@@ -13,7 +13,7 @@ private:
 
 public:
 
-	DE_CLASS(UIDropdown, UIButton);
+	DE_CLASS(UIDropdown, UIButton)
 
 	virtual void init() override;
 

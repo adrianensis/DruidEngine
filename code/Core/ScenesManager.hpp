@@ -24,26 +24,16 @@ private:
 
 public:
 
-	DE_CLASS(ScenesManager, DE_Class);
+	DE_CLASS(ScenesManager, DE_Class)
+
+	DE_GET(CurrentScene)
+	DE_GET(SceneHasChanged)
+	DE_GET_SET(GameObjectController)
 
 	void init();
 	void step();
-
 	void loadCurrentScene();
-
 	void setScene(u32 i);
-	Scene* getCurrentScene();
-
-	GameObject* getGameObjectController() const {
-		return mGameObjectController;
-	};
-
-	void setGameObjectController(GameObject *controller);
-
-	bool sceneHasChanged() const {
-		return mSceneHasChanged;
-	};
-
 };
 }
 #endif /* DE_SCENESMANAGER_H */

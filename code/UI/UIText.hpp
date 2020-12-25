@@ -15,7 +15,7 @@ class UIText: public UIElement {
 
 public:
 
-	DE_CLASS(UIText, UIElement);
+	DE_CLASS(UIText, UIElement)
 
 	virtual void init();
 

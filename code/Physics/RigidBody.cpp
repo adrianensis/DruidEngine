@@ -115,7 +115,7 @@ void RigidBody::restoreState() {
 // ---------------------------------------------------------------------------
 
 bool RigidBody::isSleeping() {
-	return mLinear.len() < 15.0f;
+	return mLinear.len() < 15.0f; // TODO : Settings?
 }
 
 } /* namespace DE */

@@ -40,14 +40,14 @@ public:
 	static void clear();
 	static void terminate();
 
-	static GLuint createVBO(u32 elementSize, u32 attributeArrayIndex);
+	static GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
 	static GLuint createEBO();
 	static GLuint createVAO();
 	static void setDataVBO(u32 VBO, const Array<f32> *data);
 	static void setDataEBO(u32 EBO, const Array<u32> *data);
 
-	static void enableAttribute(u32 attributeArrayIndex);
-	static void disableAttribute(u32 attributeArrayIndex);
+	static void enableProperty(u32 propertyArrayIndex);
+	static void disableProperty(u32 propertyArrayIndex);
 	static void enableVAO(u32 VAO);
 
 	static void drawTriangles(u32 indices);

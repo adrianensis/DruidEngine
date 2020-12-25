@@ -26,6 +26,8 @@ Renderer::Renderer() : Component() {
 	mCurrentAnimation = nullptr;
 	mColor = nullptr;
 
+	mVertices = nullptr;
+
 	mPositionOffset = Vector3(0.0, 0.0, 0.0);
 	mPositionOffsetDirty = true;
 
@@ -33,14 +35,14 @@ Renderer::Renderer() : Component() {
 	mRegionPosition = Vector2(0.0, 0.0);
 	mRegionSize = Vector2(1.0, 1.0);
 
-	mInvertXAxis = false;
+	mIsInvertAxis = false;
 
-	mLineMode = false;
+	mIsLineMode = false;
 
 	mLayer = 0;
 
-	mRenderDistance = 1500;
-	mOutOfCamera = false;
+	mRenderDistance = 1500; // TODO : move to settings?
+	mIsOutOfCamera = false;
 
 	mIsAffectedByProjection = true;
 
@@ -77,8 +79,6 @@ void Renderer::init() {
 
 	setColor(Vector4(0, 0, 0, 1));
 
-	//mPositionOffsetMatrix.identity();
-
 	mVertices = Memory::allocate<Array<Vector2>>();
 	mVertices->init(4);
 
@@ -95,10 +95,6 @@ void Renderer::init() {
 
 bool Renderer::hasAnimations() const { return mAnimations && mAnimations->getLength() > 0; } ;
 
-const Animation* Renderer::getCurrentAnimation() const {
-	return mCurrentAnimation;
-}
-
 // ---------------------------------------------------------------------------
 
 void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
@@ -111,6 +107,10 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
 
 // ---------------------------------------------------------------------------
 
+/**
+ * Set the animation, by name.
+ * \param string name The name.
+ */
 void Renderer::setAnimation(const std::string &name) {
 	if (mAnimations) {
 		if (mAnimations->contains(name)) {
@@ -121,6 +121,11 @@ void Renderer::setAnimation(const std::string &name) {
 
 //----------------------------------------------------------------------
 
+/**
+ * Add an animation, by name.
+ * \param string name The name.
+ * \param Animation animation The animation.
+ */
 void Renderer::addAnimation(const std::string &name, Animation *animation) {
 	if (!mAnimations) {
 		mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
@@ -146,15 +151,10 @@ void Renderer::updateAnimation() {
 
 void Renderer::setPositionOffset(Vector3 newPositionOffset) {
 	mPositionOffset = newPositionOffset;
-	//mPositionOffsetMatrix.translation(mPositionOffset);
 	mPositionOffsetDirty = true;
 };
 
 // ---------------------------------------------------------------------------
-
-const Matrix4& Renderer::getPositionOffsetMatrix() {
-	return mPositionOffsetMatrix;
-}
 
 void Renderer::setColor(const Vector4 &color) {
 	mColor->set(0, color.x);
@@ -163,17 +163,10 @@ void Renderer::setColor(const Vector4 &color) {
 	mColor->set(3, color.w);
 };
 
-void Renderer::setChunk(Chunk *chunk) {
-	mChunk = chunk;
-};
-Chunk* Renderer::getChunk() {
-	return mChunk;
-};
-
-bool Renderer::isAffectedByProjection() {
+bool Renderer::getIsAffectedByProjection() {
 
 	if(getGameObject()){
-		mIsAffectedByProjection = getGameObject()->getTransform()->isAffectedByProjection();
+		mIsAffectedByProjection = getGameObject()->getTransform()->getAffectedByProjection();
 	}
 
 	return mIsAffectedByProjection;

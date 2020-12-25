@@ -20,7 +20,11 @@ private:
 
 public:
 
-	DE_CLASS(Animation, DE_Class);
+	DE_CLASS(Animation, DE_Class)
+
+	DE_SET(Speed)
+
+	void init();
 
 	/**
 	 * Static method that creates an animation.
@@ -36,22 +40,10 @@ public:
 	static Animation* create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 			f32 height, f32 speed);
 
-	void init();
-
 	void addFrame(AnimationFrame *frame);
-
 	u32 getNumberOfFrames() const;
 	const AnimationFrame* getNextFrame();
 	const AnimationFrame* getCurrentFrame() const;
-
-	void setSpeed(f32 newSpeed) {
-		mSpeed = newSpeed;
-	};
-
-	u32 getCurrentFrameNumber() const {
-		return mCurrentFrameNumber;
-	};
-
 };
 
 } /* namespace DE */

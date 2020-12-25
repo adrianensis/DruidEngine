@@ -47,7 +47,7 @@ private:
 public:
 	static f32 smGlobalSpeed;
 
-	DE_CLASS(GameController, Script);
+	DE_CLASS(GameController, Script)
 
 	void createPlayer(f32 x, f32 y);
 	void createCrossHair();

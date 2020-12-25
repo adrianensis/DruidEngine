@@ -26,30 +26,18 @@ private:
 
 public:
 
-	DE_CLASS(Mesh, DE_Class);
+	DE_CLASS(Mesh, DE_Class)
+
+	DE_GET(Vertices)
+	DE_GET(Normals)
+	DE_GET(TextureCoordinates)
+	DE_GET(Faces)
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh* addVertex(const Vector3 &vec);
 	Mesh* addNormal(const Vector3 &vec);
 	Mesh* addTexCoord(u32 u, u32 v);
 	Mesh* addFace(u32 v1, u32 v2, u32 v3);
-
-	const Array<f32>* getVertices() const {
-		return mVertices;
-	};
-
-	const Array<f32>* getNormals() const {
-		return mNormals;
-	};
-
-	const Array<f32>* getTextureCoordinates() const {
-		return mTextureCoordinates;
-	};
-
-	const Array<u32>* getFaces() const {
-		return mFaces;
-	};
-
 
 	static Mesh* getRectangle();
 	static void freeRectangle();

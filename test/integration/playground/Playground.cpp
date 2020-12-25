@@ -87,7 +87,7 @@ void Playground::createPlayer() {
 					10));
 	renderer->setAnimation("idle");
 
-	//renderer->setLineMode(true);
+	//renderer->setIsLineMode(true);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	mPlayer->addComponent<RigidBody>(rigidBody);
@@ -247,7 +247,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 
 		if (renderer) {
 			renderer->setAnimation("run");
-			renderer->setInvertXAxis(true);
+			renderer->setIsInvertAxis(true);
 		}
 	}
 } else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
@@ -258,7 +258,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 
 		if (renderer) {
 			renderer->setAnimation("run");
-			renderer->setInvertXAxis(false);
+			renderer->setIsInvertAxis(false);
 		}
 	}
 } else {

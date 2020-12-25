@@ -12,7 +12,7 @@ namespace DE {
 
   DE_EVENT_DECLARATION_BEGIN(EventDamage);
 
-  // Attributes go here
+  // MEMBERs go here
   f32 damage;
   f32 damageMultiplier;
 
@@ -30,7 +30,7 @@ public: \
 class Event : public DE_Class{
 
 public:
-	DE_CLASS(Event, DE_Class);
+	DE_CLASS(Event, DE_Class)
 
 	DE_Class* mInstigator;
 

@@ -20,43 +20,23 @@ private:
 
 public:
 
-	DE_CLASS(Component, DE_Class);
+	DE_CLASS(Component, DE_Class)
+
+	DE_GET_SET(GameObject)
+	DE_GET_SET(AlreadyAddedToEngine)
+	DE_GET(IsPendingToBeDestroyed)
+	DE_GET(IsDestroyed)
 
 	virtual void init() = 0;
 
-	GameObject* getGameObject() const {
-		return mGameObject;
-	};
-
-	void setGameObject(GameObject *newGameObject) {
-		mGameObject = newGameObject;
-	};
-
-
-	bool isAlreadyAddedToEngine() const {
-		return mAlreadyAddedToEngine;
-	};
-
-	void setAlreadyAddedToEngine(bool alreadyAddedToEngine) {
-		mAlreadyAddedToEngine = alreadyAddedToEngine;
-	};
-
-
 	bool isStatic();
+
 	bool isActive() const {
 		return (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : mIsActive;
 	};
 
 	void setIsActive(bool isActive) {
 		mIsActive = (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : isActive;
-	};
-
-	bool isPendingToBeDestroyed() const {
-		return mIsPendingToBeDestroyed;
-	};
-
-	bool isDestroyed() const {
-		return mIsDestroyed;
 	};
 
 	void setDestroyed() {

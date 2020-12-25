@@ -39,7 +39,7 @@ enum class UILayout {
 class UIElementData: public DE_Class {
 public:
 
-	DE_CLASS(UIElementData, DE_Class);
+	DE_CLASS(UIElementData, DE_Class)
 
 	UIElementType mElementType;
 	Vector2 mPosition;
@@ -106,7 +106,7 @@ private:
 
 public:
 
-	DE_CLASS(UIBuilder, DE_Class);
+	DE_CLASS(UIBuilder, DE_Class)
 
 	UIBuilder* const setLayout(UILayout layout) {
 		mCurrentLayout = layout;

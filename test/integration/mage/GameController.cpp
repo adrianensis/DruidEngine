@@ -444,7 +444,7 @@ void GameController::step() {
 
 				tile->getTransform()->translate(floorMovement);
 
-				if (renderer->isOutOfCamera()) {
+				if (renderer->getIsOutOfCamera()) {
 
 					bool checkDirectionAndPosition = (movementDirection == -1
 							&& tile->getTransform()->getWorldPosition().x < 0);

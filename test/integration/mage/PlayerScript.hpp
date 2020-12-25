@@ -29,7 +29,7 @@ private:
 
 public:
 
-	DE_CLASS(PlayerScript, Script);
+	DE_CLASS(PlayerScript, Script)
 
 	void init() override;
 	void firstStep() override;

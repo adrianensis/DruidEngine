@@ -38,10 +38,6 @@ GameObjectBuilder* GameObjectBuilder::createSprite(Material* material, u32 layer
 	return this;
 }
 
-GameObject* GameObjectBuilder::getGameObject() {
-	return mGameObject;
-}
-
 // ---------------------------------------------------------------------------
 
 } /* namespace DE */

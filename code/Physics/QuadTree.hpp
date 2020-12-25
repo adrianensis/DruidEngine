@@ -47,7 +47,7 @@ private:
 		u32 mDynamicCollidersCount;
 		u32 mStaticCollidersCount;
 
-		DE_CLASS(Node, DE_Class);
+		DE_CLASS(Node, DE_Class)
 
 		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
@@ -74,20 +74,14 @@ private:
 
 public:
 
-	DE_CLASS(QuadTree, DE_Class);
+	DE_CLASS(QuadTree, DE_Class)
+
+	DE_GET_SET(Status)
 
 	void init(f32 size);
 
 	void addCollider(Collider *collider);
 	void update();
-
-	ColliderStatus getStatus() const {
-		return mStatus;
-	};
-
-	void setStatus(ColliderStatus newStatus) {
-		mStatus = newStatus;
-	};
 
 
 	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);

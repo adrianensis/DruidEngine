@@ -28,7 +28,7 @@ private:
 
 	class LineRenderer: public DE_Class {
 	public:
-		DE_CLASS(LineRenderer, DE_Class);
+		DE_CLASS(LineRenderer, DE_Class)
 
 		Array<f32>* mVertices; // A line is composed by 2 vertices.
 		u32 mVAO;
@@ -61,7 +61,7 @@ private:
 
 	class LayerData: public DE_Class {
 	public:
-		DE_CLASS(LayerData, DE_Class);
+		DE_CLASS(LayerData, DE_Class)
 
 		bool mSorted;
 		u32 mDynamicObjectsCount; // Non static objects count
@@ -75,7 +75,12 @@ private:
 
 public:
 
-	DE_CLASS(RenderEngine, DE_Class);
+	DE_CLASS(RenderEngine, DE_Class)
+
+	DE_GET_SET(Camera)
+	DE_GET(CameraDirtyTranslation)
+	DE_GET(MaxLayers)
+	DE_GET(LayersData)
 
 	void init(f32 sceneSize);
 	void bind();
@@ -87,23 +92,6 @@ public:
 	Chunk* assignChunk(Renderer *renderer);
 	void freeRenderer(Renderer *renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
-
-	Camera* getCamera() const {
-		return mCamera;
-	};
-
-	void setCamera(Camera *newCamera) {
-		mCamera = newCamera;
-	};
-
-	bool getCameraDirtyTranslation() const {
-		return mCameraDirtyTranslation;
-	};
-
-	u32 getMaxLayers() const { return mMaxLayers; };
-
-	HashMap<u32, LayerData*>* getLayersData() const { return mLayersData; };
-
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };
 

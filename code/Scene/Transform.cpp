@@ -16,7 +16,7 @@ Transform::Transform() : Component() {
 
 	mParent = nullptr;
 
-	mIsAffectedByProjection = true;
+	mAffectedByProjection = true;
 	mModelMatrixGenerated = false;
 	mForceModelMatrixCalculation = false;
 }

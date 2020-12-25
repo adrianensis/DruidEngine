@@ -222,7 +222,7 @@ void RenderEngine::step() {
 	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
 
-		bool chunkInCameraView = frustumTestSphere(chunk->mCenter, chunk->mRadius * 2);
+		bool chunkInCameraView = frustumTestSphere(chunk->getCenter(), chunk->getRadius() * 2);
 
 		if (chunkInCameraView) {
 			chunk->load();
@@ -230,7 +230,7 @@ void RenderEngine::step() {
 			chunk->unload();
 		}
 
-		if (chunk->isLoaded()) {
+		if (chunk->getIsLoaded()) {
 			chunk->update(mBatchesMap);
 		}
 	}
@@ -355,7 +355,7 @@ void RenderEngine::terminate() {
 
 void RenderEngine::addRenderer(Renderer *renderer) {
 
-	if (renderer->isAffectedByProjection()) {
+	if (renderer->getIsAffectedByProjection()) {
 		Chunk* chunk = assignChunk(renderer);
 		if(chunk){
 			chunk->addRenderer(renderer);

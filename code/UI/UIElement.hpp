@@ -55,7 +55,14 @@ protected:
 
 public:
 
-	DE_CLASS(UIElement, GameObject);
+	DE_CLASS(UIElement, GameObject)
+
+	DE_GET(Renderer)
+	DE_GET(Collider)
+	DE_GET(InputString)
+	DE_GET_SET(ConsumeInput)
+	DE_GET_SET(Group)
+	DE_GET(Pressed)
 
 	virtual void init();
 	virtual void onDestroy();
@@ -98,35 +105,7 @@ public:
 		mOnFocusLostFunctor.setCallback(callback);
 	}
 
-	Collider* getCollider() const {
-		return mCollider;
-	};
-
-	Renderer* getRenderer() const {
-		return mRenderer;
-	};
-
-
-	bool getPressed() const {
-		return mPressed;
-	};
-
-	const std::string& getInputString() const {
-		return mInputString;
-	};
-
-	void setConsumeInput(bool consumeInput) {
-		mConsumeInput = consumeInput;
-	};
-
-	bool isConsumeInput() const {
-		return mConsumeInput;
-	};
-
 	void setComponentsCache();
-
-	const UIGroup* getGroup() const { return mGroup; };
-	void setGroup(UIGroup* group) { mGroup = group; };
 
 	virtual void setVisibility(bool visibility);
 	bool isVisible();

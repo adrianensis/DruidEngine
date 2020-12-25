@@ -25,22 +25,10 @@ public:
 
 	DE_CLASS(BaseContainer, DE_Class)
 
-	u32 getLength() const {
-		return mLength;
-	};
-
-	u32 getElementSize() const {
-		return mElementSize;
-	};
-
-	u32 getAlignment() const {
-		return mAlignment;
-	};
-
-	void setAllocator(Allocator *newAllocator) {
-		mAllocator = newAllocator;
-	};
-
+	DE_GET(Length)
+	DE_GET(ElementSize)
+	DE_GET(Alignment)
+	DE_GET_SET(Allocator)
 
 	/*!
 	 \brief Clear the container.

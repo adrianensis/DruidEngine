@@ -17,7 +17,7 @@ private:
 
 public:
 
-	DE_CLASS(Settings, DE_Class);
+	DE_CLASS(Settings, DE_Class)
 
 	void init();
 	void readConfigFile(const std::string &path);

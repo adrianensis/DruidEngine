@@ -115,14 +115,14 @@ void RenderContext::terminate() {
 
 // ---------------------------------------------------------------------------
 
-GLuint RenderContext::createVBO(u32 elementSize, u32 attributeArrayIndex) {
+GLuint RenderContext::createVBO(u32 elementSize, u32 PropertyArrayIndex) {
 	u32 VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, 1000, nullptr, GL_DYNAMIC_DRAW);
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
-	RenderContext::enableAttribute(attributeArrayIndex);
-	glVertexAttribPointer(attributeArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);
+	RenderContext::enableProperty(PropertyArrayIndex);
+	glVertexAttribPointer(PropertyArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);
 	return VBO;
 }
 
@@ -159,14 +159,14 @@ void RenderContext::setDataEBO(u32 EBO, const Array<u32> *data) {
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::enableAttribute(u32 attributeArrayIndex) {
-	glEnableVertexAttribArray(attributeArrayIndex);
+void RenderContext::enableProperty(u32 PropertyArrayIndex) {
+	glEnableVertexAttribArray(PropertyArrayIndex);
 }
 
 // ---------------------------------------------------------------------------
 
-void RenderContext::disableAttribute(u32 attributeArrayIndex) {
-	glDisableVertexAttribArray(attributeArrayIndex);
+void RenderContext::disableProperty(u32 PropertyArrayIndex) {
+	glDisableVertexAttribArray(PropertyArrayIndex);
 }
 
 // ---------------------------------------------------------------------------

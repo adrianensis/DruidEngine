@@ -20,10 +20,11 @@ private:
 
 public:
 
-	DE_CLASS(GameObjectBuilder, DE_Class);
+	DE_CLASS(GameObjectBuilder, DE_Class)
+
+	DE_GET(GameObject)
 
 	GameObjectBuilder* createSprite(Material* material, u32 layer, bool isStatic);
-	GameObject* getGameObject();
 };
 
 // ---------------------------------------------------------------------------

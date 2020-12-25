@@ -37,18 +37,9 @@ public:
 
 	DE_CLASS(Allocator, DE_Class)
 
-	u32 getTotalSize() const {
-		return mTotalSize;
-	};
-
-	u32 getAllocatedSize() const {
-		return mAllocatedSize;
-	};
-
-	u32 getDebugMaxAllocatedSize() const {
-		return mDebugMaxAllocatedSize;
-	};
-
+	DE_GET(TotalSize)
+	DE_GET(AllocatedSize)
+	DE_GET(DebugMaxAllocatedSize)
 
 	/*!
 	 \return True if space is enough.

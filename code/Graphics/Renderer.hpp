@@ -19,159 +19,59 @@ template<class K, class V> class HashMap;
 template<class T> class Array;
 
 class Renderer: public Component {
-
 private:
 
 	HashMap<std::string, Animation*>* mAnimations;
-	Animation* mCurrentAnimation;
-	Material* mMaterial;
-	Mesh* mMesh;
-
-	Array<f32>* mColor;
-
-	Vector3 mPositionOffset;
-	Matrix4 mPositionOffsetMatrix;
 	Matrix4 mRenderereModelMatrix;
 	bool mPositionOffsetDirty;
-
 	bool mForceRecalculateVertices;
-
 	Array<Vector2>* mVertices;
+	bool mIsAffectedByProjection;
 
+	Animation* mCurrentAnimation;
+	Array<f32>* mColor;
+	Vector3 mPositionOffset;
 	Vector2 mRegionPosition;
 	Vector2 mRegionSize;
-
-	bool mInvertXAxis;
-
-	bool mLineMode;
-	bool mHasBorder;
-
+	Mesh* mMesh;
+	Material* mMaterial;
+	bool mIsInvertAxis;
+	bool mIsLineMode;
 	u32 mLayer;
-
 	f32 mRenderDistance;
-	bool mOutOfCamera;
-
-	Chunk* mChunk;
-
+	bool mIsOutOfCamera;
 	bool mIsAlreadyInBatch;
-	bool mIsAffectedByProjection;
+	Chunk* mChunk;
 
 public:
 
 	DE_CLASS(Renderer, Component);
 
+	DE_GET(CurrentAnimation)
+	DE_GET(Color)
+	DE_GET(PositionOffset)
+	DE_GET(RegionPosition)
+	DE_GET(RegionSize)
+	DE_GET_SET(Mesh)
+	DE_GET_SET(Material)
+	DE_GET_SET(IsInvertAxis)
+	DE_GET_SET(IsLineMode)
+	DE_GET_SET(Layer)
+	DE_GET_SET(RenderDistance)
+	DE_GET_SET(IsOutOfCamera)
+	DE_GET_SET(IsAlreadyInBatch)
+	DE_GET_SET(Chunk)
+
 	void init() override;
-
-	void setRegion(f32 u, f32 v, f32 width, f32 height);
-
-	/**
-	 * Set the animation, by name.
-	 * \param string name The name.
-	 */
-	void setAnimation(const std::string &name);
-
-	/**
-	 * Add an animation, by name.
-	 * \param string name The name.
-	 * \param Animation animation The animation.
-	 */
-	void addAnimation(const std::string &name, Animation *animation);
-
+	void setAnimation(const std::string& name);
+	void addAnimation(const std::string& name, Animation* animation);
 	bool hasAnimations() const;
-
-	const Animation* getCurrentAnimation() const;
-
 	void updateAnimation();
-
-	void setColor(const Vector4 &color);
-	const Array<f32>* getColor() const { return mColor; };
-
-	Vector2 getRegionPosition() const {
-		return mRegionPosition;
-	};
-
-	Vector2 getRegionSize() const {
-		return mRegionSize;
-	};
-
-	const Vector3& getPositionOffset() const {
-		return mPositionOffset;
-	};
-
+	void setColor(const Vector4& color);
+	void setRegion(f32 u, f32 v, f32 width, f32 height);
 	void setPositionOffset(Vector3 newPositionOffset);
-
-	const Matrix4& getPositionOffsetMatrix();
-
-	const Mesh* getMesh() const {
-		return mMesh;
-	};
-
-	void setMesh(Mesh *newMesh) {
-		mMesh = newMesh;
-	};
-
-	Material* getMaterial() const {
-		return mMaterial;
-	};
-
-	void setMaterial(Material *newMaterial) {
-		mMaterial = newMaterial;
-	};
-
-	void setInvertXAxis(bool newInvertXAxis) {
-		mInvertXAxis = newInvertXAxis;
-	};
-
-	bool getInvertXAxis() {
-		return mInvertXAxis;
-	};
-
-	bool isLineMode() {
-		return mLineMode;
-	};
-
-	void setLineMode(bool newLineMode) {
-		mLineMode = newLineMode;
-	};
-
-	u32 getLayer() const {
-		return mLayer;
-	};
-
-	void setLayer(u32 newLayer) {
-		mLayer = newLayer;
-	};
-
-	f32 getRenderDistance() const {
-		return mRenderDistance;
-	};
-
-	void setRenderDistance(f32 newRenderDistance) {
-		mRenderDistance = newRenderDistance;
-	};
-
-	bool isOutOfCamera() const {
-		return mOutOfCamera;
-	};
-
-	void setIsOutOfCamera(bool newOutOfCamera) {
-		mOutOfCamera = newOutOfCamera;
-	};
-
-	void setChunk(Chunk *chunk);
-	Chunk* getChunk();
-	void setIsAlreadyInBatch(bool isAlreadyInBatch) {
-		mIsAlreadyInBatch = isAlreadyInBatch;
-	};
-
-	bool isAlreadyInBatch() const {
-		return mIsAlreadyInBatch;
-	};
-
-	bool isAffectedByProjection();
-
+	bool getIsAffectedByProjection();
 	const Array<Vector2>* getVertices(bool force = false);
-
 	void forceRecalculateVertices();
 };
 

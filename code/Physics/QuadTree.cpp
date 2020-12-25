@@ -213,7 +213,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 
 			Collider* colliderA = itA.get();
 
-			if(PhysicsEngine::getInstance()->shouldDebugColliders()) {
+			if(PhysicsEngine::getInstance()->getDebugColliders()) {
 				colliderA->render();
 			}
 
@@ -270,7 +270,7 @@ void QuadTree::Node::update(/*contactManager*/) {
 
 											if (status == ColliderStatus::STATUS_PENETRATION) {
 
-												if (colliderA->isSolid() && colliderB->isSolid()) {
+												if (colliderA->getIsSolid() && colliderB->getIsSolid()) {
 													colliderA->markPenetratedBy(colliderB);
 													colliderB->markPenetratedBy(colliderA);
 
@@ -296,19 +296,19 @@ void QuadTree::Node::update(/*contactManager*/) {
 										//ContactsManager::getInstance()->removeContact(colliderA, colliderB);
 									}
 								}
-							} else if (colliderB->isPendingToBeDestroyed()) {
+							} else if (colliderB->getIsPendingToBeDestroyed()) {
 								internalRemoveColliderFromList(&itB);
 								//internalFreeCollider(colliderB);
-							} else if (colliderB->isDestroyed()) {
+							} else if (colliderB->getIsDestroyed()) {
 								internalRemoveColliderFromList(&itB);
 							}
 						}
 					}
 				}
-			} else if (colliderA->isPendingToBeDestroyed()) {
+			} else if (colliderA->getIsPendingToBeDestroyed()) {
 				internalRemoveColliderFromList(&itA);
 				//internalFreeCollider(colliderA);
-			} else if (colliderA->isDestroyed()) {
+			} else if (colliderA->getIsDestroyed()) {
 				internalRemoveColliderFromList(&itA);
 			}
 		}
@@ -343,7 +343,7 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 	// CHECK if collider is out of this node.
 	// only dynamic objects can escape from their nodes !!!
 
-	if (!collider->isStatic() || collider->hasSizeChanged()) {
+	if (!collider->isStatic() || collider->getHasSizeChanged()) {
 
 //		bool collision = MathUtils::testRectangleSphere(mLeftTop, mWidth, mHeight,
 //						Vector2(collider->getCenter()), collider->getRadius(), 0);
@@ -351,7 +351,7 @@ void QuadTree::Node::checkExit(Collider *collider) const {
 		bool collision = MathUtils::testRectanglePoint(mLeftTop, mWidth, mHeight,
 								Vector2(collider->getCenter()), -collider->getRadius());
 
-		if(!collision || collider->hasSizeChanged()){
+		if(!collision || collider->getHasSizeChanged()){
 			mExitingColliders->pushBack(collider);
 			mTree->addCollider(collider);
 		}

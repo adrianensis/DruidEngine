@@ -111,7 +111,7 @@ void Engine::run() {
 
 		Time::getInstance()->startFrame();
 
-		if (ScenesManager::getInstance()->sceneHasChanged()) {
+		if (ScenesManager::getInstance()->getSceneHasChanged()) {
 			terminateSubSystems();
 			ScenesManager::getInstance()->loadCurrentScene();
 			initSubsystems();

@@ -36,7 +36,15 @@ private:
 
 public:
 
-	DE_CLASS(GameObject, DE_Class);
+	DE_CLASS(GameObject, DE_Class)
+
+	DE_GET_SET(Scene)
+	DE_GET_SET(IsStatic)
+	DE_GET(Transform)
+	DE_GET_SET(Tag)
+	DE_GET(IsPendingToBeDestroyed)
+	DE_GET(IsDestroyed)
+	DE_GET_SET(ShouldPersist)
 
 	virtual void init();
 
@@ -58,48 +66,11 @@ public:
 		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
-	Scene* getScene() const {
-		return mScene;
-	};
-
-	void setScene(Scene *newScene) {
-		mScene = newScene;
-	};
-
-	bool isStatic() const {
-		return mIsStatic;
-	};
-
-	void setIsStatic(bool newIsStatic) {
-		mIsStatic = newIsStatic;
-	};
-
-	Transform* getTransform() const {
-		return mTransform;
-	};
-
-
-	const std::string& getTag() const {
-		return mTag;
-	};
-
-	void setTag(const std::string &tag) {
-		mTag = tag;
-	};
-
-
 	bool isActive() const {
 		return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive;
 	};
 
 	void setIsActive(bool isActive);
-	bool isPendingToBeDestroyed() const {
-		return mIsPendingToBeDestroyed;
-	};
-
-	bool isDestroyed() const {
-		return mIsDestroyed;
-	};
 
 	void setDestroyed() {
 		mIsDestroyed = true;
@@ -109,15 +80,6 @@ public:
 	void destroy();
 
 	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
-
-	bool shouldPersist() const {
-		return mShouldPersist;
-	};
-
-	void setShouldPersist(bool shouldPersist) {
-		mShouldPersist = shouldPersist;
-	};
-
 };
 
 // ---------------------------------------------------------------------------

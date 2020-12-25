@@ -52,7 +52,7 @@ void ProjectileScript::firstStep() {
 // ---------------------------------------------------------------------------
 
 void ProjectileScript::step() {
-	// if(mRenderer->isOutOfCamera()){
+	// if(mRenderer->getIsOutOfCamera()){
 	//   ECHO("PROJECTILE DESTROY")
 	//   getGameObject()->destroy();
 	// }

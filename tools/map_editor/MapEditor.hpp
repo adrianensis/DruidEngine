@@ -48,7 +48,7 @@ public:
 	Grid mGrid;
 	ConfigMap* mConfigMap = nullptr;
 
-	DE_CLASS(MapEditor, Script);
+	DE_CLASS(MapEditor, Script)
 
 	void createPlayer();
 	void destroyPlayer();

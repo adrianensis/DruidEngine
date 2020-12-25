@@ -109,16 +109,4 @@ void ScenesManager::setScene(u32 i) {
 
 // ---------------------------------------------------------------------------
 
-Scene* ScenesManager::getCurrentScene() {
-	return mCurrentScene;
-}
-
-// ---------------------------------------------------------------------------
-
-void ScenesManager::setGameObjectController(GameObject *controller) {
-	mGameObjectController = controller;
-};
-
-// ---------------------------------------------------------------------------
-
 }

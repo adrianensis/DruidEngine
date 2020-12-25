@@ -68,7 +68,7 @@ Batch::~Batch() {
 			VAR(u32, itList.get()->getLength());
 			u32 remainingInBatch = itList.get()->getLength();
 			FOR_LIST(itRenderer, itList.get()) {
-				if (!itRenderer.get()->isDestroyed()) {
+				if (!itRenderer.get()->getIsDestroyed()) {
 					itRenderer.get()->setDestroyed();
 					Memory::free<Renderer>(itRenderer.get());
 					remainingInBatch--;
@@ -215,18 +215,18 @@ bool Batch::checkDistance(Camera *cam, Renderer *renderer) {
 
 // ---------------------------------------------------------------------------
 
-bool Batch::checkOutOfCamera(Camera *cam, Renderer *renderer) {
+bool Batch::checkIsOutOfCamera(Camera *cam, Renderer *renderer) {
 
-	bool isOutOfCamera = false;
+	bool getIsOutOfCamera = false;
 
-	if (renderer->isAffectedByProjection()) {
+	if (renderer->getIsAffectedByProjection()) {
 		renderer->setIsOutOfCamera(!checkInFrustum(cam, renderer));
-		isOutOfCamera = renderer->isOutOfCamera();
+		getIsOutOfCamera = renderer->getIsOutOfCamera();
 	} else {
-		isOutOfCamera = false;
+		getIsOutOfCamera = false;
 	}
 
-	return isOutOfCamera;
+	return getIsOutOfCamera;
 }
 
 // ---------------------------------------------------------------------------
@@ -264,7 +264,7 @@ u32 Batch::render(u32 layer) {
 
 		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
 		shader->addBool(mMaterial->getAlphaEnabled(), "alphaEnabled");
-		shader->addBool(mMaterial->hasBorder(), "hasBorder");
+		shader->addBool(mMaterial->getHasBorder(), "hasBorder");
 
 		shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
 
@@ -273,32 +273,32 @@ u32 Batch::render(u32 layer) {
 
 			if(renderer->getLayer() == layer) {
 				if(renderer->isActive()) {
-					Chunk* chunk = renderer->getChunk();
-					bool chunkOk = (!chunk) || (chunk && chunk->isLoaded());
+					const Chunk* chunk = renderer->getChunk();
+					bool chunkOk = (!chunk) || (chunk && chunk->getIsLoaded());
 
 					if (chunkOk) {
 						Transform* t = renderer->getGameObject()->getTransform();
 
-						if (!checkOutOfCamera(camera, renderer)) {
+						if (!checkIsOutOfCamera(camera, renderer)) {
 
-							shader->addBool(renderer->isAffectedByProjection(), "isAffectedByProjection");
+							shader->addBool(renderer->getIsAffectedByProjection(), "isAffectedByProjection");
 
-							bool lineMode = it.get()->isLineMode();
+							bool IsLineMode = it.get()->getIsLineMode();
 
 							renderer->updateAnimation();
 							addToVertexBuffer(renderer);
 
 							drawCallCounter++;
 						}
-					} else if (renderer->isAffectedByProjection() && !chunk->isLoaded()) {
+					} else if (renderer->getIsAffectedByProjection() && !chunk->getIsLoaded()) {
 						internalRemoveRendererFromList(&it, renderers);
 					}
 
-					if (isSortedLayer && renderer->isAffectedByProjection() && !renderer->isStatic()) {
+					if (isSortedLayer && renderer->getIsAffectedByProjection() && !renderer->isStatic()) {
 						internalRemoveRendererFromList(&it, renderers);
 					}
 
-				} else if (renderer->isPendingToBeDestroyed()) {
+				} else if (renderer->getIsPendingToBeDestroyed()) {
 					// destroy renderer and remove from list
 					internalRemoveRendererFromList(&it, renderers);
 				}
@@ -375,7 +375,7 @@ void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 
 void Batch::addRenderer(Renderer *renderer) {
 
-	checkOutOfCamera(mRenderEngine->getCamera(), renderer);
+	checkIsOutOfCamera(mRenderEngine->getCamera(), renderer);
 
 	u32 layer = renderer->getLayer();
 
@@ -390,7 +390,7 @@ void Batch::addRenderer(Renderer *renderer) {
 
 	renderer->setIsAlreadyInBatch(true);
 
-	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
+	if (!renderer->isStatic() && renderer->getIsAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount++;
 	}
 
@@ -420,13 +420,13 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	Renderer* renderer = (*castedIt).get();
 	renderer->setIsAlreadyInBatch(false);
 
-	if (!renderer->isStatic() && renderer->isAffectedByProjection()) {
+	if (!renderer->isStatic() && renderer->getIsAffectedByProjection()) {
 		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
 	}
 
 	// NOTE: UI CASE
 	// UI is not Freed in Chunk so it has to ve freed here.
-	if(! renderer->isAffectedByProjection()){
+	if(! renderer->getIsAffectedByProjection()){
 		renderer->setDestroyed();
 		Memory::free<Renderer>(renderer);
 	}
@@ -457,7 +457,7 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 		Vector2 textureCoord(vertexTexture.x*regionSize.x + regionPosition.x, (1.0f-vertexTexture.y)*regionSize.y + regionPosition.y);
 
-		if(renderer->getInvertXAxis()){
+		if(renderer->getIsInvertAxis()){
 
 			textureCoord.x = 1.0f - textureCoord.x;
 
