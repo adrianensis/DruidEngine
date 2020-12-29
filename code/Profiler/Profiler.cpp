@@ -56,7 +56,7 @@ void Profiler::terminate(){
 void Profiler::printResult(std::string &name, f32 time) {
 	f32 percent = (time/mTotalTime) * 100.0f;
 	ECHO(name + " : " + std::to_string(time) + "s : " + std::to_string(percent) + "%")
-}
+} 
 
 void Profiler::timeMarkStart(const std::string &name) {
 
