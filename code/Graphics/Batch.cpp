@@ -65,7 +65,6 @@ Batch::Batch() : DE_Class() {
 Batch::~Batch() {
 	FOR_LIST(itList, mRenderers->getValues()) {
 		if (itList.get()) {
-			VAR(u32, itList.get()->getLength());
 			u32 remainingInBatch = itList.get()->getLength();
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->getIsDestroyed()) {
@@ -74,8 +73,6 @@ Batch::~Batch() {
 					remainingInBatch--;
 				}
 			}
-
-			VAR(u32, remainingInBatch);
 
 			Memory::free<List<Renderer*>>(itList.get());
 		}

@@ -242,7 +242,7 @@ void UI::internalRemoveUIElement(const Iterator *it) {
 // ---------------------------------------------------------------------------
 
 void UI::terminate() {
-	DE_TRACE();
+	DE_TRACE()
 
 	if(mUIBuilder){
 		Memory::free<UIBuilder>(mUIBuilder);

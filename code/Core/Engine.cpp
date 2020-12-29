@@ -22,6 +22,7 @@
 #include "ScenesManager.hpp"
 #include "EventsManager.hpp"
 #include "TimerManager.hpp"
+#include "Profiler.hpp"
 
 #include <string>
 #include <iostream>
@@ -53,6 +54,7 @@ void Engine::init() {
 	RenderContext::init();
 
 	TimerManager::getInstance()->init();
+	Profiler::getInstance()->init();
 	EventsManager::getInstance()->init();
 
 	Settings::getInstance()->init();
@@ -94,6 +96,8 @@ void Engine::terminateSubSystems() {
 		EventsManager::getInstance()->terminate();
 	//if(TimerManager::getInstance())
 		TimerManager::getInstance()->terminate();
+
+		Profiler::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------
@@ -141,6 +145,8 @@ void Engine::run() {
 		}
 
 		Time::getInstance()->endFrame();
+
+		Profiler::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 
@@ -166,6 +172,10 @@ void Engine::terminate() {
 
 	if (EventsManager::getInstance()){
 		Memory::free<EventsManager>(EventsManager::getInstance());
+	}
+
+	if (Profiler::getInstance()){
+		Memory::free<Profiler>(Profiler::getInstance());
 	}
 
 	if (TimerManager::getInstance()){

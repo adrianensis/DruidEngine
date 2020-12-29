@@ -29,7 +29,7 @@ void Memory::init() {
 	// NOTE: Log starts here!!
 	Log::init();
 
-	DE_TRACE();
+	DE_TRACE()
 
 	smGlobal.init(2 * GB);
 
@@ -40,7 +40,7 @@ void Memory::init() {
 // ---------------------------------------------------------------------------
 
 void Memory::init(u32 size) {
-	DE_TRACE();
+	DE_TRACE()
 
 	smGlobal.init(size);
 }

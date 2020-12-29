@@ -20,6 +20,7 @@
 #include "Settings.hpp"
 #include "Chunk.hpp"
 #include "UI.hpp"
+#include "Profiler.hpp"
 
 namespace DE {
 
@@ -89,7 +90,7 @@ RenderEngine::LayerData::~LayerData() = default;
 
 // ---------------------------------------------------------------------------
 
-RenderEngine::RenderEngine() : DE_Class(), Singleton() {
+RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 	mCamera = nullptr;
 	mLineRenderers = nullptr;
 	mLineRendererIndices = nullptr;
@@ -101,7 +102,7 @@ RenderEngine::~RenderEngine() = default;
 // ---------------------------------------------------------------------------
 
 void RenderEngine::init(f32 sceneSize) {
-	DE_TRACE();
+	DE_TRACE()
 
 	mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
 	mLineRendererIndices = Memory::allocate<Array<u32>>();
@@ -188,6 +189,8 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
 
 void RenderEngine::step() {
 
+	DE_TIMEMARK_START()
+
 	if (mCamera) {
 		if (mCamera->getFrustum()) {
 			mCamera->getFrustum()->build();
@@ -195,6 +198,28 @@ void RenderEngine::step() {
 
 		mCamera->calculateInverseMatrix();
 	}
+
+	renderBatches();
+	stepDebug();
+	swap();
+	checkChunks();
+	freeRenderersPendingtoFree();
+	DE_TIMEMARK_END()
+
+}
+
+// ---------------------------------------------------------------------------
+
+void RenderEngine::swap() {
+	DE_TIMEMARK_START()
+
+	RenderContext::swap();
+
+	DE_TIMEMARK_END()
+}
+
+void RenderEngine::renderBatches() {
+	DE_TIMEMARK_START()
 
 	u32 drawCallCounter = 0;
 
@@ -206,7 +231,6 @@ void RenderEngine::step() {
 	}
 
 	FOR_RANGE(layer, 0, mMaxLayers) {
-
 		//if(mLayersData->get(layer)->mVisible){
 		drawCallCounter += mBatchesMapNotAffectedByProjection->render(layer);
 		//}
@@ -214,11 +238,12 @@ void RenderEngine::step() {
 
 	// VAR(u32,drawCallCounter);
 
-	stepDebug();
+	DE_TIMEMARK_END()
+}
 
-	RenderContext::swap();
+void RenderEngine::checkChunks() {
+	DE_TIMEMARK_START()
 
-	//check Chunks
 	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
 
@@ -235,15 +260,25 @@ void RenderEngine::step() {
 		}
 	}
 
+	DE_TIMEMARK_END()
+}
+
+void RenderEngine::freeRenderersPendingtoFree() {
+	DE_TIMEMARK_START()
+
 	FOR_LIST(it, mRenderersToFree){
 		Memory::free<Renderer>(it.get());
 	}
 
 	mRenderersToFree->clear();
 
-} // ---------------------------------------------------------------------------
+	DE_TIMEMARK_END()
+}
+
+// ---------------------------------------------------------------------------
 
 void RenderEngine::stepDebug() {
+	DE_TIMEMARK_START()
 
 	mShaderLine->use();
 
@@ -278,6 +313,8 @@ void RenderEngine::stepDebug() {
 	}
 
 	mThereAreActiveDebugRenderer = false;
+
+	DE_TIMEMARK_END()
 }
 
 // ---------------------------------------------------------------------------
@@ -293,7 +330,7 @@ void RenderEngine::bind() {
 // ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
-	DE_TRACE();
+	DE_TRACE()
 
 	if(mLineRendererIndices){
 		Memory::free<Array<u32>>(mLineRendererIndices);
@@ -344,8 +381,6 @@ void RenderEngine::terminate() {
 		FOR_LIST(it, mRenderersToFree){
 			Memory::free<Renderer>(it.get());
 		}
-
-		VAR(u32, mRenderersToFree->getLength())
 
 		Memory::free<List<Renderer*>>(mRenderersToFree);
 	}

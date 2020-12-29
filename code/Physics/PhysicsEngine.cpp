@@ -10,6 +10,7 @@
 #include "ContactsManager.hpp"
 #include "RenderEngine.hpp"
 #include "Renderer.hpp"
+#include "Profiler.hpp"
 
 namespace DE {
 
@@ -63,7 +64,7 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::init(f32 sceneSize) {
-	DE_TRACE();
+	DE_TRACE()
 
 	ContactsManager::getInstance()->init();
 
@@ -81,6 +82,8 @@ void PhysicsEngine::init(f32 sceneSize) {
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::step(f32 deltaTime) {
+
+	DE_TIMEMARK_START()
 
 	// TODO : Move this to settings.
 	u32 maxIterations = 3.0f; // how many times we want to divide dt
@@ -119,19 +122,21 @@ void PhysicsEngine::step(f32 deltaTime) {
 
 	}
 
-
+	DE_TIMEMARK_END()
 }
 
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::updateContacts() {
+	DE_TIMEMARK_START()
 	ContactsManager::getInstance()->updateContacts();
+	DE_TIMEMARK_END()
 }
 
 // ---------------------------------------------------------------------------
 
 void PhysicsEngine::terminate() {
-	DE_TRACE();
+	DE_TRACE()
 
 	if(mRigidBodies){
 		FOR_LIST(it, mRigidBodies) {

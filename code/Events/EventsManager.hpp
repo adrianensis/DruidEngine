@@ -1,5 +1,5 @@
-#ifndef DE_EVENTSMANAGER_H_
-#define DE_EVENTSMANAGER_H_
+#ifndef DE_EVENTSMANAGER_H
+#define DE_EVENTSMANAGER_H
 
 #include "DE_Class.hpp"
 #include "Event.hpp"
@@ -64,4 +64,4 @@ public:
 
 } /* namespace DE */
 
-#endif /* DE_EVENTSMANAGER_H_ */
+#endif /* DE_EVENTSMANAGER_H */

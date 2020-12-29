@@ -22,7 +22,7 @@ Frustum::~Frustum() {
 }
 
 void Frustum::init(Camera *camera) {
-	DE_TRACE();
+	DE_TRACE()
 
 	mCamera = camera;
 	mPlanes = Memory::allocate<Array<Vector4>>();

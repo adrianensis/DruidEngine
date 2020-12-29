@@ -73,6 +73,11 @@ private:
 
 	bool mCameraDirtyTranslation;
 
+	void checkChunks();
+	void freeRenderersPendingtoFree();
+	void renderBatches();
+	void swap();
+
 public:
 
 	DE_CLASS(RenderEngine, DE_Class)

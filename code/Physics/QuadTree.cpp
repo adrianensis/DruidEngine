@@ -15,6 +15,7 @@
 #include "MathUtils.hpp"
 #include "GameObject.hpp"
 #include "Transform.hpp"
+#include "Profiler.hpp"
 
 namespace DE {
 
@@ -441,14 +442,14 @@ QuadTree::QuadTree() : DE_Class() {
 // ---------------------------------------------------------------------------
 
 QuadTree::~QuadTree() {
-	DE_TRACE();
+	DE_TRACE()
 	Memory::free<Node>(mRoot);
 }
 
 // ---------------------------------------------------------------------------
 
 void QuadTree::init(f32 size) {
-	DE_TRACE();
+	DE_TRACE()
 
 	mWidth = size;
 	mHeight = size;
@@ -462,7 +463,9 @@ void QuadTree::init(f32 size) {
 // ---------------------------------------------------------------------------
 
 void QuadTree::update() {
+	DE_TIMEMARK_START()
 	mRoot->update();
+	DE_TIMEMARK_END()
 }
 
 // ---------------------------------------------------------------------------

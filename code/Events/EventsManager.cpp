@@ -5,7 +5,7 @@
 
 namespace DE {
 
-EventsManager::EventsManager() : DE_Class() {
+EventsManager::EventsManager() : DE_Class(), Singleton<EventsManager>() {
 	mOwnersReceiversMap = nullptr;
 }
 

@@ -32,16 +32,21 @@ public:
 	template<class T>
 	static void var(const std::string &varname, T var) {
 		// std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
-		log("DE_VAR > " + varname + " : " + std::to_string(var));
-	};
+		std::string varStr;
+		if constexpr (std::is_same<T, std::string>::value) {
+			varStr = var;
+		} else {
+			varStr = std::to_string(var);
+		}
 
+		log("DE_VAR > " + varname + " : " + varStr);
+	};
 
 	template<class T>
 	static void val(const T &var) {
 		// std::cout << "DE_VAL > " << var << std::endl;
 		log("DE_VAL > " + std::to_string(var));
 	};
-
 
 	static void error(const std::string &message);
 

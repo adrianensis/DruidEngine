@@ -30,6 +30,18 @@ public:
 			mCallback(mUIElement);
 	}
 
+	FunctorUIElement& operator= (const FunctorUIElement &functor) {
+		// self-assignment guard
+		if (this == &functor)
+			return *this;
+
+		// do the copy
+		mUIElement = functor.mUIElement;
+		Functor<UIElementCallback>::operator =(functor);
+
+		return *this;
+	}
+
 };
 
 class UIElement: public GameObject {

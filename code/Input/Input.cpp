@@ -93,7 +93,7 @@ Input::~Input() {
 // ---------------------------------------------------------------------------
 
 void Input::init() {
-	DE_TRACE();
+	DE_TRACE()
 
 	smMouseCoordinates = Vector2();
 	smLastMouseButtonPressed = -1;

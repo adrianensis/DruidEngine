@@ -35,7 +35,7 @@ MaterialManager::~MaterialManager() {
 // ---------------------------------------------------------------------------
 
 void MaterialManager::init() {
-	DE_TRACE();
+	DE_TRACE()
 
 	mTexturesMap = Memory::allocate<HashMap<std::string, Texture*>>();
 	mTexturesMap->init();

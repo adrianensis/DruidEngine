@@ -15,7 +15,7 @@ LinearAllocator::~LinearAllocator() {
 // ---------------------------------------------------------------------------
 
 void LinearAllocator::init(u32 size) {
-	DE_TRACE();
+	DE_TRACE()
 
 	Allocator::init(size);
 DE_TRACE()

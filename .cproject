@@ -57,8 +57,6 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Memory}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Math}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Log}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Input}&quot;"/>
@@ -80,6 +78,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/tools/map_editor}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Events}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Maths}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/DruidEngine/code/Profiler}&quot;"/>
                                     								
                                 </option>
                                 								

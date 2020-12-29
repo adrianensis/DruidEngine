@@ -38,7 +38,7 @@ byte* StackAllocator::getTop() {
 // ---------------------------------------------------------------------------
 
 void StackAllocator::init(u32 size) {
-	DE_TRACE();
+	DE_TRACE()
 
 	LinearAllocator::init(size);
 	DE_TRACE()
@@ -48,7 +48,7 @@ void StackAllocator::init(u32 size) {
 // ---------------------------------------------------------------------------
 
 void StackAllocator::initFromMemory(u32 size, byte *mem) {
-	DE_TRACE();
+	DE_TRACE()
 
 	LinearAllocator::initFromMemory(size, mem);
 	DE_TRACE()

@@ -45,7 +45,7 @@ void RenderContext::onResize(GLFWwindow *window, int width, int height) {
 // ---------------------------------------------------------------------------
 
 void RenderContext::init() {
-	DE_TRACE();
+	DE_TRACE()
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

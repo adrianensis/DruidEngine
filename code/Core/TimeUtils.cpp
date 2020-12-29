@@ -3,36 +3,31 @@
 
 namespace DE {
 
-
 // ---------------------------------------------------------------------------
 
-Time::Time() : DE_Class(), Singleton<Time>(){
+TimeMark::TimeMark() : DE_Class(){
 
 }
 
-Time::~Time() = default;
+TimeMark::~TimeMark() = default;
 
 // ---------------------------------------------------------------------------
 
-void Time::init() {
-	DE_TRACE();
-
+void TimeMark::init() {
 	mDeltaTimeMillis = 0.0;
 	mDeltaTimeSeconds = 0.0;
 	mLastTime = std::chrono::high_resolution_clock::now();
-
-	mInitializationTime = std::chrono::high_resolution_clock::now();
 }
 
 // ---------------------------------------------------------------------------
 
-void Time::startFrame() {
+void TimeMark::startFrame() {
 	mStartTime = std::chrono::high_resolution_clock::now();
 }
 
 // ---------------------------------------------------------------------------
 
-void Time::endFrame() {
+void TimeMark::endFrame() {
 	mLastTime = std::chrono::high_resolution_clock::now();
 	mDeltaTimeChronoDuration = std::chrono::duration_cast<std::chrono::milliseconds>(mLastTime - mStartTime);
 	mDeltaTimeMillis = mDeltaTimeChronoDuration.count();
@@ -41,22 +36,30 @@ void Time::endFrame() {
 
 // ---------------------------------------------------------------------------
 
-f32 Time::getElapsedTime() {
+f32 TimeMark::getElapsedTime() {
 	auto now = std::chrono::high_resolution_clock::now();
 	return std::chrono::duration_cast<std::chrono::milliseconds>( now - mStartTime ).count();
 }
 
 // ---------------------------------------------------------------------------
 
-f32 Time::getDeltaTimeMillis() {
+f32 TimeMark::getDeltaTimeMillis() {
 	return mDeltaTimeMillis;
 }
 
 // ---------------------------------------------------------------------------
 
-f32 Time::getDeltaTimeSeconds() {
+f32 TimeMark::getDeltaTimeSeconds() {
 	return mDeltaTimeSeconds;
 }
+
+// ---------------------------------------------------------------------------
+
+Time::Time() : TimeMark(), Singleton<Time>(){
+
+}
+
+Time::~Time() = default;
 
 // ---------------------------------------------------------------------------
 

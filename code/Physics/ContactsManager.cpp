@@ -175,7 +175,7 @@ void ContactsManager::resolveContact(Contact* contact) {
 // ---------------------------------------------------------------------------
 
 void ContactsManager::init() {
-	DE_TRACE();
+	DE_TRACE()
 
 	mContactsMap = Memory::allocate<HashMap<Collider*, HashMap<Collider*, Contact*>*>>();
 	mContactsMap->init();

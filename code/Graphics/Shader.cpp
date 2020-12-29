@@ -55,7 +55,7 @@ void Shader::freeStaticShaders() {
 // ---------------------------------------------------------------------------
 
 void Shader::initInternal(const std::string &vertex, const std::string &fragment) {
-	DE_TRACE();
+	DE_TRACE()
 
 	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -116,13 +116,13 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 // ---------------------------------------------------------------------------
 
 void Shader::init() {
-	DE_TRACE();
+	DE_TRACE()
 
 	initInternal("resources/shaders/vertex.shader", "resources/shaders/fragment.shader");
 }
 
 void Shader::initDebug() {
-	DE_TRACE();
+	DE_TRACE()
 
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }

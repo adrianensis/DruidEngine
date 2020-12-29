@@ -185,7 +185,7 @@ void Allocator::setMemoryChunk(byte *mem) {
 // ---------------------------------------------------------------------------
 
 void Allocator::init(u32 size) {
-	DE_TRACE();
+	DE_TRACE()
 
 	initFromMemory(size, new byte[size]);
 }
@@ -193,7 +193,7 @@ void Allocator::init(u32 size) {
 // ---------------------------------------------------------------------------
 
 void Allocator::initFromMemory(u32 size, byte *mem) {
-	DE_TRACE();
+	DE_TRACE()
 
 	mTotalSize = size;
 
