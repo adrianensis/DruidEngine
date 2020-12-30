@@ -12,9 +12,19 @@ TimerHandle::TimerHandle() : DE_Class(){
 
 TimerHandle::~TimerHandle() = default;
 
-Timer::Timer() : DE_Class() { };
+Timer::Timer() : DE_Class() {
+	mDuration = 0;
+	mTimeCounter = 0;
+	mDurationType = TimerDurationType::TIME_AMOUNT;
+};
 
 Timer::~Timer() = default;
+
+void Timer::init(f32 duration, TimerDurationType durationType, std::function<void()> callback) {
+	mDurationType = durationType;
+	mDuration = duration;
+	mFunctor.setCallback(callback);
+}
 
 // ---------------------------------------------------------------------------
 
@@ -47,11 +57,11 @@ void TimerManager::step(f32 deltaTime) {
 		FOR_LIST(itTimer, timers){
 			Timer* timer = itTimer.get();
 
-			timer->mTimeCounter += deltaTime;
+			timer->setTimeCounter(timer->getTimeCounter() + deltaTime);
 
 			//VAR(f32, timer->mTimeCounter);
 
-			if(timer->mTimeCounter >= timer->mDuration){
+			if(timer->getTimeCounter() >= timer->getDuration()){
 				timer->mFunctor.execute();
 				endTimer(timer);
 			}
@@ -64,9 +74,7 @@ void TimerManager::step(f32 deltaTime) {
 TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback) {
 
 	Timer* timer = Memory::allocate<Timer>();
-	timer->mDurationType = durationType;
-	timer->mDuration = duration;
-	timer->mFunctor.setCallback(callback);
+	timer->init(duration, durationType, callback);
 
 	TimerHandle timerHandler;
 	timerHandler.init(timer);

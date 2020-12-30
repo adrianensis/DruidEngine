@@ -11,37 +11,30 @@ class Collider;
 class RigidBody: public Component {
 private:
 
-	Vector3 mLinear;
-	Vector3 mForceAccumulator;
-	f32 mMass;
-	bool mSimulate;
-
 	class State {
-	public: Vector3 mPosition;
-		Vector3 mLinear;
-		Vector3 mForceAccumulator;
-		f32 mMass;
-		bool mSimulate;
+	public:
+		DE_PUBLIC_M(Position, Vector3)
+		DE_PUBLIC_M(Linear, Vector3)
+		DE_PUBLIC_M(ForceAccumulator, Vector3)
+		DE_PUBLIC_M(Mass, f32)
+		DE_PUBLIC_M(Simulate, bool)
 
 		State();
 	};
 
-	State mState;
+	DE_M(State, State)
+	DE_M(LastCollisionPosition, Vector3)
+	DE_M(AntiPenetrationForce, Vector3)
 
-	Collider* mCollider;
-	Vector3 mLastCollisionPosition;
-
-	Vector3 mAntiPenetrationForce;
+	DE_M_GET(ForceAccumulator, Vector3)
+	DE_M_GET_SET(Mass, f32)
+	DE_M_GET_SET(Linear, Vector3)
+	DE_M_GET_SET(Simulate, bool)
+	DE_M_GET_SET(Collider, Collider*)
 
 public:
 
 	DE_CLASS(RigidBody, Component)
-
-	DE_GET(ForceAccumulator)
-	DE_GET_SET(Mass)
-	DE_GET_SET(Linear)
-	DE_GET_SET(Simulate)
-	DE_GET_SET(Collider)
 
 	void init() override;
 

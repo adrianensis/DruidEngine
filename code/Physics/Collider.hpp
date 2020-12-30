@@ -22,40 +22,29 @@ enum class ColliderShape {
 class Collider: public Component {
 private:
 
-	Array<Vector2>* mBoxVertices;
+	DE_M(BoxVertices, Array<Vector2>*)
 
-	f32 mWidth;
-	f32 mHalfWidth;
-	f32 mHeight;
-	f32 mHalfHeight;
-	f32 mRadius;
-	bool mIsSolid;
-	Vector3 mPositionOffset;
+	DE_M(HalfWidth, f32)
+	DE_M(HalfHeight, f32)
+	DE_M(Status, ColliderStatus)
+	
 	static f32 msDepthEpsilon;
-	RigidBody* mRigidBody;
-	ColliderStatus mStatus;
-	bool mIsPenetrated;
-	u32 mCollisionLayer;
-	ColliderShape mShape;
-	Contact* mLastContact;
-	bool mHasSizeChanged;
+
+	DE_M_GET(Radius, f32)
+	DE_M_GET(Height, f32)
+	DE_M_GET(Width, f32)
+	DE_M_GET_SET(PositionOffset, Vector3)
+	DE_M_GET_SET(RigidBody, RigidBody*)
+	DE_M_GET_SET(CollisionLayer, f32)
+	DE_M_GET_SET(Shape, ColliderShape)
+	DE_M_GET_SET(IsSolid, bool)
+	DE_M_GET(LastContact, Contact*)
+	DE_M_GET(IsPenetrated, bool)
+	DE_M_GET(HasSizeChanged, bool)
 
 public:
 
 	DE_CLASS(Collider, Component)
-
-
-	DE_GET(Radius)
-	DE_GET(Height)
-	DE_GET(Width)
-	DE_GET_SET(PositionOffset)
-	DE_GET_SET(RigidBody)
-	DE_GET_SET(CollisionLayer)
-	DE_GET_SET(Shape)
-	DE_GET_SET(IsSolid)
-	DE_GET(LastContact)
-	DE_GET(IsPenetrated)
-	DE_GET(HasSizeChanged)
 
 	void init() override;
 

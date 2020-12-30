@@ -12,20 +12,16 @@ class Shader;
 class Material: public DE_Class {
 
 private:
-	Shader* mShader;
-	Texture* mTexture;
 	Vector4 mColor;
-	bool mAlphaEnabled;
-	bool mHasBorder;
+
+	DE_M_GET_SET(Shader, Shader*)
+	DE_M_GET_SET(Texture, Texture*)
+	DE_M_GET_SET(AlphaEnabled, bool)
+	DE_M_GET_SET(HasBorder, bool)
 
 public:
 
 	DE_CLASS(Material, DE_Class)
-
-	DE_GET_SET(Shader)
-	DE_GET_SET(Texture)
-	DE_GET_SET(AlphaEnabled)
-	DE_GET_SET(HasBorder)
 
 	void init();
 };

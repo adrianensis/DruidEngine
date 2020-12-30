@@ -6,61 +6,46 @@
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
+#include "Material.hpp"
+#include "Mesh.hpp"
+#include "Animation.hpp"
+#include "HashMap.hpp"
+#include "Array.hpp"
+#include "Chunk.hpp"
 
 #include <string>
 
 namespace DE {
 
-class Material;
-class Mesh;
-class Animation;
-class Chunk;
-template<class K, class V> class HashMap;
-template<class T> class Array;
-
 class Renderer: public Component {
 private:
 
-	HashMap<std::string, Animation*>* mAnimations;
-	Matrix4 mRenderereModelMatrix;
-	bool mPositionOffsetDirty;
-	bool mForceRecalculateVertices;
-	Array<Vector2>* mVertices;
-	bool mIsAffectedByProjection;
+	using AnimationsMap = HashMap<std::string, Animation*>;
+	DE_M(Animations, AnimationsMap*)
+	DE_M(RenderereModelMatrix, Matrix4)
+	DE_M(PositionOffsetDirty, bool)
+	DE_M(ForceRecalculateVertices, bool)
+	DE_M(Vertices, Array<Vector2>*)
+	DE_M(IsAffectedByProjection, bool)
 
-	Animation* mCurrentAnimation;
-	Array<f32>* mColor;
-	Vector3 mPositionOffset;
-	Vector2 mRegionPosition;
-	Vector2 mRegionSize;
-	Mesh* mMesh;
-	Material* mMaterial;
-	bool mIsInvertAxis;
-	bool mIsLineMode;
-	u32 mLayer;
-	f32 mRenderDistance;
-	bool mIsOutOfCamera;
-	bool mIsAlreadyInBatch;
-	Chunk* mChunk;
+	DE_M_GET(CurrentAnimation, Animation*)
+	DE_M_GET(Color, Array<f32>*)
+	DE_M_GET(PositionOffset, Vector3)
+	DE_M_GET(RegionPosition, Vector2)
+	DE_M_GET(RegionSize, Vector2)
+	DE_M_GET_SET(Mesh, Mesh*)
+	DE_M_GET_SET(Material, Material*)
+	DE_M_GET_SET(IsInvertAxis, bool)
+	DE_M_GET_SET(IsLineMode, bool)
+	DE_M_GET_SET(Layer, u32)
+	DE_M_GET_SET(RenderDistance, f32)
+	DE_M_GET_SET(IsOutOfCamera, bool)
+	DE_M_GET_SET(IsAlreadyInBatch, bool)
+	DE_M_GET_SET(Chunk, Chunk*)
 
 public:
 
-	DE_CLASS(Renderer, Component);
-
-	DE_GET(CurrentAnimation)
-	DE_GET(Color)
-	DE_GET(PositionOffset)
-	DE_GET(RegionPosition)
-	DE_GET(RegionSize)
-	DE_GET_SET(Mesh)
-	DE_GET_SET(Material)
-	DE_GET_SET(IsInvertAxis)
-	DE_GET_SET(IsLineMode)
-	DE_GET_SET(Layer)
-	DE_GET_SET(RenderDistance)
-	DE_GET_SET(IsOutOfCamera)
-	DE_GET_SET(IsAlreadyInBatch)
-	DE_GET_SET(Chunk)
+	DE_CLASS(Renderer, Component)
 
 	void init() override;
 	void setAnimation(const std::string& name);

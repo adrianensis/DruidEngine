@@ -16,11 +16,13 @@ template<class T> class List;
 class BatchesMap: public DE_Class {
 private:
 
-	HashMap<Texture*, Batch*>* mBatches;
+	using TextureBatchMap = HashMap<Texture*, Batch*>;
+	DE_M(Batches, TextureBatchMap*);
 
 public:
 
 	DE_CLASS(BatchesMap, DE_Class)
+
 	void init();
 	u32 render(u32 layer);
 	void addRenderer(Renderer *renderer);
@@ -29,20 +31,16 @@ public:
 class Chunk: public DE_Class {
 private:
 
-	List<Renderer*>* mRenderers;
-	Vector3 mLeftTop;
-	f32 mSize;
-	bool mIsLoaded;
-	Vector3 mCenter;
-	f32 mRadius;
+	DE_M(Renderers, List<Renderer*>*);
+	DE_M(LeftTop, Vector3);
+	DE_M(Size, f32);
+	DE_M_GET(IsLoaded, bool)
+	DE_M_GET(Center, Vector3)
+	DE_M_GET(Radius, f32)
 
 public:
 
 	DE_CLASS(Chunk, DE_Class)
-
-	DE_GET(IsLoaded)
-	DE_GET(Center)
-	DE_GET(Radius)
 
 	void init();
 	void set(const Vector3 &leftTop, f32 size);

@@ -13,11 +13,12 @@ class GameObject;
 class ScenesManager: public DE_Class, public Singleton<ScenesManager> {
 
 private:
-	List<Scene*>* mScenes;
-	u32 mCurrentSceneIndex;
-	Scene* mCurrentScene;
-	bool mSceneHasChanged;
-	GameObject* mGameObjectController;
+	DE_M(Scenes, List<Scene*>*);
+	DE_M(CurrentSceneIndex, u32);
+	
+	DE_M_GET(CurrentScene, Scene*)
+	DE_M_GET(SceneHasChanged, bool)
+	DE_M_GET_SET(GameObjectController, GameObject*)
 
 	void internalLoadScene();
 	void addScene(Scene *newScene);
@@ -26,9 +27,7 @@ public:
 
 	DE_CLASS(ScenesManager, DE_Class)
 
-	DE_GET(CurrentScene)
-	DE_GET(SceneHasChanged)
-	DE_GET_SET(GameObjectController)
+
 
 	void init();
 	void step();

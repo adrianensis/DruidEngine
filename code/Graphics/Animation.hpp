@@ -13,16 +13,14 @@ class AnimationFrame;
 class Animation: public DE_Class {
 
 private:
-	List<AnimationFrame*>* mFrames;
-	u32 mCurrentFrameNumber;
-	f32 mSpeed;
-	f32 mTimeAccumulator;
+	DE_M(Frames, List<AnimationFrame*>*);
+	DE_M(CurrentFrameNumber, u32);
+	DE_M(TimeAccumulator, f32);
+	DE_M_SET(Speed, f32)
 
 public:
 
 	DE_CLASS(Animation, DE_Class)
-
-	DE_SET(Speed)
 
 	void init();
 

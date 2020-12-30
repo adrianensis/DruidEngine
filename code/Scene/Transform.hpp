@@ -13,27 +13,27 @@ class Transform: public Component {
 
 private:
 
-	Vector3 mWorldPosition;
-	Vector3 mLocalPosition;
-	Vector3 mRotation;
-	Vector3 mScale;
+	DE_M(WorldPosition, Vector3)
 
 	mutable Matrix4 mModelMatrix;
 	mutable Matrix4 mTranslationMatrix;
 	mutable Matrix4 mRotationMatrix;
 	mutable Matrix4 mScaleMatrix;
 
-	bool mModelMatrixGenerated;
+	DE_M(ModelMatrixGenerated, bool)
 
 	mutable bool mIsDirtyTranslation;
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	Transform* mParent;
+	DE_M(Parent, Transform*)
 
-	bool mAffectedByProjection;
+	DE_M(ForceModelMatrixCalculation, bool)
 
-	bool mForceModelMatrixCalculation;
+	DE_M_GET(LocalPosition, Vector3)
+	DE_M_GET(Rotation, Vector3)
+	DE_M_GET(Scale, Vector3)
+	DE_M_GET_SET(AffectedByProjection, bool)
 
 public:
 
@@ -42,11 +42,6 @@ public:
 	static const Vector3 smForward;
 
 	DE_CLASS(Transform, Component)
-
-	DE_GET(LocalPosition)
-	DE_GET(Rotation)
-	DE_GET(Scale)
-	DE_GET_SET(AffectedByProjection)
 
 	void init() override;
 

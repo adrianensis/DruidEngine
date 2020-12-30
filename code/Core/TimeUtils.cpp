@@ -6,7 +6,8 @@ namespace DE {
 // ---------------------------------------------------------------------------
 
 TimeMark::TimeMark() : DE_Class(){
-
+	mDeltaTimeMillis = 0.0;
+	mDeltaTimeSeconds = 0.0;
 }
 
 TimeMark::~TimeMark() = default;
@@ -55,7 +56,7 @@ f32 TimeMark::getDeltaTimeSeconds() {
 
 // ---------------------------------------------------------------------------
 
-Time::Time() : TimeMark(), Singleton<Time>(){
+Time::Time() : DE_Class(), Singleton<Time>(){
 
 }
 

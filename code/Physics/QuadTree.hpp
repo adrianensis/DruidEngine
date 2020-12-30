@@ -20,32 +20,34 @@ class QuadTree: public DE_Class {
 private:
 
 	class Node: public DE_Class {
-	private: void internalRemoveColliderFromList(const Iterator *it);
+	private:
+		void internalRemoveColliderFromList(const Iterator *it);
 		void internalFreeCollider(Collider *collider);
 
-	public: Vector2 mLeftTop;
-		f32 mWidth;
-		f32 mHeight;
-		f32 mMinWidth;
-		f32 mMinHeight;
+	public:
+		DE_PUBLIC_M(LeftTop, Vector2)
+		DE_PUBLIC_M(Width, f32)
+		DE_PUBLIC_M(Height, f32)
+		DE_PUBLIC_M(MinWidth, f32)
+		DE_PUBLIC_M(MinHeight, f32)
 
-		f32 mRadius;
+		DE_PUBLIC_M(Radius, f32)
 
-		QuadTree* mTree;
+		DE_PUBLIC_M(Tree, QuadTree*)
 
-		f32 mHalfWidth;
-		f32 mHalfHeight;
-		bool mIsDivisible;
+		DE_PUBLIC_M(HalfWidth, f32)
+		DE_PUBLIC_M(HalfHeight, f32)
+		DE_PUBLIC_M(IsDivisible, bool)
 
-		List<Collider*>* mColliders;
-		List<Collider*>* mExitingColliders;
-		Array<Node*>* mChildren;
-		Array<Vector2>* mLeftTopChildrenArray;
+		DE_PUBLIC_M(Colliders, List<Collider*>*)
+		DE_PUBLIC_M(ExitingColliders, List<Collider*>*)
+		DE_PUBLIC_M(Children, Array<Node*>*)
+		DE_PUBLIC_M(LeftTopChildrenArray, Array<Vector2>*)
 
-		u32 mChildrenCount;
+		DE_PUBLIC_M(ChildrenCount, u32)
 
-		u32 mDynamicCollidersCount;
-		u32 mStaticCollidersCount;
+		DE_PUBLIC_M(DynamicCollidersCount, u32)
+		DE_PUBLIC_M(StaticCollidersCount, u32)
 
 		DE_CLASS(Node, DE_Class)
 
@@ -65,18 +67,16 @@ private:
 
 	};
 
-	Node* mRoot;
+	DE_M(Root, Node*)
 
-	f32 mWidth;
-	f32 mHeight;
+	DE_M(Width, f32)
+	DE_M(Height, f32)
 
-	ColliderStatus mStatus;
+	DE_M_GET_SET(Status, ColliderStatus)
 
 public:
 
 	DE_CLASS(QuadTree, DE_Class)
-
-	DE_GET_SET(Status)
 
 	void init(f32 size);
 

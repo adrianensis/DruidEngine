@@ -16,10 +16,10 @@ class Engine: public DE_Class, public Singleton<Engine> {
 
 private:
 
-	f32 mFPS;
-	RenderEngine* mRenderEngine;
-	PhysicsEngine* mPhysicsEngine;
-	ScriptEngine* mScriptEngine;
+	DE_M(FPS, f32)
+	DE_M(RenderEngine, RenderEngine*)
+	DE_M(PhysicsEngine, PhysicsEngine*)
+	DE_M(ScriptEngine, ScriptEngine*)
 
 public:
 

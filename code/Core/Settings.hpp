@@ -13,7 +13,7 @@ template<class K, class V> class HashMap;
 class Settings: public DE_Class, public Singleton<Settings> {
 
 private:
-	ConfigMap* mConfigMap;
+	DE_M(ConfigMap, ConfigMap*)
 
 public:
 

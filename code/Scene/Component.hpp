@@ -11,21 +11,17 @@ class Component: public DE_Class {
 
 private:
 
-	GameObject* mGameObject;
-	bool mIsActive;
-	bool mIsDestroyed;
-	bool mIsPendingToBeDestroyed;
-	bool mAlreadyAddedToEngine;
-	bool mIsStatic;
+	DE_M(IsActive, bool)
+	DE_M(IsStatic, bool)
+
+	DE_M_GET_SET(GameObject, GameObject*)
+	DE_M_GET_SET(AlreadyAddedToEngine, bool)
+	DE_M_GET(IsPendingToBeDestroyed, bool)
+	DE_M_GET(IsDestroyed, bool)
 
 public:
 
 	DE_CLASS(Component, DE_Class)
-
-	DE_GET_SET(GameObject)
-	DE_GET_SET(AlreadyAddedToEngine)
-	DE_GET(IsPendingToBeDestroyed)
-	DE_GET(IsDestroyed)
 
 	virtual void init() = 0;
 

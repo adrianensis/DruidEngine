@@ -36,12 +36,11 @@ public:
 class ContactsManager: public DE_Class, public Singleton<ContactsManager> {
 private:
 	// ID = ContactID = ColliderA + Collider B
-	HashMap<Collider*, HashMap<Collider*, Contact*>*>* mContactsMap;
-
-	List<Contact*>* mContactsToRemove;
+	using ContactsMap = HashMap<Collider*, HashMap<Collider*, Contact*>*>;
+	DE_M(ContactsMap, ContactsMap*)
+	DE_M(ContactsToRemove, List<Contact*>*)
 
 	void removeContactFromMap(Contact* contact);
-
 	void resolveContact(Contact* contact);
 
 public:

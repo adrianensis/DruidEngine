@@ -14,21 +14,16 @@ class BaseContainer: public DE_Class {
 
 protected:
 
-	u32 mLength;
-	u32 mElementSize;
-	u32 mAlignment;
-	Allocator* mAllocator;
+	DE_M_GET(Length, u32)
+	DE_M_GET(ElementSize, u32)
+	DE_M_GET(Alignment, u32)
+	DE_M_GET_SET(Allocator, Allocator*)
 
 	void init(u32 length, u32 elementSize, u32 alignment);
 
 public:
 
 	DE_CLASS(BaseContainer, DE_Class)
-
-	DE_GET(Length)
-	DE_GET(ElementSize)
-	DE_GET(Alignment)
-	DE_GET_SET(Allocator)
 
 	/*!
 	 \brief Clear the container.

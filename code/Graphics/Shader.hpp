@@ -15,9 +15,9 @@ class Matrix4;
 
 class Shader: public DE_Class {
 private:
-	u32 mVertexShader;
-	u32 mFragmentShader;
-	u32 mProgram;
+	DE_M(VertexShader, u32)
+	DE_M(FragmentShader, u32)
+	DE_M(Program, u32)
 
 	static Shader* msShaderDefault;
 	static Shader* msShaderDebug;

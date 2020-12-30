@@ -10,17 +10,13 @@ namespace DE {
 class AnimationFrame: public DE_Class {
 private:
 
-	Vector2 mPosition;
-	f32 mWidth;
-	f32 mHeight;
+	DE_M_GET(Position, Vector2)
+	DE_M_GET(Width, f32)
+	DE_M_GET(Height, f32)
 
 public:
 
 	DE_CLASS(AnimationFrame, DE_Class)
-
-	DE_GET(Position)
-	DE_GET(Width)
-	DE_GET(Height)
 
 	void init(const Vector2 &position, f32 width, f32 height);
 };

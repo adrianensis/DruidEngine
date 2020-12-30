@@ -13,13 +13,13 @@ class PoolAllocator: public LinearAllocator {
 
 private:
 
-	u32 mBlockSize;
-	u32 mFullBlockSize;
-	u32 mAlignment;
-	u32 mMaxBlocks;
-	u32 mUsedBlocks;
-	byte* mFirst;
-	byte* mLast;
+	DE_M(BlockSize, u32)
+	DE_M(FullBlockSize, u32)
+	DE_M(Alignment, u32)
+	DE_M(MaxBlocks, u32)
+	DE_M(UsedBlocks, u32)
+	DE_M(First, byte*)
+	DE_M(Last, byte*)
 
 	static const u32 smPtrSize;
 

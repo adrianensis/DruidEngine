@@ -2,6 +2,7 @@
 #define DE_EVENT_H_
 
 #include "DE_Class.hpp"
+#include "BasicTypes.hpp"
 #include "Functor.hpp"
 #include "TimerManager.hpp"
 
@@ -28,14 +29,13 @@ public: \
 #define DE_EVENT_DECLARATION_END(EventClassName) };
 
 class Event : public DE_Class{
+private:
+	DE_PUBLIC_M(DelayAmount, f32)
+	DE_PUBLIC_M(DelayType, TimerDurationType)
+	DE_PUBLIC_M(Instigator, DE_Class*);
 
 public:
 	DE_CLASS(Event, DE_Class)
-
-	DE_Class* mInstigator;
-
-	TimerDurationType mDelayType;
-	f32 mDelayAmount;
 
 	// NOTE : Override in children!
 	Event& operator= (const Event &event) {
@@ -56,15 +56,19 @@ using EventCallback = std::function<void(const Event*)>;
 
 template<class E>
 class EventFunctor : public Functor<EventCallback> {
+private:
+	DE_PUBLIC_M(Event, E*)
+	DE_PUBLIC_M(EventClassId, ClassId)
+	DE_PUBLIC_M(EventReceiver, DE_Class*);
 
 public:
 	DE_GENERATE_METADATA(EventFunctor, Functor<EventCallback>);
 
-	E* mEvent = nullptr;
-	ClassId mEventClassId = 0;
-	DE_Class* mEventReceiver = nullptr;
-
-	EventFunctor():Functor<EventCallback>() {};
+	EventFunctor():Functor<EventCallback>() {
+		mEvent = nullptr;
+		mEventClassId = 0;
+		mEventReceiver = nullptr;
+	};
 	~EventFunctor() override {};
 
 	void execute() override {

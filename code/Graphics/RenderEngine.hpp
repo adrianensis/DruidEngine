@@ -24,68 +24,64 @@ class Vector3;
 class RenderEngine: public DE_Class, public Singleton<RenderEngine> {
 
 private:
-	Camera* mCamera;
 
 	class LineRenderer: public DE_Class {
 	public:
 		DE_CLASS(LineRenderer, DE_Class)
 
-		Array<f32>* mVertices; // A line is composed by 2 vertices.
-		u32 mVAO;
-		u32 mVBOPosition;
-		u32 mEBO;
-		bool mActive;
-		bool mIsAffectedByProjection;
-		f32 mSize;
+		DE_PUBLIC_M(Vertices, Array<f32>*) // A line is composed by 2 vertices.
+		DE_PUBLIC_M(VAO, u32)
+		DE_PUBLIC_M(VBOPosition, u32)
+		DE_PUBLIC_M(EBO, u32)
+		DE_PUBLIC_M(Active, bool)
+		DE_PUBLIC_M(IsAffectedByProjection, bool)
+		DE_PUBLIC_M(Size, f32)
 
 		void init();
 		void set(const Vector3 &start, const Vector3 &end);
 		void bind(const Array<u32> *indices);
 	};
 
-	Shader* mShaderLine;
-	Array<u32>* mLineRendererIndices; // [0,1]
-	Array<LineRenderer*>* mLineRenderers;
-	u32 mLineRenderersCount;
-	bool mThereAreActiveDebugRenderer;
+	DE_M(ShaderLine, Shader*)
+	DE_M(LineRendererIndices, Array<u32>*) // [0,1]
+	DE_M(LineRenderers, Array<LineRenderer*>*)
+	DE_M(LineRenderersCount, u32)
+	DE_M(ThereAreActiveDebugRenderer, bool)
 
-	List<Renderer*>* mRenderersToFree;
+	DE_M(RenderersToFree, List<Renderer*>*)
 
-	Array<Chunk*>* mChunks;
+	DE_M(Chunks, Array<Chunk*>*)
 
-	BatchesMap* mBatchesMap;
-	BatchesMap* mBatchesMapNotAffectedByProjection;
+	DE_M(BatchesMap, BatchesMap*)
+	DE_M(BatchesMapNotAffectedByProjection, BatchesMap*)
 
-	u32 mMaxLayersUsed;
-	u32 mMaxLayers;
+	DE_M(MaxLayersUsed, u32)
 
 	class LayerData: public DE_Class {
 	public:
 		DE_CLASS(LayerData, DE_Class)
 
-		bool mSorted;
-		u32 mDynamicObjectsCount; // Non static objects count
-		u32 mSortCounter;
-		bool mVisible;
+		DE_PUBLIC_M(Sorted, bool)
+		DE_PUBLIC_M(DynamicObjectsCount, u32) // Non static objects count
+		DE_PUBLIC_M(SortCounter, u32)
+		DE_PUBLIC_M(Visible, bool)
 	};
-
-	HashMap<u32, LayerData*>* mLayersData;
-
-	bool mCameraDirtyTranslation;
 
 	void checkChunks();
 	void freeRenderersPendingtoFree();
 	void renderBatches();
 	void swap();
 
+	using LayersDataMap = HashMap<u32, LayerData*>;
+
+	DE_M_GET_SET(Camera, Camera*)
+	DE_M_GET(CameraDirtyTranslation, bool)
+	DE_M_GET(MaxLayers, u32)
+	DE_M_GET(LayersData, LayersDataMap*)
+
 public:
 
 	DE_CLASS(RenderEngine, DE_Class)
-
-	DE_GET_SET(Camera)
-	DE_GET(CameraDirtyTranslation)
-	DE_GET(MaxLayers)
-	DE_GET(LayersData)
 
 	void init(f32 sceneSize);
 	void bind();

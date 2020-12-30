@@ -8,23 +8,17 @@ namespace DE {
 
 class Texture: public DE_Class {
 
-	u32 mTextureId;
-	int mWidth;
-	int mHeight;
-	byte* mData;
-	std::string mPath;
+	DE_M_GET(TextureId, u32)
+	DE_M_GET(Data, byte*)
+	DE_M_GET(Width, int)
+	DE_M_GET(Height, int)
+	DE_M_GET(Path, std::string)
 
 public:
 
 	DE_CLASS(Texture, DE_Class)
 
 	void init(const std::string &path);
-
-	DE_GET(TextureId)
-	DE_GET(Data)
-	DE_GET(Width)
-	DE_GET(Height)
-	DE_GET(Path)
 };
 
 } /* namespace DE */

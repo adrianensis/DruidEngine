@@ -17,15 +17,27 @@ enum class TimerDurationType {
 	NEXT_FRAME
 };
 
-class Timer;
 class TimerManager;
+
+class Timer : public DE_Class{
+private:
+	DE_M_GET(Duration, f32)
+	DE_M_GET_SET(TimeCounter, f32)
+	DE_M_GET(DurationType ,TimerDurationType)
+	DE_PUBLIC_M(Functor, FunctorVoid);
+
+public:
+	DE_CLASS(Timer, DE_Class)
+
+	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
+};
 
 class TimerHandle : public DE_Class{
 
 	friend TimerManager;
 
 private:
-	Timer* mTimerReference;
+	DE_M(TimerReference, Timer*);
 
 public:
 	DE_CLASS(TimerHandle, DE_Class)
@@ -46,20 +58,9 @@ public:
 	}
 };
 
-class Timer : public DE_Class{
-
-public:
-	DE_CLASS(Timer, DE_Class)
-
-	f32 mDuration = 0;
-	f32 mTimeCounter = 0;
-	TimerDurationType mDurationType = TimerDurationType::TIME_AMOUNT;
-	FunctorVoid mFunctor;
-};
-
 class TimerManager : public DE_Class, public Singleton<TimerManager>{
 private:
-	List<Timer*>* mTimers;
+	DE_M(Timers, List<Timer*>*);
 
 	void endTimer(Timer* timer);
 
@@ -69,9 +70,7 @@ public:
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 	void cancelTimer(const TimerHandle& timerHandle);
-
 	void step(f32 deltaTime /*Seconds*/);
-
 	void terminate();
 
 };

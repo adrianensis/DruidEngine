@@ -16,13 +16,11 @@ class GameObjectBuilder: public DE_Class, public Singleton<GameObjectBuilder> {
 
 private:
 
-	GameObject* mGameObject;
+	DE_M_GET(GameObject, GameObject*)
 
 public:
 
 	DE_CLASS(GameObjectBuilder, DE_Class)
-
-	DE_GET(GameObject)
 
 	GameObjectBuilder* createSprite(Material* material, u32 layer, bool isStatic);
 };

@@ -12,7 +12,8 @@ template<class T> class List;
 class ConfigMap: public DE_Class {
 
 private:
-	HashMap<std::string, std::string>* mMap;
+	using StringStringMap = HashMap<std::string, std::string>;
+	DE_M(Map, StringStringMap*)
 
 	static std::string trueString;
 	static std::string falseString;
@@ -33,8 +34,8 @@ public:
 	void setF32(const std::string &key, f32 value);
 	void setBool(const std::string &key, bool value);
 
-	template<class T>
-	const List<T>* getList(const std::string &key);
+	/*template<class T>
+	const List<T>* getList(const std::string &key);*/
 };
 }
 

@@ -42,22 +42,20 @@ private:
 		GameObject* get(u32 layer);
 	};
 
-	u32 mGridSize;
 	Array<Array<CellData*>*>* mGrid = nullptr;
 
 	Scene* mScene;
-	f32 mGridTileSize;
+
+	DE_M_GET(GridSize, u32)
+	DE_M_GET(GridTileSize, f32)
+	DE_M_GET(SelectedTiles, List<GameObject*>*)
 
 public:
 
-	List<GameObject*>* mSelectedTiles = nullptr;
+	//List<GameObject*>* mSelectedTiles = nullptr;
 	bool mIsPaintMode = false;
 
 	DE_CLASS(Grid, DE_Class)
-
-	DE_GET(GridTileSize)
-	DE_GET(GridSize)
-	DE_GET(SelectedTiles)
 
 	GameObject* createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer);
 

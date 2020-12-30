@@ -11,11 +11,11 @@ namespace DE {
  */
 class Allocator: public DE_Class {
 
-protected:
+private:
 
-	u32 mTotalSize;
-	u32 mAllocatedSize;
-	byte* mStart;
+	DE_M(Start, byte*)
+
+protected:
 
 	void checkAllocate(u32 size) const;
 	void checkAlignment(u32 alignment) const;
@@ -31,15 +31,13 @@ protected:
 
 	// Debug
 
-	u32 mDebugMaxAllocatedSize;
+	DE_M_GET(TotalSize, u32)
+	DE_M_GET(AllocatedSize, u32)
+	DE_M_GET(DebugMaxAllocatedSize, u32)
 
 public:
 
 	DE_CLASS(Allocator, DE_Class)
-
-	DE_GET(TotalSize)
-	DE_GET(AllocatedSize)
-	DE_GET(DebugMaxAllocatedSize)
 
 	/*!
 	 \return True if space is enough.

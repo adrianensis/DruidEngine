@@ -20,9 +20,11 @@ class FunctorUIElement : public Functor<UIElementCallback> {
 public:
 	DE_GENERATE_METADATA(FunctorUIElement, Functor<UIElementCallback>);
 
-	UIElement* mUIElement = nullptr;
+	DE_PUBLIC_M(UIElement, UIElement*)
 
-	FunctorUIElement():Functor<UIElementCallback>() {};
+	FunctorUIElement():Functor<UIElementCallback>() {
+		mUIElement = nullptr;
+	};
 	~FunctorUIElement() override {};
 
 	virtual void execute() override {
@@ -48,33 +50,22 @@ class UIElement: public GameObject {
 
 protected:
 
-	FunctorUIElement mOnPressedFunctor;
-	FunctorUIElement mOnReleasedFunctor;
+	DE_M(OnPressedFunctor, FunctorUIElement);
+	DE_M(OnReleasedFunctor, FunctorUIElement);
 
-	FunctorUIElement mOnTextChangedFunctor;
-	FunctorUIElement mOnFocusLostFunctor;
+	DE_M(OnTextChangedFunctor, FunctorUIElement);
+	DE_M(OnFocusLostFunctor, FunctorUIElement);
 
-	Collider* mCollider;
-	Renderer* mRenderer;
-
-	bool mPressed;
-
-	bool mConsumeInput;
-
-	std::string mInputString;
-
-	UIGroup* mGroup;
+	DE_M_GET(Renderer, Renderer*)
+	DE_M_GET(Collider, Collider*)
+	DE_M_GET(InputString, std::string)
+	DE_M_GET_SET(ConsumeInput, bool)
+	DE_M_GET_SET(Group, UIGroup*)
+	DE_M_GET(Pressed, bool)
 
 public:
 
 	DE_CLASS(UIElement, GameObject)
-
-	DE_GET(Renderer)
-	DE_GET(Collider)
-	DE_GET(InputString)
-	DE_GET_SET(ConsumeInput)
-	DE_GET_SET(Group)
-	DE_GET(Pressed)
 
 	virtual void init();
 	virtual void onDestroy();

@@ -8,7 +8,7 @@
 namespace DE {
 
 // --------------------------------------------------------
-// METADATA MACROS
+// CLASS - METADATA MACROS
 // --------------------------------------------------------
 
 #define DE_GENERATE_ID_STATIC(Class) static ClassId getClassIdStatic(){static ClassId classId = Hash::hash(#Class); return classId;}
@@ -70,19 +70,28 @@ namespace DE {
 		DE_CLASS_TEMPLATE_COMMON(Class, ParentClass)
 
 // --------------------------------------------------------
-// GETTERS AND SETTERS
+// MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
 
-#define DE_IS_POINTER(Var) std::is_pointer<std::remove_reference<decltype(Var)>::type>::value
-#define DE_IS_ARITHMETIC(Var) std::is_arithmetic<std::remove_reference<decltype(Var)>::type>::value
+#define DE_IS_POINTER(Class) std::is_pointer<std::remove_reference<Class>::type>::value
+#define DE_IS_ARITHMETIC(Class) std::is_arithmetic<std::remove_reference<Class>::type>::value
+
+#define DE_MEMBER_BASE(BaseName, Class) Class m ## BaseName = {};
+
+#define DE_PROTECTED_MEMBER(BaseName, Class) protected: DE_MEMBER_BASE(BaseName, Class) private:
+#define DE_PUBLIC_MEMBER(BaseName, Class) public: DE_MEMBER_BASE(BaseName, Class) public:
+
+#define DE_M(BaseName, Class) DE_PROTECTED_MEMBER(BaseName, Class)
+#define DE_PUBLIC_M(BaseName, Class) DE_PUBLIC_MEMBER(BaseName, Class)
+
 #define DE_COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type
 
 #define DE_GETTER_TYPE(Var)\
 	DE_COND_TYPE(\
-		DE_IS_POINTER(Var),\
+		DE_IS_POINTER(decltype(Var)),\
 		std::add_const<std::remove_reference<decltype(Var)>::type>::type,\
 		DE_COND_TYPE(\
-			DE_IS_ARITHMETIC(Var),\
+			DE_IS_ARITHMETIC(decltype(Var)),\
 			std::remove_reference<decltype(Var)>::type,\
 			std::add_const<decltype(Var)>::type\
 		)\
@@ -91,12 +100,20 @@ namespace DE {
 #define DE_SETTER_TYPE(Var) DE_GETTER_TYPE(Var) // NOTE: It's the same as the getter.
 
 #define DE_GET(BaseName)\
-	DE_GETTER_TYPE(m ## BaseName) get ## BaseName() const { return m ## BaseName; };
+	public: DE_GETTER_TYPE(m ## BaseName) get ## BaseName() const { return m ## BaseName; };
 
 #define DE_SET(BaseName)\
-	void set ## BaseName (DE_SETTER_TYPE(m ## BaseName) new ## BaseName){ m ## BaseName = new ## BaseName; };
+	public: void set ## BaseName (DE_SETTER_TYPE(m ## BaseName) new ## BaseName){ m ## BaseName = new ## BaseName; };
 
-#define DE_GET_SET(BaseName) DE_GET(BaseName) DE_SET(BaseName)
+#define DE_GET_SET(BaseName, Class) DE_GET(BaseName) DE_SET(BaseName)
+
+#define DE_M_GET(BaseName, Class)\
+	DE_M(BaseName, Class) DE_GET(BaseName)
+
+#define DE_M_SET(BaseName, Class)\
+	DE_M(BaseName, Class) DE_SET(BaseName)
+
+#define DE_M_GET_SET(BaseName, Class) DE_M(BaseName, Class) DE_GET_SET(BaseName, Class)
 
 // --------------------------------------------------------
 // FOR LOOPS

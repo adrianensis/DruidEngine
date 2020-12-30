@@ -11,10 +11,12 @@ namespace DE {
 
 class TimeMark : public DE_Class {
 private:
-	f32 mDeltaTimeMillis = 0.0;
-	f32 mDeltaTimeSeconds = 0.0;
-	std::chrono::milliseconds mDeltaTimeChronoDuration;
-	std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime, mLastTime;
+	DE_M(DeltaTimeMillis, f32)
+	DE_M(DeltaTimeSeconds, f32)
+	DE_M(DeltaTimeChronoDuration, std::chrono::milliseconds)
+	DE_M(StartTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
+	DE_M(LastTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
+
 public:
 	DE_CLASS(TimeMark, DE_Class)
 
@@ -41,9 +43,9 @@ public:
 	}
 };
 
-class Time : public TimeMark, public Singleton<Time>{
+class Time : public DE_Class, public Singleton<Time>{
 private:
-	TimeMark mInternalTimeMark;
+	DE_M(InternalTimeMark, TimeMark)
 
 public:
 	DE_CLASS(Time, DE_Class)

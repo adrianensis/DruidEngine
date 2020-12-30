@@ -95,6 +95,8 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 	mLineRenderers = nullptr;
 	mLineRendererIndices = nullptr;
 	mShaderLine = nullptr;
+	mBatchesMap = nullptr;
+	mCameraDirtyTranslation = true;
 }
 
 RenderEngine::~RenderEngine() = default;

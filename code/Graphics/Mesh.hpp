@@ -13,25 +13,23 @@ class Mesh: public DE_Class {
 
 private:
 
-	u32 mVertexCount;
+	DE_M_GET(Vertices, Array<f32>*)
+	DE_M_GET(Normals, Array<f32>*)
+	DE_M_GET(TextureCoordinates, Array<f32>*)
+	DE_M_GET(Faces, Array<u32>*)
 
-	Array<f32>* mVertices;
-	Array<f32>* mNormals;
-	Array<f32>* mTextureCoordinates;
-	Array<u32>* mFaces;
+	DE_M(VertexCount, u32)
 
-	u32 mVerticesIndex, mNormalsIndex, mFacesIndex, mTextureCoordinatesIndex;
+	DE_M(VerticesIndex, u32)
+	DE_M(NormalsIndex, u32)
+	DE_M(FacesIndex, u32)
+	DE_M(TextureCoordinatesIndex, u32)
 
 	static Mesh* smRectangle;
 
 public:
 
 	DE_CLASS(Mesh, DE_Class)
-
-	DE_GET(Vertices)
-	DE_GET(Normals)
-	DE_GET(TextureCoordinates)
-	DE_GET(Faces)
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh* addVertex(const Vector3 &vec);

@@ -16,29 +16,26 @@ class Camera: public Component {
 
 private:
 
-	Matrix4 mProjectionMatrix;
-	Matrix4 mViewTranslationMatrix;
-	Matrix4 mInversePVMatrix; // used in screen to world calculations.
-	Frustum* mFrustum;
+	DE_M(ProjectionMatrix, Matrix4)
+	DE_M(ViewTranslationMatrix, Matrix4)
+	DE_M(InversePVMatrix, Matrix4) // used in screen to world calculations.
 
-	f32 mLeft;
-	f32 mRight;
-	f32 mBottom;
-	f32 mTop;
-	f32 mNear;
-	f32 mFar;
+	DE_M(Left, f32)
+	DE_M(Right, f32)
+	DE_M(Bottom, f32)
+	DE_M(Top, f32)
+	DE_M(Near, f32)
+	DE_M(Far, f32)
+	
+	DE_M(Fov, f32)
+	DE_M(IsOrtho, bool)
 
-	f32 mFov;
-
-	bool mIsOrtho;
-	f32 mZoom;
+	DE_M_GET(Frustum, Frustum*)
+	DE_M_GET(Zoom, f32)
 
 public:
 
 	DE_CLASS(Camera, Component)
-
-	DE_GET(Frustum)
-	DE_GET(Zoom)
 
 	void init() override;
 

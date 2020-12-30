@@ -15,36 +15,26 @@ class Scene;
 // ---------------------------------------------------------------------------
 
 class GameObject: public DE_Class {
-
 private:
 
-	HashMap<ClassId, List<Component*>*>* mComponentsMap;
-
-	Transform* mTransform;
+	using ComponentsMap = HashMap<ClassId, List<Component*>*>;
+	DE_M(ComponentsMap, ComponentsMap*)
 
 	List<Component*>* getComponents(ClassId classId);
 
-	Scene* mScene;
+	DE_M(IsActive, bool)
 
-	bool mIsStatic;
-	bool mIsActive;
-	bool mIsDestroyed;
-	bool mIsPendingToBeDestroyed;
-	bool mShouldPersist;
-
-	std::string mTag;
+	DE_M_GET_SET(Scene, Scene*)
+	DE_M_GET_SET(IsStatic, bool)
+	DE_M_GET(Transform, Transform*)
+	DE_M_GET_SET(Tag, std::string)
+	DE_M_GET(IsPendingToBeDestroyed, bool)
+	DE_M_GET(IsDestroyed, bool)
+	DE_M_GET_SET(ShouldPersist, bool)
 
 public:
 
 	DE_CLASS(GameObject, DE_Class)
-
-	DE_GET_SET(Scene)
-	DE_GET_SET(IsStatic)
-	DE_GET(Transform)
-	DE_GET_SET(Tag)
-	DE_GET(IsPendingToBeDestroyed)
-	DE_GET(IsDestroyed)
-	DE_GET_SET(ShouldPersist)
 
 	virtual void init();
 

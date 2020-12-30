@@ -17,10 +17,9 @@ class Frustum: public DE_Class {
 
 private:
 
-	Matrix4* mVPmatrix;
-	Camera* mCamera;
-
-	Array<Vector4>* mPlanes;
+	DE_M(VPmatrix, Matrix4*)
+	DE_M(Camera, Camera*)
+	DE_M(Planes, Array<Vector4>*)
 
 public:
 

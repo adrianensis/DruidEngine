@@ -13,8 +13,8 @@ class Iterator;
 class ScriptEngine: public DE_Class, public Singleton<ScriptEngine> {
 private:
 
-	List<Script*>* mScripts;
-	Script* mController;
+	DE_M(Scripts, List<Script*>*)
+	DE_M(Controller, Script*)
 	void internalRemoveScript(const Iterator *it);
 
 public:DE_CLASS(ScriptEngine, DE_Class)

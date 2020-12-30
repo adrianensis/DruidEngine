@@ -22,43 +22,42 @@ class Batch: public DE_Class {
 
 private:
 
-	RenderEngine* mRenderEngine;
+	DE_M(RenderEngine, RenderEngine*)
 
-	HashMap<u32, List<Renderer*>*>* mRenderers;
-	HashMap<u32, List<Renderer*>*>* mDynamicRenderers;
+	using LayersRenderersMap = HashMap<u32, List<Renderer*>*>;
+	DE_M(Renderers, LayersRenderersMap*)
 
-	Material* mMaterial;
-	const Mesh* mMesh;
+	DE_M_SET(Material, Material*)
+	DE_M_SET(Mesh, const Mesh*)
 
-	u32 mVBOPosition; // TODO: change u32 for GLuint
-	u32 mEBO;
-	u32 mVBOTexture;
-	u32 mVBOColor;
-	u32 mVBONormal;
-	u32 mVAO;
+	DE_M(VBOPosition, u32); // TODO: change u32 for GLuint
+	DE_M(EBO, u32);
+	DE_M(VBOTexture, u32);
+	DE_M(VBOColor, u32);
+	DE_M(VBONormal, u32);
+	DE_M(VAO, u32);
 
-	u32 mMaxVertexBufferSize;
-	u32 mMaxMeshes;
-	u32 mMeshesIndex;
-	u32 mVerticesPerMesh;
-	u32 mVertexPositionSize;
-	u32 mVertexTextureSize;
-	u32 mVertexColorSize;
-	u32 mFacesSize;
-	u32 mPositionBufferIndex;
-	u32 mTextureBufferIndex;
-	u32 mColorBufferIndex;
-	Array<f32>* mPositionBuffer;
-	Array<f32>* mTextureBuffer;
-	Array<f32>* mColorBuffer;
-	Array<u32>* mFacesBuffer;
+	DE_M(MaxVertexBufferSize, u32);
+	DE_M(MaxMeshes, u32);
+	DE_M(MeshesIndex, u32);
+	DE_M(VerticesPerMesh, u32);
+	DE_M(VertexPositionSize, u32);
+	DE_M(VertexTextureSize, u32);
+	DE_M(VertexColorSize, u32);
+	DE_M(FacesSize, u32);
+	DE_M(PositionBufferIndex, u32);
+	DE_M(TextureBufferIndex, u32);
+	DE_M(ColorBufferIndex, u32);
+	DE_M(PositionBuffer, Array<f32>*);
+	DE_M(TextureBuffer, Array<f32>*);
+	DE_M(ColorBuffer, Array<f32>*);
+	DE_M(FacesBuffer, Array<u32>*);
+
+	DE_M(Binded, bool);
+	DE_M(TextureId, u32);
 
 	void addToVertexBuffer(Renderer* renderer);
 	void clearVertexBuffer();
-
-	bool mBinded;
-
-	u32 mTextureId;
 
 	bool checkInFrustum(Camera *cam, Renderer *renderer);
 	bool checkDistance(Camera *cam, Renderer *renderer);
@@ -78,9 +77,6 @@ private:
 public:
 
 	DE_CLASS(Batch, DE_Class)
-
-	DE_SET(Material)
-	DE_SET(Mesh)
 
 	void init(const Mesh *mesh, Material *material);
 	void bind();

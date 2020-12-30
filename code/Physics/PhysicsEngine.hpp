@@ -16,19 +16,17 @@ class Iterator;
 class PhysicsEngine: public DE_Class, public Singleton<PhysicsEngine> {
 private:
 
-	List<RigidBody*>* mRigidBodies;
-	List<RigidBody*>* mRigidBodiesToFree;
-	QuadTree* mQuadTree;
+	DE_M(RigidBodies, List<RigidBody*>*)
+	DE_M(RigidBodiesToFree, List<RigidBody*>*)
+	DE_M(QuadTree, QuadTree*)
 
-	bool mDebugColliders;
+	DE_M_GET_SET(DebugColliders, bool)
 
 	void internalRemoveRigidBody(const Iterator *it);
 
 public:
 
 	DE_CLASS(PhysicsEngine, DE_Class)
-
-	DE_GET_SET(DebugColliders)
 
 	void addRigidBody(RigidBody *rigidBody);
 	void addCollider(RigidBody *rigidBody, Collider *collider);

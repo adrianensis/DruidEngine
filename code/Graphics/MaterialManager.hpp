@@ -13,9 +13,11 @@ class Material;
 
 class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
-	HashMap<std::string, Texture*>* mTexturesMap;
-	HashMap<std::string, Material*>* mMaterialsMap;
-	Material* mNoTextureMaterial;
+	using PathTextureMap = HashMap<std::string, Texture*>;
+	DE_M(TexturesMap, PathTextureMap*)
+	using PathMaterialMap = HashMap<std::string, Material*>;
+	DE_M(MaterialsMap, PathMaterialMap*)
+	DE_M(NoTextureMaterial, Material*)
 
 public:
 

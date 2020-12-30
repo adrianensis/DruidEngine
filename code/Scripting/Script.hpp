@@ -9,13 +9,12 @@ class GameObject;
 
 class Script: public Component {
 private:
-	bool mFirstStepDone;
+
+	DE_M_GET(FirstStepDone, bool)
 
 public:
 
 	DE_CLASS(Script, Component)
-
-	DE_GET(FirstStepDone)
 
 	virtual void init();
 	virtual void firstStep();
