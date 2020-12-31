@@ -1,14 +1,14 @@
-#include "Renderer.hpp"
+#include "Graphics/Renderer.hpp"
 
 
-#include "AnimationFrame.hpp"
-#include "Shader.hpp"
-#include "List.hpp"
-#include "Log.hpp"
-#include "RenderEngine.hpp"
-#include "Collider.hpp"
-#include "GameObject.hpp"
-#include "Transform.hpp"
+#include "Graphics/AnimationFrame.hpp"
+#include "Graphics/Shader.hpp"
+#include "Containers/List.hpp"
+#include "Log/Log.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Physics/Collider.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scene/Transform.hpp"
 
 namespace DE {
 

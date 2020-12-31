@@ -1,8 +1,8 @@
 #ifndef DE_BASECONTAINER_H
 #define DE_BASECONTAINER_H
 
-#include "Basic.hpp"
-#include "Allocator.hpp"
+#include "Core/Basic.hpp"
+#include "Memory/Allocator.hpp"
 #include <string>
 
 namespace DE {

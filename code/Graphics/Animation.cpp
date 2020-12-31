@@ -1,10 +1,10 @@
-#include <TimeUtils.hpp>
-#include "Animation.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Graphics/Animation.hpp"
 
-#include "Memory.hpp"
-#include "AnimationFrame.hpp"
-#include "List.hpp"
-#include "Log.hpp"
+#include "Memory/Memory.hpp"
+#include "Graphics/AnimationFrame.hpp"
+#include "Containers/List.hpp"
+#include "Log/Log.hpp"
 
 namespace DE {
 

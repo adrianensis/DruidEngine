@@ -1,10 +1,10 @@
-#include "Frustum.hpp"
+#include "Graphics/Frustum.hpp"
 
-#include "Matrix4.hpp"
-#include "GameObject.hpp"
-#include "Transform.hpp"
-#include "Camera.hpp"
-#include "Array.hpp"
+#include "Maths/Matrix4.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scene/Transform.hpp"
+#include "Graphics/Camera.hpp"
+#include "Containers/Array.hpp"
 
 namespace DE {
 

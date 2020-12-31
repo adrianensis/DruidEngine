@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "Vector3.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Maths/Vector3.hpp"
 #include <cmath>
 
 int main() {

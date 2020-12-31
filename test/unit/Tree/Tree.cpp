@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "Tree.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Containers/Tree.hpp"
 #include <string>
 
 using namespace DE;

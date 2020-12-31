@@ -1,14 +1,14 @@
 #ifndef DE_UI_H
 #define DE_UI_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
-#include "Vector2.hpp"
-#include "UIElement.hpp"
-#include "UIButton.hpp"
-#include "UIText.hpp"
-#include "UIList.hpp"
-#include "UIBuilder.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
+#include "Maths/Vector2.hpp"
+#include "UI/UIElement.hpp"
+#include "UI/UIButton.hpp"
+#include "UI/UIText.hpp"
+#include "UI/UIList.hpp"
+#include "UI/UIBuilder.hpp"
 
 #include <string>
 

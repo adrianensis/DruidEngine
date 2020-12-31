@@ -1,7 +1,7 @@
 #ifndef DE_UITEXTEDITABLE_H
 #define DE_UITEXTEDITABLE_H
 
-#include "UIText.hpp"
+#include "UI/UIText.hpp"
 
 namespace DE {
 

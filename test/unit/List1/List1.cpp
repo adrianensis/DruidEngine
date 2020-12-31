@@ -1,7 +1,7 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "List.hpp"
-#include "Array.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Containers/List.hpp"
+#include "Containers/Array.hpp"
 
 using namespace DE;
 

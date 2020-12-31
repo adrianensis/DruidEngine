@@ -1,8 +1,8 @@
 #ifndef DE_ENGINE_H
 #define DE_ENGINE_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 

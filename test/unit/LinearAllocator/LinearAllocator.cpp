@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "LinearAllocator.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Memory/LinearAllocator.hpp"
 
 using namespace DE;
 

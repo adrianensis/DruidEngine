@@ -1,11 +1,11 @@
-#include "ScriptEngine.hpp"
+#include "Scripting/ScriptEngine.hpp"
 
-#include "Memory.hpp"
-#include "Script.hpp"
-#include "ScenesManager.hpp"
-#include "GameObject.hpp"
+#include "Memory/Memory.hpp"
+#include "Scripting/Script.hpp"
+#include "Core/ScenesManager.hpp"
+#include "Scene/GameObject.hpp"
 
-#include "Log.hpp"
+#include "Log/Log.hpp"
 
 namespace DE {
 

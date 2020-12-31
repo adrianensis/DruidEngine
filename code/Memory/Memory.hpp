@@ -1,7 +1,7 @@
 #ifndef DE_MEMORY_H
 #define DE_MEMORY_H
 
-#include "Allocator.hpp"
+#include "Memory/Allocator.hpp"
 #include <map>
 #include <typeinfo>       // operator typeid
 #include <string>

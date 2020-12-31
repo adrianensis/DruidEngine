@@ -1,5 +1,5 @@
-#include "Vector2.hpp"
-#include "Vector3.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector3.hpp"
 
 #include <algorithm>  // std::max
 

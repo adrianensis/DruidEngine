@@ -1,10 +1,10 @@
-#include <TimeUtils.hpp>
-#include "Script.hpp"
-#include "Log.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Scripting/Script.hpp"
+#include "Log/Log.hpp"
 
-#include "GameObject.hpp"
-#include "Transform.hpp"
-#include "Vector3.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scene/Transform.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

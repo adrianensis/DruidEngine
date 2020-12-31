@@ -1,8 +1,8 @@
 #ifndef DE_SINGLETON_H
 #define DE_SINGLETON_H
 
-#include "Basic.hpp"
-#include "Memory.hpp"
+#include "Core/Basic.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

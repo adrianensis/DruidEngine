@@ -1,9 +1,9 @@
 #ifndef DE_ANIMATION_H_
 #define DE_ANIMATION_H_
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
-#include "Vector2.hpp"
+#include "Maths/Vector2.hpp"
 
 namespace DE {
 

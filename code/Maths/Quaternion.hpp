@@ -1,15 +1,15 @@
 #ifndef DE_QUATERNION_H
 #define DE_QUATERNION_H
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
 #include <ostream>
 
-#include "BasicTypes.hpp"
-#include "Assert.hpp"
-#include "MathUtils.hpp"
-#include "Vector3.hpp"
-#include "Matrix4.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Assert/Assert.hpp"
+#include "Maths/MathUtils.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Matrix4.hpp"
 
 namespace DE {
 

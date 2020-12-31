@@ -1,10 +1,10 @@
 #ifndef DE_SETTINGS_H
 #define DE_SETTINGS_H
 
-#include "Basic.hpp"
-#include "Singleton.hpp"
-#include "ConfigMap.hpp"
-#include "File.hpp"
+#include "Core/Basic.hpp"
+#include "Core/Singleton.hpp"
+#include "Core/ConfigMap.hpp"
+#include "File/File.hpp"
 
 namespace DE {
 

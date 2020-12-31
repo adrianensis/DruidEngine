@@ -1,8 +1,8 @@
 #ifndef DE_PHYSICSENGINE_H
 #define DE_PHYSICSENGINE_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 

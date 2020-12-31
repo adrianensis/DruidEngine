@@ -1,9 +1,9 @@
 #ifndef DE_TRANSFORM_H
 #define DE_TRANSFORM_H
 
-#include "Component.hpp"
-#include "Vector3.hpp"
-#include "Matrix4.hpp"
+#include "Scene/Component.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Matrix4.hpp"
 
 namespace DE {
 

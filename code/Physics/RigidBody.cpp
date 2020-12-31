@@ -1,10 +1,10 @@
-#include "RigidBody.hpp"
-#include "GameObject.hpp"
-#include "Transform.hpp"
-#include "Collider.hpp"
-#include "List.hpp"
-#include "RenderEngine.hpp"
-#include "Renderer.hpp"
+#include "Physics/RigidBody.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scene/Transform.hpp"
+#include "Physics/Collider.hpp"
+#include "Containers/List.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Renderer.hpp"
 
 namespace DE {
 

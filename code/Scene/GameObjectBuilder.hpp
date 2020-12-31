@@ -1,10 +1,10 @@
 #ifndef DE_GAMEOBJECTBUILDER_H
 #define DE_GAMEOBJECTBUILDER_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
-#include "GameObject.hpp"
-#include "Vector3.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
+#include "Scene/GameObject.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

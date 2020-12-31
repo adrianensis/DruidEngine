@@ -1,5 +1,5 @@
-#include "FreeListAllocator.hpp"
-#include "MathUtils.hpp"
+#include "Memory/FreeListAllocator.hpp"
+#include "Maths/MathUtils.hpp"
 
 namespace DE {
 

@@ -1,9 +1,9 @@
 #ifndef DE_MATRIX4_H
 #define DE_MATRIX4_H
 
-#include "DE_Class.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector4.hpp"
 
 namespace DE {
 

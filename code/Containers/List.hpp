@@ -2,8 +2,8 @@
 #define DE_LIST_H
 
 #include "SequentialContainer.hpp"
-#include "Allocator.hpp"
-#include "Basic.hpp"
+#include "Memory/Allocator.hpp"
+#include "Core/Basic.hpp"
 
 #include <type_traits>
 

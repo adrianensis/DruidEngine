@@ -1,5 +1,5 @@
-#include "Texture.hpp"
-#include "Log.hpp"
+#include "Graphics/Texture.hpp"
+#include "Log/Log.hpp"
 #include "SOIL/SOIL.h"
 
 namespace DE {

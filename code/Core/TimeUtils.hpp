@@ -1,10 +1,10 @@
 #ifndef DE_TIME_H
 #define DE_TIME_H
 
-#include "BasicTypes.hpp"
-#include "Singleton.hpp"
-#include "DE_Class.hpp"
-#include "Log.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Log/Log.hpp"
 #include <chrono>
 
 namespace DE {

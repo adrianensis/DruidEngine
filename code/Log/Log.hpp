@@ -5,8 +5,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "BasicTypes.hpp"
-#include "DE_Class.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/DE_Class.hpp"
 
 namespace DE {
 

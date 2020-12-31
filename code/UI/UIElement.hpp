@@ -1,9 +1,9 @@
 #ifndef DE_UIELEMENT_H
 #define DE_UIELEMENT_H
 
-#include "GameObject.hpp"
-#include "Functor.hpp"
-#include "RenderContext.hpp"
+#include "Scene/GameObject.hpp"
+#include "Core/Functor.hpp"
+#include "Graphics/RenderContext.hpp"
 #include <string>
 
 namespace DE {

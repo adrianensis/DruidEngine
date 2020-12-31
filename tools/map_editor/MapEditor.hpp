@@ -1,14 +1,13 @@
 #ifndef DE_MAPEDITOR_H
 #define DE_MAPEDITOR_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
+#include "Scripting/Script.hpp"
 #include "MapEditorUI.hpp"
 #include "Grid.hpp"
 #include "Grid.hpp"
 #include <string>
 
-#include "Event.hpp"
+#include "Events/Event.hpp"
 
 namespace DE {
 

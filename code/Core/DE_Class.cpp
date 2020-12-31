@@ -1,4 +1,4 @@
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
 namespace DE {
 

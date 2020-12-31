@@ -1,10 +1,10 @@
-#include "UIDropdown.hpp"
-#include "UI.hpp"
-#include "UIBuilder.hpp"
-#include "UIText.hpp"
-#include "Renderer.hpp"
-#include "Transform.hpp"
-#include "List.hpp"
+#include "UI/UIDropdown.hpp"
+#include "UI/UI.hpp"
+#include "UI/UIBuilder.hpp"
+#include "UI/UIText.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Scene/Transform.hpp"
+#include "Containers/List.hpp"
 
 namespace DE {
 

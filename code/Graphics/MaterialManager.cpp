@@ -1,8 +1,8 @@
-#include "MaterialManager.hpp"
-#include "HashMap.hpp"
-#include "Texture.hpp"
-#include "Material.hpp"
-#include "Shader.hpp"
+#include "Graphics/MaterialManager.hpp"
+#include "Containers/HashMap.hpp"
+#include "Graphics/Texture.hpp"
+#include "Graphics/Material.hpp"
+#include "Graphics/Shader.hpp"
 
 namespace DE {
 

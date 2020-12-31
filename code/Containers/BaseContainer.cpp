@@ -1,6 +1,6 @@
 #include "BaseContainer.hpp"
-#include "BasicTypes.hpp"
-#include "Memory.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

@@ -1,9 +1,9 @@
 #ifndef DE_EDITOREVENTS_H
 #define DE_EDITOREVENTS_H
 
-#include "DE_Class.hpp"
-#include "EventsManager.hpp"
-#include "Event.hpp"
+#include "Core/DE_Class.hpp"
+#include "Events/EventsManager.hpp"
+#include "Events/Event.hpp"
 
 namespace DE {
 

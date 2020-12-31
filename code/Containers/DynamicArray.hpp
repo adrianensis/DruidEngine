@@ -1,11 +1,11 @@
 #ifndef DE_DYNAMICARRAY_H
 #define DE_DYNAMICARRAY_H
 
-#include "Array.hpp"
-#include "List.hpp"
-#include "Basic.hpp"
-#include "Allocator.hpp"
-#include "Memory.hpp"
+#include "Containers/Array.hpp"
+#include "Containers/List.hpp"
+#include "Core/Basic.hpp"
+#include "Memory/Allocator.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

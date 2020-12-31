@@ -1,5 +1,5 @@
-#include "Assert.hpp"
-#include "Log.hpp"
+#include "Assert/Assert.hpp"
+#include "Log/Log.hpp"
 #include <string>   // std::string
 #include <cstdlib>  // abort
 

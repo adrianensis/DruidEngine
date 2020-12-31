@@ -1,8 +1,8 @@
 #ifndef DE_CONFIGMAP_H
 #define DE_CONFIGMAP_H
 
-#include "Basic.hpp"
-#include "File.hpp"
+#include "Core/Basic.hpp"
+#include "File/File.hpp"
 
 namespace DE {
 

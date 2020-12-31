@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "DynamicArray.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Containers/DynamicArray.hpp"
 
 using namespace DE;
 

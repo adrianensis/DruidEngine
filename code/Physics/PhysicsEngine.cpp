@@ -1,16 +1,16 @@
-#include <TimeUtils.hpp>
-#include "PhysicsEngine.hpp"
-#include "RigidBody.hpp"
-#include "Collider.hpp"
-#include "QuadTree.hpp"
-#include "GameObject.hpp"
-#include "Memory.hpp"
-#include "List.hpp"
-#include "Settings.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Physics/PhysicsEngine.hpp"
+#include "Physics/RigidBody.hpp"
+#include "Physics/Collider.hpp"
+#include "Physics/QuadTree.hpp"
+#include "Scene/GameObject.hpp"
+#include "Memory/Memory.hpp"
+#include "Containers/List.hpp"
+#include "Core/Settings.hpp"
 #include "ContactsManager.hpp"
-#include "RenderEngine.hpp"
-#include "Renderer.hpp"
-#include "Profiler.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Profiler/Profiler.hpp"
 
 namespace DE {
 

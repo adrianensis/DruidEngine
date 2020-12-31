@@ -1,8 +1,8 @@
 #ifndef DE_LINEARALLOCATOR_H
 #define DE_LINEARALLOCATOR_H
 
-#include "Allocator.hpp"
-#include "Basic.hpp"
+#include "Memory/Allocator.hpp"
+#include "Core/Basic.hpp"
 
 namespace DE {
 

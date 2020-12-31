@@ -1,7 +1,7 @@
 #ifndef DE_TEXTURE_H_
 #define DE_TEXTURE_H_
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 #include <string>
 
 namespace DE {

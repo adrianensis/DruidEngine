@@ -1,7 +1,7 @@
-#include "ConfigMap.hpp"
-#include "HashMap.hpp"
-#include "List.hpp"
-#include "Memory.hpp"
+#include "Core/ConfigMap.hpp"
+#include "Containers/HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

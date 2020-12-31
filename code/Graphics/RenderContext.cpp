@@ -1,4 +1,4 @@
-#include "RenderContext.hpp"
+#include "Graphics/RenderContext.hpp"
 
 //#include <gl/gl.h>
 //#include <gl/glext.h>
@@ -6,10 +6,10 @@
 #include <iostream>
 #include <string>
 
-#include "Array.hpp"
-#include "Camera.hpp"
-#include "Input.hpp"
-#include "Camera.hpp"
+#include "Containers/Array.hpp"
+#include "Graphics/Camera.hpp"
+#include "Input/Input.hpp"
+#include "Graphics/Camera.hpp"
 
 namespace DE {
 

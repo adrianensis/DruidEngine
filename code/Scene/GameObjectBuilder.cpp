@@ -1,14 +1,14 @@
-#include "GameObjectBuilder.hpp"
+#include "Scene/GameObjectBuilder.hpp"
 
-#include "List.hpp"
-#include "HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Containers/HashMap.hpp"
 
-#include "Component.hpp"
-#include "Transform.hpp"
-#include "Material.hpp"
-#include "Memory.hpp"
-#include "Renderer.hpp"
-#include "Mesh.hpp"
+#include "Scene/Component.hpp"
+#include "Scene/Transform.hpp"
+#include "Graphics/Material.hpp"
+#include "Memory/Memory.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Graphics/Mesh.hpp"
 
 namespace DE {
 

@@ -1,4 +1,4 @@
-#include "Hash.hpp"
+#include "Core/Hash.hpp"
 
 namespace DE {
 

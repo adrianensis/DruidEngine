@@ -1,8 +1,8 @@
-#include "Profiler.hpp"
+#include "Profiler/Profiler.hpp"
 
-#include "HashMap.hpp"
-#include "List.hpp"
-#include "Memory.hpp"
+#include "Containers/HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

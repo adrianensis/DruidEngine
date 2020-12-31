@@ -1,5 +1,5 @@
-#include "Log.hpp"
-#include "BasicTypes.hpp"
+#include "Log/Log.hpp"
+#include "Core/BasicTypes.hpp"
 
 //#include <filesystem>
 

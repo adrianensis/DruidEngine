@@ -1,19 +1,19 @@
-#include "UIElement.hpp"
+#include "UI/UIElement.hpp"
 
-#include "Collider.hpp"
-#include "Renderer.hpp"
-#include "List.hpp"
+#include "Physics/Collider.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Containers/List.hpp"
 
-#include "EventsManager.hpp"
-#include "InputEvents.hpp"
-#include "Event.hpp"
+#include "Events/EventsManager.hpp"
+#include "Input/InputEvents.hpp"
+#include "Events/Event.hpp"
 
-#include "Input.hpp"
-#include "RenderEngine.hpp"
-#include "Vector2.hpp"
-#include "Transform.hpp"
-#include "Camera.hpp"
-#include "UI.hpp"
+#include "Input/Input.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Maths/Vector2.hpp"
+#include "Scene/Transform.hpp"
+#include "Graphics/Camera.hpp"
+#include "UI/UI.hpp"
 
 namespace DE {
 

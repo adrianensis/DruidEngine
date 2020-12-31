@@ -1,7 +1,7 @@
-#include "Memory.hpp"
-#include "FreeListAllocator.hpp"
-#include "LinearAllocator.hpp"
-#include "Log.hpp"
+#include "Memory/Memory.hpp"
+#include "Memory/FreeListAllocator.hpp"
+#include "Memory/LinearAllocator.hpp"
+#include "Log/Log.hpp"
 
 namespace DE {
 

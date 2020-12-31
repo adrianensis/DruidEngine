@@ -1,9 +1,9 @@
 #ifndef DE_HASHMAP_H
 #define DE_HASHMAP_H
 
-#include "List.hpp"
-#include "Array.hpp"
-#include "Memory.hpp"
+#include "Containers/List.hpp"
+#include "Containers/Array.hpp"
+#include "Memory/Memory.hpp"
 #include <functional>
 
 namespace DE {

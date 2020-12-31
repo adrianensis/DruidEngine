@@ -73,7 +73,7 @@ include_directories("${DEPENDENCIES_DIR}/glad/include")
 include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
 #link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
 file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
-# file(GLOB SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
+# file(GLOB_RECURSE SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
 message(${SOIL_SOURCE})
 
 # ----------------------------------------------------------------------------
@@ -92,12 +92,14 @@ endforeach()
 # PACKAGES INCLUDE DIRECTORIES
 # ----------------------------------------------------------------------------
 
-file(GLOB INCLUDE_PATHS "code/*")
+include_directories("code")
 
-foreach(INCLUDE_PATH ${INCLUDE_PATHS})
-  get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
-  include_directories("code/${INCLUDE_NAME}")
-endforeach()
+# file(GLOB INCLUDE_PATHS "code/*")
+#
+# foreach(INCLUDE_PATH ${INCLUDE_PATHS})
+#   get_filename_component(INCLUDE_NAME ${INCLUDE_PATH} NAME_WE) # NAME_WE = name with extension
+#   include_directories("code/${INCLUDE_NAME}")
+# endforeach()
 
 # ----------------------------------------------------------------------------
 # LIBRARY OBJECTS
@@ -107,7 +109,7 @@ endforeach()
 # Alternative: CMakeLists.txt with this code into source directory.
 # add_subdirectory(source)
 foreach(PACKAGE ${PACKAGES})
-  file(GLOB PACKAGE_SOURCE "code/${PACKAGE}/*")
+  file(GLOB_RECURSE PACKAGE_SOURCE "code/${PACKAGE}/*")
   add_library(${PACKAGE} OBJECT ${PACKAGE_SOURCE})
 endforeach()
 
@@ -149,7 +151,7 @@ file(GLOB TEST_PATHS "test/unit/*")
 
 foreach(TEST_PATH ${TEST_PATHS})
 
-	file(GLOB TEST_SOURCES "${TEST_PATH}/*.cpp")
+	file(GLOB_RECURSE TEST_SOURCES "${TEST_PATH}/*.cpp")
 
 	foreach(TEST_PATH ${TEST_SOURCES})
 
@@ -175,7 +177,7 @@ file(GLOB TEST_PATHS "test/integration/*")
 
 foreach(TEST_PATH ${TEST_PATHS})
 
-	file(GLOB TEST_SOURCES "${TEST_PATH}/*.cpp" "${TEST_PATH}/*.hpp")
+	file(GLOB_RECURSE TEST_SOURCES "${TEST_PATH}/*.cpp" "${TEST_PATH}/*.hpp")
 
   include_directories("${TEST_PATH}")
 
@@ -200,7 +202,7 @@ file(GLOB TOOL_PATHS "tools/*")
 
 foreach(TOOL_PATH ${TOOL_PATHS})
 
-  file(GLOB TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
+  file(GLOB_RECURSE TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
 
   include_directories("${TOOL_PATH}")
 

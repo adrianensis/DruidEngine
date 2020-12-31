@@ -1,8 +1,8 @@
 #ifndef DE_CHUNK_H_
 #define DE_CHUNK_H_
 
-#include "DE_Class.hpp"
-#include "Vector3.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

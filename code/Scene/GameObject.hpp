@@ -1,8 +1,8 @@
 #ifndef DE_GAMEOBJECT_H
 #define DE_GAMEOBJECT_H
 
-#include "DE_Class.hpp"
-#include "Component.hpp"
+#include "Core/DE_Class.hpp"
+#include "Scene/Component.hpp"
 
 namespace DE {
 

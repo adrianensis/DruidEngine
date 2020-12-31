@@ -1,7 +1,7 @@
-#include "EventsManager.hpp"
-#include "HashMap.hpp"
-#include "List.hpp"
-#include "Memory.hpp"
+#include "Events/EventsManager.hpp"
+#include "Containers/HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

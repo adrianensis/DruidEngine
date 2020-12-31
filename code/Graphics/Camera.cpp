@@ -1,9 +1,9 @@
-#include "Camera.hpp"
+#include "Graphics/Camera.hpp"
 
-#include "GameObject.hpp"
-#include "Transform.hpp"
-#include "Frustum.hpp"
-#include "RenderContext.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scene/Transform.hpp"
+#include "Graphics/Frustum.hpp"
+#include "Graphics/RenderContext.hpp"
 
 namespace DE {
 

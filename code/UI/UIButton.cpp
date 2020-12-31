@@ -1,9 +1,9 @@
-#include "UIButton.hpp"
-#include "UI.hpp"
-#include "UIBuilder.hpp"
-#include "UIText.hpp"
-#include "Renderer.hpp"
-#include "Transform.hpp"
+#include "UI/UIButton.hpp"
+#include "UI/UI.hpp"
+#include "UI/UIBuilder.hpp"
+#include "UI/UIText.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Scene/Transform.hpp"
 
 namespace DE {
 

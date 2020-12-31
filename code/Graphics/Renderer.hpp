@@ -1,17 +1,17 @@
 #ifndef DE_RENDERER_H
 #define DE_RENDERER_H
 
-#include "Component.hpp"
-#include "Vector2.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
-#include "Matrix4.hpp"
-#include "Material.hpp"
-#include "Mesh.hpp"
-#include "Animation.hpp"
-#include "HashMap.hpp"
-#include "Array.hpp"
-#include "Chunk.hpp"
+#include "Scene/Component.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector4.hpp"
+#include "Maths/Matrix4.hpp"
+#include "Graphics/Material.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Graphics/Animation.hpp"
+#include "Containers/HashMap.hpp"
+#include "Containers/Array.hpp"
+#include "Graphics/Chunk.hpp"
 
 #include <string>
 

@@ -1,13 +1,13 @@
 #include "ContactsManager.hpp"
-#include "Collider.hpp"
-#include "List.hpp"
-#include "HashMap.hpp"
-#include "Log.hpp"
-#include "Memory.hpp"
-#include "GameObject.hpp"
-#include "Script.hpp"
-#include "RigidBody.hpp"
-#include "RenderEngine.hpp"
+#include "Physics/Collider.hpp"
+#include "Containers/List.hpp"
+#include "Containers/HashMap.hpp"
+#include "Log/Log.hpp"
+#include "Memory/Memory.hpp"
+#include "Scene/GameObject.hpp"
+#include "Scripting/Script.hpp"
+#include "Physics/RigidBody.hpp"
+#include "Graphics/RenderEngine.hpp"
 
 namespace DE {
 

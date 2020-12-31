@@ -1,11 +1,11 @@
 #ifndef DE_TIMERMANAGER_H
 #define DE_TIMERMANAGER_H
 
-#include <TimeUtils.hpp>
-#include "BasicTypes.hpp"
-#include "Singleton.hpp"
-#include "DE_Class.hpp"
-#include "Functor.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Functor.hpp"
 
 namespace DE {
 
@@ -27,7 +27,7 @@ private:
 
 public:
 	DE_CLASS(Timer, DE_Class)
-	
+
 	DE_M(Functor, FunctorVoid);
 
 	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);

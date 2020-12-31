@@ -1,10 +1,10 @@
 #ifndef DE_EVENTSMANAGER_H
 #define DE_EVENTSMANAGER_H
 
-#include "DE_Class.hpp"
-#include "Event.hpp"
-#include "Assert.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Events/Event.hpp"
+#include "Assert/Assert.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 

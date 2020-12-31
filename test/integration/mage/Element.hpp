@@ -1,8 +1,8 @@
 #ifndef DE_ELEMENT_H
 #define DE_ELEMENT_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
+#include "Scripting/Script.hpp"
+#include "Maths/Vector2.hpp"
 
 namespace DE {
 

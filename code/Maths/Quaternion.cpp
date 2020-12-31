@@ -1,4 +1,4 @@
-#include "Quaternion.hpp"
+#include "Maths/Quaternion.hpp"
 
 #include <algorithm>  // std::max
 

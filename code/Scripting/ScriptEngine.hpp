@@ -1,9 +1,9 @@
 #ifndef DE_SCRIPTENGINE_H
 #define DE_SCRIPTENGINE_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
-#include "List.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
+#include "Containers/List.hpp"
 
 namespace DE {
 

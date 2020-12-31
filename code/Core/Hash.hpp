@@ -1,8 +1,8 @@
 #ifndef DE_HASH_H
 #define DE_HASH_H
 
-#include "BasicTypes.hpp"
-#include "Assert.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Assert/Assert.hpp"
 #include <string>
 
 namespace DE {

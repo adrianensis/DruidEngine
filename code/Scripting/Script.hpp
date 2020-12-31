@@ -1,7 +1,7 @@
 #ifndef DE_SCRIPT_H
 #define DE_SCRIPT_H
 
-#include "Component.hpp"
+#include "Scene/Component.hpp"
 
 namespace DE {
 

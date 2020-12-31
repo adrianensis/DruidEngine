@@ -1,9 +1,9 @@
 #ifndef DE_SHADER_H
 #define DE_SHADER_H
 
-#include "DE_Class.hpp"
-#include "BasicTypes.hpp"
-#include "Vector4.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Maths/Vector4.hpp"
 
 namespace DE {
 

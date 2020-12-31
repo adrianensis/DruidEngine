@@ -1,16 +1,16 @@
 #ifndef DE_UIBUILDER_H
 #define DE_UIBUILDER_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
-#include "Vector2.hpp"
-#include "Vector4.hpp"
-#include "UIElement.hpp"
-#include "UIButton.hpp"
-#include "UIText.hpp"
-#include "UITextEditable.hpp"
-#include "UIDropdown.hpp"
-#include "UIList.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector4.hpp"
+#include "UI/UIElement.hpp"
+#include "UI/UIButton.hpp"
+#include "UI/UIText.hpp"
+#include "UI/UITextEditable.hpp"
+#include "UI/UIDropdown.hpp"
+#include "UI/UIList.hpp"
 
 #include <string>
 

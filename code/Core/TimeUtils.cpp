@@ -1,5 +1,5 @@
-#include <TimeUtils.hpp>
-#include "Log.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Log/Log.hpp"
 
 namespace DE {
 

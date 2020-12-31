@@ -1,7 +1,7 @@
 #ifndef DE_COMPONENT_H
 #define DE_COMPONENT_H
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
 namespace DE {
 

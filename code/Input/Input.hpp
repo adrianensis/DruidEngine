@@ -1,13 +1,13 @@
 #ifndef DE_INPUT_H_
 #define DE_INPUT_H_
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
 
-#include "RenderContext.hpp"
-#include "Vector2.hpp"
+#include "Graphics/RenderContext.hpp"
+#include "Maths/Vector2.hpp"
 
-#include "InputEvents.hpp"
+#include "Input/InputEvents.hpp"
 
 namespace DE {
 

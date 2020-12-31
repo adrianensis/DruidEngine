@@ -1,10 +1,10 @@
 #ifndef DE_PROFILER_H
 #define DE_PROFILER_H
 
-#include "DE_Class.hpp"
-#include "TimeUtils.hpp"
-#include "Assert.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Assert/Assert.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 

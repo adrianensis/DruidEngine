@@ -1,7 +1,7 @@
 #ifndef DE_FILE_H_
 #define DE_FILE_H_
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
 #include <iostream>
 #include <fstream>

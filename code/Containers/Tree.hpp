@@ -1,8 +1,8 @@
 #ifndef DE_TREE_H
 #define DE_TREE_H
 
-#include "Array.hpp"
-#include "Memory.hpp"
+#include "Containers/Array.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

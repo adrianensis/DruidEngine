@@ -1,11 +1,11 @@
 #ifndef DE_MESH_H
 #define DE_MESH_H
 
-#include "Array.hpp"
-#include "DynamicArray.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
-#include "DE_Class.hpp"
+#include "Containers/Array.hpp"
+#include "Containers/DynamicArray.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector4.hpp"
+#include "Core/DE_Class.hpp"
 
 namespace DE {
 

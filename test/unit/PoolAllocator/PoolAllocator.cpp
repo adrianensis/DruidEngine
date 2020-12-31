@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "PoolAllocator.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Memory/PoolAllocator.hpp"
 
 using namespace DE;
 

@@ -1,8 +1,8 @@
 #ifndef DE_PROJECTILESCRIPT_H
 #define DE_PROJECTILESCRIPT_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
+#include "Scripting/Script.hpp"
+#include "Maths/Vector2.hpp"
 #include "Element.hpp"
 
 namespace DE {

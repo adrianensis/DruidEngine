@@ -1,6 +1,6 @@
-#include "MathUtils.hpp"
+#include "Maths/MathUtils.hpp"
 #include <algorithm>
-#include "Log.hpp"
+#include "Log/Log.hpp"
 
 namespace DE {
 

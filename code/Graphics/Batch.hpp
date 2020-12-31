@@ -1,8 +1,8 @@
 #ifndef DE_BATCH_H
 #define DE_BATCH_H
 
-#include "DE_Class.hpp"
-#include "Matrix4.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Matrix4.hpp"
 
 namespace DE {
 

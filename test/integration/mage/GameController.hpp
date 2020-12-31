@@ -1,9 +1,9 @@
 #ifndef DE_GameController_H
 #define DE_GameController_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
-#include "Vector4.hpp"
+#include "Scripting/Script.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector4.hpp"
 #include "PlayerScript.hpp"
 #include "Element.hpp"
 

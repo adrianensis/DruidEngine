@@ -1,9 +1,9 @@
-#include "Matrix4.hpp"
-#include "MathUtils.hpp"
-#include "Vector4.hpp"
-#include "Vector3.hpp"
-#include "Quaternion.hpp"
-#include "Array.hpp"
+#include "Maths/Matrix4.hpp"
+#include "Maths/MathUtils.hpp"
+#include "Maths/Vector4.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Quaternion.hpp"
+#include "Containers/Array.hpp"
 
 #include <cstring>
 

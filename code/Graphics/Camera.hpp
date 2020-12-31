@@ -1,11 +1,11 @@
 #ifndef DE_CAMERA_H
 #define DE_CAMERA_H
 
-#include "Component.hpp"
-#include "Vector3.hpp"
-#include "Vector2.hpp"
-#include "Matrix4.hpp"
-#include "Memory.hpp"
+#include "Scene/Component.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Matrix4.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

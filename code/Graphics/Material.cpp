@@ -1,8 +1,8 @@
-#include "Material.hpp"
+#include "Graphics/Material.hpp"
 
-#include "Memory.hpp"
-#include "Texture.hpp"
-#include "Shader.hpp"
+#include "Memory/Memory.hpp"
+#include "Graphics/Texture.hpp"
+#include "Graphics/Shader.hpp"
 
 namespace DE {
 

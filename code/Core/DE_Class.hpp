@@ -1,7 +1,7 @@
 #ifndef DE_CLASS_H
 #define DE_CLASS_H
 
-#include "Hash.hpp"
+#include "Core/Hash.hpp"
 #include <string>
 #include <iostream>
 

@@ -1,8 +1,8 @@
 #ifndef DE_COLLIDER_H
 #define DE_COLLIDER_H
 
-#include "Component.hpp"
-#include "Vector2.hpp"
+#include "Scene/Component.hpp"
+#include "Maths/Vector2.hpp"
 
 namespace DE {
 

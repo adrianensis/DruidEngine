@@ -1,8 +1,8 @@
 #ifndef DE_UITEXT_H
 #define DE_UITEXT_H
 
-#include "UIElement.hpp"
-#include "Vector2.hpp"
+#include "UI/UIElement.hpp"
+#include "Maths/Vector2.hpp"
 #include <string>
 
 namespace DE {

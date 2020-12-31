@@ -1,8 +1,8 @@
 #ifndef DE_SCENESMANAGER_H
 #define DE_SCENESMANAGER_H
 
-#include "Basic.hpp"
-#include "Singleton.hpp"
+#include "Core/Basic.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 template<class T> class List;

@@ -1,8 +1,8 @@
 #ifndef DE_SCENE_H
 #define DE_SCENE_H
 
-#include "DE_Class.hpp"
-#include "File.hpp"
+#include "Core/DE_Class.hpp"
+#include "File/File.hpp"
 
 namespace DE {
 

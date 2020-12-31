@@ -1,8 +1,8 @@
 #ifndef DE_STACKALLOCATOR_H
 #define DE_STACKALLOCATOR_H
 
-#include "LinearAllocator.hpp"
-#include "Basic.hpp"
+#include "Memory/LinearAllocator.hpp"
+#include "Core/Basic.hpp"
 
 namespace DE {
 

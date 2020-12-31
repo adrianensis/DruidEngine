@@ -1,21 +1,21 @@
 #include "Grid.hpp"
 
-#include <TimeUtils.hpp>
-#include "Log.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Log/Log.hpp"
 
-#include "Shader.hpp"
-#include "Vector3.hpp"
-#include "Vector4.hpp"
-#include "Matrix4.hpp"
-#include "Input.hpp"
-#include "Mesh.hpp"
-#include "MaterialManager.hpp"
-#include "Animation.hpp"
-#include "RenderEngine.hpp"
-#include "RenderContext.hpp"
-#include "File.hpp"
-#include "UI.hpp"
-#include "Settings.hpp"
+#include "Graphics/Shader.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Matrix4.hpp"
+#include "Input/Input.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Graphics/MaterialManager.hpp"
+#include "Graphics/Animation.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/RenderContext.hpp"
+#include "File/File.hpp"
+#include "UI/UI.hpp"
+#include "Core/Settings.hpp"
 
 namespace DE {
 

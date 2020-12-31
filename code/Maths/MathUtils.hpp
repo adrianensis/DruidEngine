@@ -3,9 +3,9 @@
 
 #include <cmath> /* ceil, max */
 #include <algorithm>
-#include "BasicTypes.hpp"
-#include "Vector2.hpp"
-#include "Vector3.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector3.hpp"
 #include <limits>
 
 namespace DE {

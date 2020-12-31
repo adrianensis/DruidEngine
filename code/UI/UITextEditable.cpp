@@ -1,5 +1,5 @@
-#include "UITextEditable.hpp"
-#include "UI.hpp"
+#include "UI/UITextEditable.hpp"
+#include "UI/UI.hpp"
 
 namespace DE {
 

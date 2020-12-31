@@ -4,8 +4,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "DE_Class.hpp"
-#include "Vector2.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector2.hpp"
 
 namespace DE {
 

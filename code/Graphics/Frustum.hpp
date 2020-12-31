@@ -1,11 +1,11 @@
 #ifndef DE_FRUSTUM_H
 #define DE_FRUSTUM_H
 
-#include "DE_Class.hpp"
-#include "Vector4.hpp"
-#include "Vector3.hpp"
-#include "Vector2.hpp"
-#include "Memory.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector4.hpp"
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector2.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

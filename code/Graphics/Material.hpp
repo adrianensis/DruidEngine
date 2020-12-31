@@ -1,8 +1,8 @@
 #ifndef DE_MATERIAL_H
 #define DE_MATERIAL_H
 
-#include "DE_Class.hpp"
-#include "Vector4.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector4.hpp"
 
 namespace DE {
 

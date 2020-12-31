@@ -1,10 +1,10 @@
 #ifndef DE_EVENT_H_
 #define DE_EVENT_H_
 
-#include "DE_Class.hpp"
-#include "BasicTypes.hpp"
-#include "Functor.hpp"
-#include "TimerManager.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/Functor.hpp"
+#include "Core/TimerManager.hpp"
 
 namespace DE {
 

@@ -1,6 +1,6 @@
-#include "Test.hpp"
-#include "Memory.hpp"
-#include "FreeListAllocator.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
+#include "Memory/FreeListAllocator.hpp"
 
 using namespace DE;
 

@@ -1,8 +1,8 @@
 #ifndef DE_MATERIALMANAGER_H_
 #define DE_MATERIALMANAGER_H_
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
 #include <string>
 
 namespace DE {

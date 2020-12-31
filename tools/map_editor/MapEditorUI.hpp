@@ -1,10 +1,10 @@
 #ifndef DE_MAPEDITORUI_H
 #define DE_MAPEDITORUI_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
+#include "Scripting/Script.hpp"
+#include "Maths/Vector2.hpp"
 #include <string>
-#include "UIElement.hpp"
+#include "UI/UIElement.hpp"
 
 namespace DE {
 

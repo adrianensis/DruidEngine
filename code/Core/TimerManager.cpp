@@ -1,7 +1,7 @@
-#include <TimerManager.hpp>
-#include "Log.hpp"
-#include "List.hpp"
-#include "Memory.hpp"
+#include "Core/TimerManager.hpp"
+#include "Log/Log.hpp"
+#include "Containers/List.hpp"
+#include "Memory/Memory.hpp"
 
 namespace DE {
 

@@ -1,6 +1,6 @@
-#include <TimeUtils.hpp>
-#include "Test.hpp"
-#include "Memory.hpp"
+#include "Core/TimeUtils.hpp"
+#include "Test/Test.hpp"
+#include "Memory/Memory.hpp"
 
 int main() {
 

@@ -1,9 +1,9 @@
 #ifndef DE_INPUTEVENTS_H_
 #define DE_INPUTEVENTS_H_
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
-#include "Event.hpp"
+#include "Events/Event.hpp"
 
 namespace DE {
 

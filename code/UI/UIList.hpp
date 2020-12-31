@@ -1,7 +1,7 @@
 #ifndef DE_UILIST_H
 #define DE_UILIST_H
 
-#include "UIElement.hpp"
+#include "UI/UIElement.hpp"
 
 namespace DE {
 

@@ -1,8 +1,8 @@
 #ifndef DE_Playground_H
 #define DE_Playground_H
 
-#include "Script.hpp"
-#include "Vector2.hpp"
+#include "Scripting/Script.hpp"
+#include "Maths/Vector2.hpp"
 #include <string>
 
 namespace DE {

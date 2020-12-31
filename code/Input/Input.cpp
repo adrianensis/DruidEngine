@@ -1,6 +1,6 @@
-#include "Input.hpp"
-#include "Log.hpp"
-#include "EventsManager.hpp"
+#include "Input/Input.hpp"
+#include "Log/Log.hpp"
+#include "Events/EventsManager.hpp"
 
 namespace DE {
 

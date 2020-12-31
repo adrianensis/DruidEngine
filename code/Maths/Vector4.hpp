@@ -1,13 +1,13 @@
 #ifndef DE_VECTOR4_H
 #define DE_VECTOR4_H
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 
 #include <ostream>
 
-#include "BasicTypes.hpp"
-#include "Assert.hpp"
-#include "MathUtils.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Assert/Assert.hpp"
+#include "Maths/MathUtils.hpp"
 
 namespace DE {
 

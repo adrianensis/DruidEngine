@@ -1,9 +1,9 @@
 #ifndef DE_QUADTREE_H
 #define DE_QUADTREE_H
 
-#include "DE_Class.hpp"
-#include "Vector2.hpp"
-#include "Vector3.hpp"
+#include "Core/DE_Class.hpp"
+#include "Maths/Vector2.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

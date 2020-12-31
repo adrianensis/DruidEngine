@@ -1,13 +1,13 @@
-#include "ScenesManager.hpp"
-#include "HashMap.hpp"
-#include "List.hpp"
-#include "Scene.hpp"
-#include "Memory.hpp"
-#include "GameObject.hpp"
-#include "Camera.hpp"
-#include "Settings.hpp"
-#include "RenderEngine.hpp"
-#include "Script.hpp"
+#include "Core/ScenesManager.hpp"
+#include "Containers/HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Scene/Scene.hpp"
+#include "Memory/Memory.hpp"
+#include "Scene/GameObject.hpp"
+#include "Graphics/Camera.hpp"
+#include "Core/Settings.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Scripting/Script.hpp"
 #include <string>
 
 namespace DE {

@@ -1,10 +1,10 @@
-#include "GameObject.hpp"
+#include "Scene/GameObject.hpp"
 
-#include "List.hpp"
-#include "HashMap.hpp"
+#include "Containers/List.hpp"
+#include "Containers/HashMap.hpp"
 
-#include "Component.hpp"
-#include "Transform.hpp"
+#include "Scene/Component.hpp"
+#include "Scene/Transform.hpp"
 
 namespace DE {
 

@@ -1,8 +1,8 @@
 #ifndef DE_RIGIDBODY_H
 #define DE_RIGIDBODY_H
 
-#include "Component.hpp"
-#include "Vector3.hpp"
+#include "Scene/Component.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

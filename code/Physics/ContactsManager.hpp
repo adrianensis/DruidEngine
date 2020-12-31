@@ -1,9 +1,9 @@
 #ifndef DE_CONTACTSMANAGER_H
 #define DE_CONTACTSMANAGER_H
 
-#include "DE_Class.hpp"
-#include "Singleton.hpp"
-#include "Vector3.hpp"
+#include "Core/DE_Class.hpp"
+#include "Core/Singleton.hpp"
+#include "Maths/Vector3.hpp"
 
 namespace DE {
 

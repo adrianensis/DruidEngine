@@ -1,8 +1,7 @@
 #ifndef DE_ALLOCATOR_H
 #define DE_ALLOCATOR_H
 
-#include "Assert.hpp"
-#include "Basic.hpp"
+#include "Core/Basic.hpp"
 
 namespace DE {
 

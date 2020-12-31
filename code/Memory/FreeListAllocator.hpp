@@ -1,9 +1,9 @@
 #ifndef DE_FREELISTALLOCATOR_H
 #define DE_FREELISTALLOCATOR_H
 
-#include "Basic.hpp"
-#include "List.hpp"
-#include "LinearAllocator.hpp"
+#include "Core/Basic.hpp"
+#include "Containers/List.hpp"
+#include "Memory/LinearAllocator.hpp"
 
 namespace DE {
 
@@ -44,7 +44,7 @@ private:
 
 	Block* mFirstBlockUsed;
 	Block* mFirstBlockFree;
-	
+
 	void moveToUsedList(Block *block);
 	void moveToFreeList(Block *block);
 

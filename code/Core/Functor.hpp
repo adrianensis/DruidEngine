@@ -1,7 +1,7 @@
 #ifndef DE_FUNCTOR_H_
 #define DE_FUNCTOR_H_
 
-#include "DE_Class.hpp"
+#include "Core/DE_Class.hpp"
 #include <functional>
 
 namespace DE {

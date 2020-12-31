@@ -1,12 +1,12 @@
-#include "UIText.hpp"
-#include "Mesh.hpp"
-#include "Renderer.hpp"
-#include "Material.hpp"
-#include "Vector3.hpp"
-#include "UI.hpp"
-#include "Scene.hpp"
-#include "RenderContext.hpp"
-#include "Transform.hpp"
+#include "UI/UIText.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Graphics/Material.hpp"
+#include "Maths/Vector3.hpp"
+#include "UI/UI.hpp"
+#include "Scene/Scene.hpp"
+#include "Graphics/RenderContext.hpp"
+#include "Scene/Transform.hpp"
 
 namespace DE {
 
