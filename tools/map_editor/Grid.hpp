@@ -6,35 +6,33 @@
 #include "MapEditorUI.hpp"
 #include <string>
 #include "Functor.hpp"
+#include "Transform.hpp"
+#include "Renderer.hpp"
+#include "RigidBody.hpp"
+#include "Collider.hpp"
+#include "GameObject.hpp"
+#include "Camera.hpp"
+#include "UIButton.hpp"
+#include "UIText.hpp"
+#include "Texture.hpp"
+#include "Material.hpp"
+#include "HashMap.hpp"
+#include "Array.hpp"
+#include "List.hpp"
+#include "ConfigMap.hpp"
+#include "Scene.hpp"
 
 #include "EditorEvents.hpp"
 
 namespace DE {
 
-class Transform;
-class Renderer;
-class RigidBody;
-class Collider;
-class GameObject;
-class Camera;
-class UIButton;
-class UIText;
-class Texture;
-class Material;
-template<class K, class V> class HashMap;
-template<class T> class Array;
-template<class T> class List;
-class ConfigMap;
-class Scene;
-
-
 class Grid: public DE_Class {
 private:
 
 	class CellData: public DE_Class {
-	public: DE_CLASS(CellData, DE_Class)
+	public:
+		DE_CLASS(CellData, DE_Class)
 
-		GameObject* tile = nullptr;
 		Array<GameObject*>* layers = nullptr;
 
 		void addGameObject(GameObject *gameObject, u32 layer);
@@ -42,18 +40,15 @@ private:
 		GameObject* get(u32 layer);
 	};
 
-	Array<Array<CellData*>*>* mGrid = nullptr;
-
-	Scene* mScene;
+	DE_M(Grid, Array<Array<CellData*>*>*)
+	DE_M(Scene, Scene*);
 
 	DE_M_GET(GridSize, u32)
 	DE_M_GET(GridTileSize, f32)
 	DE_M_GET(SelectedTiles, List<GameObject*>*)
 
 public:
-
-	//List<GameObject*>* mSelectedTiles = nullptr;
-	bool mIsPaintMode = false;
+	DE_M(IsPaintMode, bool);
 
 	DE_CLASS(Grid, DE_Class)
 

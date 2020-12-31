@@ -13,11 +13,11 @@ private:
 
 	class State {
 	public:
-		DE_PUBLIC_M(Position, Vector3)
-		DE_PUBLIC_M(Linear, Vector3)
-		DE_PUBLIC_M(ForceAccumulator, Vector3)
-		DE_PUBLIC_M(Mass, f32)
-		DE_PUBLIC_M(Simulate, bool)
+		DE_M(Position, Vector3)
+		DE_M(Linear, Vector3)
+		DE_M(ForceAccumulator, Vector3)
+		DE_M(Mass, f32)
+		DE_M(Simulate, bool)
 
 		State();
 	};

@@ -25,29 +25,29 @@ private:
 		void internalFreeCollider(Collider *collider);
 
 	public:
-		DE_PUBLIC_M(LeftTop, Vector2)
-		DE_PUBLIC_M(Width, f32)
-		DE_PUBLIC_M(Height, f32)
-		DE_PUBLIC_M(MinWidth, f32)
-		DE_PUBLIC_M(MinHeight, f32)
+		DE_M(LeftTop, Vector2)
+		DE_M(Width, f32)
+		DE_M(Height, f32)
+		DE_M(MinWidth, f32)
+		DE_M(MinHeight, f32)
 
-		DE_PUBLIC_M(Radius, f32)
+		DE_M(Radius, f32)
 
-		DE_PUBLIC_M(Tree, QuadTree*)
+		DE_M(Tree, QuadTree*)
 
-		DE_PUBLIC_M(HalfWidth, f32)
-		DE_PUBLIC_M(HalfHeight, f32)
-		DE_PUBLIC_M(IsDivisible, bool)
+		DE_M(HalfWidth, f32)
+		DE_M(HalfHeight, f32)
+		DE_M(IsDivisible, bool)
 
-		DE_PUBLIC_M(Colliders, List<Collider*>*)
-		DE_PUBLIC_M(ExitingColliders, List<Collider*>*)
-		DE_PUBLIC_M(Children, Array<Node*>*)
-		DE_PUBLIC_M(LeftTopChildrenArray, Array<Vector2>*)
+		DE_M(Colliders, List<Collider*>*)
+		DE_M(ExitingColliders, List<Collider*>*)
+		DE_M(Children, Array<Node*>*)
+		DE_M(LeftTopChildrenArray, Array<Vector2>*)
 
-		DE_PUBLIC_M(ChildrenCount, u32)
+		DE_M(ChildrenCount, u32)
 
-		DE_PUBLIC_M(DynamicCollidersCount, u32)
-		DE_PUBLIC_M(StaticCollidersCount, u32)
+		DE_M(DynamicCollidersCount, u32)
+		DE_M(StaticCollidersCount, u32)
 
 		DE_CLASS(Node, DE_Class)
 

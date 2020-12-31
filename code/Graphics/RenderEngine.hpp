@@ -29,13 +29,13 @@ private:
 	public:
 		DE_CLASS(LineRenderer, DE_Class)
 
-		DE_PUBLIC_M(Vertices, Array<f32>*) // A line is composed by 2 vertices.
-		DE_PUBLIC_M(VAO, u32)
-		DE_PUBLIC_M(VBOPosition, u32)
-		DE_PUBLIC_M(EBO, u32)
-		DE_PUBLIC_M(Active, bool)
-		DE_PUBLIC_M(IsAffectedByProjection, bool)
-		DE_PUBLIC_M(Size, f32)
+		DE_M(Vertices, Array<f32>*) // A line is composed by 2 vertices.
+		DE_M(VAO, u32)
+		DE_M(VBOPosition, u32)
+		DE_M(EBO, u32)
+		DE_M(Active, bool)
+		DE_M(IsAffectedByProjection, bool)
+		DE_M(Size, f32)
 
 		void init();
 		void set(const Vector3 &start, const Vector3 &end);
@@ -61,10 +61,10 @@ private:
 	public:
 		DE_CLASS(LayerData, DE_Class)
 
-		DE_PUBLIC_M(Sorted, bool)
-		DE_PUBLIC_M(DynamicObjectsCount, u32) // Non static objects count
-		DE_PUBLIC_M(SortCounter, u32)
-		DE_PUBLIC_M(Visible, bool)
+		DE_M(Sorted, bool)
+		DE_M(DynamicObjectsCount, u32) // Non static objects count
+		DE_M(SortCounter, u32)
+		DE_M(Visible, bool)
 	};
 
 	void checkChunks();

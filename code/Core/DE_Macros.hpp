@@ -79,10 +79,6 @@ namespace DE {
 #define DE_MEMBER_BASE(BaseName, Class) Class m ## BaseName = {};
 
 #define DE_PROTECTED_MEMBER(BaseName, Class) protected: DE_MEMBER_BASE(BaseName, Class) private:
-#define DE_PUBLIC_MEMBER(BaseName, Class) public: DE_MEMBER_BASE(BaseName, Class) public:
-
-#define DE_M(BaseName, Class) DE_PROTECTED_MEMBER(BaseName, Class)
-#define DE_PUBLIC_M(BaseName, Class) DE_PUBLIC_MEMBER(BaseName, Class)
 
 #define DE_COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type
 
@@ -107,13 +103,10 @@ namespace DE {
 
 #define DE_GET_SET(BaseName, Class) DE_GET(BaseName) DE_SET(BaseName)
 
-#define DE_M_GET(BaseName, Class)\
-	DE_M(BaseName, Class) DE_GET(BaseName)
-
-#define DE_M_SET(BaseName, Class)\
-	DE_M(BaseName, Class) DE_SET(BaseName)
-
-#define DE_M_GET_SET(BaseName, Class) DE_M(BaseName, Class) DE_GET_SET(BaseName, Class)
+#define DE_M(BaseName, Class) DE_MEMBER_BASE(BaseName, Class)
+#define DE_M_GET(BaseName, Class) DE_PROTECTED_MEMBER(BaseName, Class) DE_GET(BaseName)
+#define DE_M_SET(BaseName, Class) DE_PROTECTED_MEMBER(BaseName, Class) DE_SET(BaseName)
+#define DE_M_GET_SET(BaseName, Class) DE_PROTECTED_MEMBER(BaseName, Class) DE_GET_SET(BaseName, Class)
 
 // --------------------------------------------------------
 // FOR LOOPS

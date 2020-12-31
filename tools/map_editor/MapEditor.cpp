@@ -114,7 +114,9 @@ void MapEditor::init() {
 
 	mConfigMap->readConfigFile("config/editor.conf");
 
-
+	mCameraControl = true;
+	mLayer = 0;
+	mZoom = 1;
 }
 
 // ---------------------------------------------------------------------------

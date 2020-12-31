@@ -5,48 +5,31 @@
 #include "Vector2.hpp"
 #include "MapEditorUI.hpp"
 #include "Grid.hpp"
+#include "Grid.hpp"
 #include <string>
 
 #include "Event.hpp"
 
 namespace DE {
 
-class Transform;
-class Renderer;
-class RigidBody;
-class Collider;
-class GameObject;
-class Camera;
-class UIButton;
-class UIText;
-class Texture;
-class Material;
-template<class K, class V> class HashMap;
-template<class T> class Array;
-template<class T> class List;
-class ConfigMap;
-
-
-
 class MapEditor: public Script {
 private:
 
-	Transform* mTransform = nullptr;
-	Camera* mCamera = nullptr;
-	Transform* mCameraTransform = nullptr;
-
-	bool mCameraControl = true;
+	DE_M(Transform, Transform*)
+	DE_M(Camera, Camera*)
+	DE_M(CameraTransform, Transform*)
+	DE_M(CameraControl, bool)
 
 public:
 
-	u32 mLayer = 0;
-	f32 mZoom = 1;
-	GameObject* mPlayer = nullptr;
-	MapEditorUI mMapEditorUI;
-	Material* mMaterial = nullptr;
+	DE_M(Layer, u32)
+	DE_M(Zoom, f32)
+	DE_M(Player, GameObject*)
+	DE_M(MapEditorUI, MapEditorUI)
+	DE_M(Material, Material*)
 
-	Grid mGrid;
-	ConfigMap* mConfigMap = nullptr;
+	DE_M(Grid, Grid)
+	DE_M(ConfigMap, ConfigMap*)
 
 	DE_CLASS(MapEditor, Script)
 

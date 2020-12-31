@@ -24,10 +24,11 @@ private:
 	DE_M_GET(Duration, f32)
 	DE_M_GET_SET(TimeCounter, f32)
 	DE_M_GET(DurationType ,TimerDurationType)
-	DE_PUBLIC_M(Functor, FunctorVoid);
 
 public:
 	DE_CLASS(Timer, DE_Class)
+	
+	DE_M(Functor, FunctorVoid);
 
 	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 };

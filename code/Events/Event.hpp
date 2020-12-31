@@ -29,13 +29,12 @@ public: \
 #define DE_EVENT_DECLARATION_END(EventClassName) };
 
 class Event : public DE_Class{
-private:
-	DE_PUBLIC_M(DelayAmount, f32)
-	DE_PUBLIC_M(DelayType, TimerDurationType)
-	DE_PUBLIC_M(Instigator, DE_Class*);
-
 public:
 	DE_CLASS(Event, DE_Class)
+	
+	DE_M(DelayAmount, f32)
+	DE_M(DelayType, TimerDurationType)
+	DE_M(Instigator, DE_Class*);
 
 	// NOTE : Override in children!
 	Event& operator= (const Event &event) {
@@ -56,13 +55,12 @@ using EventCallback = std::function<void(const Event*)>;
 
 template<class E>
 class EventFunctor : public Functor<EventCallback> {
-private:
-	DE_PUBLIC_M(Event, E*)
-	DE_PUBLIC_M(EventClassId, ClassId)
-	DE_PUBLIC_M(EventReceiver, DE_Class*);
-
 public:
 	DE_GENERATE_METADATA(EventFunctor, Functor<EventCallback>);
+
+	DE_M(Event, E*)
+	DE_M(EventClassId, ClassId)
+	DE_M(EventReceiver, DE_Class*);
 
 	EventFunctor():Functor<EventCallback>() {
 		mEvent = nullptr;

@@ -11,7 +11,7 @@ namespace DE {
  */
 class Allocator: public DE_Class {
 
-private:
+protected:
 
 	DE_M(Start, byte*)
 
@@ -29,15 +29,15 @@ protected:
 	void clean(byte *mem, u32 size);
 	void setMemoryChunk(byte *mem);
 
+public:
+
+	DE_CLASS(Allocator, DE_Class)
+
 	// Debug
 
 	DE_M_GET(TotalSize, u32)
 	DE_M_GET(AllocatedSize, u32)
 	DE_M_GET(DebugMaxAllocatedSize, u32)
-
-public:
-
-	DE_CLASS(Allocator, DE_Class)
 
 	/*!
 	 \return True if space is enough.

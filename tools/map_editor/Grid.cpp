@@ -3,41 +3,19 @@
 #include <TimeUtils.hpp>
 #include "Log.hpp"
 
-#include "GameObject.hpp"
-#include "Scene.hpp"
-#include "Transform.hpp"
-#include "Camera.hpp"
-#include "Renderer.hpp"
 #include "Shader.hpp"
-#include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
 #include "Input.hpp"
-#include "List.hpp"
-#include "HashMap.hpp"
-#include "Array.hpp"
-
 #include "Mesh.hpp"
-#include "Material.hpp"
-#include "Texture.hpp"
 #include "MaterialManager.hpp"
 #include "Animation.hpp"
-
-#include "Collider.hpp"
-#include "RigidBody.hpp"
-
-#include "Scene.hpp"
 #include "RenderEngine.hpp"
 #include "RenderContext.hpp"
-
 #include "File.hpp"
 #include "UI.hpp"
-#include "UIButton.hpp"
-#include "UIText.hpp"
-
 #include "Settings.hpp"
-#include "ConfigMap.hpp"
 
 namespace DE {
 

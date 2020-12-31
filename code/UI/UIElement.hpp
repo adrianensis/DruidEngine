@@ -20,7 +20,7 @@ class FunctorUIElement : public Functor<UIElementCallback> {
 public:
 	DE_GENERATE_METADATA(FunctorUIElement, Functor<UIElementCallback>);
 
-	DE_PUBLIC_M(UIElement, UIElement*)
+	DE_M(UIElement, UIElement*)
 
 	FunctorUIElement():Functor<UIElementCallback>() {
 		mUIElement = nullptr;
