@@ -26,7 +26,7 @@ private:
 	DE_M_GET(DurationType ,TimerDurationType)
 
 public:
-	DE_CLASS(Timer, DE_Class)
+	DE_CLASS(Timer)
 
 	DE_M(Functor, FunctorVoid);
 
@@ -41,7 +41,7 @@ private:
 	DE_M(TimerReference, Timer*);
 
 public:
-	DE_CLASS(TimerHandle, DE_Class)
+	DE_CLASS(TimerHandle)
 
 	void init(Timer* timerReference){
 		mTimerReference = timerReference;
@@ -66,7 +66,7 @@ private:
 	void endTimer(Timer* timer);
 
 public:
-	DE_CLASS(TimerManager, DE_Class)
+	DE_CLASS(TimerManager)
 
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);

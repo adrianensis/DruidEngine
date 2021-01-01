@@ -30,7 +30,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	DE_CLASS(Vector2, DE_Class)
+	DE_CLASS(Vector2)
 
 	/*!
 	 \brief Default Constructor.

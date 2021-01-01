@@ -11,27 +11,37 @@ namespace DE {
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 
-#define DE_GENERATE_ID_STATIC(Class) static ClassId getClassIdStatic(){static ClassId classId = Hash::hash(#Class); return classId;}
-#define DE_GENERATE_PARENT_ID_STATIC(ParentClass) static ClassId getParentClassIdStatic(){ return ParentClass::getClassIdStatic(); }
+#define DE_GENERATE_ID_STATIC(Class)\
+		static ClassId getClassIdStatic(){\
+			static ClassId classId = Hash::hash(#Class); return classId;\
+		};
 
-#define DE_GENERATE_ID_VIRTUAL(Class) ClassId getClassId() const override { return Class::getClassIdStatic(); };
-#define DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass) ClassId getParentClassId() const override { return ParentClass::getClassIdStatic(); };
+#define DE_GENERATE_ID_VIRTUAL(Class)\
+		ClassId getClassId() const override {\
+			 return Class::getClassIdStatic();\
+		 };
 
-#define DE_GENERATE_NAME_STATIC(Class) static std::string getClassNameStatic(){static std::string className = std::string(#Class + Class::getTemplateNameStatic()); return className;}
-#define DE_GENERATE_NAME_VIRTUAL(Class) std::string getClassName() const override { return Class::getClassNameStatic(); };
+#define DE_GENERATE_NAME_STATIC(Class)\
+		static std::string getClassNameStatic(){\
+			static std::string className = std::string(#Class + Class::getTemplateNameStatic());\
+			return className;\
+		};
 
-#define DE_GENERATE_METADATA(Class, ParentClass)\
+#define DE_GENERATE_NAME_VIRTUAL(Class)\
+		std::string getClassName() const override {\
+			 return Class::getClassNameStatic();\
+		 };
+
+#define DE_GENERATE_METADATA(Class)\
 		DE_GENERATE_NAME_STATIC(Class);\
 		DE_GENERATE_NAME_VIRTUAL(Class);\
 		DE_GENERATE_ID_STATIC(Class);\
-		DE_GENERATE_PARENT_ID_STATIC(ParentClass);\
-		DE_GENERATE_ID_VIRTUAL(Class);\
-		DE_GENERATE_PARENT_ID_VIRTUAL(ParentClass);
+		DE_GENERATE_ID_VIRTUAL(Class);
 
-#define DE_CLASS(Class, ParentClass)\
+#define DE_CLASS(Class)\
 		Class();\
 		virtual ~Class() override;\
-		DE_GENERATE_METADATA(Class, ParentClass)\
+		DE_GENERATE_METADATA(Class);
 
 // --------------------------------------------------------
 // TEMPLATES
@@ -44,30 +54,33 @@ namespace DE {
 
 #define DE_GENERATE_TEMPLATE_STATIC(TemplateClass)\
 		static std::string getTemplateNameStatic(){\
-			static std::string templateName=DE_Class::calculateTemplateName<TemplateClass>();\
+			static std::string templateName = DE_Class::calculateTemplateName<TemplateClass>();\
 			return templateName;\
 		};
 
-#define DE_GENERATE_TEMPLATE_VIRTUAL(Class) virtual std::string getTemplateName() const override { return Class::getTemplateNameStatic(); };
+#define DE_GENERATE_TEMPLATE_VIRTUAL(Class)\
+	virtual std::string getTemplateName() const override {\
+	  return Class::getTemplateNameStatic();\
+	};
 
-#define DE_CLASS_TEMPLATE_COMMON(Class, ParentClass)\
+#define DE_CLASS_TEMPLATE_COMMON(Class)\
 		DE_GENERATE_TEMPLATE_VIRTUAL(Class);\
-		DE_GENERATE_METADATA(Class, ParentClass);
+		DE_GENERATE_METADATA(Class);
 
-#define DE_CLASS_TEMPLATE(Class, ParentClass, TemplateClass)\
+#define DE_CLASS_TEMPLATE(Class, TemplateClass)\
 		DE_GENERATE_TEMPLATE_STATIC(TemplateClass);\
-		DE_CLASS_TEMPLATE_COMMON(Class, ParentClass)
+		DE_CLASS_TEMPLATE_COMMON(Class);
 
 #define DE_GENERATE_TEMPLATE_STATIC2(TemplateClass1, TemplateClass2)\
 		static std::string getTemplateNameStatic(){\
-			static std::string templateName=DE_Class::calculateTemplateName<TemplateClass1>() +\
+			static std::string templateName = DE_Class::calculateTemplateName<TemplateClass1>() +\
 			DE_Class::calculateTemplateName<TemplateClass2>();\
 			return templateName;\
 		};
 
-#define DE_CLASS_TEMPLATE2(Class, ParentClass, TemplateClass1, TemplateClass2)\
+#define DE_CLASS_TEMPLATE2(Class, TemplateClass1, TemplateClass2)\
 		DE_GENERATE_TEMPLATE_STATIC2(TemplateClass1, TemplateClass2);\
-		DE_CLASS_TEMPLATE_COMMON(Class, ParentClass)
+		DE_CLASS_TEMPLATE_COMMON(Class);
 
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
@@ -77,7 +90,6 @@ namespace DE {
 #define DE_IS_ARITHMETIC(Class) std::is_arithmetic<std::remove_reference<Class>::type>::value
 
 #define DE_MEMBER_BASE(BaseName, Class) Class m ## BaseName = {};
-
 #define DE_PROTECTED_MEMBER(BaseName, Class) protected: DE_MEMBER_BASE(BaseName, Class) private:
 
 #define DE_COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type

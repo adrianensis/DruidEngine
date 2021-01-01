@@ -25,18 +25,16 @@ private:
 		T mElement;
 		Array<Node*>* mChildren;
 
-		DE_CLASS_TEMPLATE(Node, DE_Class, T);
+		DE_CLASS_TEMPLATE(Node, T);
 
 		Node() : 		DE_Class() {
 			mChildren = nullptr;
-		}
-		;
+		};
 
 		virtual ~Node() override {
 			mParent = nullptr;
 			Memory::free<Array<Node*>>(mChildren);
-		}
-		;
+		};
 
 		void init(Node *parent, const T element, u32 childrenCount) {
 			mParent = parent;
@@ -45,8 +43,7 @@ private:
 			mChildren->init(childrenCount);
 			mChildren->set(0, nullptr);
 			mChildren->set(1, nullptr);
-		}
-		;
+		};
 
 		void addChild(Node *node) {
 			u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
@@ -58,8 +55,7 @@ private:
 				mChildren->set(index, node);
 			} else
 				child->addChild(node);
-		}
-		;
+		};
 
 		void removeChild(Node *node) {
 			u32 index = Hash::hash(node->mElement) < Hash::hash(mElement) ? 0 : 1;
@@ -128,7 +124,7 @@ private:
 
 public:
 
-	DE_CLASS_TEMPLATE(Tree<T>, BaseContainer, T);
+	DE_CLASS_TEMPLATE(Tree<T>, T);
 
 	Tree() : 	BaseContainer() {
 		mRoot = nullptr;

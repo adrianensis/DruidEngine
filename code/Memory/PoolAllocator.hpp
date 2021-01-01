@@ -36,7 +36,7 @@ private:
 
 public:
 
-	DE_CLASS(PoolAllocator, LinearAllocator)
+	DE_CLASS(PoolAllocator)
 
 	/*!
 	 \return The count of free blocks.

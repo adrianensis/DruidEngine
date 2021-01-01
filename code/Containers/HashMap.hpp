@@ -29,7 +29,7 @@ private:
 		K mKey;
 		V mElement;
 
-		DE_CLASS_TEMPLATE2(Node, DE_Class, K, V);
+		DE_CLASS_TEMPLATE2(Node, K, K);
 
 		Node() : DE_Class() {
 		};
@@ -69,7 +69,7 @@ public:
 
 	using HashMapKV = HashMap<K,V>;
 
-	DE_CLASS_TEMPLATE2(HashMapKV, BaseContainer, K, V);
+	DE_CLASS_TEMPLATE2(HashMapKV, K, K);
 
 	/*!
 	 \brief Default Constructor.

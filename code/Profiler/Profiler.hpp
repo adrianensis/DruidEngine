@@ -28,7 +28,7 @@ private:
 	void printResult(std::string& name, f32 time);
 
 public:
-	DE_CLASS(Profiler, DE_Class)
+	DE_CLASS(Profiler)
 
 	void init();
 	void step(f32 deltaTime);

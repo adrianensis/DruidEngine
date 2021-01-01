@@ -31,7 +31,7 @@ private:
 
 	class CellData: public DE_Class {
 	public:
-		DE_CLASS(CellData, DE_Class)
+		DE_CLASS(CellData)
 
 		Array<GameObject*>* layers = nullptr;
 
@@ -50,7 +50,7 @@ private:
 public:
 	DE_M(IsPaintMode, bool);
 
-	DE_CLASS(Grid, DE_Class)
+	DE_CLASS(Grid)
 
 	GameObject* createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer);
 

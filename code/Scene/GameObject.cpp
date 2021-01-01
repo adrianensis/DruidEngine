@@ -32,8 +32,6 @@ GameObject::~GameObject() {
 void GameObject::addComponent(Component *component, ClassId classId) {
 	List<Component*>* list = nullptr;
 
-	//ClassId classId = component->getParentClassId();
-
 	if (!mComponentsMap->contains(classId)) {
 		list = Memory::allocate<List<Component*>>();
 		list->init();

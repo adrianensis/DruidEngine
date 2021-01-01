@@ -35,7 +35,7 @@ private:
 
 public:
 
-	DE_CLASS(Camera, Component)
+	DE_CLASS(Camera)
 
 	void init() override;
 

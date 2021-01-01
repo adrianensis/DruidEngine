@@ -23,7 +23,7 @@ private:
 
 public:
 
-	DE_CLASS(Engine, DE_Class)
+	DE_CLASS(Engine)
 
 	void init();
 	void initSubsystems();

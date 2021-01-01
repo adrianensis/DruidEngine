@@ -26,7 +26,7 @@ private:
 
 public:
 
-	DE_CLASS(PhysicsEngine, DE_Class)
+	DE_CLASS(PhysicsEngine)
 
 	void addRigidBody(RigidBody *rigidBody);
 	void addCollider(RigidBody *rigidBody, Collider *collider);

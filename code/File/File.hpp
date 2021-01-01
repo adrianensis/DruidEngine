@@ -15,7 +15,7 @@ class File: public DE_Class {
 
 public:
 
-	DE_CLASS(File, DE_Class)
+	DE_CLASS(File)
 
 	static void init();
 	static void readFile(const std::string &path, std::function<void(std::ifstream &file)> callback);

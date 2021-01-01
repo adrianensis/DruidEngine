@@ -21,7 +21,7 @@ class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
 public:
 
-	DE_CLASS(MaterialManager, DE_Class)
+	DE_CLASS(MaterialManager)
 
 	void init();
 	Texture* loadTexture(const std::string &path);

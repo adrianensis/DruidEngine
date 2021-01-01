@@ -26,7 +26,7 @@ private:
 
 public:
 
-	DE_CLASS(Shader, DE_Class)
+	DE_CLASS(Shader)
 
 	static Shader* getDefaultShader();
 	static Shader* getDebugShader();

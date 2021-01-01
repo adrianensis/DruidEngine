@@ -24,7 +24,7 @@ template<class K, class V> class HashMap;
 
 class UIGroup: public DE_Class {
 public:
-	DE_CLASS(UIGroup, DE_Class)
+	DE_CLASS(UIGroup)
 
 	std::string mName;
 	bool mVisible;
@@ -56,7 +56,7 @@ private:
 
 public:
 
-	DE_CLASS(UI, DE_Class)
+	DE_CLASS(UI)
 
 	UIBuilder* getBuilder();
 

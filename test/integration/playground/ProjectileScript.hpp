@@ -23,7 +23,7 @@ private:
 
 public:
 
-	DE_CLASS(ProjectileScript, Script)
+	DE_CLASS(ProjectileScript)
 
 	void init() override;
 	void firstStep() override;

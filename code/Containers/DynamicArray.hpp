@@ -65,7 +65,7 @@ private:
 
 public:
 
-	DE_CLASS_TEMPLATE(DynamicArray<T>, SequentialContainer<T>, T);
+	DE_CLASS_TEMPLATE(DynamicArray<T>, T);
 
 	/*!
 	 \brief Default Constructor.

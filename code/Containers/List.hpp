@@ -19,7 +19,7 @@ class Iterator: public DE_Class {
 
 public:
 
-	DE_GENERATE_METADATA(Iterator, DE_Class);
+	DE_GENERATE_METADATA(Iterator);
 
 	Iterator() { };
 
@@ -54,7 +54,7 @@ private:
 		List<T>::Node* mPrev;
 		T mElement;
 
-		DE_CLASS_TEMPLATE(Node, DE_Class, T);
+		DE_CLASS_TEMPLATE(Node, T);
 
 		Node() : DE_Class() {
 		}
@@ -155,7 +155,7 @@ public:
 
 	public:
 
-		DE_CLASS_TEMPLATE(ListIterator, Iterator, T);
+		DE_CLASS_TEMPLATE(ListIterator, T);
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;
@@ -377,7 +377,7 @@ private:
 
 public:
 
-	DE_CLASS_TEMPLATE(List<T>, SequentialContainer<T>, T);
+	DE_CLASS_TEMPLATE(List<T>, T);
 
 
 	List() : 	SequentialContainer<T>() {

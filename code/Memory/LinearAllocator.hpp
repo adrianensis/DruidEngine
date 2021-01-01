@@ -13,7 +13,7 @@ class LinearAllocator: public Allocator {
 
 public:
 
-	DE_CLASS(LinearAllocator, Allocator)
+	DE_CLASS(LinearAllocator)
 
 	void init(u32 size) override;
 	byte* allocate(u32 size) override;

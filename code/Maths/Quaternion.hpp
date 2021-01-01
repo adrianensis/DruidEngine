@@ -28,7 +28,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	DE_CLASS(Quaternion, DE_Class)
+	DE_CLASS(Quaternion)
 
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
 	Quaternion(const Vector3 &v, f32 w);

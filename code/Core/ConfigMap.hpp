@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(ConfigMap, DE_Class)
+	DE_CLASS(ConfigMap)
 
 	void init();
 	void readConfigFile(const std::string &path);

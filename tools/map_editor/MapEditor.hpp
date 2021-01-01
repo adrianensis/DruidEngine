@@ -30,7 +30,7 @@ public:
 	DE_M(Grid, Grid)
 	DE_M(ConfigMap, ConfigMap*)
 
-	DE_CLASS(MapEditor, Script)
+	DE_CLASS(MapEditor)
 
 	void createPlayer();
 	void destroyPlayer();

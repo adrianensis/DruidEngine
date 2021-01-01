@@ -15,7 +15,7 @@ private:
 
 public:
 
-	DE_CLASS(UIButton, UIElement)
+	DE_CLASS(UIButton)
 
 	virtual void init();
 

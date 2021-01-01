@@ -31,7 +31,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	DE_CLASS(Vector3, DE_Class)
+	DE_CLASS(Vector3)
 
 	Vector3(f32 x, f32 y, f32 z);
 	Vector3(const Vector3 &other);

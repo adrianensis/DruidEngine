@@ -33,7 +33,7 @@ protected:
 
 public:
 
-	DE_CLASS_TEMPLATE(SequentialContainer<T>, BaseContainer, T);
+	DE_CLASS_TEMPLATE(SequentialContainer<T>, T);
 
 	/*!
 	 \brief Default Constructor.

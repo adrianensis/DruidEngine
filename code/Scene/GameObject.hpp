@@ -34,7 +34,7 @@ private:
 
 public:
 
-	DE_CLASS(GameObject, DE_Class)
+	DE_CLASS(GameObject)
 
 	virtual void init();
 

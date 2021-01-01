@@ -16,7 +16,7 @@ private:
 
 public:
 
-	DE_CLASS(AnimationFrame, DE_Class)
+	DE_CLASS(AnimationFrame)
 
 	void init(const Vector2 &position, f32 width, f32 height);
 };

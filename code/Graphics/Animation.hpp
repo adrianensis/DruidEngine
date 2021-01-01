@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(Animation, DE_Class)
+	DE_CLASS(Animation)
 
 	void init();
 

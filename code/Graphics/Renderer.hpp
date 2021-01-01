@@ -45,7 +45,7 @@ private:
 
 public:
 
-	DE_CLASS(Renderer, Component)
+	DE_CLASS(Renderer)
 
 	void init() override;
 	void setAnimation(const std::string& name);

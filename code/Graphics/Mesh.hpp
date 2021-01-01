@@ -29,7 +29,7 @@ private:
 
 public:
 
-	DE_CLASS(Mesh, DE_Class)
+	DE_CLASS(Mesh)
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh* addVertex(const Vector3 &vec);

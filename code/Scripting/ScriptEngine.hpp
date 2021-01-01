@@ -17,7 +17,7 @@ private:
 	DE_M(Controller, Script*)
 	void internalRemoveScript(const Iterator *it);
 
-public:DE_CLASS(ScriptEngine, DE_Class)
+public:DE_CLASS(ScriptEngine)
 
 	void init();
 	void addScript(Script *newScript);

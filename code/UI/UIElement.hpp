@@ -18,7 +18,7 @@ using UIElementCallback = std::function<void(UIElement* uiElement)>;
 
 class FunctorUIElement : public Functor<UIElementCallback> {
 public:
-	DE_GENERATE_METADATA(FunctorUIElement, Functor<UIElementCallback>);
+	DE_GENERATE_METADATA(FunctorUIElement);
 
 	DE_M(UIElement, UIElement*)
 
@@ -65,7 +65,7 @@ protected:
 
 public:
 
-	DE_CLASS(UIElement, GameObject)
+	DE_CLASS(UIElement)
 
 	virtual void init();
 	virtual void onDestroy();

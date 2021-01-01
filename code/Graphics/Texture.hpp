@@ -16,7 +16,7 @@ class Texture: public DE_Class {
 
 public:
 
-	DE_CLASS(Texture, DE_Class)
+	DE_CLASS(Texture)
 
 	void init(const std::string &path);
 };

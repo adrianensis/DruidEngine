@@ -44,7 +44,7 @@ private:
 
 public:
 
-	DE_CLASS(Collider, Component)
+	DE_CLASS(Collider)
 
 	void init() override;
 

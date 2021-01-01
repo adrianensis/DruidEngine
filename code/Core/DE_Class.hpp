@@ -22,10 +22,10 @@ public:
 			templateName = std::remove_pointer<TT>::type::getClassNameStatic();
 		}else if constexpr (std::is_arithmetic<TT>::value){
 
-			DE_CHECK_ARITHMETIC_TYPENAME(f32, TT, templateName)
-			DE_CHECK_ARITHMETIC_TYPENAME(f64, TT, templateName)
+			DE_CHECK_ARITHMETIC_TYPENAME(f32, TT, templateName);
+			DE_CHECK_ARITHMETIC_TYPENAME(f64, TT, templateName);
 
-			DE_CHECK_ARITHMETIC_TYPENAME(c8, TT, templateName)
+			DE_CHECK_ARITHMETIC_TYPENAME(c8, TT, templateName);
 
 			DE_CHECK_ARITHMETIC_TYPENAME(i8, TT, templateName);
 			DE_CHECK_ARITHMETIC_TYPENAME(i16, TT, templateName);
@@ -83,6 +83,11 @@ public:
 	virtual std::string getTemplateName() const {
 		return DE_Class::getTemplateNameStatic();
 	};
+
+	template<class T>
+	bool isDerived() const {
+		return dynamic_cast<const T*>(this) != nullptr;
+	}
 };
 
 // ---------------------------------------------------------------------------

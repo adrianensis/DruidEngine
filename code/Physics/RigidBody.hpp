@@ -34,7 +34,7 @@ private:
 
 public:
 
-	DE_CLASS(RigidBody, Component)
+	DE_CLASS(RigidBody)
 
 	void init() override;
 

@@ -95,7 +95,7 @@ public:
 
 	// ---------------------------------------------------------------------------
 
-	DE_CLASS_TEMPLATE(Array<T>, SequentialContainer<T>, T);
+	DE_CLASS_TEMPLATE(Array<T>, T);
 
 	/*!
 	 \brief Default Constructor.

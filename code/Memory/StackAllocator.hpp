@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(StackAllocator, LinearAllocator)
+	DE_CLASS(StackAllocator)
 
 	/*!
 	 \return Pointer to the top of the stack.

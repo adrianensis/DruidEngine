@@ -9,7 +9,7 @@ class UIList: public UIElement {
 
 public:
 
-	DE_CLASS(UIList, UIElement)
+	DE_CLASS(UIList)
 
 	virtual void init();
 

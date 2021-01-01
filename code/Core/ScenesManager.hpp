@@ -25,7 +25,7 @@ private:
 
 public:
 
-	DE_CLASS(ScenesManager, DE_Class)
+	DE_CLASS(ScenesManager)
 
 
 

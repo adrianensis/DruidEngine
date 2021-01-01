@@ -15,7 +15,7 @@ protected:
 
 public:
 
-	DE_CLASS_TEMPLATE(Functor<T>, DE_Class, T);
+	DE_CLASS_TEMPLATE(Functor<T>, T);
 
 	Functor() : DE_Class(){};
 	virtual ~Functor() override {};
@@ -46,7 +46,7 @@ public:
 class FunctorVoid : public Functor<std::function<void()>> {
 public:
 
-	DE_GENERATE_METADATA(FunctorVoid, Functor<std::function<void()>>);
+	DE_GENERATE_METADATA(FunctorVoid);
 
 	FunctorVoid() : Functor<std::function<void()>>(){};
 	virtual ~FunctorVoid() override {};

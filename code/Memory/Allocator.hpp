@@ -30,7 +30,7 @@ protected:
 
 public:
 
-	DE_CLASS(Allocator, DE_Class)
+	DE_CLASS(Allocator)
 
 	// Debug
 

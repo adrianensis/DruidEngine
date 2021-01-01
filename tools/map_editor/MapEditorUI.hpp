@@ -40,7 +40,7 @@ public:
 	GameObject* mBrushCursor = nullptr;
 	MapEditor* mMapEditor = nullptr;
 
-	DE_CLASS(Brush, DE_Class)
+	DE_CLASS(Brush)
 
 	void init(MapEditor* mapEditor);
 	void clickTile(UIButton* tileButton, Vector2 atlasPosition);
@@ -126,7 +126,7 @@ private:
 
 public:
 
-	DE_CLASS(MapEditorUI, DE_Class)
+	DE_CLASS(MapEditorUI)
 
 	u32 mUILayer = 3;
 

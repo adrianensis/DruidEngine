@@ -14,7 +14,7 @@ private:
 
 public:
 
-	DE_CLASS(Script, Component)
+	DE_CLASS(Script)
 
 	virtual void init();
 	virtual void firstStep();
