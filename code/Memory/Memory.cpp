@@ -84,6 +84,8 @@ void Memory::free() {
 
 	// NOTE: Log ends here!!
 	Log::terminate();
+
+	ECHO("TERMINATE - OK")
 }
 
 // ---------------------------------------------------------------------------

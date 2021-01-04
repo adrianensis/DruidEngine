@@ -180,7 +180,7 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
 
 	// GameObject* book = Memory::allocate<GameObject>();
-//	UIButton* book = UI::getInstance()->createButton(getGameObject()->getScene(), Vector2(x, y), Vector2(size, size),
+//	UIButton* book = UI::getInstance()->internalCreateButton(getGameObject()->getScene(), Vector2(x, y), Vector2(size, size),
 //			5);
 	// book->init();
 
@@ -350,7 +350,7 @@ void GameController::firstStep() {
 
 	createBackground(0, 200);
 
-//	mTextMana = UI::getInstance()->createText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50, 50),
+//	mTextMana = UI::getInstance()->internalCreateText(getGameObject()->getScene(), Vector2(-900, 650), Vector2(50, 50),
 //			"MANA: " + std::to_string(mPlayerScript->getMana()), 5);
 
 	mEnemySpawnTimeCount = 0;

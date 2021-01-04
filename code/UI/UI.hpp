@@ -46,7 +46,7 @@ private:
 
 	Material* mFontMaterial;
 
-	Vector2 mDefaultFontSize = Vector2(0.04f / 1.5f, 0.04f);
+	Vector2 mDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
 
 	void internalRemoveUIElement(const Iterator *it);
 

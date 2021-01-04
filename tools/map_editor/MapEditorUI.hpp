@@ -68,7 +68,7 @@ private:
 	class StringsUI {
 	public:
 		std::string BoolFalse = "[ ]";
-		std::string BoolTrue = "[ ]";
+		std::string BoolTrue = "[X]";
 		std::string FPS = "FPS:";
 		std::string Tile = "Tile";
 		std::string Zoom = "Zoom";
@@ -83,8 +83,8 @@ private:
 		std::string InspectorTileCollider = "collider:";
 		std::string InspectorTileTag = "tag:";
 		std::string InspectorSize = "size:";
-		std::string InspectorSizeCollider = "collider size:";
-		std::string InspectorPosCollider = "collider offset:";
+		std::string InspectorSizeCollider = "c.size:";
+		std::string InspectorPosCollider = "c.offset:";
 		std::string Grid = "Grid";
 	};
 

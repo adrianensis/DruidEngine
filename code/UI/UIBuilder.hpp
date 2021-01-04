@@ -33,7 +33,8 @@ enum class UIElementType {
 
 enum class UILayout {
 	HORIZONTAL,
-	VERTICAL
+	VERTICAL,
+	MAX
 };
 
 class UIElementData: public DE_Class {
@@ -41,20 +42,20 @@ public:
 
 	DE_CLASS(UIElementData)
 
-	UIElementType mElementType;
-	Vector2 mPosition;
-	Vector2 mDisplayPosition;
-	Vector2 mSize;
-	Vector2 mTextSize;
-	std::string mText;
-	bool mAdjustSizeToText;
-	u32 mLayer;
-	bool mIsAffectedByLayout;
-	f32 mSeparatorSize;
-	Vector4 mBackgroundColor;
-	Vector4 mBackgroundColor2;
-	Vector4 mBackgroundColor3;
-	Vector4 mBackgroundColor4;
+	DE_M(ElementType, UIElementType)
+	DE_M(Position, Vector2)
+	DE_M(DisplayPosition, Vector2)
+	DE_M(Size, Vector2)
+	DE_M(TextSize, Vector2)
+	DE_M(Text, std::string)
+	DE_M(AdjustSizeToText, bool)
+	DE_M(Layer, u32)
+	DE_M(IsAffectedByLayout, bool)
+	DE_M(SeparatorSize, f32)
+	DE_M(BackgroundColor, Vector4)
+	DE_M(BackgroundColor2, Vector4)
+	DE_M(BackgroundColor3, Vector4)
+	DE_M(BackgroundColor4, Vector4)
 
 	void init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer);
 
@@ -73,6 +74,7 @@ public:
 		mAdjustSizeToText = otherData.mAdjustSizeToText;
 		mLayer = otherData.mLayer;
 		mIsAffectedByLayout = otherData.mIsAffectedByLayout;
+		mSeparatorSize = otherData.mSeparatorSize;
 		mBackgroundColor = otherData.mBackgroundColor;
 		mBackgroundColor2 = otherData.mBackgroundColor2;
 		mBackgroundColor3 = otherData.mBackgroundColor3;
@@ -88,21 +90,26 @@ public:
 class UIBuilder: public DE_Class, public Singleton<UIBuilder> {
 private:
 
-	Scene* mScene;
-	UILayout mCurrentLayout;
-	Material* mButtonMaterial;
-	UIElementData mData;
-	List<UIElementData>* mDataStack;
-	UIElementData mLastData;
-	UIElement* mLastUIElement; // used for layouts
-	UIElement* mCurrentUIElement;
+	DE_M(Scene, Scene*)
+	DE_M(CurrentLayout, UILayout)
+	DE_M(ButtonMaterial, Material*)
+	DE_M(Data, UIElementData)
+	DE_M(DataStack, List<UIElementData>*)
+	DE_M(LastData, UIElementData)
+	DE_M(MakeRelativeToLastData, bool) // used for layouts
+	DE_M(LayoutFirstUIElementData, UIElementData)
+	DE_M(NewRowOrColumn, bool)
+	DE_M(CurrentUIElement, UIElement*)
 
+	void registerCurrentUIElement(UIElement* uiElement);
+	UILayout getOppositeLayout(UILayout layout);
+	Vector2 calculateNextElementOffset(UILayout layout);
 	void calculateData();
-	UIElement* createPanel();
-	UIButton* createButton();
-	UIText* createText();
-	UITextEditable* createTextEditable();
-	UIDropdown* createDropdown();
+	UIElement* internalCreatePanel();
+	UIButton* internalCreateButton();
+	UIText* internalCreateText();
+	UITextEditable* internalCreateTextEditable();
+	UIDropdown* internalCreateDropdown();
 
 public:
 
@@ -110,12 +117,13 @@ public:
 
 	UIBuilder* const setLayout(UILayout layout) {
 		mCurrentLayout = layout;
-
-		// reset Last Element
-		mLastUIElement = nullptr;
-
+		mMakeRelativeToLastData = false; // reset
+		mNewRowOrColumn = true;
 		return this;
 	}
+
+	UIBuilder* const nextRow();
+	UIBuilder* const nextColumn();
 
 	UIBuilder* const setScene(Scene *scene) { mScene = scene; return this; }
 	UIBuilder* const setData(UIElementData data) { mData = data; return this; }
@@ -125,6 +133,7 @@ public:
 	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Size)
 	DE_UI_BUILDER_DATA_SETTER(u32, Layer)
 	DE_UI_BUILDER_DATA_SETTER(const std::string&, Text)
+	DE_UI_BUILDER_DATA_SETTER(Vector2, TextSize)
 	DE_UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
 	DE_UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)
 	DE_UI_BUILDER_DATA_SETTER(f32, SeparatorSize)

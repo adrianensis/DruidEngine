@@ -183,7 +183,6 @@ void Engine::terminate() {
 	}
 
 	Memory::free<Input>(Input::getInstance());
-
 }
 
 // ---------------------------------------------------------------------------

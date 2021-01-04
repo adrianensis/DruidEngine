@@ -42,7 +42,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mSeparatorSize = 0.01f;
 	mBackgroundColor = Vector4(0.5,0.5,0.5,1);
 	mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
-	mBackgroundColor3 = Vector4(0.4,0.4,0.4,1);
+	mBackgroundColor3 = Vector4(0.2,0.2,0.2,1);
 	mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
 }
 
@@ -53,7 +53,7 @@ UIBuilder::UIBuilder() : DE_Class(), Singleton() {
 	mScene = nullptr;
 	mButtonMaterial = nullptr;
 	mCurrentLayout = UILayout::VERTICAL;
-	mLastUIElement = nullptr;
+	mMakeRelativeToLastData = false;
 	mCurrentUIElement = nullptr;
 
 	mData.init(Vector2(0,0), Vector2(0,0), "", 0);
@@ -68,28 +68,57 @@ UIBuilder::~UIBuilder() {
 
 // ---------------------------------------------------------------------------
 
-void UIBuilder::calculateData(){
+void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
+	mScene->addGameObject(uiElement);
+
+	mCurrentUIElement = uiElement;
+
+	if(mData.mIsAffectedByLayout) {
+
+		if(mNewRowOrColumn) {
+			mNewRowOrColumn = false;
+			mLayoutFirstUIElementData = mData;
+		}
+
+		mMakeRelativeToLastData = true;
+
+		mLastData = mData;
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+UILayout UIBuilder::getOppositeLayout(UILayout layout) {
+	return (UILayout)(((int)mCurrentLayout + 1) % (int)UILayout::MAX);
+}
+
+Vector2 UIBuilder::calculateNextElementOffset(UILayout layout) {
+	Vector2 offset = Vector2(0,0);
+
+	switch (layout) {
+		case UILayout::HORIZONTAL: {
+			offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
+			break;
+		}
+		case UILayout::VERTICAL: {
+			offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
+			break;
+		}
+	}
+
+	return offset;
+}
+
+void UIBuilder::calculateData() {
 
 	if(mData.mAdjustSizeToText) {
-		f32 textOffset = mData.mTextSize.x;
-		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) + textOffset;
+		f32 offset = mData.mTextSize.x;
+		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) /*+ offset*/;
 		mData.mSize.y = mData.mTextSize.y;
 	}
 
-	if(mData.mIsAffectedByLayout && mLastUIElement) {
-		Vector2 offset = Vector2(0,0);
-
-		switch (mCurrentLayout) {
-			case UILayout::HORIZONTAL: {
-				offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
-				break;
-			}
-			case UILayout::VERTICAL:{
-				offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
-				break;
-			}
-		}
-
+	if(mData.mIsAffectedByLayout && mMakeRelativeToLastData) {
+		Vector2 offset = calculateNextElementOffset(mNewRowOrColumn ? getOppositeLayout(mCurrentLayout) : mCurrentLayout);
 		mData.mPosition = mLastData.mPosition + offset;
 	}
 
@@ -104,8 +133,23 @@ void UIBuilder::calculateData(){
 		default:
 			mData.mDisplayPosition.x += mData.mSize.x/2.0f;
 			mData.mDisplayPosition.y -= mData.mSize.y/2.0f;
+			break;
 	}
 }
+
+// ---------------------------------------------------------------------------
+
+UIBuilder* const UIBuilder::nextRow() {
+	mLastData = mLayoutFirstUIElementData;
+	mNewRowOrColumn = true;
+	return this;
+}
+
+UIBuilder* const UIBuilder::nextColumn() {
+	return nextRow(); // NOTE : exactly the same code.
+}
+
+// ---------------------------------------------------------------------------
 
 UIBuilder* const UIBuilder::saveData() {
 	if(!mDataStack){
@@ -127,7 +171,7 @@ UIBuilder* const UIBuilder::restoreData() {
 
 // ---------------------------------------------------------------------------
 
-UIElement* UIBuilder::createPanel() {
+UIElement* UIBuilder::internalCreatePanel() {
 	calculateData();
 
 	UIElement* uiPanel = Memory::allocate<UIButton>();
@@ -152,20 +196,12 @@ UIElement* UIBuilder::createPanel() {
 
 	uiPanel->setComponentsCache();
 
-
-	mScene->addGameObject(uiPanel);
-
-	mCurrentUIElement = uiPanel;
-
-	if(mData.mIsAffectedByLayout)
-		mLastUIElement = mCurrentUIElement;
-
 	return uiPanel;
 }
 
 // ---------------------------------------------------------------------------
 
-UIButton* UIBuilder::createButton() {
+UIButton* UIBuilder::internalCreateButton() {
 
 	calculateData();
 
@@ -203,21 +239,14 @@ UIButton* UIBuilder::createButton() {
 
 	uiButton->setComponentsCache();
 
-	mScene->addGameObject(uiButton);
-
 	uiButton->setText(mData.mText);
-
-	mCurrentUIElement = uiButton;
-
-	if(mData.mIsAffectedByLayout)
-		mLastUIElement = mCurrentUIElement;
 
 	return uiButton;
 }
 
 // ---------------------------------------------------------------------------
 
-UIText* UIBuilder::createText() {
+UIText* UIBuilder::internalCreateText() {
 
 	calculateData();
 
@@ -227,6 +256,10 @@ UIText* UIBuilder::createText() {
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
+	Vector3 textSize = mData.mTextSize;
+	textSize.z = 1;
+	textSize.x = textSize.x / RenderContext::getAspectRatio();
+
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
@@ -235,21 +268,23 @@ UIText* UIBuilder::createText() {
 	uiText->setLayer(mData.mLayer);
 	uiText->setText(mData.mText);
 
+	/*RigidBody* rigidBody = Memory::allocate<RigidBody>();
+	uiText->addComponent<RigidBody>(rigidBody);
+	rigidBody->setSimulate(false);
+
+	Collider* collider = Memory::allocate<Collider>();
+	uiText->addComponent<Collider>(collider);
+	collider->setSize(textSize.x, textSize.y);
+	collider->getBoundingBox();*/
+
 	uiText->setComponentsCache();
-
-	mScene->addGameObject(uiText);
-
-	mCurrentUIElement = uiText;
-
-	if(mData.mIsAffectedByLayout)
-		mLastUIElement = mCurrentUIElement;
 
 	return uiText;
 }
 
 // ---------------------------------------------------------------------------
 
-UITextEditable* UIBuilder::createTextEditable() {
+UITextEditable* UIBuilder::internalCreateTextEditable() {
 
 	calculateData();
 
@@ -259,21 +294,28 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
 
+	Vector3 size = mData.mSize;
+	size.z = 1;
+	size.x = size.x / RenderContext::getAspectRatio();
+
+	f32 halfSizeX = size.x/2.0f;
+
+	Vector3 textSize = mData.mTextSize;
+	textSize.z = 1;
+	textSize.x = textSize.x / RenderContext::getAspectRatio();
+
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
+	uiText->getTransform()->setScale(textSize);
 	uiText->getTransform()->setAffectedByProjection(false);
 
 	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	f32 halfSizeX = (mData.mTextSize.x * 4) / RenderContext::getAspectRatio();
-
-	//f32 width = mData.mSize.x * mData.mText.length() / RenderContext::getAspectRatio();
 	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
-	collider->setSize(halfSizeX * 2.0f, mData.mTextSize.y);
-	collider->setPositionOffset(Vector3(halfSizeX,0,0));
+	collider->setSize(size.x, size.y);
+	collider->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
 	collider->getBoundingBox();
 
 	uiText->setSize(mData.mTextSize);
@@ -291,8 +333,8 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	background->setShouldPersist(false);
 
-	background->getTransform()->setLocalPosition(aspectRatioCorrectedPosition + Vector3(halfSizeX,0,0));
-	background->getTransform()->setScale(Vector3(halfSizeX * 2.2f, mData.mSize.y, 1));
+	background->getTransform()->setLocalPosition(aspectRatioCorrectedPosition + Vector3(halfSizeX - (textSize.x),0,0));
+	background->getTransform()->setScale(size);
 	background->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = Memory::allocate<Renderer>();
@@ -307,19 +349,12 @@ UITextEditable* UIBuilder::createTextEditable() {
 
 	mScene->addGameObject(background);
 
-	mScene->addGameObject(uiText);
-
-	mCurrentUIElement = uiText;
-
-	if(mData.mIsAffectedByLayout)
-		mLastUIElement = mCurrentUIElement;
-
 	return uiText;
 }
 
 // ---------------------------------------------------------------------------
 
-UIDropdown* UIBuilder::createDropdown() {
+UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	calculateData();
 
@@ -357,16 +392,7 @@ UIDropdown* UIBuilder::createDropdown() {
 		self->toggle();
 	});
 
-	mScene->addGameObject(uiDropdown);
-
 	uiDropdown->setText(mData.mText);
-
-
-
-	mCurrentUIElement = uiDropdown;
-
-	if(mData.mIsAffectedByLayout)
-		mLastUIElement = mCurrentUIElement;
 
 	return uiDropdown;
 }
@@ -377,28 +403,29 @@ UIBuilder* const UIBuilder::create(UIElementType type) {
 
 	mData.mElementType = type;
 
+	UIElement* newElement = nullptr;
+
 	switch (type) {
 		case UIElementType::PANEL:
-			createPanel();
+			newElement = internalCreatePanel();
 			break;
 		case UIElementType::BUTTON:
-			createButton();
+			newElement = internalCreateButton();
 			break;
 		case UIElementType::TEXT:
-			createText();
+			newElement = internalCreateText();
 			break;
 		case UIElementType::TEXTEDITABLE:
-			createTextEditable();
+			newElement = internalCreateTextEditable();
 			break;
 		case UIElementType::DROPDOWN:
-			createDropdown();
+			newElement = internalCreateDropdown();
 			break;
 		default:
 			break;
 	}
 
-	if(mData.mIsAffectedByLayout)
-		mLastData = mData;
+	registerCurrentUIElement(newElement);
 
 	return this;
 }
@@ -406,5 +433,7 @@ UIBuilder* const UIBuilder::create(UIElementType type) {
 UIElement* UIBuilder::getUIElement() {
 	return mCurrentUIElement;
 }
+
+// ---------------------------------------------------------------------------
 
 } /* namespace DE */

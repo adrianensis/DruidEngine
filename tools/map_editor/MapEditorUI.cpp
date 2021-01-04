@@ -180,6 +180,7 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
 	UI::getInstance()->getBuilder()->setScene(mMapEditor->getGameObject()->getScene()); // TODO: Move this to a more "Core" place
+	UI::getInstance()->getBuilder()->setTextSize(UI::getInstance()->getDefaultFontSize() / 1.2f);
 
 	createMenuBar();
 	createInspector();
@@ -275,6 +276,7 @@ void MapEditorUI::createMenuBar() {
 UIText* MapEditorUI::createInspectorLabel(const std::string& text) {
 	return (UITextEditable*) UI::getInstance()->getBuilder()->
 		setText(text)->
+		setAdjustSizeToText(true)->
 		create(UIElementType::TEXT)->
 		getUIElement();
 }
@@ -283,6 +285,8 @@ UITextEditable* MapEditorUI::createInspectorTextBoxSimple(const std::string& tex
 
 	UITextEditable* textEditable = (UITextEditable*) UI::getInstance()->getBuilder()->
 		setText(text)->
+		setAdjustSizeToText(false)->
+		setSize(Vector2(UI::getInstance()->getDefaultFontSize().x * 4, UI::getInstance()->getDefaultFontSize().y))->
 		create(UIElementType::TEXTEDITABLE)->
 		getUIElement();
 
@@ -295,6 +299,8 @@ UITextEditable* MapEditorUI::createInspectorTextBoxLabeled(const std::string& te
 
 	createInspectorLabel(textLabel);
 	UITextEditable* textEditable = createInspectorTextBoxSimple(text, onTextChangedCallback);
+
+	UI::getInstance()->getBuilder()->nextRow();
 	return textEditable;
 }
 
@@ -303,10 +309,13 @@ UIButton* MapEditorUI::createInspectorBoolean(const std::string& textLabel, UIEl
 
 	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->
 		setText(mStringsUI.BoolFalse)->
+		setAdjustSizeToText(true)->
 		create(UIElementType::BUTTON)->
 		getUIElement();
 
 	button->setOnPressedCallback(onPressedCallback);
+
+	UI::getInstance()->getBuilder()->nextRow();
 
 	return button;
 }
@@ -317,9 +326,11 @@ TextEditableVector2 MapEditorUI::createInspectorTextBoxVector2(const std::string
 	createInspectorLabel(textLabel);
 
 	TextEditableVector2 textEditableVector2;
-	std::string initValue = "0.0";
+	std::string initValue = "0";
 	textEditableVector2.TextEditableX = createInspectorTextBoxSimple(initValue, onTextChangedCallbackX);
 	textEditableVector2.TextEditableY = createInspectorTextBoxSimple(initValue, onTextChangedCallbackY);
+
+	UI::getInstance()->getBuilder()->nextRow();
 
 	return textEditableVector2;
 }
@@ -369,7 +380,7 @@ void MapEditorUI::createInspector() {
 	createPanel(panelPosition, panelSize);
 
 	UI::getInstance()->getBuilder()->
-		setLayout(UILayout::VERTICAL)->
+		setLayout(UILayout::HORIZONTAL)->
 		setAdjustSizeToText(true)->
 		setPosition(Vector2(baseX, baseY))->
 		setLayer(mUILayer);
@@ -386,28 +397,12 @@ void MapEditorUI::createInspector() {
 
 	// Position
 
-	mTextInspectorX = createInspectorLabel(mStringsUI.InspectorTileX + "0.000000");
-	mTextInspectorY = createInspectorLabel(mStringsUI.InspectorTileY + "0.000000");
+	createInspectorLabel(mStringsUI.InspectorTileX);
+	mTextInspectorX = createInspectorLabel("0");
+	createInspectorLabel(mStringsUI.InspectorTileY);
+	mTextInspectorY = createInspectorLabel("0");
 
-	// Collider enable
-
-	mButtonInspectorCollider = createInspectorBoolean(mStringsUI.InspectorTileCollider,
-
-	[&, self = mButtonInspectorCollider](UIElement* uiElement) {
-		mMapEditor->mGrid.forEachSelectedTile(
-		[&](GameObject* tile) {
-			List<Collider*>* colliders = tile->getComponents<Collider>();
-
-			if(colliders && !colliders->isEmpty()) {
-				tile->removeComponent<Collider>(colliders->get(0));
-				tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
-				uiElement->setText(mStringsUI.BoolFalse);
-			} else {
-				mMapEditor->addColliderToTile(tile);
-				uiElement->setText(mStringsUI.BoolTrue);
-			}
-		});
-	});
+	UI::getInstance()->getBuilder()->nextRow();
 
 	// Size
 
@@ -428,6 +423,26 @@ void MapEditorUI::createInspector() {
 
 	mTextBoxSizeX = textEditableVector2.TextEditableX;
 	mTextBoxSizeY = textEditableVector2.TextEditableY;
+
+	// Collider enable
+
+	mButtonInspectorCollider = createInspectorBoolean(mStringsUI.InspectorTileCollider,
+
+	[&, self = mButtonInspectorCollider](UIElement* uiElement) {
+		mMapEditor->mGrid.forEachSelectedTile(
+		[&](GameObject* tile) {
+			List<Collider*>* colliders = tile->getComponents<Collider>();
+
+			if(colliders && !colliders->isEmpty()) {
+				tile->removeComponent<Collider>(colliders->get(0));
+				tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
+				uiElement->setText(mStringsUI.BoolFalse);
+			} else {
+				mMapEditor->addColliderToTile(tile);
+				uiElement->setText(mStringsUI.BoolTrue);
+			}
+		});
+	});
 
 	// Collider Position
 
@@ -491,13 +506,13 @@ void MapEditorUI::updateInspector() {
 	if(mMapEditor->mGrid.getFirstSelectedTile()){
 		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
 
-		mTextInspectorX->setText(mStringsUI.InspectorTileX + std::to_string(tileTransform->getLocalPosition().x));
-		mTextInspectorY->setText(mStringsUI.InspectorTileY + std::to_string(tileTransform->getLocalPosition().y));
+		mTextInspectorX->setText(std::to_string(tileTransform->getLocalPosition().x).substr(0,4));
+		mTextInspectorY->setText(std::to_string(tileTransform->getLocalPosition().y).substr(0,4));
 
 		List<Collider*>* colliders = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 		bool hasCollider = colliders && !colliders->isEmpty();
 
-		mButtonInspectorCollider->setText(hasCollider ? "[X]" : "[ ]");
+		mButtonInspectorCollider->setText(hasCollider ? mStringsUI.BoolTrue : mStringsUI.BoolFalse);
 	}
 }
 
@@ -519,14 +534,14 @@ void MapEditorUI::updateInspectorOnSelectTile() {
 
 		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
 
-		mTextBoxSizeX->setText(std::to_string(tileTransform->getScale().x));
-		mTextBoxSizeY->setText(std::to_string(tileTransform->getScale().y));
+		mTextBoxSizeX->setText(std::to_string(tileTransform->getScale().x).substr(0,4));
+		mTextBoxSizeY->setText(std::to_string(tileTransform->getScale().y).substr(0,4));
 
 		auto colliderList = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
 		Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
 
-		mTextBoxColliderSizeX->setText(std::to_string(collider ? collider->getWidth() : 0.0f));
-		mTextBoxColliderSizeY->setText(std::to_string(collider ? collider->getHeight() : 0.0f));
+		mTextBoxColliderSizeX->setText(std::to_string(collider ? collider->getWidth() : 0.0f).substr(0,4));
+		mTextBoxColliderSizeY->setText(std::to_string(collider ? collider->getHeight() : 0.0f).substr(0,4));
 
 	}
 }
