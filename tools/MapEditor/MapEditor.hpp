@@ -2,12 +2,11 @@
 #define DE_MAPEDITOR_H
 
 #include "Scripting/Script.hpp"
-#include "MapEditorUI.hpp"
-#include "Grid.hpp"
-#include "Grid.hpp"
 #include <string>
 
 #include "Events/Event.hpp"
+#include "MapEditorUI/Grid/Grid.hpp"
+#include "MapEditorUI/MapEditorUI.hpp"
 
 namespace DE {
 

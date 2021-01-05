@@ -3,7 +3,6 @@
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector2.hpp"
-#include "MapEditorUI.hpp"
 #include <string>
 #include "Core/Functor.hpp"
 #include "Scene/Transform.hpp"
@@ -22,7 +21,8 @@
 #include "Core/ConfigMap.hpp"
 #include "Scene/Scene.hpp"
 
-#include "EditorEvents.hpp"
+#include "EditorEvents/EditorEvents.hpp"
+#include "MapEditorUI/MapEditorUI.hpp"
 
 namespace DE {
 

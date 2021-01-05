@@ -15,7 +15,7 @@
 #include "Maths/Vector4.hpp"
 #include "Core/ScenesManager.hpp"
 
-#include "MapEditor.hpp"
+#include "../MapEditor/MapEditor.hpp"
 
 using namespace DE;
 
