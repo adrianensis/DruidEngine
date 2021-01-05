@@ -78,13 +78,15 @@ private:
 		std::string Atlas = "Atlas";
 		std::string Play = "Play";
 		std::string AddSprite = "Add Sprite";
-		std::string InspectorTileX = "x:";
-		std::string InspectorTileY = "y:";
-		std::string InspectorTileCollider = "collider:";
-		std::string InspectorTileTag = "tag:";
-		std::string InspectorSize = "size:";
-		std::string InspectorSizeCollider = "c.size:";
-		std::string InspectorPosCollider = "c.offset:";
+		std::string Inspector = "INSPECTOR";
+		std::string InspectorTilePosition = "pos";
+		std::string InspectorTileX = "x";
+		std::string InspectorTileY = "y";
+		std::string InspectorTileCollider = "collider";
+		std::string InspectorTileTag = "tag";
+		std::string InspectorSize = "size";
+		std::string InspectorSizeCollider = "size";
+		std::string InspectorPosCollider = "offset";
 		std::string Grid = "Grid";
 	};
 

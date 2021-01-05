@@ -385,6 +385,11 @@ void MapEditorUI::createInspector() {
 		setPosition(Vector2(baseX, baseY))->
 		setLayer(mUILayer);
 
+	// Inspector
+	createInspectorLabel(mStringsUI.Inspector);
+
+	UI::getInstance()->getBuilder()->nextRow();
+
 	// Tag
 
 	mTextBoxTag = createInspectorTextBoxLabeled(mStringsUI.InspectorTileTag, "",
@@ -397,10 +402,9 @@ void MapEditorUI::createInspector() {
 
 	// Position
 
-	createInspectorLabel(mStringsUI.InspectorTileX);
-	mTextInspectorX = createInspectorLabel("0");
-	createInspectorLabel(mStringsUI.InspectorTileY);
-	mTextInspectorY = createInspectorLabel("0");
+	createInspectorLabel(mStringsUI.InspectorTilePosition);
+	mTextInspectorX = createInspectorLabel("0.00");
+	mTextInspectorY = createInspectorLabel("0.00");
 
 	UI::getInstance()->getBuilder()->nextRow();
 
@@ -557,27 +561,23 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 	Vector2 atlasSize = Vector2(mMapEditor->mConfigMap->getU32("atlases["+ std::to_string(index) +"].size.width"), mMapEditor->mConfigMap->getU32("atlases["+ std::to_string(index) +"].size.height"));
 	Vector2 atlasTextureSize = Vector2(1.0f / atlasSize.x, 1.0f / atlasSize.y);
 
-	Vector2 panelSize = atlasSize * tileSize + tileSize;
-	Vector2 panelPosition = Vector2(0.0f, 0.0f);
+	Vector2 panelSize = atlasSize * tileSize;
+	Vector2 panelPosition = Vector2(-panelSize.x/2.0f, panelSize.y/2.0f);
 	UIElement* panel = createPanel(panelPosition, panelSize);
 	UI::getInstance()->addToGroup(mAtlasUIGroup, panel);
 
 	UI::getInstance()->getBuilder()->
 		setSeparatorSize(0)->
-		setText("");
+		setAdjustSizeToText(false)->
+		setLayout(UILayout::HORIZONTAL)->
+		setPosition(Vector2(-panelSize.x/2.0f, panelSize.y/2.0f))->
+		setText("")->
+		setSize(Vector2(tileSize, tileSize))->
+		setBackgroundColor(Vector4(0,0,0,1))->
+		setLayer(mUILayer);
 
-	FOR_RANGE(i, 0, atlasSize.x){
-
-		UI::getInstance()->getBuilder()->
-			setLayout(UILayout::VERTICAL)->
-			setAdjustSizeToText(false)->
-			setPosition(Vector2((i - (atlasSize.x / 2.0f)) * tileSize + screenOffset.x,
-				((atlasSize.y / 2.0f)) * tileSize - screenOffset.y))->
-			setSize(Vector2(tileSize, tileSize))->
-			setBackgroundColor(Vector4(0,0,0,1))->
-			setLayer(mUILayer);
-
-		FOR_RANGE(j, 0, atlasSize.y){
+	FOR_RANGE(i, 0, atlasSize.y){
+		FOR_RANGE(j, 0, atlasSize.x){
 
 			UIButton* tile = (UIButton*) UI::getInstance()->getBuilder()->
 					create(UIElementType::BUTTON)->
@@ -585,7 +585,7 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 
 			Renderer* renderer = tile->getRenderer();
 			renderer->setMaterial(material);
-			renderer->setRegion(i / atlasSize.x, j / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
+			renderer->setRegion(j / atlasSize.x, i / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
 
 			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j](UIElement* uiElement) {
 				Renderer* buttonRenderer = self->getRenderer();
@@ -612,11 +612,11 @@ void MapEditorUI::createAtlas(u32 index, Material* material) {
 
 			//mAtlasButtons->set(i*atlasSize.y + j, tile);
 		}
+
+		UI::getInstance()->getBuilder()->nextRow();
 	}
 
 	UI::getInstance()->getBuilder()->restoreSeparatorSize();
-
-	// TODO : create panel here
 }
 
 void MapEditorUI::createAtlasSelector() {
@@ -814,7 +814,7 @@ void MapEditorUI::createLayersBar() {
 
 	UI::getInstance()->getBuilder()->
 		setAdjustSizeToText(true)->
-		setLayout(UILayout::VERTICAL)->
+		setLayout(UILayout::HORIZONTAL)->
 		setPosition(Vector2(baseX, baseY))->
 		restoreColors()->
 		setLayer(mUILayer);
@@ -830,13 +830,7 @@ void MapEditorUI::createLayersBar() {
 		});
 
 		mLayerButtons->set(i, button);
-	}
 
-	UI::getInstance()->getBuilder()->
-			setLayout(UILayout::VERTICAL)->
-			setPosition(Vector2(baseX + separator, baseY));
-
-	FOR_RANGE(i, 0, maxLayers){
 		button = (UIButton*) UI::getInstance()->getBuilder()->
 		setText("on")->
 		create(UIElementType::BUTTON)->
@@ -847,6 +841,8 @@ void MapEditorUI::createLayersBar() {
 			RenderEngine::getInstance()->getLayersData()->get(i)->mVisible = !visibility;
 			self->setText(RenderEngine::getInstance()->getLayersData()->get(i)->mVisible ? "on" : "off");
 		});
+
+		UI::getInstance()->getBuilder()->nextRow();
 	}
 
 	selectLayer(0);

@@ -358,7 +358,7 @@ void Collider::render() {
 
 	bool isAffectedByProjection = getGameObject()->getTransform()->getAffectedByProjection();
 
-	//if (isAffectedByProjection) {
+	if (isAffectedByProjection) {
 		Collider* collider = this;
 		f32 lineSize = 1;
 
@@ -394,7 +394,7 @@ void Collider::render() {
 
 			RenderEngine::getInstance()->drawLine( lastVertex, firstVertex, lineSize, isAffectedByProjection);
 		}
-	//}
+	}
 }
 
 } /* namespace DE */
