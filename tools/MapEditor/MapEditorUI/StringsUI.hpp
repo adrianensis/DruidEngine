@@ -15,7 +15,7 @@ public:
 	std::string Brush = "Brush";
 	std::string Save = "Save";
 	std::string Collider = "Colliders";
-	std::string Atlas = "Atlas";
+	std::string Atlas = "Atlas (Tab)";
 	std::string Play = "Play";
 	std::string AddSprite = "Add Sprite";
 	std::string Inspector = "INSPECTOR";

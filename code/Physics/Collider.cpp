@@ -57,7 +57,7 @@ void Collider::init() {
 	mBoxVertices->set(2, Vector2(0, 0)); // RIGHT BOTTOM
 	mBoxVertices->set(3, Vector2(0, 0)); // RIGHT TOP
 
-	mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+	mRigidBody = getGameObject()->getFirstComponent<RigidBody>();
 
 	mPositionOffset.set(0, 0, 0);
 

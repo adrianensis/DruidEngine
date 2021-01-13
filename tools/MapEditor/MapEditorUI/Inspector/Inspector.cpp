@@ -38,7 +38,7 @@ Inspector::~Inspector(){
 void Inspector::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
-	DE_SUBSCRIBE_TO_EVENT(MapEditorOnSelectTile, &(mapEditor->mGrid), this,
+	DE_SUBSCRIBE_TO_EVENT(EventOnSelectTile, &(mapEditor->mGrid), this,
 	[&](const Event* event){
 		updateInspectorOnSelectTile();
 	});

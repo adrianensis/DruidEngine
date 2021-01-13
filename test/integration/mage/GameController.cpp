@@ -375,7 +375,7 @@ void GameController::step() {
 
 	Vector2 mouse = Input::getInstance()->getMousePosition();
 
-	Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(
+	Vector3 world = getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>()->screenToWorld(
 			mouse);
 
 	if (mEnemySpawnTimeCount >= mEnemySpawnTime) {
@@ -440,7 +440,7 @@ void GameController::step() {
 
 			FOR_LIST(it, mRenderFloor) {
 				GameObject* tile = it.get();
-				Renderer* renderer = tile->getComponents<Renderer>()->get(0);
+				Renderer* renderer = tile->getFirstComponent<Renderer>();
 
 				tile->getTransform()->translate(floorMovement);
 

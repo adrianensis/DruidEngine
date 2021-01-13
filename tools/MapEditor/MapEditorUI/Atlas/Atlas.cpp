@@ -108,7 +108,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 
 			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j](UIElement* uiElement) {
 				Renderer* buttonRenderer = self->getRenderer();
-				mMapEditor->mMapEditorUI.mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
+				mMapEditor->mMapEditorUI.mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(buttonRenderer->getRegionPosition().x,
 						buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
 						buttonRenderer->getRegionSize().y);
 

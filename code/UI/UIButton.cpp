@@ -4,6 +4,8 @@
 #include "UI/UIText.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Scene/Transform.hpp"
+#include "Scene/Scene.hpp"
+#include "Events/EventsManager.hpp"
 
 namespace DE {
 
@@ -21,6 +23,18 @@ UIButton::~UIButton() = default;
 
 void UIButton::init() {
 	UIElement::init();
+}
+
+void UIButton::onDestroy() {
+	if(mLabel) {
+		getScene()->removeGameObject(mLabel);
+	}
+
+	UIElement::onDestroy();
+}
+
+void UIButton::onLabelDestroy() {
+	mLabel = nullptr;
 }
 
 void UIButton::setText(const std::string &text) {
@@ -43,6 +57,10 @@ void UIButton::setText(const std::string &text) {
 			UI::getInstance()->getBuilder()->restoreData();
 
 			mLabel->getTransform()->setParent(getTransform());
+
+			DE_SUBSCRIBE_TO_EVENT(EventOnDestroy, mLabel, this, [&](const Event* event){
+				onLabelDestroy();
+			});
 		}
 
 		mLabel->setText(text);

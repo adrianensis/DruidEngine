@@ -83,10 +83,10 @@ void Brush::init(MapEditor* mapEditor) {
 	}
 
 	mBrushCursor = GameObjectBuilder::getInstance()->
-	createSprite(mMapEditor->mMaterial, mMapEditor->mMapEditorUI.mUILayer, true)->getGameObject();
+	createSprite(mMapEditor->mMaterial, mMapEditor->mMapEditorUI.mUILayer, false)->getGameObject();
 
-	mBrushCursor->getTransform()->setLocalPosition(Vector3(-1.4f / RenderContext::getAspectRatio(), 0.8f, 0));
-	mBrushCursor->getTransform()->setScale(Vector3(0.1f / RenderContext::getAspectRatio(), 0.1f, 1));
+	mBrushCursor->getTransform()->setLocalPosition(Vector3(0,0,0));
+	mBrushCursor->getTransform()->setScale(Vector3(0.05f / RenderContext::getAspectRatio(), 0.05f, 1));
 	mBrushCursor->getTransform()->setAffectedByProjection(false);
 
 	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
@@ -125,6 +125,15 @@ void Brush::clickTile(UIButton* tileButton, Vector2 atlasPosition){
 void Brush::free(){
 	mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
 	Memory::free<Array<GameObject*>>(mGrid);
+}
+
+// ---------------------------------------------------------------------------
+
+void Brush::update(){
+	if(mBrushCursor){
+		Vector2 mouse = Input::getInstance()->getMousePosition();
+		mBrushCursor->getTransform()->setLocalPosition(mouse);
+	}
 }
 
 // ---------------------------------------------------------------------------

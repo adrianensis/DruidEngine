@@ -8,6 +8,7 @@
 #include "UI/UIButton.hpp"
 #include "UI/UIText.hpp"
 #include "UI/UITextEditable.hpp"
+#include "UI/UIDropdown.hpp"
 
 #include "Scene/GameObjectBuilder.hpp"
 
@@ -102,6 +103,13 @@ UIButton* EditorBuilder::createRadialButton(const std::string& textLabel, UIElem
 	UI::getInstance()->getBuilder()->nextRow();
 
 	return button;
+}
+
+UIDropdown* EditorBuilder::createDropdown(const std::string& textLabel) {
+	return (UIDropdown*) UI::getInstance()->getBuilder()->
+		setText(textLabel)->
+		create(UIElementType::DROPDOWN)->
+		getUIElement();
 }
 
 // ---------------------------------------------------------------------------

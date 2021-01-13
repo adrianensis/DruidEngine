@@ -46,8 +46,8 @@ void PlayerScript::init() {
 void PlayerScript::firstStep() {
 
 	getGameObject()->setTag("player");
-	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
-	mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+	mRenderer = getGameObject()->getFirstComponent<Renderer>();
+	mRigidBody = getGameObject()->getFirstComponent<RigidBody>();
 
 	mAttackAnimTimeCount = 0;
 	mAttackAnimTime = 0.06f;
@@ -72,7 +72,7 @@ void PlayerScript::step() {
 		Vector2 mouse = Input::getInstance()->getMousePosition();
 
 		Vector3 world =
-				getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0)->screenToWorld(
+				getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>()->screenToWorld(
 						mouse);
 
 		if (mMana > 0) {
@@ -118,7 +118,7 @@ void PlayerScript::step() {
 		mRigidBody->addForce(Vector3(0, -4000, 0));
 	}
 
-	mBook->getComponents<Renderer>()->get(0)->setColor(mBookColor);
+	mBook->getFirstComponent<Renderer>()->setColor(mBookColor);
 
 }
 

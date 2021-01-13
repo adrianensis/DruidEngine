@@ -67,7 +67,7 @@ public:
 
 	DE_CLASS(UIElement)
 
-	virtual void init();
+	virtual void init() override;
 	virtual void onDestroy();
 
 	void subscribeToKeyEvents();

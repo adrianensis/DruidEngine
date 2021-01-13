@@ -167,9 +167,6 @@ void MapEditor::step() {
 		}
 	}
 
-//	if (mMapEditorUI.mBrush.mMapEditorUI.mBrushCursor)
-//		mMapEditorUI.mBrush.mMapEditorUI.mBrushCursor->getTransform()->setLocalPosition(world);
-
 	cameraZoom();
 	processMovement();
 

@@ -8,8 +8,8 @@
 namespace DE {
 
 
-DE_EVENT_DECLARATION_BEGIN(MapEditorOnSelectTile)
-DE_EVENT_DECLARATION_END(MapEditorOnSelectTile)
+DE_EVENT_DECLARATION_BEGIN(EventOnSelectTile)
+DE_EVENT_DECLARATION_END(EventOnSelectTile)
 
 
 } /* namespace DE */

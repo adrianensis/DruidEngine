@@ -9,6 +9,7 @@
 namespace DE {
 
 class UIButton;
+class UIDropdown;
 class UIText;
 class UITextEditable;
 
@@ -34,6 +35,7 @@ public:
 	UIButton* createButton(const std::string& textLabel, UIElementCallback onPressedCallback);
 	UIButton* createRadialButton(const std::string& textLabel, UIElementCallback onPressedCallback);
 	TextEditableVector2 createTextBoxVector2(const std::string& textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
+	UIDropdown* createDropdown(const std::string& textLabel);
 };
 
 } /* namespace DE */

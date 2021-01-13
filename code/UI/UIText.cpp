@@ -22,9 +22,12 @@ UIText::~UIText() = default;
 
 // ---------------------------------------------------------------------------
 
-
 void UIText::init() {
 	UIElement::init();
+}
+
+void UIText::onDestroy() {
+	UIElement::onDestroy();
 }
 
 void UIText::setText(const std::string &text) {

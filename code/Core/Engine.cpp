@@ -84,20 +84,13 @@ void Engine::terminateSubSystems() {
 
 	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
 
-	//if (ScriptEngine::getInstance())
-		ScriptEngine::getInstance()->terminate();
-	//if (RenderEngine::getInstance())
-		RenderEngine::getInstance()->terminate();
-	//if (PhysicsEngine::getInstance())
-		PhysicsEngine::getInstance()->terminate();
-	//if (UI::getInstance())
-		UI::getInstance()->terminate();
-	//if (EventsManager::getInstance())
-		EventsManager::getInstance()->terminate();
-	//if(TimerManager::getInstance())
-		TimerManager::getInstance()->terminate();
-
-		Profiler::getInstance()->terminate();
+	ScriptEngine::getInstance()->terminate();
+	RenderEngine::getInstance()->terminate();
+	PhysicsEngine::getInstance()->terminate();
+	UI::getInstance()->terminate();
+	//EventsManager::getInstance()->terminate();
+	TimerManager::getInstance()->terminate();
+	//Profiler::getInstance()->terminate();
 }
 
 // ---------------------------------------------------------------------------

@@ -5,64 +5,108 @@
 #include "Graphics/Renderer.hpp"
 #include "Scene/Transform.hpp"
 #include "Containers/List.hpp"
+#include "Scene/Scene.hpp"
 
 namespace DE {
 
 // ---------------------------------------------------------------------------
 
+UIDropdown::UIDropdownEntry::UIDropdownEntry() : DE_Class() {
+
+}
+
+UIDropdown::UIDropdownEntry::UIDropdownEntry(std::string label, UIElementCallback callback) : DE_Class() {
+	mLabel = label;
+	mCallback = callback;
+}
+
+
+UIDropdown::UIDropdownEntry::~UIDropdownEntry() {
+
+}
+
+// ---------------------------------------------------------------------------
+
 UIDropdown::UIDropdown() : UIButton() {
 	mButtons = nullptr;
+	mEntries = nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
 UIDropdown::~UIDropdown() {
-	Memory::free<List<UIButton*>>(mButtons);
+
 }
 
 // ---------------------------------------------------------------------------
 
 void UIDropdown::init() {
 
-	UIElement::init();
+	UIButton::init();
 
 	mButtons = Memory::allocate<List<UIButton*>>();
 	mButtons->init();
 
-	subscribeToMouseButtonEvents();
+	mEntries = Memory::allocate<List<UIDropdownEntry>>();
+	mEntries->init();
 }
 
-void UIDropdown::addOption(const std::string& label) {
+void UIDropdown::onDestroy() {
+	Memory::free<List<UIButton*>>(mButtons);
+	Memory::free<List<UIDropdownEntry>>(mEntries);
+	UIButton::onDestroy();
+}
 
-	Vector3 lastPosition(0,0,0);
+UIDropdown* UIDropdown::addOption(const std::string& label, UIElementCallback onPressedCallback) {
 
-	if(!mButtons->isEmpty()){
-		lastPosition = mButtons->getLast().get()->getTransform()->getWorldPosition();
-	}
+	mEntries->pushBack(UIDropdownEntry(label, onPressedCallback));
 
-	UI::getInstance()->getBuilder()->saveData()->
-			setPosition(Vector2(0.0f, - getTransform()->getScale().y * (mButtons->getLength() + 1)))->
-			setSize(Vector2(getTransform()->getScale().x * RenderContext::getAspectRatio(), getTransform()->getScale().y))->
-			setText(label)->
-			setLayer(getRenderer()->getLayer() + 1)->
-			setIsAffectedByLayout(false)->
-			create(UIElementType::BUTTON);
-
-	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
-
-	mButtons->pushBack(button);
-
-	button->setVisibility(false);
-
-	button->getTransform()->setParent(getTransform());
-
-	UI::getInstance()->getBuilder()->restoreData();
+	return this;
 }
 
 void UIDropdown::toggle() {
-	FOR_LIST(it, mButtons){
-		it.get()->setVisibility(!it.get()->isVisible());
+
+	if(mButtons->isEmpty()){
+		FOR_LIST(it, mEntries) {
+
+			const std::string& label = it.get().mLabel;
+			UIElementCallback onPressedCallback = it.get().mCallback;
+
+			Vector3 scale = getTransform()->getScale();
+			scale.x = scale.x * RenderContext::getAspectRatio();
+
+			UI::getInstance()->getBuilder()->saveData()->
+				setPosition(Vector2(-scale.x/2.0f,-scale.y * mButtons->getLength() - scale.y/2.0f))->
+				setSize(scale)->
+				setText(label)->
+				setAdjustSizeToText(true)->
+				setLayer(getRenderer()->getLayer() + 1)->
+				setIsAffectedByLayout(false)->
+				create(UIElementType::BUTTON);
+
+			UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
+			button->setOnPressedCallback(onPressedCallback);
+			//button->setVisibility(false);
+
+			Transform* t = button->getTransform();
+			t->setParent(getTransform());
+
+			UI::getInstance()->getBuilder()->restoreData();
+
+			mButtons->pushBack(button);
+		}
 	}
+	else {
+		FOR_LIST(it, mButtons){
+			getScene()->removeGameObject(it.get());
+		}
+
+		mButtons->clear();
+	}
+
+	/*FOR_LIST(it, mButtons){
+		it.get()->setVisibility(!it.get()->isVisible());
+	}*/
 }
 
 } /* namespace DE */

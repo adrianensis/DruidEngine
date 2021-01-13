@@ -55,7 +55,7 @@ namespace DE {
 
 void MapEditorUI::resetBrush() {
 	mMapEditor->mGrid.mIsPaintMode = false;
-	mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(0, 0, 1, 1);
+	mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
 
@@ -84,7 +84,7 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
 	UI::getInstance()->getBuilder()->setScene(mMapEditor->getGameObject()->getScene()); // TODO: Move this to a more "Core" place
-	UI::getInstance()->getBuilder()->setTextSize(UI::getInstance()->getDefaultFontSize() / 1.2f);
+	//UI::getInstance()->getBuilder()->setTextSize(UI::getInstance()->getDefaultFontSize() / 1.2f);
 
 	createMenuBar();
 	createInspector();
@@ -142,6 +142,7 @@ void MapEditorUI::createAtlas() {
 // ---------------------------------------------------------------------------
 
 void MapEditorUI::update() {
+	mBrush.update();
 	mInspector->update();
 	updateGridLines();
 	updateInfoBar();
@@ -255,7 +256,7 @@ void MapEditorUI::createSpriteFromBrush() {
 
 		sprite->setOnPressedCallback([&, self = sprite, mapEditor = mMapEditor]() {
 			Renderer* buttonRenderer = self->getRenderer();
-			mBrush.mBrushCursor->getComponents<Renderer>()->get(0)->setRegion(buttonRenderer->getRegionPosition().x,
+			mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(buttonRenderer->getRegionPosition().x,
 					buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
 					buttonRenderer->getRegionSize().y);
 

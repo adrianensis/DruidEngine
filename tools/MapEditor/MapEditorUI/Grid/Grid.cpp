@@ -204,7 +204,7 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 			mSelectedTiles->pushBack(tile);
 
 			//mMapEditorUI.updateInspectorOnSelectTile();
-			MapEditorOnSelectTile event;
+			EventOnSelectTile event;
 			DE_SEND_EVENT(this, this, event);
 		}
 	}

@@ -17,7 +17,8 @@ public:
 
 	DE_CLASS(UIText)
 
-	virtual void init();
+	virtual void init() override;
+	virtual void onDestroy() override;
 
 	virtual void setText(const std::string &text) override;
 

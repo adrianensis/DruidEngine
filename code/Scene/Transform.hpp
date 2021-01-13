@@ -26,7 +26,7 @@ private:
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	DE_M(Parent, Transform*)
+	DE_M_GET_SET(Parent, Transform*)
 
 	DE_M(ForceModelMatrixCalculation, bool)
 
@@ -86,9 +86,6 @@ public:
 
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
-
-	void setParent(Transform *parent);
-	Transform* getParent();
 
 	void forceModelMatrixCalculation() {
 		mForceModelMatrixCalculation = true;

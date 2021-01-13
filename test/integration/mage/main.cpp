@@ -37,7 +37,7 @@ int main() {
 
 	Script* script = Memory::allocate<GameController>();
 	controller->addComponent<Script>(script);
-	Script* scriptX = controller->getComponents<Script>()->get(0);
+	Script* scriptX = controller->getFirstComponent<Script>();
 
 	ScenesManager::getInstance()->setGameObjectController(controller);
 

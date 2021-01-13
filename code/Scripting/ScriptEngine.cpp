@@ -26,7 +26,7 @@ void ScriptEngine::init() {
 	mScripts = Memory::allocate<List<Script*>>();
 	mScripts->init();
 
-	mController = ScenesManager::getInstance()->getGameObjectController()->getComponents<Script>()->get(0);
+	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
 }
 
 // ---------------------------------------------------------------------------

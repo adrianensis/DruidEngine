@@ -46,8 +46,8 @@ void EnemyScript::init() {
 void EnemyScript::firstStep() {
 
 	getGameObject()->setTag("enemy");
-	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
-	mRigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+	mRenderer = getGameObject()->getFirstComponent<Renderer>();
+	mRigidBody = getGameObject()->getFirstComponent<RigidBody>();
 
 	mSlowDown = false;
 	mSpeed = GameController::smGlobalSpeed;
@@ -76,7 +76,7 @@ void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 	if (!mFalling && !otherGameObject->getIsPendingToBeDestroyed() && !otherGameObject->getIsDestroyed()) {
 
 		if (otherGameObject->getTag() == "projectile") {
-			ProjectileScript* projectileScript = (ProjectileScript*) otherGameObject->getComponents<Script>()->get(0);
+			ProjectileScript* projectileScript = (ProjectileScript*) otherGameObject->getFirstComponent<Script>();
 
 			if (!projectileScript->isExploded()) {
 
@@ -99,7 +99,7 @@ void EnemyScript::onCollision(GameObject *otherGameObject) {
 
 	if (!mFalling && !otherGameObject->getIsPendingToBeDestroyed() && !otherGameObject->getIsDestroyed()
 			&& otherGameObject->getTag() == "tornado") {
-		TornadoScript* projectileScript = (TornadoScript*) otherGameObject->getComponents<Script>()->get(0);
+		TornadoScript* projectileScript = (TornadoScript*) otherGameObject->getFirstComponent<Script>();
 
 		mSpeed = GameController::smGlobalSpeed / 4.0f;
 	}

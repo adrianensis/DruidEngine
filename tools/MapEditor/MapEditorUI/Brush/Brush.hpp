@@ -33,6 +33,7 @@ public:
 	void clickTile(UIButton* tileButton, Vector2 atlasPosition);
 	GameObject* getTile(u32 i, u32 j);
 	void free();
+	void update();
 	void clear();
 	void setDrawTileSize(const Vector2& size);
 };

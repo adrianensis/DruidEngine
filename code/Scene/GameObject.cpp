@@ -6,6 +6,8 @@
 #include "Scene/Component.hpp"
 #include "Scene/Transform.hpp"
 
+#include "Events/EventsManager.hpp"
+
 namespace DE {
 
 // ---------------------------------------------------------------------------
@@ -19,12 +21,38 @@ GameObject::GameObject() : DE_Class() {
 }
 
 GameObject::~GameObject() {
-	/*FOR_LIST(it, mComponentsMap->getValues()){
-		Memory::free<List<Component*>>(it.get());
-	}*/
-
-	Memory::free<HashMap<ClassId, List<Component*>*>>(mComponentsMap);
+	Memory::free<ComponentsMap>(mComponentsMap);
+	Memory::free<CacheComponentsMap>(mCacheComponentsFirst);
 	Memory::free<Transform>(mTransform);
+	Memory::free<ComponentsMap>(mCacheComponentsLists);
+}
+
+void GameObject::setCacheLists(ClassId classId, List<Component*>* components) {
+	mLastClassIdList = classId;
+	mCacheComponentsLists->set(classId, components);
+}
+
+void GameObject::setCacheFirst(ClassId classId, Component* component) {
+	mLastClassIdFirst = classId;
+	mCacheComponentsFirst->set(classId, component);
+}
+
+void GameObject::tryCleanCache(ClassId classId) {
+	if(mLastClassIdFirst == classId) {
+		mCacheComponentsFirst->set(classId, nullptr);
+	}
+
+	if(mLastClassIdList == classId) {
+		mCacheComponentsLists->set(classId, nullptr);
+	}
+}
+
+bool GameObject::checkCacheFirst(ClassId classId) {
+	return mLastClassIdFirst == classId && mCacheComponentsFirst->get(classId);
+}
+
+bool GameObject::checkCacheLists(ClassId classId) {
+	return mLastClassIdList == classId && mCacheComponentsLists->contains(classId);
 }
 
 // ---------------------------------------------------------------------------
@@ -42,6 +70,8 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 
 	component->setGameObject(this);
 	component->init();
+
+	tryCleanCache(classId);
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +81,8 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 		List<Component*>* list = mComponentsMap->get(classId);
 		list->remove(list->find(component));
 		component->destroy();
+
+		tryCleanCache(classId);
 	}
 }
 
@@ -59,12 +91,16 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 void GameObject::init() {
 	// TRACE();
 
-	mComponentsMap = Memory::allocate<HashMap<ClassId, List<Component*>*>>();
+	mComponentsMap = Memory::allocate<ComponentsMap>();
 	mComponentsMap->init();
 
-	mTransform = Memory::allocate<Transform>();
-	//mTransform->init();
+	mCacheComponentsFirst = Memory::allocate<CacheComponentsMap>();
+	mCacheComponentsFirst->init();
 
+	mCacheComponentsLists = Memory::allocate<ComponentsMap>();
+	mCacheComponentsLists->init();
+
+	mTransform = Memory::allocate<Transform>();
 	addComponent(mTransform);
 
 	mTag = "";
@@ -73,7 +109,43 @@ void GameObject::init() {
 // ---------------------------------------------------------------------------
 
 List<Component*>* GameObject::getComponents(ClassId classId) {
-	return mComponentsMap->contains(classId) ? mComponentsMap->get(classId) : nullptr;
+	List<Component*>* components = nullptr;
+
+	if(checkCacheLists(classId)) {
+		components = mCacheComponentsLists->get(classId);
+	} else {
+		if(mComponentsMap->contains(classId)) {
+			components = mComponentsMap->get(classId);
+
+			if(components->isEmpty()){
+				components = nullptr;
+			}
+		}
+	}
+
+	setCacheLists(classId, components);
+
+	return components;
+}
+
+// ---------------------------------------------------------------------------
+
+Component* GameObject::getFirstComponent(ClassId classId) {
+	Component* component = nullptr;
+
+	if(checkCacheFirst(classId)) {
+		component = mCacheComponentsFirst->get(classId);
+	} else {
+		List<Component*>* components = getComponents(classId);
+
+		if(components && !components->isEmpty()) {
+			component = components->getFirst().get();
+		}
+	}
+
+	setCacheFirst(classId, component);
+
+	return component;
 }
 
 // ---------------------------------------------------------------------------
@@ -92,6 +164,9 @@ void GameObject::setIsActive(bool isActive) {
 void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
+
+	EventOnDestroy event;
+	DE_SEND_EVENT(this, this, event);
 
 	onDestroy();
 

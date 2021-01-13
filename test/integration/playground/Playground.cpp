@@ -169,7 +169,7 @@ void Playground::firstStep() {
 
 	//RenderEngine::getInstance()->setDebugColliders(true);
 
-	mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+	mCamera = getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>();
 	mCameraTransform = mCamera->getGameObject()->getTransform();
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
@@ -216,13 +216,13 @@ mCameraTransform->setParent(mPlayer->getTransform());
 mCameraTransform->setLocalPosition(Vector3(0, 0, 0));
 }
 
-Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getComponents<Renderer>()->get(0) : nullptr;
+Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getFirstComponent<Renderer>() : nullptr;
 
 if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(0, movement, 0));
 	} else {
-		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,movement,0));
+		mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,movement,0));
 
 		if (renderer) {
 			renderer->setAnimation("run");
@@ -233,7 +233,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(0, -movement, 0));
 	} else {
-		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,-movement,0));
+		mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,-movement,0));
 
 		if (renderer) {
 			renderer->setAnimation("run");
@@ -243,7 +243,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(-movement, 0, 0));
 	} else {
-		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(-movement,0,0));
+		mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(-movement,0,0));
 
 		if (renderer) {
 			renderer->setAnimation("run");
@@ -254,7 +254,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	if(mCameraControl){
 		mCameraTransform->translate(Vector3(movement, 0, 0));
 	} else {
-		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(movement,0,0));
+		mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(movement,0,0));
 
 		if (renderer) {
 			renderer->setAnimation("run");
@@ -263,7 +263,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 	}
 } else {
 	if(!mCameraControl){
-		mPlayer->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0,0,0));
+		mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,0,0));
 
 		if (renderer) {
 			renderer->setAnimation("idle");

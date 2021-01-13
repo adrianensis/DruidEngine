@@ -3,6 +3,7 @@
 
 #include "Core/DE_Class.hpp"
 #include "Scene/Component.hpp"
+#include "Events/Event.hpp"
 
 namespace DE {
 
@@ -12,6 +13,9 @@ class Component;
 class Transform;
 class Scene;
 
+DE_EVENT_DECLARATION_BEGIN(EventOnDestroy)
+DE_EVENT_DECLARATION_END(EventOnDestroy)
+
 // ---------------------------------------------------------------------------
 
 class GameObject: public DE_Class {
@@ -20,7 +24,21 @@ private:
 	using ComponentsMap = HashMap<ClassId, List<Component*>*>;
 	DE_M(ComponentsMap, ComponentsMap*)
 
+	DE_M(LastClassIdFirst, ClassId)
+	using CacheComponentsMap = HashMap<ClassId, Component*>;
+	DE_M(CacheComponentsFirst, CacheComponentsMap*)
+
+	DE_M(LastClassIdList, ClassId)
+	DE_M(CacheComponentsLists, ComponentsMap*)
+
+	void setCacheLists(ClassId classId, List<Component*>* components);
+	void setCacheFirst(ClassId classId, Component* component);
+	void tryCleanCache(ClassId classId);
+	bool checkCacheFirst(ClassId classId);
+	bool checkCacheLists(ClassId classId);
+
 	List<Component*>* getComponents(ClassId classId);
+	Component* getFirstComponent(ClassId classId);
 
 	DE_M(IsActive, bool)
 
@@ -54,6 +72,11 @@ public:
 	template<class T>
 	List<T*>* getComponents() {
 		return reinterpret_cast<List<T*>*>(GameObject::getComponents(T::getClassIdStatic()));
+	}
+
+	template<class T>
+	T* getFirstComponent() {
+		return dynamic_cast<T*>(GameObject::getFirstComponent(T::getClassIdStatic()));
 	}
 
 	bool isActive() const {

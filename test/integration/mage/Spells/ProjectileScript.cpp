@@ -42,7 +42,7 @@ void ProjectileScript::init() {
 
 void ProjectileScript::firstStep() {
 	getGameObject()->setTag("projectile");
-	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+	mRenderer = getGameObject()->getFirstComponent<Renderer>();
 
 	mExplosionTime = 0.3f;
 	mExplosionTimeCounter = 0;
@@ -71,7 +71,7 @@ void ProjectileScript::step() {
 void ProjectileScript::explode() {
 	mIsExploding = true;
 	mRenderer->setAnimation("explosion");
-	getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0, 0, 0));
+	getGameObject()->getFirstComponent<RigidBody>()->setLinear(Vector3(0, 0, 0));
 }
 
 // ---------------------------------------------------------------------------

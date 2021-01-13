@@ -45,7 +45,7 @@ void ProjectileScript::init() {
 void ProjectileScript::firstStep() {
 	getGameObject()->setTag("projectile" + std::to_string(smProjectileIndex));
 	++smProjectileIndex;
-	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+	mRenderer = getGameObject()->getFirstComponent<Renderer>();
 
 	mExplosionTime = 0.1f;
 	mExplosionTimeCounter = 0;
@@ -55,7 +55,7 @@ void ProjectileScript::firstStep() {
 // ---------------------------------------------------------------------------
 
 void ProjectileScript::step() {
-	RigidBody* rigidBody = getGameObject()->getComponents<RigidBody>()->get(0);
+	RigidBody* rigidBody = getGameObject()->getFirstComponent<RigidBody>();
 
 	//rigidBody->setLinear(rigidBody->getLinear() - (rigidBody->getLinear().nor() * 3));
 
@@ -80,7 +80,7 @@ void ProjectileScript::step() {
 void ProjectileScript::explode() {
 	mIsExploding = true;
 	mRenderer->setAnimation("explosion");
-	getGameObject()->getComponents<RigidBody>()->get(0)->setLinear(Vector3(0, 0, 0));
+	getGameObject()->getFirstComponent<RigidBody>()->setLinear(Vector3(0, 0, 0));
 }
 
 // ---------------------------------------------------------------------------

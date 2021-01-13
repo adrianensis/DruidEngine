@@ -183,14 +183,4 @@ const Matrix4& Transform::getModelMatrix(bool force /*= false*/) {
 
 // ---------------------------------------------------------------------------
 
-void Transform::setParent(Transform *parent) {
-	mParent = parent;
-}
-
-Transform* Transform::getParent() {
-	return mParent;
-}
-
-// ---------------------------------------------------------------------------
-
 } /* namespace DE */

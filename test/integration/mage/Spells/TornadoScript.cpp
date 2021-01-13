@@ -42,7 +42,7 @@ void TornadoScript::init() {
 
 void TornadoScript::firstStep() {
 	getGameObject()->setTag("tornado");
-	mRenderer = getGameObject()->getComponents<Renderer>()->get(0);
+	mRenderer = getGameObject()->getFirstComponent<Renderer>();
 
 	mDurationTime = 5.0f;
 	mDurationTimeCounter = 0;

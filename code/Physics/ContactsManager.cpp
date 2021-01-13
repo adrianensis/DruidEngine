@@ -201,13 +201,13 @@ void ContactsManager::updateContacts() {
 
 					resolveContact(contact);
 
-					if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
-						Script* script = gameObjectA->getComponents<Script>()->get(0);
+					if (gameObjectA->isActive() && gameObjectA->getFirstComponent<Script>()) {
+						Script* script = gameObjectA->getFirstComponent<Script>();
 						script->onEnterCollision(gameObjectB);
 					}
 
-					if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
-						Script* script = gameObjectB->getComponents<Script>()->get(0);
+					if (gameObjectB->isActive() && gameObjectB->getFirstComponent<Script>()) {
+						Script* script = gameObjectB->getFirstComponent<Script>();
 						script->onEnterCollision(gameObjectA);
 					}
 
@@ -236,13 +236,13 @@ void ContactsManager::updateContacts() {
 						/*RenderEngine::getInstance()->drawLine(colliderA->getCenter(), colliderA->getCenter() + (colliderA->getRigidBody()->getLinear().nor() * 100), 3.0f, true);
 						RenderEngine::getInstance()->drawLine(colliderB->getCenter(), colliderB->getCenter() + (Vector3(colliderB->getRigidBody()->getLinear()).nor() * 100), 3.0f, true);*/
 
-						if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
-							Script* script = gameObjectA->getComponents<Script>()->get(0);
+						if (gameObjectA->isActive() && gameObjectA->getFirstComponent<Script>()) {
+							Script* script = gameObjectA->getFirstComponent<Script>();
 							script->onCollision(gameObjectB);
 						}
 
-						if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
-							Script* script = gameObjectB->getComponents<Script>()->get(0);
+						if (gameObjectB->isActive() && gameObjectB->getFirstComponent<Script>()) {
+							Script* script = gameObjectB->getFirstComponent<Script>();
 							script->onCollision(gameObjectA);
 						}
 					}
@@ -251,13 +251,13 @@ void ContactsManager::updateContacts() {
 					GameObject* gameObjectA = colliderA->getGameObject();
 					GameObject* gameObjectB = colliderB->getGameObject();
 
-					if (gameObjectA->isActive() && gameObjectA->getComponents<Script>() && gameObjectA->getComponents<Script>()->getLength() > 0) {
-						Script* script = gameObjectA->getComponents<Script>()->get(0);
+					if (gameObjectA->isActive() && gameObjectA->getFirstComponent<Script>()) {
+						Script* script = gameObjectA->getFirstComponent<Script>();
 						script->onExitCollision(gameObjectB);
 					}
 
-					if (gameObjectB->isActive() && gameObjectB->getComponents<Script>() && gameObjectB->getComponents<Script>()->getLength() > 0) {
-						Script* script = gameObjectB->getComponents<Script>()->get(0);
+					if (gameObjectB->isActive() && gameObjectB->getFirstComponent<Script>()) {
+						Script* script = gameObjectB->getFirstComponent<Script>();
 						script->onExitCollision(gameObjectA);
 					}
 

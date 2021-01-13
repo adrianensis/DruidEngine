@@ -50,7 +50,7 @@ void Scene::destroyGameObjects() {
 	}
 
 	if(mCameraGameObject){
-		Memory::free<Camera>(mCameraGameObject->getComponents<Camera>()->get(0));
+		Memory::free<Camera>(mCameraGameObject->getFirstComponent<Camera>());
 		mCameraGameObject->destroy();
 		Memory::free<GameObject>(mCameraGameObject);
 	}
@@ -195,11 +195,8 @@ void Scene::saveScene(const std::string &path) {
 
 			Vector3 size = t->getScale();
 
-			auto rendererList = it.get()->getComponents<Renderer>();
-			Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
-
-			auto colliderList = it.get()->getComponents<Collider>();
-			Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
+			Renderer* renderer = it.get()->getFirstComponent<Renderer>();
+			Collider* collider = it.get()->getFirstComponent<Collider>();
 
 			configMap->setF32(objectStr + ".worldPosition.x", worldPosition.x);
 			configMap->setF32(objectStr + ".worldPosition.y", worldPosition.y);
@@ -246,21 +243,15 @@ void Scene::unloadScene() {
 void Scene::addGameObject(GameObject *gameObject) {
 	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
-
-	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
-	Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
 void Scene::updateComponents(GameObject *gameObject) {
-	List<Script*>* scriptList = gameObject->getComponents<Script>();
 	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
-	List<RigidBody*>* rigidBodyList = gameObject->getComponents<RigidBody>();
 
-	Script* script = scriptList ? scriptList->get(0) : nullptr;
-	Renderer* renderer = rendererList ? rendererList->get(0) : nullptr;
-	RigidBody* rigidBody = rigidBodyList ? rigidBodyList->get(0) : nullptr;
+	Script* script = gameObject->getFirstComponent<Script>();
+	RigidBody* rigidBody = gameObject->getFirstComponent<RigidBody>();
 
 	if (script && !script->getAlreadyAddedToEngine()) {
 		ScriptEngine::getInstance()->addScript(script);
@@ -283,9 +274,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 			rigidBody->setAlreadyAddedToEngine(true);
 		}
 
-		List<Collider*>* colliderList = gameObject->getComponents<Collider>();
-
-		Collider* collider = colliderList ? colliderList->get(0) : nullptr;
+		Collider* collider = gameObject->getFirstComponent<Collider>();
 
 		if (collider && !collider->getAlreadyAddedToEngine()) {
 			PhysicsEngine::getInstance()->addCollider(rigidBody, collider);
