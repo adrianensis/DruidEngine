@@ -24,6 +24,7 @@
 #include "EditorEvents/EditorEvents.hpp"
 #include "MapEditorUI/MapEditorUI.hpp"
 
+#include "MapEditorUI/MapElement/MapElement.hpp"
 namespace DE {
 
 class Grid: public DE_Class {
@@ -33,9 +34,14 @@ private:
 	public:
 		DE_CLASS(CellData)
 
-		Array<GameObject*>* layers = nullptr;
+		/*
+			TODO : Migrate this to MapElement.
 
-		void addGameObject(GameObject *gameObject, u32 layer);
+			loadMapIntoGrid should load MapElements.
+		*/
+		Array<GameObject*> *layers = nullptr;
+
+		void addGameObject(GameObject* gameObject, u32 layer);
 		void removeGameObject(u32 layer);
 		GameObject* get(u32 layer);
 	};
@@ -52,11 +58,9 @@ public:
 
 	DE_CLASS(Grid)
 
-	GameObject* createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer);
-
 	void click(const Vector3 &clampedPosition, GameObject* brush, const Vector2& tileSize, u32 layer);
 	bool isSameTile(GameObject* tileA, GameObject* tileB);
-	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brush, const Vector2& size, u32 layer);
+	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, const Vector2 &size, u32 layer);
 	void removeTile(CellData *cellData, u32 layer);
 	void selectTile(CellData *cellData, u32 layer, bool multi);
 

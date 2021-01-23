@@ -92,38 +92,6 @@ Grid::~Grid() {
 
 // ---------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-
-GameObject* Grid::createTile(f32 x, f32 y, const Vector2& size, Material* material, u32 layer) {
-	//Vector2 size(mMapEditorUI.mBrush.mDrawTileSize, mMapEditorUI.mBrush.mDrawTileSize);
-
-	GameObject* tile = Memory::allocate<GameObject>();
-	tile->init();
-
-	tile->getTransform()->setLocalPosition(Vector3(x, y, 0));
-	tile->getTransform()->setScale(Vector3(size, 1));
-
-	Renderer* renderer = Memory::allocate<Renderer>();
-	tile->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(material);
-
-	renderer->setLayer(layer);
-
-	tile->setIsStatic(true);
-	tile->setShouldPersist(true);
-
-	tile->setTag("tile");
-
-	mScene->addGameObject(tile);
-
-	return tile;
-}
-
-
-// ---------------------------------------------------------------------------
-
 void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 	mScene = scene;
 	mGridSize = gridSize;
@@ -239,7 +207,7 @@ void Grid::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject
 
 			Renderer* brushRenderer = brushTile->getComponents<Renderer>()->get(0);
 
-			GameObject* newTile = createTile(worldPosition.x, worldPosition.y, size, brushRenderer->getMaterial(), layer);
+			MapElement* newTile = MapElement::create(mScene, worldPosition, size, brushRenderer->getMaterial(), layer);
 			cellData->addGameObject(newTile, layer);
 
 			Renderer* renderer = newTile->getComponents<Renderer>()->get(0);

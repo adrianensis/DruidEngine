@@ -100,7 +100,7 @@ GameObject* Brush::getTile(u32 i, u32 j){
 
 // ---------------------------------------------------------------------------
 
-void Brush::clickTile(UIButton* tileButton, Vector2 atlasPosition){
+void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
 	if(mLastIndex < mBrushMaxGridSize){
 
 		// If it's the first selected tile, take it as coordinates origin.
@@ -114,9 +114,9 @@ void Brush::clickTile(UIButton* tileButton, Vector2 atlasPosition){
 		mBrushGridSize.x = std::max(mBrushGridSize.x,distance.x + 1);
 		mBrushGridSize.y = std::max(mBrushGridSize.y,distance.y + 1);
 
-		mGrid->set(mLastIndex,tileButton);
+		mGrid->set(mLastIndex,tile);
 		mLastIndex++;
-		tileButton->getRenderer()->setColor(Vector4(0.2f,0.2f,0.2f,1));
+		tile->getFirstComponent<Renderer>()->setColor(Vector4(0.2f,0.2f,0.2f,1));
 	}
 }
 

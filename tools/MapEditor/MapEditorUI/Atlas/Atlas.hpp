@@ -21,7 +21,6 @@ private:
 
 	const StringsUI mStringsUI;
 
-	// ATLAS
 	std::string mAtlasSelectorUIGroup = "atlasSelector";
 	std::string mAtlasUIGroup = "atlas";
 	Array<UIButton*>* mAtlasButtons = nullptr;

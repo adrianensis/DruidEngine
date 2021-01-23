@@ -1,0 +1,52 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "druid build debug",
+			"command": "./scripts/build.sh",
+			"args": [
+				"-x",
+				"-i",
+				"-l"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "druid build release",
+			"command": "./scripts/build.sh",
+			"args": [
+				"-x",
+				"-i",
+				"-l",
+				"-r"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "druid clean",
+			"command": "./scripts/clean.sh",
+			"group": "build"
+		}
+	]
+	//,
+	// "inputs": [
+	// 	{
+	// 		"id": "target",
+	// 		"description": "Build Target",
+	// 		"default": "",
+	// 		"type": "promptString"
+	// 	},
+	// ]
+}

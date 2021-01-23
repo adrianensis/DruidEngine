@@ -30,7 +30,7 @@ public:
 	DE_CLASS(Brush)
 
 	void init(MapEditor* mapEditor);
-	void clickTile(UIButton* tileButton, Vector2 atlasPosition);
+	void clickTile(GameObject *tile, Vector2 atlasPosition);
 	GameObject* getTile(u32 i, u32 j);
 	void free();
 	void update();
