@@ -13,7 +13,7 @@
 #include "Physics/RigidBody.hpp"
 #include "Physics/Collider.hpp"
 #include "Maths/Vector4.hpp"
-#include "Core/ScenesManager.hpp"
+#include "Scene/ScenesManager.hpp"
 
 #include "Playground.hpp"
 

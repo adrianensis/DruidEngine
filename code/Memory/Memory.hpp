@@ -5,6 +5,7 @@
 #include <map>
 #include <typeinfo>       // operator typeid
 #include <string>
+#include <functional>
 
 #define KB (1024.0f)
 #define MB (KB*1024.0f)
@@ -40,6 +41,11 @@ private:
 	~Memory();
 
 	static std::map<std::string, u32> memoryMapCounter;
+
+	// Instantiation by Class Name
+	static std::map<std::string, std::function<DE_Class*()>> classNamesMap;
+	static DE_Class* internalFromClassName(const std::string& className);
+	static void internalRegisterClassName(const std::string& className, std::function<DE_Class*()> instantiationFunction);
 
 public:
 
@@ -99,6 +105,17 @@ public:
 
 	static void free();
 
+	template <class T>
+	static void registerClassName(const std::string& className) {
+		internalRegisterClassName(className, [](){
+			return (DE_Class*)Memory::allocate<T>();
+		});
+	}
+
+	template <class T>
+	static T* fromClassName(const std::string& className) {
+		return (T*) internalFromClassName(className);
+	}
 };
 
 } /* namespace DE */

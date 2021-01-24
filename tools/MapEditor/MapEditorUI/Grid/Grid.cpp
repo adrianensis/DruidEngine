@@ -15,7 +15,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "File/File.hpp"
 #include "UI/UI.hpp"
-#include "Core/Settings.hpp"
+#include "Config/EngineSettings.hpp"
 
 namespace DE {
 
@@ -244,7 +244,7 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 					worldPosition.y / mGridTileSize + mGridSize / 2.0f);
 
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-			cellData->addGameObject(gameObject, gameObject->getComponents<Renderer>()->get(0)->getLayer());
+			cellData->addGameObject(gameObject, gameObject->getFirstComponent<Renderer>()->getLayer());
 		}
 	}
 }

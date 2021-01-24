@@ -6,7 +6,7 @@
 #include "Scene/GameObject.hpp"
 #include "Memory/Memory.hpp"
 #include "Containers/List.hpp"
-#include "Core/Settings.hpp"
+#include "Config/EngineSettings.hpp"
 #include "ContactsManager.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Renderer.hpp"

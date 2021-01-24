@@ -1,4 +1,4 @@
-#include "Core/Settings.hpp"
+#include "EngineSettings.hpp"
 #include "Containers/HashMap.hpp"
 #include "Containers/List.hpp"
 #include "Memory/Memory.hpp"
@@ -7,25 +7,25 @@ namespace DE {
 
 // ---------------------------------------------------------------------------
 
-Settings::Settings() : DE_Class(), Singleton() {
+EngineSettings::EngineSettings() : DE_Class(), Singleton() {
 	mConfigMap = nullptr;
 }
 
 // ---------------------------------------------------------------------------
 
-Settings::~Settings() {
+EngineSettings::~EngineSettings() {
 	Memory::free<ConfigMap>(mConfigMap);
 }
 
 // ---------------------------------------------------------------------------
 
-void Settings::readConfigFile(const std::string &path) {
+void EngineSettings::readConfigFile(const std::string &path) {
 	mConfigMap->readConfigFile(path);
 }
 
 // ---------------------------------------------------------------------------
 
-void Settings::init() {
+void EngineSettings::init() {
 	mConfigMap = Memory::allocate<ConfigMap>();
 	mConfigMap->init();
 
@@ -34,19 +34,19 @@ void Settings::init() {
 
 // ---------------------------------------------------------------------------
 
-std::string Settings::getString(const std::string &key) {
+std::string EngineSettings::getString(const std::string &key) {
 	return mConfigMap->getString(key);
 }
 
-u32 Settings::getU32(const std::string &key) {
+u32 EngineSettings::getU32(const std::string &key) {
 	return mConfigMap->getU32(key);
 }
 
-f32 Settings::getF32(const std::string &key) {
+f32 EngineSettings::getF32(const std::string &key) {
 	return mConfigMap->getF32(key);
 }
 
-bool Settings::getBool(const std::string &key) {
+bool EngineSettings::getBool(const std::string &key) {
 	return mConfigMap->getBool(key);
 }
 

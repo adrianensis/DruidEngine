@@ -68,6 +68,9 @@ public:
 	ColliderStatus testPoint(Vector2 point);
 
 	void render();
+
+	virtual void save(ConfigMap* configMap, const std::string& objectName) override;
+	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
 };
 } /* namespace DE */
 #endif /* DE_COLLIDER_H */

@@ -4,7 +4,7 @@
 #include "Core/DE_Class.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
-
+#include "Config/ConfigMap.hpp"
 namespace DE {
 
 template<class K, class V> class HashMap;
@@ -17,7 +17,6 @@ DE_EVENT_DECLARATION_BEGIN(EventOnDestroy)
 DE_EVENT_DECLARATION_END(EventOnDestroy)
 
 // ---------------------------------------------------------------------------
-
 class GameObject: public DE_Class {
 private:
 
@@ -56,16 +55,16 @@ public:
 
 	virtual void init();
 
-	void addComponent(Component *component, ClassId classId);
-	void removeComponent(Component *component, ClassId classId);
+	void addComponent(Component* component, ClassId classId);
+	void removeComponent(Component* component, ClassId classId);
 
 	template<class T>
-	void addComponent(T *component) {
+	void addComponent(T* component) {
 		GameObject::addComponent(component, T::getClassIdStatic());
 	}
 
 	template<class T>
-	void removeComponent(T *component) {
+	void removeComponent(T* component) {
 		GameObject::removeComponent(component, T::getClassIdStatic());
 	}
 
@@ -93,6 +92,9 @@ public:
 	void destroy();
 
 	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
+
+	virtual void save(ConfigMap* configMap, const std::string& objectName);
+	virtual void load(ConfigMap* configMap, const std::string& objectName);
 };
 
 // ---------------------------------------------------------------------------

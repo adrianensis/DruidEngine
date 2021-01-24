@@ -10,8 +10,8 @@
 #include "Graphics/Shader.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
-#include "Core/ConfigMap.hpp"
-#include "Core/Settings.hpp"
+#include "Config/ConfigMap.hpp"
+#include "Config/EngineSettings.hpp"
 #include "Graphics/Camera.hpp"
 #include "Scripting/Script.hpp"
 #include "Physics/RigidBody.hpp"
@@ -92,7 +92,7 @@ void Scene::init() {
 	setCameraGameObject(cameraGameObject);
 
 	// SET DEFAULT SIZE
-	mSize = Settings::getInstance()->getF32("scene.defaultSize");
+	mSize = EngineSettings::getInstance()->getF32("scene.defaultSize");
 }
 
 // ---------------------------------------------------------------------------
@@ -103,61 +103,25 @@ void Scene::loadScene(const std::string &path) {
 
 	ConfigMap* configMap = Memory::allocate<ConfigMap>();
 	configMap->init();
-
-	configMap->readConfigFile(path);
+	configMap->readConfigFile(mPath);
 
 	mSize = configMap->getF32("scene.size");
 
 	if (mSize == 0) {
-		mSize = Settings::getInstance()->getF32("scene.defaultSize");
+		mSize = EngineSettings::getInstance()->getF32("scene.defaultSize");
 	}
 
 	u32 length = configMap->getU32("objects.length");
 
 	FOR_RANGE(i, 0, length) {
 		std::string indexStr = std::to_string(i);
-		std::string objectStr = "objects[" + indexStr + "]";
+		std::string objectName = "objects[" + indexStr + "]";
 
-		GameObject* gameObject = Memory::allocate<GameObject>();
+		std::string className = configMap->getString(objectName + ".class");
+		
+		GameObject* gameObject = Memory::fromClassName<GameObject>(className);
 		gameObject->init();
-
-		gameObject->setIsStatic(configMap->getBool(objectStr + ".isStatic"));
-		gameObject->setShouldPersist(configMap->getBool(objectStr + ".shouldPersist"));
-
-		gameObject->setTag(configMap->getString(objectStr + ".tag"));
-
-		Vector2 worldPosition(configMap->getF32(objectStr + ".worldPosition.x"),
-				configMap->getF32(objectStr + ".worldPosition.y"));
-
-		Vector2 size(configMap->getF32(objectStr + ".size.width"), configMap->getF32(objectStr + ".size.height"));
-		Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectStr + ".texture.path"));
-		Vector2 textureRegionPosition(configMap->getF32(objectStr + ".texture.region.u"),
-				configMap->getF32(objectStr + ".texture.region.v"));
-		Vector2 textureRegionSize(configMap->getF32(objectStr + ".texture.region.width"),
-				configMap->getF32(objectStr + ".texture.region.height"));
-
-		gameObject->getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
-		gameObject->getTransform()->setScale(Vector3(size.x, size.y, 1));
-
-		Renderer* renderer = Memory::allocate<Renderer>();
-		gameObject->addComponent<Renderer>(renderer);
-
-		renderer->setLayer(configMap->getU32(objectStr + ".layer"));
-
-		renderer->setMesh(Mesh::getRectangle());
-		renderer->setMaterial(material);
-
-		renderer->setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);
-
-		if(configMap->getBool(objectStr + ".hasCollider")) {
-			RigidBody* rigidBody = Memory::allocate<RigidBody>();
-			gameObject->addComponent<RigidBody>(rigidBody);
-
-			Collider* collider = Memory::allocate<Collider>();
-			gameObject->addComponent<Collider>(collider);
-			collider->setSize(configMap->getF32(objectStr + ".collider.width"), configMap->getF32(objectStr + ".collider.height"));
-		}
-
+		gameObject->load(configMap, objectName);
 		addGameObject(gameObject);
 	}
 
@@ -172,53 +136,23 @@ void Scene::saveScene(const std::string &path) {
 	configMap->init();
 
 	f32 maxSize = 0;
-
 	u32 counter = 0;
+
 	FOR_LIST(it, mGameObjects) {
-		if (it.get()->getIsStatic() && it.get()->getShouldPersist()) {
+		if (it.get()->getShouldPersist()) {
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
-			std::string objectStr = "objects[" + indexStr + "]";
+			std::string objectName = "objects[" + indexStr + "]";
 
-			configMap->setBool(objectStr + ".isStatic", it.get()->getIsStatic());
-			configMap->setBool(objectStr + ".shouldPersist", it.get()->getShouldPersist());
-
-			configMap->setString(objectStr + ".tag", it.get()->getTag());
-
-			Transform* t = it.get()->getTransform();
+			Transform *t = it.get()->getTransform();
 			Vector3 worldPosition = t->getWorldPosition();
 			Vector3 scale = t->getScale();
 
 			f32 maxObjectScale = std::max(std::abs(scale.x), std::abs(scale.y));
 			maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale),
-					std::abs(worldPosition.y) + maxObjectScale);
+							   std::abs(worldPosition.y) + maxObjectScale);
 
-			Vector3 size = t->getScale();
-
-			Renderer* renderer = it.get()->getFirstComponent<Renderer>();
-			Collider* collider = it.get()->getFirstComponent<Collider>();
-
-			configMap->setF32(objectStr + ".worldPosition.x", worldPosition.x);
-			configMap->setF32(objectStr + ".worldPosition.y", worldPosition.y);
-			configMap->setF32(objectStr + ".size.width", size.x);
-			configMap->setF32(objectStr + ".size.height", size.y);
-
-			if(renderer) {
-				Texture* texture = renderer->getMaterial()->getTexture();
-				configMap->setString(objectStr + ".texture.path", texture->getPath());
-				configMap->setF32(objectStr + ".texture.region.u", renderer->getRegionPosition().x);
-				configMap->setF32(objectStr + ".texture.region.v", renderer->getRegionPosition().y);
-				configMap->setF32(objectStr + ".texture.region.width", renderer->getRegionSize().x);
-				configMap->setF32(objectStr + ".texture.region.height", renderer->getRegionSize().y);
-				configMap->setU32(objectStr + ".layer", renderer->getLayer());
-			}
-
-			configMap->setBool(objectStr + ".hasCollider", collider ? true : false);
-
-			if(collider) {
-				configMap->setF32(objectStr + ".collider.width", collider->getWidth());
-				configMap->setF32(objectStr + ".collider.height", collider->getHeight());
-			}
+			it.get()->save(configMap, objectName);
 
 			counter++;
 		}
@@ -304,7 +238,7 @@ void Scene::step() {
 	if (thereAreNewGameObjects()) {
 
 		const List<GameObject*>* newGameObjects = getNewGameObjects();
-		u32 maxToSpawn = Settings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
+		u32 maxToSpawn = EngineSettings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
 
 		// VAR(f32, newGameObjects->getLength());
 

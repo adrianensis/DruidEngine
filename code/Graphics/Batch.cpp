@@ -18,7 +18,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Graphics/Animation.hpp"
 #include "Graphics/Chunk.hpp"
-#include "Core/Settings.hpp"
+#include "Config/EngineSettings.hpp"
 
 namespace DE {
 

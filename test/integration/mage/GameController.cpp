@@ -35,7 +35,7 @@
 #include "UI/UIText.hpp"
 #include "Physics/PhysicsEngine.hpp"
 
-#include "Core/ScenesManager.hpp"
+#include "Scene/ScenesManager.hpp"
 #include "EnemyScript.hpp"
 #include <cstdlib>
 

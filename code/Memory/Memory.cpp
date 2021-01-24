@@ -7,6 +7,8 @@ namespace DE {
 
 std::map<std::string, u32> Memory::memoryMapCounter;
 
+std::map<std::string, std::function<DE_Class*()>> Memory::classNamesMap;
+
 FreeListAllocator Memory::smGlobal;
 //LinearAllocator Memory::smGlobal;
 
@@ -90,4 +92,11 @@ void Memory::free() {
 
 // ---------------------------------------------------------------------------
 
+DE_Class* Memory::internalFromClassName(const std::string& className) {
+	return classNamesMap[className]();
+}
+
+void Memory::internalRegisterClassName(const std::string& className, std::function<DE_Class*()> instantiationFunction) {
+	classNamesMap[className] = instantiationFunction;
+}
 } /* namespace DE */

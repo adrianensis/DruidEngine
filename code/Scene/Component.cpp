@@ -1,5 +1,5 @@
 #include "Scene/Component.hpp"
-
+#include "Config/ConfigMap.hpp"
 #include "Scene/GameObject.hpp"
 
 namespace DE {
@@ -27,5 +27,13 @@ bool Component::isStatic() {
 }
 
 // ---------------------------------------------------------------------------
+
+void Component::save(ConfigMap* configMap, const std::string& objectName) {
+	
+}
+
+void Component::load(ConfigMap* configMap, const std::string& objectName) {
+
+}
 
 } /* namespace DE */

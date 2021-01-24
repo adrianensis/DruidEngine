@@ -6,6 +6,7 @@
 namespace DE {
 
 class GameObject;
+class ConfigMap;
 
 class Component: public DE_Class {
 
@@ -48,6 +49,8 @@ public:
 
 	virtual void onDestroy() { };
 
+	virtual void save(ConfigMap* configMap, const std::string& objectName);
+	virtual void load(ConfigMap* configMap, const std::string& objectName);
 };
 
 } /* namespace DE */

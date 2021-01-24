@@ -36,8 +36,8 @@
 #include "UI/UIButton.hpp"
 #include "UI/UIText.hpp"
 
-#include "Core/Settings.hpp"
-#include "Core/ConfigMap.hpp"
+#include "Config/EngineSettings.hpp"
+#include "Config/ConfigMap.hpp"
 #include "Events/EventsManager.hpp"
 
 namespace DE {
@@ -123,7 +123,7 @@ void MapEditor::init() {
 
 void MapEditor::firstStep() {
 
-	mCamera = getGameObject()->getScene()->getCameraGameObject()->getComponents<Camera>()->get(0);
+	mCamera = getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>();
 	mCameraTransform = mCamera->getGameObject()->getTransform();
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");

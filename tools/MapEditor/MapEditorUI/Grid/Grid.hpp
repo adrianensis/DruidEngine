@@ -18,7 +18,7 @@
 #include "Containers/HashMap.hpp"
 #include "Containers/Array.hpp"
 #include "Containers/List.hpp"
-#include "Core/ConfigMap.hpp"
+#include "Config/ConfigMap.hpp"
 #include "Scene/Scene.hpp"
 
 #include "EditorEvents/EditorEvents.hpp"

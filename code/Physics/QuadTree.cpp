@@ -9,7 +9,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Physics/PhysicsEngine.hpp"
 #include "Graphics/Renderer.hpp"
-#include "Core/Settings.hpp"
+#include "Config/EngineSettings.hpp"
 #include "ContactsManager.hpp"
 #include "Physics/RigidBody.hpp"
 #include "Maths/MathUtils.hpp"
@@ -454,7 +454,7 @@ void QuadTree::init(f32 size) {
 	mWidth = size;
 	mHeight = size;
 
-	f32 minSize = Settings::getInstance()->getF32("scene.quadTreeMinSize");
+	f32 minSize = EngineSettings::getInstance()->getF32("scene.quadTreeMinSize");
 
 	mRoot = Memory::allocate<Node>();
 	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight, minSize, minSize, this);

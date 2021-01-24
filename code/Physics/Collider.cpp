@@ -397,4 +397,14 @@ void Collider::render() {
 	}
 }
 
+
+void Collider::save(ConfigMap* configMap, const std::string& objectName) {
+	configMap->setF32(objectName + ".collider.width", getWidth());
+	configMap->setF32(objectName + ".collider.height", getHeight());
+}
+
+void Collider::load(ConfigMap* configMap, const std::string& objectName) {
+	setSize(configMap->getF32(objectName + ".collider.width"), configMap->getF32(objectName + ".collider.height"));
+}
+
 } /* namespace DE */

@@ -9,7 +9,10 @@
 #include "Physics/Collider.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-
+#include "Config/ConfigMap.hpp"
+#include "Graphics/Texture.hpp"
+#include "Graphics/Material.hpp"
+#include "Graphics/MaterialManager.hpp"
 namespace DE {
 
 // ---------------------------------------------------------------------------
@@ -198,6 +201,30 @@ const Array<Vector2>* Renderer::getVertices(bool force /*= false*/) {
 void Renderer::forceRecalculateVertices() {
 	getGameObject()->getTransform()->forceModelMatrixCalculation();
 	mForceRecalculateVertices = true;
+}
+
+void Renderer::save(ConfigMap* configMap, const std::string& objectName) {
+	Texture *texture = getMaterial()->getTexture();
+	configMap->setString(objectName + ".texture.path", texture->getPath());
+	configMap->setF32(objectName + ".texture.region.u", getRegionPosition().x);
+	configMap->setF32(objectName + ".texture.region.v", getRegionPosition().y);
+	configMap->setF32(objectName + ".texture.region.width", getRegionSize().x);
+	configMap->setF32(objectName + ".texture.region.height", getRegionSize().y);
+	configMap->setU32(objectName + ".layer", getLayer());
+}
+
+void Renderer::load(ConfigMap* configMap, const std::string& objectName) {
+	Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectName + ".texture.path"));
+	Vector2 textureRegionPosition(configMap->getF32(objectName + ".texture.region.u"),
+			configMap->getF32(objectName + ".texture.region.v"));
+	Vector2 textureRegionSize(configMap->getF32(objectName + ".texture.region.width"),
+			configMap->getF32(objectName + ".texture.region.height"));
+
+	setLayer(configMap->getU32(objectName + ".layer"));
+	setMesh(Mesh::getRectangle());
+	setMaterial(material);
+	setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);
+
 }
 
 } /* namespace DE */

@@ -7,6 +7,10 @@
 #include "Scene/Transform.hpp"
 
 #include "Events/EventsManager.hpp"
+#include "Config/ConfigMap.hpp"
+#include "Physics/RigidBody.hpp"
+#include "Physics/Collider.hpp"
+#include "Graphics/Renderer.hpp"
 
 namespace DE {
 
@@ -189,5 +193,65 @@ void GameObject::destroy() {
 };
 
 // ---------------------------------------------------------------------------
+
+void GameObject::save(ConfigMap* configMap, const std::string& objectName) {
+
+	configMap->setString(objectName + ".class", getClassName());
+
+	configMap->setBool(objectName + ".isStatic", getIsStatic());
+	configMap->setBool(objectName + ".shouldPersist", getShouldPersist());
+
+	configMap->setString(objectName + ".tag", getTag());
+
+	Transform *t = getTransform();
+	Vector3 worldPosition = t->getWorldPosition();
+	Vector3 scale = t->getScale();
+
+	configMap->setF32(objectName + ".worldPosition.x", worldPosition.x);
+	configMap->setF32(objectName + ".worldPosition.y", worldPosition.y);
+	configMap->setF32(objectName + ".size.width", scale.x);
+	configMap->setF32(objectName + ".size.height", scale.y);
+
+	// TODO : this property is not needed.
+	Collider *collider = getFirstComponent<Collider>();
+	configMap->setBool(objectName + ".hasCollider", collider ? true : false);
+
+	FOR_LIST(it, mComponentsMap->getKeys()) {
+
+		ClassId id = it.get();
+		FOR_LIST(itComponent, mComponentsMap->get(id))
+		{
+			itComponent.get()->save(configMap, objectName);
+		}
+	}
+}
+
+void GameObject::load(ConfigMap* configMap, const std::string& objectName) {
+	setIsStatic(configMap->getBool(objectName + ".isStatic"));
+	setShouldPersist(configMap->getBool(objectName + ".shouldPersist"));
+
+	setTag(configMap->getString(objectName + ".tag"));
+
+	Vector2 worldPosition(configMap->getF32(objectName + ".worldPosition.x"),
+			configMap->getF32(objectName + ".worldPosition.y"));
+
+	Vector2 size(configMap->getF32(objectName + ".size.width"), configMap->getF32(objectName + ".size.height"));
+	
+	getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
+	getTransform()->setScale(Vector3(size.x, size.y, 1));
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	addComponent<Renderer>(renderer);
+	renderer->load(configMap, objectName);
+
+	if(configMap->getBool(objectName + ".hasCollider")) {
+		RigidBody* rigidBody = Memory::allocate<RigidBody>();
+		addComponent<RigidBody>(rigidBody);
+
+		Collider* collider = Memory::allocate<Collider>();
+		addComponent<Collider>(collider);
+		collider->load(configMap, objectName);
+	}
+}
 
 } /* namespace DE */

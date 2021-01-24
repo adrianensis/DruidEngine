@@ -58,6 +58,9 @@ public:
 	bool getIsAffectedByProjection();
 	const Array<Vector2>* getVertices(bool force = false);
 	void forceRecalculateVertices();
+
+	virtual void save(ConfigMap* configMap, const std::string& objectName) override;
+	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
 };
 
 } /* namespace DE */
