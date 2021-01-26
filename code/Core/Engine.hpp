@@ -21,8 +21,6 @@ private:
 	DE_M(PhysicsEngine, PhysicsEngine*)
 	DE_M(ScriptEngine, ScriptEngine*)
 
-	void loadMainConfig();
-
 public:
 
 	DE_CLASS(Engine)

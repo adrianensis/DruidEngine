@@ -11,7 +11,7 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
 #include "Config/ConfigMap.hpp"
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 #include "Graphics/Camera.hpp"
 #include "Scripting/Script.hpp"
 #include "Physics/RigidBody.hpp"
@@ -92,7 +92,7 @@ void Scene::init() {
 	setCameraGameObject(cameraGameObject);
 
 	// SET DEFAULT SIZE
-	mSize = EngineSettings::getInstance()->getF32("scene.defaultSize");
+	mSize = EngineConfig::getInstance()->getF32("scene.defaultSize");
 }
 
 // ---------------------------------------------------------------------------
@@ -108,7 +108,7 @@ void Scene::loadScene(const std::string &path) {
 	mSize = configMap->getF32("scene.size");
 
 	if (mSize == 0) {
-		mSize = EngineSettings::getInstance()->getF32("scene.defaultSize");
+		mSize = EngineConfig::getInstance()->getF32("scene.defaultSize");
 	}
 
 	u32 length = configMap->getU32("objects.length");
@@ -238,7 +238,7 @@ void Scene::step() {
 	if (thereAreNewGameObjects()) {
 
 		const List<GameObject*>* newGameObjects = getNewGameObjects();
-		u32 maxToSpawn = EngineSettings::getInstance()->getF32("scene.maxNewObjectsToSpawn");
+		u32 maxToSpawn = EngineConfig::getInstance()->getF32("scene.maxNewObjectsToSpawn");
 
 		// VAR(f32, newGameObjects->getLength());
 

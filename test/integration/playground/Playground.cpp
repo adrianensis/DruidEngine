@@ -36,7 +36,7 @@
 #include "UI/UIButton.hpp"
 #include "UI/UIText.hpp"
 
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 #include "ProjectileScript.hpp"
 
 namespace DE {

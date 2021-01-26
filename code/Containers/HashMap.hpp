@@ -178,11 +178,11 @@ public:
 			}
 		}
 
-		if (found) {
-			return element;
-		} else {
+		if (!found) {
 			DE_ASSERT(false, "Can't find the element with given key.");
 		}
+		
+		return element;
 	}
 
 	// ---------------------------------------------------------------------------

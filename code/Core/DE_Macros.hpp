@@ -4,6 +4,7 @@
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
 #include <string>
+#include <string_view>
 
 namespace DE {
 
@@ -23,7 +24,7 @@ namespace DE {
 
 #define DE_GENERATE_NAME_STATIC(Class)\
 	static std::string getClassNameStatic(){\
-		static std::string className = std::string(#Class + Class::getTemplateNameStatic());\
+		static std::string className = std::string(#Class) + std::string(Class::getTemplateNameStatic());\
 		return className;\
 	};
 
@@ -44,7 +45,9 @@ namespace DE {
 	DE_GENERATE_METADATA(Class);
 
 #define DE_INSTANCEABLE_BY_CLASSNAME(Class)\
-	Memory::registerClassName<Class>(#Class);
+	Memory::registerClassName<Class>(Class::getClassNameStatic());
+
+
 
 // --------------------------------------------------------
 // TEMPLATES

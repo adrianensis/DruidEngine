@@ -39,7 +39,7 @@
 #include "UI/UIText.hpp"
 #include "UI/UITextEditable.hpp"
 
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 
 #include "Core/TimerManager.hpp"
 

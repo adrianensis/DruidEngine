@@ -17,7 +17,7 @@
 #include "Input/Input.hpp"
 #include "Physics/RigidBody.hpp"
 #include "UI/UI.hpp"
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 #include "Graphics/MaterialManager.hpp"
 #include "Scene/ScenesManager.hpp"
 #include "Events/EventsManager.hpp"
@@ -29,8 +29,6 @@
 
 #include <thread>
 #include <chrono>
-
-#include "Config/InstanceableByClassName.hpp"
 
 using namespace std::chrono_literals;
 
@@ -53,15 +51,13 @@ void Engine::init() {
 
 	DE_TRACE()
 
-	loadMainConfig();
-
 	RenderContext::init();
 
 	TimerManager::getInstance()->init();
 	Profiler::getInstance()->init();
 	EventsManager::getInstance()->init();
 
-	EngineSettings::getInstance()->init();
+	EngineConfig::getInstance()->init();
 	MaterialManager::getInstance()->init();
 
 	ScenesManager::getInstance()->init();
@@ -163,7 +159,7 @@ void Engine::terminate() {
 	Memory::free<ScriptEngine>(ScriptEngine::getInstance());
 	Memory::free<PhysicsEngine>(PhysicsEngine::getInstance());
 	Memory::free<UI>(UI::getInstance());
-	Memory::free<EngineSettings>(EngineSettings::getInstance());
+	Memory::free<EngineConfig>(EngineConfig::getInstance());
 	Memory::free<ScenesManager>(ScenesManager::getInstance());
 	Memory::free<Time>(Time::getInstance());
 
@@ -183,9 +179,5 @@ void Engine::terminate() {
 }
 
 // ---------------------------------------------------------------------------
-
-void Engine::loadMainConfig() {
-	registerAllInstaceableByClassName();
-}
 
 } /* namespace DE */

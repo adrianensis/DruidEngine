@@ -1,5 +1,5 @@
-#ifndef DE_ENGINESETTINGS_H
-#define DE_ENGINESETTINGS_H
+#ifndef DE_ENGINECONFIG_H
+#define DE_ENGINECONFIG_H
 
 #include "Core/Basic.hpp"
 #include "Core/Singleton.hpp"
@@ -10,14 +10,14 @@ namespace DE {
 
 template<class K, class V> class HashMap;
 
-class EngineSettings: public DE_Class, public Singleton<EngineSettings> {
+class EngineConfig: public DE_Class, public Singleton<EngineConfig> {
 
 private:
 	DE_M(ConfigMap, ConfigMap*)
 
 public:
 
-	DE_CLASS(EngineSettings)
+	DE_CLASS(EngineConfig)
 
 	void init();
 	void readConfigFile(const std::string &path);
@@ -28,4 +28,4 @@ public:
 };
 }
 
-#endif /* DE_ENGINESETTINGS_H */
+#endif /* DE_ENGINECONFIG_H */

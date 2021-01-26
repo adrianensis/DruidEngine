@@ -17,7 +17,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 #include "Graphics/Chunk.hpp"
 #include "UI/UI.hpp"
 #include "Profiler/Profiler.hpp"
@@ -112,7 +112,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Line Renderers
 
-	mLineRenderersCount = EngineSettings::getInstance()->getF32("line.renderers.count");
+	mLineRenderersCount = EngineConfig::getInstance()->getF32("line.renderers.count");
 	mLineRenderers->init(mLineRenderersCount);
 
 	mLineRendererIndices->init(2);
@@ -136,11 +136,11 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Static Chunks grid
 
-	f32 chunksGridSize = EngineSettings::getInstance()->getF32("scene.chunks.gridSize");
+	f32 chunksGridSize = EngineConfig::getInstance()->getF32("scene.chunks.gridSize");
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f;
 
 	mChunks = Memory::allocate<Array<Chunk*>>();
-	mChunks->init(chunksGridSize * chunksGridSize); // TODO : define how many chunks to create. Move to EngineSettings.
+	mChunks->init(chunksGridSize * chunksGridSize); // TODO : define how many chunks to create. Move to EngineConfig.
 
 	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
@@ -167,10 +167,10 @@ void RenderEngine::init(f32 sceneSize) {
 	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
 	mLayersData->init();
 
-	mMaxLayers = EngineSettings::getInstance()->getU32("scene.maxLayers");
+	mMaxLayers = EngineConfig::getInstance()->getU32("scene.maxLayers");
 	FOR_RANGE(i, 0, mMaxLayers) {
 		LayerData* layerData = Memory::allocate<LayerData>();
-		layerData->mSorted = EngineSettings::getInstance()->getBool("scene.sortByYCoordinate");
+		layerData->mSorted = EngineConfig::getInstance()->getBool("scene.sortByYCoordinate");
 		mLayersData->set(i, layerData);
 	}
 }

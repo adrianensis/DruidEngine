@@ -6,6 +6,7 @@
                 "${workspaceFolder}/dependencies/**",
                 "${workspaceFolder}/code",
                 "${workspaceFolder}/test",
+                "${workspaceFolder}/tools",
                 "${workspaceFolder}/tools/**"
             ],
             "defines": [],

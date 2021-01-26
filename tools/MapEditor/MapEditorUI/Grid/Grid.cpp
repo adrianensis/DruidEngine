@@ -15,7 +15,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "File/File.hpp"
 #include "UI/UI.hpp"
-#include "Config/EngineSettings.hpp"
+#include "Config/EngineConfig.hpp"
 
 namespace DE {
 
