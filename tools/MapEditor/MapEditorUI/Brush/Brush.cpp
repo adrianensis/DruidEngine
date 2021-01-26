@@ -73,7 +73,7 @@ void Brush::init(MapEditor* mapEditor) {
 
 	if(mGrid) free();
 
-	mGrid = Memory::allocate<Array<GameObject*>>();
+	mGrid = DE_NEW<Array<GameObject*>>();
 	mGrid->init(mBrushMaxGridSize);
 
 	//Vector2 size(mMapEditor->mMapEditorUI.mGridTileSize / 2.0f, mMapEditor->mMapEditorUI.mGridTileSize / 2.0f);
@@ -124,7 +124,7 @@ void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
 
 void Brush::free(){
 	mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
-	Memory::free<Array<GameObject*>>(mGrid);
+	DE_FREE(mGrid);
 }
 
 // ---------------------------------------------------------------------------

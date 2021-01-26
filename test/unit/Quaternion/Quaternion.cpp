@@ -70,7 +70,7 @@ int main() {
 	DE_test_show(f.toEuler());
 	DE_test_expected_bool(f.toEuler().eq(DE::Vector3(-180, 10, 10), 0.1f), true);*/
 
-	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* m = DE::DE_NEW<Matrix4>();
 	m->zeros();
 
 	DE::Quaternion i(0, 0, 0, 1);
@@ -95,7 +95,7 @@ int main() {
 
 	DE::Quaternion ii(0, 0, 0, 1);
 
-	/*DE::Matrix4* mRot = DE::Memory::allocate<Matrix4>();
+	/*DE::Matrix4* mRot = DE::DE_NEW<Matrix4>();
 	mRot->rotation(DE::Vector3(0, 0, 0));
 
 	ii.fromMatrix(*mRot);

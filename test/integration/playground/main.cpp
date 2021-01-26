@@ -27,33 +27,33 @@ int main() {
 
 	engine->init();
 
-	// Scene* scene = Memory::allocate<Scene>();
+	// Scene* scene = DE_NEW<Scene>();
 	//
 	// scene->init();
 
 	// camera
 
-	// GameObject* cameraGameObject = Memory::allocate<GameObject>();
+	// GameObject* cameraGameObject = DE_NEW<GameObject>();
 	// cameraGameObject->init();
 	//
 	// cameraGameObject->getTransform()->setLocalPosition(Vector3(0,0,0));
 
 	// script
 
-	//Script* script = Memory::allocate<Script>();
+	//Script* script = DE_NEW<Script>();
 	//cameraGameObject->addComponent<Script>(script);
 
-	// Camera* cameraComponent = Memory::allocate<Camera>();
+	// Camera* cameraComponent = DE_NEW<Camera>();
 	// cameraGameObject->addComponent<Camera>(cameraComponent);
 	// cameraComponent->setOrtho(-720, 720, -720, 720, 1, -1);
 	//cameraComponent->setPerspective(100, -100, 800/600, 90);
 
-	GameObject* controller = Memory::allocate<GameObject>();
+	GameObject* controller = DE_NEW<GameObject>();
 	controller->init();
 
 	// script
 
-	Script* script = Memory::allocate<Playground>();
+	Script* script = DE_NEW<Playground>();
 	controller->addComponent<Script>(script);
 
 	// scene->setCameraGameObject(cameraGameObject);
@@ -70,7 +70,7 @@ int main() {
 
 	engine->terminate();
 
-	Memory::free<Engine>(Engine::getInstance());
+	DE_FREE(Engine::getInstance());
 	Memory::free();
 
 	return 0;

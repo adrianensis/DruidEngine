@@ -27,11 +27,11 @@ UIGroup::UIGroup() : DE_Class(){
 }
 
 UIGroup::~UIGroup(){
-	Memory::free<List<UIElement*>>(mUIElements);
+	DE_FREE(mUIElements);
 }
 
 void UIGroup::init(){
-	mUIElements = Memory::allocate<List<UIElement*>>();
+	mUIElements = DE_NEW<List<UIElement*>>();
 	mUIElements->init();
 }
 
@@ -68,7 +68,7 @@ Material* UI::getFontMaterial() {
 void UI::addToGroup(const std::string& groupName, UIElement* uiElement) {
 
 	if(!mGroups->contains(groupName)){
-		UIGroup* group = Memory::allocate<UIGroup>();
+		UIGroup* group = DE_NEW<UIGroup>();
 		group->init();
 		group->mName = groupName;
 
@@ -112,16 +112,16 @@ void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
 // ---------------------------------------------------------------------------
 
 void UI::init() {
-	/*mUIElements = Memory::allocate<List<UIElement*>>();
+	/*mUIElements = DE_NEW<List<UIElement*>>();
 	mUIElements->init();*/
 
-	mGroups = Memory::allocate<HashMap<std::string, UIGroup*>>();
+	mGroups = DE_NEW<HashMap<std::string, UIGroup*>>();
 	mGroups->init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);
 	mFontTileTextureSize = Vector2(1.0f / mFontTilesCount.x, 1.0f / mFontTilesCount.y);
 
-	mCharMap = Memory::allocate<HashMap<c8, Vector2>>();
+	mCharMap = DE_NEW<HashMap<c8, Vector2>>();
 	mCharMap->init();
 
 	mCharMap->set(' ', Vector2(0 / mFontTilesCount.x, 0 / mFontTilesCount.y));
@@ -245,23 +245,23 @@ void UI::terminate() {
 	DE_TRACE()
 
 	if(mUIBuilder){
-		Memory::free<UIBuilder>(mUIBuilder);
+		DE_FREE(mUIBuilder);
 	}
 
 	if(mCharMap){
-		Memory::free<HashMap<c8, Vector2>>(mCharMap);
+		DE_FREE(mCharMap);
 	}
 
 	/*if(mUIElements){
-		Memory::free<List<UIElement*>>(mUIElements);
+		DE_FREE(mUIElements);
 	}*/
 
 	if(mGroups){
 		FOR_LIST(it, mGroups->getValues()){
-			Memory::free<UIGroup>(it.get());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<HashMap<std::string, UIGroup*>>(mGroups);
+		DE_FREE(mGroups);
 	}
 }
 

@@ -61,12 +61,11 @@ public:
 
 	static ClassId getClassIdStatic() {
 		return 0;
-	}
+	};
 
 	DE_Class() = default;
 	virtual ~DE_Class() = default;
-
-	virtual void dynamicDestructor() { }
+	virtual void dynamicDestructor(){ this->~DE_Class(); };
 
 	virtual ClassId getClassId() const {
 		return DE_Class::getClassIdStatic();
@@ -81,8 +80,17 @@ public:
 	};
 
 	template<class T>
-	bool isDerived() const {
+	bool isDerivedClass() const {
 		return dynamic_cast<const T*>(this) != nullptr;
+	}
+
+	template<class T>
+	bool isSameClass() const {
+		return isDerivedClass<DE_Class>() && (this->getClassId() == T::getClassIdStatic());
+	}
+
+	bool hasSameClass(DE_Class* object) const {
+		return this->getClassId() == object->getClassId();
 	}
 };
 

@@ -61,16 +61,12 @@ public:
 
 	template<class T>
 	static T* allocate(u32 alignment) {
-		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
 		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal), alignment);
 	}
 
 	template<class T>
 	static T* allocate() {
-		//ECHO("MEMORY ALLOCATE " + T::getClassNameStatic() + " " + std::to_string(T::getClassIdStatic()))
-
 		std::string className(T::getClassNameStatic());
-		//className = className + " " + typeid(T).name();
 
 		if(memoryMapCounter.find(className) == memoryMapCounter.end()){
 			memoryMapCounter.insert(std::make_pair(className, 0));
@@ -78,18 +74,13 @@ public:
 
 		memoryMapCounter[className] = memoryMapCounter[className] + 1;
 
-		//VAR(u32, memoryMapCounter[className])
-
 		return Allocator::internalAllocate<T>((Allocator*) (&smGlobal));
 	}
 
 	template<class T>
 	static void free(T *pointer) {
 		if (pointer) {
-			//ECHO("MEMORY FREE " + pointer->getClassName() + " " + std::to_string(pointer->getClassId()))
-
 			std::string className(pointer->getClassName());
-			//className = className + " " + typeid(T).name();
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
 				if(memoryMapCounter[className] > 0){
@@ -97,9 +88,7 @@ public:
 				}
 			}
 
-			//VAR(u32, memoryMapCounter[className])
-
-			Allocator::internalFree<T>(pointer, (Allocator*) (&smGlobal));
+			Allocator::internalFree(pointer, (Allocator*) (&smGlobal));
 		}
 	}
 
@@ -108,7 +97,7 @@ public:
 	template <class T>
 	static void registerClassName(const std::string& className) {
 		internalRegisterClassName(className, [](){
-			return (DE_Class*)Memory::allocate<T>();
+			return (DE_Class*)DE_NEW<T>();
 		});
 	}
 

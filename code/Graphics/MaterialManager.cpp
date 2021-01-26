@@ -16,18 +16,18 @@ MaterialManager::MaterialManager() : DE_Class() {
 
 MaterialManager::~MaterialManager() {
 	FOR_LIST(it, mTexturesMap->getValues()) {
-		Memory::free<Texture>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<HashMap<std::string, Texture*>>(mTexturesMap);
+	DE_FREE(mTexturesMap);
 
 	FOR_LIST(it, mMaterialsMap->getValues()) {
-		Memory::free<Material>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<HashMap<std::string, Material*>>(mMaterialsMap);
+	DE_FREE(mMaterialsMap);
 
-	Memory::free<Material>(mNoTextureMaterial);
+	DE_FREE(mNoTextureMaterial);
 
 	Shader::freeStaticShaders();
 }
@@ -37,10 +37,10 @@ MaterialManager::~MaterialManager() {
 void MaterialManager::init() {
 	DE_TRACE()
 
-	mTexturesMap = Memory::allocate<HashMap<std::string, Texture*>>();
+	mTexturesMap = DE_NEW<HashMap<std::string, Texture*>>();
 	mTexturesMap->init();
 
-	mMaterialsMap = Memory::allocate<HashMap<std::string, Material*>>();
+	mMaterialsMap = DE_NEW<HashMap<std::string, Material*>>();
 	mMaterialsMap->init();
 }
 
@@ -52,7 +52,7 @@ Texture* MaterialManager::loadTexture(const std::string &path) {
 	if (mTexturesMap->contains(path)) {
 		texture = mTexturesMap->get(path);
 	} else {
-		texture = Memory::allocate<Texture>();
+		texture = DE_NEW<Texture>();
 		texture->init(path);
 		mTexturesMap->set(path, texture);
 	}
@@ -68,7 +68,7 @@ Material* MaterialManager::loadMaterial(const std::string &path) {
 	if (mMaterialsMap->contains(path)) {
 		material = mMaterialsMap->get(path);
 	} else {
-		material = Memory::allocate<Material>();
+		material = DE_NEW<Material>();
 		material->init();
 		material->setTexture(loadTexture(path));
 		material->setShader(Shader::getDefaultShader());
@@ -83,7 +83,7 @@ Material* MaterialManager::loadMaterial(const std::string &path) {
 Material* MaterialManager::loadNoTextureMaterial() {
 
 	if(!mNoTextureMaterial){
-		mNoTextureMaterial = Memory::allocate<Material>();
+		mNoTextureMaterial = DE_NEW<Material>();
 		mNoTextureMaterial->init();
 		mNoTextureMaterial->setShader(Shader::getDefaultShader());
 	}

@@ -33,13 +33,13 @@ private:
 
 		virtual ~Node() override {
 			mParent = nullptr;
-			Memory::free<Array<Node*>>(mChildren);
+			DE_FREE(mChildren);
 		};
 
 		void init(Node *parent, const T element, u32 childrenCount) {
 			mParent = parent;
 			mElement = element;
-			mChildren = Memory::allocate<Array<Node*>>();
+			mChildren = DE_NEW<Array<Node*>>();
 			mChildren->init(childrenCount);
 			mChildren->set(0, nullptr);
 			mChildren->set(1, nullptr);
@@ -70,14 +70,14 @@ private:
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(Node *parent, const T element) {
-		Node* node = Memory::allocate<Node>();
+		Node* node = DE_NEW<Node>();
 		node->init(parent, element, smChildrenCount);
 		return node;
 	};
 
 
 	void freeNode(Node *node) {
-		Memory::free<Node>(node);
+		DE_FREE(node);
 	};
 
 

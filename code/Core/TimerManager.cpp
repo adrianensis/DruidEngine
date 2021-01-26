@@ -34,24 +34,24 @@ TimerManager::TimerManager() : DE_Class(), Singleton<TimerManager>(){
 
 TimerManager::~TimerManager() {
 	if(mTimers){
-		Memory::free<List<Timer*>>(mTimers);
+		DE_FREE(mTimers);
 	}
 }
 
 void TimerManager::init(){
-	mTimers = Memory::allocate<List<Timer*>>();
+	mTimers = DE_NEW<List<Timer*>>();
 	mTimers->init();
 }
 
 void TimerManager::endTimer(Timer* timer) {
 	mTimers->remove(timer);
-	Memory::free<Timer>(timer);
+	DE_FREE(timer);
 }
 
 void TimerManager::step(f32 deltaTime) {
 
 	if(! mTimers->isEmpty()){
-		List<Timer*>* timers = Memory::allocate<List<Timer*>>();
+		List<Timer*>* timers = DE_NEW<List<Timer*>>();
 		timers->init(*mTimers);
 
 		FOR_LIST(itTimer, timers){
@@ -67,13 +67,13 @@ void TimerManager::step(f32 deltaTime) {
 			}
 		}
 
-		Memory::free<List<Timer*>>(timers);
+		DE_FREE(timers);
 	}
 }
 
 TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback) {
 
-	Timer* timer = Memory::allocate<Timer>();
+	Timer* timer = DE_NEW<Timer>();
 	timer->init(duration, durationType, callback);
 
 	TimerHandle timerHandler;

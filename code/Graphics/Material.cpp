@@ -16,7 +16,7 @@ Material::Material() : DE_Class() {
 }
 
 Material::~Material() {
-	// Memory::free<Shader>(mShader);
+	// DE_FREE(mShader);
 }
 
 void Material::init() {

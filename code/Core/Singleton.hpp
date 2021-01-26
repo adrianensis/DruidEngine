@@ -19,7 +19,7 @@ public:
 
 	static T* getInstance() {
 		if (!mInstance) {
-			mInstance = Memory::allocate<T>();
+			mInstance = DE_NEW<T>();
 		}
 
 		return mInstance;

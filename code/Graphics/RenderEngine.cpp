@@ -32,7 +32,7 @@ RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
 }
 
 RenderEngine::LineRenderer::~LineRenderer() {
-	Memory::free<Array<f32>>(mVertices);
+	DE_FREE(mVertices);
 }
 
 // ---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ void RenderEngine::LineRenderer::init() {
 	//TRACE();
 
 	if (!mVertices) {
-		mVertices = Memory::allocate<Array<f32>>();
+		mVertices = DE_NEW<Array<f32>>();
 		mVertices->init(2 * 3); // 1 vertex = 3 floats
 	}
 
@@ -106,9 +106,9 @@ RenderEngine::~RenderEngine() = default;
 void RenderEngine::init(f32 sceneSize) {
 	DE_TRACE()
 
-	mLineRenderers = Memory::allocate<Array<LineRenderer*>>();
-	mLineRendererIndices = Memory::allocate<Array<u32>>();
-	mShaderLine = Memory::allocate<Shader>();
+	mLineRenderers = DE_NEW<Array<LineRenderer*>>();
+	mLineRendererIndices = DE_NEW<Array<u32>>();
+	mShaderLine = DE_NEW<Shader>();
 
 	// Line Renderers
 
@@ -124,14 +124,14 @@ void RenderEngine::init(f32 sceneSize) {
 	mShaderLine->initDebug();
 
 	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
-		LineRenderer* lineRenderer = Memory::allocate<LineRenderer>();
+		LineRenderer* lineRenderer = DE_NEW<LineRenderer>();
 		lineRenderer->init();
 		lineRenderer->mActive = false;
 
 		mLineRenderers->set(i, lineRenderer);
 	}
 
-	mRenderersToFree = Memory::allocate<List<Renderer*>>();
+	mRenderersToFree = DE_NEW<List<Renderer*>>();
 	mRenderersToFree->init();
 
 	// Static Chunks grid
@@ -139,7 +139,7 @@ void RenderEngine::init(f32 sceneSize) {
 	f32 chunksGridSize = EngineConfig::getInstance()->getF32("scene.chunks.gridSize");
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f;
 
-	mChunks = Memory::allocate<Array<Chunk*>>();
+	mChunks = DE_NEW<Array<Chunk*>>();
 	mChunks->init(chunksGridSize * chunksGridSize); // TODO : define how many chunks to create. Move to EngineConfig.
 
 	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
@@ -147,7 +147,7 @@ void RenderEngine::init(f32 sceneSize) {
 	u32 count = 0;
 	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
 		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
-			Chunk* chunk = Memory::allocate<Chunk>();
+			Chunk* chunk = DE_NEW<Chunk>();
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
@@ -156,20 +156,20 @@ void RenderEngine::init(f32 sceneSize) {
 		}
 	}
 
-	mBatchesMap = Memory::allocate<BatchesMap>();
+	mBatchesMap = DE_NEW<BatchesMap>();
 	mBatchesMap->init();
 
-	mBatchesMapNotAffectedByProjection = Memory::allocate<BatchesMap>();
+	mBatchesMapNotAffectedByProjection = DE_NEW<BatchesMap>();
 	mBatchesMapNotAffectedByProjection->init();
 
 	mMaxLayersUsed = 0;
 
-	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
+	mLayersData = DE_NEW<HashMap<u32, LayerData*>>();
 	mLayersData->init();
 
 	mMaxLayers = EngineConfig::getInstance()->getU32("scene.maxLayers");
 	FOR_RANGE(i, 0, mMaxLayers) {
-		LayerData* layerData = Memory::allocate<LayerData>();
+		LayerData* layerData = DE_NEW<LayerData>();
 		layerData->mSorted = EngineConfig::getInstance()->getBool("scene.sortByYCoordinate");
 		mLayersData->set(i, layerData);
 	}
@@ -269,7 +269,7 @@ void RenderEngine::freeRenderersPendingtoFree() {
 	DE_TIMEMARK_START()
 
 	FOR_LIST(it, mRenderersToFree){
-		Memory::free<Renderer>(it.get());
+		DE_FREE(it.get());
 	}
 
 	mRenderersToFree->clear();
@@ -335,56 +335,56 @@ void RenderEngine::terminate() {
 	DE_TRACE()
 
 	if(mLineRendererIndices){
-		Memory::free<Array<u32>>(mLineRendererIndices);
+		DE_FREE(mLineRendererIndices);
 	}
 
 	if(mShaderLine) {
-		Memory::free<Shader>(mShaderLine);
+		DE_FREE(mShaderLine);
 	}
 
 	if(mLineRenderers){
 		FOR_ARRAY(i, mLineRenderers){
-			Memory::free<LineRenderer>(mLineRenderers->get(i));
+			DE_FREE(mLineRenderers->get(i));
 		}
 
-		Memory::free<Array<LineRenderer*>>(mLineRenderers);
+		DE_FREE(mLineRenderers);
 	}
 
 	if(mChunks){
 		FOR_ARRAY(i, mChunks) {
-			Memory::free<Chunk>(mChunks->get(i));
+			DE_FREE(mChunks->get(i));
 		}
 
-		Memory::free<Array<Chunk*>>(mChunks);
+		DE_FREE(mChunks);
 	}
 
 
 	if(mBatchesMap){
-		Memory::free<BatchesMap>(mBatchesMap);
+		DE_FREE(mBatchesMap);
 	}
 
 	if(mBatchesMapNotAffectedByProjection){
-		Memory::free<BatchesMap>(mBatchesMapNotAffectedByProjection);
+		DE_FREE(mBatchesMapNotAffectedByProjection);
 	}
 
 	if(mLayersData){
 		FOR_LIST(it, mLayersData->getValues()) {
-			Memory::free<LayerData>(it.get());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<HashMap<u32, LayerData*>>(mLayersData);
+		DE_FREE(mLayersData);
 	}
 
-	//Memory::free<Mesh>(Mesh::getRectangle());
+	//DE_FREE(Mesh::getRectangle());
 
 	Mesh::freeRectangle();
 
 	if(mRenderersToFree){
 		FOR_LIST(it, mRenderersToFree){
-			Memory::free<Renderer>(it.get());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<List<Renderer*>>(mRenderersToFree);
+		DE_FREE(mRenderersToFree);
 	}
 }
 

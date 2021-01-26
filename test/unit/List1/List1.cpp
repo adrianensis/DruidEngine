@@ -20,8 +20,8 @@ int main() {
 
 	DE_test(DE::List<Test>);
 
-	List<Array<u32>*>* mArrays = DE::Memory::allocate<List<Array<u32>*> >();
-	Array<u32>* newArray = DE::Memory::allocate<Array<u32>>();
+	List<Array<u32>*>* mArrays = DE::DE_NEW<List<Array<u32>*> >();
+	Array<u32>* newArray = DE::DE_NEW<Array<u32>>();
 
 	newArray->init(100);
 	mArrays->init();
@@ -31,7 +31,7 @@ int main() {
 	auto itArrays = mArrays->getIterator();
 	DE_test_expected_uint(itArrays.get()->getLength(), 100);
 
-	DE::List<Test>* list = DE::Memory::allocate<List<Test>>();
+	DE::List<Test>* list = DE::DE_NEW<List<Test>>();
 
 	list->init();
 
@@ -91,7 +91,7 @@ int main() {
 	DE_test_expected_uint(it.get().n, 2);
 	DE_test_expected_bool(it.hasNext(), false);
 
-	DE::List<u32>* list32 = DE::Memory::allocate<List<u32>>();
+	DE::List<u32>* list32 = DE::DE_NEW<List<u32>>();
 
 	list32->init();
 
@@ -122,10 +122,10 @@ int main() {
 
 	DE_test_expected_uint(list32->getLength(), 3);
 
-	DE::Memory::free<List<Array<u32>*>>(mArrays);
-	DE::Memory::free<Array<u32>>(newArray);
-	DE::Memory::free<DE::List<Test>>(list);
-	DE::Memory::free<DE::List<u32>>(list32);
+	DE::DE_FREE(mArrays);
+	DE::DE_FREE(newArray);
+	DE::DE_FREE(list);
+	DE::DE_FREE(list32);
 
 	DE::Memory::free();
 

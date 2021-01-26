@@ -17,7 +17,7 @@ Camera::Camera() : Component() {
 }
 
 Camera::~Camera() {
-	Memory::free<Frustum>(mFrustum);
+	DE_FREE(mFrustum);
 }
 
 void Camera::init() {
@@ -27,7 +27,7 @@ void Camera::init() {
 
 	mInversePVMatrix.identity();
 
-	mFrustum = Memory::allocate<Frustum>();
+	mFrustum = DE_NEW<Frustum>();
 	mFrustum->init(this);
 };
 
@@ -43,8 +43,8 @@ void Camera::init() {
 // ---------------------------------------------------------------------------
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	mIsOrtho = true;
-	// Memory::free<Matrix4>(mProjectionMatrix);
-	// mProjectionMatrix = Memory::allocate<Matrix4>();
+	// DE_FREE(mProjectionMatrix);
+	// mProjectionMatrix = DE_NEW<Matrix4>();
 
 	mLeft = left;
 	mRight = right;
@@ -64,8 +64,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	mIsOrtho = false;
-	// Memory::free<Matrix4>(mProjectionMatrix);
-	// mProjectionMatrix = Memory::allocate<Matrix4>();
+	// DE_FREE(mProjectionMatrix);
+	// mProjectionMatrix = DE_NEW<Matrix4>();
 	mProjectionMatrix.perspective(near, far, aspect, fov);
 
 	calculateInverseMatrix(true);

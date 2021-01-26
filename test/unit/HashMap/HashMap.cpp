@@ -13,7 +13,7 @@ int main() {
 
 	DE_test(HashMapu32u32);
 
-	DE::HashMap<u32, u32>* map = DE::Memory::allocate<HashMap<u32, u32>>();
+	DE::HashMap<u32, u32>* map = DE::DE_NEW<HashMap<u32, u32>>();
 
 	map->init();
 
@@ -34,7 +34,7 @@ int main() {
 	map->remove(10);
 	DE_test_expected_uint(map->getLength(), 0);
 
-	DE::HashMap<std::string, u32>* mapStr = DE::Memory::allocate<HashMap<std::string, u32>>();
+	DE::HashMap<std::string, u32>* mapStr = DE::DE_NEW<HashMap<std::string, u32>>();
 
 	mapStr->init();
 
@@ -55,7 +55,7 @@ int main() {
 	 mapStr->remove(str10);
 	 DE_test_expected_uint(mapStr->getLength(),0);*/
 
-	/* DE::HashMap<u32*,u32>* mapPtr = DE::Memory::allocate<HashMap<u32*,u32>>();
+	/* DE::HashMap<u32*,u32>* mapPtr = DE::DE_NEW<HashMap<u32*,u32>>();
 
 	 mapPtr->init();
 
@@ -79,7 +79,7 @@ int main() {
 	 mapPtr->remove(ptr10);
 	 DE_test_expected_uint(mapPtr->getLength(),0);
 
-	 DE::HashMap<i32,i32>* mapSigned = DE::Memory::allocate<HashMap<i32,i32>>();
+	 DE::HashMap<i32,i32>* mapSigned = DE::DE_NEW<HashMap<i32,i32>>();
 
 	 mapSigned->init();
 
@@ -107,11 +107,11 @@ int main() {
 	 mapSigned->remove(-10);
 	 DE_test_expected_uint(mapSigned->getLength(),0); */
 
-	DE::Memory::free<HashMap<u32, u32>>(map);
-	//DE::Memory::free<DE::HashMap<std::string,u32>>(mapStr);
-	//DE::Memory::free<DE::HashMap<const char*,u32>>(mapStrLiteral);
-	/* DE::Memory::free<DE::HashMap<u32*,u32>>(mapPtr);
-	 DE::Memory::free<DE::HashMap<i32,i32>>(mapSigned); */
+	DE::DE_FREE(map);
+	//DE::DE_FREE(mapStr);
+	//DE::DE_FREE(mapStrLiteral);
+	/* DE::DE_FREE(mapPtr);
+	 DE::DE_FREE(mapSigned); */
 
 	DE::Memory::free();
 

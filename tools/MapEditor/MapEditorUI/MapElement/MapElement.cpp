@@ -25,13 +25,13 @@ namespace DE
     }
 
     MapElement* MapElement::create(Scene* scene, Vector3 position, const Vector2 &size, Material *material, u32 layer) {
-        MapElement *mapElement = Memory::allocate<MapElement>();
+        MapElement *mapElement = DE_NEW<MapElement>();
         mapElement->init();
 
         mapElement->getTransform()->setLocalPosition(position);
         mapElement->getTransform()->setScale(Vector3(size, 1));
 
-        Renderer *renderer = Memory::allocate<Renderer>();
+        Renderer *renderer = DE_NEW<Renderer>();
         mapElement->addComponent<Renderer>(renderer);
 
         renderer->setMesh(Mesh::getRectangle());

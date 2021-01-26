@@ -23,7 +23,7 @@ ScriptEngine::~ScriptEngine() = default;
 void ScriptEngine::init() {
 	DE_TRACE()
 
-	mScripts = Memory::allocate<List<Script*>>();
+	mScripts = DE_NEW<List<Script*>>();
 	mScripts->init();
 
 	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
@@ -74,7 +74,7 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	Script* script = (*castedIt).get();
 	script->terminate();
 	script->setDestroyed();
-	Memory::free<Script>(script);
+	DE_FREE(script);
 }
 
 // ---------------------------------------------------------------------------
@@ -84,17 +84,17 @@ void ScriptEngine::terminate() {
 
 	if(mController){
 		mController->terminate();
-		Memory::free<Script>(mController);
+		DE_FREE(mController);
 	}
 
 	if (mScripts) {
 		FOR_LIST (it, mScripts) {
 			Script* script = it.get();
 			script->terminate();
-			Memory::free<Script>(script);
+			DE_FREE(script);
 		}
 
-		Memory::free<List<Script*>>(mScripts);
+		DE_FREE(mScripts);
 	}
 }
 

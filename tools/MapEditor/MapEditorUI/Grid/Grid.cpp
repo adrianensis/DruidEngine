@@ -29,7 +29,7 @@ Grid::CellData::CellData() : DE_Class() {
 
 Grid::CellData::~CellData() {
 	if (layers) {
-		Memory::free<Array<GameObject*>>(layers);
+		DE_FREE(layers);
 	}
 }
 
@@ -37,7 +37,7 @@ Grid::CellData::~CellData() {
 
 void Grid::CellData::addGameObject(GameObject *gameObject, u32 layer) {
 	if (!layers) {
-		layers = Memory::allocate<Array<GameObject*>>();
+		layers = DE_NEW<Array<GameObject*>>();
 		layers->init(10); // MAX LAYERS
 	}
 
@@ -78,16 +78,16 @@ Grid::~Grid() {
 	if(mGrid){
 		FOR_RANGE(i, 0, mGridSize){
 			FOR_RANGE(j, 0, mGridSize){
-				Memory::free<CellData>(mGrid->get(i)->get(j));
+				DE_FREE(mGrid->get(i)->get(j));
 			}
 
-			Memory::free<Array<CellData*>>(mGrid->get(i));
+			DE_FREE(mGrid->get(i));
 		}
 	}
 
-	Memory::free<Array<Array<CellData*>*>>(mGrid);
+	DE_FREE(mGrid);
 
-	Memory::free<List<GameObject*>>(mSelectedTiles);
+	DE_FREE(mSelectedTiles);
 }
 
 // ---------------------------------------------------------------------------
@@ -97,21 +97,21 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 	mGridSize = gridSize;
 	mGridTileSize = gridTileSize;
 
-	mGrid = Memory::allocate<Array<Array<CellData*>*>>();
+	mGrid = DE_NEW<Array<Array<CellData*>*>>();
 	mGrid->init(mGridSize);
 
 	f32 halfGridSize = mGridSize / 2.0f;
 
 	FOR_RANGE(i, 0, mGridSize){
-		mGrid->set(i, Memory::allocate<Array<CellData*>>());
+		mGrid->set(i, DE_NEW<Array<CellData*>>());
 		mGrid->get(i)->init(mGridSize);
 		FOR_RANGE(j, 0, mGridSize){
-			CellData* cellData = Memory::allocate<CellData>();
+			CellData* cellData = DE_NEW<CellData>();
 			mGrid->get(i)->set(j, cellData);
 		}
 	}
 
-	mSelectedTiles = Memory::allocate<List<GameObject*>>();
+	mSelectedTiles = DE_NEW<List<GameObject*>>();
 	mSelectedTiles->init();
 }
 

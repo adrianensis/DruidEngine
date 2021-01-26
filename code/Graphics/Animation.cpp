@@ -19,16 +19,16 @@ Animation::Animation() : DE_Class() {
 
 Animation::~Animation() {
 	FOR_LIST(it, mFrames){
-		Memory::free<AnimationFrame>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<List<AnimationFrame*>>(mFrames);
+	DE_FREE(mFrames);
 }
 
 void Animation::init() {
 	DE_TRACE()
 
-	mFrames = Memory::allocate<List<AnimationFrame*>>();
+	mFrames = DE_NEW<List<AnimationFrame*>>();
 	mFrames->init();
 }
 
@@ -48,7 +48,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 
 	// TODO: check if coordinates are > 1 or < 0 !!!!!
 
-	Animation* animation = Memory::allocate<Animation>();
+	Animation* animation = DE_NEW<Animation>();
 	animation->init();
 	animation->setSpeed(speed);
 
@@ -86,7 +86,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame* frame = Memory::allocate<AnimationFrame>();
+		AnimationFrame* frame = DE_NEW<AnimationFrame>();
 		frame->init(pos, width, height);
 		animation->addFrame(frame);
 

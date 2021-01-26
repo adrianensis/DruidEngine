@@ -15,8 +15,8 @@ Frustum::Frustum() : DE_Class() {
 }
 
 Frustum::~Frustum() {
-	Memory::free<Array<Vector4>>(mPlanes);
-	Memory::free<Matrix4>(mVPmatrix);
+	DE_FREE(mPlanes);
+	DE_FREE(mVPmatrix);
 	mVPmatrix = nullptr;
 	mCamera = nullptr;
 }
@@ -25,14 +25,14 @@ void Frustum::init(Camera *camera) {
 	DE_TRACE()
 
 	mCamera = camera;
-	mPlanes = Memory::allocate<Array<Vector4>>();
+	mPlanes = DE_NEW<Array<Vector4>>();
 	mPlanes->init(6);
 
 	for (u32 i = 0; i < mPlanes->getLength(); ++i) {
 		mPlanes->set(i, Vector4(0, 0, 0, 0)); // x,y,z,w <=> A,B,C,D
 	}
 
-	mVPmatrix = Memory::allocate<Matrix4>();
+	mVPmatrix = DE_NEW<Matrix4>();
 	mVPmatrix->identity();
 };
 

@@ -22,17 +22,17 @@ BatchesMap::BatchesMap() : DE_Class() {
 
 BatchesMap::~BatchesMap() {
 	FOR_LIST(it, mBatches->getValues()) {
-		Memory::free<Batch>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<HashMap<Texture*, Batch*>>(mBatches);
+	DE_FREE(mBatches);
 }
 
 // ---------------------------------------------------------------------------
 
 void BatchesMap::init() {
 	//TRACE();
-	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
+	mBatches = DE_NEW<HashMap<Texture*, Batch*>>();
 	mBatches->init();
 }
 
@@ -44,7 +44,7 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 
 	if (!mBatches->contains(texture)) {
 
-		Batch* batch = Memory::allocate<Batch>();
+		Batch* batch = DE_NEW<Batch>();
 		batch->init(renderer->getMesh(), renderer->getMaterial());
 		// batch->setChunk(chunk);
 
@@ -82,11 +82,11 @@ Chunk::~Chunk() {
 	FOR_LIST(it, mRenderers) {
 		//if(!it.get()->isDestroyed()){
 			it.get()->setDestroyed();
-			Memory::free<Renderer>(it.get());
+			DE_FREE(it.get());
 		//}
 	}
 
-	Memory::free<List<Renderer*>>(mRenderers);
+	DE_FREE(mRenderers);
 }
 
 // ---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ Chunk::~Chunk() {
 void Chunk::init() {
 	//TRACE();
 
-	mRenderers = Memory::allocate<List<Renderer*>>();
+	mRenderers = DE_NEW<List<Renderer*>>();
 	mRenderers->init();
 
 	mLeftTop.set(0, 0, 0);

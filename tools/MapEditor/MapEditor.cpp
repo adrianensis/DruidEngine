@@ -59,13 +59,13 @@ void MapEditor::createPlayer() {
 
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
-	mPlayer = Memory::allocate<GameObject>();
+	mPlayer = DE_NEW<GameObject>();
 	mPlayer->init();
 
 	mPlayer->getTransform()->setLocalPosition(Vector3(-300, -100, 0));
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = DE_NEW<Renderer>();
 	mPlayer->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -88,10 +88,10 @@ void MapEditor::createPlayer() {
 
 	//renderer->setIsLineMode(true);
 
-	RigidBody* rigidBody = Memory::allocate<RigidBody>();
+	RigidBody* rigidBody = DE_NEW<RigidBody>();
 	mPlayer->addComponent<RigidBody>(rigidBody);
 
-	Collider* collider = Memory::allocate<Collider>();
+	Collider* collider = DE_NEW<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y/3.0f);
 	collider->setPositionOffset(Vector3(0,-size.y/2,0));
@@ -109,7 +109,7 @@ void MapEditor::destroyPlayer(){
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
 
-	mConfigMap = Memory::allocate<ConfigMap>();
+	mConfigMap = DE_NEW<ConfigMap>();
 	mConfigMap->init();
 
 	mConfigMap->readConfigFile("config/editor.conf");
@@ -202,10 +202,10 @@ void MapEditor::addColliderToTile(GameObject *tile) {
 		List<RigidBody*>* rigidBodies = tile->getComponents<RigidBody>();
 
 		if(!rigidBodies || (rigidBodies && rigidBodies->isEmpty())){
-			RigidBody* rigidBody = Memory::allocate<RigidBody>();
+			RigidBody* rigidBody = DE_NEW<RigidBody>();
 			tile->addComponent<RigidBody>(rigidBody);
 
-			Collider* collider = Memory::allocate<Collider>();
+			Collider* collider = DE_NEW<Collider>();
 			tile->addComponent<Collider>(collider);
 			collider->setSize(tile->getTransform()->getScale().x, tile->getTransform()->getScale().y);
 
@@ -311,7 +311,7 @@ void MapEditor::terminate() {
 
 
 
-	Memory::free<ConfigMap>(mConfigMap);
+	DE_FREE(mConfigMap);
 }
 
 // ---------------------------------------------------------------------------

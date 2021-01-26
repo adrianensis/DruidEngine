@@ -30,7 +30,7 @@ Inspector::Inspector() : DE_Class(){
 }
 
 Inspector::~Inspector(){
-	Memory::free<Array<UIButton*>>(mLayerButtons);
+	DE_FREE(mLayerButtons);
 }
 
 // ---------------------------------------------------------------------------
@@ -245,7 +245,7 @@ void Inspector::updateInspectorOnSelectTile() {
 void Inspector::createLayersBar() {
 
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
-	mLayerButtons = Memory::allocate<Array<UIButton*>>();
+	mLayerButtons = DE_NEW<Array<UIButton*>>();
 	mLayerButtons->init(maxLayers);
 
 	Scene* scene = mMapEditor->getGameObject()->getScene();

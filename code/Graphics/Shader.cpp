@@ -28,7 +28,7 @@ Shader::~Shader() = default;
 
 Shader* Shader::getDefaultShader() {
 	if (!msShaderDefault) {
-		msShaderDefault = Memory::allocate<Shader>();
+		msShaderDefault = DE_NEW<Shader>();
 		msShaderDefault->init();
 	}
 	return msShaderDefault;
@@ -36,7 +36,7 @@ Shader* Shader::getDefaultShader() {
 
 Shader* Shader::getDebugShader() {
 	if (!msShaderDebug) {
-		msShaderDebug = Memory::allocate<Shader>();
+		msShaderDebug = DE_NEW<Shader>();
 		msShaderDebug->initDebug();
 	}
 	return msShaderDebug;
@@ -44,11 +44,11 @@ Shader* Shader::getDebugShader() {
 
 void Shader::freeStaticShaders() {
 	if (msShaderDefault) {
-		Memory::free<Shader>(msShaderDefault);
+		DE_FREE(msShaderDefault);
 	}
 
 	if (msShaderDebug) {
-		Memory::free<Shader>(msShaderDebug);
+		DE_FREE(msShaderDebug);
 	}
 }
 

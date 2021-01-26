@@ -23,11 +23,11 @@ GameObjectBuilder::~GameObjectBuilder() {
 }
 
 GameObjectBuilder* GameObjectBuilder::createSprite(Material* material, u32 layer, bool isStatic) {
-	mGameObject = Memory::allocate<GameObject>();
+	mGameObject = DE_NEW<GameObject>();
 	mGameObject->init();
 	mGameObject->setIsStatic(isStatic);
 
-	Renderer* renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = DE_NEW<Renderer>();
 	mGameObject->addComponent<Renderer>(renderer);
 
 	renderer->setLayer(layer);

@@ -47,22 +47,22 @@ QuadTree::Node::~Node() {
 	FOR_ARRAY(i, mChildren)
 	{
 		if (mChildren->get(i)) {
-			Memory::free<Node>(mChildren->get(i));
+			DE_FREE(mChildren->get(i));
 		}
 	}
 
-	Memory::free<Array<Node*>>(mChildren);
+	DE_FREE(mChildren);
 
 	/*FOR_LIST(it, mColliders) {
 		if (!(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
 			it.get()->setDestroyed();
-			Memory::free<Collider>(it.get());
+			DE_FREE(it.get());
 		}
 	}*/
 
-	Memory::free<List<Collider*>>(mColliders);
-	Memory::free<List<Collider*>>(mExitingColliders);
-	Memory::free<Array<Vector2>>(mLeftTopChildrenArray);
+	DE_FREE(mColliders);
+	DE_FREE(mExitingColliders);
+	DE_FREE(mLeftTopChildrenArray);
 }
 
 // ---------------------------------------------------------------------------
@@ -80,20 +80,20 @@ void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 min
 	mHalfHeight = mHeight / 2.0f;
 	mIsDivisible = (mHalfWidth >= mMinWidth) && (mHalfHeight >= mMinHeight);
 
-	mColliders = Memory::allocate<List<Collider*>>();
+	mColliders = DE_NEW<List<Collider*>>();
 	mColliders->init();
 
-	mExitingColliders = Memory::allocate<List<Collider*>>();
+	mExitingColliders = DE_NEW<List<Collider*>>();
 	mExitingColliders->init();
 
-	mChildren = Memory::allocate<Array<Node*>>();
+	mChildren = DE_NEW<Array<Node*>>();
 	mChildren->init(4);
 	mChildren->set(0, nullptr);
 	mChildren->set(1, nullptr);
 	mChildren->set(2, nullptr);
 	mChildren->set(3, nullptr);
 
-	mLeftTopChildrenArray = Memory::allocate<Array<Vector2>>();
+	mLeftTopChildrenArray = DE_NEW<Array<Vector2>>();
 	mLeftTopChildrenArray->init(4);
 
 	// This array testPartialCollider the LeftTop Vertices of the 4 children.
@@ -120,7 +120,7 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider *collider)
 
 QuadTree::Node* QuadTree::Node::createChildNode(u32 index) {
 	mChildrenCount++;
-	Node* node = Memory::allocate<Node>();
+	Node* node = DE_NEW<Node>();
 	node->init(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight, mMinWidth, mMinHeight, mTree);
 	return node;
 };
@@ -180,7 +180,7 @@ void QuadTree::Node::internalRemoveColliderFromList(const Iterator *it) {
 
 void QuadTree::Node::internalFreeCollider(Collider *collider) {
 	collider->setDestroyed();
-	Memory::free<Collider>(collider);
+	DE_FREE(collider);
 }
 
 //----------------------------------------------------------------------
@@ -443,7 +443,7 @@ QuadTree::QuadTree() : DE_Class() {
 
 QuadTree::~QuadTree() {
 	DE_TRACE()
-	Memory::free<Node>(mRoot);
+	DE_FREE(mRoot);
 }
 
 // ---------------------------------------------------------------------------
@@ -456,7 +456,7 @@ void QuadTree::init(f32 size) {
 
 	f32 minSize = EngineConfig::getInstance()->getF32("scene.quadTreeMinSize");
 
-	mRoot = Memory::allocate<Node>();
+	mRoot = DE_NEW<Node>();
 	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight, minSize, minSize, this);
 }
 

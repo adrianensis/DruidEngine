@@ -84,10 +84,10 @@ public:
 		if (mArrays != nullptr) {
 
 			FOR_LIST (it, mArrays) {
-				Memory::free<Array<T>>(it.get());
+				DE_FREE(it.get());
 			}
 
-			Memory::free<List<Array<T>*>>(mArrays);
+			DE_FREE(mArrays);
 		}
 	}
 
@@ -99,13 +99,13 @@ public:
 	 */
 	void init(const DynamicArray<T> &other) {
 		BaseContainer::init(other.BaseContainer::mLength, other.mElementSize, other.BaseContainer::mAlignment);
-		mArrays = Memory::allocate<List<Array<T>*> >();
+		mArrays = DE_NEW<List<Array<T>*> >();
 		mArrays->init();
 
 		FOR_LIST (it, other.mArrays)
 		{
 			Array<T>* otherArray = it.get();
-			Array<T>* array = Memory::allocate<Array<T>>();
+			Array<T>* array = DE_NEW<Array<T>>();
 			array->init(*otherArray);
 			mArrays->pushBack(array);
 		}
@@ -157,7 +157,7 @@ public:
 	 */
 	void init(const T rawArray[], u32 length, u32 alignment) override {
 		BaseContainer::setAllocator(&Memory::getGlobal());
-		Array<T>* array = Memory::allocate<Array<T>>(alignment);
+		Array<T>* array = DE_NEW<Array<T>>(alignment);
 		array->init(rawArray, length);
 		DynamicArray::init(*array);
 	}
@@ -192,7 +192,7 @@ public:
 		BaseContainer::init(length, sizeof(T), alignment);
 
 		// list of arrays
-		mArrays = Memory::allocate<List<Array<T>*> >();
+		mArrays = DE_NEW<List<Array<T>*> >();
 		mArrays->init();
 
 		// how many arrays are needed.
@@ -200,7 +200,7 @@ public:
 
 		FOR_RANGE(i, 0, arrayCount)
 		{
-			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = DE_NEW<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);
@@ -242,7 +242,7 @@ public:
 	void set(u32 index, const T element) {
 		// resize
 		if (index >= mArrays->getLength() * smMinSize) {
-			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = DE_NEW<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);

@@ -69,21 +69,21 @@ Batch::~Batch() {
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->getIsDestroyed()) {
 					itRenderer.get()->setDestroyed();
-					Memory::free<Renderer>(itRenderer.get());
+					DE_FREE(itRenderer.get());
 					remainingInBatch--;
 				}
 			}
 
-			Memory::free<List<Renderer*>>(itList.get());
+			DE_FREE(itList.get());
 		}
 	}
 
-	Memory::free<HashMap<u32, List<Renderer*>*>>(mRenderers);
+	DE_FREE(mRenderers);
 
-	Memory::free<Array<f32>>(mPositionBuffer);
-	Memory::free<Array<f32>>(mTextureBuffer);
-	Memory::free<Array<f32>>(mColorBuffer);
-	Memory::free<Array<u32>>(mFacesBuffer);
+	DE_FREE(mPositionBuffer);
+	DE_FREE(mTextureBuffer);
+	DE_FREE(mColorBuffer);
+	DE_FREE(mFacesBuffer);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -104,24 +104,24 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mVertexColorSize = 4;
 	mFacesSize = 6;
 
-	mPositionBuffer = Memory::allocate<Array<f32>>();
+	mPositionBuffer = DE_NEW<Array<f32>>();
 	mPositionBuffer->init(mMaxVertexBufferSize * mVertexPositionSize);
 	mPositionBufferIndex = 0;
 
-	mTextureBuffer = Memory::allocate<Array<f32>>();
+	mTextureBuffer = DE_NEW<Array<f32>>();
 	mTextureBuffer->init(mMaxVertexBufferSize * mVertexTextureSize);
 	mTextureBufferIndex = 0;
 
-	mColorBuffer = Memory::allocate<Array<f32>>();
+	mColorBuffer = DE_NEW<Array<f32>>();
 	mColorBuffer->init(mMaxVertexBufferSize * mVertexColorSize);
 	mColorBufferIndex = 0;
 
-	mFacesBuffer = Memory::allocate<Array<u32>>();
+	mFacesBuffer = DE_NEW<Array<u32>>();
 	mFacesBuffer->init(mMaxVertexBufferSize * mFacesSize);
 
 	mRenderEngine = RenderEngine::getInstance();
 
-	mRenderers = Memory::allocate<HashMap<u32, List<Renderer*>*>>();
+	mRenderers = DE_NEW<HashMap<u32, List<Renderer*>*>>();
 	mRenderers->init();
 
 	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()) {
@@ -379,7 +379,7 @@ void Batch::addRenderer(Renderer *renderer) {
 	List<Renderer*>* renderers = mRenderers->get(layer);
 
 	if (!renderers) {
-		renderers = Memory::allocate<List<Renderer*>>();
+		renderers = DE_NEW<List<Renderer*>>();
 		renderers->init();
 
 		mRenderers->set(layer, renderers);
@@ -425,7 +425,7 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	// UI is not Freed in Chunk so it has to ve freed here.
 	if(! renderer->getIsAffectedByProjection()){
 		renderer->setDestroyed();
-		Memory::free<Renderer>(renderer);
+		DE_FREE(renderer);
 	}
 }
 

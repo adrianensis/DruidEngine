@@ -24,15 +24,13 @@ ScenesManager::ScenesManager() : DE_Class(), Singleton() {
 ScenesManager::~ScenesManager() {
 
 	FOR_LIST (it, mScenes) {
-		Memory::free<Scene>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<List<Scene*>>(mScenes);
+	DE_FREE(mScenes);
 
-	//mGameObjectController->getComponents<Script>()->get(0)->terminate();
-	//Memory::free<Script>(mGameObjectController->getComponents<Script>()->get(0));
 	mGameObjectController->destroy();
-	Memory::free<GameObject>(mGameObjectController);
+	DE_FREE(mGameObjectController);
 }
 
 // ---------------------------------------------------------------------------
@@ -56,7 +54,7 @@ void ScenesManager::init() {
 
 	mCurrentSceneIndex = 0;
 
-	mScenes = Memory::allocate<List<Scene*>>();
+	mScenes = DE_NEW<List<Scene*>>();
 	mScenes->init();
 
 	u32 scenesCount = 1;
@@ -66,7 +64,7 @@ void ScenesManager::init() {
 	}
 
 	FOR_RANGE(i, 0, scenesCount) {
-		Scene* scene = Memory::allocate<Scene>();
+		Scene* scene = DE_NEW<Scene>();
 		scene->init();
 		addScene(scene);
 	}

@@ -75,7 +75,7 @@ MapEditorUI::MapEditorUI(){
 }
 
 MapEditorUI::~MapEditorUI(){
-	Memory::free<Inspector>(mInspector);
+	DE_FREE(mInspector);
 }
 
 // ---------------------------------------------------------------------------
@@ -97,12 +97,12 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 
 void MapEditorUI::createMenuBar() {
 
-	mMenuBar = Memory::allocate<MenuBar>();
+	mMenuBar = DE_NEW<MenuBar>();
 	mMenuBar->init(mMapEditor);
 }
 
 void MapEditorUI::createInspector() {
-	mInspector = Memory::allocate<Inspector>();
+	mInspector = DE_NEW<Inspector>();
 	mInspector->init(mMapEditor);
 }
 
@@ -135,7 +135,7 @@ void MapEditorUI::updateInfoBar() {
 // ---------------------------------------------------------------------------
 
 void MapEditorUI::createAtlas() {
-	mAtlas = Memory::allocate<Atlas>();
+	mAtlas = DE_NEW<Atlas>();
 	mAtlas->init(mMapEditor);
 }
 

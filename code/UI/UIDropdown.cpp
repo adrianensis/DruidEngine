@@ -44,16 +44,16 @@ void UIDropdown::init() {
 
 	UIButton::init();
 
-	mButtons = Memory::allocate<List<UIButton*>>();
+	mButtons = DE_NEW<List<UIButton*>>();
 	mButtons->init();
 
-	mEntries = Memory::allocate<List<UIDropdownEntry>>();
+	mEntries = DE_NEW<List<UIDropdownEntry>>();
 	mEntries->init();
 }
 
 void UIDropdown::onDestroy() {
-	Memory::free<List<UIButton*>>(mButtons);
-	Memory::free<List<UIDropdownEntry>>(mEntries);
+	DE_FREE(mButtons);
+	DE_FREE(mEntries);
 	UIButton::onDestroy();
 }
 

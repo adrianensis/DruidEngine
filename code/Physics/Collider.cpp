@@ -38,10 +38,10 @@ Collider::Collider() : Component() {
 
 Collider::~Collider() {
 	if (mBoxVertices) {
-		Memory::free<Array<Vector2>>(mBoxVertices);
+		DE_FREE(mBoxVertices);
 	}
 
-	Memory::free<Contact>(mLastContact); // TODO: remove contact here or in contact manager?
+	DE_FREE(mLastContact); // TODO: remove contact here or in contact manager?
 }
 
 // ---------------------------------------------------------------------------
@@ -49,7 +49,7 @@ Collider::~Collider() {
 void Collider::init() {
 	// TRACE();
 
-	mBoxVertices = Memory::allocate<Array<Vector2>>();
+	mBoxVertices = DE_NEW<Array<Vector2>>();
 	mBoxVertices->init(4);
 
 	mBoxVertices->set(0, Vector2(0, 0)); // LEFT TOP VERTEX
@@ -63,7 +63,7 @@ void Collider::init() {
 
 	mCollisionLayer = 0;
 
-	mLastContact = Memory::allocate<Contact>();
+	mLastContact = DE_NEW<Contact>();
 	mLastContact->init();
 }
 

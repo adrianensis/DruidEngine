@@ -122,14 +122,11 @@ public:
 	/*!
 	 \brief Destroys objects. It is used like "delete" keyword.
 	 Deallocate data, using the allocator.
-
-	 \tparam pointer pointer to data
 	 \param allocator Allocator used to deallocate memory.
 	 */
-	template<class T>
-	static void internalFree(T *object, Allocator *allocator) {
+	static void internalFree(DE_Class *object, Allocator *allocator) {
 		if (object != nullptr) {
-			object->~T(); // dynamicDestructor();
+			object->dynamicDestructor(); // ~T(); 
 			allocator->free(reinterpret_cast<byte*>(object));
 		}
 	};

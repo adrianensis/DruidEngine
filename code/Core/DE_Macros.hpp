@@ -9,6 +9,13 @@
 namespace DE {
 
 // --------------------------------------------------------
+// NEW / FREE
+// --------------------------------------------------------
+
+#define DE_NEW Memory::allocate
+#define DE_FREE Memory::free
+
+// --------------------------------------------------------
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 
@@ -33,11 +40,15 @@ namespace DE {
 		return Class::getClassNameStatic();\
 	};
 
+#define DE_GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(Class)\
+	virtual void dynamicDestructor() override { this->~Class(); };
+
 #define DE_GENERATE_METADATA(Class)\
 	DE_GENERATE_NAME_STATIC(Class);\
 	DE_GENERATE_NAME_VIRTUAL(Class);\
 	DE_GENERATE_ID_STATIC(Class);\
-	DE_GENERATE_ID_VIRTUAL(Class);
+	DE_GENERATE_ID_VIRTUAL(Class);\
+	DE_GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(Class);
 
 #define DE_CLASS(Class)\
 	Class();\
@@ -46,8 +57,6 @@ namespace DE {
 
 #define DE_INSTANCEABLE_BY_CLASSNAME(Class)\
 	Memory::registerClassName<Class>(Class::getClassNameStatic());
-
-
 
 // --------------------------------------------------------
 // TEMPLATES

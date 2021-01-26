@@ -11,7 +11,7 @@ int main() {
 
 	DE_test(Tree<i32>);
 
-	Tree<i32>* tree = DE::Memory::allocate<Tree<i32>>();
+	Tree<i32>* tree = DE::DE_NEW<Tree<i32>>();
 
 	tree->init();
 
@@ -89,7 +89,7 @@ int main() {
 	tree->remove(-3);
 	DE_test_expected_uint(tree->getLength(), 0);
 
-	DE::Memory::free<Tree<i32>>(tree);
+	DE::DE_FREE(tree);
 
 	DE::Memory::free();
 

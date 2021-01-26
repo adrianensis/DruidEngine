@@ -49,13 +49,13 @@ private:
 	using NodeClass = HashMap<K,V>::Node;
 
 	HashMap<K,V>::Node* newNode(const K key, const V element) {
-		HashMap<K,V>::Node* node = Memory::allocate<Node>();
+		HashMap<K,V>::Node* node = DE_NEW<Node>();
 		node->init(key, element);
 		return node;
 	}
 
 	void freeNode(HashMap<K,V>::Node* node) {
-		Memory::free<HashMap<K,V>::Node>(node);
+		DE_FREE(node);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -91,10 +91,10 @@ public:
 	virtual ~HashMap() override {
 		HashMap<K, V>::clear();
 
-		Memory::free<Array<List<HashMap<K,V>::Node*>*>>(mArray);
+		DE_FREE(mArray);
 
-		Memory::free<List<K>>(mKeys);
-		Memory::free<List<V>>(mValues);
+		DE_FREE(mKeys);
+		DE_FREE(mValues);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -104,13 +104,13 @@ public:
 	 */
 	void init() {
 		BaseContainer::init(0, sizeof(V), 1);
-		mArray = Memory::allocate<Array<List<HashMap<K,V>::Node*>*>>();
+		mArray = DE_NEW<Array<List<HashMap<K,V>::Node*>*>>();
 		mArray->init(20); // TODO : find a good number.
 
-		mKeys = Memory::allocate<List<K>>();
+		mKeys = DE_NEW<List<K>>();
 		mKeys->init();
 
-		mValues = Memory::allocate<List<V>>();
+		mValues = DE_NEW<List<V>>();
 		mValues->init();
 	}
 
@@ -124,7 +124,7 @@ public:
 
 		// if there is no list, create it
 		if (list == nullptr) {
-			list = Memory::allocate<List<HashMap<K,V>::Node*>>();
+			list = DE_NEW<List<HashMap<K,V>::Node*>>();
 			list->init();
 			mArray->set(hashIndex, list);
 		}
@@ -273,7 +273,7 @@ public:
 						freeNode(it.get());
 					}
 
-					Memory::free<List<HashMap<K,V>::Node*>>(list);
+					DE_FREE(list);
 				}
 
 				mArray->set(i, nullptr);

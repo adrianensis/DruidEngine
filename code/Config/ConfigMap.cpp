@@ -17,7 +17,7 @@ ConfigMap::ConfigMap() : DE_Class() {
 // ---------------------------------------------------------------------------
 
 ConfigMap::~ConfigMap() {
-	Memory::free<HashMap<std::string, std::string>>(mMap);
+	DE_FREE(mMap);
 }
 
 // ---------------------------------------------------------------------------
@@ -67,7 +67,7 @@ void ConfigMap::writeConfigFile(const std::string &path) {
 // ---------------------------------------------------------------------------
 
 void ConfigMap::init() {
-	mMap = Memory::allocate<HashMap<std::string, std::string>>();
+	mMap = DE_NEW<HashMap<std::string, std::string>>();
 	mMap->init();
 }
 

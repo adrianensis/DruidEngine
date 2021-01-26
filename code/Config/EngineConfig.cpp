@@ -14,7 +14,7 @@ EngineConfig::EngineConfig() : DE_Class(), Singleton() {
 // ---------------------------------------------------------------------------
 
 EngineConfig::~EngineConfig() {
-	Memory::free<ConfigMap>(mConfigMap);
+	DE_FREE(mConfigMap);
 }
 
 // ---------------------------------------------------------------------------
@@ -26,7 +26,7 @@ void EngineConfig::readConfigFile(const std::string &path) {
 // ---------------------------------------------------------------------------
 
 void EngineConfig::init() {
-	mConfigMap = Memory::allocate<ConfigMap>();
+	mConfigMap = DE_NEW<ConfigMap>();
 	mConfigMap->init();
 
 	mConfigMap->readConfigFile("config/engine.conf");

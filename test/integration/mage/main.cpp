@@ -29,13 +29,13 @@ int main() {
 
 	// OBJECT 1
 
-	GameObject* controller = Memory::allocate<GameObject>();
+	GameObject* controller = DE_NEW<GameObject>();
 	controller->init();
 	controller->setTag("controller");
 
 	// script
 
-	Script* script = Memory::allocate<GameController>();
+	Script* script = DE_NEW<GameController>();
 	controller->addComponent<Script>(script);
 	Script* scriptX = controller->getFirstComponent<Script>();
 
@@ -45,7 +45,7 @@ int main() {
 
 	engine->terminate();
 
-	Memory::free<Engine>(Engine::getInstance());
+	DE_FREE(Engine::getInstance());
 	Memory::free();
 
 	return 0;

@@ -25,10 +25,10 @@ GameObject::GameObject() : DE_Class() {
 }
 
 GameObject::~GameObject() {
-	Memory::free<ComponentsMap>(mComponentsMap);
-	Memory::free<CacheComponentsMap>(mCacheComponentsFirst);
-	Memory::free<Transform>(mTransform);
-	Memory::free<ComponentsMap>(mCacheComponentsLists);
+	DE_FREE(mComponentsMap);
+	DE_FREE(mCacheComponentsFirst);
+	DE_FREE(mTransform);
+	DE_FREE(mCacheComponentsLists);
 }
 
 void GameObject::setCacheLists(ClassId classId, List<Component*>* components) {
@@ -65,7 +65,7 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 	List<Component*>* list = nullptr;
 
 	if (!mComponentsMap->contains(classId)) {
-		list = Memory::allocate<List<Component*>>();
+		list = DE_NEW<List<Component*>>();
 		list->init();
 		mComponentsMap->set(classId, list);
 	}
@@ -95,16 +95,16 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 void GameObject::init() {
 	// TRACE();
 
-	mComponentsMap = Memory::allocate<ComponentsMap>();
+	mComponentsMap = DE_NEW<ComponentsMap>();
 	mComponentsMap->init();
 
-	mCacheComponentsFirst = Memory::allocate<CacheComponentsMap>();
+	mCacheComponentsFirst = DE_NEW<CacheComponentsMap>();
 	mCacheComponentsFirst->init();
 
-	mCacheComponentsLists = Memory::allocate<ComponentsMap>();
+	mCacheComponentsLists = DE_NEW<ComponentsMap>();
 	mCacheComponentsLists->init();
 
-	mTransform = Memory::allocate<Transform>();
+	mTransform = DE_NEW<Transform>();
 	addComponent(mTransform);
 
 	mTag = "";
@@ -186,7 +186,7 @@ void GameObject::destroy() {
 			removeComponent(itComponent.get(), id);
 		}
 
-		Memory::free<List<Component*>>(list);
+		DE_FREE(list);
 	}
 
 	mComponentsMap->clear();
@@ -240,15 +240,15 @@ void GameObject::load(ConfigMap* configMap, const std::string& objectName) {
 	getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
 	getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = Memory::allocate<Renderer>();
+	Renderer* renderer = DE_NEW<Renderer>();
 	addComponent<Renderer>(renderer);
 	renderer->load(configMap, objectName);
 
 	if(configMap->getBool(objectName + ".hasCollider")) {
-		RigidBody* rigidBody = Memory::allocate<RigidBody>();
+		RigidBody* rigidBody = DE_NEW<RigidBody>();
 		addComponent<RigidBody>(rigidBody);
 
-		Collider* collider = Memory::allocate<Collider>();
+		Collider* collider = DE_NEW<Collider>();
 		addComponent<Collider>(collider);
 		collider->load(configMap, objectName);
 	}

@@ -12,35 +12,35 @@ EventsManager::EventsManager() : DE_Class(), Singleton<EventsManager>() {
 EventsManager::~EventsManager() {
 	if(mOwnersReceiversMap){
 		removeMapContent();
-		Memory::free<OwnersReceiversMap>(mOwnersReceiversMap);
+		DE_FREE(mOwnersReceiversMap);
 	}
 }
 
 void EventsManager::removeMapContent(){
 	FOR_LIST(itEventReceivers, mOwnersReceiversMap->getValues()) {
 		FOR_LIST(itFunctor, itEventReceivers.get()->getValues()) {
-			Memory::free<ReceiverFunctorsMap>(itFunctor.get());
+			DE_FREE(itFunctor.get());
 		}
 
-		Memory::free<EventReceiversMap>(itEventReceivers.get());
+		DE_FREE(itEventReceivers.get());
 	}
 }
 
 void EventsManager::init(){
-	mOwnersReceiversMap = Memory::allocate<OwnersReceiversMap>();
+	mOwnersReceiversMap = DE_NEW<OwnersReceiversMap>();
 	mOwnersReceiversMap->init();
 }
 
 void EventsManager::subscribe(ClassId eventClassId, DE_Class* eventOwner, DE_Class* eventReceiver, EventCallback eventCallback){
 
 	if(!mOwnersReceiversMap->contains(eventOwner)){
-		EventReceiversMap* eventsReceiverMap = Memory::allocate<EventReceiversMap>();
+		EventReceiversMap* eventsReceiverMap = DE_NEW<EventReceiversMap>();
 		eventsReceiverMap->init();
 		mOwnersReceiversMap->set(eventOwner, eventsReceiverMap);
 	}
 
 	if(!mOwnersReceiversMap->get(eventOwner)->contains(eventClassId)){
-		ReceiverFunctorsMap* receiversFunctorMap = Memory::allocate<ReceiverFunctorsMap>();
+		ReceiverFunctorsMap* receiversFunctorMap = DE_NEW<ReceiverFunctorsMap>();
 		receiversFunctorMap->init();
 		mOwnersReceiversMap->get(eventOwner)->set(eventClassId, receiversFunctorMap);
 	}
@@ -70,7 +70,7 @@ void EventsManager::send(DE_Class* eventOwner, DE_Class* eventInstigator, Event*
 		if(mOwnersReceiversMap->get(eventOwner)->contains(eventClassId)){
 			// Duplicate List. New event-receivers can subscribe during the iteration.
 			// So we don't want to iterate a mutable list.
-			List<EventFunctor<Event>>* eventFunctors = Memory::allocate<List<EventFunctor<Event>>>();
+			List<EventFunctor<Event>>* eventFunctors = DE_NEW<List<EventFunctor<Event>>>();
 			eventFunctors->init(*mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->getValues());
 
 			FOR_LIST(it, mOwnersReceiversMap->get(eventOwner)->get(eventClassId)->getValues()){
@@ -80,7 +80,7 @@ void EventsManager::send(DE_Class* eventOwner, DE_Class* eventInstigator, Event*
 				functor.execute();
 			}
 
-			Memory::free<List<EventFunctor<Event>>>(eventFunctors);
+			DE_FREE(eventFunctors);
 		}
 	}
 }

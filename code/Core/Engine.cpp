@@ -154,28 +154,29 @@ void Engine::terminate() {
 
 	RenderContext::terminate();
 
-	Memory::free<RenderEngine>(RenderEngine::getInstance());
-	Memory::free<MaterialManager>(MaterialManager::getInstance());
-	Memory::free<ScriptEngine>(ScriptEngine::getInstance());
-	Memory::free<PhysicsEngine>(PhysicsEngine::getInstance());
-	Memory::free<UI>(UI::getInstance());
-	Memory::free<EngineConfig>(EngineConfig::getInstance());
-	Memory::free<ScenesManager>(ScenesManager::getInstance());
-	Memory::free<Time>(Time::getInstance());
+	DE_FREE(RenderEngine::getInstance());
+	DE_FREE(MaterialManager::getInstance());
+	DE_FREE(ScriptEngine::getInstance());
+	DE_FREE(PhysicsEngine::getInstance());
+	DE_FREE(UI::getInstance());
+	DE_FREE(EngineConfig::getInstance());
+	DE_FREE(ScenesManager::getInstance());
+	DE_FREE(Time::getInstance());
 
+	// TODO : this is stupid? if getInstance will create an instance!! :'D
 	if (EventsManager::getInstance()){
-		Memory::free<EventsManager>(EventsManager::getInstance());
+		DE_FREE(EventsManager::getInstance());
 	}
 
 	if (Profiler::getInstance()){
-		Memory::free<Profiler>(Profiler::getInstance());
+		DE_FREE(Profiler::getInstance());
 	}
 
 	if (TimerManager::getInstance()){
-		Memory::free<TimerManager>(TimerManager::getInstance());
+		DE_FREE(TimerManager::getInstance());
 	}
 
-	Memory::free<Input>(Input::getInstance());
+	DE_FREE(Input::getInstance());
 }
 
 // ---------------------------------------------------------------------------

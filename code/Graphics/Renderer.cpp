@@ -53,16 +53,16 @@ Renderer::Renderer() : Component() {
 Renderer::~Renderer() {
 	if (mAnimations) {
 		FOR_LIST(it, mAnimations->getValues()) {
-			Memory::free<Animation>(it.get());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<HashMap<std::string, Animation*>>(mAnimations);
+		DE_FREE(mAnimations);
 	}
 
-	Memory::free<Array<f32>>(mColor);
+	DE_FREE(mColor);
 
 	if (mVertices) {
-		Memory::free<Array<Vector2>>(mVertices);
+		DE_FREE(mVertices);
 	}
 
 }
@@ -72,12 +72,12 @@ Renderer::~Renderer() {
 void Renderer::init() {
 	// TRACE();
 
-	mColor = Memory::allocate<Array<f32>>();
+	mColor = DE_NEW<Array<f32>>();
 	mColor->init(4);
 
 	setColor(Vector4(0, 0, 0, 1));
 
-	mVertices = Memory::allocate<Array<Vector2>>();
+	mVertices = DE_NEW<Array<Vector2>>();
 	mVertices->init(4);
 
 	mVertices->set(0, Vector2(0, 0)); // LEFT TOP VERTEX
@@ -126,7 +126,7 @@ void Renderer::setAnimation(const std::string &name) {
  */
 void Renderer::addAnimation(const std::string &name, Animation *animation) {
 	if (!mAnimations) {
-		mAnimations = Memory::allocate<HashMap<std::string, Animation*>>();
+		mAnimations = DE_NEW<HashMap<std::string, Animation*>>();
 		mAnimations->init();
 	}
 

@@ -11,7 +11,7 @@ int main() {
 
 	DE_test(DE::Matrix4);
 
-	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* m = DE::DE_NEW<Matrix4>();
 
 	m->init(1);
 
@@ -52,17 +52,17 @@ int main() {
 	DE_test_expected_uint(m->get(3, 2), 3);
 	DE_test_expected_uint(m->get(3, 3), 3);
 
-	DE::Matrix4* m2 = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* m2 = DE::DE_NEW<Matrix4>();
 
 	m2->init(*m);
 
 	DE_test_expected_uint(m2->get(0, 0), 3);
 
-	DE::Array<f32>* array = DE::Memory::allocate<Array<f32>>();
+	DE::Array<f32>* array = DE::DE_NEW<Array<f32>>();
 	array->init(16);
 	array->fill(1);
 
-	DE::Matrix4* m3 = DE::Memory::allocate<Matrix4>();
+	DE::Matrix4* m3 = DE::DE_NEW<Matrix4>();
 
 	m3->init(*array);
 
@@ -83,10 +83,10 @@ int main() {
 	DE_test_expected_uint(m3->get(3, 2), 1);
 	DE_test_expected_uint(m3->get(3, 3), 1);
 
-	DE::Memory::free<DE::Matrix4>(m);
-	DE::Memory::free<DE::Matrix4>(m2);
-	DE::Memory::free<DE::Array<f32>>(array);
-	DE::Memory::free<DE::Matrix4>(m3);
+	DE::DE_FREE(m);
+	DE::DE_FREE(m2);
+	DE::DE_FREE(array);
+	DE::DE_FREE(m3);
 
 	DE::Memory::free();
 

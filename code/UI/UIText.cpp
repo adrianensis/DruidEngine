@@ -63,7 +63,7 @@ void UIText::setText(const std::string &text) {
 					if (renderers && !renderers->isEmpty() && i < mString.length()) {
 						renderer = renderers->get(i);
 					} else {
-						renderer = Memory::allocate<Renderer>();
+						renderer = DE_NEW<Renderer>();
 						addComponent<Renderer>(renderer);
 
 						renderer->setMesh(Mesh::getRectangle());

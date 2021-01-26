@@ -50,8 +50,8 @@ ContactsManager::ContactsManager() : DE_Class(), Singleton() {
 
 ContactsManager::~ContactsManager() {
 	terminate();
-	Memory::free<HashMap<Collider*, HashMap<Collider*, Contact*>*>>(mContactsMap);
-	Memory::free<List<Contact*>>(mContactsToRemove);
+	DE_FREE(mContactsMap);
+	DE_FREE(mContactsToRemove);
 }
 
 // ---------------------------------------------------------------------------
@@ -74,7 +74,7 @@ void ContactsManager::removeContactFromMap(Contact* contact) {
 	}
 
 	//if (contact) {
-		Memory::free<Contact>(contact);
+		DE_FREE(contact);
 	//}
 }
 
@@ -177,10 +177,10 @@ void ContactsManager::resolveContact(Contact* contact) {
 void ContactsManager::init() {
 	DE_TRACE()
 
-	mContactsMap = Memory::allocate<HashMap<Collider*, HashMap<Collider*, Contact*>*>>();
+	mContactsMap = DE_NEW<HashMap<Collider*, HashMap<Collider*, Contact*>*>>();
 	mContactsMap->init();
 
-	mContactsToRemove = Memory::allocate<List<Contact*>>();
+	mContactsToRemove = DE_NEW<List<Contact*>>();
 	mContactsToRemove->init();
 }
 
@@ -290,11 +290,11 @@ Contact* ContactsManager::addContact(Contact* newContact) {
 
 	if (!contact) {
 //		ECHO("CONTACT ADDED!")
-		contact = Memory::allocate<Contact>();
+		contact = DE_NEW<Contact>();
 		contact->init(newContact);
 
 		if (!mContactsMap->contains(contact->colliderA)) {
-			auto subHashMap = Memory::allocate<HashMap<Collider*, Contact*>>();
+			auto subHashMap = DE_NEW<HashMap<Collider*, Contact*>>();
 			subHashMap->init();
 
 			mContactsMap->set(contact->colliderA, subHashMap);
@@ -367,16 +367,16 @@ void ContactsManager::terminate() {
 	if(mContactsMap){
 		FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
 			FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
-				Memory::free<Contact>(itContacts.get());
+				DE_FREE(itContacts.get());
 			}
-			Memory::free<HashMap<Collider*, Contact*>>(itSubHashMaps.get());
+			DE_FREE(itSubHashMaps.get());
 		}
 		mContactsMap->clear();
 	}
 
 	if(mContactsToRemove){
 		FOR_LIST (it, mContactsToRemove) {
-			Memory::free<Contact>(it.get());
+			DE_FREE(it.get());
 		}
 		mContactsToRemove->clear();
 	}

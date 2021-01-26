@@ -24,7 +24,7 @@ PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton() {
 // ---------------------------------------------------------------------------
 
 PhysicsEngine::~PhysicsEngine() {
-	Memory::free<ContactsManager>(ContactsManager::getInstance());
+	DE_FREE(ContactsManager::getInstance());
 }
 
 // ---------------------------------------------------------------------------
@@ -68,13 +68,13 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 	ContactsManager::getInstance()->init();
 
-	mRigidBodies = Memory::allocate<List<RigidBody*>>();
+	mRigidBodies = DE_NEW<List<RigidBody*>>();
 	mRigidBodies->init();
 
-	mRigidBodiesToFree = Memory::allocate<List<RigidBody*>>();
+	mRigidBodiesToFree = DE_NEW<List<RigidBody*>>();
 	mRigidBodiesToFree->init();
 
-	mQuadTree = Memory::allocate<QuadTree>();
+	mQuadTree = DE_NEW<QuadTree>();
 	mQuadTree->init(sceneSize);
 
 }
@@ -114,8 +114,8 @@ void PhysicsEngine::step(f32 deltaTime) {
 		updateContacts();
 
 		FOR_LIST (it, mRigidBodiesToFree) {
-			Memory::free<Collider>(it.get()->getCollider());
-			Memory::free<RigidBody>(it.get());
+			DE_FREE(it.get()->getCollider());
+			DE_FREE(it.get());
 		}
 
 		mRigidBodiesToFree->clear();
@@ -140,23 +140,23 @@ void PhysicsEngine::terminate() {
 
 	if(mRigidBodies){
 		FOR_LIST(it, mRigidBodies) {
-			Memory::free<Collider>(it.get()->getCollider());
-			Memory::free<RigidBody>(it.get());
+			DE_FREE(it.get()->getCollider());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<List<RigidBody*>>(mRigidBodies);
+		DE_FREE(mRigidBodies);
 	}
 
 	if(mRigidBodiesToFree){
 		FOR_LIST(it, mRigidBodiesToFree) {
-			Memory::free<Collider>(it.get()->getCollider());
-			Memory::free<RigidBody>(it.get());
+			DE_FREE(it.get()->getCollider());
+			DE_FREE(it.get());
 		}
 
-		Memory::free<List<RigidBody*>>(mRigidBodiesToFree);
+		DE_FREE(mRigidBodiesToFree);
 	}
 
-	Memory::free<QuadTree>(mQuadTree);
+	DE_FREE(mQuadTree);
 	mQuadTree = nullptr;
 
 	ContactsManager::getInstance()->terminate();

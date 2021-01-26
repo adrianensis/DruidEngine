@@ -11,20 +11,20 @@ Profiler::Profiler() : DE_Class(), Singleton<Profiler>() {
 }
 
 Profiler::~Profiler() {
-	Memory::free<TimeMap>(mTimeMap);
+	DE_FREE(mTimeMap);
 
 	FOR_LIST(it, mTimeMarkMap->getValues()){
-		Memory::free<TimeMark>(it.get());
+		DE_FREE(it.get());
 	}
 
-	Memory::free<TimeMarkMap>(mTimeMarkMap);
+	DE_FREE(mTimeMarkMap);
 }
 
 void Profiler::init(){
-	mTimeMap = Memory::allocate<TimeMap>();
+	mTimeMap = DE_NEW<TimeMap>();
 	mTimeMap->init();
 
-	mTimeMarkMap = Memory::allocate<TimeMarkMap>();
+	mTimeMarkMap = DE_NEW<TimeMarkMap>();
 	mTimeMarkMap->init();
 }
 
@@ -47,7 +47,7 @@ void Profiler::terminate(){
 	mTimeMap->clear();
 
 	FOR_LIST(it, mTimeMarkMap->getValues()){
-		Memory::free<TimeMark>(it.get());
+		DE_FREE(it.get());
 	}
 
 	mTimeMarkMap->clear();
@@ -64,7 +64,7 @@ void Profiler::timeMarkStart(const std::string &name) {
 	if(!mTimeMap->contains(name)){
 		mTimeMap->set(name, 0);
 
-		TimeMark* timeMark = Memory::allocate<TimeMark>();
+		TimeMark* timeMark = DE_NEW<TimeMark>();
 		mTimeMarkMap->set(name, timeMark);
 	}
 
