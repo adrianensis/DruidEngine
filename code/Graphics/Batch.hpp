@@ -1,5 +1,4 @@
-#ifndef DE_BATCH_H
-#define DE_BATCH_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Matrix4.hpp"
@@ -88,6 +87,5 @@ public:
 	void addRenderer(Renderer *renderer);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_BATCH_H */

@@ -1,5 +1,4 @@
-#ifndef DE_UITEXT_H
-#define DE_UITEXT_H
+#pragma once
 
 #include "UI/UIElement.hpp"
 #include "Maths/Vector2.hpp"
@@ -34,9 +33,7 @@ public:
 		return mString;
 	};
 
-
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UITEXT_H */

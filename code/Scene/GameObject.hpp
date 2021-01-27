@@ -1,5 +1,4 @@
-#ifndef DE_GAMEOBJECT_H
-#define DE_GAMEOBJECT_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Scene/Component.hpp"
@@ -16,7 +15,6 @@ class Scene;
 DE_EVENT_DECLARATION_BEGIN(EventOnDestroy)
 DE_EVENT_DECLARATION_END(EventOnDestroy)
 
-// ---------------------------------------------------------------------------
 class GameObject: public DE_Class {
 private:
 
@@ -97,8 +95,5 @@ public:
 	virtual void load(ConfigMap* configMap, const std::string& objectName);
 };
 
-// ---------------------------------------------------------------------------
+}
 
-} /* namespace DE */
-
-#endif /* GAMEOBJECT_H */

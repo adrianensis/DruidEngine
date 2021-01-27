@@ -1,5 +1,4 @@
-#ifndef DE_Playground_H
-#define DE_Playground_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include "Maths/Vector2.hpp"
@@ -28,9 +27,7 @@ private:
 	Camera* mCamera;
 	Transform* mCameraTransform;
 
-
 	bool mCameraControl;
-
 
 public:
 
@@ -49,6 +46,5 @@ public:
 	void terminate() override;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_Playground_H */

@@ -1,5 +1,4 @@
-#ifndef DE_BASICTYPES_H
-#define DE_BASICTYPES_H
+#pragma once
 
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
@@ -30,6 +29,5 @@ using u64 = std::uint64_t;
 
 using ClassId = u64;
 
-} /* namespace DE */
+}
 
-#endif /* DE_BASICTYPES_H */

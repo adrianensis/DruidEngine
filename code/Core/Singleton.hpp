@@ -1,5 +1,4 @@
-#ifndef DE_SINGLETON_H
-#define DE_SINGLETON_H
+#pragma once
 
 #include "Core/Basic.hpp"
 #include "Memory/Memory.hpp"
@@ -25,7 +24,6 @@ public:
 		return mInstance;
 	};
 
-
 };
 
 template<class T>
@@ -34,4 +32,3 @@ T* Singleton<T>::mInstance = nullptr;
 };
 /* namespace DE */
 
-#endif /* DE_SINGLETON_H */

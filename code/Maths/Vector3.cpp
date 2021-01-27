@@ -225,4 +225,4 @@ Vector3& Vector3::clamp(f32 maxLength) {
 	return *this;
 }
 
-} /* namespace DE */
+}

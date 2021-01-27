@@ -1,5 +1,4 @@
-#ifndef DE_EVENTSMANAGER_H
-#define DE_EVENTSMANAGER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Events/Event.hpp"
@@ -61,7 +60,5 @@ public:
 	void send(DE_Class* eventOwner, DE_Class* eventInstigator, Event* event);
 };
 
+}
 
-} /* namespace DE */
-
-#endif /* DE_EVENTSMANAGER_H */

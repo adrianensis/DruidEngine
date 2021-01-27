@@ -316,4 +316,4 @@ void Quaternion::toMatrix(Matrix4 *outMatrix) const {
 
 }
 
-} /* namespace DE */
+}

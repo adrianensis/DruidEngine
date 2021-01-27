@@ -1,5 +1,4 @@
-#ifndef DE_MESH_H
-#define DE_MESH_H
+#pragma once
 
 #include "Containers/Array.hpp"
 #include "Containers/DynamicArray.hpp"
@@ -41,6 +40,5 @@ public:
 	static void freeRectangle();
 };
 
-} /* namespace DE */
+}
 
-#endif /* MESH_H */

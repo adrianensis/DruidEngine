@@ -12,8 +12,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 GameObjectBuilder::GameObjectBuilder() : DE_Class(), Singleton<GameObjectBuilder>() {
 
 }
@@ -38,6 +36,4 @@ GameObjectBuilder* GameObjectBuilder::createSprite(Material* material, u32 layer
 	return this;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

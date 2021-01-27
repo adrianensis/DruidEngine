@@ -1,5 +1,4 @@
-#ifndef DE_RENDERER_H
-#define DE_RENDERER_H
+#pragma once
 
 #include "Scene/Component.hpp"
 #include "Maths/Vector2.hpp"
@@ -63,6 +62,5 @@ public:
 	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_RENDERER_H */

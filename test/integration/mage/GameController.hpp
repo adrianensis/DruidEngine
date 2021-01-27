@@ -1,5 +1,4 @@
-#ifndef DE_GameController_H
-#define DE_GameController_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include "Maths/Vector2.hpp"
@@ -65,6 +64,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_GameController_H */

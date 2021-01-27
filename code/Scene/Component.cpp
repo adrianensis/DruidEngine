@@ -4,8 +4,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Component::Component() : DE_Class() {
 	mGameObject = nullptr;
 	mIsActive = true;
@@ -14,8 +12,6 @@ Component::Component() : DE_Class() {
 }
 
 Component::~Component() = default;
-
-// ---------------------------------------------------------------------------
 
 bool Component::isStatic() {
 
@@ -26,8 +22,6 @@ bool Component::isStatic() {
 	return mIsStatic;
 }
 
-// ---------------------------------------------------------------------------
-
 void Component::save(ConfigMap* configMap, const std::string& objectName) {
 	
 }
@@ -36,4 +30,4 @@ void Component::load(ConfigMap* configMap, const std::string& objectName) {
 
 }
 
-} /* namespace DE */
+}

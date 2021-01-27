@@ -1,5 +1,4 @@
-#ifndef DE_MATRIX4_H
-#define DE_MATRIX4_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector3.hpp"
@@ -56,6 +55,5 @@ public:
 	void perspective(f32 near, f32 far, f32 aspect, f32 fov);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MATRIX4_H */

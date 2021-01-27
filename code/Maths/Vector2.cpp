@@ -154,4 +154,4 @@ Vector2& Vector2::clamp(f32 maxLength) {
 	return *this;
 }
 
-} /* namespace DE */
+}

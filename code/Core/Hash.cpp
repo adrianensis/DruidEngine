@@ -17,6 +17,4 @@ u64 Hash::hash<const c8*>(const c8 *key) {
 	return hashString;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

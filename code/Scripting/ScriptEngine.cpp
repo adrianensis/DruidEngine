@@ -9,16 +9,12 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
 	mScripts = nullptr;
 	mController = nullptr;
 }
 
 ScriptEngine::~ScriptEngine() = default;
-
-// ---------------------------------------------------------------------------
 
 void ScriptEngine::init() {
 	DE_TRACE()
@@ -29,13 +25,9 @@ void ScriptEngine::init() {
 	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
 }
 
-// ---------------------------------------------------------------------------
-
 void ScriptEngine::addScript(Script *newScript) {
 	mScripts->pushBack(newScript);
 }
-
-// ---------------------------------------------------------------------------
 
 void ScriptEngine::step() {
 
@@ -65,8 +57,6 @@ void ScriptEngine::step() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	auto castedIt = it->cast<Script*>();
 	mScripts->remove(*castedIt);
@@ -76,8 +66,6 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	script->setDestroyed();
 	DE_FREE(script);
 }
-
-// ---------------------------------------------------------------------------
 
 void ScriptEngine::terminate() {
 	DE_TRACE()
@@ -98,6 +86,4 @@ void ScriptEngine::terminate() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

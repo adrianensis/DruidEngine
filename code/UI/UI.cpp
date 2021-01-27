@@ -35,8 +35,6 @@ void UIGroup::init(){
 	mUIElements->init();
 }
 
-// ---------------------------------------------------------------------------
-
 UI::UI() : DE_Class(), Singleton() {
 	//mUIElements = nullptr;
 	mFontMaterial = nullptr;
@@ -45,8 +43,6 @@ UI::UI() : DE_Class(), Singleton() {
 
 UI::~UI() = default;
 
-// ---------------------------------------------------------------------------
-
 UIBuilder* UI::getBuilder() {
 	if(!mUIBuilder){
 		mUIBuilder = UIBuilder::getInstance();
@@ -54,16 +50,12 @@ UIBuilder* UI::getBuilder() {
 	return mUIBuilder;
 }
 
-// ---------------------------------------------------------------------------
-
 Material* UI::getFontMaterial() {
 	if (!mFontMaterial) {
 		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
 	}
 	return mFontMaterial;
 };
-
-// ---------------------------------------------------------------------------
 
 void UI::addToGroup(const std::string& groupName, UIElement* uiElement) {
 
@@ -108,8 +100,6 @@ void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
 		}
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void UI::init() {
 	/*mUIElements = DE_NEW<List<UIElement*>>();
@@ -226,20 +216,14 @@ void UI::init() {
 	mCharMap->set('~', Vector2(14 / mFontTilesCount.x, 5 / mFontTilesCount.y));
 }
 
-// ---------------------------------------------------------------------------
-
 Vector2 UI::getCharTextureCoordinates(c8 character) {
 	return mCharMap->get(character);
 }
-
-// ---------------------------------------------------------------------------
 
 void UI::internalRemoveUIElement(const Iterator *it) {
 	/*auto castedIt = it->cast<UIElement*>();
 	mUIElements->remove(*castedIt);*/
 }
-
-// ---------------------------------------------------------------------------
 
 void UI::terminate() {
 	DE_TRACE()
@@ -265,6 +249,4 @@ void UI::terminate() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

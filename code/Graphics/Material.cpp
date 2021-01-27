@@ -6,8 +6,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Material::Material() : DE_Class() {
 	mShader = nullptr;
 	mTexture = nullptr;
@@ -23,6 +21,4 @@ void Material::init() {
 DE_TRACE()
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

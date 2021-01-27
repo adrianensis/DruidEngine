@@ -1,5 +1,4 @@
-#ifndef DE_CONTACTSMANAGER_H
-#define DE_CONTACTSMANAGER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -60,6 +59,5 @@ public:
 	void terminate();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_CONTACTSMANAGER_H */

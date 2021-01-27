@@ -190,4 +190,4 @@ Vector4& Vector4::clamp(f32 maxLength) {
 	return *this;
 }
 
-} /* namespace DE */
+}

@@ -23,8 +23,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Inspector::Inspector() : DE_Class(){
 
 }
@@ -32,8 +30,6 @@ Inspector::Inspector() : DE_Class(){
 Inspector::~Inspector(){
 	DE_FREE(mLayerButtons);
 }
-
-// ---------------------------------------------------------------------------
 
 void Inspector::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
@@ -46,8 +42,6 @@ void Inspector::init(MapEditor *mapEditor) {
 	createInspector();
 	createLayersBar();
 }
-
-// ---------------------------------------------------------------------------
 
 void Inspector::setTileScaleFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex) {
 	Transform* tileTransform = tile->getTransform();
@@ -199,8 +193,6 @@ void Inspector::createInspector() {
 	mTextBoxColliderSizeY = textEditableVector2.TextEditableY;
 }
 
-// ---------------------------------------------------------------------------
-
 void Inspector::update() {
 
 	if(mMapEditor->mGrid.getFirstSelectedTile()){
@@ -215,8 +207,6 @@ void Inspector::update() {
 		mButtonInspectorCollider->setText(hasCollider ? mStringsUI.BoolTrue : mStringsUI.BoolFalse);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Inspector::updateInspectorOnSelectTile() {
 
@@ -239,8 +229,6 @@ void Inspector::updateInspectorOnSelectTile() {
 
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Inspector::createLayersBar() {
 
@@ -291,8 +279,6 @@ void Inspector::createLayersBar() {
 	selectLayer(0);
 }
 
-// ---------------------------------------------------------------------------
-
 void Inspector::selectLayer(u32 layer){
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
 
@@ -305,6 +291,4 @@ void Inspector::selectLayer(u32 layer){
 	mMapEditor->mLayer = layer;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

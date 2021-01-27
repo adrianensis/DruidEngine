@@ -1,5 +1,4 @@
-#ifndef DE_FRUSTUM_H
-#define DE_FRUSTUM_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector4.hpp"
@@ -37,6 +36,5 @@ public:
 	bool testRectangle(const Vector3 &leftTop, f32 width, f32 height) const;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_FRUSTUM_H */

@@ -4,8 +4,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	Input::getInstance()->smModifier = mods;
 
@@ -37,8 +35,6 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
 	Input::getInstance()->smModifier = mods;
 
@@ -62,8 +58,6 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
 	Input::getInstance()->smScroll = yoffset;
 
@@ -72,15 +66,11 @@ void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
 	DE_SEND_INPUT_EVENT(event);
 }
 
-// ---------------------------------------------------------------------------
-
 void Input::charCallback(GLFWwindow* window, unsigned int codepoint) {
 	InputEventChar event;
 	event.mChar = (c8) codepoint;
 	DE_SEND_INPUT_EVENT(event);
 }
-
-// ---------------------------------------------------------------------------
 
 Input::Input() : DE_Class(), Singleton<Input>() {
 
@@ -89,8 +79,6 @@ Input::Input() : DE_Class(), Singleton<Input>() {
 Input::~Input() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void Input::init() {
 	DE_TRACE()
@@ -108,8 +96,6 @@ void Input::init() {
 	glfwSetScrollCallback(RenderContext::smWindow, scrollCallback);
 	glfwSetCharCallback(RenderContext::smWindow, charCallback);
 }
-
-// ---------------------------------------------------------------------------
 
 void Input::pollEvents() {
 
@@ -132,51 +118,34 @@ void Input::pollEvents() {
 	glfwPollEvents();
 }
 
-// ---------------------------------------------------------------------------
-
 bool Input::isKeyPressedOnce(u32 key) {
 	return smKeyJustPressed && key == smLastKeyPressed;
 }
-
-// ---------------------------------------------------------------------------
 
 bool Input::isKeyPressed(u32 key) {
 	return key == smLastKeyPressed;
 }
 
-// ---------------------------------------------------------------------------
-
 bool Input::isModifierPressed(u32 modifier) {
 	return modifier == smModifier;
 }
-
-// ---------------------------------------------------------------------------
 
 bool Input::isMouseButtonPressedOnce(u32 button) {
 	return smButtonJustPressed && button == smLastMouseButtonPressed;
 }
 
-// ---------------------------------------------------------------------------
-
 bool Input::isMouseButtonPressed(u32 button) {
 	return button == smLastMouseButtonPressed;
 }
 
-// ---------------------------------------------------------------------------
-
 Vector2 Input::getMousePosition() {
-
 
 	return smMouseCoordinates;
 }
 
-// ---------------------------------------------------------------------------
-
 f32 Input::getScroll() {
 	return smScroll;
 }
-
-// ---------------------------------------------------------------------------
 
 void Input::clearMouseButton() {
 	smLastMouseButtonPressed = -1;
@@ -187,6 +156,4 @@ void Input::clearKey() {
 	smKeyJustPressed = false;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

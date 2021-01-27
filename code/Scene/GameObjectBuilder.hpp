@@ -1,5 +1,4 @@
-#ifndef DE_GAMEOBJECTBUILDER_H
-#define DE_GAMEOBJECTBUILDER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -9,8 +8,6 @@
 namespace DE {
 
 class Material;
-
-// ---------------------------------------------------------------------------
 
 class GameObjectBuilder: public DE_Class, public Singleton<GameObjectBuilder> {
 
@@ -25,8 +22,5 @@ public:
 	GameObjectBuilder* createSprite(Material* material, u32 layer, bool isStatic);
 };
 
-// ---------------------------------------------------------------------------
+}
 
-} /* namespace DE */
-
-#endif /* GAMEOBJECT_H */

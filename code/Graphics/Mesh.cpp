@@ -3,8 +3,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Mesh* Mesh::smRectangle = nullptr;
 
 Mesh::Mesh() : DE_Class() {
@@ -27,8 +25,6 @@ Mesh::~Mesh() {
 	DE_FREE(mFaces);
 }
 
-// ---------------------------------------------------------------------------
-
 void Mesh::init(u32 vertexCount, u32 facesCount) {
 	DE_TRACE()
 
@@ -50,8 +46,6 @@ void Mesh::init(u32 vertexCount, u32 facesCount) {
 	mTextureCoordinatesIndex = 0; // TexCoord index
 }
 
-// ---------------------------------------------------------------------------
-
 Mesh* Mesh::addVertex(const Vector3 &vector) {
 	mVertices->set(mVerticesIndex, vector.x);
 	mVerticesIndex++;
@@ -61,8 +55,6 @@ Mesh* Mesh::addVertex(const Vector3 &vector) {
 	mVerticesIndex++;
 	return this;
 }
-
-// ---------------------------------------------------------------------------
 
 Mesh* Mesh::addNormal(const Vector3 &vector) {
 	mNormals->set(mNormalsIndex, vector.x);
@@ -74,8 +66,6 @@ Mesh* Mesh::addNormal(const Vector3 &vector) {
 	return this;
 }
 
-// ---------------------------------------------------------------------------
-
 Mesh* Mesh::addTexCoord(u32 u, u32 v) {
 	mTextureCoordinates->set(mTextureCoordinatesIndex, u);
 	mTextureCoordinatesIndex++;
@@ -83,8 +73,6 @@ Mesh* Mesh::addTexCoord(u32 u, u32 v) {
 	mTextureCoordinatesIndex++;
 	return this;
 }
-
-// ---------------------------------------------------------------------------
 
 Mesh* Mesh::addFace(u32 v1, u32 v2, u32 v3) {
 	mFaces->set(mFacesIndex, v1);
@@ -95,8 +83,6 @@ Mesh* Mesh::addFace(u32 v1, u32 v2, u32 v3) {
 	mFacesIndex++;
 	return this;
 }
-
-// ---------------------------------------------------------------------------
 
 Mesh* Mesh::getRectangle() {
 	if (!smRectangle) {
@@ -124,6 +110,4 @@ void Mesh::freeRectangle() {
 	smRectangle = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

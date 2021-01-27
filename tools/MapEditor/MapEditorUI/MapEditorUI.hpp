@@ -1,5 +1,4 @@
-#ifndef DE_MAPEDITORUI_H
-#define DE_MAPEDITORUI_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -85,6 +84,5 @@ public:
 	void selectLayer(u32 layer);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MAPEDITORUI_H */

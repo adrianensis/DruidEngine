@@ -1,5 +1,4 @@
-#ifndef DE_QUADTREE_H
-#define DE_QUADTREE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector2.hpp"
@@ -83,9 +82,8 @@ public:
 	void addCollider(Collider *collider);
 	void update();
 
-
 	void rayCastQuery(const Vector3 &lineStart, const Vector3 &lineSnd, List<GameObject*> *outList);
 
 };
-} /* namespace DE */
-#endif /* DE_QUADTREE_H */
+}
+

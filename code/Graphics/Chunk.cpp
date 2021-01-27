@@ -14,8 +14,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 BatchesMap::BatchesMap() : DE_Class() {
 	mBatches = nullptr;
 }
@@ -28,15 +26,11 @@ BatchesMap::~BatchesMap() {
 	DE_FREE(mBatches);
 }
 
-// ---------------------------------------------------------------------------
-
 void BatchesMap::init() {
 	//TRACE();
 	mBatches = DE_NEW<HashMap<Texture*, Batch*>>();
 	mBatches->init();
 }
-
-// ---------------------------------------------------------------------------
 
 void BatchesMap::addRenderer(Renderer *renderer) {
 
@@ -54,8 +48,6 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 	mBatches->get(texture)->addRenderer(renderer);
 }
 
-// ---------------------------------------------------------------------------
-
 u32 BatchesMap::render(u32 layer) {
 	u32 drawCallCounter = 0;
 
@@ -65,8 +57,6 @@ u32 BatchesMap::render(u32 layer) {
 
 	return drawCallCounter;
 }
-
-// ---------------------------------------------------------------------------
 
 Chunk::Chunk() : DE_Class() {
 	mLeftTop = Vector2(0, 0);
@@ -89,8 +79,6 @@ Chunk::~Chunk() {
 	DE_FREE(mRenderers);
 }
 
-// ---------------------------------------------------------------------------
-
 void Chunk::init() {
 	//TRACE();
 
@@ -100,8 +88,6 @@ void Chunk::init() {
 	mLeftTop.set(0, 0, 0);
 }
 
-// ---------------------------------------------------------------------------
-
 void Chunk::set(const Vector3 &leftTop, f32 size) {
 	mLeftTop = leftTop;
 	mSize = size;
@@ -110,8 +96,6 @@ void Chunk::set(const Vector3 &leftTop, f32 size) {
 
 	mRadius = mCenter.dst(mLeftTop);
 }
-
-// ---------------------------------------------------------------------------
 
 void Chunk::update(BatchesMap *batchesMap) {
 
@@ -151,8 +135,6 @@ void Chunk::update(BatchesMap *batchesMap) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Chunk::load() {
 	if (!mIsLoaded) {
 		mIsLoaded = true; /*ECHO("load")*/
@@ -164,13 +146,9 @@ void Chunk::unload() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Chunk::addRenderer(Renderer *renderer) {
 	mRenderers->pushBack(renderer);
 }
-
-// ---------------------------------------------------------------------------
 
 bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
@@ -178,14 +156,10 @@ bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) c
 	return contains; // TODO : move to settings ?
 }
 
-// ---------------------------------------------------------------------------
-
 bool Chunk::containsRendererSphere(const Renderer *renderer) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius,
 			renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

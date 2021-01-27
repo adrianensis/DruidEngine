@@ -1,5 +1,4 @@
-#ifndef DE_GRID_H
-#define DE_GRID_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector2.hpp"
@@ -73,6 +72,5 @@ public:
 	void forEachSelectedTile(std::function<void(GameObject*)> callback);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_GRID_H */

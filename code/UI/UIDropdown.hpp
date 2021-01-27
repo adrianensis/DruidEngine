@@ -1,5 +1,4 @@
-#ifndef DE_UIDROPDOWN_H
-#define DE_UIDROPDOWN_H
+#pragma once
 
 #include "UI/UIButton.hpp"
 
@@ -47,6 +46,5 @@ public:
 	virtual void toggle() override;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UIDROPDOWN_H */

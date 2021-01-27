@@ -1,5 +1,4 @@
-#ifndef DE_SCENESMANAGER_H
-#define DE_SCENESMANAGER_H
+#pragma once
 
 #include "Core/Basic.hpp"
 #include "Core/Singleton.hpp"
@@ -28,11 +27,10 @@ public:
 	DE_CLASS(ScenesManager)
 
 
-
 	void init();
 	void step();
 	void loadCurrentScene();
 	void setScene(u32 i);
 };
 }
-#endif /* DE_SCENESMANAGER_H */
+

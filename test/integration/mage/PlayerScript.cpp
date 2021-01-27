@@ -26,13 +26,9 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 PlayerScript::PlayerScript() : Script() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 PlayerScript::~PlayerScript() = default;
 
@@ -40,8 +36,6 @@ void PlayerScript::init() {
 	mMana = 100;
 
 }
-
-// ---------------------------------------------------------------------------
 
 void PlayerScript::firstStep() {
 
@@ -60,8 +54,6 @@ void PlayerScript::firstStep() {
 	// createBook(-160, 100, Vector4(-0.5f,0.35f,0.1f,1));
 
 }
-
-// ---------------------------------------------------------------------------
 
 void PlayerScript::step() {
 
@@ -122,8 +114,6 @@ void PlayerScript::step() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void PlayerScript::onEnterCollision(GameObject *otherGameObject) {
 	// std::string x = "onEnterCollision " + getGameObject()->getTag();
 	// ECHO(x);
@@ -139,8 +129,6 @@ void PlayerScript::onExitCollision(GameObject *otherGameObject) {
 	// std::string x = "onExitCollision " + getGameObject()->getTag();
 	// ECHO(x);
 }
-
-// ---------------------------------------------------------------------------
 
 void PlayerScript::createWall(f32 x, f32 y) {
 	Vector2 size(450, 1000);
@@ -182,7 +170,6 @@ void PlayerScript::createWall(f32 x, f32 y) {
 
 	getGameObject()->getScene()->addGameObject(wall);
 }
-// ---------------------------------------------------------------------------
 
 void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 	Vector2 size(120, 120);
@@ -241,8 +228,6 @@ void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 	getGameObject()->getScene()->addGameObject(projectile);
 }
 
-// ---------------------------------------------------------------------------
-
 void PlayerScript::createBook(f32 x, f32 y, const Vector4 &color) {
 	Vector2 size(70, 70);
 
@@ -270,12 +255,8 @@ void PlayerScript::createBook(f32 x, f32 y, const Vector4 &color) {
 	getGameObject()->getScene()->addGameObject(mBook);
 }
 
-// ---------------------------------------------------------------------------
-
 void PlayerScript::terminate() {
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

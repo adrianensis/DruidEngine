@@ -1,5 +1,4 @@
-#ifndef DE_MATERIAL_H
-#define DE_MATERIAL_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector4.hpp"
@@ -26,6 +25,5 @@ public:
 	void init();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MATERIAL_H */

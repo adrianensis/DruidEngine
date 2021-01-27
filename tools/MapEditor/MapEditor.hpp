@@ -1,5 +1,4 @@
-#ifndef DE_MAPEDITOR_H
-#define DE_MAPEDITOR_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include <string>
@@ -46,6 +45,5 @@ public:
 	void terminate() override;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MAPEDITOR_H */

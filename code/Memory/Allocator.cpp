@@ -3,8 +3,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 /*
  * https://en.wikipedia.org/wiki/Data_structure_alignment
  *
@@ -21,8 +19,6 @@ void Allocator::checkAllocate(u32 size) const {
 	DE_ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::checkAlignment(u32 alignment) const {
 	// Because we need at least, 1 byte for adjustment storage.
 	DE_ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
@@ -34,13 +30,9 @@ void Allocator::checkAlignment(u32 alignment) const {
 	DE_ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::checkFree() const {
 	DE_ASSERT(mAllocatedSize > 0, "Allocated memory is 0.");
 }
-
-// ---------------------------------------------------------------------------
 
 byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress, u32 alignment) const {
 
@@ -108,8 +100,6 @@ byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress, u32 align
 	return static_cast<byte*>(byteArray);
 }
 
-// ---------------------------------------------------------------------------
-
 byte* Allocator::calculateUnalignedAddress(const byte *alignedAddress) const {
 
 	const byte* byteArray = reinterpret_cast<const byte*>(alignedAddress);
@@ -119,8 +109,6 @@ byte* Allocator::calculateUnalignedAddress(const byte *alignedAddress) const {
 
 	return reinterpret_cast<byte*>(unalignedAddress);
 }
-
-// ---------------------------------------------------------------------------
 
 byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 alignment) {
 	u32 expandedSize = size + alignment;
@@ -140,41 +128,29 @@ byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 al
 	return alignedAddress;
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::setAllocatedSize(u32 size) {
 	mAllocatedSize = size;
 
 	mDebugMaxAllocatedSize = mDebugMaxAllocatedSize < mAllocatedSize ? mAllocatedSize : mDebugMaxAllocatedSize;
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::clean(byte *mem, u32 size) {
 	// clean memory block
 	std::memset(mem, 0, size);
 }
 
-// ---------------------------------------------------------------------------
-
 Allocator::Allocator() : DE_Class() {
 	mStart = nullptr;
 }
-
-// ---------------------------------------------------------------------------
 
 Allocator::~Allocator() {
 	delete mStart;
 	mStart = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 bool Allocator::hasSpace(u32 size) const {
 	return (mTotalSize - mAllocatedSize) >= size;
 }
-
-// ---------------------------------------------------------------------------
 
 void Allocator::setMemoryChunk(byte *mem) {
 	// Only must delete when Allocator is destroyed. See ~Allocator()
@@ -182,15 +158,11 @@ void Allocator::setMemoryChunk(byte *mem) {
 	mStart = mem;
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::init(u32 size) {
 	DE_TRACE()
 
 	initFromMemory(size, new byte[size]);
 }
-
-// ---------------------------------------------------------------------------
 
 void Allocator::initFromMemory(u32 size, byte *mem) {
 	DE_TRACE()
@@ -202,19 +174,13 @@ void Allocator::initFromMemory(u32 size, byte *mem) {
 	Allocator::reset();
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::flush() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void Allocator::terminate() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void Allocator::reset() {
 	mAllocatedSize = 0;
@@ -222,6 +188,4 @@ void Allocator::reset() {
 	Allocator::clean(mStart, mTotalSize);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

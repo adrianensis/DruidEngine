@@ -1,19 +1,15 @@
-#ifndef DE_ENGINECONFIG_H
-#define DE_ENGINECONFIG_H
+#pragma once
 
 #include "Core/Basic.hpp"
 #include "Core/Singleton.hpp"
 #include "ConfigMap.hpp"
-#include "File/File.hpp"
 
 namespace DE {
-
-template<class K, class V> class HashMap;
 
 class EngineConfig: public DE_Class, public Singleton<EngineConfig> {
 
 private:
-	DE_M(ConfigMap, ConfigMap*)
+	DE_M(ConfigMap, ConfigMap)
 
 public:
 
@@ -28,4 +24,3 @@ public:
 };
 }
 
-#endif /* DE_ENGINECONFIG_H */

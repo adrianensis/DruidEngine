@@ -8,8 +8,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 RigidBody::State::State() {
 	mPosition = Vector3(0, 0, 0);
 	mLinear = Vector3(0, 0, 0);
@@ -17,8 +15,6 @@ RigidBody::State::State() {
 	mMass = 0.0f;
 	mSimulate = true;
 }
-
-// ---------------------------------------------------------------------------
 
 RigidBody::RigidBody() : Component() {
 	mLinear = Vector3(0, 0, 0);
@@ -34,21 +30,15 @@ RigidBody::RigidBody() : Component() {
 	mAntiPenetrationForce = Vector3(0, 0, 0);
 }
 
-// ---------------------------------------------------------------------------
-
 RigidBody::~RigidBody() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void RigidBody::init() {
 	// TRACE();
 
 	saveState();
 }
-
-// ---------------------------------------------------------------------------
 
 void RigidBody::integrate(f32 deltaTime) {
 
@@ -85,14 +75,10 @@ void RigidBody::integrate(f32 deltaTime) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void RigidBody::stopMovement() {
 	mForceAccumulator.set(0, 0, 0);
 	mLinear.set(0, 0, 0);
 }
-
-// ---------------------------------------------------------------------------
 
 void RigidBody::saveState() {
 	mState.mPosition = getGameObject()->getTransform()->getLocalPosition();
@@ -102,8 +88,6 @@ void RigidBody::saveState() {
 //	mState.mSimulate = mSimulate;
 }
 
-// ---------------------------------------------------------------------------
-
 void RigidBody::restoreState() {
 	getGameObject()->getTransform()->setLocalPosition(mState.mPosition);
 //	mLinear = mState.mLinear;
@@ -112,10 +96,8 @@ void RigidBody::restoreState() {
 //	mSimulate = mState.mSimulate;
 }
 
-// ---------------------------------------------------------------------------
-
 bool RigidBody::isSleeping() {
 	return mLinear.len() < 15.0f; // TODO : EngineConfig?
 }
 
-} /* namespace DE */
+}

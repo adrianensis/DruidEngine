@@ -7,8 +7,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Transform::Transform() : Component() {
 	mIsDirtyTranslation = true;
 	mIsDirtyRotation = true;
@@ -24,8 +22,6 @@ Transform::Transform() : Component() {
 Transform::~Transform() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void Transform::init() {
 	// TRACE();
@@ -82,8 +78,6 @@ const Vector3& Transform::getWorldPosition() {
 	return mWorldPosition;
 };
 
-// ---------------------------------------------------------------------------
-
 void Transform::translate(const Vector3 &vector) {
 	if (vector.len() > 0.0f) {
 		mIsDirtyTranslation = true;
@@ -91,16 +85,12 @@ void Transform::translate(const Vector3 &vector) {
 	}
 };
 
-// ---------------------------------------------------------------------------
-
 void Transform::rotate(const Vector3 &vector) {
 	if (vector.len() > 0.0f) {
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
 };
-
-// ---------------------------------------------------------------------------
 
 void Transform::lookAt(const Vector3 &targetPosition) {
 
@@ -124,8 +114,6 @@ void Transform::lookAt(const Vector3 &targetPosition) {
 
 	mRotation = q.toEuler();*/
 }
-
-// ---------------------------------------------------------------------------
 
 const Matrix4& Transform::getTranslationMatrix() {
 
@@ -181,6 +169,4 @@ const Matrix4& Transform::getModelMatrix(bool force /*= false*/) {
 	return mModelMatrix;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

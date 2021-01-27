@@ -344,4 +344,4 @@ void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	this->set(3, 2, -1.0f);
 };
 
-} /* namespace DE */
+}

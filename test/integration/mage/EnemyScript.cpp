@@ -27,21 +27,15 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 EnemyScript::EnemyScript() : Script() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 EnemyScript::~EnemyScript() = default;
 
 void EnemyScript::init() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void EnemyScript::firstStep() {
 
@@ -52,8 +46,6 @@ void EnemyScript::firstStep() {
 	mSlowDown = false;
 	mSpeed = GameController::smGlobalSpeed;
 }
-
-// ---------------------------------------------------------------------------
 
 void EnemyScript::step() {
 	if (mFalling) {
@@ -68,8 +60,6 @@ void EnemyScript::step() {
 		getGameObject()->destroy();
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void EnemyScript::onEnterCollision(GameObject *otherGameObject) {
 
@@ -113,12 +103,8 @@ void EnemyScript::onExitCollision(GameObject *otherGameObject) {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void EnemyScript::terminate() {
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_PHYSICSENGINE_H
-#define DE_PHYSICSENGINE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -40,5 +39,5 @@ public:
 	void terminate();
 
 };
-} /* namespace DE */
-#endif /* DE_PHYSICSENGINE_H */
+}
+

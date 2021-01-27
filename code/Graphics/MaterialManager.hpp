@@ -1,5 +1,4 @@
-#ifndef DE_MATERIALMANAGER_H_
-#define DE_MATERIALMANAGER_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -30,6 +29,5 @@ public:
 	Material* loadNoTextureMaterial();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MATERIALMANAGER_H_ */

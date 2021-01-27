@@ -12,19 +12,13 @@ std::map<std::string, std::function<DE_Class*()>> Memory::classNamesMap;
 FreeListAllocator Memory::smGlobal;
 //LinearAllocator Memory::smGlobal;
 
-// ---------------------------------------------------------------------------
-
 Memory::Memory() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 Memory::~Memory() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void Memory::init() {
 
@@ -39,27 +33,19 @@ void Memory::init() {
 	VAL(f32,(smGlobal.getTotalSize() / MB));
 }
 
-// ---------------------------------------------------------------------------
-
 void Memory::init(u32 size) {
 	DE_TRACE()
 
 	smGlobal.init(size);
 }
 
-// ---------------------------------------------------------------------------
-
 void Memory::flush() {
 	smGlobal.flush();
 }
 
-// ---------------------------------------------------------------------------
-
 Allocator& Memory::getGlobal() {
 	return smGlobal;
 }
-
-// ---------------------------------------------------------------------------
 
 void Memory::free() {
 
@@ -90,8 +76,6 @@ void Memory::free() {
 	ECHO("TERMINATE - OK")
 }
 
-// ---------------------------------------------------------------------------
-
 DE_Class* Memory::internalFromClassName(const std::string& className) {
 	return classNamesMap[className]();
 }
@@ -99,4 +83,4 @@ DE_Class* Memory::internalFromClassName(const std::string& className) {
 void Memory::internalRegisterClassName(const std::string& className, std::function<DE_Class*()> instantiationFunction) {
 	classNamesMap[className] = instantiationFunction;
 }
-} /* namespace DE */
+}

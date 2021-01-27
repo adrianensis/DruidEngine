@@ -11,8 +11,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Contact::Contact() : DE_Class() {
 	init();
 }
@@ -41,8 +39,6 @@ void Contact::init(const Contact* otherContact) {
 	relativeVelocity = otherContact->relativeVelocity;
 }
 
-// ---------------------------------------------------------------------------
-
 ContactsManager::ContactsManager() : DE_Class(), Singleton() {
 	mContactsMap = nullptr;
 	mContactsToRemove = nullptr;
@@ -53,8 +49,6 @@ ContactsManager::~ContactsManager() {
 	DE_FREE(mContactsMap);
 	DE_FREE(mContactsToRemove);
 }
-
-// ---------------------------------------------------------------------------
 
 void ContactsManager::removeContactFromMap(Contact* contact) {
 
@@ -77,8 +71,6 @@ void ContactsManager::removeContactFromMap(Contact* contact) {
 		DE_FREE(contact);
 	//}
 }
-
-// ---------------------------------------------------------------------------
 
 void ContactsManager::resolveContact(Contact* contact) {
 
@@ -109,7 +101,6 @@ void ContactsManager::resolveContact(Contact* contact) {
 	if(vrn > 0){
 		if(!colliderA->isStatic()){
 
-
 			//ECHO("A - " + gameObjectA->getTag())
 			Vector3 linear = colliderA->getRigidBody()->getLinear();
 			//VAR(f32, linear.x)
@@ -139,7 +130,6 @@ void ContactsManager::resolveContact(Contact* contact) {
 		}
 
 		if(!colliderB->isStatic()){
-
 
 			//ECHO("B - " + gameObjectB->getTag())
 			Vector3 linear = Vector3(colliderB->getRigidBody()->getLinear());
@@ -172,8 +162,6 @@ void ContactsManager::resolveContact(Contact* contact) {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void ContactsManager::init() {
 	DE_TRACE()
 
@@ -183,8 +171,6 @@ void ContactsManager::init() {
 	mContactsToRemove = DE_NEW<List<Contact*>>();
 	mContactsToRemove->init();
 }
-
-// ---------------------------------------------------------------------------
 
 void ContactsManager::updateContacts() {
 	FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
@@ -278,8 +264,6 @@ void ContactsManager::updateContacts() {
 	mContactsToRemove->clear();
 }
 
-// ---------------------------------------------------------------------------
-
 Contact* ContactsManager::addContact(Contact* newContact) {
 
 	Contact* contact = findContact(newContact->colliderA, newContact->colliderB);
@@ -306,8 +290,6 @@ Contact* ContactsManager::addContact(Contact* newContact) {
 	return contact;
 }
 
-// ---------------------------------------------------------------------------
-
 void ContactsManager::removeContact(Collider *colliderA, Collider *colliderB) {
 
 	GameObject* gameObjectA = colliderA->getGameObject();
@@ -322,8 +304,6 @@ void ContactsManager::removeContact(Collider *colliderA, Collider *colliderB) {
 		contact->status = Contact::ContactStatus::CONTACT_STATUS_EXIT;
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 Contact* ContactsManager::findContact(Collider *colliderA, Collider *colliderB) {
 	Contact* contact = nullptr;
@@ -345,8 +325,6 @@ Contact* ContactsManager::findContact(Collider *colliderA, Collider *colliderB) 
 	return contact;
 }
 
-// ---------------------------------------------------------------------------
-
 void ContactsManager::notifyDestroyedCollider(Collider *collider) {
 
 	FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
@@ -360,8 +338,6 @@ void ContactsManager::notifyDestroyedCollider(Collider *collider) {
 	}
 }
 
-
-// ---------------------------------------------------------------------------
 
 void ContactsManager::terminate() {
 	if(mContactsMap){
@@ -382,4 +358,4 @@ void ContactsManager::terminate() {
 	}
 }
 
-} /* namespace DE */
+}

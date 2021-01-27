@@ -26,21 +26,15 @@ namespace DE {
 
 u32 ProjectileScript::smProjectileIndex = 0;
 
-// ---------------------------------------------------------------------------
-
 ProjectileScript::ProjectileScript() : Script() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 ProjectileScript::~ProjectileScript() = default;
 
 void ProjectileScript::init() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void ProjectileScript::firstStep() {
 	getGameObject()->setTag("projectile" + std::to_string(smProjectileIndex));
@@ -51,8 +45,6 @@ void ProjectileScript::firstStep() {
 	mExplosionTimeCounter = 0;
 	mIsExploding = false;
 }
-
-// ---------------------------------------------------------------------------
 
 void ProjectileScript::step() {
 	RigidBody* rigidBody = getGameObject()->getFirstComponent<RigidBody>();
@@ -75,15 +67,11 @@ void ProjectileScript::step() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void ProjectileScript::explode() {
 	mIsExploding = true;
 	mRenderer->setAnimation("explosion");
 	getGameObject()->getFirstComponent<RigidBody>()->setLinear(Vector3(0, 0, 0));
 }
-
-// ---------------------------------------------------------------------------
 
 void ProjectileScript::onEnterCollision(GameObject *otherGameObject) {
 	/*ECHO("PROJECTILE ON ENTER COLLISION")
@@ -119,6 +107,4 @@ void ProjectileScript::terminate() {
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

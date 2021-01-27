@@ -1,5 +1,4 @@
-#ifndef DE_ALLOCATOR_H
-#define DE_ALLOCATOR_H
+#pragma once
 
 #include "Core/Basic.hpp"
 
@@ -104,7 +103,6 @@ public:
 		return object;
 	};
 
-
 	/*!
 	 \brief Constructs objects. It is used like "new" keyword.
 	 Allocate an object of T class, using the allocator.
@@ -118,7 +116,6 @@ public:
 		return object;
 	};
 
-
 	/*!
 	 \brief Destroys objects. It is used like "delete" keyword.
 	 Deallocate data, using the allocator.
@@ -131,9 +128,7 @@ public:
 		}
 	};
 
-
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_ALLOCATOR_H */

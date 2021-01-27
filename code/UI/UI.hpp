@@ -1,5 +1,4 @@
-#ifndef DE_UI_H
-#define DE_UI_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -83,6 +82,5 @@ public:
 	void setFocusedElement(UIElement* focusedElement) { mFocusedElement = focusedElement; };
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UI_H */

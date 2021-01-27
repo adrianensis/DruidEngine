@@ -1,5 +1,4 @@
-#ifndef DE_EDITORBUILDER_H
-#define DE_EDITORBUILDER_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -38,6 +37,5 @@ public:
 	UIDropdown* createDropdown(const std::string& textLabel);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_EDITORBUILDER_H */

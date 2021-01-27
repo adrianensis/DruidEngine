@@ -1,5 +1,4 @@
-#ifndef DE_DE_ASSERT_H
-#define DE_DE_ASSERT_H
+#pragma once
 
 #include <string>  // std::string
 #include "Core/BasicTypes.hpp"
@@ -13,6 +12,5 @@ void assert(const bool condition, const std::string &file, u32 line, const std::
 
 #define DE_ASSERT(condition, message) assert((condition), __FILE__, __LINE__, __FUNCTION__, "[ " #condition " ] " message);
 
-} /* namespace DE */
+}
 
-#endif /* DE_DE_ASSERT_H */

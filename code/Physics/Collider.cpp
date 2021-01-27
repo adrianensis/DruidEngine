@@ -17,8 +17,6 @@ namespace DE {
 
 f32 Collider::msDepthEpsilon = 10.0f;
 
-// ---------------------------------------------------------------------------
-
 Collider::Collider() : Component() {
 	mBoxVertices = nullptr;
 	mWidth = 0.0f;
@@ -34,8 +32,6 @@ Collider::Collider() : Component() {
 	mHasSizeChanged = false;
 }
 
-// ---------------------------------------------------------------------------
-
 Collider::~Collider() {
 	if (mBoxVertices) {
 		DE_FREE(mBoxVertices);
@@ -43,8 +39,6 @@ Collider::~Collider() {
 
 	DE_FREE(mLastContact); // TODO: remove contact here or in contact manager?
 }
-
-// ---------------------------------------------------------------------------
 
 void Collider::init() {
 	// TRACE();
@@ -67,8 +61,6 @@ void Collider::init() {
 	mLastContact->init();
 }
 
-// ---------------------------------------------------------------------------
-
 void Collider::setSize(f32 width, f32 height) {
 	mWidth = width;
 	mHalfWidth = width / 2.0f;
@@ -81,8 +73,6 @@ void Collider::setSize(f32 width, f32 height) {
 
 	mHasSizeChanged = true;
 }
-
-// ---------------------------------------------------------------------------
 
 Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = false*/) {
 
@@ -101,13 +91,9 @@ Array<Vector2>* Collider::getBoundingBox(bool forceCalculateBoundingBox/* = fals
 	return mBoxVertices;
 }
 
-// ---------------------------------------------------------------------------
-
 Vector3 Collider::getCenter() const {
 	return getGameObject()->getTransform()->getWorldPosition() + mPositionOffset;
 }
-
-// ---------------------------------------------------------------------------
 
 Vector3 Collider::getRelativeVelocity(Collider *otherCollider) {
 	Vector3 velA = mRigidBody->getLinear();
@@ -115,8 +101,6 @@ Vector3 Collider::getRelativeVelocity(Collider *otherCollider) {
 
 	return velA.sub(velB);
 }
-
-// ---------------------------------------------------------------------------
 
 bool Collider::isSimulate() {
 	return mRigidBody->getSimulate();
@@ -136,8 +120,6 @@ void Collider::unmarkPenetrated() {
 
 	mRigidBody->resetAntiPenetrationForce();
 }
-
-// ---------------------------------------------------------------------------
 
 ColliderStatus Collider::testCollider(Collider *otherCollider) {
 
@@ -159,7 +141,6 @@ ColliderStatus Collider::testCollider(Collider *otherCollider) {
 		result = ColliderStatus::STATUS_PENETRATION;
 	}
 
-
 	if (result == ColliderStatus::STATUS_PENETRATION) {
 
 		if (mIsSolid && otherCollider->getIsSolid()) {
@@ -171,8 +152,6 @@ ColliderStatus Collider::testCollider(Collider *otherCollider) {
 
 	return result;
 }
-
-// ---------------------------------------------------------------------------
 
 ColliderStatus Collider::testSphereSphere(Collider *otherCollider) {
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
@@ -199,8 +178,6 @@ ColliderStatus Collider::testSphereSphere(Collider *otherCollider) {
 
 	return result;
 }
-
-// ---------------------------------------------------------------------------
 
 ColliderStatus Collider::testRectangleSphere(Collider *otherCollider) {
 
@@ -260,10 +237,7 @@ ColliderStatus Collider::testRectangleSphere(Collider *otherCollider) {
 	return result;
 }
 
-// ---------------------------------------------------------------------------
-
 ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
-
 
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
 
@@ -325,8 +299,6 @@ ColliderStatus Collider::testRectangleRectangle(Collider *otherCollider) {
 	return result;
 }
 
-// ---------------------------------------------------------------------------
-
 ColliderStatus Collider::testPoint(Vector2 point) {
 
 	ColliderStatus result = ColliderStatus::STATUS_NONE;
@@ -346,13 +318,9 @@ ColliderStatus Collider::testPoint(Vector2 point) {
 	return result;
 };
 
-// ---------------------------------------------------------------------------
-
 bool Collider::checkCollisionRadius(Collider *otherCollider) const {
 	return MathUtils::testSphereSphere(getCenter(), otherCollider->getCenter(), getRadius(), otherCollider->getRadius(), 0);
 }
-
-// ---------------------------------------------------------------------------
 
 void Collider::render() {
 
@@ -397,7 +365,6 @@ void Collider::render() {
 	}
 }
 
-
 void Collider::save(ConfigMap* configMap, const std::string& objectName) {
 	configMap->setF32(objectName + ".collider.width", getWidth());
 	configMap->setF32(objectName + ".collider.height", getHeight());
@@ -407,4 +374,4 @@ void Collider::load(ConfigMap* configMap, const std::string& objectName) {
 	setSize(configMap->getF32(objectName + ".collider.width"), configMap->getF32(objectName + ".collider.height"));
 }
 
-} /* namespace DE */
+}

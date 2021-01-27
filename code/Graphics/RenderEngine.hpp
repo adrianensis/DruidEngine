@@ -1,5 +1,4 @@
-#ifndef DE_RENDERENGINE_H
-#define DE_RENDERENGINE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -96,6 +95,5 @@ public:
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_RENDERENGINE_H */

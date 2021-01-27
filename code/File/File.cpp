@@ -3,8 +3,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 File::File() : DE_Class() {
 
 }
@@ -13,13 +11,9 @@ File::~File() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void File::init() {
 	DE_TRACE()
 }
-
-// ---------------------------------------------------------------------------
 
 void File::readFile(const std::string &path, std::function<void(std::ifstream &file)> callback) {
 
@@ -33,8 +27,6 @@ void File::readFile(const std::string &path, std::function<void(std::ifstream &f
 	file.close();
 }
 
-// ---------------------------------------------------------------------------
-
 void File::writeFile(const std::string &path, std::function<void(std::ofstream &file)> callback) {
 
 	std::ofstream file;
@@ -47,6 +39,4 @@ void File::writeFile(const std::string &path, std::function<void(std::ofstream &
 	file.close();
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

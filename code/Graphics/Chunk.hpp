@@ -1,5 +1,4 @@
-#ifndef DE_CHUNK_H_
-#define DE_CHUNK_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Maths/Vector3.hpp"
@@ -53,6 +52,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_CHUNK_H_ */

@@ -1,5 +1,4 @@
-#ifndef DE_TEXTURE_H_
-#define DE_TEXTURE_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include <string>
@@ -21,6 +20,5 @@ public:
 	void init(const std::string &path);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_TEXTURE_H_ */

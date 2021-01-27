@@ -1,5 +1,4 @@
-#ifndef DE_ATLAS_H
-#define DE_ATLAS_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -41,6 +40,5 @@ public:
 	void toggleAtlas();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_ATLAS_H */

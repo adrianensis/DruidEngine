@@ -1,5 +1,4 @@
-#ifndef DE_INSPECTOR_H
-#define DE_INSPECTOR_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -62,6 +61,5 @@ public:
 	void selectLayer(u32 layer);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_INSPECTOR_H */

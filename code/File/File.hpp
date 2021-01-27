@@ -1,5 +1,4 @@
-#ifndef DE_FILE_H_
-#define DE_FILE_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -22,6 +21,5 @@ public:
 	static void writeFile(const std::string &path, std::function<void(std::ofstream &file)> callback);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_FILE_H_ */

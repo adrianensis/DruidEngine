@@ -14,40 +14,28 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton() {
 	mRigidBodies = nullptr;
 	mQuadTree = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 PhysicsEngine::~PhysicsEngine() {
 	DE_FREE(ContactsManager::getInstance());
 }
 
-// ---------------------------------------------------------------------------
-
 void PhysicsEngine::addRigidBody(RigidBody *rigidBody) {
 	mRigidBodies->pushBack(rigidBody);
 }
-
-// ---------------------------------------------------------------------------
 
 void PhysicsEngine::addCollider(RigidBody *rigidBody, Collider *collider) {
 	rigidBody->setCollider(collider);
 	mQuadTree->addCollider(collider);
 }
 
-// ---------------------------------------------------------------------------
-
 void PhysicsEngine::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 	RenderEngine::getInstance()->drawLine(lineStart, lineEnd);
 	mQuadTree->rayCastQuery(lineStart, lineEnd, outList);
 }
-
-// ---------------------------------------------------------------------------
 
 void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 	auto castedIt = it->cast<RigidBody*>();
@@ -60,8 +48,6 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 
 	ContactsManager::getInstance()->notifyDestroyedCollider(rigidBody->getCollider());
 }
-
-// ---------------------------------------------------------------------------
 
 void PhysicsEngine::init(f32 sceneSize) {
 	DE_TRACE()
@@ -78,8 +64,6 @@ void PhysicsEngine::init(f32 sceneSize) {
 	mQuadTree->init(sceneSize);
 
 }
-
-// ---------------------------------------------------------------------------
 
 void PhysicsEngine::step(f32 deltaTime) {
 
@@ -125,15 +109,11 @@ void PhysicsEngine::step(f32 deltaTime) {
 	DE_TIMEMARK_END()
 }
 
-// ---------------------------------------------------------------------------
-
 void PhysicsEngine::updateContacts() {
 	DE_TIMEMARK_START()
 	ContactsManager::getInstance()->updateContacts();
 	DE_TIMEMARK_END()
 }
-
-// ---------------------------------------------------------------------------
 
 void PhysicsEngine::terminate() {
 	DE_TRACE()
@@ -162,6 +142,4 @@ void PhysicsEngine::terminate() {
 	ContactsManager::getInstance()->terminate();
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

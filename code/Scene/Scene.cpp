@@ -25,8 +25,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Scene::Scene() : DE_Class() {
 	mGameObjects = nullptr;
 }
@@ -38,8 +36,6 @@ Scene::~Scene() {
 	DE_FREE(mGameObjects);
 	DE_FREE(mNewGameObjects);
 }
-
-// ---------------------------------------------------------------------------
 
 void Scene::destroyGameObjects() {
 	FOR_LIST (it, mGameObjects) {
@@ -55,7 +51,6 @@ void Scene::destroyGameObjects() {
 		DE_FREE(mCameraGameObject);
 	}
 }
-// ---------------------------------------------------------------------------
 
 void Scene::init() {
 	DE_TRACE()
@@ -95,8 +90,6 @@ void Scene::init() {
 	mSize = EngineConfig::getInstance()->getF32("scene.defaultSize");
 }
 
-// ---------------------------------------------------------------------------
-
 void Scene::loadScene(const std::string &path) {
 
 	mPath = path; // TODO: copy?
@@ -127,8 +120,6 @@ void Scene::loadScene(const std::string &path) {
 
 	DE_FREE(configMap);
 }
-
-// ---------------------------------------------------------------------------
 
 void Scene::saveScene(const std::string &path) {
 
@@ -166,20 +157,14 @@ void Scene::saveScene(const std::string &path) {
 	DE_FREE(configMap);
 }
 
-// ---------------------------------------------------------------------------
-
 void Scene::unloadScene() {
 	destroyGameObjects();
 }
-
-// ---------------------------------------------------------------------------
 
 void Scene::addGameObject(GameObject *gameObject) {
 	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
 }
-
-// ---------------------------------------------------------------------------
 
 void Scene::updateComponents(GameObject *gameObject) {
 	List<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
@@ -217,8 +202,6 @@ void Scene::updateComponents(GameObject *gameObject) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Scene::removeGameObject(GameObject *gameObject) {
 
 	if (!gameObject->getIsDestroyed()) {
@@ -230,8 +213,6 @@ void Scene::removeGameObject(GameObject *gameObject) {
 		DE_FREE(gameObject);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Scene::step() {
 
@@ -252,7 +233,6 @@ void Scene::step() {
 		flushNewGameObjects();
 	}
 }
-// ---------------------------------------------------------------------------
 
 void Scene::flushNewGameObjects() {
 	FOR_LIST (itGameObjects, mNewGameObjects) {
@@ -262,12 +242,8 @@ void Scene::flushNewGameObjects() {
 	mNewGameObjects->clear();
 }
 
-// ---------------------------------------------------------------------------
-
 bool Scene::thereAreNewGameObjects() const {
 	return mNewGameObjects->getLength() > 0;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

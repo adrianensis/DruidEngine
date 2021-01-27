@@ -8,8 +8,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Animation::Animation() : DE_Class() {
 	mFrames = nullptr;
 	mCurrentFrameNumber = 0;
@@ -32,16 +30,12 @@ void Animation::init() {
 	mFrames->init();
 }
 
-// ---------------------------------------------------------------------------
-
 void Animation::addFrame(AnimationFrame *frame) {
 	mFrames->pushBack(frame);
 }
 u32 Animation::getNumberOfFrames() const {
 	return mFrames->getLength();
 }
-
-// ---------------------------------------------------------------------------
 
 Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 		f32 height, f32 speed) {
@@ -127,6 +121,4 @@ const AnimationFrame* Animation::getCurrentFrame() const {
 	return mFrames->get(mCurrentFrameNumber);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_PROJECTILESCRIPT_H
-#define DE_PROJECTILESCRIPT_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include "Maths/Vector2.hpp"
@@ -48,6 +47,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_PROJECTILESCRIPT_H */

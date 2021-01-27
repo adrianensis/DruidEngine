@@ -42,17 +42,11 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 MapEditor::MapEditor() : Script() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 MapEditor::~MapEditor() = default;
-
-// ---------------------------------------------------------------------------
 
 void MapEditor::createPlayer() {
 	Vector2 size(100 * 1.5f, 100 * 1.5f);
@@ -104,8 +98,6 @@ void MapEditor::destroyPlayer(){
 	mPlayer = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
 
@@ -118,8 +110,6 @@ void MapEditor::init() {
 	mLayer = 0;
 	mZoom = 1;
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditor::firstStep() {
 
@@ -137,8 +127,6 @@ void MapEditor::firstStep() {
 
 	//createPlayer();
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditor::step() {
 
@@ -195,8 +183,6 @@ void MapEditor::step() {
 	mMapEditorUI.update();
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditor::addColliderToTile(GameObject *tile) {
 	if(tile){
 		List<RigidBody*>* rigidBodies = tile->getComponents<RigidBody>();
@@ -214,8 +200,6 @@ void MapEditor::addColliderToTile(GameObject *tile) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditor::cameraZoom() {
 	f32 scroll = Input::getInstance()->getScroll();
 	mZoom += std::fabs(scroll) * 0.05f * Time::getInstance()->getDeltaTimeSeconds();
@@ -232,13 +216,9 @@ void MapEditor::cameraZoom() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditor::switchCameraControl() {
 mCameraControl = !mCameraControl;
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditor::processMovement() {
 
@@ -305,15 +285,10 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 }
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditor::terminate() {
-
 
 
 	DE_FREE(mConfigMap);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

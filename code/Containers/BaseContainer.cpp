@@ -4,8 +4,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 BaseContainer::BaseContainer() : DE_Class() {
 	mLength = 0;
 	mElementSize = 0;
@@ -15,8 +13,6 @@ BaseContainer::BaseContainer() : DE_Class() {
 
 BaseContainer::~BaseContainer() = default;
 
-// ---------------------------------------------------------------------------
-
 void BaseContainer::init(u32 length, u32 elementSize, u32 alignment) {
 	mLength = length;
 	mElementSize = elementSize;
@@ -24,12 +20,8 @@ void BaseContainer::init(u32 length, u32 elementSize, u32 alignment) {
 	mAllocator = &Memory::getGlobal();
 }
 
-// ---------------------------------------------------------------------------
-
 void BaseContainer::clear() {
 	mLength = 0;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

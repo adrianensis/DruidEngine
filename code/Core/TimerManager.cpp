@@ -5,7 +5,6 @@
 
 namespace DE {
 
-
 TimerHandle::TimerHandle() : DE_Class(){
 	mTimerReference = nullptr;
 }
@@ -25,8 +24,6 @@ void Timer::init(f32 duration, TimerDurationType durationType, std::function<voi
 	mDuration = duration;
 	mFunctor.setCallback(callback);
 }
-
-// ---------------------------------------------------------------------------
 
 TimerManager::TimerManager() : DE_Class(), Singleton<TimerManager>(){
 	mTimers = nullptr;
@@ -92,4 +89,4 @@ void TimerManager::terminate(){
 	mTimers->clear();
 }
 
-} /* namespace DE */
+}

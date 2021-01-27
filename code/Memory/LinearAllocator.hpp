@@ -1,5 +1,4 @@
-#ifndef DE_LINEARALLOCATOR_H
-#define DE_LINEARALLOCATOR_H
+#pragma once
 
 #include "Memory/Allocator.hpp"
 #include "Core/Basic.hpp"
@@ -23,6 +22,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_LINEARALLOCATOR_H */

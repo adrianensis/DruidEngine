@@ -1,5 +1,4 @@
-#ifndef DE_FREELISTALLOCATOR_H
-#define DE_FREELISTALLOCATOR_H
+#pragma once
 
 #include "Core/Basic.hpp"
 #include "Containers/List.hpp"
@@ -65,6 +64,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_FREELISTALLOCATOR_H */

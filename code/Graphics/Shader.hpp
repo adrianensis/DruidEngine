@@ -1,5 +1,4 @@
-#ifndef DE_SHADER_H
-#define DE_SHADER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/BasicTypes.hpp"
@@ -10,8 +9,6 @@ namespace DE {
 template<class T> class Array;
 
 class Matrix4;
-
-// ---------------------------------------------------------------------------
 
 class Shader: public DE_Class {
 private:
@@ -46,8 +43,5 @@ public:
 	void addBool(bool value, const std::string &name);
 };
 
-// ---------------------------------------------------------------------------
+}
 
-} /* namespace DE */
-
-#endif /* DE_SHADER_H */

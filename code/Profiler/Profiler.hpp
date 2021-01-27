@@ -1,5 +1,4 @@
-#ifndef DE_PROFILER_H
-#define DE_PROFILER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/TimeUtils.hpp"
@@ -18,12 +17,11 @@ class Profiler : public DE_Class, public Singleton<Profiler>{
 private:
 
 	using TimeMap = HashMap<std::string, f32>;
-	TimeMap* mTimeMap = nullptr;
-
 	using TimeMarkMap = HashMap<std::string, TimeMark*>;
-	TimeMarkMap* mTimeMarkMap = nullptr;
 
-	f32 mTotalTime = 0;
+	DE_M(TimeMap, TimeMap*);
+	DE_M(TimeMarkMap, TimeMarkMap*);
+	DE_M(TotalTime, f32);
 
 	void printResult(std::string& name, f32 time);
 
@@ -38,6 +36,5 @@ public:
 	void timeMarkEnd(const std::string& name);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_PROFILER_H */

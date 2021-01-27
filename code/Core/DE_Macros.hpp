@@ -1,10 +1,8 @@
-#ifndef DE_MACROS_H
-#define DE_MACROS_H
+#pragma once
 
 #include <cstdint> // std::uintptr_t
 #include <type_traits>
 #include <string>
-#include <string_view>
 
 namespace DE {
 
@@ -150,4 +148,3 @@ namespace DE {
 
 }
 
-#endif /* DE_MACROS_H */

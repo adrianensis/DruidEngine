@@ -1,5 +1,4 @@
-#ifndef DE_VECTOR4_H
-#define DE_VECTOR4_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -182,6 +181,5 @@ public:
 	}
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_VECTOR4_H */

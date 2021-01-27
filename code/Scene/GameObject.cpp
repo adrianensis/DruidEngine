@@ -14,8 +14,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 GameObject::GameObject() : DE_Class() {
 	mComponentsMap = nullptr;
 	mTransform = nullptr;
@@ -59,8 +57,6 @@ bool GameObject::checkCacheLists(ClassId classId) {
 	return mLastClassIdList == classId && mCacheComponentsLists->contains(classId);
 }
 
-// ---------------------------------------------------------------------------
-
 void GameObject::addComponent(Component *component, ClassId classId) {
 	List<Component*>* list = nullptr;
 
@@ -78,8 +74,6 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 	tryCleanCache(classId);
 }
 
-// ---------------------------------------------------------------------------
-
 void GameObject::removeComponent(Component *component, ClassId classId) {
 	if (mComponentsMap->contains(classId) && ! component->getIsPendingToBeDestroyed() && ! component->getIsDestroyed()) {
 		List<Component*>* list = mComponentsMap->get(classId);
@@ -89,8 +83,6 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 		tryCleanCache(classId);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void GameObject::init() {
 	// TRACE();
@@ -109,8 +101,6 @@ void GameObject::init() {
 
 	mTag = "";
 }
-
-// ---------------------------------------------------------------------------
 
 List<Component*>* GameObject::getComponents(ClassId classId) {
 	List<Component*>* components = nullptr;
@@ -132,8 +122,6 @@ List<Component*>* GameObject::getComponents(ClassId classId) {
 	return components;
 }
 
-// ---------------------------------------------------------------------------
-
 Component* GameObject::getFirstComponent(ClassId classId) {
 	Component* component = nullptr;
 
@@ -151,8 +139,6 @@ Component* GameObject::getFirstComponent(ClassId classId) {
 
 	return component;
 }
-
-// ---------------------------------------------------------------------------
 
 void GameObject::setIsActive(bool isActive) {
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
@@ -191,8 +177,6 @@ void GameObject::destroy() {
 
 	mComponentsMap->clear();
 };
-
-// ---------------------------------------------------------------------------
 
 void GameObject::save(ConfigMap* configMap, const std::string& objectName) {
 
@@ -254,4 +238,4 @@ void GameObject::load(ConfigMap* configMap, const std::string& objectName) {
 	}
 }
 
-} /* namespace DE */
+}

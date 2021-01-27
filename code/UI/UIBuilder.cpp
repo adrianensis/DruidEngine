@@ -21,8 +21,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 UIElementData::UIElementData() : DE_Class() {
 	mIsAffectedByLayout = true;
 }
@@ -46,8 +44,6 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, const std
 	mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
 }
 
-// ---------------------------------------------------------------------------
-
 
 UIBuilder::UIBuilder() : DE_Class(), Singleton() {
 	mScene = nullptr;
@@ -66,8 +62,6 @@ UIBuilder::~UIBuilder() {
 	DE_FREE(mDataStack);
 }
 
-// ---------------------------------------------------------------------------
-
 void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
 	mScene->addGameObject(uiElement);
 
@@ -85,8 +79,6 @@ void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
 		mLastData = mData;
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 UILayout UIBuilder::getOppositeLayout(UILayout layout) {
 	return (UILayout)(((int)mCurrentLayout + 1) % (int)UILayout::MAX);
@@ -137,8 +129,6 @@ void UIBuilder::calculateData() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 UIBuilder* const UIBuilder::nextRow() {
 	mLastData = mLayoutFirstUIElementData;
 	mNewRowOrColumn = true;
@@ -148,8 +138,6 @@ UIBuilder* const UIBuilder::nextRow() {
 UIBuilder* const UIBuilder::nextColumn() {
 	return nextRow(); // NOTE : exactly the same code.
 }
-
-// ---------------------------------------------------------------------------
 
 UIBuilder* const UIBuilder::saveData() {
 	if(!mDataStack){
@@ -168,8 +156,6 @@ UIBuilder* const UIBuilder::restoreData() {
 	mData = mDataStack->popFront();
 	return this;
 }
-
-// ---------------------------------------------------------------------------
 
 UIElement* UIBuilder::internalCreatePanel() {
 	calculateData();
@@ -198,8 +184,6 @@ UIElement* UIBuilder::internalCreatePanel() {
 
 	return uiPanel;
 }
-
-// ---------------------------------------------------------------------------
 
 UIButton* UIBuilder::internalCreateButton() {
 
@@ -244,8 +228,6 @@ UIButton* UIBuilder::internalCreateButton() {
 	return uiButton;
 }
 
-// ---------------------------------------------------------------------------
-
 UIText* UIBuilder::internalCreateText() {
 
 	calculateData();
@@ -281,8 +263,6 @@ UIText* UIBuilder::internalCreateText() {
 
 	return uiText;
 }
-
-// ---------------------------------------------------------------------------
 
 UITextEditable* UIBuilder::internalCreateTextEditable() {
 
@@ -352,8 +332,6 @@ UITextEditable* UIBuilder::internalCreateTextEditable() {
 	return uiText;
 }
 
-// ---------------------------------------------------------------------------
-
 UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	calculateData();
@@ -397,8 +375,6 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	return uiDropdown;
 }
 
-// ---------------------------------------------------------------------------
-
 UIBuilder* const UIBuilder::create(UIElementType type) {
 
 	mData.mElementType = type;
@@ -434,6 +410,4 @@ UIElement* UIBuilder::getUIElement() {
 	return mCurrentUIElement;
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

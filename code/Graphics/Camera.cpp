@@ -7,8 +7,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Camera::Camera() : Component() {
 	mFrustum = nullptr;
 
@@ -31,8 +29,6 @@ void Camera::init() {
 	mFrustum->init(this);
 };
 
-// ---------------------------------------------------------------------------
-
 /**
  * Return the frustum.
  * @returns {Frustum} The frustum.
@@ -40,7 +36,6 @@ void Camera::init() {
 // const Frustum* Camera::getFrustum(){
 // 	return mFrustum;
 // };
-// ---------------------------------------------------------------------------
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	mIsOrtho = true;
 	// DE_FREE(mProjectionMatrix);
@@ -60,8 +55,6 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mFrustum->build(true);
 };
 
-// ---------------------------------------------------------------------------
-
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	mIsOrtho = false;
 	// DE_FREE(mProjectionMatrix);
@@ -72,13 +65,9 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	mFrustum->build(true);
 };
 
-// ---------------------------------------------------------------------------
-
 const Matrix4& Camera::getProjectionMatrix() const {
 	return mProjectionMatrix;
 };
-
-// ---------------------------------------------------------------------------
 
 const Matrix4& Camera::getViewTranslationMatrix() {
 
@@ -92,8 +81,6 @@ const Matrix4& Camera::getViewRotationMatrix() {
 	return getGameObject()->getTransform()->getRotationMatrix();
 };
 
-// ---------------------------------------------------------------------------
-
 Vector3 Camera::screenToWorld(Vector2 screenPosition) {
 	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
@@ -103,8 +90,6 @@ Vector3 Camera::screenToWorld(Vector2 screenPosition) {
 
 	return Vector3(v.x, v.y, v.z);
 }
-
-// ---------------------------------------------------------------------------
 
 void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/) {
 	Transform* transform = getGameObject()->getTransform();
@@ -130,8 +115,6 @@ void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Camera::setZoom(f32 zoom) {
 	mZoom = zoom;
 
@@ -142,6 +125,4 @@ void Camera::setZoom(f32 zoom) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

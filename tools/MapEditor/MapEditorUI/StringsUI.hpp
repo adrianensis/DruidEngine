@@ -1,5 +1,4 @@
-#ifndef DE_STRINGS_H
-#define DE_STRINGS_H
+#pragma once
 
 #include <string>
 
@@ -30,6 +29,5 @@ public:
 	std::string Grid = "Grid";
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_STRINGS_H */

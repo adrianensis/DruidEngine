@@ -14,8 +14,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 EditorBuilder::EditorBuilder() : DE_Class(), Singleton<EditorBuilder>(){
 
 }
@@ -23,8 +21,6 @@ EditorBuilder::EditorBuilder() : DE_Class(), Singleton<EditorBuilder>(){
 EditorBuilder::~EditorBuilder(){
 
 }
-
-// ---------------------------------------------------------------------------
 
 UIElement* EditorBuilder::createPanel(const Vector2& position, const Vector2 &size) {
 	return UI::getInstance()->getBuilder()->
@@ -36,8 +32,6 @@ UIElement* EditorBuilder::createPanel(const Vector2& position, const Vector2 &si
 	create(UIElementType::PANEL)->
 	getUIElement();
 }
-
-// ---------------------------------------------------------------------------
 
 UIText* EditorBuilder::createLabel(const std::string& text) {
 	return (UITextEditable*) UI::getInstance()->getBuilder()->
@@ -112,6 +106,4 @@ UIDropdown* EditorBuilder::createDropdown(const std::string& textLabel) {
 		getUIElement();
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

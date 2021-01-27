@@ -1,5 +1,4 @@
-#ifndef DE_TORNADOSCRIPT_H
-#define DE_TORNADOSCRIPT_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include "Maths/Vector2.hpp"
@@ -33,6 +32,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_TORNADOSCRIPT_H */

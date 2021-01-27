@@ -1,5 +1,4 @@
-#ifndef DE_SCRIPT_H
-#define DE_SCRIPT_H
+#pragma once
 
 #include "Scene/Component.hpp"
 
@@ -30,6 +29,5 @@ public:
 	}
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_SCRIPT_H */

@@ -1,5 +1,4 @@
-#ifndef DE_LOG_H
-#define DE_LOG_H
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -71,6 +70,5 @@ public:
 #define BRLINE()
 #endif
 
-} /* namespace DE */
+}
 
-#endif /* DE_LOG_H */

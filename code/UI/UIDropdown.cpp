@@ -9,8 +9,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 UIDropdown::UIDropdownEntry::UIDropdownEntry() : DE_Class() {
 
 }
@@ -20,25 +18,18 @@ UIDropdown::UIDropdownEntry::UIDropdownEntry(std::string label, UIElementCallbac
 	mCallback = callback;
 }
 
-
 UIDropdown::UIDropdownEntry::~UIDropdownEntry() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 UIDropdown::UIDropdown() : UIButton() {
 	mButtons = nullptr;
 	mEntries = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 UIDropdown::~UIDropdown() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void UIDropdown::init() {
 
@@ -109,4 +100,4 @@ void UIDropdown::toggle() {
 	}*/
 }
 
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_COMPONENT_H
-#define DE_COMPONENT_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -53,6 +52,5 @@ public:
 	virtual void load(ConfigMap* configMap, const std::string& objectName);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_COMPONENT_H */

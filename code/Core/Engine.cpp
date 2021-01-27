@@ -34,8 +34,6 @@ using namespace std::chrono_literals;
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Engine::Engine() : DE_Class(), Singleton() {
 	mFPS = 60;
 	mRenderEngine = nullptr;
@@ -44,8 +42,6 @@ Engine::Engine() : DE_Class(), Singleton() {
 }
 
 Engine::~Engine() = default;
-
-// ---------------------------------------------------------------------------
 
 void Engine::init() {
 
@@ -63,8 +59,6 @@ void Engine::init() {
 	ScenesManager::getInstance()->init();
 }
 
-// ---------------------------------------------------------------------------
-
 void Engine::initSubsystems() {
 
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
@@ -78,8 +72,6 @@ void Engine::initSubsystems() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void Engine::terminateSubSystems() {
 
 	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
@@ -92,8 +84,6 @@ void Engine::terminateSubSystems() {
 	TimerManager::getInstance()->terminate();
 	//Profiler::getInstance()->terminate();
 }
-
-// ---------------------------------------------------------------------------
 
 void Engine::run() {
 	Time::getInstance()->init();
@@ -142,11 +132,8 @@ void Engine::run() {
 		Profiler::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
-
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Engine::terminate() {
 
@@ -179,6 +166,4 @@ void Engine::terminate() {
 	DE_FREE(Input::getInstance());
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

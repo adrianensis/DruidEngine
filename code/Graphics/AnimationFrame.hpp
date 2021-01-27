@@ -1,5 +1,4 @@
-#ifndef DE_ANIMATIONFRAME_H_
-#define DE_ANIMATIONFRAME_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -21,6 +20,5 @@ public:
 	void init(const Vector2 &position, f32 width, f32 height);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_ANIMATIONFRAME_H_ */

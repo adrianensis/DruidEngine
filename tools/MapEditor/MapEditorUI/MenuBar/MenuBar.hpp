@@ -1,5 +1,4 @@
-#ifndef DE_MENUBAR_H
-#define DE_MENUBAR_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -42,6 +41,5 @@ public:
 	void createMenuBar();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MENUBAR_H */

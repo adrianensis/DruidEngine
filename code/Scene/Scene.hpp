@@ -1,5 +1,4 @@
-#ifndef DE_SCENE_H
-#define DE_SCENE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "File/File.hpp"
@@ -42,6 +41,5 @@ public:
 	void flushNewGameObjects();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_SCENE_H */

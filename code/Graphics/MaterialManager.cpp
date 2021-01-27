@@ -6,8 +6,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 MaterialManager::MaterialManager() : DE_Class() {
 	mTexturesMap = nullptr;
 	mMaterialsMap = nullptr;
@@ -32,8 +30,6 @@ MaterialManager::~MaterialManager() {
 	Shader::freeStaticShaders();
 }
 
-// ---------------------------------------------------------------------------
-
 void MaterialManager::init() {
 	DE_TRACE()
 
@@ -43,8 +39,6 @@ void MaterialManager::init() {
 	mMaterialsMap = DE_NEW<HashMap<std::string, Material*>>();
 	mMaterialsMap->init();
 }
-
-// ---------------------------------------------------------------------------
 
 Texture* MaterialManager::loadTexture(const std::string &path) {
 	Texture* texture = nullptr;
@@ -59,8 +53,6 @@ Texture* MaterialManager::loadTexture(const std::string &path) {
 
 	return texture;
 }
-
-// ---------------------------------------------------------------------------
 
 Material* MaterialManager::loadMaterial(const std::string &path) {
 	Material* material = nullptr;
@@ -78,8 +70,6 @@ Material* MaterialManager::loadMaterial(const std::string &path) {
 	return material;
 }
 
-// ---------------------------------------------------------------------------
-
 Material* MaterialManager::loadNoTextureMaterial() {
 
 	if(!mNoTextureMaterial){
@@ -91,4 +81,4 @@ Material* MaterialManager::loadNoTextureMaterial() {
 	return mNoTextureMaterial;
 }
 
-} /* namespace DE */
+}

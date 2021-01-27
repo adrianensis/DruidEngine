@@ -24,8 +24,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
 	mVertices = nullptr;
 	mActive = false;
@@ -34,8 +32,6 @@ RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
 RenderEngine::LineRenderer::~LineRenderer() {
 	DE_FREE(mVertices);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::LineRenderer::init() {
 	//TRACE();
@@ -50,8 +46,6 @@ void RenderEngine::LineRenderer::init() {
 	glDeleteBuffers(1, &mEBO);
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderEngine::LineRenderer::set(const Vector3 &start, const Vector3 &end) {
 
 	mVertices->set(0, start.x);
@@ -61,8 +55,6 @@ void RenderEngine::LineRenderer::set(const Vector3 &start, const Vector3 &end) {
 	mVertices->set(4, end.y);
 	mVertices->set(5, end.z);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
 	mVAO = RenderContext::createVAO();
@@ -75,8 +67,6 @@ void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
 	RenderContext::enableVAO(mVAO);
 }
 
-// ---------------------------------------------------------------------------
-
 RenderEngine::LayerData::LayerData() : DE_Class() {
 	mSorted = false;
 	mDynamicObjectsCount = 0;
@@ -84,11 +74,7 @@ RenderEngine::LayerData::LayerData() : DE_Class() {
 	mVisible = true;
 }
 
-// ---------------------------------------------------------------------------
-
 RenderEngine::LayerData::~LayerData() = default;
-
-// ---------------------------------------------------------------------------
 
 RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 	mCamera = nullptr;
@@ -100,8 +86,6 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 }
 
 RenderEngine::~RenderEngine() = default;
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::init(f32 sceneSize) {
 	DE_TRACE()
@@ -181,13 +165,9 @@ void RenderEngine::freeRenderer(Renderer *renderer) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
 	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::step() {
 
@@ -209,8 +189,6 @@ void RenderEngine::step() {
 	DE_TIMEMARK_END()
 
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::swap() {
 	DE_TIMEMARK_START()
@@ -277,8 +255,6 @@ void RenderEngine::freeRenderersPendingtoFree() {
 	DE_TIMEMARK_END()
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderEngine::stepDebug() {
 	DE_TIMEMARK_START()
 
@@ -319,8 +295,6 @@ void RenderEngine::stepDebug() {
 	DE_TIMEMARK_END()
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderEngine::bind() {
 	// FOR_ARRAY(i, mChunks){
 	//   mChunks->get(i)->bind();
@@ -328,8 +302,6 @@ void RenderEngine::bind() {
 	//
 	// mScreenChunk->bind();
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderEngine::terminate() {
 	DE_TRACE()
@@ -357,7 +329,6 @@ void RenderEngine::terminate() {
 
 		DE_FREE(mChunks);
 	}
-
 
 	if(mBatchesMap){
 		DE_FREE(mBatchesMap);
@@ -388,8 +359,6 @@ void RenderEngine::terminate() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderEngine::addRenderer(Renderer *renderer) {
 
 	if (renderer->getIsAffectedByProjection()) {
@@ -406,8 +375,6 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 
 	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
 }
-
-// ---------------------------------------------------------------------------
 
 Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 	//TRACE();
@@ -430,8 +397,6 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 	return chunkFound;
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
 		bool isAffectedByProjection /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
 	bool found = false;
@@ -452,6 +417,4 @@ void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /
 	}
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

@@ -53,19 +53,13 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Brush::Brush() : DE_Class() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 Brush::~Brush() {
 	free();
 }
-
-// ---------------------------------------------------------------------------
 
 void Brush::init(MapEditor* mapEditor) {
 
@@ -92,13 +86,9 @@ void Brush::init(MapEditor* mapEditor) {
 	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
 }
 
-// ---------------------------------------------------------------------------
-
 GameObject* Brush::getTile(u32 i, u32 j){
 	return mGrid->get(i * mBrushGridSize.x + j);
 }
-
-// ---------------------------------------------------------------------------
 
 void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
 	if(mLastIndex < mBrushMaxGridSize){
@@ -120,14 +110,10 @@ void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Brush::free(){
 	mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
 	DE_FREE(mGrid);
 }
-
-// ---------------------------------------------------------------------------
 
 void Brush::update(){
 	if(mBrushCursor){
@@ -135,8 +121,6 @@ void Brush::update(){
 		mBrushCursor->getTransform()->setLocalPosition(mouse);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Brush::clear(){
 	FOR_RANGE(i, 0, mLastIndex){
@@ -152,13 +136,9 @@ void Brush::clear(){
 	mGrid->clear();
 }
 
-// ---------------------------------------------------------------------------
-
 void Brush::setDrawTileSize(const Vector2& size) {
 	mDrawTileSize = size;
 	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

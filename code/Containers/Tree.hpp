@@ -1,12 +1,9 @@
-#ifndef DE_TREE_H
-#define DE_TREE_H
+#pragma once
 
 #include "Containers/Array.hpp"
 #include "Memory/Memory.hpp"
 
 namespace DE {
-
-// ---------------------------------------------------------------------------
 
 /*!
  \brief Binary Tree.
@@ -18,8 +15,7 @@ class Tree: public BaseContainer {
 
 private:
 
-	// ---------------------------------------------------------------------------
-	class Node: public DE_Class {
+		class Node: public DE_Class {
 
 	public: Node* mParent;
 		T mElement;
@@ -65,8 +61,7 @@ private:
 		}
 	};
 
-	// ---------------------------------------------------------------------------
-
+	
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(Node *parent, const T element) {
@@ -75,14 +70,11 @@ private:
 		return node;
 	};
 
-
 	void freeNode(Node *node) {
 		DE_FREE(node);
 	};
 
-
-	// ---------------------------------------------------------------------------
-
+	
 	void freeSubTree(Node *node) {
 		Node* child0 = node->mChildren->get(0);
 		Node* child1 = node->mChildren->get(1);
@@ -99,9 +91,7 @@ private:
 		mLength--;
 	};
 
-
-	// ---------------------------------------------------------------------------
-
+	
 	Node* find(const T element, Node *node) {
 		if (element == node->mElement)
 			return node;
@@ -116,9 +106,7 @@ private:
 			return find(element, child);
 	};
 
-
-	// ---------------------------------------------------------------------------
-
+	
 	Node* mRoot;
 	static const u32 smChildrenCount = 2;
 
@@ -134,8 +122,7 @@ public:
 		Tree<T>::clear();
 	}
 
-	// ---------------------------------------------------------------------------
-
+	
 	/*!
 	 \brief Constructor.
 	 */
@@ -144,8 +131,7 @@ public:
 		mRoot = nullptr;
 	}
 
-	// ---------------------------------------------------------------------------
-
+	
 	void add(const T element) {
 		Node* node = newNode(nullptr, element);
 
@@ -157,8 +143,7 @@ public:
 		mLength++;
 	}
 
-	// ---------------------------------------------------------------------------
-
+	
 	void remove(const T element) {
 		Node* node = find(element, mRoot);
 
@@ -226,8 +211,7 @@ public:
 		}
 	}
 
-	// ---------------------------------------------------------------------------
-
+	
 	void clear() override {
 		if (mLength > 0) {
 			freeSubTree(mRoot);
@@ -237,9 +221,7 @@ public:
 		mRoot = nullptr;
 	}
 
-	// ---------------------------------------------------------------------------
-};
+	};
 
-} /* namespace DE */
+}
 
-#endif /* DE_TREE_H */

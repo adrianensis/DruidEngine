@@ -80,4 +80,4 @@ void Profiler::timeMarkEnd(const std::string &name) {
 	}
 }
 
-} /* namespace DE */
+}

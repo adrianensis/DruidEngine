@@ -1,5 +1,4 @@
-#ifndef DE_STACKALLOCATOR_H
-#define DE_STACKALLOCATOR_H
+#pragma once
 
 #include "Memory/LinearAllocator.hpp"
 #include "Core/Basic.hpp"
@@ -42,6 +41,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_STACKALLOCATOR_H */

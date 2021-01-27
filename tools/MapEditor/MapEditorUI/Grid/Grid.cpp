@@ -19,21 +19,15 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Grid::CellData::CellData() : DE_Class() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 Grid::CellData::~CellData() {
 	if (layers) {
 		DE_FREE(layers);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Grid::CellData::addGameObject(GameObject *gameObject, u32 layer) {
 	if (!layers) {
@@ -64,14 +58,10 @@ GameObject* Grid::CellData::get(u32 layer) {
 	return gameObject;
 }
 
-// ---------------------------------------------------------------------------
-
 Grid::Grid() : DE_Class() {
 	mScene = nullptr;
 	mGridTileSize = 1;
 }
-
-// ---------------------------------------------------------------------------
 
 Grid::~Grid() {
 
@@ -89,8 +79,6 @@ Grid::~Grid() {
 
 	DE_FREE(mSelectedTiles);
 }
-
-// ---------------------------------------------------------------------------
 
 void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 	mScene = scene;
@@ -115,8 +103,6 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 	mSelectedTiles->init();
 }
 
-
-// ---------------------------------------------------------------------------
 
 void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
 
@@ -149,8 +135,6 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Ve
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 
 	if(!multi){
@@ -181,8 +165,6 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 GameObject* Grid::getFirstSelectedTile() {
 	return mSelectedTiles->isEmpty() ? nullptr : mSelectedTiles->get(0);
 }
-
-// ---------------------------------------------------------------------------
 
 bool Grid::isSameTile(GameObject* tileA, GameObject* tileB) {
 	if(tileA && tileB){
@@ -219,16 +201,12 @@ void Grid::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject
 
 }
 
-// ---------------------------------------------------------------------------
-
 void Grid::removeTile(CellData *cellData, u32 layer) {
 	if (cellData->get(layer)) {
 		mScene->removeGameObject(cellData->get(layer));
 		cellData->removeGameObject(layer);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 
@@ -258,4 +236,4 @@ void Grid::forEachSelectedTile(std::function<void(GameObject*)> callback) {
 	}
 }
 
-} /* namespace DE */
+}

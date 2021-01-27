@@ -1,5 +1,4 @@
-#ifndef DE_INPUT_H_
-#define DE_INPUT_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -51,6 +50,5 @@ public:
 	void setInputCharReceiver(UIElement* uiElement);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_INPUT_H_ */

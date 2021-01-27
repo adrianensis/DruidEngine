@@ -1,5 +1,4 @@
-#ifndef DE_INPUTEVENTS_H_
-#define DE_INPUTEVENTS_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -45,6 +44,5 @@ DE_EVENT_DECLARATION_BEGIN(InputEventChar)
 c8 mChar = 0;
 DE_EVENT_DECLARATION_END(InputEventChar)
 
-} /* namespace DE */
+}
 
-#endif /* DE_INPUTEVENTS_H_ */

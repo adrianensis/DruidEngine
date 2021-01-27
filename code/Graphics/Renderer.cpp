@@ -1,6 +1,5 @@
 #include "Graphics/Renderer.hpp"
 
-
 #include "Graphics/AnimationFrame.hpp"
 #include "Graphics/Shader.hpp"
 #include "Containers/List.hpp"
@@ -14,8 +13,6 @@
 #include "Graphics/Material.hpp"
 #include "Graphics/MaterialManager.hpp"
 namespace DE {
-
-// ---------------------------------------------------------------------------
 
 Renderer::Renderer() : Component() {
 	mMesh = nullptr;
@@ -67,8 +64,6 @@ Renderer::~Renderer() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void Renderer::init() {
 	// TRACE();
 
@@ -89,11 +84,7 @@ void Renderer::init() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 bool Renderer::hasAnimations() const { return mAnimations && mAnimations->getLength() > 0; } ;
-
-// ---------------------------------------------------------------------------
 
 void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
 	mRegionPosition.x = u;
@@ -102,8 +93,6 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
 	mRegionSize.x = width;
 	mRegionSize.y = height;
 }
-
-// ---------------------------------------------------------------------------
 
 /**
  * Set the animation, by name.
@@ -133,8 +122,6 @@ void Renderer::addAnimation(const std::string &name, Animation *animation) {
 	mAnimations->set(name, animation);
 };
 
-// ---------------------------------------------------------------------------
-
 void Renderer::updateAnimation() {
 	if (mMaterial) {
 		if (hasAnimations()) {
@@ -145,14 +132,10 @@ void Renderer::updateAnimation() {
 	}
 };
 
-// ---------------------------------------------------------------------------
-
 void Renderer::setPositionOffset(Vector3 newPositionOffset) {
 	mPositionOffset = newPositionOffset;
 	mPositionOffsetDirty = true;
 };
-
-// ---------------------------------------------------------------------------
 
 void Renderer::setColor(const Vector4 &color) {
 	mColor->set(0, color.x);
@@ -169,8 +152,6 @@ bool Renderer::getIsAffectedByProjection() {
 
 	return mIsAffectedByProjection;
 }
-
-// ---------------------------------------------------------------------------
 
 const Array<Vector2>* Renderer::getVertices(bool force /*= false*/) {
 
@@ -227,4 +208,4 @@ void Renderer::load(ConfigMap* configMap, const std::string& objectName) {
 
 }
 
-} /* namespace DE */
+}

@@ -16,33 +16,23 @@ namespace DE {
 GLFWwindow* RenderContext::smWindow = nullptr;
 Vector2 RenderContext::smWindowSize;
 
-// ---------------------------------------------------------------------------
-
 RenderContext::RenderContext() : DE_Class() {
 };
 
 RenderContext::~RenderContext() = default;
 
-// ---------------------------------------------------------------------------
-
 Vector2 RenderContext::getWindowSize() {
 	return smWindowSize;
 }
-
-// ---------------------------------------------------------------------------
 
 f32 RenderContext::getAspectRatio() {
 	return smWindowSize.x / smWindowSize.y;
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderContext::onResize(GLFWwindow *window, int width, int height) {
 	smWindowSize.set(width, height);
 	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderContext::init() {
 	DE_TRACE()
@@ -86,19 +76,13 @@ void RenderContext::init() {
 	RenderContext::clear();
 }
 
-// ---------------------------------------------------------------------------
-
 bool RenderContext::isClosed() {
 	return glfwWindowShouldClose(smWindow);
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderContext::clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the color and the depth buffer
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderContext::swap() {
 	glFlush(); // https://stackoverflow.com/questions/50412575/is-there-a-way-to-remove-60-fps-cap-in-glfw
@@ -106,14 +90,10 @@ void RenderContext::swap() {
 	RenderContext::clear();
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderContext::terminate() {
 	glfwDestroyWindow(smWindow);
 	glfwTerminate();
 }
-
-// ---------------------------------------------------------------------------
 
 GLuint RenderContext::createVBO(u32 elementSize, u32 PropertyArrayIndex) {
 	u32 VBO;
@@ -126,8 +106,6 @@ GLuint RenderContext::createVBO(u32 elementSize, u32 PropertyArrayIndex) {
 	return VBO;
 }
 
-// ---------------------------------------------------------------------------
-
 GLuint RenderContext::createVAO() {
 	u32 VAO;
 	glGenVertexArrays(1, &VAO);
@@ -135,15 +113,11 @@ GLuint RenderContext::createVAO() {
 	return VAO;
 }
 
-// ---------------------------------------------------------------------------
-
 GLuint RenderContext::createEBO() {
 	u32 EBO;
 	glGenBuffers(1, &EBO);
 	return EBO;
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderContext::setDataVBO(u32 VBO, const Array<f32> *data) {
 	DE_ASSERT(data != nullptr, "Data must be not null.");
@@ -157,28 +131,20 @@ void RenderContext::setDataEBO(u32 EBO, const Array<u32> *data) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderContext::enableProperty(u32 PropertyArrayIndex) {
 	glEnableVertexAttribArray(PropertyArrayIndex);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderContext::disableProperty(u32 PropertyArrayIndex) {
 	glDisableVertexAttribArray(PropertyArrayIndex);
 }
 
-// ---------------------------------------------------------------------------
-
 void RenderContext::enableVAO(u32 VAO) {
 	glBindVertexArray(VAO);
 }
-
-// ---------------------------------------------------------------------------
 
 void RenderContext::drawTriangles(u32 indices) {
 	glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, 0);
 }
 
-} /* namespace DE */
+}

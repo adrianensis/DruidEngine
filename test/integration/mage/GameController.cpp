@@ -43,17 +43,11 @@ namespace DE {
 
 f32 GameController::smGlobalSpeed = 350;
 
-// ---------------------------------------------------------------------------
-
 GameController::GameController() : Script() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 GameController::~GameController() = default;
-
-// ---------------------------------------------------------------------------
 
 void GameController::createCrossHair() {
 	Vector2 size(80, 80);
@@ -78,7 +72,6 @@ void GameController::createCrossHair() {
 
 	getGameObject()->getScene()->addGameObject(mCrossHair);
 }
-// ---------------------------------------------------------------------------
 
 void GameController::createPlayer(f32 x, f32 y) {
 	Vector2 size(100 * 1.5f, 100 * 1.5f);
@@ -123,8 +116,6 @@ void GameController::createPlayer(f32 x, f32 y) {
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
-
-// ---------------------------------------------------------------------------
 
 void GameController::createEnemy(f32 x, f32 y) {
 	Vector2 size(150, 150);
@@ -171,8 +162,6 @@ void GameController::createEnemy(f32 x, f32 y) {
 
 	getGameObject()->getScene()->addGameObject(enemy);
 }
-
-// ---------------------------------------------------------------------------
 
 UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element element, f32 size) {
 	// Vector2 size(300,300);
@@ -229,8 +218,6 @@ UIButton* GameController::createBook(f32 x, f32 y, const Vector4 &color, Element
 	return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 void GameController::createBackground(f32 x, f32 y) {
 	Vector2 size(2400, 1000);
 
@@ -256,8 +243,6 @@ void GameController::createBackground(f32 x, f32 y) {
 	getGameObject()->getScene()->addGameObject(mBackground);
 }
 
-// ---------------------------------------------------------------------------
-
 GameObject* GameController::createPhysicFloorTile(f32 x, f32 y) {
 	Vector2 size(100, 100);
 
@@ -281,7 +266,6 @@ GameObject* GameController::createPhysicFloorTile(f32 x, f32 y) {
 
 	return floorTile;
 }
-// ---------------------------------------------------------------------------
 
 GameObject* GameController::createRenderFloorTile(f32 x, f32 y) {
 	Vector2 size(mRenderTileSize, 600);
@@ -314,13 +298,9 @@ GameObject* GameController::createRenderFloorTile(f32 x, f32 y) {
 	return floorTile;
 }
 
-// ---------------------------------------------------------------------------
-
 void GameController::init() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void GameController::firstStep() {
 
@@ -364,8 +344,6 @@ void GameController::firstStep() {
 
 	mSelectedBook = mBookSelector->get(0);
 }
-
-// ---------------------------------------------------------------------------
 
 void GameController::step() {
 
@@ -476,14 +454,10 @@ void GameController::step() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void GameController::terminate() {
 
 	DE_FREE(mBookSelector);
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

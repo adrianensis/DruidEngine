@@ -1,5 +1,4 @@
-#ifndef DE_UIELEMENT_H
-#define DE_UIELEMENT_H
+#pragma once
 
 #include "Scene/GameObject.hpp"
 #include "Core/Functor.hpp"
@@ -117,6 +116,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UIELEMENT_H */

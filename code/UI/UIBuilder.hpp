@@ -1,5 +1,4 @@
-#ifndef DE_UIBUILDER_H
-#define DE_UIBUILDER_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -159,6 +158,5 @@ public:
 	UIElement* getUIElement();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UIBUILDER_H */

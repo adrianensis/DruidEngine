@@ -3,8 +3,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 FreeListAllocator::Block::Block() {
 
 }
@@ -13,8 +11,6 @@ FreeListAllocator::Block::~Block() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 void FreeListAllocator::Block::init(byte *unalignedAddress, u32 size) {
 	this->unalignedAddress = unalignedAddress;
 	this->size = size;
@@ -22,21 +18,15 @@ void FreeListAllocator::Block::init(byte *unalignedAddress, u32 size) {
 	this->next = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 void FreeListAllocator::moveToUsedList(Block *block) {
 	block->next = mFirstBlockUsed;
 	mFirstBlockUsed = block;
 }
 
-// ---------------------------------------------------------------------------
-
 void FreeListAllocator::moveToFreeList(Block *block) {
 	block->next = mFirstBlockFree;
 	mFirstBlockFree = block;
 }
-
-// ---------------------------------------------------------------------------
 
 FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 	bool found = false;
@@ -95,8 +85,6 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 	return selectedBlock;
 }
 
-// ---------------------------------------------------------------------------
-
 u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 	bool found = false;
 
@@ -134,19 +122,13 @@ u32 FreeListAllocator::freeBlock(byte *unalignedAddress) {
 	return selectedBlock->size;
 }
 
-// ---------------------------------------------------------------------------
-
 FreeListAllocator::FreeListAllocator() : Allocator() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 FreeListAllocator::~FreeListAllocator() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void FreeListAllocator::init(u32 size) {
 	DE_TRACE()
@@ -156,21 +138,15 @@ void FreeListAllocator::init(u32 size) {
 	FreeListAllocator::reset();
 }
 
-// ---------------------------------------------------------------------------
-
 byte* FreeListAllocator::allocate(u32 size) {
 	return FreeListAllocator::allocate(size, 1);
 }
-
-// ---------------------------------------------------------------------------
 
 byte* FreeListAllocator::allocate(u32 size, u32 alignment) {
 	Block* block = allocateBlock(size + alignment);
 	byte* unalignedAddress = block->unalignedAddress;
 	return Allocator::allocateAlignedAddress(unalignedAddress, size, alignment);
 }
-
-// ---------------------------------------------------------------------------
 
 void FreeListAllocator::free(const byte *pointer) {
 	// pointer is an aligned address
@@ -181,13 +157,9 @@ void FreeListAllocator::free(const byte *pointer) {
 	Allocator::setAllocatedSize(Allocator::getAllocatedSize() - freeSize);
 }
 
-// ---------------------------------------------------------------------------
-
 void FreeListAllocator::flush() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void FreeListAllocator::reset() {
 	Allocator::reset();
@@ -200,11 +172,8 @@ void FreeListAllocator::reset() {
 	mFirstBlockUsed = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 void FreeListAllocator::terminate() {
 
 }
-// ---------------------------------------------------------------------------
 
-} /* namespace DE */
+}

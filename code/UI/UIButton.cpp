@@ -9,17 +9,11 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 UIButton::UIButton() : UIElement() {
 	mLabel = nullptr;
 }
 
-// ---------------------------------------------------------------------------
-
 UIButton::~UIButton() = default;
-
-// ---------------------------------------------------------------------------
 
 void UIButton::init() {
 	UIElement::init();
@@ -76,4 +70,4 @@ void UIButton::setVisibility(bool visibility) {
 	if(mLabel) mLabel->setVisibility(visibility);
 }
 
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_BASECONTAINER_H
-#define DE_BASECONTAINER_H
+#pragma once
 
 #include "Core/Basic.hpp"
 #include "Memory/Allocator.hpp"
@@ -31,6 +30,5 @@ public:
 	virtual void clear();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_BASECONTAINER_H */

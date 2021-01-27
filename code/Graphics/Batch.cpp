@@ -25,8 +25,6 @@ namespace DE {
 Matrix4 Batch::smScreenOrtho;
 bool Batch::smIsScreenOrthoReady = false;
 
-// ---------------------------------------------------------------------------
-
 u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
 
 	/*
@@ -43,8 +41,6 @@ u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
 }
 
 
-
-// ---------------------------------------------------------------------------
 
 Batch::Batch() : DE_Class() {
 	mVBOPosition = 0;
@@ -89,8 +85,6 @@ Batch::~Batch() {
 	glDeleteBuffers(1, &mVBOPosition);
 	glDeleteBuffers(1, &mEBO);
 }
-
-// ---------------------------------------------------------------------------
 
 void Batch::init(const Mesh *mesh, Material *material) {
 	// TRACE();
@@ -139,8 +133,6 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	bind();
 }
 
-// ---------------------------------------------------------------------------
-
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(mVertexPositionSize, 0);
@@ -174,19 +166,14 @@ void Batch::bind() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-
 	}
 
 	RenderContext::enableVAO(0);
 }
 
-// ---------------------------------------------------------------------------
-
 void Batch::update() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 bool Batch::checkInFrustum(Camera *cam, Renderer *renderer) {
 	Transform* t = renderer->getGameObject()->getTransform();
@@ -199,8 +186,6 @@ bool Batch::checkInFrustum(Camera *cam, Renderer *renderer) {
 	return cam->getFrustum()->testSphere(position, maxRadius);
 }
 
-// ---------------------------------------------------------------------------
-
 bool Batch::checkDistance(Camera *cam, Renderer *renderer) {
 	Transform* t = renderer->getGameObject()->getTransform();
 
@@ -209,8 +194,6 @@ bool Batch::checkDistance(Camera *cam, Renderer *renderer) {
 
 	return rendererPosition.dst(camPosition) < renderer->getRenderDistance();
 }
-
-// ---------------------------------------------------------------------------
 
 bool Batch::checkIsOutOfCamera(Camera *cam, Renderer *renderer) {
 
@@ -225,8 +208,6 @@ bool Batch::checkIsOutOfCamera(Camera *cam, Renderer *renderer) {
 
 	return getIsOutOfCamera;
 }
-
-// ---------------------------------------------------------------------------
 
 u32 Batch::render(u32 layer) {
 
@@ -312,13 +293,10 @@ u32 Batch::render(u32 layer) {
 
 		RenderContext::enableVAO(0);
 
-
 	}
 
 	return drawCallCounter;
 }
-
-// ---------------------------------------------------------------------------
 
 void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 
@@ -368,8 +346,6 @@ void Batch::insertSorted(Renderer *renderer, List<Renderer*> *renderers) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Batch::addRenderer(Renderer *renderer) {
 
 	checkIsOutOfCamera(mRenderEngine->getCamera(), renderer);
@@ -398,17 +374,13 @@ void Batch::addRenderer(Renderer *renderer) {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Batch::internalRemoveRenderer(const Iterator *it, List<Renderer*> *list) {
 	internalRemoveRendererFromList(it, list);
 
 	auto castedIt = it->cast<Renderer*>();
 	Renderer* renderer = (*castedIt).get();
 
-
 }
-// ---------------------------------------------------------------------------
 
 void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *list) {
 	auto castedIt = it->cast<Renderer*>();
@@ -428,8 +400,6 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 		DE_FREE(renderer);
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 void Batch::addToVertexBuffer(Renderer* renderer) {
 
@@ -485,4 +455,4 @@ void Batch::clearVertexBuffer() {
 	mMeshesIndex = 0;
 }
 
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_ENGINE_H
-#define DE_ENGINE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -9,8 +8,6 @@ namespace DE {
 class RenderEngine;
 class PhysicsEngine;
 class ScriptEngine;
-
-// ---------------------------------------------------------------------------
 
 class Engine: public DE_Class, public Singleton<Engine> {
 
@@ -32,8 +29,5 @@ public:
 	void terminate();
 };
 
-// ---------------------------------------------------------------------------
+}
 
-} /* namespace DE */
-
-#endif /* DE_ENGINE_H */

@@ -1,5 +1,4 @@
-#ifndef DE_TIME_H
-#define DE_TIME_H
+#pragma once
 
 #include "Core/BasicTypes.hpp"
 #include "Core/Singleton.hpp"
@@ -58,6 +57,5 @@ public:
 	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds() ; }
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_TIME_H */

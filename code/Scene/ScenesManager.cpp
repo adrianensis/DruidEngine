@@ -12,14 +12,10 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 ScenesManager::ScenesManager() : DE_Class(), Singleton() {
 	mCurrentScene = nullptr;
 	mSceneHasChanged = true;
 }
-
-// ---------------------------------------------------------------------------
 
 ScenesManager::~ScenesManager() {
 
@@ -33,8 +29,6 @@ ScenesManager::~ScenesManager() {
 	DE_FREE(mGameObjectController);
 }
 
-// ---------------------------------------------------------------------------
-
 void ScenesManager::internalLoadScene() {
 	if (EngineConfig::getInstance()->getU32("scenes.length") > 0) {
 		std::string sceneName = EngineConfig::getInstance()->getString(
@@ -45,8 +39,6 @@ void ScenesManager::internalLoadScene() {
 	mGameObjectController->setScene(mCurrentScene);
 	RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getFirstComponent<Camera>());
 }
-
-// ---------------------------------------------------------------------------
 
 void ScenesManager::init() {
 
@@ -72,8 +64,6 @@ void ScenesManager::init() {
 	mCurrentScene = mScenes->get(0);
 }
 
-// ---------------------------------------------------------------------------
-
 void ScenesManager::step() {
 
 	/*if (mSceneHasChanged) {
@@ -93,13 +83,9 @@ void ScenesManager::loadCurrentScene() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void ScenesManager::addScene(Scene *newScene) {
 	mScenes->pushBack(newScene);
 }
-
-// ---------------------------------------------------------------------------
 
 void ScenesManager::setScene(u32 i) {
 	if (mCurrentSceneIndex != i) {
@@ -107,7 +93,5 @@ void ScenesManager::setScene(u32 i) {
 		mSceneHasChanged = true;
 	}
 }
-
-// ---------------------------------------------------------------------------
 
 }

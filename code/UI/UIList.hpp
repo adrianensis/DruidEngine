@@ -1,5 +1,4 @@
-#ifndef DE_UILIST_H
-#define DE_UILIST_H
+#pragma once
 
 #include "UI/UIElement.hpp"
 
@@ -16,6 +15,5 @@ public:
 	virtual void setText(const std::string &text) override;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UILIST_H */

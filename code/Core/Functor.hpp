@@ -1,5 +1,4 @@
-#ifndef DE_FUNCTOR_H_
-#define DE_FUNCTOR_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include <functional>
@@ -58,6 +57,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_FUNCTOR_H_ */

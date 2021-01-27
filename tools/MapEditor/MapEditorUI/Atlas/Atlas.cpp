@@ -50,8 +50,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 Atlas::Atlas(){
 
 }
@@ -60,16 +58,12 @@ Atlas::~Atlas(){
 
 }
 
-// ---------------------------------------------------------------------------
-
 void Atlas::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
 	createAtlasSelector();
 	toggleAtlas();
 }
-
-// ---------------------------------------------------------------------------
 
 void Atlas::createAtlas(u32 index, Material* material) {
 
@@ -178,8 +172,6 @@ void Atlas::createAtlasSelector() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void Atlas::toggleAtlas(){
 	mIsAtlasShow = !mIsAtlasShow;
 
@@ -188,6 +180,4 @@ void Atlas::toggleAtlas(){
 	//UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsAtlasShow);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

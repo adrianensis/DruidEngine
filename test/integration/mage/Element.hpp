@@ -1,5 +1,4 @@
-#ifndef DE_ELEMENT_H
-#define DE_ELEMENT_H
+#pragma once
 
 #include "Scripting/Script.hpp"
 #include "Maths/Vector2.hpp"
@@ -10,6 +9,5 @@ enum class Element {
 	FIRE, ICE, WIND
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_ELEMENT_H */

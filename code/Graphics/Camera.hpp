@@ -1,5 +1,4 @@
-#ifndef DE_CAMERA_H
-#define DE_CAMERA_H
+#pragma once
 
 #include "Scene/Component.hpp"
 #include "Maths/Vector3.hpp"
@@ -56,6 +55,5 @@ public:
 	};
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_CAMERA_H */

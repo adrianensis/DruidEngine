@@ -1,5 +1,4 @@
-#ifndef DE_UITEXTEDITABLE_H
-#define DE_UITEXTEDITABLE_H
+#pragma once
 
 #include "UI/UIText.hpp"
 
@@ -16,6 +15,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UITEXTEDITABLE_H */

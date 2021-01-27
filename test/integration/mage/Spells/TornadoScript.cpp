@@ -24,21 +24,15 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 TornadoScript::TornadoScript() : Script() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 TornadoScript::~TornadoScript() = default;
 
 void TornadoScript::init() {
 
 }
-
-// ---------------------------------------------------------------------------
 
 void TornadoScript::firstStep() {
 	getGameObject()->setTag("tornado");
@@ -48,8 +42,6 @@ void TornadoScript::firstStep() {
 	mDurationTimeCounter = 0;
 }
 
-// ---------------------------------------------------------------------------
-
 void TornadoScript::step() {
 	if (mDurationTimeCounter >= mDurationTime) {
 		ECHO("TORNADO DESTROY")
@@ -57,8 +49,6 @@ void TornadoScript::step() {
 	}
 	mDurationTimeCounter += Time::getInstance()->getDeltaTimeSeconds();
 }
-
-// ---------------------------------------------------------------------------
 
 void TornadoScript::onEnterCollision(GameObject *otherGameObject) {
 
@@ -76,6 +66,4 @@ void TornadoScript::terminate() {
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

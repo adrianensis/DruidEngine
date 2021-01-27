@@ -1,5 +1,4 @@
-#ifndef DE_HASH_H
-#define DE_HASH_H
+#pragma once
 
 #include "Core/BasicTypes.hpp"
 #include "Assert/Assert.hpp"
@@ -25,7 +24,6 @@ public:
 		return mHash;
 	};
 
-
 	bool operator==(const Hash &rhs) const {
 		return this->mHash == rhs.mHash;
 	}
@@ -49,6 +47,5 @@ public:
 template<> u64 Hash::hash<std::string>(std::string key);
 template<> u64 Hash::hash<const c8 *>(const c8 * key);
 
-} /* namespace DE */
+}
 
-#endif /* DE_HASH_H */

@@ -1,5 +1,4 @@
-#ifndef DE_TIMERMANAGER_H
-#define DE_TIMERMANAGER_H
+#pragma once
 
 #include "Core/TimeUtils.hpp"
 #include "Core/BasicTypes.hpp"
@@ -76,6 +75,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_TIMERMANAGER_H */

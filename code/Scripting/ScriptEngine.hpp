@@ -1,5 +1,4 @@
-#ifndef DE_SCRIPTENGINE_H
-#define DE_SCRIPTENGINE_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/Singleton.hpp"
@@ -25,6 +24,5 @@ public:DE_CLASS(ScriptEngine)
 	void terminate();
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_SCRIPTENGINE_H */

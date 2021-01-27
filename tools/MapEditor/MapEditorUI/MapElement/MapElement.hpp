@@ -1,5 +1,4 @@
-#ifndef DE_MAPELEMENT_H
-#define DE_MAPELEMENT_H
+#pragma once
 
 #include "Scene/GameObject.hpp"
 #include "Graphics/Material.hpp"
@@ -20,6 +19,5 @@ namespace DE
         static MapElement *create(Scene *scene, Vector3 position, const Vector2 &size, Material *material, u32 layer);
     };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MAPELEMENT_H */

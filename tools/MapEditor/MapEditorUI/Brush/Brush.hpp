@@ -1,5 +1,4 @@
-#ifndef DE_BRUSH_H
-#define DE_BRUSH_H
+#pragma once
 
 #include "Maths/Vector2.hpp"
 #include <string>
@@ -38,6 +37,5 @@ public:
 	void setDrawTileSize(const Vector2& size);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_BRUSH_H */

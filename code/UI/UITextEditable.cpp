@@ -3,16 +3,10 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 UITextEditable::UITextEditable() : UIText() {
 }
 
-// ---------------------------------------------------------------------------
-
 UITextEditable::~UITextEditable() = default;
-
-// ---------------------------------------------------------------------------
 
 
 void UITextEditable::init() {
@@ -22,8 +16,6 @@ void UITextEditable::init() {
 	subscribeToCharEvents();
 	subscribeToEnterEvent();
 }
-
-// ---------------------------------------------------------------------------
 
 void UITextEditable::onFocusLost() {
 	if(hasFocus()){
@@ -36,4 +28,4 @@ void UITextEditable::onFocusLost() {
 	}
 }
 
-} /* namespace DE */
+}

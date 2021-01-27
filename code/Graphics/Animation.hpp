@@ -1,5 +1,4 @@
-#ifndef DE_ANIMATION_H_
-#define DE_ANIMATION_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -44,6 +43,5 @@ public:
 	const AnimationFrame* getCurrentFrame() const;
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_ANIMATION_H_ */

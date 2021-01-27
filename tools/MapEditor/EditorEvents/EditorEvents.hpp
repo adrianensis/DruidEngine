@@ -1,5 +1,4 @@
-#ifndef DE_EDITOREVENTS_H
-#define DE_EDITOREVENTS_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Events/EventsManager.hpp"
@@ -7,11 +6,8 @@
 
 namespace DE {
 
-
 DE_EVENT_DECLARATION_BEGIN(EventOnSelectTile)
 DE_EVENT_DECLARATION_END(EventOnSelectTile)
 
+}
 
-} /* namespace DE */
-
-#endif /* DE_EDITOREVENTS_H */

@@ -1,5 +1,4 @@
-#ifndef DE_QUATERNION_H
-#define DE_QUATERNION_H
+#pragma once
 
 #include "Core/DE_Class.hpp"
 
@@ -184,6 +183,5 @@ public:
 	}
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_QUATERNION_H */

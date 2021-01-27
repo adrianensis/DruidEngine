@@ -19,8 +19,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 QuadTree::Node::Node() : DE_Class() {
 	mLeftTop = Vector2();
 	mWidth = 0.0f;
@@ -38,8 +36,6 @@ QuadTree::Node::Node() : DE_Class() {
 	mDynamicCollidersCount = 0;
 	mStaticCollidersCount = 0;
 }
-
-// ---------------------------------------------------------------------------
 
 QuadTree::Node::~Node() {
 	mTree = nullptr;
@@ -64,8 +60,6 @@ QuadTree::Node::~Node() {
 	DE_FREE(mExitingColliders);
 	DE_FREE(mLeftTopChildrenArray);
 }
-
-// ---------------------------------------------------------------------------
 
 void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree) {
 	mLeftTop = leftTop;
@@ -124,8 +118,6 @@ QuadTree::Node* QuadTree::Node::createChildNode(u32 index) {
 	node->init(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight, mMinWidth, mMinHeight, mTree);
 	return node;
 };
-
-// ---------------------------------------------------------------------------
 
 void QuadTree::Node::addCollider(Collider *collider) {
 
@@ -191,7 +183,6 @@ void QuadTree::Node::update(/*contactManager*/) {
 	if (isLeaf()) {
 
 //		TRACE();
-
 
 		/*if (mDynamicCollidersCount + mStaticCollidersCount > 0) {
 		// DEBUG DRAW
@@ -389,8 +380,6 @@ u32 QuadTree::Node::getCollidersCount() const {
 	return mColliders->getLength();
 };
 
-// ---------------------------------------------------------------------------
-
 void QuadTree::Node::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 
 	bool rayIntersectsNode = MathUtils::testLineSphereSimple(Vector2(lineStart), Vector2(lineEnd),
@@ -430,8 +419,6 @@ void QuadTree::Node::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineE
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 QuadTree::QuadTree() : DE_Class() {
 	mRoot = nullptr;
 	mWidth = 0.0f;
@@ -439,14 +426,10 @@ QuadTree::QuadTree() : DE_Class() {
 	mStatus = ColliderStatus::STATUS_NONE;
 }
 
-// ---------------------------------------------------------------------------
-
 QuadTree::~QuadTree() {
 	DE_TRACE()
 	DE_FREE(mRoot);
 }
-
-// ---------------------------------------------------------------------------
 
 void QuadTree::init(f32 size) {
 	DE_TRACE()
@@ -460,27 +443,19 @@ void QuadTree::init(f32 size) {
 	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight, minSize, minSize, this);
 }
 
-// ---------------------------------------------------------------------------
-
 void QuadTree::update() {
 	DE_TIMEMARK_START()
 	mRoot->update();
 	DE_TIMEMARK_END()
 }
 
-// ---------------------------------------------------------------------------
-
 void QuadTree::addCollider(Collider *collider) {
 	collider->resetHasSizeChaged();
 	mRoot->addCollider(collider);
 }
 
-// ---------------------------------------------------------------------------
-
 void QuadTree::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineEnd, List<GameObject*> *outList) {
 	mRoot->rayCastQuery(lineStart, lineEnd, outList);
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

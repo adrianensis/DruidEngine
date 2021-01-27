@@ -92,4 +92,4 @@ void EventsManager::terminate(){
 	}
 }
 
-} /* namespace DE */
+}

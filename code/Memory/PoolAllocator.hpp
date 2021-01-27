@@ -1,5 +1,4 @@
-#ifndef DE_POOLALLOCATOR_H
-#define DE_POOLALLOCATOR_H
+#pragma once
 
 #include "Memory/LinearAllocator.hpp"
 #include "Core/Basic.hpp"
@@ -75,6 +74,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_POOLALLOCATOR_H */

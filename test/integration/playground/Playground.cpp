@@ -41,19 +41,12 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
 
 Playground::Playground() : Script() {
 
 }
 
-// ---------------------------------------------------------------------------
-
 Playground::~Playground() = default;
-
-// ---------------------------------------------------------------------------
 
 void Playground::createPlayer() {
 	Vector2 size(100 * 1.5f, 100 * 1.5f);
@@ -99,8 +92,6 @@ void Playground::createPlayer() {
 
 	getGameObject()->getScene()->addGameObject(mPlayer);
 }
-
-// ---------------------------------------------------------------------------
 
 GameObject* Playground::createProjectile(f32 x, f32 y) {
 	Vector2 size(40,40);
@@ -149,8 +140,6 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 }
 
 
-// ---------------------------------------------------------------------------
-
 void Playground::init() {
 	mTransform = getGameObject()->getTransform();
 	mPlayer = nullptr;
@@ -159,11 +148,8 @@ void Playground::init() {
 	mCamera = nullptr;
 	mCameraTransform = nullptr;
 
-
 	mCameraControl = true;
 }
-
-// ---------------------------------------------------------------------------
 
 void Playground::firstStep() {
 
@@ -184,10 +170,7 @@ void Playground::firstStep() {
 	mCameraControl = false;
 	//createTile(300,300,30, 30);
 
-
 }
-
-// ---------------------------------------------------------------------------
 
 void Playground::step() {
 
@@ -205,7 +188,6 @@ void Playground::step() {
 	processMovement();
 
 }
-
 
 void Playground::processMovement() {
 
@@ -273,12 +255,8 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 }
 
 
-// ---------------------------------------------------------------------------
-
 void Playground::terminate() {
 
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

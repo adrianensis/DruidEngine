@@ -1,5 +1,4 @@
-#ifndef DE_MEMORY_H
-#define DE_MEMORY_H
+#pragma once
 
 #include "Memory/Allocator.hpp"
 #include <map>
@@ -107,6 +106,5 @@ public:
 	}
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_MEMORY_H */

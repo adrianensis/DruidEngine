@@ -1,5 +1,4 @@
-#ifndef DE_EVENT_H_
-#define DE_EVENT_H_
+#pragma once
 
 #include "Core/DE_Class.hpp"
 #include "Core/BasicTypes.hpp"
@@ -95,6 +94,5 @@ public:
 	}
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_EVENT_H_ */

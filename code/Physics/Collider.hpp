@@ -1,5 +1,4 @@
-#ifndef DE_COLLIDER_H
-#define DE_COLLIDER_H
+#pragma once
 
 #include "Scene/Component.hpp"
 #include "Maths/Vector2.hpp"
@@ -72,5 +71,5 @@ public:
 	virtual void save(ConfigMap* configMap, const std::string& objectName) override;
 	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
 };
-} /* namespace DE */
-#endif /* DE_COLLIDER_H */
+}
+

@@ -51,15 +51,11 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 void MapEditorUI::resetBrush() {
 	mMapEditor->mGrid.mIsPaintMode = false;
 	mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::createBrush() {
 	mBrush.init(mMapEditor);
@@ -68,8 +64,6 @@ void MapEditorUI::createBrush() {
 }
 
 
-// ---------------------------------------------------------------------------
-
 MapEditorUI::MapEditorUI(){
 
 }
@@ -77,8 +71,6 @@ MapEditorUI::MapEditorUI(){
 MapEditorUI::~MapEditorUI(){
 	DE_FREE(mInspector);
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
@@ -93,8 +85,6 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 	createBrush();
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditorUI::createMenuBar() {
 
 	mMenuBar = DE_NEW<MenuBar>();
@@ -105,8 +95,6 @@ void MapEditorUI::createInspector() {
 	mInspector = DE_NEW<Inspector>();
 	mInspector->init(mMapEditor);
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::createInfoBar() {
 
@@ -126,20 +114,14 @@ void MapEditorUI::createInfoBar() {
 	mTextFPS = EditorBuilder::getInstance()->createLabel(mStringsUI.FPS);
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditorUI::updateInfoBar() {
 	mTextFPS->setText(mStringsUI.FPS + std::to_string(1.0f/Time::getInstance()->getDeltaTimeSeconds()));
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::createAtlas() {
 	mAtlas = DE_NEW<Atlas>();
 	mAtlas->init(mMapEditor);
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::update() {
 	mBrush.update();
@@ -147,8 +129,6 @@ void MapEditorUI::update() {
 	updateGridLines();
 	updateInfoBar();
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::updateGridLines() {
 	if(mIsGridShow){
@@ -167,19 +147,13 @@ void MapEditorUI::updateGridLines() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditorUI::toggleGrid() {
 	mIsGridShow = !mIsGridShow;
 }
 
-// ---------------------------------------------------------------------------
-
 void MapEditorUI::toggleAtlas(){
 	mAtlas->toggleAtlas();
 }
-
-// ---------------------------------------------------------------------------
 
 void MapEditorUI::createSpriteFromBrush() {
 
@@ -276,6 +250,4 @@ void MapEditorUI::createSpriteFromBrush() {
 	}*/
 }
 
-// ---------------------------------------------------------------------------
-
-} /* namespace DE */
+}

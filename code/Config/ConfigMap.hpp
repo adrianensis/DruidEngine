@@ -1,19 +1,15 @@
-#ifndef DE_CONFIGMAP_H
-#define DE_CONFIGMAP_H
+#pragma once
 
 #include "Core/Basic.hpp"
-#include "File/File.hpp"
+#include "Containers/HashMap.hpp"
 
 namespace DE {
-
-template<class K, class V> class HashMap;
-template<class T> class List;
 
 class ConfigMap: public DE_Class {
 
 private:
 	using StringStringMap = HashMap<std::string, std::string>;
-	DE_M(Map, StringStringMap*)
+	DE_M(Map, StringStringMap)
 
 	static std::string trueString;
 	static std::string falseString;
@@ -37,6 +33,5 @@ public:
 	/*template<class T>
 	const List<T>* getList(const std::string &key);*/
 };
-}
 
-#endif /* DE_CONFIGMAP_H */
+}

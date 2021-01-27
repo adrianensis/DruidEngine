@@ -1,5 +1,4 @@
-#ifndef DE_RENDERCONTEXT_H
-#define DE_RENDERCONTEXT_H
+#pragma once
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -53,6 +52,5 @@ public:
 	static void drawTriangles(u32 indices);
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_RENDERCONTEXT_H */

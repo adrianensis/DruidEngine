@@ -17,8 +17,6 @@
 
 namespace DE {
 
-// ---------------------------------------------------------------------------
-
 UIElement::UIElement() : GameObject() {
 	mCollider = nullptr;
 	mRenderer = nullptr;
@@ -26,8 +24,6 @@ UIElement::UIElement() : GameObject() {
 	mConsumeInput = true;
 	mGroup = nullptr;
 }
-
-// ---------------------------------------------------------------------------
 
 UIElement::~UIElement() {
 
@@ -48,8 +44,6 @@ void UIElement::onDestroy() {
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
 }
-
-// ---------------------------------------------------------------------------
 
 void UIElement::subscribeToKeyEvents() {
 	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
@@ -109,8 +103,6 @@ void UIElement::subscribeToEscEvent() {
 	});
 }
 
-// ---------------------------------------------------------------------------
-
 bool UIElement::hasFocus() const {
 	return this == UI::getInstance()->getFocusedElement();
 }
@@ -133,8 +125,6 @@ void UIElement::onFocus() {
 
 }
 
-
-// ---------------------------------------------------------------------------
 
 void UIElement::onPressed() {
 
@@ -183,8 +173,6 @@ void UIElement::onPressed() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-
 void UIElement::onReleased() {
 
 	// TODO : boolean to enable or disable : can be pressed?
@@ -194,14 +182,10 @@ void UIElement::onReleased() {
 	mOnReleasedFunctor.execute();
 }
 
-// ---------------------------------------------------------------------------
-
 void UIElement::setComponentsCache() {
 	mRenderer = getFirstComponent<Renderer>();
 	mCollider = getFirstComponent<Collider>();
 }
-
-// ---------------------------------------------------------------------------
 
 void UIElement::setVisibility(bool visibility) {
 	getRenderer()->setIsActive(visibility);
@@ -212,4 +196,4 @@ bool UIElement::isVisible(){
 	return getRenderer()->isActive();
 }
 
-} /* namespace DE */
+}

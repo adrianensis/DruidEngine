@@ -1,5 +1,4 @@
-#ifndef DE_RIGIDBODY_H
-#define DE_RIGIDBODY_H
+#pragma once
 
 #include "Scene/Component.hpp"
 #include "Maths/Vector3.hpp"
@@ -63,5 +62,5 @@ public:
 	bool isSleeping();
 
 };
-} /* namespace DE */
-#endif /* DE_RIGIDBODY_H */
+}
+

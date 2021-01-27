@@ -12,4 +12,4 @@ Event::~Event() {
 
 }
 
-} /* namespace DE */
+}

@@ -1,5 +1,4 @@
-#ifndef DE_MATHUTILS_H
-#define DE_MATHUTILS_H
+#pragma once
 
 #include <cmath> /* ceil, max */
 #include <algorithm>
@@ -58,4 +57,3 @@ public:
 };
 }
 
-#endif /* DE_MATHUTILS_H */

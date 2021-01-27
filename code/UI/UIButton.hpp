@@ -1,5 +1,4 @@
-#ifndef DE_UIBUTTON_H
-#define DE_UIBUTTON_H
+#pragma once
 
 #include "UI/UIElement.hpp"
 
@@ -27,6 +26,5 @@ public:
 
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_UIBUTTON_H */

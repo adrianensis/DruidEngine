@@ -1,5 +1,4 @@
-#ifndef DE_CLASS_H
-#define DE_CLASS_H
+#pragma once
 
 #include "Core/Hash.hpp"
 #include <string>
@@ -94,8 +93,5 @@ public:
 	}
 };
 
-// ---------------------------------------------------------------------------
+}
 
-} /* namespace DE */
-
-#endif //DE_CLASS_H

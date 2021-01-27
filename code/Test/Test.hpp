@@ -1,5 +1,4 @@
-#ifndef DE_TEST_H
-#define DE_TEST_H
+#pragma once
 
 #include <iostream>
 #include <iomanip>
@@ -74,4 +73,3 @@ __test__output  <<\
 
 #define summary() __test__output << std::endl << std::setprecision(4) << (isnan(__test__totaltime) ? 0 : __test__totaltime) << "ms " << __test__ok << " " <<(__test__total-__test__ok) << std::endl; std::cout << __test__output.str();
 
-#endif /* DE_TEST_H */

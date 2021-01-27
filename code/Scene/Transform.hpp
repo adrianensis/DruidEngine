@@ -1,13 +1,10 @@
-#ifndef DE_TRANSFORM_H
-#define DE_TRANSFORM_H
+#pragma once
 
 #include "Scene/Component.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
 namespace DE {
-
-// ---------------------------------------------------------------------------
 
 class Transform: public Component {
 
@@ -45,32 +42,28 @@ public:
 
 	void init() override;
 
-	// ---------------------------------------------------------------------------
-
+	
 	/*!
 	 \brief Translate the object by an increment vector.
 	 \param Vector3 Delta position.
 	 */
 	void translate(const Vector3 &vector);
 
-	// ---------------------------------------------------------------------------
-
+	
 	/*!
 	 \brief Rotate the object by an increment vector.
 	 \param Vector3 Delta rotation.
 	 */
 	void rotate(const Vector3 &vector);
 
-	// ---------------------------------------------------------------------------
-
+	
 	/*!
 	 \brief Orient the object to a 3D point.
 	 \param Vector3 Target position.
 	 */
 	void lookAt(const Vector3 &targetPosition);
 
-	// ---------------------------------------------------------------------------
-
+	
 	// void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3 &vector);
 	void setRotation(const Vector3 &vector);
@@ -91,10 +84,8 @@ public:
 		mForceModelMatrixCalculation = true;
 	}
 
-	// ---------------------------------------------------------------------------
-
+	
 };
 
-} /* namespace DE */
+}
 
-#endif /* DE_TRANSFORM_H */
