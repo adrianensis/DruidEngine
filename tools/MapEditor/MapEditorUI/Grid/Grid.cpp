@@ -104,7 +104,7 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 }
 
 
-void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
+void Grid::click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
 
 	f32 halfSizeX = (mGridSize * mGridTileSize / 2.0f);
 	f32 halfSizeY = (mGridSize * mGridTileSize / 2.0f);
@@ -118,7 +118,7 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Ve
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 
 			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
-				if(mIsPaintMode){
+				if(isPaintMode){
 					drawTile(cellData, clampedPosition, brushTile, tileSize, layer);
 				} else {
 					selectTile(cellData, layer, Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL));
@@ -127,7 +127,7 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile, const Ve
 
 			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 
-				if(mIsPaintMode){
+				if(isPaintMode){
 					removeTile(cellData, layer);
 				}
 			}
@@ -155,7 +155,6 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 
 			mSelectedTiles->pushBack(tile);
 
-			//mMapEditorUI.updateInspectorOnSelectTile();
 			EventOnSelectTile event;
 			DE_SEND_EVENT(this, this, event);
 		}

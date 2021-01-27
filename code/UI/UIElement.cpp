@@ -43,6 +43,10 @@ void UIElement::onDestroy() {
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
 	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
+
+	if(hasFocus()){
+		UI::getInstance()->setFocusedElement(nullptr);
+	}
 }
 
 void UIElement::subscribeToKeyEvents() {

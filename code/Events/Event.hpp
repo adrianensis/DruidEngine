@@ -7,18 +7,6 @@
 
 namespace DE {
 
-/*
-  Macros to declare new events. Example:
-
-  DE_EVENT_DECLARATION_BEGIN(EventDamage);
-
-  // MEMBERs go here
-  f32 damage;
-  f32 damageMultiplier;
-
-  DE_EVENT_DECLARATION_END();
- */
-
 #define DE_EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
 public: \
 	DE_GENERATE_METADATA(EventClassName); \

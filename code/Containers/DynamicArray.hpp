@@ -25,7 +25,6 @@ private:
 	mutable u32 mCacheIndex = 0;
 	List<Array<T>*>* mArrays;
 
-	
 	void _updateCache(u32 arrayIndex) const { // const method, but mutable variables.
 		if (arrayIndex != mCacheIndex || mCache == nullptr) {
 			mCache = mArrays->get(arrayIndex);
@@ -33,7 +32,6 @@ private:
 		}
 	}
 
-	
 	T& randomAccessOperator(u32 index) const {
 		DE_ASSERT(index >= 0, "Index out of bounds.");
 
@@ -44,7 +42,6 @@ private:
 		return (*mCache)[realIndex];
 	}
 
-	
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
 		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
 		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
@@ -64,7 +61,6 @@ public:
 		mCache = nullptr;
 	}
 
-	
 	/*!
 	 \brief Destructor.
 	 */
@@ -79,7 +75,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Copy Constructor.
 	 \param other Other DynamicArray.
@@ -98,7 +93,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Copy Constructor.
 	 \param other Other Array.
@@ -122,7 +116,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Constructor from raw array.
 	 \param rawArray The raw array.
@@ -132,7 +125,6 @@ public:
 		DynamicArray::init(rawArray, length, 1);
 	}
 
-	
 	/*!
 	 \brief Constructor from raw array. Aligned.
 	 \param rawArray The raw array.
@@ -146,7 +138,6 @@ public:
 		DynamicArray::init(*array);
 	}
 
-	
 	/*!
 	 \brief Constructor.
 	 */
@@ -154,7 +145,6 @@ public:
 		DynamicArray::init(0);
 	}
 
-	
 	/*!
 	 \brief Constructor.
 	 \param length Length of the array.
@@ -163,7 +153,6 @@ public:
 		DynamicArray::init(length, 1);
 	}
 
-	
 	/*!
 	 \brief Constructor. Aligned.
 	 \param length Length of the array.
@@ -188,7 +177,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Fill the array with the same element.
 	 \param element The element.
@@ -202,7 +190,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \param index The index.
 	 \return Element at index.
@@ -211,7 +198,6 @@ public:
 		return DynamicArray::randomAccessOperator(index);
 	}
 
-	
 	/*!
 	 \brief Sets element at index.
 	 \param index The index.
@@ -231,7 +217,6 @@ public:
 		(*this)[index] = element;
 	}
 
-	
 	void clear() override {
 		BaseContainer::clear();
 
@@ -245,9 +230,6 @@ public:
 		mCache = nullptr;
 		mCacheIndex = 0;
 	}
-
-	
 };
-
 }
 

@@ -13,15 +13,13 @@ class Array: public SequentialContainer<T> {
 
 private:
 
-	T* mTStart;
-	byte* mStart;
-
+	DE_M(TStart, T*);
+	DE_M(Start, byte*);
 	
 	T& randomAccessOperator(u32 index) const {
 		DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
 		return mTStart[index];
 	}
-
 	
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
 		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
@@ -29,12 +27,10 @@ private:
 		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
 		DE_ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
 	}
-
 	
 	void raw_copy(const Array &other) {
 		raw_init(other.mTStart, other.mLength, other.mElementSize, other.mAlignment);
 	}
-
 	
 	void raw_init(const T rawArray[], u32 length, u32 elementSize) {
 		raw_init(length, elementSize, 1);
@@ -62,7 +58,6 @@ private:
 		std::memcpy(mStart + destinyIndex * (this->mElementSize), rawArray + sourceIndex * (this->mElementSize),
 				length * (this->mElementSize));
 	}
-
 	
 	void raw_allocate(u32 length, u32 elementSize, u32 alignment) {
 		BaseContainer::init(length, elementSize, alignment);
@@ -70,20 +65,17 @@ private:
 		// TODO allocate with Memory::allocate, create new function for raw allocation.
 	}
 
-	
 	void raw_clear() {
 		f32 length = this->mLength;
 		BaseContainer::clear();
 		this->mLength = length;
 		std::memset(mStart, 0, this->mLength * (this->mElementSize));
 	}
-
 	
 public:
 
 	using SequentialContainer<T>::put; // because "put" method is ambiguous.
 
-	
 	DE_CLASS_TEMPLATE(Array<T>, T);
 
 	/*!
@@ -94,7 +86,6 @@ public:
 		mTStart = nullptr;
 	}
 
-	
 	/*!
 	 \brief Destructor.
 	 */
@@ -106,7 +97,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Copy Constructor.
 	 \param other Other Array.
@@ -116,73 +106,58 @@ public:
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
-	
 	void fill(const T element) override {
-		FOR_RANGE(i, 0, SequentialContainer<T>::mLength)
-		{
+		FOR_RANGE(i, 0, SequentialContainer<T>::mLength) {
 			mTStart[i] = element;
 		}
 	}
 
-	
 	void init(const T rawArray[], u32 length) override {
 		raw_init(rawArray, length, sizeof(T));
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
-	
 	void init(const T rawArray[], u32 length, u32 alignment) override {
 		raw_init(rawArray, length, sizeof(T), alignment);
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
-	
 	void init(u32 length) override {
 		raw_init(length, sizeof(T));
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
-	
 	void init(u32 length, u32 alignment) override {
 		raw_init(length, sizeof(T), alignment);
 		mTStart = reinterpret_cast<T*>(mStart);
 	}
 
-	
 	void put(const Array<T> &other, u32 destinyIndex, u32 sourceIndex) {
 		Array::put(other, destinyIndex, sourceIndex, other.getLength());
 	}
 
-	
 	void put(const Array<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) {
 		this->checkPut(other, destinyIndex, sourceIndex, length);
 		raw_put(other.mStart, destinyIndex, sourceIndex, length);
 	}
 
-	
 	T get(u32 index) const override {
 		DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
 		return mTStart[index];
 	}
 
-	
 	void set(u32 index, const T element) override {
 		DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
 		mTStart[index] = element;
 	}
 
-	
 	void clear() override {
 		raw_clear();
 	}
 
-	
 	const T* getRawData() const {
 		return mTStart;
 	}
-
-	
 };
-
 }
 

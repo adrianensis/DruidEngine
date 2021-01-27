@@ -35,7 +35,7 @@ using namespace std::chrono_literals;
 namespace DE {
 
 Engine::Engine() : DE_Class(), Singleton() {
-	mFPS = 60;
+	mFPS = 60; // TODO : Settings?
 	mRenderEngine = nullptr;
 	mPhysicsEngine = nullptr;
 	mScriptEngine = nullptr;
@@ -63,8 +63,6 @@ void Engine::initSubsystems() {
 
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 
-	// TODO : set default scene size if scene size is 0
-
 	RenderEngine::getInstance()->init(sceneSize);
 	ScriptEngine::getInstance()->init();
 	PhysicsEngine::getInstance()->init(sceneSize);
@@ -73,23 +71,17 @@ void Engine::initSubsystems() {
 }
 
 void Engine::terminateSubSystems() {
-
-	// ScenesManager::getInstance()->getCurrentScene()->unloadScene();
-
 	ScriptEngine::getInstance()->terminate();
 	RenderEngine::getInstance()->terminate();
 	PhysicsEngine::getInstance()->terminate();
 	UI::getInstance()->terminate();
-	//EventsManager::getInstance()->terminate();
 	TimerManager::getInstance()->terminate();
-	//Profiler::getInstance()->terminate();
 }
 
 void Engine::run() {
 	Time::getInstance()->init();
 
-	f32 FPS = 60.0f; // TODO : Move to settings.
-	f32 inverseFPS = 1.0f / FPS;
+	f32 inverseFPS = 1.0f / mFPS;
 	f32 inverseFPSMillis = inverseFPS * 1000.0f;
 
 	f32 diff = 0;
@@ -104,33 +96,25 @@ void Engine::run() {
 			initSubsystems();
 		}
 
-		ScenesManager::getInstance()->step();
-
 		Input::getInstance()->pollEvents();
-
+		
+		ScenesManager::getInstance()->step();
 		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
-
 		ScriptEngine::getInstance()->step();
-
 		PhysicsEngine::getInstance()->step(inverseFPS);
-
 		RenderEngine::getInstance()->step();
 
-		//std::cout << " " << Time::getInstance()->getElapsedTime() << std::endl;
-		f32 dt = (Time::getInstance()->getElapsedTime());
+		f32 dtMillis = (Time::getInstance()->getElapsedTimeMillis());
 
-		diff = inverseFPSMillis - dt;
-
-		if(inverseFPSMillis > dt){
-			//std::cout << dt/1000.0f;
-			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff/**1000.0f*/));
+		if(inverseFPSMillis > dtMillis){
+			diff = inverseFPSMillis - dtMillis;
+			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
 
 		Time::getInstance()->endFrame();
 
 		Profiler::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
-		//std::cout << " " << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 	}
 }
@@ -150,16 +134,15 @@ void Engine::terminate() {
 	DE_FREE(ScenesManager::getInstance());
 	DE_FREE(Time::getInstance());
 
-	// TODO : this is stupid? if getInstance will create an instance!! :'D
-	if (EventsManager::getInstance()){
+	if (EventsManager::existsInstance()){
 		DE_FREE(EventsManager::getInstance());
 	}
 
-	if (Profiler::getInstance()){
+	if (Profiler::existsInstance()){
 		DE_FREE(Profiler::getInstance());
 	}
 
-	if (TimerManager::getInstance()){
+	if (TimerManager::existsInstance()){
 		DE_FREE(TimerManager::getInstance());
 	}
 

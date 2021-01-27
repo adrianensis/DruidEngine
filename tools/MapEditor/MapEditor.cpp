@@ -148,7 +148,7 @@ void MapEditor::step() {
 
 						//ECHO("CLICK")
 						// TODO : how many times is this called?
-						mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
+						mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.mIsPaintMode, mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
 					}
 				}
 			}

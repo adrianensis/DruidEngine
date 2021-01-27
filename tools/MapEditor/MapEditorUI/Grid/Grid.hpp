@@ -53,11 +53,9 @@ private:
 	DE_M_GET(SelectedTiles, List<GameObject*>*)
 
 public:
-	DE_M(IsPaintMode, bool);
-
 	DE_CLASS(Grid)
 
-	void click(const Vector3 &clampedPosition, GameObject* brush, const Vector2& tileSize, u32 layer);
+	void click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* brush, const Vector2& tileSize, u32 layer);
 	bool isSameTile(GameObject* tileA, GameObject* tileB);
 	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, const Vector2 &size, u32 layer);
 	void removeTile(CellData *cellData, u32 layer);

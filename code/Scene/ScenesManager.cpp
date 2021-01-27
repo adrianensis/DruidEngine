@@ -65,13 +65,6 @@ void ScenesManager::init() {
 }
 
 void ScenesManager::step() {
-
-	/*if (mSceneHasChanged) {
-
-	} else {
-
-	}*/
-
 	mCurrentScene->step();
 }
 

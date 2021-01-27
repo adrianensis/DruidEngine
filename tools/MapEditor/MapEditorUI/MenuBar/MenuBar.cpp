@@ -110,8 +110,8 @@ void MenuBar::createMenuBar() {
 		addOption("Death Area", [&](UIElement* uiElement) {});
 
 	EditorBuilder::getInstance()->createDropdown("Brush")->
-		addOption("Paint", [&](UIElement* uiElement) {})->
-		addOption("Erase", [&](UIElement* uiElement) {});
+		addOption("Paint Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;})->
+		addOption("Select Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = false;});
 
 	EditorBuilder::getInstance()->createDropdown("Sprites")->
 		addOption("Static Sprite", [&](UIElement* uiElement) {})->

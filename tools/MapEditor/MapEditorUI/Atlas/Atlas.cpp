@@ -118,7 +118,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 
 				f32 gridTileSize = mMapEditor->mGrid.getGridTileSize();
 				mMapEditor->mMapEditorUI.mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize)); // 1 unit per tile
-				mapEditor->mGrid.mIsPaintMode = true;
+				mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
 			});
 
 			UI::getInstance()->addToGroup(mAtlasUIGroup, tile);

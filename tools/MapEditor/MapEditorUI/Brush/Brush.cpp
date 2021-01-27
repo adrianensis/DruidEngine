@@ -70,8 +70,6 @@ void Brush::init(MapEditor* mapEditor) {
 	mGrid = DE_NEW<Array<GameObject*>>();
 	mGrid->init(mBrushMaxGridSize);
 
-	//Vector2 size(mMapEditor->mMapEditorUI.mGridTileSize / 2.0f, mMapEditor->mMapEditorUI.mGridTileSize / 2.0f);
-
 	if(mBrushCursor) {
 		mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
 	}
@@ -84,6 +82,8 @@ void Brush::init(MapEditor* mapEditor) {
 	mBrushCursor->getTransform()->setAffectedByProjection(false);
 
 	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
+
+	mIsPaintMode = false;
 }
 
 GameObject* Brush::getTile(u32 i, u32 j){

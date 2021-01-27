@@ -26,6 +26,8 @@ public:
 	GameObject* mBrushCursor = nullptr;
 	MapEditor* mMapEditor = nullptr;
 
+	DE_M(IsPaintMode, bool); // TODO : Move paint mode to brush
+
 	DE_CLASS(Brush)
 
 	void init(MapEditor* mapEditor);

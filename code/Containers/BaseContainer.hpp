@@ -29,6 +29,5 @@ public:
 	 */
 	virtual void clear();
 };
-
 }
 

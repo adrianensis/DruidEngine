@@ -20,7 +20,7 @@ public:
 
 	DE_GENERATE_METADATA(Iterator);
 
-	Iterator() { };
+	Iterator() : DE_Class() { };
 
 	virtual ~Iterator() override { };
 
@@ -43,13 +43,12 @@ class List: public SequentialContainer<T> {
 
 private:
 
-	
 	class Node: public DE_Class {
 
 	public:
-		List<T>::Node* mNext;
-		List<T>::Node* mPrev;
-		T mElement;
+		DE_M(Next, List<T>::Node*);
+		DE_M(Prev, List<T>::Node*);
+		DE_M(Element, T);
 
 		DE_CLASS_TEMPLATE(Node, T);
 
@@ -78,11 +77,10 @@ private:
 		}
 	};
 
-	
 	static const u32 smNodeSize = sizeof(Node);
 
-	List<T>::Node* mFirst;
-	List<T>::Node* mLast;
+	DE_M(First, List<T>::Node*);
+	DE_M(Last, List<T>::Node*);
 
 	List<T>::Node* newNode() {
 		List<T>::Node* node = reinterpret_cast<List<T>::Node*>(BaseContainer::mAllocator->allocate(sizeof(Node)));
@@ -128,22 +126,19 @@ private:
 	
 public:
 
-	
 	class ListIterator: public Iterator {
 
 		friend class List;
 
 	private:
 
-		List<T>::Node* mNode;
-		bool mReverse;
-
+		DE_M(Node, List<T>::Node*);
+		DE_M(Reverse, bool);
 		
 		void init(Node *start) {
 			mNode = start;
 			mReverse = false;
 		}
-
 		
 	public:
 
@@ -164,12 +159,10 @@ public:
 			mReverse = false;
 		}
 
-		
 		bool isNull() const override {
 			return mNode == nullptr;
 		}
 
-		
 		bool hasNext() const {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -179,7 +172,6 @@ public:
 				return (mNode->mNext != nullptr);
 		}
 
-		
 		void next() {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -189,7 +181,6 @@ public:
 				mNode = mNode->mNext;
 		}
 
-		
 		ListIterator getNext() const {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -203,7 +194,6 @@ public:
 			return it;
 		}
 
-		
 		bool hasPrev() const {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -213,7 +203,6 @@ public:
 				return (mNode->mPrev != nullptr);
 		}
 
-		
 		void prev() {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -223,7 +212,6 @@ public:
 				mNode = mNode->mPrev;
 		}
 
-		
 		ListIterator getPrev() const {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
@@ -237,39 +225,32 @@ public:
 			return it;
 		}
 
-		
 		T& get() const {
 			DE_ASSERT(mNode != nullptr, "Node is null.");
 
 			return mNode->mElement;
 		}
 
-		
 		void set(T element) {
 			mNode->mElement = element;
 		}
 
-		
 		bool isReverse() const {
 			return mReverse;
 		}
 
-		
 		void setReverse(bool isReverse) {
 			mReverse = isReverse;
 		}
 
-		
 		bool operator==(const ListIterator &rhs) const {
 			return this->mNode == rhs.mNode && this->mReverse == rhs.mReverse;
 		}
 
-		
 		bool operator!=(const ListIterator &rhs) const {
 			return !((*this) == rhs);
 		}
 
-		
 		ListIterator& operator=(const ListIterator &rhs) {
 			if (this == &rhs)
 				return *this; // handle self assignment
@@ -289,13 +270,11 @@ private:
 		BaseContainer::init(0, elementSize, alignment); // BaseContainer::mLength = 0
 	}
 
-	
 	void _init(u32 elementSize) {
 		List::allocate(elementSize, 1);
 		resetCache();
 	}
 
-	
 	mutable ListIterator mLastAccessedIt;
 	mutable i32 mLastAccessedIndex;
 
@@ -303,7 +282,6 @@ private:
 		mLastAccessedIndex = -1;
 	}
 
-	
 	T& randomAccessOperator(u32 index) const {
 		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
@@ -338,7 +316,6 @@ private:
 		return mLastAccessedIt.get();
 	}
 
-	
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
 		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
 		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
@@ -360,7 +337,6 @@ public:
 		List::clear();
 	}
 
-	
 	/*!
 	 \brief Copy Constructor.
 	 \param other Other List.
@@ -377,7 +353,6 @@ public:
 		}
 	}
 
-	
 	/*!
 	 \brief Constructor. Empty List.
 	 */
@@ -385,7 +360,6 @@ public:
 		List::_init(sizeof(T));
 	}
 
-	
 	void init(const T rawArray[], u32 length) override {
 		List::init();
 		const T* typedArray = reinterpret_cast<const T*>(rawArray);
@@ -394,22 +368,18 @@ public:
 			List::pushBack(typedArray[i]);
 	}
 
-	
 	void init(const T rawArray[], u32 length, u32 alignment) override {
 		List::init(rawArray, length);
 	}
 
-	
 	void init(u32 length) override {
 		List::init();
 	}
 
-	
 	void init(u32 length, u32 alignment) override {
 		List::init();
 	}
 
-	
 	void fill(const T element) override {
 		if (!List::isEmpty()) {
 			ListIterator it = List::getIterator();
@@ -420,7 +390,6 @@ public:
 		}
 	}
 
-	
 	void put(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
 		resetCache();
 		this->checkPut(other, destinyIndex, sourceIndex, length);
@@ -447,12 +416,10 @@ public:
 		}
 	}
 
-	
 	ListIterator getIterator() const {
 		return List::getFirst();
 	}
 
-	
 	ListIterator getRevIterator() const {
 		ListIterator it;
 		it.init(this->mLast);
@@ -460,26 +427,22 @@ public:
 		return it;
 	}
 
-	
 	ListIterator getFirst() const {
 		ListIterator it;
 		it.init(this->mFirst);
 		return it;
 	}
 
-	
 	ListIterator getLast() const {
 		ListIterator it;
 		it.init(this->mLast);
 		return it;
 	}
 
-	
 	bool isEmpty() const {
 		return BaseContainer::mLength == 0;
 	}
 
-	
 	void clear() override {
 		if (!List::isEmpty()) {
 			FOR_LIST(it, this) {
@@ -492,7 +455,6 @@ public:
 
 	}
 
-	
 	void pushFront(T element) {
 		resetCache();
 		List<T>::Node* node = newNode();
@@ -510,7 +472,6 @@ public:
 
 	}
 
-	
 	void pushBack(T element) {
 		resetCache();
 		List<T>::Node* node = newNode();
@@ -528,7 +489,6 @@ public:
 
 	}
 
-	
 	T popFront() {
 		resetCache();
 		T* element = nullptr;
@@ -553,7 +513,6 @@ public:
 		return *element;
 	}
 
-	
 	T popBack() {
 		resetCache();
 		T* element = nullptr;
@@ -578,12 +537,10 @@ public:
 		return *element;
 	}
 
-	
 	T get(u32 index) const {
 		return List::randomAccessOperator(index);
 	}
 
-	
 	void set(u32 index, const T element) {
 		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
@@ -596,7 +553,6 @@ public:
 		it.set(element);
 	}
 
-	
 	void swap(u32 index1, u32 index2) {
 		u32 i = 0;
 		ListIterator it1 = List::getIterator();
@@ -618,7 +574,6 @@ public:
 		it2.set(element1);
 	}
 
-	
 	void removeAt(u32 index) {
 		resetCache();
 		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
@@ -636,7 +591,6 @@ public:
 
 	}
 
-	
 	void remove(ListIterator it) {
 		resetCache();
 		if (!it.isNull() && !List::isEmpty()) {
@@ -668,12 +622,10 @@ public:
 
 	}
 
-	
 	void remove(const T element) {
 		remove(find(element));
 	}
 
-	
 	void insert(u32 index, T element) {
 		resetCache();
 		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
@@ -690,7 +642,6 @@ public:
 		List::insert(it, element);
 	}
 
-	
 	void insert(ListIterator &it, T element) {
 		resetCache();
 		if (it.mNode != mFirst) {
@@ -709,7 +660,6 @@ public:
 			List::pushFront(element);
 	}
 
-	
 	/*!
 	 \brief Finds with default comparator.
 	 */
@@ -730,7 +680,6 @@ public:
 		return selectedIt;
 	}
 
-	
 	/*!
 	 \brief Finds with custom comparator.
 	 */
@@ -749,7 +698,6 @@ public:
 		return selectedIt;
 	}
 
-	
 	/*!
 	 \brief Sorts with default comparator.
 	 */
@@ -757,7 +705,6 @@ public:
 		sort(defaultComparator);
 	}
 
-	
 	/*!
 	 \brief Sorts custom comparator.
 	 \param comparator Function with this form: u8 comparator(const T& a, const T& b).
@@ -766,7 +713,6 @@ public:
 		qsort(comparator, 0, this->getLength() - 1);
 	}
 
-	};
-
+};
 }
 

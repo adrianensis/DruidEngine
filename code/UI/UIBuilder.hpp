@@ -69,7 +69,7 @@ public:
 		mDisplayPosition = otherData.mDisplayPosition;
 		mSize = otherData.mSize;
 		mTextSize = otherData.mTextSize;
-		mText = otherData.mText;
+		if(!otherData.mText.empty()){mText = otherData.mText;} 
 		mAdjustSizeToText = otherData.mAdjustSizeToText;
 		mLayer = otherData.mLayer;
 		mIsAffectedByLayout = otherData.mIsAffectedByLayout;

@@ -15,15 +15,16 @@ class Tree: public BaseContainer {
 
 private:
 
-		class Node: public DE_Class {
+	class Node: public DE_Class {
 
-	public: Node* mParent;
-		T mElement;
-		Array<Node*>* mChildren;
+	public:
+		DE_M(Parent, Node*);
+		DE_M(Element, T);
+		DE_M(Children, Array<Node*>*);
 
 		DE_CLASS_TEMPLATE(Node, T);
 
-		Node() : 		DE_Class() {
+		Node() : DE_Class() {
 			mChildren = nullptr;
 		};
 
@@ -61,7 +62,6 @@ private:
 		}
 	};
 
-	
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(Node *parent, const T element) {
@@ -74,7 +74,6 @@ private:
 		DE_FREE(node);
 	};
 
-	
 	void freeSubTree(Node *node) {
 		Node* child0 = node->mChildren->get(0);
 		Node* child1 = node->mChildren->get(1);
@@ -91,7 +90,6 @@ private:
 		mLength--;
 	};
 
-	
 	Node* find(const T element, Node *node) {
 		if (element == node->mElement)
 			return node;
@@ -106,15 +104,14 @@ private:
 			return find(element, child);
 	};
 
-	
-	Node* mRoot;
+	DE_M(Root, Node*);
 	static const u32 smChildrenCount = 2;
 
 public:
 
 	DE_CLASS_TEMPLATE(Tree<T>, T);
 
-	Tree() : 	BaseContainer() {
+	Tree() : BaseContainer() {
 		mRoot = nullptr;
 	}
 
@@ -122,7 +119,6 @@ public:
 		Tree<T>::clear();
 	}
 
-	
 	/*!
 	 \brief Constructor.
 	 */
@@ -131,7 +127,6 @@ public:
 		mRoot = nullptr;
 	}
 
-	
 	void add(const T element) {
 		Node* node = newNode(nullptr, element);
 
@@ -143,7 +138,6 @@ public:
 		mLength++;
 	}
 
-	
 	void remove(const T element) {
 		Node* node = find(element, mRoot);
 
@@ -211,7 +205,6 @@ public:
 		}
 	}
 
-	
 	void clear() override {
 		if (mLength > 0) {
 			freeSubTree(mRoot);
@@ -221,7 +214,6 @@ public:
 		mRoot = nullptr;
 	}
 
-	};
-
+};
 }
 

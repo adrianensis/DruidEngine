@@ -27,7 +27,7 @@ void TimeMark::endFrame() {
 	mDeltaTimeSeconds = mDeltaTimeMillis / 1000.0f;
 }
 
-f32 TimeMark::getElapsedTime() {
+f32 TimeMark::getElapsedTimeMillis() {
 	auto now = std::chrono::high_resolution_clock::now();
 	return std::chrono::duration_cast<std::chrono::milliseconds>( now - mStartTime ).count();
 }

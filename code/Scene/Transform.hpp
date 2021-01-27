@@ -42,28 +42,24 @@ public:
 
 	void init() override;
 
-	
 	/*!
 	 \brief Translate the object by an increment vector.
 	 \param Vector3 Delta position.
 	 */
 	void translate(const Vector3 &vector);
 
-	
 	/*!
 	 \brief Rotate the object by an increment vector.
 	 \param Vector3 Delta rotation.
 	 */
 	void rotate(const Vector3 &vector);
 
-	
 	/*!
 	 \brief Orient the object to a 3D point.
 	 \param Vector3 Target position.
 	 */
 	void lookAt(const Vector3 &targetPosition);
 
-	
 	// void setWorldPosition(const Vector3& vector);
 	void setLocalPosition(const Vector3 &vector);
 	void setRotation(const Vector3 &vector);

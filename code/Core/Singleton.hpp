@@ -16,8 +16,12 @@ public:
 
 	~Singleton() = default;
 
+	static bool existsInstance() {
+		return mInstance != nullptr;
+	}	
+
 	static T* getInstance() {
-		if (!mInstance) {
+		if (!existsInstance()) {
 			mInstance = DE_NEW<T>();
 		}
 

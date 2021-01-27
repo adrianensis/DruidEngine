@@ -22,7 +22,7 @@ public:
 	void init();
 	void startFrame();
 	void endFrame();
-	f32 getElapsedTime();
+	f32 getElapsedTimeMillis();
 	f32 getDeltaTimeMillis();
 	f32 getDeltaTimeSeconds();
 
@@ -52,7 +52,7 @@ public:
 	void init() { mInternalTimeMark.init() ; }
 	void startFrame() { mInternalTimeMark.startFrame() ; }
 	void endFrame() { mInternalTimeMark.endFrame() ; }
-	f32 getElapsedTime() { return mInternalTimeMark.getElapsedTime() ; }
+	f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis() ; }
 	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis() ; }
 	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds() ; }
 };

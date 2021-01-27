@@ -17,13 +17,12 @@ class HashMap: public BaseContainer {
 
 private:
 
-	
 	class Node: public DE_Class {
 
 	public:
 
-		K mKey;
-		V mElement;
+		DE_M(Key, K);
+		DE_M(Element, V);
 
 		DE_CLASS_TEMPLATE2(Node, K, K);
 
@@ -39,7 +38,6 @@ private:
 		}
 	};
 
-	
 	static const u32 smNodeSize = sizeof(HashMap<K,V>::Node);
 	using NodeClass = HashMap<K,V>::Node;
 
@@ -53,11 +51,10 @@ private:
 		DE_FREE(node);
 	}
 
-	
 	Array<List<HashMap<K,V>::Node*>*>* mArray;
 
-	List<K>* mKeys;
-	List<V>* mValues;
+	DE_M(Keys, List<K>*);
+	DE_M(Values, List<V>*);
 
 public:
 
@@ -91,7 +88,6 @@ public:
 		DE_FREE(mValues);
 	}
 
-	
 	/*!
 	 \brief Constructor.
 	 */
@@ -107,7 +103,6 @@ public:
 		mValues->init();
 	}
 
-	
 	void set(K key, V element) {
 
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
@@ -147,7 +142,6 @@ public:
 
 	}
 
-	
 	V get(K key) const {
 
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
@@ -176,7 +170,6 @@ public:
 		return element;
 	}
 
-	
 	bool contains(const K key) {
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
 
@@ -198,7 +191,6 @@ public:
 		return found;
 	}
 
-	
 	void remove(K key) {
 
 		u64 hashIndex = Hash::hash<K>(key) % mArray->BaseContainer::getLength();
@@ -236,7 +228,6 @@ public:
 			DE_ASSERT(false, "Can't find the element with given key.");
 	}
 
-	
 	const List<K>* getKeys() const {
 		return mKeys;
 	};
@@ -245,7 +236,6 @@ public:
 		return mValues;
 	};
 
-	
 	void clear() override {
 
 		if (mArray) {
@@ -269,9 +259,6 @@ public:
 			mValues->clear();
 		}
 	}
-
-	
 };
-
 }
 

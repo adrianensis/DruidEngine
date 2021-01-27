@@ -92,6 +92,5 @@ public:
 		return this->getClassId() == object->getClassId();
 	}
 };
-
 }
 

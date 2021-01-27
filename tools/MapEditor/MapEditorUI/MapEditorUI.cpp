@@ -52,7 +52,7 @@
 namespace DE {
 
 void MapEditorUI::resetBrush() {
-	mMapEditor->mGrid.mIsPaintMode = false;
+	mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = false;
 	mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
@@ -180,7 +180,7 @@ void MapEditorUI::createSpriteFromBrush() {
 
 		mBrush.setDrawTileSize(tileSize);
 
-		mapEditor->mGrid.mIsPaintMode = true;
+		mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
 	});
 
 	Renderer* brushRenderer = tileMin->getComponents<Renderer>()->get(0);
@@ -241,7 +241,7 @@ void MapEditorUI::createSpriteFromBrush() {
 
 			mBrush.setDrawTileSize(200); // TODO : get this value from a config.
 
-			mapEditor->mGrid.mIsPaintMode = true;
+			mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
 		});
 
 		UI::getInstance()->addToGroup(mSpritesUIGroup, sprite);
