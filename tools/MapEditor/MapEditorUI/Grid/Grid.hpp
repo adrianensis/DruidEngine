@@ -26,6 +26,8 @@
 #include "MapEditorUI/MapElement/MapElement.hpp"
 namespace DE {
 
+	class MapEditor;
+
 class Grid: public DE_Class {
 private:
 
@@ -46,10 +48,11 @@ private:
 	};
 
 	DE_M(Grid, Array<Array<CellData*>*>*)
+	DE_M(MapEditor, MapEditor*)
 	DE_M(Scene, Scene*);
 
 	DE_M_GET(GridSize, u32)
-	DE_M_GET(GridTileSize, f32)
+	DE_M_GET(TileSize, f32)
 	DE_M_GET(SelectedTiles, List<GameObject*>*)
 
 public:
@@ -63,7 +66,7 @@ public:
 
 	GameObject* getFirstSelectedTile();
 
-	void init(Scene* scene, u32 gridSize, f32 gridTileSize);
+	void init(MapEditor* mapEditor, u32 gridSize, f32 tileSize);
 
 	void loadMapIntoGrid(const List<GameObject*>* gameObjects);
 

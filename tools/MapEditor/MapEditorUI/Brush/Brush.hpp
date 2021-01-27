@@ -19,7 +19,7 @@ private:
 
 public:
 
-	Vector2 mDrawTileSize = Vector2(1,1);
+	Vector2 mDrawTileSizeFactor = Vector2(1,1);
 	u32 mLastIndex = 0;
 	u32 mBrushMaxGridSize = 16;
 	Vector2 mBrushGridSize = Vector2(1,1);

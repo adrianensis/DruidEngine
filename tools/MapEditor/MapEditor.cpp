@@ -118,7 +118,7 @@ void MapEditor::firstStep() {
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
-	mGrid.init(getGameObject()->getScene(), mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
+	mGrid.init(this, mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
 
 	//mGrid.loadMapIntoGrid(getGameObject()->getScene()->getNewGameObjects());
 	mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());
@@ -129,31 +129,6 @@ void MapEditor::firstStep() {
 }
 
 void MapEditor::step() {
-
-	//click(clampedPosition);
-	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)
-	|| Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
-
-		if(RenderEngine::getInstance()->getLayersData()->get(mLayer)->mVisible){
-			FOR_RANGE(i, 0, mMapEditorUI.mBrush.mBrushGridSize.y){
-				FOR_RANGE(j, 0, mMapEditorUI.mBrush.mBrushGridSize.x){
-					f32 offset = mGrid.getGridTileSize();
-
-					Vector2 mouse(Input::getInstance()->getMousePosition());
-					Vector3 world = mCamera->screenToWorld(mouse);
-
-					u32 sceneSize = getGameObject()->getScene()->getSize() / 2.0f;
-					if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
-						Vector3 clampedPosition(std::roundf(world.x / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), std::roundf(world.y / mGrid.getGridTileSize()) * mGrid.getGridTileSize(), 0);
-
-						//ECHO("CLICK")
-						// TODO : how many times is this called?
-						mGrid.click(clampedPosition + Vector3(offset*j, -offset*i, 0), mMapEditorUI.mBrush.mIsPaintMode, mMapEditorUI.mBrush.getTile(i, j), mMapEditorUI.mBrush.mDrawTileSize, mLayer);
-					}
-				}
-			}
-		}
-	}
 
 	cameraZoom();
 	processMovement();

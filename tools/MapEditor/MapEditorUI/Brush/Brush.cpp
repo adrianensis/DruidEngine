@@ -137,8 +137,8 @@ void Brush::clear(){
 }
 
 void Brush::setDrawTileSize(const Vector2& size) {
-	mDrawTileSize = size;
-	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSize,mDrawTileSize,1));
+	mDrawTileSizeFactor = size;
+	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSizeFactor,mDrawTileSizeFactor,1));
 }
 
 }

@@ -59,7 +59,7 @@ void MapEditorUI::resetBrush() {
 
 void MapEditorUI::createBrush() {
 	mBrush.init(mMapEditor);
-	//f32 gridTileSize = mMapEditor->mGrid.getGridTileSize();
+	//f32 gridTileSize = mMapEditor->mGrid.getTileSize();
 	//mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize));
 }
 
@@ -140,7 +140,7 @@ void MapEditorUI::updateGridLines() {
 
 		// GRID LINES
 		FOR_RANGE(i, -halfLinesCount, halfLinesCount){
-			f32 pos = (i * mMapEditor->mGrid.getGridTileSize()) + mMapEditor->mGrid.getGridTileSize()/2.0f;
+			f32 pos = (i * mMapEditor->mGrid.getTileSize()) + mMapEditor->mGrid.getTileSize()/2.0f;
 			RenderEngine::getInstance()->drawLine(Vector3(-lineLength,pos,0), Vector3(lineLength,pos,0), 1, true);
 			RenderEngine::getInstance()->drawLine(Vector3(pos,-lineLength,0), Vector3(pos,lineLength,0), 1, true);
 		}
@@ -170,8 +170,8 @@ void MapEditorUI::createSpriteFromBrush() {
 	UIButton* spriteButton = (UIButton*) UI::getInstance()->getBuilder()->setText("")->
 		create(UIElementType::BUTTON)->getUIElement();
 
-		Vector2 tileSize(mMapEditor->mGrid.getGridTileSize() * mBrush.mBrushGridSize.x,
-											mMapEditor->mGrid.getGridTileSize() * mBrush.mBrushGridSize.y);
+		Vector2 tileSize(mMapEditor->mGrid.getTileSize() * mBrush.mBrushGridSize.x,
+											mMapEditor->mGrid.getTileSize() * mBrush.mBrushGridSize.y);
 
 	spriteButton->setOnPressedCallback([&, self = spriteButton, mapEditor = mMapEditor, tileSize = tileSize](UIElement* uiElement) {
 		//scene->saveScene(scene->getPath());

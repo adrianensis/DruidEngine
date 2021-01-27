@@ -17,6 +17,9 @@
 #include "UI/UI.hpp"
 #include "Config/EngineConfig.hpp"
 
+#include "MapEditor.hpp"
+#include "MapEditorUI/MapEditorUI.hpp"
+
 namespace DE {
 
 Grid::CellData::CellData() : DE_Class() {
@@ -60,7 +63,7 @@ GameObject* Grid::CellData::get(u32 layer) {
 
 Grid::Grid() : DE_Class() {
 	mScene = nullptr;
-	mGridTileSize = 1;
+	mTileSize = 1;
 }
 
 Grid::~Grid() {
@@ -80,15 +83,14 @@ Grid::~Grid() {
 	DE_FREE(mSelectedTiles);
 }
 
-void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
-	mScene = scene;
+void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
+	mMapEditor = mapEditor;
+	mScene = mapEditor->getGameObject()->getScene();
 	mGridSize = gridSize;
-	mGridTileSize = gridTileSize;
+	mTileSize = tileSize;
 
 	mGrid = DE_NEW<Array<Array<CellData*>*>>();
 	mGrid->init(mGridSize);
-
-	f32 halfGridSize = mGridSize / 2.0f;
 
 	FOR_RANGE(i, 0, mGridSize){
 		mGrid->set(i, DE_NEW<Array<CellData*>>());
@@ -101,17 +103,39 @@ void Grid::init(Scene* scene, u32 gridSize, f32 gridTileSize) {
 
 	mSelectedTiles = DE_NEW<List<GameObject*>>();
 	mSelectedTiles->init();
-}
 
+	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event* event){
+		u32 sceneSize = mMapEditor->getGameObject()->getScene()->getSize() / 2.0f;
+
+		Vector2 mouse(Input::getInstance()->getMousePosition());
+		Vector3 world = mMapEditor->mCamera->screenToWorld(mouse);
+
+		Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
+
+		if(RenderEngine::getInstance()->getLayersData()->get(mMapEditor->mLayer)->mVisible){
+			FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
+				FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
+					
+					if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
+						GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
+						Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
+						click(tilePosition, mMapEditor->mMapEditorUI.mBrush.mIsPaintMode, brushTile, mMapEditor->mMapEditorUI.mBrush.mDrawTileSizeFactor, mMapEditor->mLayer);
+					}
+				}
+			}
+		}
+	});
+}
 
 void Grid::click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
 
-	f32 halfSizeX = (mGridSize * mGridTileSize / 2.0f);
-	f32 halfSizeY = (mGridSize * mGridTileSize / 2.0f);
+	f32 halfSizeX = (mGridSize * mTileSize / 2.0f);
+	f32 halfSizeY = (mGridSize * mTileSize / 2.0f);
+	
 	if (std::fabs(clampedPosition.x) < halfSizeX && std::fabs(clampedPosition.y) < halfSizeY) {
 
-		Vector2 gridPosition(clampedPosition.x / mGridTileSize + mGridSize / 2.0f,
-				clampedPosition.y / mGridTileSize + mGridSize / 2.0f);
+		Vector2 gridPosition(clampedPosition.x / mTileSize + mGridSize / 2.0f,
+				clampedPosition.y / mTileSize + mGridSize / 2.0f);
 
 		if (gridPosition.x >= 0 && gridPosition.x < mGridSize && gridPosition.y >= 0 && gridPosition.y < mGridSize) {
 
@@ -126,7 +150,6 @@ void Grid::click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* b
 			}
 
 			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
-
 				if(isPaintMode){
 					removeTile(cellData, layer);
 				}
@@ -139,8 +162,8 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 
 	if(!multi){
 		FOR_LIST(it, mSelectedTiles){
-			if(it.get()/*mSelectedTile && mSelectedTile->isActive()*/){
-				it.get()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
+			if(it.get()){
+				it.get()->getFirstComponent<Renderer>()->setColor(Vector4(0,0,0,1));
 			}
 		}
 
@@ -217,8 +240,8 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 
 			Transform* t = gameObject->getTransform();
 			Vector3 worldPosition(t->getWorldPosition());
-			Vector2 gridPosition(worldPosition.x / mGridTileSize + mGridSize/ 2.0f,
-					worldPosition.y / mGridTileSize + mGridSize / 2.0f);
+			Vector2 gridPosition(worldPosition.x / mTileSize + mGridSize/ 2.0f,
+					worldPosition.y / mTileSize + mGridSize / 2.0f);
 
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 			cellData->addGameObject(gameObject, gameObject->getFirstComponent<Renderer>()->getLayer());

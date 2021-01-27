@@ -116,7 +116,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 					mMapEditor->mMapEditorUI.mBrush.clickTile(self, atlasPosition);
 				}
 
-				f32 gridTileSize = mMapEditor->mGrid.getGridTileSize();
+				f32 gridTileSize = mMapEditor->mGrid.getTileSize();
 				mMapEditor->mMapEditorUI.mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize)); // 1 unit per tile
 				mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
 			});

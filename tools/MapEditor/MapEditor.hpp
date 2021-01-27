@@ -13,12 +13,12 @@ class MapEditor: public Script {
 private:
 
 	DE_M(Transform, Transform*)
-	DE_M(Camera, Camera*)
 	DE_M(CameraTransform, Transform*)
 	DE_M(CameraControl, bool)
 
 public:
 
+	DE_M(Camera, Camera*)
 	DE_M(Layer, u32)
 	DE_M(Zoom, f32)
 	DE_M(Player, GameObject*)
