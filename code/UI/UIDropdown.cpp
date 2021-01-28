@@ -40,6 +40,10 @@ void UIDropdown::init() {
 
 	mEntries = DE_NEW<List<UIDropdownEntry>>();
 	mEntries->init();
+
+	setOnFocusLostCallback([this](UIElement* uiElement){		
+		setEntriesVisibility(false);
+	});
 }
 
 void UIDropdown::onDestroy() {
@@ -57,7 +61,50 @@ UIDropdown* UIDropdown::addOption(const std::string& label, UIElementCallback on
 
 void UIDropdown::toggle() {
 
+	// TODO : Temporary
 	if(mButtons->isEmpty()){
+		FOR_LIST(it, mEntries) {
+
+			const std::string& label = it.get().mLabel;
+			UIElementCallback onPressedCallback = it.get().mCallback;
+
+			Vector3 scale = getTransform()->getScale();
+			scale.x = scale.x * RenderContext::getAspectRatio();
+
+			UI::getInstance()->getBuilder()->saveData()->
+				setPosition(Vector2(-scale.x/2.0f,-scale.y * mButtons->getLength() - scale.y/2.0f))->
+				setSize(scale)->
+				setText(label)->
+				setAdjustSizeToText(true)->
+				setLayer(getRenderer()->getLayer() + 1)->
+				setIsAffectedByLayout(false)->
+				create(UIElementType::BUTTON);
+
+			UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
+			button->setOnPressedCallback(onPressedCallback);
+			//button->setVisibility(false);
+
+			Transform* t = button->getTransform();
+			t->setParent(getTransform());
+
+			UI::getInstance()->getBuilder()->restoreData();
+
+			mButtons->pushBack(button);
+		}
+
+		setEntriesVisibility(false);
+	}
+
+	FOR_LIST(it, mButtons){
+		it.get()->setVisibility(!it.get()->isVisible());
+	}
+
+	// TODO : If I want to create-remove buttons, I have to implement TIMER NEXT FRAME!
+	//setEntriesVisibility(mButtons->isEmpty());
+}
+
+void UIDropdown::setEntriesVisibility(bool visible){
+	/*if(visible){
 		FOR_LIST(it, mEntries) {
 
 			const std::string& label = it.get().mLabel;
@@ -88,16 +135,18 @@ void UIDropdown::toggle() {
 		}
 	}
 	else {
-		FOR_LIST(it, mButtons){
-			getScene()->removeGameObject(it.get());
-		}
+		if(!mButtons->isEmpty()){
+			FOR_LIST(it, mButtons){
+				getScene()->removeGameObject(it.get());
+			}
 
-		mButtons->clear();
-	}
-
-	/*FOR_LIST(it, mButtons){
-		it.get()->setVisibility(!it.get()->isVisible());
+			mButtons->clear();
+		} 
 	}*/
-}
+
+	FOR_LIST(it, mButtons){
+		it.get()->setVisibility(visible);
+	}
+} 
 
 }

@@ -21,19 +21,6 @@ private:
 	using ComponentsMap = HashMap<ClassId, List<Component*>*>;
 	DE_M(ComponentsMap, ComponentsMap*)
 
-	DE_M(LastClassIdFirst, ClassId)
-	using CacheComponentsMap = HashMap<ClassId, Component*>;
-	DE_M(CacheComponentsFirst, CacheComponentsMap*)
-
-	DE_M(LastClassIdList, ClassId)
-	DE_M(CacheComponentsLists, ComponentsMap*)
-
-	void setCacheLists(ClassId classId, List<Component*>* components);
-	void setCacheFirst(ClassId classId, Component* component);
-	void tryCleanCache(ClassId classId);
-	bool checkCacheFirst(ClassId classId);
-	bool checkCacheLists(ClassId classId);
-
 	List<Component*>* getComponents(ClassId classId);
 	Component* getFirstComponent(ClassId classId);
 
@@ -77,7 +64,7 @@ public:
 	}
 
 	bool isActive() const {
-		return mIsDestroyed || mIsPendingToBeDestroyed ? false : mIsActive;
+		return (mIsDestroyed || mIsPendingToBeDestroyed) ? false : mIsActive;
 	};
 
 	void setIsActive(bool isActive);

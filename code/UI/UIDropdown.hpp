@@ -34,6 +34,8 @@ private:
 	List<UIButton*>* mButtons;
 	List<UIDropdownEntry>* mEntries;
 
+	void setEntriesVisibility(bool visible);
+
 public:
 
 	DE_CLASS(UIDropdown)

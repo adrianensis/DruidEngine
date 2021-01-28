@@ -24,37 +24,7 @@ GameObject::GameObject() : DE_Class() {
 
 GameObject::~GameObject() {
 	DE_FREE(mComponentsMap);
-	DE_FREE(mCacheComponentsFirst);
 	DE_FREE(mTransform);
-	DE_FREE(mCacheComponentsLists);
-}
-
-void GameObject::setCacheLists(ClassId classId, List<Component*>* components) {
-	mLastClassIdList = classId;
-	mCacheComponentsLists->set(classId, components);
-}
-
-void GameObject::setCacheFirst(ClassId classId, Component* component) {
-	mLastClassIdFirst = classId;
-	mCacheComponentsFirst->set(classId, component);
-}
-
-void GameObject::tryCleanCache(ClassId classId) {
-	if(mLastClassIdFirst == classId) {
-		mCacheComponentsFirst->set(classId, nullptr);
-	}
-
-	if(mLastClassIdList == classId) {
-		mCacheComponentsLists->set(classId, nullptr);
-	}
-}
-
-bool GameObject::checkCacheFirst(ClassId classId) {
-	return mLastClassIdFirst == classId && mCacheComponentsFirst->get(classId);
-}
-
-bool GameObject::checkCacheLists(ClassId classId) {
-	return mLastClassIdList == classId && mCacheComponentsLists->contains(classId);
 }
 
 void GameObject::addComponent(Component *component, ClassId classId) {
@@ -70,17 +40,15 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 
 	component->setGameObject(this);
 	component->init();
-
-	tryCleanCache(classId);
 }
 
 void GameObject::removeComponent(Component *component, ClassId classId) {
 	if (mComponentsMap->contains(classId) && ! component->getIsPendingToBeDestroyed() && ! component->getIsDestroyed()) {
 		List<Component*>* list = mComponentsMap->get(classId);
 		list->remove(list->find(component));
-		component->destroy();
-
-		tryCleanCache(classId);
+		if (!(component->getIsDestroyed() || component->getIsPendingToBeDestroyed())) {
+			component->destroy();
+		}
 	}
 }
 
@@ -89,12 +57,6 @@ void GameObject::init() {
 
 	mComponentsMap = DE_NEW<ComponentsMap>();
 	mComponentsMap->init();
-
-	mCacheComponentsFirst = DE_NEW<CacheComponentsMap>();
-	mCacheComponentsFirst->init();
-
-	mCacheComponentsLists = DE_NEW<ComponentsMap>();
-	mCacheComponentsLists->init();
 
 	mTransform = DE_NEW<Transform>();
 	addComponent(mTransform);
@@ -105,37 +67,24 @@ void GameObject::init() {
 List<Component*>* GameObject::getComponents(ClassId classId) {
 	List<Component*>* components = nullptr;
 
-	if(checkCacheLists(classId)) {
-		components = mCacheComponentsLists->get(classId);
-	} else {
-		if(mComponentsMap->contains(classId)) {
-			components = mComponentsMap->get(classId);
+	if(mComponentsMap->contains(classId)) {
+		components = mComponentsMap->get(classId);
 
-			if(components->isEmpty()){
-				components = nullptr;
-			}
+		if(components->isEmpty()){
+			components = nullptr;
 		}
 	}
-
-	setCacheLists(classId, components);
 
 	return components;
 }
 
 Component* GameObject::getFirstComponent(ClassId classId) {
 	Component* component = nullptr;
+	List<Component*>* components = getComponents(classId);
 
-	if(checkCacheFirst(classId)) {
-		component = mCacheComponentsFirst->get(classId);
-	} else {
-		List<Component*>* components = getComponents(classId);
-
-		if(components && !components->isEmpty()) {
-			component = components->getFirst().get();
-		}
+	if(components && !components->isEmpty()) {
+		component = components->getFirst().get();
 	}
-
-	setCacheFirst(classId, component);
 
 	return component;
 }

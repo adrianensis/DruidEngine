@@ -17,6 +17,8 @@
 #include "Graphics/RenderContext.hpp"
 #include "Containers/List.hpp"
 #include "Containers/HashMap.hpp"
+#include "Events/EventsManager.hpp"
+#include "Scene/GameObject.hpp"
 
 namespace DE {
 
@@ -220,10 +222,9 @@ Vector2 UI::getCharTextureCoordinates(c8 character) {
 	return mCharMap->get(character);
 }
 
-void UI::internalRemoveUIElement(const Iterator *it) {
-	/*auto castedIt = it->cast<UIElement*>();
-	mUIElements->remove(*castedIt);*/
-}
+void UI::setFocusedElement(UIElement* focusedElement) {
+	mFocusedElement = focusedElement;
+};
 
 void UI::terminate() {
 	DE_TRACE()

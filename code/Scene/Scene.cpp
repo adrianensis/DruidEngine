@@ -204,7 +204,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 
 void Scene::removeGameObject(GameObject *gameObject) {
 
-	if (!gameObject->getIsDestroyed()) {
+	if (!(gameObject->getIsDestroyed() || gameObject->getIsPendingToBeDestroyed())) {
 		auto it = mGameObjects->find(gameObject);
 		mGameObjects->remove(it);
 

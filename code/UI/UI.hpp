@@ -47,8 +47,6 @@ private:
 
 	Vector2 mDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
 
-	void internalRemoveUIElement(const Iterator *it);
-
 	UIBuilder* mUIBuilder;
 
 	UIElement* mFocusedElement = nullptr;
@@ -79,7 +77,7 @@ public:
 	// focus
 
 	UIElement* getFocusedElement() const { return mFocusedElement; };
-	void setFocusedElement(UIElement* focusedElement) { mFocusedElement = focusedElement; };
+	void setFocusedElement(UIElement* focusedElement);
 };
 
 }

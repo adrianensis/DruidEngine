@@ -120,8 +120,8 @@ void UIElement::onChar(c8 character) {
 
 void UIElement::onFocusLost() {
 	if(hasFocus()){
-		mOnFocusLostFunctor.execute();
 		UI::getInstance()->setFocusedElement(nullptr);
+		mOnFocusLostFunctor.execute();
 	}
 }
 
@@ -135,7 +135,7 @@ void UIElement::onPressed() {
 	Collider* collider = getCollider();
 	// TODO : boolean to enable or disable : can be pressed?
 
-	if (collider){
+	if (collider && collider->isActive()){
 
 		Vector2 screenMousePosition(Input::getInstance()->getMousePosition());
 		Vector2 worldMousePosition = Vector2(
@@ -192,12 +192,11 @@ void UIElement::setComponentsCache() {
 }
 
 void UIElement::setVisibility(bool visibility) {
-	getRenderer()->setIsActive(visibility);
 	setIsActive(visibility);
 }
 
 bool UIElement::isVisible(){
-	return getRenderer()->isActive();
+	return isActive();
 }
 
 }
