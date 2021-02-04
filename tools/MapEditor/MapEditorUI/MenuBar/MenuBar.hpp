@@ -4,6 +4,7 @@
 #include <string>
 #include "UI/UIElement.hpp"
 #include "../StringsUI.hpp"
+#include "MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -31,6 +32,10 @@ private:
 	const StringsUI mStringsUI;
 
 	MapEditor* mMapEditor;
+
+	DE_M(MapElementData_ActionPoint, MapElementData_ActionPoint);
+
+	void createMapElement(const std::string& materialPath);
 
 public:
 

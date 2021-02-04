@@ -39,6 +39,7 @@
 #include "Config/EngineConfig.hpp"
 #include "Config/ConfigMap.hpp"
 #include "Events/EventsManager.hpp"
+#include "MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -51,7 +52,7 @@ MapEditor::~MapEditor() = default;
 void MapEditor::createPlayer() {
 	Vector2 size(100 * 1.5f, 100 * 1.5f);
 
-	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
+	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
 	mPlayer = DE_NEW<GameObject>();
 	mPlayer->init();
@@ -65,8 +66,7 @@ void MapEditor::createPlayer() {
 	//renderer->setColor(Vector4(0,0,0,0.7f));
 
 	renderer->setMesh(Mesh::getRectangle());
-	// renderer->setMaterial(material);
-	renderer->setMaterial(mMaterial);
+	renderer->setMaterial(material);
 
 	renderer->setLayer(mLayer);
 
@@ -99,6 +99,10 @@ void MapEditor::destroyPlayer(){
 }
 
 void MapEditor::init() {
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement);
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);
+
 	mTransform = getGameObject()->getTransform();
 
 	mConfigMap = DE_NEW<ConfigMap>();
@@ -115,8 +119,6 @@ void MapEditor::firstStep() {
 
 	mCamera = getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>();
 	mCameraTransform = mCamera->getGameObject()->getTransform();
-
-	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
 	mGrid.init(this, mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
 

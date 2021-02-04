@@ -11,6 +11,7 @@ namespace DE {
 // --------------------------------------------------------
 
 #define DE_NEW Memory::allocate
+#define DE_NEW_FROM_NAME Memory::fromClassName
 #define DE_FREE Memory::free
 
 // --------------------------------------------------------

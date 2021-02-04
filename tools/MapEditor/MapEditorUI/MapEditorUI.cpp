@@ -52,15 +52,13 @@
 namespace DE {
 
 void MapEditorUI::resetBrush() {
-	mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = false;
+	mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(false);
 	mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
 
 void MapEditorUI::createBrush() {
 	mBrush.init(mMapEditor);
-	//f32 gridTileSize = mMapEditor->mGrid.getTileSize();
-	//mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize));
 }
 
 
@@ -179,8 +177,6 @@ void MapEditorUI::createSpriteFromBrush() {
 		mBrush.clickTile(self, Vector2(0,0));
 
 		mBrush.setDrawTileSize(tileSize);
-
-		mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
 	});
 
 	Renderer* brushRenderer = tileMin->getComponents<Renderer>()->get(0);

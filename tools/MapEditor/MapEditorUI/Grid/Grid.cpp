@@ -32,9 +32,9 @@ Grid::CellData::~CellData() {
 	}
 }
 
-void Grid::CellData::addGameObject(GameObject *gameObject, u32 layer) {
+void Grid::CellData::set(MapElement *gameObject, u32 layer) {
 	if (!layers) {
-		layers = DE_NEW<Array<GameObject*>>();
+		layers = DE_NEW<Array<MapElement*>>();
 		layers->init(10); // MAX LAYERS
 	}
 
@@ -43,7 +43,7 @@ void Grid::CellData::addGameObject(GameObject *gameObject, u32 layer) {
 	}
 }
 
-void Grid::CellData::removeGameObject(u32 layer) {
+void Grid::CellData::remove(u32 layer) {
 	if (layers) {
 		if (layer >= 0 && layer < 10) {
 			layers->set(layer, nullptr);
@@ -51,8 +51,8 @@ void Grid::CellData::removeGameObject(u32 layer) {
 	}
 }
 
-GameObject* Grid::CellData::get(u32 layer) {
-	GameObject* gameObject = nullptr;
+MapElement* Grid::CellData::get(u32 layer) {
+	MapElement* gameObject = nullptr;
 
 	if (layers) {
 		gameObject = layers->get(layer);
@@ -80,7 +80,7 @@ Grid::~Grid() {
 
 	DE_FREE(mGrid);
 
-	DE_FREE(mSelectedTiles);
+	DE_FREE(mSelectedMapElements);
 }
 
 void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
@@ -101,8 +101,8 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 		}
 	}
 
-	mSelectedTiles = DE_NEW<List<GameObject*>>();
-	mSelectedTiles->init();
+	mSelectedMapElements = DE_NEW<List<MapElement*>>();
+	mSelectedMapElements->init();
 
 	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event* event){
 		u32 sceneSize = mMapEditor->getGameObject()->getScene()->getSize() / 2.0f;
@@ -110,16 +110,15 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 		Vector2 mouse(Input::getInstance()->getMousePosition());
 		Vector3 world = mMapEditor->mCamera->screenToWorld(mouse);
 
-		Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
-
-		if(RenderEngine::getInstance()->getLayersData()->get(mMapEditor->mLayer)->mVisible){
-			FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
-				FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
-					
-					if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
-						GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
+		if(sceneSize >= std::abs(world.x) && sceneSize >= std::abs(world.y)){
+			if(RenderEngine::getInstance()->getLayersData()->get(mMapEditor->mLayer)->mVisible){
+				
+				Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
+				FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
+					FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
 						Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
-						click(tilePosition, mMapEditor->mMapEditorUI.mBrush.mIsPaintMode, brushTile, mMapEditor->mMapEditorUI.mBrush.mDrawTileSizeFactor, mMapEditor->mLayer);
+						GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
+						click(tilePosition, brushTile);
 					}
 				}
 			}
@@ -127,7 +126,7 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 	});
 }
 
-void Grid::click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* brushTile, const Vector2& tileSize, u32 layer) {
+void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile) {
 
 	f32 halfSizeX = (mGridSize * mTileSize / 2.0f);
 	f32 halfSizeY = (mGridSize * mTileSize / 2.0f);
@@ -141,42 +140,43 @@ void Grid::click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* b
 
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
 
+			bool isPaintMode = mMapEditor->mMapEditorUI.mBrush.getIsPaintMode();
+			u32 layer = mMapEditor->mLayer;
+
 			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 				if(isPaintMode){
-					drawTile(cellData, clampedPosition, brushTile, tileSize, layer);
+					draw(cellData, clampedPosition);
 				} else {
-					selectTile(cellData, layer, Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL));
+					select(cellData, layer, Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL));
 				}
-			}
-
-			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+			} else if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 				if(isPaintMode){
-					removeTile(cellData, layer);
+					remove(cellData, layer);
 				}
 			}
 		}
 	}
 }
 
-void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
+void Grid::select(CellData *cellData, u32 layer, bool multi) {
 
 	if(!multi){
-		FOR_LIST(it, mSelectedTiles){
+		FOR_LIST(it, mSelectedMapElements){
 			if(it.get()){
 				it.get()->getFirstComponent<Renderer>()->setColor(Vector4(0,0,0,1));
 			}
 		}
 
-		mSelectedTiles->clear();
+		mSelectedMapElements->clear();
 	}
 
 	if (cellData->get(layer)) {
 
-		GameObject* tile = cellData->get(layer);
-		if(mSelectedTiles->find(tile).isNull()) {
+		MapElement* tile = cellData->get(layer);
+		if(mSelectedMapElements->find(tile).isNull()) {
 			tile->getComponents<Renderer>()->get(0)->setColor(Vector4(0.2f,0.2f,0.2f,1));
 
-			mSelectedTiles->pushBack(tile);
+			mSelectedMapElements->pushBack(tile);
 
 			EventOnSelectTile event;
 			DE_SEND_EVENT(this, this, event);
@@ -184,49 +184,39 @@ void Grid::selectTile(CellData *cellData, u32 layer, bool multi) {
 	}
 }
 
-GameObject* Grid::getFirstSelectedTile() {
-	return mSelectedTiles->isEmpty() ? nullptr : mSelectedTiles->get(0);
+MapElement* Grid::getFirstSelectedTile() {
+	return mSelectedMapElements->isEmpty() ? nullptr : mSelectedMapElements->get(0);
 }
 
-bool Grid::isSameTile(GameObject* tileA, GameObject* tileB) {
-	if(tileA && tileB){
-		Renderer* rendererA = tileA->getComponents<Renderer>()->get(0);
-		Renderer* rendererB = tileB->getComponents<Renderer>()->get(0);
+void Grid::draw(CellData *cellData, const Vector3 &worldPosition) {
 
-		return rendererA->getMaterial() == rendererB->getMaterial() &&
-				rendererA->getRegionPosition() == rendererB->getRegionPosition() &&
-				rendererA->getRegionSize() == rendererB->getRegionSize();
-	}
+	u32 layer = mMapEditor->mLayer;
 
-	return false;
+	MapElement* lastTile = cellData->get(layer);
+
+	remove(cellData, layer);
+
+	// This is generic data and need to be set here, just before creating the MapElement
+	MapElementData* data = mMapEditor->mMapEditorUI.mBrush.mMapElementData;
+	data->mPosition = worldPosition;
+	data->mSize = mMapEditor->mMapEditorUI.mBrush.mDrawTileSize;
+	data->mLayer = layer;
+
+	MapElement* newMapElement = MapElement::create(data);
+	mScene->addGameObject(newMapElement);
+
+	cellData->set(newMapElement, layer);
+
+	Renderer* renderer = newMapElement->getFirstComponent<Renderer>();
+
+	renderer->setRegion(data->mMaterialRegionPosition.x, data->mMaterialRegionPosition.y,
+		data->mMaterialRegionSize.x, data->mMaterialRegionSize.y);
 }
 
-void Grid::drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, const Vector2& size, u32 layer) {
-	if(brushTile){
-
-		GameObject* lastTile = cellData->get(layer);
-
-		if (! isSameTile(brushTile, lastTile)) {
-			removeTile(cellData, layer);
-
-			Renderer* brushRenderer = brushTile->getComponents<Renderer>()->get(0);
-
-			MapElement* newTile = MapElement::create(mScene, worldPosition, size, brushRenderer->getMaterial(), layer);
-			cellData->addGameObject(newTile, layer);
-
-			Renderer* renderer = newTile->getComponents<Renderer>()->get(0);
-
-			renderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y,
-				brushRenderer->getRegionSize().x, brushRenderer->getRegionSize().y);
-		}
-	}
-
-}
-
-void Grid::removeTile(CellData *cellData, u32 layer) {
+void Grid::remove(CellData *cellData, u32 layer) {
 	if (cellData->get(layer)) {
 		mScene->removeGameObject(cellData->get(layer));
-		cellData->removeGameObject(layer);
+		cellData->remove(layer);
 	}
 }
 
@@ -236,22 +226,24 @@ void Grid::loadMapIntoGrid(const List<GameObject*>* gameObjects) {
 
 		GameObject* gameObject = it.get();
 
-		if (gameObject->getIsStatic() && gameObject->getTag() == "tile") {
+		if (gameObject->isDerivedClass<MapElement>()) {
 
-			Transform* t = gameObject->getTransform();
+			MapElement* mapElement = gameObject->castTo<MapElement>();
+
+			Transform* t = mapElement->getTransform();
 			Vector3 worldPosition(t->getWorldPosition());
 			Vector2 gridPosition(worldPosition.x / mTileSize + mGridSize/ 2.0f,
 					worldPosition.y / mTileSize + mGridSize / 2.0f);
 
 			CellData* cellData = mGrid->get(gridPosition.x)->get(gridPosition.y);
-			cellData->addGameObject(gameObject, gameObject->getFirstComponent<Renderer>()->getLayer());
+			cellData->set(mapElement, mapElement->getFirstComponent<Renderer>()->getLayer());
 		}
 	}
 }
 
-void Grid::forEachSelectedTile(std::function<void(GameObject*)> callback) {
-	FOR_LIST(it, getSelectedTiles()){
-		GameObject* tile = it.get();
+void Grid::forEachSelectedTile(std::function<void(MapElement*)> callback) {
+	FOR_LIST(it, getSelectedMapElements()){
+		MapElement* tile = it.get();
 		if(tile){
 			callback(tile);
 		}

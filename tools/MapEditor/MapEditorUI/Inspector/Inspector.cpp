@@ -21,6 +21,8 @@
 #include "EditorEvents/EditorEvents.hpp"
 #include "Editor/EditorBuilder.hpp"
 
+#include "MapElement/MapElement.hpp"
+
 namespace DE {
 
 Inspector::Inspector() : DE_Class(){

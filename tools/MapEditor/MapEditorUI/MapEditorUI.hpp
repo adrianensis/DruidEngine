@@ -34,9 +34,6 @@ private:
 
 	const StringsUI mStringsUI;
 
-	MenuBar* mMenuBar;
-	Inspector* mInspector = nullptr;
-	Atlas* mAtlas = nullptr;
 
 	// SPRITES
 	std::string mSpritesUIGroup = "sprites";
@@ -49,6 +46,10 @@ private:
 	UIText* mTextFPS = nullptr;
 
 	MapEditor* mMapEditor;
+
+	DE_M_GET(MenuBar, MenuBar*);
+	DE_M_GET(Inspector, Inspector*);
+	DE_M_GET(Atlas, Atlas*);
 
 public:
 

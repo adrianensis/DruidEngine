@@ -4,6 +4,7 @@
 #include <string>
 #include "UI/UIElement.hpp"
 #include "../StringsUI.hpp"
+#include "MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -27,6 +28,8 @@ private:
 	GameObject* mAtlasBackground = nullptr;
 
 	MapEditor* mMapEditor;
+
+	DE_M(MapElementData_Tile, MapElementData_Tile); 
 
 	void createAtlasSelector();
 	void createAtlas(u32 index, Material* material);

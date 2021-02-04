@@ -54,7 +54,7 @@
 namespace DE {
 
 Brush::Brush() : DE_Class() {
-
+	mMapElementData = nullptr;
 }
 
 Brush::~Brush() {
@@ -62,35 +62,60 @@ Brush::~Brush() {
 }
 
 void Brush::init(MapEditor* mapEditor) {
-
 	mMapEditor = mapEditor;
-
-	if(mGrid) free();
-
-	mGrid = DE_NEW<Array<GameObject*>>();
-	mGrid->init(mBrushMaxGridSize);
-
-	if(mBrushCursor) {
-		mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
-	}
-
-	mBrushCursor = GameObjectBuilder::getInstance()->
-	createSprite(mMapEditor->mMaterial, mMapEditor->mMapEditorUI.mUILayer, false)->getGameObject();
-
-	mBrushCursor->getTransform()->setLocalPosition(Vector3(0,0,0));
-	mBrushCursor->getTransform()->setScale(Vector3(0.05f / RenderContext::getAspectRatio(), 0.05f, 1));
-	mBrushCursor->getTransform()->setAffectedByProjection(false);
-
-	mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
-
 	mIsPaintMode = false;
 }
 
-GameObject* Brush::getTile(u32 i, u32 j){
-	return mGrid->get(i * mBrushGridSize.x + j);
+void Brush::setMaterial(Material* material){
+	if(material) {
+
+		mMapElementData->mMaterial = material;
+
+		free();
+
+		mGrid = DE_NEW<Array<GameObject*>>();
+		mGrid->init(mBrushMaxGridSize);
+
+		mBrushCursor = GameObjectBuilder::getInstance()->
+		createSprite(mMapElementData->mMaterial, mMapEditor->mMapEditorUI.mUILayer, false)->getGameObject();
+
+		mBrushCursor->getTransform()->setLocalPosition(Vector3(0,0,0));
+		mBrushCursor->getTransform()->setScale(Vector3(0.05f / RenderContext::getAspectRatio(), 0.05f, 1));
+		mBrushCursor->getTransform()->setAffectedByProjection(false);
+
+		mMapEditor->getGameObject()->getScene()->addGameObject(mBrushCursor);
+
+		setMaterialRegion(Vector2(0,0), Vector2(1,1));
+	} 
 }
 
-void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
+void Brush::setMaterialRegion(const Vector2& regionPosition, const Vector2& regionSize) {
+	mMapElementData->mMaterialRegionPosition = regionPosition;
+	mMapElementData->mMaterialRegionSize = regionSize;
+	mBrushCursor->getFirstComponent<Renderer>()->setRegion(
+		regionPosition.x, regionPosition.y,
+		regionSize.x, regionSize.y);
+}
+
+GameObject* Brush::getTile(u32 i, u32 j){
+	return mGrid ? mGrid->get(i * mBrushGridSize.x + j) : nullptr;
+}
+
+void Brush::clickTile(GameObject *tile, const Vector2& atlasPosition) {
+	if(! ((mLastIndex < mBrushMaxGridSize) && Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))){
+		clear();		
+	}
+
+	setMaterial(tile->getFirstComponent<Renderer>()->getMaterial());
+
+	addTile(tile, atlasPosition);
+
+	f32 gridTileSize = mMapEditor->mGrid.getTileSize();
+	setDrawTileSize(Vector2(gridTileSize, gridTileSize));
+	mIsPaintMode = true;
+}
+
+void Brush::addTile(GameObject *tile, const Vector2& atlasPosition) {
 	if(mLastIndex < mBrushMaxGridSize){
 
 		// If it's the first selected tile, take it as coordinates origin.
@@ -106,13 +131,26 @@ void Brush::clickTile(GameObject *tile, Vector2 atlasPosition) {
 
 		mGrid->set(mLastIndex,tile);
 		mLastIndex++;
+		
+		// change tile color to mark it as selected
 		tile->getFirstComponent<Renderer>()->setColor(Vector4(0.2f,0.2f,0.2f,1));
+
+		// change cursor tile
+		Renderer* renderer = tile->getFirstComponent<Renderer>();
+		setMaterialRegion(renderer->getRegionPosition(), renderer->getRegionSize());
 	}
-}
+} 
 
 void Brush::free(){
-	mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
-	DE_FREE(mGrid);
+	if(mBrushCursor) {
+		mMapEditor->getGameObject()->getScene()->removeGameObject(mBrushCursor);
+		mBrushCursor = nullptr;
+	}
+
+	if(mGrid){
+		DE_FREE(mGrid);
+		mGrid = nullptr;
+	}
 }
 
 void Brush::update(){
@@ -133,12 +171,13 @@ void Brush::clear(){
 	mLastIndex = 0;
 	mBrushGridSize = Vector2(1,1);
 	mOriginAtlasPosition = Vector2(0,0);
-	mGrid->clear();
+	if(mGrid) {
+		mGrid->clear();
+	} 
 }
 
 void Brush::setDrawTileSize(const Vector2& size) {
-	mDrawTileSizeFactor = size;
-	//mBrushCursor->getTransform()->setScale(Vector3(mDrawTileSizeFactor,mDrawTileSizeFactor,1));
+	mDrawTileSize = size;
 }
 
 }

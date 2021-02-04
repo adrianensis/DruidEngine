@@ -23,7 +23,8 @@
 #include "EditorEvents/EditorEvents.hpp"
 #include "MapEditorUI/MapEditorUI.hpp"
 
-#include "MapEditorUI/MapElement/MapElement.hpp"
+#include "MapElement/MapElement.hpp"
+
 namespace DE {
 
 	class MapEditor;
@@ -37,14 +38,13 @@ private:
 
 		/*
 			TODO : Migrate this to MapElement.
-
 			loadMapIntoGrid should load MapElements.
 		*/
-		Array<GameObject*> *layers = nullptr;
+		Array<MapElement*> *layers = nullptr;
 
-		void addGameObject(GameObject* gameObject, u32 layer);
-		void removeGameObject(u32 layer);
-		GameObject* get(u32 layer);
+		void set(MapElement* gameObject, u32 layer);
+		void remove(u32 layer);
+		MapElement* get(u32 layer);
 	};
 
 	DE_M(Grid, Array<Array<CellData*>*>*)
@@ -53,24 +53,24 @@ private:
 
 	DE_M_GET(GridSize, u32)
 	DE_M_GET(TileSize, f32)
-	DE_M_GET(SelectedTiles, List<GameObject*>*)
+	DE_M_GET(SelectedMapElements, List<MapElement*>*)
+
+	void draw(CellData *cellData, const Vector3 &worldPosition);
+	void remove(CellData *cellData, u32 layer);
+	void select(CellData *cellData, u32 layer, bool multi);
 
 public:
 	DE_CLASS(Grid)
 
-	void click(const Vector3 &clampedPosition, bool isPaintMode, GameObject* brush, const Vector2& tileSize, u32 layer);
-	bool isSameTile(GameObject* tileA, GameObject* tileB);
-	void drawTile(CellData *cellData, const Vector3 &worldPosition, GameObject* brushTile, const Vector2 &size, u32 layer);
-	void removeTile(CellData *cellData, u32 layer);
-	void selectTile(CellData *cellData, u32 layer, bool multi);
+	void click(const Vector3 &clampedPosition, GameObject* brushTile);
 
-	GameObject* getFirstSelectedTile();
+	MapElement* getFirstSelectedTile();
 
 	void init(MapEditor* mapEditor, u32 gridSize, f32 tileSize);
 
 	void loadMapIntoGrid(const List<GameObject*>* gameObjects);
 
-	void forEachSelectedTile(std::function<void(GameObject*)> callback);
+	void forEachSelectedTile(std::function<void(MapElement*)> callback);
 };
 
 }

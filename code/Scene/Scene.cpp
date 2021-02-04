@@ -112,7 +112,7 @@ void Scene::loadScene(const std::string &path) {
 
 		std::string className = configMap->getString(objectName + ".class");
 		
-		GameObject* gameObject = Memory::fromClassName<GameObject>(className);
+		GameObject* gameObject = DE_NEW_FROM_NAME<GameObject>(className);
 		gameObject->init();
 		gameObject->load(configMap, objectName);
 		addGameObject(gameObject);

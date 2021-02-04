@@ -100,25 +100,10 @@ void Atlas::createAtlas(u32 index, Material* material) {
 			renderer->setMaterial(material);
 			renderer->setRegion(j / atlasSize.x, i / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y);
 
-			tile->setOnPressedCallback([&, self = tile, mapEditor = mMapEditor, i = i, j = j](UIElement* uiElement) {
-				Renderer* buttonRenderer = self->getRenderer();
-				mMapEditor->mMapEditorUI.mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(buttonRenderer->getRegionPosition().x,
-						buttonRenderer->getRegionPosition().y, buttonRenderer->getRegionSize().x,
-						buttonRenderer->getRegionSize().y);
-
+			tile->setOnPressedCallback([&, tile, i, j, this](UIElement* uiElement) {
 				Vector2 atlasPosition = Vector2(i, j);
-
-				if((mMapEditor->mMapEditorUI.mBrush.mLastIndex < mMapEditor->mMapEditorUI.mBrush.mBrushMaxGridSize) &&
-						Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL)){
-					mMapEditor->mMapEditorUI.mBrush.clickTile(self, atlasPosition);
-				} else {
-					mMapEditor->mMapEditorUI.mBrush.clear();
-					mMapEditor->mMapEditorUI.mBrush.clickTile(self, atlasPosition);
-				}
-
-				f32 gridTileSize = mMapEditor->mGrid.getTileSize();
-				mMapEditor->mMapEditorUI.mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize)); // 1 unit per tile
-				mapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;
+				mMapEditor->mMapEditorUI.mBrush.mMapElementData = &mMapElementData_Tile; 
+				mMapEditor->mMapEditorUI.mBrush.clickTile(tile, atlasPosition);
 			});
 
 			UI::getInstance()->addToGroup(mAtlasUIGroup, tile);
@@ -160,8 +145,6 @@ void Atlas::createAtlasSelector() {
 		button->getRenderer()->setMaterial(material);
 
 		button->setOnPressedCallback([&, i=i, material=material, this](UIElement* uiElement) {
-			mMapEditor->mMaterial = material;
-			mMapEditor->mMapEditorUI.createBrush();
 			UI::getInstance()->removeElementsFromGroup(mAtlasUIGroup);
 			TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [this,i,material](){
 				createAtlas(i, material);

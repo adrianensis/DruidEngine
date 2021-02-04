@@ -61,9 +61,18 @@ MenuBar::~MenuBar(){
 
 void MenuBar::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
-
 	createMenuBar();
 }
+
+void MenuBar::createMapElement(const std::string& materialPath) {
+	mMapEditor->mMapEditorUI.mBrush.mMapElementData = &mMapElementData_ActionPoint;
+	mMapEditor->mMapEditorUI.mBrush.clear();
+	Material* material = MaterialManager::getInstance()->loadMaterial(materialPath);
+	mMapEditor->mMapEditorUI.mBrush.setMaterial(material);
+	f32 gridTileSize = mMapEditor->mGrid.getTileSize();
+	mMapEditor->mMapEditorUI.mBrush.setDrawTileSize(Vector2(gridTileSize, gridTileSize));
+	mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(true);
+} 
 
 void MenuBar::createMenuBar() {
 
@@ -100,7 +109,9 @@ void MenuBar::createMenuBar() {
 		});
 
 	EditorBuilder::getInstance()->createDropdown("Create")->
-		addOption("Player Start", [&](UIElement* uiElement) {})->
+		addOption("Player Start", [&,this](UIElement* uiElement) {
+			createMapElement("resources/crosshair.png");
+		})->
 		addOption("Spawn Point", [&](UIElement* uiElement) {})->
 		addOption("Action Point", [&](UIElement* uiElement) {})->
 		addOption("Event Point", [&](UIElement* uiElement) {})->
@@ -110,8 +121,8 @@ void MenuBar::createMenuBar() {
 		addOption("Death Area", [&](UIElement* uiElement) {});
 
 	EditorBuilder::getInstance()->createDropdown("Brush")->
-		addOption("Paint Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = true;})->
-		addOption("Select Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.mIsPaintMode = false;});
+		addOption("Paint Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(true);})->
+		addOption("Select Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(false);});
 
 	EditorBuilder::getInstance()->createDropdown("Sprites")->
 		addOption("Static Sprite", [&](UIElement* uiElement) {})->

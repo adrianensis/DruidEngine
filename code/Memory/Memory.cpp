@@ -77,6 +77,7 @@ void Memory::free() {
 }
 
 DE_Class* Memory::internalFromClassName(const std::string& className) {
+	DE_ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered.")
 	return classNamesMap[className]();
 }
 

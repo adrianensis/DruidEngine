@@ -23,7 +23,6 @@ public:
 	DE_M(Zoom, f32)
 	DE_M(Player, GameObject*)
 	DE_M(MapEditorUI, MapEditorUI)
-	DE_M(Material, Material*)
 
 	DE_M(Grid, Grid)
 	DE_M(ConfigMap, ConfigMap*)

@@ -84,6 +84,11 @@ public:
 	}
 
 	template<class T>
+	T* castTo() {
+		return dynamic_cast<T*>(this);
+	}
+
+	template<class T>
 	bool isSameClass() const {
 		return isDerivedClass<DE_Class>() && (this->getClassId() == T::getClassIdStatic());
 	}
