@@ -110,15 +110,26 @@ void MenuBar::createMenuBar() {
 
 	EditorBuilder::getInstance()->createDropdown("Create")->
 		addOption("Player Start", [&,this](UIElement* uiElement) {
-			createMapElement("resources/crosshair.png");
+			createMapElement("resources/editor-icons/PlayerStart.png");
 		})->
-		addOption("Spawn Point", [&](UIElement* uiElement) {})->
-		addOption("Action Point", [&](UIElement* uiElement) {})->
-		addOption("Event Point", [&](UIElement* uiElement) {})->
-		addOption("Way Point", [&](UIElement* uiElement) {})->
-		addOption("Trigger Area", [&](UIElement* uiElement) {})->
-		addOption("Event Area", [&](UIElement* uiElement) {})->
-		addOption("Death Area", [&](UIElement* uiElement) {});
+		addOption("Spawn Point", [&](UIElement* uiElement) {
+			createMapElement("resources/editor-icons/SpawnPoint.png");
+		})->
+		addOption("Event Point", [&](UIElement* uiElement) {
+			createMapElement("resources/editor-icons/EventPoint.png");
+		})->
+		addOption("Way Point", [&](UIElement* uiElement) {
+			createMapElement("resources/editor-icons/WayPoint.png");
+		})->
+		addOption("Trigger Area", [&](UIElement* uiElement) {
+			// Not implemented yet.
+		})->
+		addOption("Event Area", [&](UIElement* uiElement) {
+			// Not implemented yet.
+		})->
+		addOption("Death Area", [&](UIElement* uiElement) {
+			// Not implemented yet.
+		});
 
 	EditorBuilder::getInstance()->createDropdown("Brush")->
 		addOption("Paint Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(true);})->
