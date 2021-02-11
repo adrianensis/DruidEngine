@@ -75,7 +75,9 @@ bool ConfigMap::getBool(const std::string &key) {
 }
 
 void ConfigMap::setString(const std::string &key, const std::string &value) {
-	mMap.set(key, value);
+	if(value.length() > 0){
+		mMap.set(key, value);
+	}
 }
 
 void ConfigMap::setU32(const std::string &key, u32 value) {

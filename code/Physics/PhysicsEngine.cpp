@@ -67,7 +67,7 @@ void PhysicsEngine::init(f32 sceneSize) {
 
 void PhysicsEngine::step(f32 deltaTime) {
 
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	// TODO : Move this to settings.
 	u32 maxIterations = 3.0f; // how many times we want to divide dt
@@ -106,13 +106,13 @@ void PhysicsEngine::step(f32 deltaTime) {
 
 	}
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void PhysicsEngine::updateContacts() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 	ContactsManager::getInstance()->updateContacts();
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void PhysicsEngine::terminate() {

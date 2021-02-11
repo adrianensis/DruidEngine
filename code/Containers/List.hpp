@@ -67,10 +67,10 @@ private:
 			Node::init();
 
 			// TODO : wrap in if(T is same std::string) ??
-			// The bug hapens only with strings.
+			// The bug hapens only with empty strings ("").
 #if defined(_MSC_VER)
 			mElement = T(element);
-      #else
+#else
 			mElement = element;
 #endif
 

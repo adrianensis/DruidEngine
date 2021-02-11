@@ -124,7 +124,7 @@ void RenderEngine::init(f32 sceneSize) {
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f;
 
 	mChunks = DE_NEW<Array<Chunk*>>();
-	mChunks->init(chunksGridSize * chunksGridSize); // TODO : define how many chunks to create. Move to EngineConfig.
+	mChunks->init(chunksGridSize * chunksGridSize);
 
 	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
@@ -171,7 +171,7 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
 
 void RenderEngine::step() {
 
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	if (mCamera) {
 		if (mCamera->getFrustum()) {
@@ -186,20 +186,20 @@ void RenderEngine::step() {
 	swap();
 	checkChunks();
 	freeRenderersPendingtoFree();
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 
 }
 
 void RenderEngine::swap() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	RenderContext::swap();
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::renderBatches() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	u32 drawCallCounter = 0;
 
@@ -218,11 +218,11 @@ void RenderEngine::renderBatches() {
 
 	// VAR(u32,drawCallCounter);
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::checkChunks() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
@@ -240,11 +240,11 @@ void RenderEngine::checkChunks() {
 		}
 	}
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::freeRenderersPendingtoFree() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	FOR_LIST(it, mRenderersToFree){
 		DE_FREE(it.get());
@@ -252,11 +252,11 @@ void RenderEngine::freeRenderersPendingtoFree() {
 
 	mRenderersToFree->clear();
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::stepDebug() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 
 	mShaderLine->use();
 
@@ -292,7 +292,7 @@ void RenderEngine::stepDebug() {
 
 	mThereAreActiveDebugRenderer = false;
 
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::bind() {

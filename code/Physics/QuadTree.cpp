@@ -444,9 +444,9 @@ void QuadTree::init(f32 size) {
 }
 
 void QuadTree::update() {
-	DE_TIMEMARK_START()
+	DE_PROFILER_TIMEMARK_START()
 	mRoot->update();
-	DE_TIMEMARK_END()
+	DE_PROFILER_TIMEMARK_END()
 }
 
 void QuadTree::addCollider(Collider *collider) {
