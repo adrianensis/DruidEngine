@@ -4,8 +4,6 @@
 #include "Memory/Allocator.hpp"
 #include "Core/Basic.hpp"
 
-#include <type_traits>
-
 namespace DE {
 
 /*!
@@ -50,7 +48,7 @@ private:
 		DE_M(Prev, List<T>::Node*);
 		DE_M(Element, T);
 
-		DE_CLASS_TEMPLATE(Node, T);
+		DE_CLASS_BODY_TEMPLATE(Node, T);
 
 		Node() : DE_Class() {
 		}
@@ -66,7 +64,7 @@ private:
 		void init(T element) {
 			Node::init();
 
-			// TODO : wrap in if(T is same std::string) ??
+			// TODO : wrap in if(T is same String) ??
 			// The bug hapens only with empty strings ("").
 #if defined(_MSC_VER)
 			mElement = T(element);
@@ -142,7 +140,7 @@ public:
 		
 	public:
 
-		DE_CLASS_TEMPLATE(ListIterator, T);
+		DE_CLASS_BODY_TEMPLATE(ListIterator, T);
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;
@@ -325,7 +323,7 @@ private:
 	
 public:
 
-	DE_CLASS_TEMPLATE(List<T>, T);
+	DE_CLASS_BODY_TEMPLATE(List<T>, T);
 
 	List() : 	SequentialContainer<T>() {
 		mFirst = nullptr;

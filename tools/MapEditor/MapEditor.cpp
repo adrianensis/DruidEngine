@@ -123,7 +123,9 @@ void MapEditor::firstStep() {
 	mGrid.init(this, mConfigMap->getF32("grid.size"), mConfigMap->getF32("grid.tile.size"));
 
 	//mGrid.loadMapIntoGrid(getGameObject()->getScene()->getNewGameObjects());
-	mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());
+	//mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());
+
+	mIsMapLoaded = false;
 
 	mMapEditorUI.init(this);
 
@@ -132,32 +134,39 @@ void MapEditor::firstStep() {
 
 void MapEditor::step() {
 
-	cameraZoom();
-	processMovement();
+	if(mIsMapLoaded){
 
-	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_Z)) {
-		if (mLayer < 10)
-			mLayer++;
+		cameraZoom();
+		processMovement();
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_Z)) {
+			if (mLayer < 10)
+				mLayer++;
+		}
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_X)) {
+			if (mLayer > 0)
+				mLayer--;
+		}
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_ESCAPE)) {
+			mMapEditorUI.resetBrush();
+		}
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_TAB)) {
+			mMapEditorUI.toggleAtlas();
+		}
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_S) && Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL /*| GLFW_MOD_SHIFT*/)) {
+			getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
+		}
+
+		mMapEditorUI.update();
+
+	} else if(getGameObject()->getScene()->isLoadFinished()){
+		mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());
+		mIsMapLoaded = true;
 	}
-
-	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_X)) {
-		if (mLayer > 0)
-			mLayer--;
-	}
-
-	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_ESCAPE)) {
-		mMapEditorUI.resetBrush();
-	}
-
-	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_TAB)) {
-		mMapEditorUI.toggleAtlas();
-	}
-
-	if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_S) && Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL /*| GLFW_MOD_SHIFT*/)) {
-		getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
-	}
-
-	mMapEditorUI.update();
 }
 
 void MapEditor::addColliderToTile(GameObject *tile) {

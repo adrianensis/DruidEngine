@@ -39,12 +39,12 @@ private:
 	Memory();
 	~Memory();
 
-	static std::map<std::string, u32> memoryMapCounter;
+	static std::map<String, u32> memoryMapCounter;
 
 	// Instantiation by Class Name
-	static std::map<std::string, std::function<DE_Class*()>> classNamesMap;
-	static DE_Class* internalFromClassName(const std::string& className);
-	static void internalRegisterClassName(const std::string& className, std::function<DE_Class*()> instantiationFunction);
+	static std::map<String, std::function<DE_Class*()>> classNamesMap;
+	static DE_Class* internalFromClassName(StringRef className);
+	static void internalRegisterClassName(StringRef className, std::function<DE_Class*()> instantiationFunction);
 
 public:
 
@@ -65,7 +65,7 @@ public:
 
 	template<class T>
 	static T* allocate() {
-		std::string className(T::getClassNameStatic());
+		String className(T::getClassNameStatic());
 
 		if(memoryMapCounter.find(className) == memoryMapCounter.end()){
 			memoryMapCounter.insert(std::make_pair(className, 0));
@@ -79,7 +79,7 @@ public:
 	template<class T>
 	static void free(T *pointer) {
 		if (pointer) {
-			std::string className(pointer->getClassName());
+			String className(pointer->getClassName());
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
 				if(memoryMapCounter[className] > 0){
@@ -94,14 +94,14 @@ public:
 	static void free();
 
 	template <class T>
-	static void registerClassName(const std::string& className) {
+	static void registerClassName(StringRef className) {
 		internalRegisterClassName(className, [](){
 			return (DE_Class*)DE_NEW<T>();
 		});
 	}
 
 	template <class T>
-	static T* fromClassName(const std::string& className) {
+	static T* fromClassName(StringRef className) {
 		return (T*) internalFromClassName(className);
 	}
 };

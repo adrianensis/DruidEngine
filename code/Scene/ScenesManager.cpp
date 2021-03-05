@@ -31,7 +31,7 @@ ScenesManager::~ScenesManager() {
 
 void ScenesManager::internalLoadScene() {
 	if (EngineConfig::getInstance()->getU32("scenes.length") > 0) {
-		std::string sceneName = EngineConfig::getInstance()->getString(
+		String sceneName = EngineConfig::getInstance()->getString(
 				"scenes[" + std::to_string(mCurrentSceneIndex) + "]");
 		mCurrentScene->loadScene(sceneName);
 	}

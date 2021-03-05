@@ -31,7 +31,7 @@ void UIButton::onLabelDestroy() {
 	mLabel = nullptr;
 }
 
-void UIButton::setText(const std::string &text) {
+void UIButton::setText(const String &text) {
 
 	if(text.length() > 0){
 		f32 fontOffset = UI::getInstance()->getDefaultFontSize().x;

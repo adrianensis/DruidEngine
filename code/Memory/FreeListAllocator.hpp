@@ -52,7 +52,7 @@ private:
 
 public:
 
-	DE_CLASS(FreeListAllocator)
+	DE_CLASS_BODY(FreeListAllocator)
 
 	virtual void init(u32 size) override;
 	virtual byte* allocate(u32 size) override;

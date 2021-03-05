@@ -11,12 +11,12 @@ private:
 	class UIDropdownEntry : public DE_Class{
 	public:
 
-		DE_CLASS(UIDropdownEntry)
+		DE_CLASS_BODY(UIDropdownEntry)
 
-		DE_M(Label, std::string);
+		DE_M(Label, String);
 		DE_M(Callback, UIElementCallback);
 
-		UIDropdownEntry(std::string label, UIElementCallback callback);
+		UIDropdownEntry(String label, UIElementCallback callback);
 
 		UIDropdownEntry& operator= (const UIDropdownEntry &other) {
 			// self-assignment guard
@@ -38,12 +38,12 @@ private:
 
 public:
 
-	DE_CLASS(UIDropdown)
+	DE_CLASS_BODY(UIDropdown)
 
 	virtual void init() override;
 	virtual void onDestroy() override;
 
-	UIDropdown* addOption(const std::string& label, UIElementCallback onPressedCallback);
+	UIDropdown* addOption(StringRef label, UIElementCallback onPressedCallback);
 
 	virtual void toggle() override;
 };

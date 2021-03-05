@@ -13,14 +13,14 @@ private:
 
 public:
 
-	DE_CLASS(EngineConfig)
+	DE_CLASS_BODY(EngineConfig)
 
 	void init();
-	void readConfigFile(const std::string &path);
-	std::string getString(const std::string &key);
-	u32 getU32(const std::string &key);
-	f32 getF32(const std::string &key);
-	bool getBool(const std::string &key);
+	void readConfigFile(const String &path);
+	String getString(const String &key);
+	u32 getU32(const String &key);
+	f32 getF32(const String &key);
+	bool getBool(const String &key);
 };
 }
 

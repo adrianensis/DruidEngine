@@ -19,7 +19,7 @@ private:
 
 public:
 
-	DE_CLASS(StackAllocator)
+	DE_CLASS_BODY(StackAllocator)
 
 	/*!
 	 \return Pointer to the top of the stack.

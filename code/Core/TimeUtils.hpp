@@ -17,7 +17,7 @@ private:
 	DE_M(LastTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
 
 public:
-	DE_CLASS(TimeMark)
+	DE_CLASS_BODY(TimeMark)
 
 	void init();
 	void startFrame();
@@ -47,7 +47,7 @@ private:
 	DE_M(InternalTimeMark, TimeMark)
 
 public:
-	DE_CLASS(Time)
+	DE_CLASS_BODY(Time)
 
 	void init() { mInternalTimeMark.init() ; }
 	void startFrame() { mInternalTimeMark.startFrame() ; }

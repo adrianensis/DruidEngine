@@ -24,7 +24,7 @@ void UIText::onDestroy() {
 	UIElement::onDestroy();
 }
 
-void UIText::setText(const std::string &text) {
+void UIText::setText(const String &text) {
 
 	if (mString != text) {
 

@@ -29,14 +29,14 @@ private:
 	DE_M_GET_SET(Scene, Scene*)
 	DE_M_GET_SET(IsStatic, bool)
 	DE_M_GET(Transform, Transform*)
-	DE_M_GET_SET(Tag, std::string)
+	DE_M_GET_SET(Tag, String)
 	DE_M_GET(IsPendingToBeDestroyed, bool)
 	DE_M_GET(IsDestroyed, bool)
 	DE_M_GET_SET(ShouldPersist, bool)
 
 public:
 
-	DE_CLASS(GameObject)
+	DE_CLASS_BODY(GameObject)
 
 	virtual void init();
 
@@ -78,8 +78,8 @@ public:
 
 	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
 
-	virtual void save(ConfigMap* configMap, const std::string& objectName);
-	virtual void load(ConfigMap* configMap, const std::string& objectName);
+	virtual void save(ConfigMap* configMap, StringRef objectName);
+	virtual void load(ConfigMap* configMap, StringRef objectName);
 };
 
 }

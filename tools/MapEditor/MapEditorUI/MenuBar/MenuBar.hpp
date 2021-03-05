@@ -35,11 +35,11 @@ private:
 
 	DE_M(MapElementData_ActionPoint, MapElementData_ActionPoint);
 
-	void createMapElement(const std::string& materialPath);
+	void createMapElement(StringRef materialPath);
 
 public:
 
-	DE_CLASS(MenuBar)
+	DE_CLASS_BODY(MenuBar)
 
 	void init(MapEditor *mapEditor);
 

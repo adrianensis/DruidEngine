@@ -22,7 +22,7 @@ private:
 
 public:
 
-	DE_CLASS(EnemyScript)
+	DE_CLASS_BODY(EnemyScript)
 
 	void init() override;
 	void firstStep() override;

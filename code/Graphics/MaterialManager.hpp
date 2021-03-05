@@ -12,19 +12,19 @@ class Material;
 
 class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
 
-	using PathTextureMap = HashMap<std::string, Texture*>;
+	using PathTextureMap = HashMap<String, Texture*>;
 	DE_M(TexturesMap, PathTextureMap*)
-	using PathMaterialMap = HashMap<std::string, Material*>;
+	using PathMaterialMap = HashMap<String, Material*>;
 	DE_M(MaterialsMap, PathMaterialMap*)
 	DE_M(NoTextureMaterial, Material*)
 
 public:
 
-	DE_CLASS(MaterialManager)
+	DE_CLASS_BODY(MaterialManager)
 
 	void init();
-	Texture* loadTexture(const std::string &path);
-	Material* loadMaterial(const std::string &path);
+	Texture* loadTexture(const String &path);
+	Material* loadMaterial(const String &path);
 
 	Material* loadNoTextureMaterial();
 };

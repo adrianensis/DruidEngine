@@ -45,7 +45,7 @@ void Inspector::init(MapEditor *mapEditor) {
 	createLayersBar();
 }
 
-void Inspector::setTileScaleFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex) {
+void Inspector::setTileScaleFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex) {
 	Transform* tileTransform = tile->getTransform();
 	Vector3 scale = tileTransform->getScale();
 	Vector3 newVector = Vector3(scale.x, scale.y, scale.z);
@@ -54,7 +54,7 @@ void Inspector::setTileScaleFromInspector(GameObject* tile, const std::string& s
 	tile->getComponents<Renderer>()->get(0)->forceRecalculateVertices();
 }
 
-void Inspector::setTileColliderPositionFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex) {
+void Inspector::setTileColliderPositionFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex) {
 	auto colliderList = tile->getComponents<Collider>();
 	Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
@@ -65,7 +65,7 @@ void Inspector::setTileColliderPositionFromInspector(GameObject* tile, const std
 	}
 }
 
-void Inspector::setTileColliderScaleFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex) {
+void Inspector::setTileColliderScaleFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex) {
 	auto colliderList = tile->getComponents<Collider>();
 	Collider* collider = colliderList ? colliderList->get(0) : nullptr;
 
@@ -215,7 +215,7 @@ void Inspector::updateInspectorOnSelectTile() {
 	if(mMapEditor->mGrid.getFirstSelectedTile()){
 		update();
 
-		std::string tag = mMapEditor->mGrid.getFirstSelectedTile()->getTag();
+		String tag = mMapEditor->mGrid.getFirstSelectedTile()->getTag();
 		mTextBoxTag->setText(/*tag.length() > 0 ?*/ tag /*: "none"*/);
 
 		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();

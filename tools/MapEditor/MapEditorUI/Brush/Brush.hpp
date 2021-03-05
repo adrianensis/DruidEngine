@@ -33,7 +33,7 @@ public:
 
 	DE_M(MapElementData, MapElementData*);
 
-	DE_CLASS(Brush)
+	DE_CLASS_BODY(Brush)
 
 	void init(MapEditor* mapEditor);
 	void setMaterial(Material* material);

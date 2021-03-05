@@ -21,7 +21,7 @@ private:
 
 public:
 
-	DE_CLASS(Component)
+	DE_CLASS_BODY(Component)
 
 	virtual void init() = 0;
 
@@ -48,8 +48,8 @@ public:
 
 	virtual void onDestroy() { };
 
-	virtual void save(ConfigMap* configMap, const std::string& objectName);
-	virtual void load(ConfigMap* configMap, const std::string& objectName);
+	virtual void save(ConfigMap* configMap, StringRef objectName);
+	virtual void load(ConfigMap* configMap, StringRef objectName);
 };
 
 }

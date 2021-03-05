@@ -33,7 +33,7 @@ UIElement* EditorBuilder::createPanel(const Vector2& position, const Vector2 &si
 	getUIElement();
 }
 
-UIText* EditorBuilder::createLabel(const std::string& text) {
+UIText* EditorBuilder::createLabel(StringRef text) {
 	return (UITextEditable*) UI::getInstance()->getBuilder()->
 		setText(text)->
 		setAdjustSizeToText(true)->
@@ -41,7 +41,7 @@ UIText* EditorBuilder::createLabel(const std::string& text) {
 		getUIElement();
 }
 
-UITextEditable* EditorBuilder::createTextBoxSimple(const std::string& text, std::function<void(UIElement* uiElement)> onTextChangedCallback) {
+UITextEditable* EditorBuilder::createTextBoxSimple(StringRef text, std::function<void(UIElement* uiElement)> onTextChangedCallback) {
 
 	UITextEditable* textEditable = (UITextEditable*) UI::getInstance()->getBuilder()->
 		setText(text)->
@@ -55,7 +55,7 @@ UITextEditable* EditorBuilder::createTextBoxSimple(const std::string& text, std:
 	return textEditable;
 }
 
-UITextEditable* EditorBuilder::createTextBoxLabeled(const std::string& textLabel, const std::string& text, std::function<void(UIElement* uiElement)> onTextChangedCallback) {
+UITextEditable* EditorBuilder::createTextBoxLabeled(StringRef textLabel, StringRef text, std::function<void(UIElement* uiElement)> onTextChangedCallback) {
 
 	createLabel(textLabel);
 	UITextEditable* textEditable = createTextBoxSimple(text, onTextChangedCallback);
@@ -64,13 +64,13 @@ UITextEditable* EditorBuilder::createTextBoxLabeled(const std::string& textLabel
 	return textEditable;
 }
 
-TextEditableVector2 EditorBuilder::createTextBoxVector2(const std::string& textLabel,
+TextEditableVector2 EditorBuilder::createTextBoxVector2(StringRef textLabel,
 		std::function<void(UIElement* uiElement)> onTextChangedCallbackX, std::function<void(UIElement* uiElement)> onTextChangedCallbackY) {
 
 	createLabel(textLabel);
 
 	TextEditableVector2 textEditableVector2;
-	std::string initValue = "0";
+	String initValue = "0";
 	textEditableVector2.TextEditableX = createTextBoxSimple(initValue, onTextChangedCallbackX);
 	textEditableVector2.TextEditableY = createTextBoxSimple(initValue, onTextChangedCallbackY);
 
@@ -79,7 +79,7 @@ TextEditableVector2 EditorBuilder::createTextBoxVector2(const std::string& textL
 	return textEditableVector2;
 }
 
-UIButton* EditorBuilder::createButton(const std::string& textLabel, UIElementCallback onPressedCallback) {
+UIButton* EditorBuilder::createButton(StringRef textLabel, UIElementCallback onPressedCallback) {
 	UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->
 		setText(textLabel)->
 		create(UIElementType::BUTTON)->
@@ -90,7 +90,7 @@ UIButton* EditorBuilder::createButton(const std::string& textLabel, UIElementCal
 	return button;
 }
 
-UIButton* EditorBuilder::createRadialButton(const std::string& textLabel, UIElementCallback onPressedCallback) {
+UIButton* EditorBuilder::createRadialButton(StringRef textLabel, UIElementCallback onPressedCallback) {
 	createLabel(textLabel);
 	UIButton* button = createButton("[ ]", onPressedCallback);
 
@@ -99,7 +99,7 @@ UIButton* EditorBuilder::createRadialButton(const std::string& textLabel, UIElem
 	return button;
 }
 
-UIDropdown* EditorBuilder::createDropdown(const std::string& textLabel) {
+UIDropdown* EditorBuilder::createDropdown(StringRef textLabel) {
 	return (UIDropdown*) UI::getInstance()->getBuilder()->
 		setText(textLabel)->
 		create(UIElementType::DROPDOWN)->

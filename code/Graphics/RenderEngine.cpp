@@ -120,8 +120,10 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Static Chunks grid
 
+	mMinChunkDrawDistance = EngineConfig::getInstance()->getF32("scene.chunks.minChunkDrawDistance");
+
 	f32 chunksGridSize = EngineConfig::getInstance()->getF32("scene.chunks.gridSize");
-	f32 chunksGridSizeHalf = chunksGridSize / 2.0f;
+	f32 chunksGridSizeHalf = chunksGridSize / 2.0f; // TODO : Make it power of 2!
 
 	mChunks = DE_NEW<Array<Chunk*>>();
 	mChunks->init(chunksGridSize * chunksGridSize);
@@ -227,9 +229,10 @@ void RenderEngine::checkChunks() {
 	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
 
-		bool chunkInCameraView = frustumTestSphere(chunk->getCenter(), chunk->getRadius() * 2);
+		f32 chunkToCameraDistance = chunk->getCenter().dst(mCamera->getGameObject()->getTransform()->getWorldPosition());
+		bool chunkInDistance = chunkToCameraDistance <= mMinChunkDrawDistance; //chunkMinDrawDistance;
 
-		if (chunkInCameraView) {
+		if (chunkInDistance) {
 			chunk->load();
 		} else {
 			chunk->unload();

@@ -19,7 +19,7 @@ private:
 
 public:
 
-	DE_CLASS(Animation)
+	DE_CLASS_BODY(Animation)
 
 	void init();
 

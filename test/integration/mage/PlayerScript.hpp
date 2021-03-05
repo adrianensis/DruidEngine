@@ -28,7 +28,7 @@ private:
 
 public:
 
-	DE_CLASS(PlayerScript)
+	DE_CLASS_BODY(PlayerScript)
 
 	void init() override;
 	void firstStep() override;

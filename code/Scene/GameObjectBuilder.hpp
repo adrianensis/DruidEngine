@@ -17,7 +17,7 @@ private:
 
 public:
 
-	DE_CLASS(GameObjectBuilder)
+	DE_CLASS_BODY(GameObjectBuilder)
 
 	GameObjectBuilder* createSprite(Material* material, u32 layer, bool isStatic);
 };

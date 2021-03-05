@@ -22,7 +22,7 @@ private:
 		DE_M(Element, T);
 		DE_M(Children, Array<Node*>*);
 
-		DE_CLASS_TEMPLATE(Node, T);
+		DE_CLASS_BODY_TEMPLATE(Node, T);
 
 		Node() : DE_Class() {
 			mChildren = nullptr;
@@ -109,7 +109,7 @@ private:
 
 public:
 
-	DE_CLASS_TEMPLATE(Tree<T>, T);
+	DE_CLASS_BODY_TEMPLATE(Tree<T>, T);
 
 	Tree() : BaseContainer() {
 		mRoot = nullptr;

@@ -24,7 +24,7 @@ private:
 
 public:
 
-	DE_CLASS(ScenesManager)
+	DE_CLASS_BODY(ScenesManager)
 
 
 	void init();

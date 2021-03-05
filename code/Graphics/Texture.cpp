@@ -13,7 +13,7 @@ Texture::~Texture() {
 	SOIL_free_image_data(mData);
 }
 
-void Texture::init(const std::string &path) {
+void Texture::init(const String &path) {
 	DE_TRACE()
 
 	if (!mData) {

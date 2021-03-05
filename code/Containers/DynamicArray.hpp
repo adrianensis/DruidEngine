@@ -51,7 +51,7 @@ private:
 	
 public:
 
-	DE_CLASS_TEMPLATE(DynamicArray<T>, T);
+	DE_CLASS_BODY_TEMPLATE(DynamicArray<T>, T);
 
 	/*!
 	 \brief Default Constructor.

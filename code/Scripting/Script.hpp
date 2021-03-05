@@ -13,7 +13,7 @@ private:
 
 public:
 
-	DE_CLASS(Script)
+	DE_CLASS_BODY(Script)
 
 	virtual void init();
 	virtual void firstStep();

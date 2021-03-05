@@ -27,7 +27,7 @@ UIElementData::UIElementData() : DE_Class() {
 
 UIElementData::~UIElementData() = default;
 
-void UIElementData::init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer){
+void UIElementData::init(const Vector2 &position, const Vector2 &size, StringRef text, u32 layer){
 	mElementType = UIElementType::PANEL;
 	mPosition = position;
 	mDisplayPosition = Vector2(0,0);

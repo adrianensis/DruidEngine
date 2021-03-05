@@ -23,9 +23,9 @@ template<class K, class V> class HashMap;
 
 class UIGroup: public DE_Class {
 public:
-	DE_CLASS(UIGroup)
+	DE_CLASS_BODY(UIGroup)
 
-	std::string mName;
+	String mName;
 	bool mVisible;
 	List<UIElement*>* mUIElements;
 
@@ -36,7 +36,7 @@ class UI: public DE_Class, public Singleton<UI> {
 private:
 
 	//List<UIElement*>* mUIElements;
-	HashMap<std::string, UIGroup*>* mGroups;
+	HashMap<String, UIGroup*>* mGroups;
 
 	HashMap<c8, Vector2>* mCharMap;
 
@@ -53,7 +53,7 @@ private:
 
 public:
 
-	DE_CLASS(UI)
+	DE_CLASS_BODY(UI)
 
 	UIBuilder* getBuilder();
 
@@ -69,10 +69,10 @@ public:
 
 	// groups
 
-	void addToGroup(const std::string& groupName, UIElement* uiElement);
-	void removeFromGroup(const std::string& groupName, UIElement* uiElement);
-	void removeElementsFromGroup(const std::string& groupName);
-	void setGroupVisibility(const std::string& groupName, bool visibility);
+	void addToGroup(StringRef groupName, UIElement* uiElement);
+	void removeFromGroup(StringRef groupName, UIElement* uiElement);
+	void removeElementsFromGroup(StringRef groupName);
+	void setGroupVisibility(StringRef groupName, bool visibility);
 
 	// focus
 

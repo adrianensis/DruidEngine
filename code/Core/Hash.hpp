@@ -44,7 +44,7 @@ public:
 	}
 };
 
-template<> u64 Hash::hash<std::string>(std::string key);
+template<> u64 Hash::hash<String>(String key);
 template<> u64 Hash::hash<const c8 *>(const c8 * key);
 
 }

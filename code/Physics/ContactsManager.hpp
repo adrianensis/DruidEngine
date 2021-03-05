@@ -17,7 +17,7 @@ public:
 		CONTACT_STATUS_ENTER, CONTACT_STATUS_UPDATE, CONTACT_STATUS_EXIT, CONTACT_DESTROYED_COLLIDER
 	};
 
-	DE_CLASS(Contact)
+	DE_CLASS_BODY(Contact)
 
 	Collider* colliderA;
 	Collider* colliderB;
@@ -44,7 +44,7 @@ private:
 
 public:
 
-	DE_CLASS(ContactsManager)
+	DE_CLASS_BODY(ContactsManager)
 
 	// TODO : ID should be just the pointer or hash
 	void init();

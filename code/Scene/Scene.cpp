@@ -22,6 +22,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Physics/PhysicsEngine.hpp"
+#include <future>         // std::async, std::future
 
 namespace DE {
 
@@ -35,6 +36,7 @@ Scene::~Scene() {
 
 	DE_FREE(mGameObjects);
 	DE_FREE(mNewGameObjects);
+	DE_FREE(mLoadSceneConfigMap);
 }
 
 void Scene::destroyGameObjects() {
@@ -88,40 +90,39 @@ void Scene::init() {
 
 	// SET DEFAULT SIZE
 	mSize = EngineConfig::getInstance()->getF32("scene.defaultSize");
+
+	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
 
-void Scene::loadScene(const std::string &path) {
+void Scene::loadScene(const String &path) {
 
-	mPath = path; // TODO: copy?
+	if(!mLoadSceneConfigMap){
+		mLoadSceneConfigMap = DE_NEW<ConfigMap>();
+		mLoadSceneConfigMap->init();
+	}
+	else {
+		mLoadSceneConfigMap->clear();
+	}
 
-	ConfigMap* configMap = DE_NEW<ConfigMap>();
-	configMap->init();
-	configMap->readConfigFile(mPath);
+	mPath = path;
 
-	mSize = configMap->getF32("scene.size");
+	//std::future<void> fut = std::async (&ConfigMap::readConfigFile,&mLoadSceneConfigMap,mPath); 
+	mLoadSceneConfigMap->readConfigFile(mPath); // TODO: do async / in other thread.
+	//fut.wait();
+
+	mSize = mLoadSceneConfigMap->getF32("scene.size");
 
 	if (mSize == 0) {
 		mSize = EngineConfig::getInstance()->getF32("scene.defaultSize");
 	}
 
-	u32 length = configMap->getU32("objects.length");
+	u32 length = mLoadSceneConfigMap->getU32("objects.length");
 
-	FOR_RANGE(i, 0, length) {
-		std::string indexStr = std::to_string(i);
-		std::string objectName = "objects[" + indexStr + "]";
-
-		std::string className = configMap->getString(objectName + ".class");
-		
-		GameObject* gameObject = DE_NEW_FROM_NAME<GameObject>(className);
-		gameObject->init();
-		gameObject->load(configMap, objectName);
-		addGameObject(gameObject);
-	}
-
-	DE_FREE(configMap);
+	mGameObjectsToLoadTotal = length;
+	mGameObjectsToLoadIndex = 0;
 }
 
-void Scene::saveScene(const std::string &path) {
+void Scene::saveScene(const String &path) {
 
 	ConfigMap* configMap = DE_NEW<ConfigMap>();
 	configMap->init();
@@ -132,8 +133,8 @@ void Scene::saveScene(const std::string &path) {
 	FOR_LIST(it, mGameObjects) {
 		if (it.get()->getShouldPersist()) {
 			// ECHO("SAVE")
-			std::string indexStr = std::to_string(counter);
-			std::string objectName = "objects[" + indexStr + "]";
+			String indexStr = std::to_string(counter);
+			String objectName = "objects[" + indexStr + "]";
 
 			Transform *t = it.get()->getTransform();
 			Vector3 worldPosition = t->getWorldPosition();
@@ -161,6 +162,10 @@ void Scene::unloadScene() {
 	destroyGameObjects();
 }
 
+bool Scene::isLoadFinished() const {
+	return mGameObjectsToLoadIndex == mGameObjectsToLoadTotal;
+}
+
 void Scene::addGameObject(GameObject *gameObject) {
 	gameObject->setScene(this);
 	mNewGameObjects->pushBack(gameObject);
@@ -178,8 +183,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 	}
 
 	if (rendererList) {
-		FOR_LIST (it, rendererList)
-		{
+		FOR_LIST (it, rendererList) {
 			if (!it.get()->getAlreadyAddedToEngine()) {
 				RenderEngine::getInstance()->addRenderer(it.get());
 				it.get()->setAlreadyAddedToEngine(true);
@@ -215,6 +219,22 @@ void Scene::removeGameObject(GameObject *gameObject) {
 }
 
 void Scene::step() {
+
+	// TODO : refactor into a private method
+	if(mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
+		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
+			String indexStr = std::to_string(mGameObjectsToLoadIndex);
+			String objectName = "objects[" + indexStr + "]";
+
+			String className = mLoadSceneConfigMap->getString(objectName + ".class");
+			
+			GameObject* gameObject = DE_NEW_FROM_NAME<GameObject>(className);
+			gameObject->init();
+			gameObject->load(mLoadSceneConfigMap, objectName);
+			addGameObject(gameObject);
+			mGameObjectsToLoadIndex += 1;
+		}
+	}
 
 	if (thereAreNewGameObjects()) {
 

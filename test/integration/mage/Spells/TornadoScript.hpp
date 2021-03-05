@@ -19,7 +19,7 @@ private:
 
 public:
 
-	DE_CLASS(TornadoScript)
+	DE_CLASS_BODY(TornadoScript)
 
 	void init() override;
 	void firstStep() override;

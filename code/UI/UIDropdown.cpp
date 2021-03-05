@@ -13,7 +13,7 @@ UIDropdown::UIDropdownEntry::UIDropdownEntry() : DE_Class() {
 
 }
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry(std::string label, UIElementCallback callback) : DE_Class() {
+UIDropdown::UIDropdownEntry::UIDropdownEntry(String label, UIElementCallback callback) : DE_Class() {
 	mLabel = label;
 	mCallback = callback;
 }
@@ -52,7 +52,7 @@ void UIDropdown::onDestroy() {
 	UIButton::onDestroy();
 }
 
-UIDropdown* UIDropdown::addOption(const std::string& label, UIElementCallback onPressedCallback) {
+UIDropdown* UIDropdown::addOption(StringRef label, UIElementCallback onPressedCallback) {
 
 	mEntries->pushBack(UIDropdownEntry(label, onPressedCallback));
 
@@ -65,7 +65,7 @@ void UIDropdown::toggle() {
 	if(mButtons->isEmpty()){
 		FOR_LIST(it, mEntries) {
 
-			const std::string& label = it.get().mLabel;
+			StringRef label = it.get().mLabel;
 			UIElementCallback onPressedCallback = it.get().mCallback;
 
 			Vector3 scale = getTransform()->getScale();
@@ -107,7 +107,7 @@ void UIDropdown::setEntriesVisibility(bool visible){
 	/*if(visible){
 		FOR_LIST(it, mEntries) {
 
-			const std::string& label = it.get().mLabel;
+			StringRef label = it.get().mLabel;
 			UIElementCallback onPressedCallback = it.get().mCallback;
 
 			Vector3 scale = getTransform()->getScale();

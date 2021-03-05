@@ -76,7 +76,7 @@ public:
 
 	using SequentialContainer<T>::put; // because "put" method is ambiguous.
 
-	DE_CLASS_TEMPLATE(Array<T>, T);
+	DE_CLASS_BODY_TEMPLATE(Array<T>, T);
 
 	/*!
 	 \brief Default Constructor.

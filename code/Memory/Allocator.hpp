@@ -29,7 +29,7 @@ protected:
 
 public:
 
-	DE_CLASS(Allocator)
+	DE_CLASS_BODY(Allocator)
 
 	// Debug
 

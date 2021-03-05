@@ -22,7 +22,7 @@ private:
 
 public:
 
-	DE_CLASS(Frustum)
+	DE_CLASS_BODY(Frustum)
 
 	void init(Camera *camera);
 

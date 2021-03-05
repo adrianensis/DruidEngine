@@ -23,18 +23,18 @@ class EditorBuilder : public DE_Class, public Singleton<EditorBuilder>{
 
 public:
 
-	DE_CLASS(EditorBuilder)
+	DE_CLASS_BODY(EditorBuilder)
 
 	u32 mUILayer = 3;
 
 	UIElement* createPanel(const Vector2& position, const Vector2& size);
-	UIText* createLabel(const std::string& text);
-	UITextEditable* createTextBoxSimple(const std::string& text, UIElementCallback onTextChangedCallback);
-	UITextEditable* createTextBoxLabeled(const std::string& textLabel, const std::string& text, UIElementCallback onTextChangedCallback);
-	UIButton* createButton(const std::string& textLabel, UIElementCallback onPressedCallback);
-	UIButton* createRadialButton(const std::string& textLabel, UIElementCallback onPressedCallback);
-	TextEditableVector2 createTextBoxVector2(const std::string& textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
-	UIDropdown* createDropdown(const std::string& textLabel);
+	UIText* createLabel(StringRef text);
+	UITextEditable* createTextBoxSimple(StringRef text, UIElementCallback onTextChangedCallback);
+	UITextEditable* createTextBoxLabeled(StringRef textLabel, StringRef text, UIElementCallback onTextChangedCallback);
+	UIButton* createButton(StringRef textLabel, UIElementCallback onPressedCallback);
+	UIButton* createRadialButton(StringRef textLabel, UIElementCallback onPressedCallback);
+	TextEditableVector2 createTextBoxVector2(StringRef textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
+	UIDropdown* createDropdown(StringRef textLabel);
 };
 
 }

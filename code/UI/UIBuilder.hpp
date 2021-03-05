@@ -39,14 +39,14 @@ enum class UILayout {
 class UIElementData: public DE_Class {
 public:
 
-	DE_CLASS(UIElementData)
+	DE_CLASS_BODY(UIElementData)
 
 	DE_M(ElementType, UIElementType)
 	DE_M(Position, Vector2)
 	DE_M(DisplayPosition, Vector2)
 	DE_M(Size, Vector2)
 	DE_M(TextSize, Vector2)
-	DE_M(Text, std::string)
+	DE_M(Text, String)
 	DE_M(AdjustSizeToText, bool)
 	DE_M(Layer, u32)
 	DE_M(IsAffectedByLayout, bool)
@@ -56,7 +56,7 @@ public:
 	DE_M(BackgroundColor3, Vector4)
 	DE_M(BackgroundColor4, Vector4)
 
-	void init(const Vector2 &position, const Vector2 &size, const std::string& text, u32 layer);
+	void init(const Vector2 &position, const Vector2 &size, StringRef text, u32 layer);
 
 	UIElementData& operator=(const UIElementData& otherData)
 	{
@@ -112,7 +112,7 @@ private:
 
 public:
 
-	DE_CLASS(UIBuilder)
+	DE_CLASS_BODY(UIBuilder)
 
 	UIBuilder* const setLayout(UILayout layout) {
 		mCurrentLayout = layout;
@@ -131,7 +131,7 @@ public:
 	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Position)
 	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Size)
 	DE_UI_BUILDER_DATA_SETTER(u32, Layer)
-	DE_UI_BUILDER_DATA_SETTER(const std::string&, Text)
+	DE_UI_BUILDER_DATA_SETTER(StringRef, Text)
 	DE_UI_BUILDER_DATA_SETTER(Vector2, TextSize)
 	DE_UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
 	DE_UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)

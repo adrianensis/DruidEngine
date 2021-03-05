@@ -98,7 +98,7 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
  * Set the animation, by name.
  * \param string name The name.
  */
-void Renderer::setAnimation(const std::string &name) {
+void Renderer::setAnimation(const String &name) {
 	if (mAnimations) {
 		if (mAnimations->contains(name)) {
 			mCurrentAnimation = mAnimations->get(name);
@@ -113,9 +113,9 @@ void Renderer::setAnimation(const std::string &name) {
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const std::string &name, Animation *animation) {
+void Renderer::addAnimation(const String &name, Animation *animation) {
 	if (!mAnimations) {
-		mAnimations = DE_NEW<HashMap<std::string, Animation*>>();
+		mAnimations = DE_NEW<HashMap<String, Animation*>>();
 		mAnimations->init();
 	}
 
@@ -184,7 +184,7 @@ void Renderer::forceRecalculateVertices() {
 	mForceRecalculateVertices = true;
 }
 
-void Renderer::save(ConfigMap* configMap, const std::string& objectName) {
+void Renderer::save(ConfigMap* configMap, StringRef objectName) {
 	Texture *texture = getMaterial()->getTexture();
 	configMap->setString(objectName + ".texture.path", texture->getPath());
 	configMap->setF32(objectName + ".texture.region.u", getRegionPosition().x);
@@ -194,7 +194,7 @@ void Renderer::save(ConfigMap* configMap, const std::string& objectName) {
 	configMap->setU32(objectName + ".layer", getLayer());
 }
 
-void Renderer::load(ConfigMap* configMap, const std::string& objectName) {
+void Renderer::load(ConfigMap* configMap, StringRef objectName) {
 	Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectName + ".texture.path"));
 	Vector2 textureRegionPosition(configMap->getF32(objectName + ".texture.region.u"),
 			configMap->getF32(objectName + ".texture.region.v"));

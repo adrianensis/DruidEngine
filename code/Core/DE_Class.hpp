@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Core/Hash.hpp"
-#include <string>
+#include <type_traits>
 #include <iostream>
+
+#include "Core/DE_Macros.hpp"
 
 namespace DE {
 
@@ -14,8 +16,8 @@ class DE_Class: public Hash {
 public:
 
 	template<class TT>
-	static std::string calculateTemplateName() {
-		std::string templateName;
+	static String calculateTemplateName() {
+		String templateName;
 		using T_noPointer = typename std::remove_pointer<TT>::type;
 		if constexpr (std::is_base_of<DE_Class, T_noPointer>::value){ // constexpr avoids compilation-time errors when, for example TT == float
 			templateName = std::remove_pointer<TT>::type::getClassNameStatic();
@@ -37,7 +39,7 @@ public:
 			DE_CHECK_ARITHMETIC_TYPENAME(u32, TT, templateName);
 			DE_CHECK_ARITHMETIC_TYPENAME(u64, TT, templateName);
 
-		}else if constexpr (std::is_same<std::string, TT>::value){
+		}else if constexpr (std::is_same<String, TT>::value){
 			templateName = "string";
 		}else if constexpr (std::is_pointer<TT>::value){ // Non DE_Class pointers
 			templateName = typeid(TT).name();
@@ -48,13 +50,13 @@ public:
 		return "["+templateName+"]";
 	};
 
-	static std::string getClassNameStatic() {
-		static std::string className = "DE_Class";
+	static String getClassNameStatic() {
+		static String className = "DE_Class";
 		return className;
 	};
 
-	static std::string getTemplateNameStatic() {
-		static std::string templateName = "";
+	static String getTemplateNameStatic() {
+		static String templateName = "";
 		return templateName;
 	};
 
@@ -70,11 +72,11 @@ public:
 		return DE_Class::getClassIdStatic();
 	};
 
-	virtual std::string getClassName() const {
+	virtual String getClassName() const {
 		return DE_Class::getClassNameStatic();
 	};
 
-	virtual std::string getTemplateName() const {
+	virtual String getTemplateName() const {
 		return DE_Class::getTemplateNameStatic();
 	};
 

@@ -8,11 +8,11 @@ class UIList: public UIElement {
 
 public:
 
-	DE_CLASS(UIList)
+	DE_CLASS_BODY(UIList)
 
 	virtual void init();
 
-	virtual void setText(const std::string &text) override;
+	virtual void setText(const String &text) override;
 };
 
 }

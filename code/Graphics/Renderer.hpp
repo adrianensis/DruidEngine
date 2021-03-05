@@ -19,7 +19,7 @@ namespace DE {
 class Renderer: public Component {
 private:
 
-	using AnimationsMap = HashMap<std::string, Animation*>;
+	using AnimationsMap = HashMap<String, Animation*>;
 	DE_M(Animations, AnimationsMap*)
 	DE_M(RenderereModelMatrix, Matrix4)
 	DE_M(PositionOffsetDirty, bool)
@@ -44,11 +44,11 @@ private:
 
 public:
 
-	DE_CLASS(Renderer)
+	DE_CLASS_BODY(Renderer)
 
 	void init() override;
-	void setAnimation(const std::string& name);
-	void addAnimation(const std::string& name, Animation* animation);
+	void setAnimation(StringRef name);
+	void addAnimation(StringRef name, Animation* animation);
 	bool hasAnimations() const;
 	void updateAnimation();
 	void setColor(const Vector4& color);
@@ -58,8 +58,8 @@ public:
 	const Array<Vector2>* getVertices(bool force = false);
 	void forceRecalculateVertices();
 
-	virtual void save(ConfigMap* configMap, const std::string& objectName) override;
-	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
+	virtual void save(ConfigMap* configMap, StringRef objectName) override;
+	virtual void load(ConfigMap* configMap, StringRef objectName) override;
 };
 
 }

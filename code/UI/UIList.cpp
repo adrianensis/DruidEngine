@@ -14,7 +14,7 @@ void UIList::init() {
 	subscribeToMouseButtonEvents();
 }
 
-void UIList::setText(const std::string &text) {
+void UIList::setText(const String &text) {
 
 }
 

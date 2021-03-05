@@ -36,7 +36,7 @@ private:
 
 
 	// SPRITES
-	std::string mSpritesUIGroup = "sprites";
+	String mSpritesUIGroup = "sprites";
 	Array<UIButton*>* mSpriteButtons = nullptr;
 
 	// GRID
@@ -53,7 +53,7 @@ private:
 
 public:
 
-	DE_CLASS(MapEditorUI)
+	DE_CLASS_BODY(MapEditorUI)
 
 	u32 mUILayer = 3;
 

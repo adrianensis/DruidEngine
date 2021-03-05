@@ -34,14 +34,14 @@ int main() {
 	map->remove(10);
 	DE_test_expected_uint(map->getLength(), 0);
 
-	DE::HashMap<std::string, u32>* mapStr = DE::DE_NEW<HashMap<std::string, u32>>();
+	DE::HashMap<String, u32>* mapStr = DE::DE_NEW<HashMap<String, u32>>();
 
 	mapStr->init();
 
 	DE_test_expected_uint(mapStr->getLength(), 0);
 
-	std::string str0("test0");
-	std::string str10("test10");
+	String str0("test0");
+	String str10("test10");
 
 	mapStr->set(str0, 0);
 	DE_test_expected_uint(mapStr->getLength(), 1);

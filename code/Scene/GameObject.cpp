@@ -127,7 +127,7 @@ void GameObject::destroy() {
 	mComponentsMap->clear();
 };
 
-void GameObject::save(ConfigMap* configMap, const std::string& objectName) {
+void GameObject::save(ConfigMap* configMap, StringRef objectName) {
 
 	configMap->setString(objectName + ".class", getClassName());
 
@@ -159,11 +159,13 @@ void GameObject::save(ConfigMap* configMap, const std::string& objectName) {
 	}
 }
 
-void GameObject::load(ConfigMap* configMap, const std::string& objectName) {
+void GameObject::load(ConfigMap* configMap, StringRef objectName) {
 	setIsStatic(configMap->getBool(objectName + ".isStatic"));
 	setShouldPersist(configMap->getBool(objectName + ".shouldPersist"));
 
-	setTag(configMap->getString(objectName + ".tag"));
+	if(configMap->contains(objectName + ".tag")){
+		setTag(configMap->getString(objectName + ".tag"));
+	}
 
 	Vector2 worldPosition(configMap->getF32(objectName + ".worldPosition.x"),
 			configMap->getF32(objectName + ".worldPosition.y"));

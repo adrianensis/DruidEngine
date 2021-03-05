@@ -12,7 +12,7 @@ EngineConfig::EngineConfig() : DE_Class(), Singleton() {
 EngineConfig::~EngineConfig() {
 }
 
-void EngineConfig::readConfigFile(const std::string &path) {
+void EngineConfig::readConfigFile(const String &path) {
 	mConfigMap.readConfigFile(path);
 }
 
@@ -21,19 +21,19 @@ void EngineConfig::init() {
 	mConfigMap.readConfigFile("config/engine.conf");
 }
 
-std::string EngineConfig::getString(const std::string &key) {
+String EngineConfig::getString(const String &key) {
 	return mConfigMap.getString(key);
 }
 
-u32 EngineConfig::getU32(const std::string &key) {
+u32 EngineConfig::getU32(const String &key) {
 	return mConfigMap.getU32(key);
 }
 
-f32 EngineConfig::getF32(const std::string &key) {
+f32 EngineConfig::getF32(const String &key) {
 	return mConfigMap.getF32(key);
 }
 
-bool EngineConfig::getBool(const std::string &key) {
+bool EngineConfig::getBool(const String &key) {
 	return mConfigMap.getBool(key);
 }
 

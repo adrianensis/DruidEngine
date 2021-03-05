@@ -36,7 +36,7 @@ void Profiler::terminate(){
 
 	ECHO("")
 	ECHO("PROFILER RESULTS")
-	std::string totalTimeStr = "Total Time";
+	String totalTimeStr = "Total Time";
 	printResult(totalTimeStr, mTotalTime);
 	FOR_LIST(it, mTimeMap->getKeys()){
 		printResult(it.get(), mTimeMap->get(it.get()));
@@ -53,12 +53,12 @@ void Profiler::terminate(){
 	mTimeMarkMap->clear();
 }
 
-void Profiler::printResult(std::string &name, f32 time) {
+void Profiler::printResult(String &name, f32 time) {
 	f32 percent = (time/mTotalTime) * 100.0f;
 	ECHO(name + " : " + std::to_string(time) + "s : " + std::to_string(percent) + "%")
 } 
 
-void Profiler::timeMarkStart(const std::string &name) {
+void Profiler::timeMarkStart(const String &name) {
 
 	// TODO: make it frame-time relative, maybe average?
 	if(!mTimeMap->contains(name)){
@@ -72,7 +72,7 @@ void Profiler::timeMarkStart(const std::string &name) {
 	mTimeMarkMap->get(name)->startFrame();
 }
 
-void Profiler::timeMarkEnd(const std::string &name) {
+void Profiler::timeMarkEnd(const String &name) {
 
 	if(mTimeMap->contains(name)){
 		mTimeMarkMap->get(name)->endFrame();

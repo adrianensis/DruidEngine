@@ -10,16 +10,16 @@ class UIText: public UIElement {
 
 	u32 mLayer;
 	Vector2 mSize;
-	std::string mString;
+	String mString;
 
 public:
 
-	DE_CLASS(UIText)
+	DE_CLASS_BODY(UIText)
 
 	virtual void init() override;
 	virtual void onDestroy() override;
 
-	virtual void setText(const std::string &text) override;
+	virtual void setText(const String &text) override;
 
 	void setLayer(u32 layer) {
 		mLayer = layer;
@@ -29,7 +29,7 @@ public:
 		mSize = size;
 	};
 
-	const std::string& getText() const {
+	StringRef getText() const {
 		return mString;
 	};
 

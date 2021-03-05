@@ -23,7 +23,7 @@ private:
 
 public:
 
-	DE_CLASS(Matrix4)
+	DE_CLASS_BODY(Matrix4)
 
 	static const Matrix4& getIdentity();
 

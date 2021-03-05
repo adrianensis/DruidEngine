@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(ProjectileScript)
+	DE_CLASS_BODY(ProjectileScript)
 
 	void init() override;
 	void firstStep() override;

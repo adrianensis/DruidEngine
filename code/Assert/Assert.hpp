@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>  // std::string
+#include <string>  // String
 #include "Core/BasicTypes.hpp"
 
 namespace DE {
 
-static const std::string emptyAssert = "?";
+static const String emptyAssert = "?";
 
-void assert(const bool condition, const std::string &file, u32 line, const std::string &function,
-		const std::string &message = emptyAssert);
+void assert(const bool condition, const String &file, u32 line, const String &function,
+		const String &message = emptyAssert);
 
 #define DE_ASSERT(condition, message) assert((condition), __FILE__, __LINE__, __FUNCTION__, "[ " #condition " ] " message);
 

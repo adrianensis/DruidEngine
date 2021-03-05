@@ -19,11 +19,11 @@ private:
 	static Shader* msShaderDefault;
 	static Shader* msShaderDebug;
 
-	void initInternal(const std::string &vertex, const std::string &fragment);
+	void initInternal(const String &vertex, const String &fragment);
 
 public:
 
-	DE_CLASS(Shader)
+	DE_CLASS_BODY(Shader)
 
 	static Shader* getDefaultShader();
 	static Shader* getDebugShader();
@@ -34,13 +34,13 @@ public:
 	void initDebug();
 	void use();
 
-	void addMatrix(const Matrix4 &matrix, const std::string &name);
-	void addInt(i32 value, const std::string &name);
-	void addUInt(u32 value, const std::string &name);
-	void addFloat(f32 value, const std::string &name);
-	void addVector4(Array<f32> *value, const std::string &name);
-	void addVector3(Array<f32> *value, const std::string &name);
-	void addBool(bool value, const std::string &name);
+	void addMatrix(const Matrix4 &matrix, const String &name);
+	void addInt(i32 value, const String &name);
+	void addUInt(u32 value, const String &name);
+	void addFloat(f32 value, const String &name);
+	void addVector4(Array<f32> *value, const String &name);
+	void addVector3(Array<f32> *value, const String &name);
+	void addBool(bool value, const String &name);
 };
 
 }

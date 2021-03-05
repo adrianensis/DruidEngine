@@ -43,7 +43,7 @@ private:
 
 public:
 
-	DE_CLASS(Collider)
+	DE_CLASS_BODY(Collider)
 
 	void init() override;
 
@@ -68,8 +68,8 @@ public:
 
 	void render();
 
-	virtual void save(ConfigMap* configMap, const std::string& objectName) override;
-	virtual void load(ConfigMap* configMap, const std::string& objectName) override;
+	virtual void save(ConfigMap* configMap, StringRef objectName) override;
+	virtual void load(ConfigMap* configMap, StringRef objectName) override;
 };
 }
 

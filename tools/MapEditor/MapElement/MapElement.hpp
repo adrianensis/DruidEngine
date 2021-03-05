@@ -11,7 +11,7 @@ namespace DE
     
     class MapElement : public GameObject {
     public:
-        DE_CLASS(MapElement)
+        DE_CLASS_BODY(MapElement)
         virtual void initFromData(const MapElementData* data);
         static MapElement *create(const MapElementData* data);
     };
@@ -20,7 +20,7 @@ namespace DE
     public:
         DE_GENERATE_METADATA(MapElementData)
 
-        DE_M(MapElementClassName, std::string);
+        DE_M(MapElementClassName, String);
         DE_M(Position, Vector3);
         DE_M(Size, Vector2);
         DE_M(Material, Material*);
@@ -33,7 +33,7 @@ namespace DE
 
     class MapElement_Tile : public MapElement {
     public:
-        DE_CLASS(MapElement_Tile)
+        DE_CLASS_BODY(MapElement_Tile)
     };
 
     class MapElementData_Tile : public MapElementData {
@@ -44,7 +44,7 @@ namespace DE
 
     class MapElement_ActionPoint : public MapElement {
     public:
-        DE_CLASS(MapElement_ActionPoint)
+        DE_CLASS_BODY(MapElement_ActionPoint)
     };
 
     class MapElementData_ActionPoint : public MapElementData {

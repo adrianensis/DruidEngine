@@ -48,7 +48,7 @@ private:
 		DE_M(DynamicCollidersCount, u32)
 		DE_M(StaticCollidersCount, u32)
 
-		DE_CLASS(Node)
+		DE_CLASS_BODY(Node)
 
 		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
@@ -75,7 +75,7 @@ private:
 
 public:
 
-	DE_CLASS(QuadTree)
+	DE_CLASS_BODY(QuadTree)
 
 	void init(f32 size);
 

@@ -6,27 +6,27 @@ namespace DE {
 
 class StringsUI {
 public:
-	std::string BoolFalse = "[ ]";
-	std::string BoolTrue = "[X]";
-	std::string FPS = "FPS:";
-	std::string Tile = "Tile";
-	std::string Zoom = "Zoom";
-	std::string Brush = "Brush";
-	std::string Save = "Save";
-	std::string Collider = "Colliders";
-	std::string Atlas = "Atlas (Tab)";
-	std::string Play = "Play";
-	std::string AddSprite = "Add Sprite";
-	std::string Inspector = "INSPECTOR";
-	std::string InspectorTilePosition = "pos";
-	std::string InspectorTileX = "x";
-	std::string InspectorTileY = "y";
-	std::string InspectorTileCollider = "collider";
-	std::string InspectorTileTag = "tag";
-	std::string InspectorSize = "size";
-	std::string InspectorSizeCollider = "size";
-	std::string InspectorPosCollider = "offset";
-	std::string Grid = "Grid";
+	String BoolFalse = "[ ]";
+	String BoolTrue = "[X]";
+	String FPS = "FPS:";
+	String Tile = "Tile";
+	String Zoom = "Zoom";
+	String Brush = "Brush";
+	String Save = "Save";
+	String Collider = "Colliders";
+	String Atlas = "Atlas (Tab)";
+	String Play = "Play";
+	String AddSprite = "Add Sprite";
+	String Inspector = "INSPECTOR";
+	String InspectorTilePosition = "pos";
+	String InspectorTileX = "x";
+	String InspectorTileY = "y";
+	String InspectorTileCollider = "collider";
+	String InspectorTileTag = "tag";
+	String InspectorSize = "size";
+	String InspectorSizeCollider = "size";
+	String InspectorPosCollider = "offset";
+	String Grid = "Grid";
 };
 
 }

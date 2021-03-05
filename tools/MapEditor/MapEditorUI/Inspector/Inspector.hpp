@@ -47,13 +47,13 @@ private:
 
 public:
 
-	DE_CLASS(Inspector)
+	DE_CLASS_BODY(Inspector)
 
 	void init(MapEditor *mapEditor);
 
-	void setTileScaleFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex);
-	void setTileColliderPositionFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex);
-	void setTileColliderScaleFromInspector(GameObject* tile, const std::string& stringValue, u32 vectorIndex);
+	void setTileScaleFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex);
+	void setTileColliderPositionFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex);
+	void setTileColliderScaleFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex);
 
 	void update();
 	void updateInspectorOnSelectTile();

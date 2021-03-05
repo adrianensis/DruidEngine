@@ -115,18 +115,18 @@ void PlayerScript::step() {
 }
 
 void PlayerScript::onEnterCollision(GameObject *otherGameObject) {
-	// std::string x = "onEnterCollision " + getGameObject()->getTag();
+	// String x = "onEnterCollision " + getGameObject()->getTag();
 	// ECHO(x);
 }
 
 void PlayerScript::onCollision(GameObject *otherGameObject) {
 
-	// std::string x = "onCollision " + getGameObject()->getTag();
+	// String x = "onCollision " + getGameObject()->getTag();
 	// ECHO(x);
 }
 
 void PlayerScript::onExitCollision(GameObject *otherGameObject) {
-	// std::string x = "onExitCollision " + getGameObject()->getTag();
+	// String x = "onExitCollision " + getGameObject()->getTag();
 	// ECHO(x);
 }
 

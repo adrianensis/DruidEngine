@@ -5,9 +5,9 @@
 
 namespace DE {
 
-std::map<std::string, u32> Memory::memoryMapCounter;
+std::map<String, u32> Memory::memoryMapCounter;
 
-std::map<std::string, std::function<DE_Class*()>> Memory::classNamesMap;
+std::map<String, std::function<DE_Class*()>> Memory::classNamesMap;
 
 FreeListAllocator Memory::smGlobal;
 //LinearAllocator Memory::smGlobal;
@@ -63,7 +63,7 @@ void Memory::free() {
 
 	smGlobal.terminate();
 
-    std::map<std::string, u32>::iterator it = memoryMapCounter.begin();
+    std::map<String, u32>::iterator it = memoryMapCounter.begin();
     while(it != memoryMapCounter.end())
     {
         std::cout<< (it->second == 0 ? "OK" : "!!") << " " << it->second<<" :: "<<it->first<<std::endl;
@@ -76,12 +76,12 @@ void Memory::free() {
 	ECHO("TERMINATE - OK")
 }
 
-DE_Class* Memory::internalFromClassName(const std::string& className) {
+DE_Class* Memory::internalFromClassName(StringRef className) {
 	DE_ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered.")
 	return classNamesMap[className]();
 }
 
-void Memory::internalRegisterClassName(const std::string& className, std::function<DE_Class*()> instantiationFunction) {
+void Memory::internalRegisterClassName(StringRef className, std::function<DE_Class*()> instantiationFunction) {
 	classNamesMap[className] = instantiationFunction;
 }
 }

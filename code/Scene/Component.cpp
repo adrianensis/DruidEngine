@@ -22,11 +22,11 @@ bool Component::isStatic() {
 	return mIsStatic;
 }
 
-void Component::save(ConfigMap* configMap, const std::string& objectName) {
+void Component::save(ConfigMap* configMap, StringRef objectName) {
 	
 }
 
-void Component::load(ConfigMap* configMap, const std::string& objectName) {
+void Component::load(ConfigMap* configMap, StringRef objectName) {
 
 }
 

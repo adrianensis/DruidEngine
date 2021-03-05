@@ -16,6 +16,8 @@ private:
 	DE_M(CameraTransform, Transform*)
 	DE_M(CameraControl, bool)
 
+	DE_M(IsMapLoaded, bool)
+
 public:
 
 	DE_M(Camera, Camera*)
@@ -27,7 +29,7 @@ public:
 	DE_M(Grid, Grid)
 	DE_M(ConfigMap, ConfigMap*)
 
-	DE_CLASS(MapEditor)
+	DE_CLASS_BODY(MapEditor)
 
 	void createPlayer();
 	void destroyPlayer();

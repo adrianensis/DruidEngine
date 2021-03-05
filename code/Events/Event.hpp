@@ -17,7 +17,7 @@ public: \
 
 class Event : public DE_Class{
 public:
-	DE_CLASS(Event)
+	DE_CLASS_BODY(Event)
 
 	DE_M(DelayAmount, f32)
 	DE_M(DelayType, TimerDurationType)

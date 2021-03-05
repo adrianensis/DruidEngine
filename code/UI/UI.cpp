@@ -59,7 +59,7 @@ Material* UI::getFontMaterial() {
 	return mFontMaterial;
 };
 
-void UI::addToGroup(const std::string& groupName, UIElement* uiElement) {
+void UI::addToGroup(StringRef groupName, UIElement* uiElement) {
 
 	if(!mGroups->contains(groupName)){
 		UIGroup* group = DE_NEW<UIGroup>();
@@ -72,13 +72,13 @@ void UI::addToGroup(const std::string& groupName, UIElement* uiElement) {
 	mGroups->get(groupName)->mUIElements->pushBack(uiElement);
 }
 
-void UI::removeFromGroup(const std::string& groupName, UIElement* uiElement) {
+void UI::removeFromGroup(StringRef groupName, UIElement* uiElement) {
 	if(mGroups->contains(groupName)){
 		mGroups->get(groupName)->mUIElements->remove(uiElement);
 	}
 }
 
-void UI::removeElementsFromGroup(const std::string& groupName) {
+void UI::removeElementsFromGroup(StringRef groupName) {
 	if(mGroups->contains(groupName)){
 		UIGroup* group = mGroups->get(groupName);
 		auto list = group->mUIElements;
@@ -92,7 +92,7 @@ void UI::removeElementsFromGroup(const std::string& groupName) {
 	}
 }
 
-void UI::setGroupVisibility(const std::string& groupName, bool visibility) {
+void UI::setGroupVisibility(StringRef groupName, bool visibility) {
 	if(mGroups->contains(groupName)){
 		UIGroup* group = mGroups->get(groupName);
 		group->mVisible = visibility;
@@ -107,7 +107,7 @@ void UI::init() {
 	/*mUIElements = DE_NEW<List<UIElement*>>();
 	mUIElements->init();*/
 
-	mGroups = DE_NEW<HashMap<std::string, UIGroup*>>();
+	mGroups = DE_NEW<HashMap<String, UIGroup*>>();
 	mGroups->init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);

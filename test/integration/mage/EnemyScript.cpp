@@ -96,7 +96,7 @@ void EnemyScript::onCollision(GameObject *otherGameObject) {
 }
 
 void EnemyScript::onExitCollision(GameObject *otherGameObject) {
-	std::string x = "onExitCollision " + getGameObject()->getTag();
+	String x = "onExitCollision " + getGameObject()->getTag();
 	ECHO(x);
 
 	// mSpeed = GameController::smGlobalSpeed;

@@ -34,7 +34,7 @@ private:
 
 	class CellData: public DE_Class {
 	public:
-		DE_CLASS(CellData)
+		DE_CLASS_BODY(CellData)
 
 		/*
 			TODO : Migrate this to MapElement.
@@ -60,7 +60,7 @@ private:
 	void select(CellData *cellData, u32 layer, bool multi);
 
 public:
-	DE_CLASS(Grid)
+	DE_CLASS_BODY(Grid)
 
 	void click(const Vector3 &clampedPosition, GameObject* brushTile);
 

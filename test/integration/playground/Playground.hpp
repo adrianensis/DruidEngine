@@ -34,7 +34,7 @@ public:
 	GameObject* mPlayer;
 	Material* mMaterial;
 
-	DE_CLASS(Playground)
+	DE_CLASS_BODY(Playground)
 
 	GameObject* createProjectile(f32 x, f32 y);
 	void createPlayer();

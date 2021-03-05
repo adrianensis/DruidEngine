@@ -64,7 +64,7 @@ void MenuBar::init(MapEditor *mapEditor) {
 	createMenuBar();
 }
 
-void MenuBar::createMapElement(const std::string& materialPath) {
+void MenuBar::createMapElement(StringRef materialPath) {
 	mMapEditor->mMapEditorUI.mBrush.mMapElementData = &mMapElementData_ActionPoint;
 	mMapEditor->mMapEditorUI.mBrush.clear();
 	Material* material = MaterialManager::getInstance()->loadMaterial(materialPath);

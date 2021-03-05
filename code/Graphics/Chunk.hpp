@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(BatchesMap)
+	DE_CLASS_BODY(BatchesMap)
 
 	void init();
 	u32 render(u32 layer);
@@ -39,7 +39,7 @@ private:
 
 public:
 
-	DE_CLASS(Chunk)
+	DE_CLASS_BODY(Chunk)
 
 	void init();
 	void set(const Vector3 &leftTop, f32 size);

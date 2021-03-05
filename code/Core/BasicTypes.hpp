@@ -1,10 +1,7 @@
 #pragma once
 
 #include <cstdint> // std::uintptr_t
-#include <type_traits>
 #include <string>
-
-#include "Core/DE_Macros.hpp"
 
 namespace DE {
 
@@ -28,6 +25,9 @@ using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
 using ClassId = u64;
+
+using String = std::string;
+using StringRef = const String&;
 
 }
 

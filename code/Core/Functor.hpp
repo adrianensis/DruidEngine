@@ -14,7 +14,7 @@ protected:
 
 public:
 
-	DE_CLASS_TEMPLATE(Functor<T>, T);
+	DE_CLASS_BODY_TEMPLATE(Functor<T>, T);
 
 	Functor() : DE_Class(){};
 	virtual ~Functor() override {};

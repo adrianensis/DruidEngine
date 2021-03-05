@@ -12,7 +12,7 @@ namespace DE {
 class Log: public DE_Class {
 public:
 
-	static const std::string emptyMessage;
+	static const String emptyMessage;
 	static std::ofstream logFile;
 
 	Log();
@@ -21,18 +21,18 @@ public:
 	static void init();
 	static void terminate();
 
-	static void log(const std::string &str);
+	static void log(const String &str);
 
-	static void trace(const std::string file, u32 line, const std::string function, const std::string message =
+	static void trace(const String file, u32 line, const String function, const String message =
 			emptyMessage);
 
-	static void echo(const std::string &message);
+	static void echo(const String &message);
 
 	template<class T>
-	static void var(const std::string &varname, T var) {
+	static void var(const String &varname, T var) {
 		// std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
-		std::string varStr;
-		if constexpr (std::is_same<T, std::string>::value) {
+		String varStr;
+		if constexpr (std::is_same<T, String>::value) {
 			varStr = var;
 		} else {
 			varStr = std::to_string(var);
@@ -47,7 +47,7 @@ public:
 		log("DE_VAL > " + std::to_string(var));
 	};
 
-	static void error(const std::string &message);
+	static void error(const String &message);
 
 	static void brline();
 };

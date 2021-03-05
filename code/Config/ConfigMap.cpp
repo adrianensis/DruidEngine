@@ -5,8 +5,8 @@
 
 namespace DE {
 
-std::string ConfigMap::trueString = "true";
-std::string ConfigMap::falseString = "false";
+String ConfigMap::trueString = "true";
+String ConfigMap::falseString = "false";
 
 ConfigMap::ConfigMap() : DE_Class() {
 }
@@ -14,13 +14,13 @@ ConfigMap::ConfigMap() : DE_Class() {
 ConfigMap::~ConfigMap() {
 }
 
-void ConfigMap::readConfigFile(const std::string &path) {
+void ConfigMap::readConfigFile(const String &path) {
 
 	File::readFile(path, [&](std::ifstream &file) {
 
-		std::string lineString;
+		String lineString;
 
-		std::string regexVariableNameStr("([a-zA-Z\\-_\\.0-9\\[\\]]+)");
+		String regexVariableNameStr("([a-zA-Z\\-_\\.0-9\\[\\]]+)");
 		std::regex regexPair(regexVariableNameStr + "\\s*=\\s*(.*)\\s*");
 		std::regex regexComment("\\s*#\\s*");
 
@@ -43,12 +43,12 @@ void ConfigMap::readConfigFile(const std::string &path) {
 	});
 }
 
-void ConfigMap::writeConfigFile(const std::string &path) {
+void ConfigMap::writeConfigFile(const String &path) {
 	File::writeFile(path, [&](std::ofstream &file) {
 
 		FOR_LIST(it, mMap.getKeys())
 		{
-			const std::string& key = it.get();
+			StringRef key = it.get();
 			file << key << "=" << mMap.get(key) << std::endl;
 		}
 	});
@@ -58,37 +58,45 @@ void ConfigMap::init() {
 	mMap.init();
 }
 
-std::string ConfigMap::getString(const std::string &key) {
+void ConfigMap::clear() {
+	mMap.clear();
+}
+
+bool ConfigMap::contains(StringRef key) {
+	return mMap.contains(key);
+}
+
+String ConfigMap::getString(const String &key) {
 	return mMap.get(key);
 }
 
-u32 ConfigMap::getU32(const std::string &key) {
+u32 ConfigMap::getU32(const String &key) {
 	return std::stoi(mMap.get(key));
 }
 
-f32 ConfigMap::getF32(const std::string &key) {
+f32 ConfigMap::getF32(const String &key) {
 	return std::stof(mMap.get(key));
 }
 
-bool ConfigMap::getBool(const std::string &key) {
+bool ConfigMap::getBool(const String &key) {
 	return mMap.get(key) == trueString ? true : false;
 }
 
-void ConfigMap::setString(const std::string &key, const std::string &value) {
-	if(value.length() > 0){
+void ConfigMap::setString(const String &key, const String &value) {
+	if(!value.empty()){
 		mMap.set(key, value);
 	}
 }
 
-void ConfigMap::setU32(const std::string &key, u32 value) {
+void ConfigMap::setU32(const String &key, u32 value) {
 	mMap.set(key, std::to_string(value));
 }
 
-void ConfigMap::setF32(const std::string &key, f32 value) {
+void ConfigMap::setF32(const String &key, f32 value) {
 	mMap.set(key, std::to_string(value));
 }
 
-void ConfigMap::setBool(const std::string &key, bool value) {
+void ConfigMap::setBool(const String &key, bool value) {
 	mMap.set(key, value ? trueString : falseString);
 }
 

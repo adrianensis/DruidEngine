@@ -11,13 +11,13 @@ class Texture: public DE_Class {
 	DE_M_GET(Data, byte*)
 	DE_M_GET(Width, int)
 	DE_M_GET(Height, int)
-	DE_M_GET(Path, std::string)
+	DE_M_GET(Path, String)
 
 public:
 
-	DE_CLASS(Texture)
+	DE_CLASS_BODY(Texture)
 
-	void init(const std::string &path);
+	void init(const String &path);
 };
 
 }

@@ -21,8 +21,8 @@ private:
 
 	const StringsUI mStringsUI;
 
-	std::string mAtlasSelectorUIGroup = "atlasSelector";
-	std::string mAtlasUIGroup = "atlas";
+	String mAtlasSelectorUIGroup = "atlasSelector";
+	String mAtlasUIGroup = "atlas";
 	Array<UIButton*>* mAtlasButtons = nullptr;
 	bool mIsAtlasShow = true;
 	GameObject* mAtlasBackground = nullptr;
@@ -36,7 +36,7 @@ private:
 
 public:
 
-	DE_CLASS(Atlas)
+	DE_CLASS_BODY(Atlas)
 
 	void init(MapEditor *mapEditor);
 

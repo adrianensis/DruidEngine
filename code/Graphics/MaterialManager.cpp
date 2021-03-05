@@ -33,14 +33,14 @@ MaterialManager::~MaterialManager() {
 void MaterialManager::init() {
 	DE_TRACE()
 
-	mTexturesMap = DE_NEW<HashMap<std::string, Texture*>>();
+	mTexturesMap = DE_NEW<HashMap<String, Texture*>>();
 	mTexturesMap->init();
 
-	mMaterialsMap = DE_NEW<HashMap<std::string, Material*>>();
+	mMaterialsMap = DE_NEW<HashMap<String, Material*>>();
 	mMaterialsMap->init();
 }
 
-Texture* MaterialManager::loadTexture(const std::string &path) {
+Texture* MaterialManager::loadTexture(const String &path) {
 	Texture* texture = nullptr;
 
 	if (mTexturesMap->contains(path)) {
@@ -54,7 +54,7 @@ Texture* MaterialManager::loadTexture(const std::string &path) {
 	return texture;
 }
 
-Material* MaterialManager::loadMaterial(const std::string &path) {
+Material* MaterialManager::loadMaterial(const String &path) {
 	Material* material = nullptr;
 
 	if (mMaterialsMap->contains(path)) {

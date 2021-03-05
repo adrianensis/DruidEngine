@@ -1,8 +1,7 @@
 #pragma once
 
-#include <cstdint> // std::uintptr_t
+#include "Core/BasicTypes.hpp"
 #include <type_traits>
-#include <string>
 
 namespace DE {
 
@@ -29,13 +28,13 @@ namespace DE {
 	};
 
 #define DE_GENERATE_NAME_STATIC(Class)\
-	static std::string getClassNameStatic(){\
-		static std::string className = std::string(#Class) + std::string(Class::getTemplateNameStatic());\
+	static String getClassNameStatic(){\
+		static String className = String(#Class) + String(Class::getTemplateNameStatic());\
 		return className;\
 	};
 
 #define DE_GENERATE_NAME_VIRTUAL(Class)\
-	std::string getClassName() const override {\
+	String getClassName() const override {\
 		return Class::getClassNameStatic();\
 	};
 
@@ -49,7 +48,7 @@ namespace DE {
 	DE_GENERATE_ID_VIRTUAL(Class);\
 	DE_GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(Class); 
 
-#define DE_CLASS(Class)\
+#define DE_CLASS_BODY(Class)\
 	Class();\
 	virtual ~Class() override;\
 	DE_GENERATE_METADATA(Class);
@@ -67,34 +66,34 @@ namespace DE {
 	}
 
 #define DE_GENERATE_TEMPLATE_STATIC(TemplateClass)\
-	static std::string getTemplateNameStatic(){\
-		static std::string templateName = DE_Class::calculateTemplateName<TemplateClass>();\
+	static String getTemplateNameStatic(){\
+		static String templateName = DE_Class::calculateTemplateName<TemplateClass>();\
 		return templateName;\
 	};
 
 #define DE_GENERATE_TEMPLATE_VIRTUAL(Class)\
-	virtual std::string getTemplateName() const override {\
+	virtual String getTemplateName() const override {\
 	  return Class::getTemplateNameStatic();\
 	};
 
-#define DE_CLASS_TEMPLATE_COMMON(Class)\
+#define DE_CLASS_BODY_TEMPLATE_COMMON(Class)\
 	DE_GENERATE_TEMPLATE_VIRTUAL(Class);\
 	DE_GENERATE_METADATA(Class);
 
-#define DE_CLASS_TEMPLATE(Class, TemplateClass)\
+#define DE_CLASS_BODY_TEMPLATE(Class, TemplateClass)\
 	DE_GENERATE_TEMPLATE_STATIC(TemplateClass);\
-	DE_CLASS_TEMPLATE_COMMON(Class);
+	DE_CLASS_BODY_TEMPLATE_COMMON(Class);
 
 #define DE_GENERATE_TEMPLATE_STATIC2(TemplateClass1, TemplateClass2)\
-	static std::string getTemplateNameStatic(){\
-		static std::string templateName = DE_Class::calculateTemplateName<TemplateClass1>() +\
+	static String getTemplateNameStatic(){\
+		static String templateName = DE_Class::calculateTemplateName<TemplateClass1>() +\
 		DE_Class::calculateTemplateName<TemplateClass2>();\
 		return templateName;\
 	};
 
-#define DE_CLASS_TEMPLATE2(Class, TemplateClass1, TemplateClass2)\
+#define DE_CLASS_BODY_TEMPLATE2(Class, TemplateClass1, TemplateClass2)\
 	DE_GENERATE_TEMPLATE_STATIC2(TemplateClass1, TemplateClass2);\
-	DE_CLASS_TEMPLATE_COMMON(Class);
+	DE_CLASS_BODY_TEMPLATE_COMMON(Class);
 
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS

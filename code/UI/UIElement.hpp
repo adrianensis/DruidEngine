@@ -57,14 +57,14 @@ protected:
 
 	DE_M_GET(Renderer, Renderer*)
 	DE_M_GET(Collider, Collider*)
-	DE_M_GET(InputString, std::string)
+	DE_M_GET(InputString, String)
 	DE_M_GET_SET(ConsumeInput, bool)
 	DE_M_GET_SET(Group, UIGroup*)
 	DE_M_GET(Pressed, bool)
 
 public:
 
-	DE_CLASS(UIElement)
+	DE_CLASS_BODY(UIElement)
 
 	virtual void init() override;
 	virtual void onDestroy();
@@ -79,7 +79,7 @@ public:
 
 	void onChar(c8 character);
 
-	virtual void setText(const std::string &text) = 0;
+	virtual void setText(const String &text) = 0;
 
 	void onPressed();
 	void onReleased();

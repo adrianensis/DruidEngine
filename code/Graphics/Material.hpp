@@ -20,7 +20,7 @@ private:
 
 public:
 
-	DE_CLASS(Material)
+	DE_CLASS_BODY(Material)
 
 	void init();
 };

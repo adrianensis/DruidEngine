@@ -26,7 +26,7 @@ protected:
 
 public:
 
-	DE_CLASS_TEMPLATE(SequentialContainer<T>, T);
+	DE_CLASS_BODY_TEMPLATE(SequentialContainer<T>, T);
 
 	/*!
 	 \brief Default Constructor.

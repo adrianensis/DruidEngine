@@ -46,14 +46,14 @@ void Shader::freeStaticShaders() {
 	}
 }
 
-void Shader::initInternal(const std::string &vertex, const std::string &fragment) {
+void Shader::initInternal(const String &vertex, const String &fragment) {
 	DE_TRACE()
 
 	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 	std::ifstream vertex_ifs;
 	vertex_ifs.open(vertex.c_str(), std::ifstream::in);
-	std::string vertexShaderSource((std::istreambuf_iterator<char>(vertex_ifs)), (std::istreambuf_iterator<char>()));
+	String vertexShaderSource((std::istreambuf_iterator<char>(vertex_ifs)), (std::istreambuf_iterator<char>()));
 
 	const char* c_str_vertex = vertexShaderSource.c_str();
 
@@ -74,7 +74,7 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 
 	std::ifstream fragment_ifs;
 	fragment_ifs.open(fragment.c_str(), std::ifstream::in);
-	std::string fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)),
+	String fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)),
 			(std::istreambuf_iterator<char>()));
 	const char* c_str_fragment = fragmentShaderSource.c_str();
 
@@ -121,38 +121,38 @@ void Shader::use() {
 	glUseProgram(mProgram);
 };
 
-void Shader::addMatrix(const Matrix4 &matrix, const std::string &name) {
+void Shader::addMatrix(const Matrix4 &matrix, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
 };
 
-void Shader::addInt(i32 value, const std::string &name) {
+void Shader::addInt(i32 value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1i(location, value);
 };
 
-void Shader::addUInt(u32 value, const std::string &name) {
+void Shader::addUInt(u32 value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };
 
-void Shader::addFloat(f32 value, const std::string &name) {
+void Shader::addFloat(f32 value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1f(location, value);
 };
 
-void Shader::addVector4(Array<f32> *value, const std::string &name) {
+void Shader::addVector4(Array<f32> *value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform4fv(location, 1, value->getRawData());
 };
 
-void Shader::addVector3(Array<f32> *value, const std::string &name) {
+void Shader::addVector3(Array<f32> *value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform3fv(location, 1, value->getRawData());
 };
 
-void Shader::addBool(bool value, const std::string &name) {
+void Shader::addBool(bool value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };

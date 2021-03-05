@@ -16,24 +16,24 @@ template<class T> class List;
 class Profiler : public DE_Class, public Singleton<Profiler>{
 private:
 
-	using TimeMap = HashMap<std::string, f32>;
-	using TimeMarkMap = HashMap<std::string, TimeMark*>;
+	using TimeMap = HashMap<String, f32>;
+	using TimeMarkMap = HashMap<String, TimeMark*>;
 
 	DE_M(TimeMap, TimeMap*);
 	DE_M(TimeMarkMap, TimeMarkMap*);
 	DE_M(TotalTime, f32);
 
-	void printResult(std::string& name, f32 time);
+	void printResult(String& name, f32 time);
 
 public:
-	DE_CLASS(Profiler)
+	DE_CLASS_BODY(Profiler)
 
 	void init();
 	void step(f32 deltaTime);
 	void terminate();
 
-	void timeMarkStart(const std::string& name);
-	void timeMarkEnd(const std::string& name);
+	void timeMarkStart(StringRef name);
+	void timeMarkEnd(StringRef name);
 };
 
 }

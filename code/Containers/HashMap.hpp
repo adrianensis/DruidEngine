@@ -24,7 +24,7 @@ private:
 		DE_M(Key, K);
 		DE_M(Element, V);
 
-		DE_CLASS_TEMPLATE2(Node, K, K);
+		DE_CLASS_BODY_TEMPLATE2(Node, K, K);
 
 		Node() : DE_Class() {
 		};
@@ -60,7 +60,7 @@ public:
 
 	using HashMapKV = HashMap<K,V>;
 
-	DE_CLASS_TEMPLATE2(HashMapKV, K, K);
+	DE_CLASS_BODY_TEMPLATE2(HashMapKV, K, K);
 
 	/*!
 	 \brief Default Constructor.
@@ -71,9 +71,9 @@ public:
 		mValues = nullptr;
 
 		// check class
-		bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, std::string>::value
+		bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, String>::value
 				|| std::is_arithmetic<K>::value || std::is_pointer<K>::value;
-		DE_ASSERT(class_ok, "K must be integer, std::string, pointer or extend Hash class.");
+		DE_ASSERT(class_ok, "K must be integer, String, pointer or extend Hash class.");
 	}
 
 	/*!

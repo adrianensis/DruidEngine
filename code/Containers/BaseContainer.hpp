@@ -22,7 +22,7 @@ protected:
 
 public:
 
-	DE_CLASS(BaseContainer)
+	DE_CLASS_BODY(BaseContainer)
 
 	/*!
 	 \brief Clear the container.
