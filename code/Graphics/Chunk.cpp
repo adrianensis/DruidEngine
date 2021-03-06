@@ -5,6 +5,7 @@
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Mesh.hpp"
+#include "Graphics/BatchesMap.hpp"
 #include "Containers/HashMap.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
@@ -13,50 +14,6 @@
 #include "Log/Log.hpp"
 
 namespace DE {
-
-BatchesMap::BatchesMap() : DE_Class() {
-	mBatches = nullptr;
-}
-
-BatchesMap::~BatchesMap() {
-	FOR_LIST(it, mBatches->getValues()) {
-		DE_FREE(it.get());
-	}
-
-	DE_FREE(mBatches);
-}
-
-void BatchesMap::init() {
-	//TRACE();
-	mBatches = DE_NEW<HashMap<Texture*, Batch*>>();
-	mBatches->init();
-}
-
-void BatchesMap::addRenderer(Renderer *renderer) {
-
-	Texture* texture = renderer->getMaterial()->getTexture(); // NOTE : Texture can be nullptr as a valid hash key.
-
-	if (!mBatches->contains(texture)) {
-
-		Batch* batch = DE_NEW<Batch>();
-		batch->init(renderer->getMesh(), renderer->getMaterial());
-		// batch->setChunk(chunk);
-
-		mBatches->set(texture, batch);
-	}
-
-	mBatches->get(texture)->addRenderer(renderer);
-}
-
-u32 BatchesMap::render(u32 layer) {
-	u32 drawCallCounter = 0;
-
-	FOR_LIST(it, mBatches->getValues()) {
-		drawCallCounter += it.get()->render(layer);
-	}
-
-	return drawCallCounter;
-}
 
 Chunk::Chunk() : DE_Class() {
 	mLeftTop = Vector2(0, 0);
@@ -99,10 +56,10 @@ void Chunk::set(const Vector3 &leftTop, f32 size) {
 
 void Chunk::update(BatchesMap *batchesMap) {
 
-	 /*RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
+	 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
 	 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
 	 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
-	 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));*/
+	 RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 	FOR_LIST(it, mRenderers) {
 		Renderer* renderer = it.get();

@@ -74,12 +74,15 @@ void PhysicsEngine::step(f32 deltaTime) {
 
 	f32 dt = deltaTime / maxIterations;
 
-	FOR_RANGE(iterations, 0, maxIterations){
+	FOR_RANGE(iteration, 0, maxIterations){
 		FOR_LIST (it, mRigidBodies) {
 			//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 			if (it.get()->isActive()) {
 				//it.get()->getGameObject()->getComponents<Renderer>()->get(0)->setColor(Vector4(0,0,0,1));
 
+				if(iteration == 0 && getDebugColliders()) {
+					it.get()->getCollider()->render();
+				}
 				// TODO: move dynamic objects to a dynamic list. Don't iterate over static objects.
 				if (!it.get()->getGameObject()->getIsStatic() && it.get()->getSimulate()) {
 					it.get()->saveState();

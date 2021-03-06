@@ -1,8 +1,8 @@
 #include "Core/TimeUtils.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 
 #include "Memory/Memory.hpp"
-#include "Graphics/AnimationFrame.hpp"
+#include "Graphics/Animation/AnimationFrame.hpp"
 #include "Containers/List.hpp"
 #include "Log/Log.hpp"
 

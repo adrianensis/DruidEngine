@@ -5,7 +5,7 @@
 #include "Graphics/Mesh.hpp"
 #include "Scripting/Script.hpp"
 #include "Scene/Transform.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Texture.hpp"

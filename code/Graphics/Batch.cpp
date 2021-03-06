@@ -16,7 +16,7 @@
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Maths/MathUtils.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Chunk.hpp"
 #include "Config/EngineConfig.hpp"
 
@@ -79,7 +79,7 @@ Batch::~Batch() {
 	DE_FREE(mPositionBuffer);
 	DE_FREE(mTextureBuffer);
 	DE_FREE(mColorBuffer);
-	DE_FREE(mFacesBuffer);
+	DE_FREE(mIndicesBuffer);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -110,8 +110,8 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mColorBuffer->init(mMaxVertexBufferSize * mVertexColorSize);
 	mColorBufferIndex = 0;
 
-	mFacesBuffer = DE_NEW<Array<u32>>();
-	mFacesBuffer->init(mMaxVertexBufferSize * mFacesSize);
+	mIndicesBuffer = DE_NEW<Array<u32>>();
+	mIndicesBuffer->init(mMaxVertexBufferSize * mFacesSize);
 
 	mRenderEngine = RenderEngine::getInstance();
 
@@ -143,11 +143,11 @@ void Batch::bind() {
 
 	FOR_RANGE(i, 0, mMaxMeshes) {
 		FOR_RANGE(j, 0, 6) {
-			mFacesBuffer->set(j + 6*i, mMesh->getFaces()->get(j) + (4*i));
+			mIndicesBuffer->set(j + 6*i, mMesh->getFaces()->get(j) + (4*i));
 		}
 	}
 
-	RenderContext::setDataEBO(mEBO, mFacesBuffer);
+	RenderContext::setDataEBO(mEBO, mIndicesBuffer);
 
 	Texture* texture = mMaterial->getTexture();
 
@@ -288,7 +288,7 @@ u32 Batch::render(u32 layer) {
 			RenderContext::setDataVBO(mVBOTexture, mTextureBuffer);
 			RenderContext::setDataVBO(mVBOColor, mColorBuffer);
 
-			RenderContext::drawTriangles(mMeshesIndex * 6);
+			RenderContext::drawRectangles(mMeshesIndex);
 		}
 
 		RenderContext::enableVAO(0);

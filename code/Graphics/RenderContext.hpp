@@ -49,7 +49,8 @@ public:
 	static void disableProperty(u32 propertyArrayIndex);
 	static void enableVAO(u32 VAO);
 
-	static void drawTriangles(u32 indices);
+	static void drawRectangles(u32 rectanglesCount);
+	static void drawLines(u32 linesCount);
 };
 
 }

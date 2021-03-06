@@ -23,7 +23,7 @@
 #include "Graphics/Material.hpp"
 #include "Graphics/Texture.hpp"
 #include "Graphics/MaterialManager.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 
 #include "Physics/PhysicsEngine.hpp"
 #include "Physics/Collider.hpp"

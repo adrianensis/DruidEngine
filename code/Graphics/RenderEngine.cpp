@@ -19,53 +19,12 @@
 #include "Scene/Transform.hpp"
 #include "Config/EngineConfig.hpp"
 #include "Graphics/Chunk.hpp"
+#include "Graphics/LineRenderer.hpp"
+#include "Graphics/BatchesMap.hpp"
 #include "UI/UI.hpp"
 #include "Profiler/Profiler.hpp"
 
 namespace DE {
-
-RenderEngine::LineRenderer::LineRenderer() : DE_Class() {
-	mVertices = nullptr;
-	mActive = false;
-}
-
-RenderEngine::LineRenderer::~LineRenderer() {
-	DE_FREE(mVertices);
-}
-
-void RenderEngine::LineRenderer::init() {
-	//TRACE();
-
-	if (!mVertices) {
-		mVertices = DE_NEW<Array<f32>>();
-		mVertices->init(2 * 3); // 1 vertex = 3 floats
-	}
-
-	glDeleteVertexArrays(1, &mVAO);
-	glDeleteBuffers(1, &mVBOPosition);
-	glDeleteBuffers(1, &mEBO);
-}
-
-void RenderEngine::LineRenderer::set(const Vector3 &start, const Vector3 &end) {
-
-	mVertices->set(0, start.x);
-	mVertices->set(1, start.y);
-	mVertices->set(2, start.z);
-	mVertices->set(3, end.x);
-	mVertices->set(4, end.y);
-	mVertices->set(5, end.z);
-}
-
-void RenderEngine::LineRenderer::bind(const Array<u32> *indices) {
-	mVAO = RenderContext::createVAO();
-	mVBOPosition = RenderContext::createVBO(3, 0);
-	mEBO = RenderContext::createEBO();
-
-	RenderContext::setDataVBO(mVBOPosition, mVertices);
-	RenderContext::setDataEBO(mEBO, indices);
-
-	RenderContext::enableVAO(mVAO);
-}
 
 RenderEngine::LayerData::LayerData() : DE_Class() {
 	mSorted = false;
@@ -78,9 +37,6 @@ RenderEngine::LayerData::~LayerData() = default;
 
 RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 	mCamera = nullptr;
-	mLineRenderers = nullptr;
-	mLineRendererIndices = nullptr;
-	mShaderLine = nullptr;
 	mBatchesMap = nullptr;
 	mCameraDirtyTranslation = true;
 }
@@ -90,30 +46,12 @@ RenderEngine::~RenderEngine() = default;
 void RenderEngine::init(f32 sceneSize) {
 	DE_TRACE()
 
-	mLineRenderers = DE_NEW<Array<LineRenderer*>>();
-	mLineRendererIndices = DE_NEW<Array<u32>>();
-	mShaderLine = DE_NEW<Shader>();
+	mLineRenderer = DE_NEW<LineRenderer>();
+	mLineRenderer->init();
 
-	// Line Renderers
-
-	mLineRenderersCount = EngineConfig::getInstance()->getF32("line.renderers.count");
-	mLineRenderers->init(mLineRenderersCount);
-
-	mLineRendererIndices->init(2);
-	mLineRendererIndices->set(0, 0.0f);
-	mLineRendererIndices->set(1, 1.0f);
-
-	mThereAreActiveDebugRenderer = false;
-
-	mShaderLine->initDebug();
-
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
-		LineRenderer* lineRenderer = DE_NEW<LineRenderer>();
-		lineRenderer->init();
-		lineRenderer->mActive = false;
-
-		mLineRenderers->set(i, lineRenderer);
-	}
+	mLineRendererScreenSpace = DE_NEW<LineRenderer>();
+	mLineRendererScreenSpace->init();
+	mLineRendererScreenSpace->mIsAffectedByProjection = false;
 
 	mRenderersToFree = DE_NEW<List<Renderer*>>();
 	mRenderersToFree->init();
@@ -145,8 +83,8 @@ void RenderEngine::init(f32 sceneSize) {
 	mBatchesMap = DE_NEW<BatchesMap>();
 	mBatchesMap->init();
 
-	mBatchesMapNotAffectedByProjection = DE_NEW<BatchesMap>();
-	mBatchesMapNotAffectedByProjection->init();
+	mBatchesMapScreenSpace = DE_NEW<BatchesMap>();
+	mBatchesMapScreenSpace->init();
 
 	mMaxLayersUsed = 0;
 
@@ -214,7 +152,7 @@ void RenderEngine::renderBatches() {
 
 	FOR_RANGE(layer, 0, mMaxLayers) {
 		//if(mLayersData->get(layer)->mVisible){
-		drawCallCounter += mBatchesMapNotAffectedByProjection->render(layer);
+		drawCallCounter += mBatchesMapScreenSpace->render(layer);
 		//}
 	}
 
@@ -261,69 +199,17 @@ void RenderEngine::freeRenderersPendingtoFree() {
 void RenderEngine::stepDebug() {
 	DE_PROFILER_TIMEMARK_START()
 
-	mShaderLine->use();
-
-	const Matrix4& projectionMatrix = getCamera()->getProjectionMatrix();
-	const Matrix4& viewTranslationMatrix = getCamera()->getViewTranslationMatrix();
-	const Matrix4& viewRotationMatrix = getCamera()->getViewRotationMatrix();
-
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount) {
-		LineRenderer* lineRenderer = mLineRenderers->get(i);
-
-		if (lineRenderer->mActive) {
-
-			if (lineRenderer->mIsAffectedByProjection) {
-				mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
-				mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-				mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-			} else {
-				mShaderLine->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
-				mShaderLine->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
-				mShaderLine->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
-			}
-
-			lineRenderer->bind(mLineRendererIndices);
-
-			glLineWidth(lineRenderer->mSize);
-			glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
-
-			RenderContext::enableVAO(0);
-
-			lineRenderer->mActive = false;
-		}
-	}
-
-	mThereAreActiveDebugRenderer = false;
+	mLineRenderer->render();
+	mLineRendererScreenSpace->render();
 
 	DE_PROFILER_TIMEMARK_END()
-}
-
-void RenderEngine::bind() {
-	// FOR_ARRAY(i, mChunks){
-	//   mChunks->get(i)->bind();
-	// }
-	//
-	// mScreenChunk->bind();
 }
 
 void RenderEngine::terminate() {
 	DE_TRACE()
 
-	if(mLineRendererIndices){
-		DE_FREE(mLineRendererIndices);
-	}
-
-	if(mShaderLine) {
-		DE_FREE(mShaderLine);
-	}
-
-	if(mLineRenderers){
-		FOR_ARRAY(i, mLineRenderers){
-			DE_FREE(mLineRenderers->get(i));
-		}
-
-		DE_FREE(mLineRenderers);
-	}
+	DE_FREE(mLineRenderer);
+	DE_FREE(mLineRendererScreenSpace);
 
 	if(mChunks){
 		FOR_ARRAY(i, mChunks) {
@@ -337,8 +223,8 @@ void RenderEngine::terminate() {
 		DE_FREE(mBatchesMap);
 	}
 
-	if(mBatchesMapNotAffectedByProjection){
-		DE_FREE(mBatchesMapNotAffectedByProjection);
+	if(mBatchesMapScreenSpace){
+		DE_FREE(mBatchesMapScreenSpace);
 	}
 
 	if(mLayersData){
@@ -373,7 +259,7 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 		}
 	} else {
 		// UI Case!
-		mBatchesMapNotAffectedByProjection->addRenderer(renderer);
+		mBatchesMapScreenSpace->addRenderer(renderer);
 	}
 
 	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
@@ -402,21 +288,11 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
 		bool isAffectedByProjection /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
-	bool found = false;
-
-	FOR_ARRAY_COND(i, mLineRenderers, i < mLineRenderersCount && !found) {
-		LineRenderer* lineRenderer = mLineRenderers->get(i);
-
-		if (!lineRenderer->mActive) {
-			found = true;
-			lineRenderer->init();
-			lineRenderer->set(start, end);
-			lineRenderer->mActive = true;
-			lineRenderer->mIsAffectedByProjection = isAffectedByProjection;
-			lineRenderer->mSize = size;
-
-			mThereAreActiveDebugRenderer = true;
-		}
+	
+	if(isAffectedByProjection){
+		mLineRenderer->add(start, end);
+	} else{
+		mLineRendererScreenSpace->add(start, end);
 	}
 }
 

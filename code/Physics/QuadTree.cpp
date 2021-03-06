@@ -205,9 +205,9 @@ void QuadTree::Node::update(/*contactManager*/) {
 
 			Collider* colliderA = itA.get();
 
-			if(PhysicsEngine::getInstance()->getDebugColliders()) {
+			/*if(PhysicsEngine::getInstance()->getDebugColliders()) {
 				colliderA->render();
-			}
+			}*/
 
 			if (colliderA->isActive()) {
 				if (colliderA->isSimulate()) {

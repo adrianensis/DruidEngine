@@ -1,4 +1,4 @@
-#include "Graphics/AnimationFrame.hpp"
+#include "Graphics/Animation/AnimationFrame.hpp"
 #include "Log/Log.hpp"
 
 namespace DE {

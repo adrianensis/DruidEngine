@@ -143,8 +143,12 @@ void RenderContext::enableVAO(u32 VAO) {
 	glBindVertexArray(VAO);
 }
 
-void RenderContext::drawTriangles(u32 indices) {
-	glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, 0);
+void RenderContext::drawRectangles(u32 rectanglesCount) {
+	glDrawElements(GL_TRIANGLES, rectanglesCount * 6, GL_UNSIGNED_INT, 0);
+}
+
+void RenderContext::drawLines(u32 linesCount) {
+	glDrawElements(GL_LINES, linesCount * 2, GL_UNSIGNED_INT, 0);
 }
 
 }

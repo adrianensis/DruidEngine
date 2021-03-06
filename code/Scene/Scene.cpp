@@ -151,7 +151,8 @@ void Scene::saveScene(const String &path) {
 	}
 
 	configMap->setU32("objects.length", counter);
-	configMap->setF32("scene.size", maxSize * 2.0f);
+	//configMap->setF32("scene.size", maxSize);
+	configMap->setF32("scene.size", mSize); // save same size
 
 	configMap->writeConfigFile(path);
 

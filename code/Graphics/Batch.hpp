@@ -50,7 +50,7 @@ private:
 	DE_M(PositionBuffer, Array<f32>*);
 	DE_M(TextureBuffer, Array<f32>*);
 	DE_M(ColorBuffer, Array<f32>*);
-	DE_M(FacesBuffer, Array<u32>*);
+	DE_M(IndicesBuffer, Array<u32>*);
 
 	DE_M(Binded, bool);
 	DE_M(TextureId, u32);

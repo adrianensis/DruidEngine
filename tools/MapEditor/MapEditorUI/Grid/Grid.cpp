@@ -10,7 +10,7 @@
 #include "Input/Input.hpp"
 #include "Graphics/Mesh.hpp"
 #include "Graphics/MaterialManager.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "File/File.hpp"

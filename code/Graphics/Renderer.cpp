@@ -1,6 +1,6 @@
 #include "Graphics/Renderer.hpp"
 
-#include "Graphics/AnimationFrame.hpp"
+#include "Graphics/Animation/AnimationFrame.hpp"
 #include "Graphics/Shader.hpp"
 #include "Containers/List.hpp"
 #include "Log/Log.hpp"

@@ -17,7 +17,7 @@
 #include "Graphics/Material.hpp"
 #include "Graphics/Texture.hpp"
 #include "Graphics/MaterialManager.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 #include "Graphics/Camera.hpp"

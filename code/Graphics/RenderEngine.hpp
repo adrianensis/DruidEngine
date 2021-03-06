@@ -13,48 +13,17 @@ class RenderContext;
 class Camera;
 class Renderer;
 class Shader;
-class Chunk;
 class BatchesMap;
+class Chunk;
 template<class T> class List;
 template<class T> class Array;
 template<class K, class V> class HashMap;
 class Vector3;
+class LineRenderer;
 
 class RenderEngine: public DE_Class, public Singleton<RenderEngine> {
 
 private:
-
-	class LineRenderer: public DE_Class {
-	public:
-		DE_CLASS_BODY(LineRenderer)
-
-		DE_M(Vertices, Array<f32>*) // A line is composed by 2 vertices.
-		DE_M(VAO, u32)
-		DE_M(VBOPosition, u32)
-		DE_M(EBO, u32)
-		DE_M(Active, bool)
-		DE_M(IsAffectedByProjection, bool)
-		DE_M(Size, f32)
-
-		void init();
-		void set(const Vector3 &start, const Vector3 &end);
-		void bind(const Array<u32> *indices);
-	};
-
-	DE_M(ShaderLine, Shader*)
-	DE_M(LineRendererIndices, Array<u32>*) // [0,1]
-	DE_M(LineRenderers, Array<LineRenderer*>*)
-	DE_M(LineRenderersCount, u32)
-	DE_M(ThereAreActiveDebugRenderer, bool)
-
-	DE_M(RenderersToFree, List<Renderer*>*)
-
-	DE_M(Chunks, Array<Chunk*>*)
-
-	DE_M(BatchesMap, BatchesMap*)
-	DE_M(BatchesMapNotAffectedByProjection, BatchesMap*)
-
-	DE_M(MaxLayersUsed, u32)
 
 	class LayerData: public DE_Class {
 	public:
@@ -66,25 +35,35 @@ private:
 		DE_M(Visible, bool)
 	};
 
+	DE_M(BatchesMap, BatchesMap*)
+	DE_M(BatchesMapScreenSpace, BatchesMap*)
+
+	DE_M(LineRenderer, LineRenderer*)
+	DE_M(LineRendererScreenSpace, LineRenderer*)
+
+	DE_M_GET_SET(Camera, Camera*)
+	DE_M_GET(CameraDirtyTranslation, bool)
+	
+	using LayersDataMap = HashMap<u32, LayerData*>;
+	DE_M_GET(LayersData, LayersDataMap*)
+	DE_M_GET(MaxLayers, u32)
+	DE_M(MaxLayersUsed, u32)
+
+	DE_M_GET(MinChunkDrawDistance, f32)
+	DE_M(Chunks, Array<Chunk*>*)
+
+	DE_M(RenderersToFree, List<Renderer*>*)
+
 	void checkChunks();
 	void freeRenderersPendingtoFree();
 	void renderBatches();
 	void swap();
-
-	using LayersDataMap = HashMap<u32, LayerData*>;
-
-	DE_M_GET_SET(Camera, Camera*)
-	DE_M_GET(CameraDirtyTranslation, bool)
-	DE_M_GET(MaxLayers, u32)
-	DE_M_GET(LayersData, LayersDataMap*)
-	DE_M_GET(MinChunkDrawDistance, f32)
 
 public:
 
 	DE_CLASS_BODY(RenderEngine)
 
 	void init(f32 sceneSize);
-	void bind();
 	void step(); // render
 	void stepDebug(); // debug render
 	void terminate();

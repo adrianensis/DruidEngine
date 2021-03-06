@@ -7,7 +7,7 @@
 #include "Maths/Matrix4.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Mesh.hpp"
-#include "Graphics/Animation.hpp"
+#include "Graphics/Animation/Animation.hpp"
 #include "Containers/HashMap.hpp"
 #include "Containers/Array.hpp"
 #include "Graphics/Chunk.hpp"
