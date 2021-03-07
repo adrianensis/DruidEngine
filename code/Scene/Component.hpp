@@ -35,7 +35,7 @@ public:
 		mIsActive = (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : isActive;
 	};
 
-	void setDestroyed() {
+	void finallyDestroy() {
 		mIsDestroyed = true;
 		mIsPendingToBeDestroyed = false;
 	};

@@ -31,8 +31,5 @@ public:
 	bool containsRenderer(const Renderer *renderer, f32 epsilon = 0.0f) const;
 	bool containsRendererSphere(const Renderer *renderer) const;
 	void addRenderer(Renderer *renderer);
-
 };
-
 }
-

@@ -69,13 +69,13 @@ void Profiler::timeMarkStart(const String &name) {
 	}
 
 	mTimeMarkMap->get(name)->init();
-	mTimeMarkMap->get(name)->startFrame();
+	mTimeMarkMap->get(name)->start();
 }
 
 void Profiler::timeMarkEnd(const String &name) {
 
 	if(mTimeMap->contains(name)){
-		mTimeMarkMap->get(name)->endFrame();
+		mTimeMarkMap->get(name)->end();
 		mTimeMap->set(name, mTimeMap->get(name) + mTimeMarkMap->get(name)->getDeltaTimeSeconds());
 	}
 }

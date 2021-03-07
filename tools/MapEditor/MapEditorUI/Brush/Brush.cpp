@@ -67,7 +67,7 @@ void Brush::init(MapEditor* mapEditor) {
 }
 
 void Brush::setMaterial(Material* material){
-	if(material) {
+	if(material && mMapElementData->mMaterial != material) {
 
 		mMapElementData->mMaterial = material;
 
@@ -90,8 +90,6 @@ void Brush::setMaterial(Material* material){
 }
 
 void Brush::setMaterialRegion(const Vector2& regionPosition, const Vector2& regionSize) {
-	mMapElementData->mMaterialRegionPosition = regionPosition;
-	mMapElementData->mMaterialRegionSize = regionSize;
 	mBrushCursor->getFirstComponent<Renderer>()->setRegion(
 		regionPosition.x, regionPosition.y,
 		regionSize.x, regionSize.y);

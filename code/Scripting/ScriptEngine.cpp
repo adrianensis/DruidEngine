@@ -63,7 +63,7 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 
 	Script* script = (*castedIt).get();
 	script->terminate();
-	script->setDestroyed();
+	script->finallyDestroy();
 	DE_FREE(script);
 }
 

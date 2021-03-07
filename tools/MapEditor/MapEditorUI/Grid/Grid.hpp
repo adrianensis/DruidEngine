@@ -55,7 +55,7 @@ private:
 	DE_M_GET(TileSize, f32)
 	DE_M_GET(SelectedMapElements, List<MapElement*>*)
 
-	void draw(CellData *cellData, const Vector3 &worldPosition);
+	void draw(GameObject* brushTile, CellData *cellData, const Vector3 &worldPosition);
 	void remove(CellData *cellData, u32 layer);
 	void select(CellData *cellData, u32 layer, bool multi);
 
@@ -67,6 +67,8 @@ public:
 	MapElement* getFirstSelectedTile();
 
 	void init(MapEditor* mapEditor, u32 gridSize, f32 tileSize);
+
+	void update();
 
 	void loadMapIntoGrid(const List<GameObject*>* gameObjects);
 

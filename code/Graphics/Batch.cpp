@@ -64,7 +64,7 @@ Batch::~Batch() {
 			u32 remainingInBatch = itList.get()->getLength();
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->getIsDestroyed()) {
-					itRenderer.get()->setDestroyed();
+					itRenderer.get()->finallyDestroy();
 					DE_FREE(itRenderer.get());
 					remainingInBatch--;
 				}
@@ -396,7 +396,7 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	// NOTE: UI CASE
 	// UI is not Freed in Chunk so it has to ve freed here.
 	if(! renderer->getIsAffectedByProjection()){
-		renderer->setDestroyed();
+		renderer->finallyDestroy();
 		DE_FREE(renderer);
 	}
 }

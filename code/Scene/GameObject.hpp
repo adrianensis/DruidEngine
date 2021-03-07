@@ -69,7 +69,7 @@ public:
 
 	void setIsActive(bool isActive);
 
-	void setDestroyed() {
+	void finallyDestroy() {
 		mIsDestroyed = true;
 		mIsPendingToBeDestroyed = false;
 	};

@@ -161,7 +161,17 @@ void MapEditor::step() {
 			getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
 		}
 
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD)) {
+			mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() + 1);
+		}
+
+		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)) {
+			mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() - 1);
+		}
+
 		mMapEditorUI.update();
+
+		mGrid.update();
 
 	} else if(getGameObject()->getScene()->isLoadFinished()){
 		mGrid.loadMapIntoGrid(getGameObject()->getScene()->getGameObjects());

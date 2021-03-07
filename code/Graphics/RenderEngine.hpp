@@ -74,6 +74,4 @@ public:
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isAffectedByProjection = true, Vector4 color = Vector4(1,1,1,1));
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };
-
 }
-

@@ -214,7 +214,7 @@ void Scene::removeGameObject(GameObject *gameObject) {
 		mGameObjects->remove(it);
 
 		gameObject->destroy();
-		gameObject->setDestroyed();
+		gameObject->finallyDestroy();
 		DE_FREE(gameObject);
 	}
 }

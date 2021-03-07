@@ -28,7 +28,7 @@ Chunk::~Chunk() {
 
 	FOR_LIST(it, mRenderers) {
 		//if(!it.get()->isDestroyed()){
-			it.get()->setDestroyed();
+			it.get()->finallyDestroy();
 			DE_FREE(it.get());
 		//}
 	}
@@ -82,7 +82,7 @@ void Chunk::update(BatchesMap *batchesMap) {
 		}
 
 		if(renderer->getIsPendingToBeDestroyed()) {
-			renderer->setDestroyed();
+			renderer->finallyDestroy();
 			RenderEngine::getInstance()->freeRenderer(renderer);
 		}
 

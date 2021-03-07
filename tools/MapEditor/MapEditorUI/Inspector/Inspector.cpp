@@ -197,13 +197,15 @@ void Inspector::createInspector() {
 
 void Inspector::update() {
 
-	if(mMapEditor->mGrid.getFirstSelectedTile()){
-		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
+	MapElement* firstSelectedTile = mMapEditor->mGrid.getFirstSelectedTile();
+
+	if(firstSelectedTile && firstSelectedTile->isActive()){
+		Transform* tileTransform = firstSelectedTile->getTransform();
 
 		mTextInspectorX->setText(std::to_string(tileTransform->getLocalPosition().x).substr(0,4));
 		mTextInspectorY->setText(std::to_string(tileTransform->getLocalPosition().y).substr(0,4));
 
-		List<Collider*>* colliders = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
+		List<Collider*>* colliders = firstSelectedTile->getComponents<Collider>();
 		bool hasCollider = colliders && !colliders->isEmpty();
 
 		mButtonInspectorCollider->setText(hasCollider ? mStringsUI.BoolTrue : mStringsUI.BoolFalse);
@@ -212,18 +214,20 @@ void Inspector::update() {
 
 void Inspector::updateInspectorOnSelectTile() {
 
-	if(mMapEditor->mGrid.getFirstSelectedTile()){
+	MapElement* firstSelectedTile = mMapEditor->mGrid.getFirstSelectedTile();
+
+	if(firstSelectedTile && firstSelectedTile->isActive()){
 		update();
 
-		String tag = mMapEditor->mGrid.getFirstSelectedTile()->getTag();
+		String tag = firstSelectedTile->getTag();
 		mTextBoxTag->setText(/*tag.length() > 0 ?*/ tag /*: "none"*/);
 
-		Transform* tileTransform = mMapEditor->mGrid.getFirstSelectedTile()->getTransform();
+		Transform* tileTransform = firstSelectedTile->getTransform();
 
 		mTextBoxSizeX->setText(std::to_string(tileTransform->getScale().x).substr(0,4));
 		mTextBoxSizeY->setText(std::to_string(tileTransform->getScale().y).substr(0,4));
 
-		auto colliderList = mMapEditor->mGrid.getFirstSelectedTile()->getComponents<Collider>();
+		auto colliderList = firstSelectedTile->getComponents<Collider>();
 		Collider* collider = colliderList && !colliderList->isEmpty() ? colliderList->get(0) : nullptr;
 
 		mTextBoxColliderSizeX->setText(std::to_string(collider ? collider->getWidth() : 0.0f).substr(0,4));

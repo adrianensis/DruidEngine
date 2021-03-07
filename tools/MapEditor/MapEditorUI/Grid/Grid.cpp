@@ -103,8 +103,12 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 
 	mSelectedMapElements = DE_NEW<List<MapElement*>>();
 	mSelectedMapElements->init();
+}
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event* event){
+void Grid::update() {
+
+	if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT) ||
+	Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)){
 		u32 sceneSize = mMapEditor->getGameObject()->getScene()->getSize() / 2.0f;
 
 		Vector2 mouse(Input::getInstance()->getMousePosition());
@@ -114,16 +118,34 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 			if(RenderEngine::getInstance()->getLayersData()->get(mMapEditor->mLayer)->mVisible){
 				
 				Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
-				FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
-					FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
-						Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
-						GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
+				
+				if(mMapEditor->mMapEditorUI.mBrush.isGridSingleTile()) {
+					f32 size = mMapEditor->mMapEditorUI.mBrush.mBrushSize;
+					GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(0,0);
+					if(size == 1) {
+						Vector3 tilePosition = clampedPosition;
 						click(tilePosition, brushTile);
+					} else {
+						f32 halfSize = size / 2.0f;
+						FOR_RANGE(i, -halfSize, halfSize){
+							FOR_RANGE(j, -halfSize, halfSize){
+								Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
+								click(tilePosition, brushTile);
+							}
+						}
+					}
+				} else {
+					FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
+						FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
+							Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
+							GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
+							click(tilePosition, brushTile);
+						}
 					}
 				}
 			}
 		}
-	});
+	}
 }
 
 void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile) {
@@ -145,7 +167,7 @@ void Grid::click(const Vector3 &clampedPosition, GameObject* brushTile) {
 
 			if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 				if(isPaintMode){
-					draw(cellData, clampedPosition);
+					draw(brushTile, cellData, clampedPosition);
 				} else {
 					select(cellData, layer, Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL));
 				}
@@ -188,7 +210,7 @@ MapElement* Grid::getFirstSelectedTile() {
 	return mSelectedMapElements->isEmpty() ? nullptr : mSelectedMapElements->get(0);
 }
 
-void Grid::draw(CellData *cellData, const Vector3 &worldPosition) {
+void Grid::draw(GameObject* brushTile, CellData *cellData, const Vector3 &worldPosition) {
 
 	u32 layer = mMapEditor->mLayer;
 
@@ -201,6 +223,8 @@ void Grid::draw(CellData *cellData, const Vector3 &worldPosition) {
 	data->mPosition = worldPosition;
 	data->mSize = mMapEditor->mMapEditorUI.mBrush.mDrawTileSize;
 	data->mLayer = layer;
+	data->mMaterialRegionPosition = brushTile->getFirstComponent<Renderer>()->getRegionPosition();
+	data->mMaterialRegionSize = brushTile->getFirstComponent<Renderer>()->getRegionSize();
 
 	MapElement* newMapElement = MapElement::create(data);
 	mScene->addGameObject(newMapElement);

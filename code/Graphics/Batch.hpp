@@ -86,6 +86,5 @@ public:
 
 	void addRenderer(Renderer *renderer);
 };
-
 }
 

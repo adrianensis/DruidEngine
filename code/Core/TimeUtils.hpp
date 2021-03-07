@@ -16,12 +16,14 @@ private:
 	DE_M(StartTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
 	DE_M(LastTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
 
+	DE_M_GET(IsStarted, bool)
+
 public:
 	DE_CLASS_BODY(TimeMark)
 
 	void init();
-	void startFrame();
-	void endFrame();
+	void start();
+	void end();
 	f32 getElapsedTimeMillis();
 	f32 getDeltaTimeMillis();
 	f32 getDeltaTimeSeconds();
@@ -49,12 +51,12 @@ private:
 public:
 	DE_CLASS_BODY(Time)
 
-	void init() { mInternalTimeMark.init() ; }
-	void startFrame() { mInternalTimeMark.startFrame() ; }
-	void endFrame() { mInternalTimeMark.endFrame() ; }
-	f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis() ; }
-	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis() ; }
-	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds() ; }
+	void init() { mInternalTimeMark.init(); }
+	void startFrame() { mInternalTimeMark.start(); }
+	void endFrame() { mInternalTimeMark.end(); }
+	f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis(); }
+	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
+	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
 };
 
 }

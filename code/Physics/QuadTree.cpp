@@ -51,7 +51,7 @@ QuadTree::Node::~Node() {
 
 	/*FOR_LIST(it, mColliders) {
 		if (!(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
-			it.get()->setDestroyed();
+			it.get()->finallyDestroy();
 			DE_FREE(it.get());
 		}
 	}*/
@@ -171,7 +171,7 @@ void QuadTree::Node::internalRemoveColliderFromList(const Iterator *it) {
 //----------------------------------------------------------------------
 
 void QuadTree::Node::internalFreeCollider(Collider *collider) {
-	collider->setDestroyed();
+	collider->finallyDestroy();
 	DE_FREE(collider);
 }
 

@@ -23,7 +23,5 @@ public:
 	u32 render(u32 layer);
 	void addRenderer(Renderer *renderer);
 };
-
-
 }
 

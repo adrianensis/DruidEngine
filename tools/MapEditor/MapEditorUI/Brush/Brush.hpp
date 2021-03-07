@@ -30,6 +30,7 @@ public:
 	Vector2 mBrushGridSize = Vector2(1,1);
 	GameObject* mBrushCursor = nullptr;
 	MapEditor* mMapEditor = nullptr;
+	u32 mBrushSize = 1;
 
 	DE_M(MapElementData, MapElementData*);
 
@@ -44,6 +45,13 @@ public:
 	void update();
 	void clear();
 	void setDrawTileSize(const Vector2& size);
+	bool isGridSingleTile() const { return mBrushGridSize.x == 1 && mBrushGridSize.y == 1; }
+	void setBrushSize(i32 newSize) { 
+		if(newSize > 0) {
+			mBrushSize = newSize;
+		}
+	}
+	i32 getBrushSize() const { return mBrushSize; }
 };
 
 }

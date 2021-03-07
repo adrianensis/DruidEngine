@@ -42,7 +42,7 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 	mRigidBodies->remove(*castedIt);
 
 	RigidBody* rigidBody = (*castedIt).get();
-	rigidBody->setDestroyed();
+	rigidBody->finallyDestroy();
 
 	rigidBody->getCollider()->setIsActive(false);
 
