@@ -51,35 +51,41 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 		iterationsCounter++;
 	}
 
-	if (selectedBlock->size == size) {
+	/*
+		TODO : better check (in hasSpace method) if requested size is smaller than the max free block size
+	*/
+	DE_ASSERT(selectedBlock != nullptr, "No memory block found!")
 
-		if (previousBlock)
-			previousBlock->next = selectedBlock->next; // remove block
+	if(selectedBlock){
+		if (selectedBlock->size == size) {
+			if (previousBlock)
+				previousBlock->next = selectedBlock->next; // remove block
 
-		if (!previousBlock)
-			mFirstBlockFree = selectedBlock->next;
+			if (!previousBlock)
+				mFirstBlockFree = selectedBlock->next;
 
-		selectedBlock->blockStatus = BlockStatus::USED;
-		moveToUsedList(selectedBlock);
+			selectedBlock->blockStatus = BlockStatus::USED;
+			moveToUsedList(selectedBlock);
 
-	} else {
+		} else {
 
-		if (previousBlock)
-			previousBlock->next = selectedBlock->next; // remove block
+			if (previousBlock)
+				previousBlock->next = selectedBlock->next; // remove block
 
-		Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
-		newFreeBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size),
-				selectedBlock->size - size);
-		newFreeBlock->blockStatus = BlockStatus::FREE;
+			Block* newFreeBlock = Allocator::internalAllocate<Block>(&mLinearAllocator);
+			newFreeBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress) + size),
+					selectedBlock->size - size);
+			newFreeBlock->blockStatus = BlockStatus::FREE;
 
-		if (!previousBlock)
-			mFirstBlockFree = selectedBlock->next;
-		moveToFreeList(newFreeBlock);
+			if (!previousBlock)
+				mFirstBlockFree = selectedBlock->next;
+			moveToFreeList(newFreeBlock);
 
-		Block* newUsedBlock = selectedBlock; //Allocator::internalAllocate<Block>(&mLinearAllocator);
-		newUsedBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
-		newUsedBlock->blockStatus = BlockStatus::USED;
-		moveToUsedList(newUsedBlock);
+			Block* newUsedBlock = selectedBlock; //Allocator::internalAllocate<Block>(&mLinearAllocator);
+			newUsedBlock->init((byte*) (reinterpret_cast<byte*>(selectedBlock->unalignedAddress)), size);
+			newUsedBlock->blockStatus = BlockStatus::USED;
+			moveToUsedList(newUsedBlock);
+		}
 	}
 
 	return selectedBlock;

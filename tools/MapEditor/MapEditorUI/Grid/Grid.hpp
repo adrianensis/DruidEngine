@@ -23,7 +23,7 @@
 #include "EditorEvents/EditorEvents.hpp"
 #include "MapEditorUI/MapEditorUI.hpp"
 
-#include "MapElement/MapElement.hpp"
+#include "Scene/MapElement/MapElement.hpp"
 
 namespace DE {
 

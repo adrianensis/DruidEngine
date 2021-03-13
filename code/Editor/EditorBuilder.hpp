@@ -13,7 +13,7 @@ class UIText;
 class UITextEditable;
 
 // Vector2 Text Editable
-class TextEditableVector2 {
+class UITextEditableVector2 {
 public:
 	UITextEditable* TextEditableX = nullptr;
 	UITextEditable* TextEditableY = nullptr;
@@ -33,7 +33,7 @@ public:
 	UITextEditable* createTextBoxLabeled(StringRef textLabel, StringRef text, UIElementCallback onTextChangedCallback);
 	UIButton* createButton(StringRef textLabel, UIElementCallback onPressedCallback);
 	UIButton* createRadialButton(StringRef textLabel, UIElementCallback onPressedCallback);
-	TextEditableVector2 createTextBoxVector2(StringRef textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
+	UITextEditableVector2 createTextBoxVector2(StringRef textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
 	UIDropdown* createDropdown(StringRef textLabel);
 };
 

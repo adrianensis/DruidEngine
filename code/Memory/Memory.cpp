@@ -77,7 +77,7 @@ void Memory::free() {
 }
 
 DE_Class* Memory::internalFromClassName(StringRef className) {
-	DE_ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered.")
+	DE_ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered: " + className)
 	return classNamesMap[className]();
 }
 

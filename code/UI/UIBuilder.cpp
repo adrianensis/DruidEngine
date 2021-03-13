@@ -37,6 +37,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, StringRef
 	mTextSize = UI::getInstance()->getDefaultFontSize();
 	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
+	mGroup = "";
 	mSeparatorSize = 0.01f;
 	mBackgroundColor = Vector4(0.5,0.5,0.5,1);
 	mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
@@ -64,6 +65,10 @@ UIBuilder::~UIBuilder() {
 
 void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
 	mScene->addGameObject(uiElement);
+
+	if(mData.mGroup.length() > 0) {
+		UI::getInstance()->addToGroup(mData.mGroup, uiElement);
+	}	
 
 	mCurrentUIElement = uiElement;
 
@@ -304,31 +309,16 @@ UITextEditable* UIBuilder::internalCreateTextEditable() {
 
 	uiText->setComponentsCache();
 
-	// Background
-	f32 atlasBackgroundMargin = 0.1f;
+	UI::getInstance()->getBuilder()->saveData()->
+		setAdjustSizeToText(false)->
+		setPosition(mData.mPosition)->
+		setLayer(mData.mLayer)->
+		setSize(mData.mSize)->
+		setIsAffectedByLayout(false)->
+		create(UIElementType::PANEL);
 
-	GameObject* background = DE_NEW<GameObject>();
-	background->init();
-	background->setIsStatic(true);
-
-	background->setShouldPersist(false);
-
-	background->getTransform()->setLocalPosition(aspectRatioCorrectedPosition + Vector3(halfSizeX - (textSize.x),0,0));
-	background->getTransform()->setScale(size);
-	background->getTransform()->setAffectedByProjection(false);
-
-	Renderer* renderer = DE_NEW<Renderer>();
-	background->addComponent<Renderer>(renderer);
-
-	renderer->setLayer(mData.mLayer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor3);
-	//renderer->setHasBorder(true);
-
-	mScene->addGameObject(background);
-
+	UI::getInstance()->getBuilder()->restoreData();
+		
 	return uiText;
 }
 

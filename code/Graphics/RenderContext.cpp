@@ -99,7 +99,7 @@ GLuint RenderContext::createVBO(u32 elementSize, u32 PropertyArrayIndex) {
 	u32 VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, 1000, nullptr, GL_DYNAMIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, 1000, nullptr, GL_DYNAMIC_DRAW);
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
 	RenderContext::enableProperty(PropertyArrayIndex);
 	glVertexAttribPointer(PropertyArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte*) 0);

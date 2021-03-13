@@ -21,7 +21,7 @@
 #include "EditorEvents/EditorEvents.hpp"
 #include "Editor/EditorBuilder.hpp"
 
-#include "MapElement/MapElement.hpp"
+#include "Scene/MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -41,8 +41,7 @@ void Inspector::init(MapEditor *mapEditor) {
 		updateInspectorOnSelectTile();
 	});
 
-	createInspector();
-	createLayersBar();
+	createTileInspector();
 }
 
 void Inspector::setTileScaleFromInspector(GameObject* tile, StringRef stringValue, u32 vectorIndex) {
@@ -76,7 +75,7 @@ void Inspector::setTileColliderScaleFromInspector(GameObject* tile, StringRef st
 	}
 }
 
-void Inspector::createInspector() {
+void Inspector::createTileInspector() {
 
 	Scene* scene = mMapEditor->getGameObject()->getScene();
 
@@ -93,7 +92,8 @@ void Inspector::createInspector() {
 		setLayout(UILayout::HORIZONTAL)->
 		setAdjustSizeToText(true)->
 		setPosition(Vector2(baseX, baseY))->
-		setLayer(mMapEditor->mMapEditorUI.mUILayer);
+		setLayer(mMapEditor->mMapEditorUI.mUILayer)->
+		setGroup("Inspector");
 
 	// Inspector
 	EditorBuilder::getInstance()->createLabel(mStringsUI.Inspector);
@@ -120,7 +120,7 @@ void Inspector::createInspector() {
 
 	// Size
 
-	TextEditableVector2 textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(mStringsUI.InspectorSize,
+	UITextEditableVector2 textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(mStringsUI.InspectorSize,
 		[&](UIElement* uiElement) {
 			mMapEditor->mGrid.forEachSelectedTile(
 			[&](GameObject* tile) {
@@ -193,6 +193,11 @@ void Inspector::createInspector() {
 
 	mTextBoxColliderSizeX = textEditableVector2.TextEditableX;
 	mTextBoxColliderSizeY = textEditableVector2.TextEditableY;
+
+	createLayersBar();
+
+	UI::getInstance()->getBuilder()->
+		setGroup("");
 }
 
 void Inspector::update() {
@@ -220,7 +225,7 @@ void Inspector::updateInspectorOnSelectTile() {
 		update();
 
 		String tag = firstSelectedTile->getTag();
-		mTextBoxTag->setText(/*tag.length() > 0 ?*/ tag /*: "none"*/);
+		mTextBoxTag->setText(tag);
 
 		Transform* tileTransform = firstSelectedTile->getTransform();
 
@@ -234,6 +239,8 @@ void Inspector::updateInspectorOnSelectTile() {
 		mTextBoxColliderSizeY->setText(std::to_string(collider ? collider->getHeight() : 0.0f).substr(0,4));
 
 	}
+
+	//UI::getInstance()->removeElementsFromGroup("Inspector");
 }
 
 void Inspector::createLayersBar() {
@@ -258,7 +265,7 @@ void Inspector::createLayersBar() {
 
 	FOR_RANGE(i, 0, maxLayers){
 		button = (UIButton*) UI::getInstance()->getBuilder()->
-		setText(std::to_string(i))->
+		setText("Layer " + std::to_string(i))->
 		create(UIElementType::BUTTON)->
 		getUIElement();
 

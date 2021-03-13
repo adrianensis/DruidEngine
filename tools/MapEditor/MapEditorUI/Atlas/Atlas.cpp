@@ -47,6 +47,9 @@
 #include "MapEditor.hpp"
 #include "EditorEvents/EditorEvents.hpp"
 #include "Editor/EditorBuilder.hpp"
+#include "Events/EventsManager.hpp"
+#include "Input/InputEvents.hpp"
+#include "Events/Event.hpp"
 
 namespace DE {
 
@@ -63,9 +66,21 @@ void Atlas::init(MapEditor *mapEditor) {
 
 	createAtlasSelector();
 	toggleAtlas();
+
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
+		if(const InputEventKeyPressed* eventKeyPressed = (const InputEventKeyPressed*) event){
+			if(eventKeyPressed->mKey == GLFW_KEY_TAB)
+			{
+				toggleAtlas();
+			}
+		}
+	});
 }
 
 void Atlas::createAtlas(u32 index, Material* material) {
+
+	UI::getInstance()->getBuilder()->
+	setGroup(mAtlasUIGroup);
 
 	f32 tileSize = 0.07f;
 
@@ -76,8 +91,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 
 	Vector2 panelSize = atlasSize * tileSize;
 	Vector2 panelPosition = Vector2(-panelSize.x/2.0f, panelSize.y/2.0f);
-	UIElement* panel = EditorBuilder::getInstance()->createPanel(panelPosition, panelSize);
-	UI::getInstance()->addToGroup(mAtlasUIGroup, panel);
+	EditorBuilder::getInstance()->createPanel(panelPosition, panelSize);
 
 	UI::getInstance()->getBuilder()->
 		setSeparatorSize(0)->
@@ -106,15 +120,15 @@ void Atlas::createAtlas(u32 index, Material* material) {
 				mMapEditor->mMapEditorUI.mBrush.clickTile(tile, atlasPosition);
 			});
 
-			UI::getInstance()->addToGroup(mAtlasUIGroup, tile);
-
 			//mAtlasButtons->set(i*atlasSize.y + j, tile);
 		}
 
 		UI::getInstance()->getBuilder()->nextRow();
 	}
 
-	UI::getInstance()->getBuilder()->restoreSeparatorSize();
+	UI::getInstance()->getBuilder()->
+	restoreSeparatorSize()->
+	setGroup("");
 }
 
 void Atlas::createAtlasSelector() {
@@ -134,7 +148,8 @@ void Atlas::createAtlasSelector() {
 		setSize(Vector2(size,size))->
 		setBackgroundColor(Vector4(0,0,0,1))->
 		setText("")->
-		setLayer(mMapEditor->mMapEditorUI.mUILayer);
+		setLayer(mMapEditor->mMapEditorUI.mUILayer)->
+		setGroup(mAtlasSelectorUIGroup);
 
 	FOR_RANGE(i, 0, mMapEditor->mConfigMap->getU32("atlases.length")){
 		button = (UIButton*) UI::getInstance()->getBuilder()->
@@ -150,9 +165,10 @@ void Atlas::createAtlasSelector() {
 				createAtlas(i, material);
 			});
 		});
-
-		UI::getInstance()->addToGroup(mAtlasSelectorUIGroup, button);
 	}
+
+	UI::getInstance()->getBuilder()->
+	setGroup("");
 }
 
 void Atlas::toggleAtlas(){

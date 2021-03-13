@@ -9,6 +9,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Scripting/Script.hpp"
 #include <string>
+#include "MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -43,6 +44,9 @@ void ScenesManager::internalLoadScene() {
 void ScenesManager::init() {
 
 	DE_INSTANCEABLE_BY_CLASSNAME(GameObject);
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement);
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
+	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);
 
 	mCurrentSceneIndex = 0;
 

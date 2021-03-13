@@ -9,7 +9,6 @@
 #include "UI/UIText.hpp"
 #include "UI/UITextEditable.hpp"
 #include "UI/UIDropdown.hpp"
-#include "UI/UIList.hpp"
 
 #include <string>
 
@@ -50,6 +49,7 @@ public:
 	DE_M(AdjustSizeToText, bool)
 	DE_M(Layer, u32)
 	DE_M(IsAffectedByLayout, bool)
+	DE_M(Group, String)
 	DE_M(SeparatorSize, f32)
 	DE_M(BackgroundColor, Vector4)
 	DE_M(BackgroundColor2, Vector4)
@@ -73,6 +73,7 @@ public:
 		mAdjustSizeToText = otherData.mAdjustSizeToText;
 		mLayer = otherData.mLayer;
 		mIsAffectedByLayout = otherData.mIsAffectedByLayout;
+		if(!otherData.mGroup.empty()){mGroup = otherData.mGroup;} 
 		mSeparatorSize = otherData.mSeparatorSize;
 		mBackgroundColor = otherData.mBackgroundColor;
 		mBackgroundColor2 = otherData.mBackgroundColor2;
@@ -134,6 +135,7 @@ public:
 	DE_UI_BUILDER_DATA_SETTER(StringRef, Text)
 	DE_UI_BUILDER_DATA_SETTER(Vector2, TextSize)
 	DE_UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
+	DE_UI_BUILDER_DATA_SETTER(String, Group)
 	DE_UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)
 	DE_UI_BUILDER_DATA_SETTER(f32, SeparatorSize)
 

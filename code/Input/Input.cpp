@@ -113,7 +113,16 @@ void Input::pollEvents() {
 	mouseCoordX = mouseCoordX - halfWindowSizeX;
 	mouseCoordY = halfWindowSizeY - mouseCoordY;
 
-	smMouseCoordinates.set(mouseCoordX / halfWindowSizeX, mouseCoordY / halfWindowSizeY);
+	bool moved = false;
+	Vector2 newMouseCoordinates(mouseCoordX / halfWindowSizeX, mouseCoordY / halfWindowSizeY);
+
+	if(!smMouseCoordinates.eq(newMouseCoordinates))
+	{
+		smMouseCoordinates.set(newMouseCoordinates);
+
+		InputEventMouseMoved event;
+		DE_SEND_INPUT_EVENT(event);
+	}
 
 	glfwPollEvents();
 }

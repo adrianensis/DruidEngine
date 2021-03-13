@@ -4,7 +4,7 @@
 #include <string>
 #include "UI/UIElement.hpp"
 #include "../StringsUI.hpp"
-#include "MapElement/MapElement.hpp"
+#include "Scene/MapElement/MapElement.hpp"
 
 namespace DE {
 

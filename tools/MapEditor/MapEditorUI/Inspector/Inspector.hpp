@@ -42,7 +42,7 @@ private:
 
 	MapEditor* mMapEditor;
 
-	void createInspector();
+	void createTileInspector();
 	void createLayersBar();
 
 public:

@@ -39,7 +39,7 @@
 #include "Config/EngineConfig.hpp"
 #include "Config/ConfigMap.hpp"
 #include "Events/EventsManager.hpp"
-#include "MapElement/MapElement.hpp"
+#include "Scene/MapElement/MapElement.hpp"
 
 namespace DE {
 
@@ -99,10 +99,6 @@ void MapEditor::destroyPlayer(){
 }
 
 void MapEditor::init() {
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement);
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);
-
 	mTransform = getGameObject()->getTransform();
 
 	mConfigMap = DE_NEW<ConfigMap>();
@@ -130,6 +126,31 @@ void MapEditor::firstStep() {
 	mMapEditorUI.init(this);
 
 	//createPlayer();
+
+	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
+		if(const InputEventKeyPressed* eventKeyPressed = (const InputEventKeyPressed*) event){
+			switch (eventKeyPressed->mKey)
+			{
+			case GLFW_KEY_KP_ADD:
+				mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() + 1);
+				break;
+
+			case GLFW_KEY_KP_SUBTRACT:
+				mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() - 1);
+				break;
+
+			case GLFW_KEY_S:
+				if (eventKeyPressed->mMods == GLFW_MOD_CONTROL /*| GLFW_MOD_SHIFT*/) {
+					getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
+				}
+				break;
+				
+			case GLFW_KEY_ESCAPE:
+				mMapEditorUI.resetBrush();
+				break;
+			}
+		}
+	});
 }
 
 void MapEditor::step() {
@@ -138,36 +159,6 @@ void MapEditor::step() {
 
 		cameraZoom();
 		processMovement();
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_Z)) {
-			if (mLayer < 10)
-				mLayer++;
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_X)) {
-			if (mLayer > 0)
-				mLayer--;
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_ESCAPE)) {
-			mMapEditorUI.resetBrush();
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_TAB)) {
-			mMapEditorUI.toggleAtlas();
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_S) && Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL /*| GLFW_MOD_SHIFT*/)) {
-			getGameObject()->getScene()->saveScene(getGameObject()->getScene()->getPath());
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD)) {
-			mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() + 1);
-		}
-
-		if (Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT)) {
-			mMapEditorUI.mBrush.setBrushSize(mMapEditorUI.mBrush.getBrushSize() - 1);
-		}
 
 		mMapEditorUI.update();
 

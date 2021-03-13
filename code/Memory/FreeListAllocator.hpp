@@ -18,7 +18,8 @@ private:
 	};
 
 	class Block {
-	public: byte* unalignedAddress;
+	public: 
+		byte* unalignedAddress;
 		u32 size;
 		BlockStatus blockStatus;
 		Block* next;
@@ -38,8 +39,6 @@ private:
 	};
 
 	LinearAllocator mLinearAllocator; // TODO: change for Memory::allocate()
-	// List<Block>* mFreeBlocks; // TODO: change to Block*
-	// List<Block>* mUsedBlocks;
 
 	Block* mFirstBlockUsed;
 	Block* mFirstBlockFree;

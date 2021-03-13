@@ -14,6 +14,9 @@ DE_EVENT_DECLARATION_END(InputEventKeyEnter)
 DE_EVENT_DECLARATION_BEGIN(InputEventKeyEsc)
 DE_EVENT_DECLARATION_END(InputEventKeyEsc)
 
+DE_EVENT_DECLARATION_BEGIN(InputEventMouseMoved)
+DE_EVENT_DECLARATION_END(InputEventMouseMoved)
+
 DE_EVENT_DECLARATION_BEGIN(InputEventMouseButtonPressed)
 u32 mButton = 0;
 u32 mMods = 0;

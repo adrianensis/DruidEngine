@@ -64,12 +64,12 @@ UITextEditable* EditorBuilder::createTextBoxLabeled(StringRef textLabel, StringR
 	return textEditable;
 }
 
-TextEditableVector2 EditorBuilder::createTextBoxVector2(StringRef textLabel,
+UITextEditableVector2 EditorBuilder::createTextBoxVector2(StringRef textLabel,
 		std::function<void(UIElement* uiElement)> onTextChangedCallbackX, std::function<void(UIElement* uiElement)> onTextChangedCallbackY) {
 
 	createLabel(textLabel);
 
-	TextEditableVector2 textEditableVector2;
+	UITextEditableVector2 textEditableVector2;
 	String initValue = "0";
 	textEditableVector2.TextEditableX = createTextBoxSimple(initValue, onTextChangedCallbackX);
 	textEditableVector2.TextEditableY = createTextBoxSimple(initValue, onTextChangedCallbackY);
