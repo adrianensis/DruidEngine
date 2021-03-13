@@ -20,8 +20,8 @@
 
    Hi! I'm Adrian, UE4/C++ games programmer. You can find me on Twitter and YouTube :D
 
-  * <img src="https://logos-world.net/wp-content/uploads/2020/04/Twitter-Logo.png" width=4%> **Twitter**: [Link to my Twitter profile](https://twitter.com/AdrianensisDev)
-  * <img src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Emblem.png" width=3.8%> **YouTube**: [Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)
+  * <img src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png" width=3%> **Twitter**: [Link to my Twitter profile](https://twitter.com/AdrianensisDev)
+  * <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> **YouTube**: [Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)
   * <img src="https://hotemoji.com/images/dl/b/books-emoji-by-twitter.png" width=2.8%> **Portfolio**: [Link to my Portfolio](https://adrianensis.github.io/portfolio)
 
 ---
@@ -38,8 +38,8 @@ I created a short Devlog series in YouTube to explain, in general aspects, the m
 
 |Links to my YouTube channel and the Devlog playlist|
 |---|
-|[<img src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Emblem.png" width=3.8%> Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)|
-|[<img src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Emblem.png" width=3.8%> Link to Druid Engine - Devlog Playlist](https://www.youtube.com/watch?v=ViNNHauNDpw&list=PLfQ-ZA-2VtX2gE5ZX4U3I63zGHeWsxyxk)|
+|[<img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)|
+|[<img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> Link to Druid Engine - Devlog Playlist](https://www.youtube.com/watch?v=ViNNHauNDpw&list=PLfQ-ZA-2VtX2gE5ZX4U3I63zGHeWsxyxk)|
 
 #### Druid Engine - Devlog Playlist
 
