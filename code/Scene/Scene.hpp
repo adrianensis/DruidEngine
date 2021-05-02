@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "File/File.hpp"
 
 namespace DE {
@@ -9,27 +9,37 @@ template<class T> class List;
 class GameObject;
 class ConfigMap;
 
-class Scene: public DE_Class {
+class Scene : public ObjectBase {
 
 private:
 
-	DE_M_GET(GameObjects, List<GameObject*>*)
-	DE_M_GET(NewGameObjects, List<GameObject*>*)
-	DE_M_GET_SET(CameraGameObject, GameObject*)
+	 List<GameObject*>* mGameObjects;
+	 List<GameObject*>* mNewGameObjects;
+	 GameObject* mCameraGameObject;
 
-	DE_M_GET(Size, f32)
-	DE_M_GET(Path, String)
+	 f32 mSize;
+	 String mPath;
 
 	void destroyGameObjects();
 
-	DE_M(LoadSceneConfigMap, ConfigMap*)
-	DE_M(MaxGameObjectsToLoadPerFrame, u32)
-	DE_M(GameObjectsToLoadTotal, u32)
-	DE_M(GameObjectsToLoadIndex, u32)
+	 ConfigMap* mLoadSceneConfigMap;
+	 u32 mMaxGameObjectsToLoadPerFrame;
+	 u32 mGameObjectsToLoadTotal;
+	 u32 mGameObjectsToLoadIndex;
 
 public:
 
-	DE_CLASS_BODY(Scene)
+	GENERATE_METADATA(Scene);
+
+	Scene();
+	virtual ~Scene() override;;
+
+	GET(GameObjects);
+	GET(NewGameObjects);
+	GET_SET(CameraGameObject);
+
+	GET(Size);
+	GET(Path);
 
 	void init();
 
@@ -47,6 +57,5 @@ public:
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();
 };
-
 }
 

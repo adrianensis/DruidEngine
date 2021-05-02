@@ -3,12 +3,11 @@
 #include "Core/TimeUtils.hpp"
 #include "Core/BasicTypes.hpp"
 #include "Core/Singleton.hpp"
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Functor.hpp"
+#include "Containers/List.hpp"
 
 namespace DE {
-
-template<class T> class List;
 
 enum class TimerDurationType {
 	NONE,
@@ -16,31 +15,40 @@ enum class TimerDurationType {
 	NEXT_FRAME
 };
 
-class TimerManager;
-
-class Timer : public DE_Class{
+class Timer : public ObjectBase{
 private:
-	DE_M_GET(Duration, f32)
-	DE_M_GET_SET(TimeCounter, f32)
-	DE_M_GET(DurationType ,TimerDurationType)
+	f32 mDuration;
+	f32 mTimeCounter;
+	TimerDurationType mDurationType;
 
 public:
-	DE_CLASS_BODY(Timer)
 
-	DE_M(Functor, FunctorVoid);
+	GENERATE_METADATA(Timer);
+
+	Timer();
+	virtual ~Timer() override;
+
+	GET(Duration);
+	GET_SET(TimeCounter);
+	GET(DurationType);
+
+	 FunctorVoid mFunctor;
 
 	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 };
 
-class TimerHandle : public DE_Class{
+class TimerHandle : public ObjectBase{
 
-	friend TimerManager;
+	friend class TimerManager;
 
 private:
-	DE_M(TimerReference, Timer*);
+	 Timer* mTimerReference;
 
 public:
-	DE_CLASS_BODY(TimerHandle)
+	GENERATE_METADATA(TimerHandle);
+
+	TimerHandle();
+	virtual ~TimerHandle() override;
 
 	void init(Timer* timerReference){
 		mTimerReference = timerReference;
@@ -58,14 +66,17 @@ public:
 	}
 };
 
-class TimerManager : public DE_Class, public Singleton<TimerManager>{
+class TimerManager : public ObjectBase, public Singleton<TimerManager>{
 private:
-	DE_M(Timers, List<Timer*>*);
+	 List<Timer*>* mTimers;
 
 	void endTimer(Timer* timer);
 
 public:
-	DE_CLASS_BODY(TimerManager)
+	GENERATE_METADATA(TimerManager);
+
+	TimerManager();
+	virtual ~TimerManager() override;
 
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);
@@ -74,6 +85,5 @@ public:
 	void terminate();
 
 };
-
 }
 

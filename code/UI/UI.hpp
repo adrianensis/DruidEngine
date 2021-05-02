@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Maths/Vector2.hpp"
 #include "UI/UIElement.hpp"
@@ -20,9 +20,12 @@ class Iterator;
 template<class T> class List;
 template<class K, class V> class HashMap;
 
-class UIGroup: public DE_Class {
+class UIGroup : public ObjectBase {
 public:
-	DE_CLASS_BODY(UIGroup)
+	GENERATE_METADATA(UIGroup);
+
+	UIGroup();
+	virtual ~UIGroup() override;
 
 	String mName;
 	bool mVisible;
@@ -31,7 +34,7 @@ public:
 	void init();
 };
 
-class UI: public DE_Class, public Singleton<UI> {
+class UI: public ObjectBase, public Singleton<UI> {
 private:
 
 	//List<UIElement*>* mUIElements;
@@ -52,7 +55,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(UI)
+	GENERATE_METADATA(UI);
+
+	UI();
+	virtual ~UI() override;
 
 	UIBuilder* getBuilder();
 
@@ -78,6 +84,5 @@ public:
 	UIElement* getFocusedElement() const { return mFocusedElement; };
 	void setFocusedElement(UIElement* focusedElement);
 };
-
 }
 

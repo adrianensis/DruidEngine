@@ -13,20 +13,20 @@ namespace DE {
  \tparam V Value class.
  */
 template<class K, class V>
-class HashMap: public BaseContainer {
+class HashMap : public BaseContainer {
 
 private:
 
-	class Node: public DE_Class {
+	class Node : public ObjectBase {
 
 	public:
 
-		DE_M(Key, K);
-		DE_M(Element, V);
+		 K mKey;
+		 V mElement;
 
-		DE_CLASS_BODY_TEMPLATE2(Node, K, K);
+		GENERATE_METADATA(Node);
 
-		Node() : DE_Class() {
+		Node() : ObjectBase() {
 		};
 
 		virtual ~Node() override {
@@ -39,28 +39,25 @@ private:
 	};
 
 	static const u32 smNodeSize = sizeof(HashMap<K,V>::Node);
-	using NodeClass = HashMap<K,V>::Node;
 
 	HashMap<K,V>::Node* newNode(const K key, const V element) {
-		HashMap<K,V>::Node* node = DE_NEW<Node>();
+		HashMap<K,V>::Node* node = Memory::allocate<Node>();
 		node->init(key, element);
 		return node;
 	}
 
 	void freeNode(HashMap<K,V>::Node* node) {
-		DE_FREE(node);
+		Memory::free(node);
 	}
 
 	Array<List<HashMap<K,V>::Node*>*>* mArray;
 
-	DE_M(Keys, List<K>*);
-	DE_M(Values, List<V>*);
+	 List<K>* mKeys;
+	 List<V>* mValues;
 
 public:
 
-	using HashMapKV = HashMap<K,V>;
-
-	DE_CLASS_BODY_TEMPLATE2(HashMapKV, K, K);
+	GENERATE_METADATA(HashMap<K,V>);
 
 	/*!
 	 \brief Default Constructor.
@@ -73,7 +70,7 @@ public:
 		// check class
 		bool class_ok = std::is_base_of<Hash, K>::value || std::is_same<K, String>::value
 				|| std::is_arithmetic<K>::value || std::is_pointer<K>::value;
-		DE_ASSERT(class_ok, "K must be integer, String, pointer or extend Hash class.");
+		ASSERT(class_ok, "K must be integer, String, pointer or extend Hash class.");
 	}
 
 	/*!
@@ -82,10 +79,10 @@ public:
 	virtual ~HashMap() override {
 		HashMap<K, V>::clear();
 
-		DE_FREE(mArray);
+		Memory::free(mArray);
 
-		DE_FREE(mKeys);
-		DE_FREE(mValues);
+		Memory::free(mKeys);
+		Memory::free(mValues);
 	}
 
 	/*!
@@ -93,13 +90,13 @@ public:
 	 */
 	void init() {
 		BaseContainer::init(0, sizeof(V), 1);
-		mArray = DE_NEW<Array<List<HashMap<K,V>::Node*>*>>();
+		mArray = Memory::allocate<Array<List<HashMap<K,V>::Node*>*>>();
 		mArray->init(20); // TODO : find a good number.
 
-		mKeys = DE_NEW<List<K>>();
+		mKeys = Memory::allocate<List<K>>();
 		mKeys->init();
 
-		mValues = DE_NEW<List<V>>();
+		mValues = Memory::allocate<List<V>>();
 		mValues->init();
 	}
 
@@ -111,7 +108,7 @@ public:
 
 		// if there is no list, create it
 		if (list == nullptr) {
-			list = DE_NEW<List<HashMap<K,V>::Node*>>();
+			list = Memory::allocate<List<HashMap<K,V>::Node*>>();
 			list->init();
 			mArray->set(hashIndex, list);
 		}
@@ -164,7 +161,7 @@ public:
 		}
 
 		if (!found) {
-			DE_ASSERT(false, "Can't find the element with given key.");
+			ASSERT(false, "Can't find the element with given key.");
 		}
 		
 		return element;
@@ -225,7 +222,7 @@ public:
 			freeNode(selectedIt.get());
 
 		} else
-			DE_ASSERT(false, "Can't find the element with given key.");
+			ASSERT(false, "Can't find the element with given key.");
 	}
 
 	const List<K>* getKeys() const {
@@ -249,7 +246,7 @@ public:
 						freeNode(it.get());
 					}
 
-					DE_FREE(list);
+					Memory::free(list);
 				}
 
 				mArray->set(i, nullptr);

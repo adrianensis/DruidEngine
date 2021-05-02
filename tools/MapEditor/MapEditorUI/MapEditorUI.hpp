@@ -8,6 +8,7 @@
 #include "Brush/Brush.hpp"
 #include "Atlas/Atlas.hpp"
 #include "MenuBar/MenuBar.hpp"
+#include "Containers/List.hpp"
 
 namespace DE {
 
@@ -22,22 +23,16 @@ class UIText;
 class UITextEditable;
 class Texture;
 class Material;
-template<class K, class V> class HashMap;
-template<class T> class Array;
-template<class T> class List;
 
 class MapEditor;
 
-class MapEditorUI : public DE_Class{
+class MapEditorUI : public ObjectBase{
 
 private:
 
-	const StringsUI mStringsUI;
-
-
 	// SPRITES
 	String mSpritesUIGroup = "sprites";
-	Array<UIButton*>* mSpriteButtons = nullptr;
+	List<UIButton*>* mSpriteButtons = nullptr;
 
 	// GRID
 	bool mIsGridShow = false;
@@ -47,13 +42,20 @@ private:
 
 	MapEditor* mMapEditor;
 
-	DE_M_GET(MenuBar, MenuBar*);
-	DE_M_GET(Inspector, Inspector*);
-	DE_M_GET(Atlas, Atlas*);
+	MenuBar* mMenuBar;
+	Inspector* mInspector;
+	Atlas* mAtlas;
 
 public:
 
-	DE_CLASS_BODY(MapEditorUI)
+	GENERATE_METADATA(MapEditorUI);
+
+	MapEditorUI();
+	virtual ~MapEditorUI() override;
+
+	GET(MenuBar);
+	GET(Inspector);
+	GET(Atlas);
 
 	u32 mUILayer = 3;
 
@@ -84,6 +86,5 @@ public:
 
 	void selectLayer(u32 layer);
 };
-
 }
 

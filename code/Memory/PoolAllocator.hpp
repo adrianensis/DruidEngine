@@ -8,17 +8,17 @@ namespace DE {
 /*!
  \brief Allocates memory using fixed-size blocks. The blocks can be freed.
  */
-class PoolAllocator: public LinearAllocator {
+class PoolAllocator : public LinearAllocator {
 
 private:
 
-	DE_M(BlockSize, u32)
-	DE_M(FullBlockSize, u32)
-	DE_M(Alignment, u32)
-	DE_M(MaxBlocks, u32)
-	DE_M(UsedBlocks, u32)
-	DE_M(First, byte*)
-	DE_M(Last, byte*)
+	 u32 mBlockSize;
+	 u32 mFullBlockSize;
+	 u32 mAlignment;
+	 u32 mMaxBlocks;
+	 u32 mUsedBlocks;
+	 byte* mFirst;
+	 byte* mLast;
 
 	static const u32 smPtrSize;
 
@@ -35,7 +35,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(PoolAllocator)
+	GENERATE_METADATA(PoolAllocator);
+
+	PoolAllocator();
+	virtual ~PoolAllocator() override;
 
 	/*!
 	 \return The count of free blocks.
@@ -73,6 +76,5 @@ public:
 	void reset() override;
 
 };
-
 }
 

@@ -78,7 +78,7 @@ void Matrix4::setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &r
 			Matrix4::set(row, col, rows[row][col]);
 };
 
-Matrix4::Matrix4() : DE_Class() {
+Matrix4::Matrix4() : ObjectBase() {
 }
 
 Matrix4::~Matrix4() = default;
@@ -343,5 +343,4 @@ void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	this->set(2, 3, (-2 * far * near) / (far - near));
 	this->set(3, 2, -1.0f);
 };
-
 }

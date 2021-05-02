@@ -4,7 +4,7 @@
 
 namespace DE {
 
-Texture::Texture() : DE_Class() {
+Texture::Texture() : ObjectBase() {
 	mTextureId = -1;
 	mData = nullptr;
 }
@@ -14,7 +14,7 @@ Texture::~Texture() {
 }
 
 void Texture::init(const String &path) {
-	DE_TRACE()
+	TRACE()
 
 	if (!mData) {
 		mPath = path;

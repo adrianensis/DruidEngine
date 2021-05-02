@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include <ostream>
 
 #include "Core/BasicTypes.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/Assert/Assert.hpp"
 #include "Maths/MathUtils.hpp"
 
 namespace DE {
@@ -16,7 +16,7 @@ class Vector3;
 /*!
  \brief 4D Vector.
  */
-class Vector4: public DE_Class /*16 bytes alignment*/{
+class Vector4: public ObjectBase /*16 bytes alignment*/{
 
 public:
 
@@ -30,7 +30,10 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	DE_CLASS_BODY(Vector4)
+	GENERATE_METADATA(Vector4);
+
+	Vector4();
+	virtual ~Vector4() override;
 
 	Vector4(f32 x, f32 y, f32 z, f32 w);
 	Vector4(const Vector4 &other);
@@ -70,13 +73,6 @@ public:
 	//-------------------------------------------------------------------
 	// OPERATORS
 	//-------------------------------------------------------------------
-
-	/*
-	 * & -> it's a reference, not a full copy.
-	 * const Vector4& -> it's a constant reference.
-	 * operator=(...) const -> the method promises not to change *this. Non-member
-	 * functions can not have constant qualification.
-	 */
 
 	Vector4& operator=(const Vector4 &rhs) {
 		if (this == &rhs)
@@ -164,14 +160,14 @@ public:
 
 	// can be used for assignment
 	f32& operator[](const size_t index) {
-		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 
 		return *(&x + index);
 	}
 
 	// read only
 	f32 operator[](const size_t index) const {
-		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 		return *(&x + index);
 	}
 
@@ -180,6 +176,5 @@ public:
 		return out;
 	}
 };
-
 }
 

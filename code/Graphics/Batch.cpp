@@ -2,7 +2,6 @@
 #include "Graphics/Batch.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Texture.hpp"
-#include "Containers/List.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera.hpp"
@@ -10,8 +9,6 @@
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Containers/List.hpp"
-#include "Containers/HashMap.hpp"
 #include "Log/Log.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
@@ -42,7 +39,7 @@ u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
 
 
 
-Batch::Batch() : DE_Class() {
+Batch::Batch() : ObjectBase() {
 	mVBOPosition = 0;
 	mEBO = 0;
 	mVBOTexture = 0;
@@ -65,21 +62,21 @@ Batch::~Batch() {
 			FOR_LIST(itRenderer, itList.get()) {
 				if (!itRenderer.get()->getIsDestroyed()) {
 					itRenderer.get()->finallyDestroy();
-					DE_FREE(itRenderer.get());
+					Memory::free(itRenderer.get());
 					remainingInBatch--;
 				}
 			}
 
-			DE_FREE(itList.get());
+			Memory::free(itList.get());
 		}
 	}
 
-	DE_FREE(mRenderers);
+	Memory::free(mRenderers);
 
-	DE_FREE(mPositionBuffer);
-	DE_FREE(mTextureBuffer);
-	DE_FREE(mColorBuffer);
-	DE_FREE(mIndicesBuffer);
+	Memory::free(mPositionBuffer);
+	Memory::free(mTextureBuffer);
+	Memory::free(mColorBuffer);
+	Memory::free(mIndicesBuffer);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -98,24 +95,24 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mVertexColorSize = 4;
 	mFacesSize = 6;
 
-	mPositionBuffer = DE_NEW<Array<f32>>();
+	mPositionBuffer = Memory::allocate<Array<f32>>();
 	mPositionBuffer->init(mMaxVertexBufferSize * mVertexPositionSize);
 	mPositionBufferIndex = 0;
 
-	mTextureBuffer = DE_NEW<Array<f32>>();
+	mTextureBuffer = Memory::allocate<Array<f32>>();
 	mTextureBuffer->init(mMaxVertexBufferSize * mVertexTextureSize);
 	mTextureBufferIndex = 0;
 
-	mColorBuffer = DE_NEW<Array<f32>>();
+	mColorBuffer = Memory::allocate<Array<f32>>();
 	mColorBuffer->init(mMaxVertexBufferSize * mVertexColorSize);
 	mColorBufferIndex = 0;
 
-	mIndicesBuffer = DE_NEW<Array<u32>>();
+	mIndicesBuffer = Memory::allocate<Array<u32>>();
 	mIndicesBuffer->init(mMaxVertexBufferSize * mFacesSize);
 
 	mRenderEngine = RenderEngine::getInstance();
 
-	mRenderers = DE_NEW<HashMap<u32, List<Renderer*>*>>();
+	mRenderers = Memory::allocate<HashMap<u32, List<Renderer*>*>>();
 	mRenderers->init();
 
 	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()) {
@@ -250,6 +247,8 @@ u32 Batch::render(u32 layer) {
 			Renderer* renderer = it.get();
 
 			if(renderer->getLayer() == layer) {
+
+				bool toRemove = false;
 				if(renderer->isActive()) {
 					const Chunk* chunk = renderer->getChunk();
 					bool chunkOk = (!chunk) || (chunk && chunk->getIsLoaded());
@@ -269,15 +268,19 @@ u32 Batch::render(u32 layer) {
 							drawCallCounter++;
 						}
 					} else if (renderer->getIsAffectedByProjection() && !chunk->getIsLoaded()) {
-						internalRemoveRendererFromList(&it, renderers);
+						toRemove = true;
 					}
 
 					if (isSortedLayer && renderer->getIsAffectedByProjection() && !renderer->isStatic()) {
-						internalRemoveRendererFromList(&it, renderers);
+						toRemove = true;
 					}
 
 				} else if (renderer->getIsPendingToBeDestroyed()) {
 					// destroy renderer and remove from list
+					toRemove = true;
+				}
+
+				if(toRemove){
 					internalRemoveRendererFromList(&it, renderers);
 				}
 			}
@@ -355,7 +358,7 @@ void Batch::addRenderer(Renderer *renderer) {
 	List<Renderer*>* renderers = mRenderers->get(layer);
 
 	if (!renderers) {
-		renderers = DE_NEW<List<Renderer*>>();
+		renderers = Memory::allocate<List<Renderer*>>();
 		renderers->init();
 
 		mRenderers->set(layer, renderers);
@@ -374,14 +377,6 @@ void Batch::addRenderer(Renderer *renderer) {
 	}
 }
 
-void Batch::internalRemoveRenderer(const Iterator *it, List<Renderer*> *list) {
-	internalRemoveRendererFromList(it, list);
-
-	auto castedIt = it->cast<Renderer*>();
-	Renderer* renderer = (*castedIt).get();
-
-}
-
 void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *list) {
 	auto castedIt = it->cast<Renderer*>();
 	list->remove(*castedIt);
@@ -389,15 +384,15 @@ void Batch::internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *
 	Renderer* renderer = (*castedIt).get();
 	renderer->setIsAlreadyInBatch(false);
 
-	if (!renderer->isStatic() && renderer->getIsAffectedByProjection()) {
-		mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
-	}
-
-	// NOTE: UI CASE
-	// UI is not Freed in Chunk so it has to ve freed here.
-	if(! renderer->getIsAffectedByProjection()){
+	if(renderer->getIsAffectedByProjection()) {
+		if (!renderer->isStatic()) {
+			mRenderEngine->getLayersData()->get(renderer->getLayer())->mDynamicObjectsCount--;
+		}
+	} else {
+		// NOTE: UI CASE
+		// UI is not Freed in Chunk so it has to be freed here.
 		renderer->finallyDestroy();
-		DE_FREE(renderer);
+		Memory::free(renderer);
 	}
 }
 

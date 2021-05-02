@@ -1,90 +1,83 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Matrix4.hpp"
+#include "Containers/List.hpp"
+#include "Containers/Array.hpp"
+#include "Containers/HashMap.hpp"
 
 namespace DE {
 
-class Material;
-class Mesh;
-class Renderer;
-class RenderEngine;
-class Camera;
-class Chunk;
-template<class T> class List;
-template<class T> class Array;
-template<class K, class V> class HashMap;
-
-class Iterator;
-
-class Batch: public DE_Class {
+class Batch: public ObjectBase {
 
 private:
 
-	DE_M(RenderEngine, RenderEngine*)
+	 class RenderEngine* mRenderEngine;
+	 HashMap<u32, List<class Renderer*>*>* mRenderers;
+	 class Material* mMaterial;
+	 const class Mesh* mMesh;
 
-	using LayersRenderersMap = HashMap<u32, List<Renderer*>*>;
-	DE_M(Renderers, LayersRenderersMap*)
+	 u32 mVBOPosition; // TODO: change u32 for GLuint
+	 u32 mEBO;
+	 u32 mVBOTexture;
+	 u32 mVBOColor;
+	 u32 mVBONormal;
+	 u32 mVAO;
 
-	DE_M_SET(Material, Material*)
-	DE_M_SET(Mesh, const Mesh*)
+	 u32 mMaxVertexBufferSize;
+	 u32 mMaxMeshes;
+	 u32 mMeshesIndex;
+	 u32 mVerticesPerMesh;
+	 u32 mVertexPositionSize;
+	 u32 mVertexTextureSize;
+	 u32 mVertexColorSize;
+	 u32 mFacesSize;
+	 u32 mPositionBufferIndex;
+	 u32 mTextureBufferIndex;
+	 u32 mColorBufferIndex;
+	 Array<f32>* mPositionBuffer;
+	 Array<f32>* mTextureBuffer;
+	 Array<f32>* mColorBuffer;
+	 Array<u32>* mIndicesBuffer;
 
-	DE_M(VBOPosition, u32); // TODO: change u32 for GLuint
-	DE_M(EBO, u32);
-	DE_M(VBOTexture, u32);
-	DE_M(VBOColor, u32);
-	DE_M(VBONormal, u32);
-	DE_M(VAO, u32);
+	 bool mBinded;
+	 u32 mTextureId;
 
-	DE_M(MaxVertexBufferSize, u32);
-	DE_M(MaxMeshes, u32);
-	DE_M(MeshesIndex, u32);
-	DE_M(VerticesPerMesh, u32);
-	DE_M(VertexPositionSize, u32);
-	DE_M(VertexTextureSize, u32);
-	DE_M(VertexColorSize, u32);
-	DE_M(FacesSize, u32);
-	DE_M(PositionBufferIndex, u32);
-	DE_M(TextureBufferIndex, u32);
-	DE_M(ColorBufferIndex, u32);
-	DE_M(PositionBuffer, Array<f32>*);
-	DE_M(TextureBuffer, Array<f32>*);
-	DE_M(ColorBuffer, Array<f32>*);
-	DE_M(IndicesBuffer, Array<u32>*);
-
-	DE_M(Binded, bool);
-	DE_M(TextureId, u32);
-
-	void addToVertexBuffer(Renderer* renderer);
+	void addToVertexBuffer(class Renderer* renderer);
 	void clearVertexBuffer();
 
-	bool checkInFrustum(Camera *cam, Renderer *renderer);
-	bool checkDistance(Camera *cam, Renderer *renderer);
-	bool checkIsOutOfCamera(Camera *cam, Renderer *renderer);
+	bool checkInFrustum(class Camera *cam, class Renderer *renderer);
+	bool checkDistance(class Camera *cam, class Renderer *renderer);
+	bool checkIsOutOfCamera(class Camera *cam, class Renderer *renderer);
 
-	void internalRemoveRenderer(const Iterator *it, List<Renderer*> *list);
-	void internalRemoveRendererFromList(const Iterator *it, List<Renderer*> *list);
+	void internalRemoveRendererFromList(const class Iterator *it, List<class Renderer*> *list);
 
-	static u8 rendererYCoordinateComparator(Renderer *a, Renderer *b);
+	static u8 rendererYCoordinateComparator(class Renderer *a, class Renderer *b);
 
 	void sort(u32 layer);
-	void insertSorted(Renderer *renderer, List<Renderer*> *renderers);
+	void insertSorted(class Renderer *renderer, List<class Renderer*> *renderers);
 
 	static bool smIsScreenOrthoReady;
 	static Matrix4 smScreenOrtho;
 
 public:
 
-	DE_CLASS_BODY(Batch)
+	GENERATE_METADATA(Batch);
 
-	void init(const Mesh *mesh, Material *material);
+	Batch();
+	virtual ~Batch() override;;
+
+	SET(Material);
+	SET(Mesh);
+
+	void init(const class Mesh *mesh, class Material *material);
 	void bind();
 	void update();
 
-	// it returns the count of draw calls
+	// returns the count of draw calls
 	u32 render(u32 layer);
 
-	void addRenderer(Renderer *renderer);
+	void addRenderer(class Renderer *renderer);
 };
 }
 

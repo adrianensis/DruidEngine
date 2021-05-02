@@ -67,7 +67,7 @@ void Atlas::init(MapEditor *mapEditor) {
 	createAtlasSelector();
 	toggleAtlas();
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
 		if(const InputEventKeyPressed* eventKeyPressed = (const InputEventKeyPressed*) event){
 			if(eventKeyPressed->mKey == GLFW_KEY_TAB)
 			{
@@ -82,7 +82,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 	UI::getInstance()->getBuilder()->
 	setGroup(mAtlasUIGroup);
 
-	f32 tileSize = 0.07f;
+	f32 tileSize = 0.06f;
 
 	Vector2 screenOffset = Vector2(tileSize/2.0f, tileSize/2.0f);
 
@@ -116,7 +116,7 @@ void Atlas::createAtlas(u32 index, Material* material) {
 
 			tile->setOnPressedCallback([&, tile, i, j, this](UIElement* uiElement) {
 				Vector2 atlasPosition = Vector2(i, j);
-				mMapEditor->mMapEditorUI.mBrush.mMapElementData = &mMapElementData_Tile; 
+				mMapEditor->mMapEditorUI.mBrush.setMapElementData(&mMapElementData_Tile); 
 				mMapEditor->mMapEditorUI.mBrush.clickTile(tile, atlasPosition);
 			});
 
@@ -137,9 +137,9 @@ void Atlas::createAtlasSelector() {
 	Scene* scene = mMapEditor->getGameObject()->getScene();
 	UIButton* button = nullptr;
 
-	f32 size = 0.15f;
-	f32 baseX = -0.9f * RenderContext::getAspectRatio();
-	f32 baseY = 0.65f;
+	f32 size = 0.1f;
+	f32 baseX = -1.0f * RenderContext::getAspectRatio();
+	f32 baseY = 0.80f;
 
 	UI::getInstance()->getBuilder()->
 		setLayout(UILayout::VERTICAL)->

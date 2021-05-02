@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 #include <string>
 #include "Core/Functor.hpp"
@@ -29,12 +29,15 @@ namespace DE {
 
 	class MapEditor;
 
-class Grid: public DE_Class {
+class Grid : public ObjectBase {
 private:
 
-	class CellData: public DE_Class {
+	class CellData : public ObjectBase {
 	public:
-		DE_CLASS_BODY(CellData)
+		GENERATE_METADATA(CellData);
+
+	CellData();
+	virtual ~CellData() override;
 
 		/*
 			TODO : Migrate this to MapElement.
@@ -47,20 +50,27 @@ private:
 		MapElement* get(u32 layer);
 	};
 
-	DE_M(Grid, Array<Array<CellData*>*>*)
-	DE_M(MapEditor, MapEditor*)
-	DE_M(Scene, Scene*);
+	 Array<Array<CellData*>*>* mGrid;
+	 MapEditor* mMapEditor;
+	 Scene* mScene;
 
-	DE_M_GET(GridSize, u32)
-	DE_M_GET(TileSize, f32)
-	DE_M_GET(SelectedMapElements, List<MapElement*>*)
+	 u32 mGridSize;
+	 f32 mTileSize;
+	 List<MapElement*>* mSelectedMapElements;
 
 	void draw(GameObject* brushTile, CellData *cellData, const Vector3 &worldPosition);
 	void remove(CellData *cellData, u32 layer);
 	void select(CellData *cellData, u32 layer, bool multi);
 
 public:
-	DE_CLASS_BODY(Grid)
+	GENERATE_METADATA(Grid);
+
+	Grid();
+	virtual ~Grid() override;;
+
+	GET(GridSize);
+	GET(TileSize);
+	GET(SelectedMapElements);
 
 	void click(const Vector3 &clampedPosition, GameObject* brushTile);
 
@@ -74,6 +84,5 @@ public:
 
 	void forEachSelectedTile(std::function<void(MapElement*)> callback);
 };
-
 }
 

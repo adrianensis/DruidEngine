@@ -6,7 +6,7 @@
 
 namespace DE {
 
-Material::Material() : DE_Class() {
+Material::Material() : ObjectBase() {
 	mShader = nullptr;
 	mTexture = nullptr;
 	mAlphaEnabled = true;
@@ -14,11 +14,11 @@ Material::Material() : DE_Class() {
 }
 
 Material::~Material() {
-	// DE_FREE(mShader);
+	// Memory::free(mShader);
 }
 
 void Material::init() {
-DE_TRACE()
+TRACE()
 }
 
 }

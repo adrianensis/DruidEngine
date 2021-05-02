@@ -16,7 +16,7 @@ namespace DE {
 GLFWwindow* RenderContext::smWindow = nullptr;
 Vector2 RenderContext::smWindowSize;
 
-RenderContext::RenderContext() : DE_Class() {
+RenderContext::RenderContext() : ObjectBase() {
 };
 
 RenderContext::~RenderContext() = default;
@@ -35,7 +35,7 @@ void RenderContext::onResize(GLFWwindow *window, int width, int height) {
 }
 
 void RenderContext::init() {
-	DE_TRACE()
+	TRACE()
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -120,13 +120,13 @@ GLuint RenderContext::createEBO() {
 }
 
 void RenderContext::setDataVBO(u32 VBO, const Array<f32> *data) {
-	DE_ASSERT(data != nullptr, "Data must be not null.");
+	ASSERT(data != nullptr, "Data must be not null.");
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_DYNAMIC_DRAW);
 }
 
 void RenderContext::setDataEBO(u32 EBO, const Array<u32> *data) {
-	DE_ASSERT(data != nullptr, "Data must be not null.");
+	ASSERT(data != nullptr, "Data must be not null.");
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getElementSize() * data->getLength(), data->getRawData(), GL_STATIC_DRAW);
 }

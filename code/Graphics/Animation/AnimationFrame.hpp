@@ -1,24 +1,30 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include "Maths/Vector2.hpp"
 
 namespace DE {
 
-class AnimationFrame: public DE_Class {
+class AnimationFrame : public ObjectBase {
 private:
 
-	DE_M_GET(Position, Vector2)
-	DE_M_GET(Width, f32)
-	DE_M_GET(Height, f32)
+	 Vector2 mPosition;
+	 f32 mWidth;
+	 f32 mHeight;
 
 public:
 
-	DE_CLASS_BODY(AnimationFrame)
+	GENERATE_METADATA(AnimationFrame);
+
+	AnimationFrame();
+	virtual ~AnimationFrame() override;;
+
+	GET(Position);
+	GET(Width);
+	GET(Height);
 
 	void init(const Vector2 &position, f32 width, f32 height);
 };
-
 }
 

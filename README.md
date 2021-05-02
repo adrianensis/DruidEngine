@@ -1,58 +1,10 @@
 # README
 ---
-## 🌿🎮 Druid Engine
+## New Engine
 
 <img src="./druid.png" width=50%>
 
-> Druid Engine 🌿🎮 is a C++ / OpenGL Game Engine made from scratch with the only purpose of improving my gamedev and programming skills.
-
----
-
-## Index
-* [About the author](#about-the-author)
-* [Evolution of Druid Engine](#evolution-of-druid-engine)
-* [YouTube Devlogs](#youtube-devlogs)
-* [Build instructions](#build)
-
----
-
-## About the author
-
-   Hi! I'm Adrian, UE4/C++ games programmer. You can find me on Twitter and YouTube :D
-
-  * <img src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png" width=3%> **Twitter**: [Link to my Twitter profile](https://twitter.com/AdrianensisDev)
-  * <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> **YouTube**: [Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)
-  * <img src="https://hotemoji.com/images/dl/b/books-emoji-by-twitter.png" width=2.8%> **Portfolio**: [Link to my Portfolio](https://adrianensis.github.io/portfolio)
-
----
-
-## Evolution of Druid Engine
-
-[Link to Druid Engine Showcase repository](https://github.com/adrianensis/DruidEngineShowcase)
-
-In this repository you'll find a lot of GIFs showing the evoultion of Druid Engine! I love GIFs :'D
-
-## YouTube Devlogs
-
-I created a short Devlog series in YouTube to explain, in general aspects, the most important modules I implemented in Druid Engine.
-
-|Links to my YouTube channel and the Devlog playlist|
-|---|
-|[<img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> Link to my YouTube channel](https://www.youtube.com/c/Adrianensis)|
-|[<img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" width=3.1%> Link to Druid Engine - Devlog Playlist](https://www.youtube.com/watch?v=ViNNHauNDpw&list=PLfQ-ZA-2VtX2gE5ZX4U3I63zGHeWsxyxk)|
-
-#### Druid Engine - Devlog Playlist
-
-Here all the single videos in the playlist in case you want to take a quick look.
-**Click any image** to go to the video!
-
-|   |   |   |
-|---|---|---|
-|[<img src="https://img.youtube.com/vi/ViNNHauNDpw/0.jpg">](https://www.youtube.com/watch?v=ViNNHauNDpw)|[<img src="https://img.youtube.com/vi/O7SM94nIfVg/0.jpg">](https://www.youtube.com/watch?v=O7SM94nIfVg)|[<img src="https://img.youtube.com/vi/XduOT0DWK-c/0.jpg">](https://www.youtube.com/watch?v=XduOT0DWK-c)|
-|[<img src="https://img.youtube.com/vi/JsFuFA9nLpE/0.jpg">](https://www.youtube.com/watch?v=JsFuFA9nLpE)|[<img src="https://img.youtube.com/vi/JxJW0vuo_kw/0.jpg">](https://www.youtube.com/watch?v=JxJW0vuo_kw)|[<img src="https://img.youtube.com/vi/BqxLhTcZmtg/0.jpg">](https://www.youtube.com/watch?v=BqxLhTcZmtg)|
-
----
-
+> New Engine is a C++ / OpenGL Game Engine made from scratch with the only purpose of improving my gamedev and programming skills.
 
 ## Build
 

@@ -13,7 +13,7 @@
 
 namespace DE {
 
-ScenesManager::ScenesManager() : DE_Class(), Singleton() {
+ScenesManager::ScenesManager() : ObjectBase(), Singleton() {
 	mCurrentScene = nullptr;
 	mSceneHasChanged = true;
 }
@@ -21,13 +21,13 @@ ScenesManager::ScenesManager() : DE_Class(), Singleton() {
 ScenesManager::~ScenesManager() {
 
 	FOR_LIST (it, mScenes) {
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mScenes);
+	Memory::free(mScenes);
 
 	mGameObjectController->destroy();
-	DE_FREE(mGameObjectController);
+	Memory::free(mGameObjectController);
 }
 
 void ScenesManager::internalLoadScene() {
@@ -43,14 +43,14 @@ void ScenesManager::internalLoadScene() {
 
 void ScenesManager::init() {
 
-	DE_INSTANCEABLE_BY_CLASSNAME(GameObject);
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement);
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
-	DE_INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);
+	INSTANCEABLE_BY_CLASSNAME(GameObject);
+	INSTANCEABLE_BY_CLASSNAME(MapElement);
+	INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
+	INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);
 
 	mCurrentSceneIndex = 0;
 
-	mScenes = DE_NEW<List<Scene*>>();
+	mScenes = Memory::allocate<List<Scene*>>();
 	mScenes->init();
 
 	u32 scenesCount = 1;
@@ -60,7 +60,7 @@ void ScenesManager::init() {
 	}
 
 	FOR_RANGE(i, 0, scenesCount) {
-		Scene* scene = DE_NEW<Scene>();
+		Scene* scene = Memory::allocate<Scene>();
 		scene->init();
 		addScene(scene);
 	}

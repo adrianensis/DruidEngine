@@ -16,7 +16,7 @@ class Allocator;
 class FreeListAllocator;
 class LinearAllocator;
 
-class Memory: public DE_Class {
+class Memory : public ObjectBase {
 
 private:
 
@@ -41,10 +41,10 @@ private:
 
 	static std::map<String, u32> memoryMapCounter;
 
-	// Instantiation by Class Name
-	static std::map<String, std::function<DE_Class*()>> classNamesMap;
-	static DE_Class* internalFromClassName(StringRef className);
-	static void internalRegisterClassName(StringRef className, std::function<DE_Class*()> instantiationFunction);
+	// Instantiation by ObjectBase Name
+	static std::map<String, std::function<ObjectBase*()>> classNamesMap;
+	static ObjectBase* internalFromClassName(StringRef className);
+	static void internalRegisterClassName(StringRef className, std::function<ObjectBase*()> instantiationFunction);
 
 public:
 
@@ -96,7 +96,7 @@ public:
 	template <class T>
 	static void registerClassName(StringRef className) {
 		internalRegisterClassName(className, [](){
-			return (DE_Class*)DE_NEW<T>();
+			return (ObjectBase*)Memory::allocate<T>();
 		});
 	}
 
@@ -105,6 +105,5 @@ public:
 		return (T*) internalFromClassName(className);
 	}
 };
-
 }
 

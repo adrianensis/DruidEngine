@@ -14,21 +14,21 @@
 
 namespace DE {
 
-BatchesMap::BatchesMap() : DE_Class() {
+BatchesMap::BatchesMap() : ObjectBase() {
 	mBatches = nullptr;
 }
 
 BatchesMap::~BatchesMap() {
 	FOR_LIST(it, mBatches->getValues()) {
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mBatches);
+	Memory::free(mBatches);
 }
 
 void BatchesMap::init() {
 	//TRACE();
-	mBatches = DE_NEW<HashMap<Texture*, Batch*>>();
+	mBatches = Memory::allocate<HashMap<Texture*, Batch*>>();
 	mBatches->init();
 }
 
@@ -38,7 +38,7 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 
 	if (!mBatches->contains(texture)) {
 
-		Batch* batch = DE_NEW<Batch>();
+		Batch* batch = Memory::allocate<Batch>();
 		batch->init(renderer->getMesh(), renderer->getMaterial());
 		// batch->setChunk(chunk);
 

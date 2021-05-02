@@ -14,7 +14,7 @@
 
 namespace DE {
 
-EditorBuilder::EditorBuilder() : DE_Class(), Singleton<EditorBuilder>(){
+EditorBuilder::EditorBuilder() : ObjectBase(), Singleton<EditorBuilder>(){
 
 }
 

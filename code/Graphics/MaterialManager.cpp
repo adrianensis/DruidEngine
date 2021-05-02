@@ -6,7 +6,7 @@
 
 namespace DE {
 
-MaterialManager::MaterialManager() : DE_Class() {
+MaterialManager::MaterialManager() : ObjectBase() {
 	mTexturesMap = nullptr;
 	mMaterialsMap = nullptr;
 	mNoTextureMaterial = nullptr;
@@ -14,29 +14,29 @@ MaterialManager::MaterialManager() : DE_Class() {
 
 MaterialManager::~MaterialManager() {
 	FOR_LIST(it, mTexturesMap->getValues()) {
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mTexturesMap);
+	Memory::free(mTexturesMap);
 
 	FOR_LIST(it, mMaterialsMap->getValues()) {
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mMaterialsMap);
+	Memory::free(mMaterialsMap);
 
-	DE_FREE(mNoTextureMaterial);
+	Memory::free(mNoTextureMaterial);
 
 	Shader::freeStaticShaders();
 }
 
 void MaterialManager::init() {
-	DE_TRACE()
+	TRACE()
 
-	mTexturesMap = DE_NEW<HashMap<String, Texture*>>();
+	mTexturesMap = Memory::allocate<HashMap<String, Texture*>>();
 	mTexturesMap->init();
 
-	mMaterialsMap = DE_NEW<HashMap<String, Material*>>();
+	mMaterialsMap = Memory::allocate<HashMap<String, Material*>>();
 	mMaterialsMap->init();
 }
 
@@ -46,7 +46,7 @@ Texture* MaterialManager::loadTexture(const String &path) {
 	if (mTexturesMap->contains(path)) {
 		texture = mTexturesMap->get(path);
 	} else {
-		texture = DE_NEW<Texture>();
+		texture = Memory::allocate<Texture>();
 		texture->init(path);
 		mTexturesMap->set(path, texture);
 	}
@@ -60,7 +60,7 @@ Material* MaterialManager::loadMaterial(const String &path) {
 	if (mMaterialsMap->contains(path)) {
 		material = mMaterialsMap->get(path);
 	} else {
-		material = DE_NEW<Material>();
+		material = Memory::allocate<Material>();
 		material->init();
 		material->setTexture(loadTexture(path));
 		material->setShader(Shader::getDefaultShader());
@@ -73,7 +73,7 @@ Material* MaterialManager::loadMaterial(const String &path) {
 Material* MaterialManager::loadNoTextureMaterial() {
 
 	if(!mNoTextureMaterial){
-		mNoTextureMaterial = DE_NEW<Material>();
+		mNoTextureMaterial = Memory::allocate<Material>();
 		mNoTextureMaterial->init();
 		mNoTextureMaterial->setShader(Shader::getDefaultShader());
 	}

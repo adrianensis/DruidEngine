@@ -21,7 +21,7 @@
 
 namespace DE {
 
-UIElementData::UIElementData() : DE_Class() {
+UIElementData::UIElementData() : ObjectBase() {
 	mIsAffectedByLayout = true;
 }
 
@@ -46,7 +46,7 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, StringRef
 }
 
 
-UIBuilder::UIBuilder() : DE_Class(), Singleton() {
+UIBuilder::UIBuilder() : ObjectBase(), Singleton() {
 	mScene = nullptr;
 	mButtonMaterial = nullptr;
 	mCurrentLayout = UILayout::VERTICAL;
@@ -60,15 +60,20 @@ UIBuilder::UIBuilder() : DE_Class(), Singleton() {
 }
 
 UIBuilder::~UIBuilder() {
-	DE_FREE(mDataStack);
+	Memory::free(mDataStack);
 }
 
-void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
+void UIBuilder::registerUIElement(UIElement* uiElement) {
 	mScene->addGameObject(uiElement);
 
 	if(mData.mGroup.length() > 0) {
 		UI::getInstance()->addToGroup(mData.mGroup, uiElement);
-	}	
+	}
+}
+
+void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
+
+	registerUIElement(uiElement);
 
 	mCurrentUIElement = uiElement;
 
@@ -146,7 +151,7 @@ UIBuilder* const UIBuilder::nextColumn() {
 
 UIBuilder* const UIBuilder::saveData() {
 	if(!mDataStack){
-		mDataStack = DE_NEW<List<UIElementData>>();
+		mDataStack = Memory::allocate<List<UIElementData>>();
 		mDataStack->init();
 	}
 
@@ -165,7 +170,7 @@ UIBuilder* const UIBuilder::restoreData() {
 UIElement* UIBuilder::internalCreatePanel() {
 	calculateData();
 
-	UIElement* uiPanel = DE_NEW<UIButton>();
+	UIElement* uiPanel = Memory::allocate<UIButton>();
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
@@ -175,7 +180,7 @@ UIElement* UIBuilder::internalCreatePanel() {
 	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 	uiPanel->getTransform()->setAffectedByProjection(false);
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	uiPanel->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -194,7 +199,7 @@ UIButton* UIBuilder::internalCreateButton() {
 
 	calculateData();
 
-	UIButton* uiButton = DE_NEW<UIButton>();
+	UIButton* uiButton = Memory::allocate<UIButton>();
 	uiButton->init();
 	uiButton->setIsStatic(true);
 
@@ -208,7 +213,7 @@ UIButton* UIBuilder::internalCreateButton() {
 	uiButton->getTransform()->setScale(size);
 	uiButton->getTransform()->setAffectedByProjection(false);
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -217,11 +222,11 @@ UIButton* UIBuilder::internalCreateButton() {
 	renderer->setColor(mData.mBackgroundColor);
 	//renderer->setHasBorder(true);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiButton->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	uiButton->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
 	collider->getBoundingBox();
@@ -237,7 +242,7 @@ UIText* UIBuilder::internalCreateText() {
 
 	calculateData();
 
-	UIText* uiText = DE_NEW<UIText>();
+	UIText* uiText = Memory::allocate<UIText>();
 	uiText->init();
 	uiText->setIsStatic(true);
 
@@ -255,11 +260,11 @@ UIText* UIBuilder::internalCreateText() {
 	uiText->setLayer(mData.mLayer);
 	uiText->setText(mData.mText);
 
-	/*RigidBody* rigidBody = DE_NEW<RigidBody>();
+	/*RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
 	collider->setSize(textSize.x, textSize.y);
 	collider->getBoundingBox();*/
@@ -273,7 +278,7 @@ UITextEditable* UIBuilder::internalCreateTextEditable() {
 
 	calculateData();
 
-	UITextEditable* uiText = DE_NEW<UITextEditable>();
+	UITextEditable* uiText = Memory::allocate<UITextEditable>();
 	uiText->init();
 	uiText->setIsStatic(true);
 
@@ -293,11 +298,11 @@ UITextEditable* UIBuilder::internalCreateTextEditable() {
 	uiText->getTransform()->setScale(textSize);
 	uiText->getTransform()->setAffectedByProjection(false);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiText->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	uiText->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
 	collider->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
@@ -309,15 +314,28 @@ UITextEditable* UIBuilder::internalCreateTextEditable() {
 
 	uiText->setComponentsCache();
 
-	UI::getInstance()->getBuilder()->saveData()->
-		setAdjustSizeToText(false)->
-		setPosition(mData.mPosition)->
-		setLayer(mData.mLayer)->
-		setSize(mData.mSize)->
-		setIsAffectedByLayout(false)->
-		create(UIElementType::PANEL);
+	UIElement* uiPanel = Memory::allocate<UIButton>();
+	uiPanel->init();
+	uiPanel->setIsStatic(true);
 
-	UI::getInstance()->getBuilder()->restoreData();
+	aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
+
+	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiPanel->getTransform()->setScale(Vector3(size.x, size.y, 1));
+	uiPanel->getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = Memory::allocate<Renderer>();
+	uiPanel->addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setColor(mData.mBackgroundColor4);
+	renderer->setLayer(mData.mLayer);
+	renderer->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
+
+	uiPanel->setComponentsCache();
+
+	registerUIElement(uiPanel);
 		
 	return uiText;
 }
@@ -326,7 +344,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	calculateData();
 
-	UIDropdown* uiDropdown = DE_NEW<UIDropdown>();
+	UIDropdown* uiDropdown = Memory::allocate<UIDropdown>();
 	uiDropdown->init();
 	uiDropdown->setIsStatic(true);
 
@@ -336,7 +354,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	uiDropdown->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 	uiDropdown->getTransform()->setAffectedByProjection(false);
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	uiDropdown->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -345,11 +363,11 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	renderer->setLayer(mData.mLayer);
 	//renderer->setHasBorder(true);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	uiDropdown->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	uiDropdown->addComponent<Collider>(collider);
 	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
 	collider->getBoundingBox();

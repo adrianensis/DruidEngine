@@ -7,33 +7,42 @@ namespace DE {
 
 class Collider;
 
-class RigidBody: public Component {
+class RigidBody : public Component {
 private:
 
 	class State {
 	public:
-		DE_M(Position, Vector3)
-		DE_M(Linear, Vector3)
-		DE_M(ForceAccumulator, Vector3)
-		DE_M(Mass, f32)
-		DE_M(Simulate, bool)
+		 Vector3 mPosition;
+		 Vector3 mLinear;
+		 Vector3 mForceAccumulator;
+		 f32 mMass;
+		 bool mSimulate;
 
 		State();
 	};
 
-	DE_M(State, State)
-	DE_M(LastCollisionPosition, Vector3)
-	DE_M(AntiPenetrationForce, Vector3)
+	 State mState;
+	 Vector3 mLastCollisionPosition;
+	 Vector3 mAntiPenetrationForce;
 
-	DE_M_GET(ForceAccumulator, Vector3)
-	DE_M_GET_SET(Mass, f32)
-	DE_M_GET_SET(Linear, Vector3)
-	DE_M_GET_SET(Simulate, bool)
-	DE_M_GET_SET(Collider, Collider*)
+	 Vector3 mForceAccumulator;
+	 f32 mMass;
+	 Vector3 mLinear;
+	 bool mSimulate;
+	 Collider* mCollider;
 
 public:
 
-	DE_CLASS_BODY(RigidBody)
+	GENERATE_METADATA(RigidBody);
+
+	RigidBody();
+	virtual ~RigidBody() override;;
+
+	GET(ForceAccumulator);
+	GET_SET(Mass);
+	GET_SET(Linear);
+	GET_SET(Simulate);
+	GET_SET(Collider);
 
 	void init() override;
 

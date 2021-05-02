@@ -5,7 +5,7 @@ namespace DE {
 
 Mesh* Mesh::smRectangle = nullptr;
 
-Mesh::Mesh() : DE_Class() {
+Mesh::Mesh() : ObjectBase() {
 
 	mVertexCount = 0;
 	mVertices = nullptr;
@@ -19,21 +19,21 @@ Mesh::Mesh() : DE_Class() {
 }
 
 Mesh::~Mesh() {
-	DE_FREE(mVertices);
-	DE_FREE(mNormals);
-	DE_FREE(mTextureCoordinates);
-	DE_FREE(mFaces);
+	Memory::free(mVertices);
+	Memory::free(mNormals);
+	Memory::free(mTextureCoordinates);
+	Memory::free(mFaces);
 }
 
 void Mesh::init(u32 vertexCount, u32 facesCount) {
-	DE_TRACE()
+	TRACE()
 
 	mVertexCount = vertexCount;
 
-	mVertices = DE_NEW<Array<f32>>();
-	mTextureCoordinates = DE_NEW<Array<f32>>();
-	mNormals = DE_NEW<Array<f32>>();
-	mFaces = DE_NEW<Array<u32>>();
+	mVertices = Memory::allocate<Array<f32>>();
+	mTextureCoordinates = Memory::allocate<Array<f32>>();
+	mNormals = Memory::allocate<Array<f32>>();
+	mFaces = Memory::allocate<Array<u32>>();
 
 	mVertices->init(vertexCount * 3);
 	mTextureCoordinates->init(vertexCount * 3);
@@ -86,7 +86,7 @@ Mesh* Mesh::addFace(u32 v1, u32 v2, u32 v3) {
 
 Mesh* Mesh::getRectangle() {
 	if (!smRectangle) {
-		smRectangle = DE_NEW<Mesh>();
+		smRectangle = Memory::allocate<Mesh>();
 		smRectangle->init(4, 2);
 
 		smRectangle->addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
@@ -106,7 +106,7 @@ Mesh* Mesh::getRectangle() {
 }
 
 void Mesh::freeRectangle() {
-	DE_FREE(smRectangle);
+	Memory::free(smRectangle);
 	smRectangle = nullptr;
 }
 

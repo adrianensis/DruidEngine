@@ -4,17 +4,20 @@
 
 namespace DE {
 
-class UIDropdown: public UIButton {
+class UIDropdown : public UIButton {
 
 private:
 
-	class UIDropdownEntry : public DE_Class{
+	class UIDropdownEntry : public ObjectBase{
 	public:
 
-		DE_CLASS_BODY(UIDropdownEntry)
+		GENERATE_METADATA(UIDropdownEntry);
 
-		DE_M(Label, String);
-		DE_M(Callback, UIElementCallback);
+	UIDropdownEntry();
+	virtual ~UIDropdownEntry() override;
+
+		 String mLabel;
+		 UIElementCallback mCallback;
 
 		UIDropdownEntry(String label, UIElementCallback callback);
 
@@ -38,7 +41,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(UIDropdown)
+	GENERATE_METADATA(UIDropdown);
+
+	UIDropdown();
+	virtual ~UIDropdown() override;
 
 	virtual void init() override;
 	virtual void onDestroy() override;
@@ -47,6 +53,5 @@ public:
 
 	virtual void toggle() override;
 };
-
 }
 

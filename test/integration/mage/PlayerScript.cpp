@@ -135,14 +135,14 @@ void PlayerScript::createWall(f32 x, f32 y) {
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tornado.png");
 
-	GameObject* wall = DE_NEW<GameObject>();
+	GameObject* wall = Memory::allocate<GameObject>();
 	wall->init();
 
 	wall->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	wall->getTransform()->setScale(Vector3(size.x, size.y, 1));
 	// projectile->getTransform()->setRotation(Vector3(0,0,MathUtils::deg(std::atan(direction.y/direction.x))));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	wall->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -157,15 +157,15 @@ void PlayerScript::createWall(f32 x, f32 y) {
 
 	// renderer->setColor(mBookColor);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	wall->addComponent<RigidBody>(rigidBody);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	wall->addComponent<Collider>(collider);
 	collider->setSize(size.x / 2.0f, size.y);
 	collider->setIsSolid(false);
 
-	TornadoScript* script = DE_NEW<TornadoScript>();
+	TornadoScript* script = Memory::allocate<TornadoScript>();
 	wall->addComponent<Script>(script);
 
 	getGameObject()->getScene()->addGameObject(wall);
@@ -179,14 +179,14 @@ void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/projectile.png");
 
-	GameObject* projectile = DE_NEW<GameObject>();
+	GameObject* projectile = Memory::allocate<GameObject>();
 	projectile->init();
 
 	projectile->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	projectile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 	projectile->getTransform()->setRotation(Vector3(0, 0, MathUtils::deg(std::atan2(direction.y, direction.x))));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	projectile->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -212,16 +212,16 @@ void PlayerScript::createProjectile(f32 x, f32 y, f32 clickX, f32 clickY) {
 
 	// renderer->setColor(mBookColor);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	projectile->addComponent<RigidBody>(rigidBody);
 	rigidBody->setLinear(direction * 800);
 
-	/*Collider* collider = DE_NEW<Collider>();
+	/*Collider* collider = Memory::allocate<Collider>();
 	projectile->addComponent<Collider>(collider);
 	collider->setSize(size.x / 2.0f, size.y / 2.0f);
 	collider->setIsSolid(false);*/
 
-	ProjectileScript* script = DE_NEW<ProjectileScript>();
+	ProjectileScript* script = Memory::allocate<ProjectileScript>();
 	script->setElement(mElement);
 	projectile->addComponent<Script>(script);
 
@@ -233,14 +233,14 @@ void PlayerScript::createBook(f32 x, f32 y, const Vector4 &color) {
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/book.png");
 
-	mBook = DE_NEW<GameObject>();
+	mBook = Memory::allocate<GameObject>();
 	mBook->init();
 
 	mBook->getTransform()->setLocalPosition(Vector3(x, y, 0));
 	mBook->getTransform()->setScale(Vector3(size.x, size.y, 1));
 	mBook->getTransform()->setParent(getGameObject()->getTransform());
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mBook->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());

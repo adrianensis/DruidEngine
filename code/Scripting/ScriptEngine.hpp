@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Containers/List.hpp"
 
@@ -9,20 +9,22 @@ namespace DE {
 class Script;
 class Iterator;
 
-class ScriptEngine: public DE_Class, public Singleton<ScriptEngine> {
+class ScriptEngine: public ObjectBase, public Singleton<ScriptEngine> {
 private:
 
-	DE_M(Scripts, List<Script*>*)
-	DE_M(Controller, Script*)
+	 List<Script*>* mScripts;
+	 Script* mController;
 	void internalRemoveScript(const Iterator *it);
 
-public:DE_CLASS_BODY(ScriptEngine)
+public:GENERATE_METADATA(ScriptEngine);
+
+	ScriptEngine();
+	virtual ~ScriptEngine() override;
 
 	void init();
 	void addScript(Script *newScript);
 	void step();
 	void terminate();
 };
-
 }
 

@@ -3,7 +3,7 @@
 
 namespace DE {
 
-File::File() : DE_Class() {
+File::File() : ObjectBase() {
 
 }
 
@@ -12,7 +12,7 @@ File::~File() {
 }
 
 void File::init() {
-	DE_TRACE()
+	TRACE()
 }
 
 void File::readFile(const String &path, std::function<void(std::ifstream &file)> callback) {

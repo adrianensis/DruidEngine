@@ -15,7 +15,7 @@
 
 namespace DE {
 
-Chunk::Chunk() : DE_Class() {
+Chunk::Chunk() : ObjectBase() {
 	mLeftTop = Vector2(0, 0);
 	mRadius = 0;
 	mSize = 0;
@@ -29,17 +29,17 @@ Chunk::~Chunk() {
 	FOR_LIST(it, mRenderers) {
 		//if(!it.get()->isDestroyed()){
 			it.get()->finallyDestroy();
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		//}
 	}
 
-	DE_FREE(mRenderers);
+	Memory::free(mRenderers);
 }
 
 void Chunk::init() {
 	//TRACE();
 
-	mRenderers = DE_NEW<List<Renderer*>>();
+	mRenderers = Memory::allocate<List<Renderer*>>();
 	mRenderers->init();
 
 	mLeftTop.set(0, 0, 0);
@@ -56,10 +56,10 @@ void Chunk::set(const Vector3 &leftTop, f32 size) {
 
 void Chunk::update(BatchesMap *batchesMap) {
 
-	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
-	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
-	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
-	// RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
+	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
+	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
+	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 	FOR_LIST(it, mRenderers) {
 		Renderer* renderer = it.get();
@@ -70,13 +70,13 @@ void Chunk::update(BatchesMap *batchesMap) {
 			}
 
 			if (!renderer->isStatic() && renderer->getIsAffectedByProjection() && ! containsRenderer(renderer)) {
-				Chunk* chunk = RenderEngine::getInstance()->assignChunk(renderer);
+				Chunk* newChunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
 				// If not, keep the renderer here until a new chunk is found.
-				if (chunk) {
-					chunk->addRenderer(renderer);
+				if (newChunk && newChunk != this) {
 					mRenderers->remove(it);
+					newChunk->addRenderer(renderer);
 				}
 			}
 		}

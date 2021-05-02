@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
 
@@ -15,40 +15,43 @@ template<class T> class Array;
 template<class K, class V> class HashMap;
 class GameObject;
 
-class QuadTree: public DE_Class {
+class QuadTree : public ObjectBase {
 private:
 
-	class Node: public DE_Class {
+	class Node : public ObjectBase {
 	private:
 		void internalRemoveColliderFromList(const Iterator *it);
 		void internalFreeCollider(Collider *collider);
 
 	public:
-		DE_M(LeftTop, Vector2)
-		DE_M(Width, f32)
-		DE_M(Height, f32)
-		DE_M(MinWidth, f32)
-		DE_M(MinHeight, f32)
+		 Vector2 mLeftTop;
+		 f32 mWidth;
+		 f32 mHeight;
+		 f32 mMinWidth;
+		 f32 mMinHeight;
 
-		DE_M(Radius, f32)
+		 f32 mRadius;
 
-		DE_M(Tree, QuadTree*)
+		 QuadTree* mTree;
 
-		DE_M(HalfWidth, f32)
-		DE_M(HalfHeight, f32)
-		DE_M(IsDivisible, bool)
+		 f32 mHalfWidth;
+		 f32 mHalfHeight;
+		 bool mIsDivisible;
 
-		DE_M(Colliders, List<Collider*>*)
-		DE_M(ExitingColliders, List<Collider*>*)
-		DE_M(Children, Array<Node*>*)
-		DE_M(LeftTopChildrenArray, Array<Vector2>*)
+		 List<Collider*>* mColliders;
+		 List<Collider*>* mExitingColliders;
+		 Array<Node*>* mChildren;
+		 Array<Vector2>* mLeftTopChildrenArray;
 
-		DE_M(ChildrenCount, u32)
+		 u32 mChildrenCount;
 
-		DE_M(DynamicCollidersCount, u32)
-		DE_M(StaticCollidersCount, u32)
+		 u32 mDynamicCollidersCount;
+		 u32 mStaticCollidersCount;
 
-		DE_CLASS_BODY(Node)
+		GENERATE_METADATA(Node);
+
+	Node();
+	virtual ~Node() override;
 
 		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
@@ -66,16 +69,21 @@ private:
 
 	};
 
-	DE_M(Root, Node*)
+	 Node* mRoot;
 
-	DE_M(Width, f32)
-	DE_M(Height, f32)
+	 f32 mWidth;
+	 f32 mHeight;
 
-	DE_M_GET_SET(Status, ColliderStatus)
+	 ColliderStatus mStatus;
 
 public:
 
-	DE_CLASS_BODY(QuadTree)
+	GENERATE_METADATA(QuadTree);
+
+	QuadTree();
+	virtual ~QuadTree() override;;
+
+	GET_SET(Status);
 
 	void init(f32 size);
 

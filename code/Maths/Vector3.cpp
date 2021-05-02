@@ -6,24 +6,24 @@
 
 namespace DE {
 
-Vector3::Vector3(f32 x, f32 y, f32 z) : DE_Class(), x(x), y(y), z(z) {
+Vector3::Vector3(f32 x, f32 y, f32 z) : ObjectBase(), x(x), y(y), z(z) {
 }
 
-Vector3::Vector3() : DE_Class(), x(0.0f), y(0.0f), z(0.0f) {
+Vector3::Vector3() : ObjectBase(), x(0.0f), y(0.0f), z(0.0f) {
 }
 
 Vector3::~Vector3() = default;
 
-Vector3::Vector3(const Vector3 &other) : DE_Class(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z) {
 }
 
-Vector3::Vector3(const Vector2 &other) : DE_Class(), x(other.x), y(other.y), z(0.0f) {
+Vector3::Vector3(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y), z(0.0f) {
 }
 
-Vector3::Vector3(const Vector2 &other, f32 z) : DE_Class(), x(other.x), y(other.y), z(z) {
+Vector3::Vector3(const Vector2 &other, f32 z) : ObjectBase(), x(other.x), y(other.y), z(z) {
 }
 
-Vector3::Vector3(const Vector4 &other) : DE_Class(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector4 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z) {
 }
 
 Vector3& Vector3::set(f32 x, f32 y, f32 z) {
@@ -67,9 +67,9 @@ Vector3& Vector3::mul(const Vector3 &rhs) {
 }
 
 Vector3& Vector3::div(const Vector3 &rhs) {
-	DE_ASSERT(rhs.x != 0, "Division by zero.");
-	DE_ASSERT(rhs.y != 0, "Division by zero.");
-	DE_ASSERT(rhs.z != 0, "Division by zero.");
+	ASSERT(rhs.x != 0, "Division by zero.");
+	ASSERT(rhs.y != 0, "Division by zero.");
+	ASSERT(rhs.z != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -98,7 +98,7 @@ Vector3& Vector3::mul(f32 rhs) {
 }
 
 Vector3& Vector3::div(f32 rhs) {
-	DE_ASSERT(rhs != 0, "Division by zero.");
+	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -133,7 +133,7 @@ f32 Vector3::min() const {
 Vector3& Vector3::nor() {
 	f32 len = this->len();
 
-	//DE_ASSERT(len > 0, "Length is zero.");
+	//ASSERT(len > 0, "Length is zero.");
 
 	if (len > 0) {
 		this->div(len);

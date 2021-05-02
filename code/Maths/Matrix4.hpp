@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
 
@@ -8,7 +8,7 @@ namespace DE {
 
 template<class T> class Array;
 
-class Matrix4: public DE_Class{
+class Matrix4: public ObjectBase{
 private:
 
 	static bool smIdentityCreated;
@@ -23,7 +23,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(Matrix4)
+	GENERATE_METADATA(Matrix4);
+
+	Matrix4();
+	virtual ~Matrix4() override;
 
 	static const Matrix4& getIdentity();
 
@@ -54,6 +57,5 @@ public:
 	void ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void perspective(f32 near, f32 far, f32 aspect, f32 fov);
 };
-
 }
 

@@ -8,7 +8,7 @@ namespace DE {
 String ConfigMap::trueString = "true";
 String ConfigMap::falseString = "false";
 
-ConfigMap::ConfigMap() : DE_Class() {
+ConfigMap::ConfigMap() : ObjectBase() {
 }
 
 ConfigMap::~ConfigMap() {

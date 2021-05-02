@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Maths/Vector3.hpp"
 
@@ -10,14 +10,17 @@ class Collider;
 template<class T> class List;
 template<class K, class V> class HashMap;
 
-class Contact: public DE_Class {
+class Contact : public ObjectBase {
 public:
 
 	enum class ContactStatus {
 		CONTACT_STATUS_ENTER, CONTACT_STATUS_UPDATE, CONTACT_STATUS_EXIT, CONTACT_DESTROYED_COLLIDER
 	};
 
-	DE_CLASS_BODY(Contact)
+	GENERATE_METADATA(Contact);
+
+	Contact();
+	virtual ~Contact() override;
 
 	Collider* colliderA;
 	Collider* colliderB;
@@ -32,19 +35,23 @@ public:
 	void init(const Contact* otherContact);
 };
 
-class ContactsManager: public DE_Class, public Singleton<ContactsManager> {
+class ContactsManager: public ObjectBase, public Singleton<ContactsManager> {
+	
 private:
+
 	// ID = ContactID = ColliderA + Collider B
-	using ContactsMap = HashMap<Collider*, HashMap<Collider*, Contact*>*>;
-	DE_M(ContactsMap, ContactsMap*)
-	DE_M(ContactsToRemove, List<Contact*>*)
+	HashMap<Collider*, HashMap<Collider*, Contact*>*>* mContactsMap;
+	List<Contact*>* mContactsToRemove;
 
 	void removeContactFromMap(Contact* contact);
 	void resolveContact(Contact* contact);
 
 public:
 
-	DE_CLASS_BODY(ContactsManager)
+	GENERATE_METADATA(ContactsManager);
+
+	ContactsManager();
+	virtual ~ContactsManager() override;
 
 	// TODO : ID should be just the pointer or hash
 	void init();
@@ -58,6 +65,5 @@ public:
 
 	void terminate();
 };
-
 }
 

@@ -19,7 +19,7 @@
 
 namespace DE {
 
-QuadTree::Node::Node() : DE_Class() {
+QuadTree::Node::Node() : ObjectBase() {
 	mLeftTop = Vector2();
 	mWidth = 0.0f;
 	mHeight = 0.0f;
@@ -43,22 +43,22 @@ QuadTree::Node::~Node() {
 	FOR_ARRAY(i, mChildren)
 	{
 		if (mChildren->get(i)) {
-			DE_FREE(mChildren->get(i));
+			Memory::free(mChildren->get(i));
 		}
 	}
 
-	DE_FREE(mChildren);
+	Memory::free(mChildren);
 
 	/*FOR_LIST(it, mColliders) {
 		if (!(it.get()->isDestroyed() || it.get()->isPendingToBeDestroyed())) {
 			it.get()->finallyDestroy();
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 	}*/
 
-	DE_FREE(mColliders);
-	DE_FREE(mExitingColliders);
-	DE_FREE(mLeftTopChildrenArray);
+	Memory::free(mColliders);
+	Memory::free(mExitingColliders);
+	Memory::free(mLeftTopChildrenArray);
 }
 
 void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree) {
@@ -74,20 +74,20 @@ void QuadTree::Node::init(const Vector2 &leftTop, f32 width, f32 height, f32 min
 	mHalfHeight = mHeight / 2.0f;
 	mIsDivisible = (mHalfWidth >= mMinWidth) && (mHalfHeight >= mMinHeight);
 
-	mColliders = DE_NEW<List<Collider*>>();
+	mColliders = Memory::allocate<List<Collider*>>();
 	mColliders->init();
 
-	mExitingColliders = DE_NEW<List<Collider*>>();
+	mExitingColliders = Memory::allocate<List<Collider*>>();
 	mExitingColliders->init();
 
-	mChildren = DE_NEW<Array<Node*>>();
+	mChildren = Memory::allocate<Array<Node*>>();
 	mChildren->init(4);
 	mChildren->set(0, nullptr);
 	mChildren->set(1, nullptr);
 	mChildren->set(2, nullptr);
 	mChildren->set(3, nullptr);
 
-	mLeftTopChildrenArray = DE_NEW<Array<Vector2>>();
+	mLeftTopChildrenArray = Memory::allocate<Array<Vector2>>();
 	mLeftTopChildrenArray->init(4);
 
 	// This array testPartialCollider the LeftTop Vertices of the 4 children.
@@ -114,7 +114,7 @@ bool QuadTree::Node::childNodeTestPartialCollider(u32 index, Collider *collider)
 
 QuadTree::Node* QuadTree::Node::createChildNode(u32 index) {
 	mChildrenCount++;
-	Node* node = DE_NEW<Node>();
+	Node* node = Memory::allocate<Node>();
 	node->init(mLeftTopChildrenArray->get(index), mHalfWidth, mHalfHeight, mMinWidth, mMinHeight, mTree);
 	return node;
 };
@@ -172,7 +172,7 @@ void QuadTree::Node::internalRemoveColliderFromList(const Iterator *it) {
 
 void QuadTree::Node::internalFreeCollider(Collider *collider) {
 	collider->finallyDestroy();
-	DE_FREE(collider);
+	Memory::free(collider);
 }
 
 //----------------------------------------------------------------------
@@ -204,10 +204,6 @@ void QuadTree::Node::update(/*contactManager*/) {
 		FOR_LIST(itA, mColliders) {
 
 			Collider* colliderA = itA.get();
-
-			/*if(PhysicsEngine::getInstance()->getDebugColliders()) {
-				colliderA->render();
-			}*/
 
 			if (colliderA->isActive()) {
 				if (colliderA->isSimulate()) {
@@ -419,7 +415,7 @@ void QuadTree::Node::rayCastQuery(const Vector3 &lineStart, const Vector3 &lineE
 	}
 }
 
-QuadTree::QuadTree() : DE_Class() {
+QuadTree::QuadTree() : ObjectBase() {
 	mRoot = nullptr;
 	mWidth = 0.0f;
 	mHeight = 0.0f;
@@ -427,26 +423,26 @@ QuadTree::QuadTree() : DE_Class() {
 }
 
 QuadTree::~QuadTree() {
-	DE_TRACE()
-	DE_FREE(mRoot);
+	TRACE()
+	Memory::free(mRoot);
 }
 
 void QuadTree::init(f32 size) {
-	DE_TRACE()
+	TRACE()
 
 	mWidth = size;
 	mHeight = size;
 
 	f32 minSize = EngineConfig::getInstance()->getF32("scene.quadTreeMinSize");
 
-	mRoot = DE_NEW<Node>();
+	mRoot = Memory::allocate<Node>();
 	mRoot->init(Vector2(-mWidth / 2.0f, mHeight / 2.0f), mWidth, mHeight, minSize, minSize, this);
 }
 
 void QuadTree::update() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 	mRoot->update();
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void QuadTree::addCollider(Collider *collider) {

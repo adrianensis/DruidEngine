@@ -1,27 +1,30 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/BasicTypes.hpp"
 #include "Core/Functor.hpp"
 #include "Core/TimerManager.hpp"
 
 namespace DE {
 
-#define DE_EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
+#define EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
 public: \
-	DE_GENERATE_METADATA(EventClassName); \
+	GENERATE_METADATA(EventClassName); \
 	EventClassName():Event() {}; \
 	~EventClassName() override {}; \
 
-#define DE_EVENT_DECLARATION_END(EventClassName) };
+#define EVENT_DECLARATION_END(EventClassName) };
 
-class Event : public DE_Class{
+class Event : public ObjectBase{
 public:
-	DE_CLASS_BODY(Event)
+	GENERATE_METADATA(Event);
 
-	DE_M(DelayAmount, f32)
-	DE_M(DelayType, TimerDurationType)
-	DE_M(Instigator, DE_Class*);
+	Event();
+	virtual ~Event() override;
+
+	 f32 mDelayAmount;
+	 TimerDurationType mDelayType;
+	 ObjectBase* mInstigator;
 
 	// NOTE : Override in children!
 	Event& operator= (const Event &event) {
@@ -43,11 +46,11 @@ using EventCallback = std::function<void(const Event*)>;
 template<class E>
 class EventFunctor : public Functor<EventCallback> {
 public:
-	DE_GENERATE_METADATA(EventFunctor);
+	GENERATE_METADATA(EventFunctor);
 
-	DE_M(Event, E*)
-	DE_M(EventClassId, ClassId)
-	DE_M(EventReceiver, DE_Class*);
+	 E* mEvent;
+	 ClassId mEventClassId;
+	 ObjectBase* mEventReceiver;
 
 	EventFunctor():Functor<EventCallback>() {
 		mEvent = nullptr;
@@ -81,6 +84,5 @@ public:
 		return mEventClassId == eventFunctor.mEventClassId && mEventReceiver == eventFunctor.mEventReceiver;
 	}
 };
-
 }
 

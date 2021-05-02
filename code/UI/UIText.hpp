@@ -6,7 +6,7 @@
 
 namespace DE {
 
-class UIText: public UIElement {
+class UIText : public UIElement {
 
 	u32 mLayer;
 	Vector2 mSize;
@@ -14,7 +14,10 @@ class UIText: public UIElement {
 
 public:
 
-	DE_CLASS_BODY(UIText)
+	GENERATE_METADATA(UIText);
+
+	UIText();
+	virtual ~UIText() override;
 
 	virtual void init() override;
 	virtual void onDestroy() override;
@@ -32,7 +35,6 @@ public:
 	StringRef getText() const {
 		return mString;
 	};
-
 };
 
 }

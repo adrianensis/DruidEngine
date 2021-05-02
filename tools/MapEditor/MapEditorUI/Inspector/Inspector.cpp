@@ -25,18 +25,18 @@
 
 namespace DE {
 
-Inspector::Inspector() : DE_Class(){
+Inspector::Inspector() : ObjectBase(){
 
 }
 
 Inspector::~Inspector(){
-	DE_FREE(mLayerButtons);
+	Memory::free(mLayerButtons);
 }
 
 void Inspector::init(MapEditor *mapEditor) {
 	mMapEditor = mapEditor;
 
-	DE_SUBSCRIBE_TO_EVENT(EventOnSelectTile, &(mapEditor->mGrid), this,
+	SUBSCRIBE_TO_EVENT(EventOnSelectTile, &(mapEditor->mGrid), this,
 	[&](const Event* event){
 		updateInspectorOnSelectTile();
 	});
@@ -96,13 +96,13 @@ void Inspector::createTileInspector() {
 		setGroup("Inspector");
 
 	// Inspector
-	EditorBuilder::getInstance()->createLabel(mStringsUI.Inspector);
+	EditorBuilder::getInstance()->createLabel(StringsUI::getInstance()->Inspector);
 
 	UI::getInstance()->getBuilder()->nextRow();
 
 	// Tag
 
-	mTextBoxTag = EditorBuilder::getInstance()->createTextBoxLabeled(mStringsUI.InspectorTileTag, "",
+	mTextBoxTag = EditorBuilder::getInstance()->createTextBoxLabeled(StringsUI::getInstance()->InspectorTileTag, "",
 	[&](UIElement* uiElement) {
 		mMapEditor->mGrid.forEachSelectedTile(
 		[&](GameObject* tile){
@@ -112,7 +112,7 @@ void Inspector::createTileInspector() {
 
 	// Position
 
-	EditorBuilder::getInstance()->createLabel(mStringsUI.InspectorTilePosition);
+	EditorBuilder::getInstance()->createLabel(StringsUI::getInstance()->InspectorTilePosition);
 	mTextInspectorX = EditorBuilder::getInstance()->createLabel("0.00");
 	mTextInspectorY = EditorBuilder::getInstance()->createLabel("0.00");
 
@@ -120,7 +120,7 @@ void Inspector::createTileInspector() {
 
 	// Size
 
-	UITextEditableVector2 textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(mStringsUI.InspectorSize,
+	UITextEditableVector2 textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(StringsUI::getInstance()->InspectorSize,
 		[&](UIElement* uiElement) {
 			mMapEditor->mGrid.forEachSelectedTile(
 			[&](GameObject* tile) {
@@ -140,7 +140,7 @@ void Inspector::createTileInspector() {
 
 	// Collider enable
 
-	mButtonInspectorCollider = EditorBuilder::getInstance()->createRadialButton(mStringsUI.InspectorTileCollider,
+	mButtonInspectorCollider = EditorBuilder::getInstance()->createRadialButton(StringsUI::getInstance()->InspectorTileCollider,
 
 	[&, self = mButtonInspectorCollider](UIElement* uiElement) {
 		mMapEditor->mGrid.forEachSelectedTile(
@@ -150,17 +150,17 @@ void Inspector::createTileInspector() {
 			if(colliders && !colliders->isEmpty()) {
 				tile->removeComponent<Collider>(colliders->get(0));
 				tile->removeComponent<RigidBody>(tile->getComponents<RigidBody>()->get(0));
-				uiElement->setText(mStringsUI.BoolFalse);
+				uiElement->setText(StringsUI::getInstance()->BoolFalse);
 			} else {
 				mMapEditor->addColliderToTile(tile);
-				uiElement->setText(mStringsUI.BoolTrue);
+				uiElement->setText(StringsUI::getInstance()->BoolTrue);
 			}
 		});
 	});
 
 	// Collider Position
 
-	textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(mStringsUI.InspectorPosCollider,
+	textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(StringsUI::getInstance()->InspectorPosCollider,
 		[&](UIElement* uiElement) {
 			mMapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
 				setTileColliderPositionFromInspector(tile, uiElement->getInputString(), 0);
@@ -178,7 +178,7 @@ void Inspector::createTileInspector() {
 
 	// Collider Size
 
-	textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(mStringsUI.InspectorSizeCollider,
+	textEditableVector2 = EditorBuilder::getInstance()->createTextBoxVector2(StringsUI::getInstance()->InspectorSizeCollider,
 		[&](UIElement* uiElement) {
 			mMapEditor->mGrid.forEachSelectedTile([&](GameObject* tile){
 				setTileColliderScaleFromInspector(tile, uiElement->getInputString(), 0);
@@ -213,7 +213,7 @@ void Inspector::update() {
 		List<Collider*>* colliders = firstSelectedTile->getComponents<Collider>();
 		bool hasCollider = colliders && !colliders->isEmpty();
 
-		mButtonInspectorCollider->setText(hasCollider ? mStringsUI.BoolTrue : mStringsUI.BoolFalse);
+		mButtonInspectorCollider->setText(hasCollider ? StringsUI::getInstance()->BoolTrue : StringsUI::getInstance()->BoolFalse);
 	}
 }
 
@@ -246,7 +246,7 @@ void Inspector::updateInspectorOnSelectTile() {
 void Inspector::createLayersBar() {
 
 	u32 maxLayers = RenderEngine::getInstance()->getMaxLayers();
-	mLayerButtons = DE_NEW<Array<UIButton*>>();
+	mLayerButtons = Memory::allocate<Array<UIButton*>>();
 	mLayerButtons->init(maxLayers);
 
 	Scene* scene = mMapEditor->getGameObject()->getScene();

@@ -8,7 +8,7 @@ namespace DE {
 
 class Renderer;
 
-class ProjectileScript: public Script {
+class ProjectileScript : public Script {
 
 private:
 	Renderer* mRenderer;
@@ -20,7 +20,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(ProjectileScript)
+	GENERATE_METADATA(ProjectileScript);
+
+	ProjectileScript();
+	virtual ~ProjectileScript() override;
 
 	void init() override;
 	void firstStep() override;
@@ -44,6 +47,5 @@ public:
 	}
 
 };
-
 }
 

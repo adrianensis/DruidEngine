@@ -1,51 +1,51 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include "Events/Event.hpp"
 
 namespace DE {
 
-#define DE_SEND_INPUT_EVENT(event) DE_SEND_EVENT(nullptr, Input::getInstance(), event);
+#define SEND_INPUT_EVENT(event) SEND_EVENT(nullptr, Input::getInstance(), event);
 
-DE_EVENT_DECLARATION_BEGIN(InputEventKeyEnter)
-DE_EVENT_DECLARATION_END(InputEventKeyEnter)
+EVENT_DECLARATION_BEGIN(InputEventKeyEnter)
+EVENT_DECLARATION_END(InputEventKeyEnter)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventKeyEsc)
-DE_EVENT_DECLARATION_END(InputEventKeyEsc)
+EVENT_DECLARATION_BEGIN(InputEventKeyEsc)
+EVENT_DECLARATION_END(InputEventKeyEsc)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventMouseMoved)
-DE_EVENT_DECLARATION_END(InputEventMouseMoved)
+EVENT_DECLARATION_BEGIN(InputEventMouseMoved)
+EVENT_DECLARATION_END(InputEventMouseMoved)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventMouseButtonPressed)
+EVENT_DECLARATION_BEGIN(InputEventMouseButtonPressed)
 u32 mButton = 0;
 u32 mMods = 0;
-DE_EVENT_DECLARATION_END(InputEventMouseButtonPressed)
+EVENT_DECLARATION_END(InputEventMouseButtonPressed)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventMouseButtonReleased)
+EVENT_DECLARATION_BEGIN(InputEventMouseButtonReleased)
 u32 mButton = 0;
 u32 mMods = 0;
-DE_EVENT_DECLARATION_END(InputEventMouseButtonReleased)
+EVENT_DECLARATION_END(InputEventMouseButtonReleased)
 
 // TODO : Make mouse repeat event?
 
-DE_EVENT_DECLARATION_BEGIN(InputEventKeyPressed)
+EVENT_DECLARATION_BEGIN(InputEventKeyPressed)
 u32 mKey = 0;
 u32 mMods = 0;
-DE_EVENT_DECLARATION_END(InputEventKeyPressed)
+EVENT_DECLARATION_END(InputEventKeyPressed)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventKeyReleased)
+EVENT_DECLARATION_BEGIN(InputEventKeyReleased)
 u32 mKey = 0;
 u32 mMods = 0;
-DE_EVENT_DECLARATION_END(InputEventKeyReleased)
+EVENT_DECLARATION_END(InputEventKeyReleased)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventScroll)
+EVENT_DECLARATION_BEGIN(InputEventScroll)
 u32 mScroll = 0;
-DE_EVENT_DECLARATION_END(InputEventScroll)
+EVENT_DECLARATION_END(InputEventScroll)
 
-DE_EVENT_DECLARATION_BEGIN(InputEventChar)
+EVENT_DECLARATION_BEGIN(InputEventChar)
 c8 mChar = 0;
-DE_EVENT_DECLARATION_END(InputEventChar)
+EVENT_DECLARATION_END(InputEventChar)
 
 }
 

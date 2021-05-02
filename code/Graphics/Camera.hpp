@@ -11,30 +11,36 @@ namespace DE {
 class Matrix4;
 class Frustum;
 
-class Camera: public Component {
+class Camera : public Component {
 
 private:
 
-	DE_M(ProjectionMatrix, Matrix4)
-	DE_M(ViewTranslationMatrix, Matrix4)
-	DE_M(InversePVMatrix, Matrix4) // used in screen to world calculations.
+	 Matrix4 mProjectionMatrix;
+	 Matrix4 mViewTranslationMatrix;
+	 Matrix4 mInversePVMatrix; // used in screen to world calculations.
 
-	DE_M(Left, f32)
-	DE_M(Right, f32)
-	DE_M(Bottom, f32)
-	DE_M(Top, f32)
-	DE_M(Near, f32)
-	DE_M(Far, f32)
+	 f32 mLeft;
+	 f32 mRight;
+	 f32 mBottom;
+	 f32 mTop;
+	 f32 mNear;
+	 f32 mFar;
 	
-	DE_M(Fov, f32)
-	DE_M(IsOrtho, bool)
+	 f32 mFov;
+	 bool mIsOrtho;
 
-	DE_M_GET(Frustum, Frustum*)
-	DE_M_GET(Zoom, f32)
+	 Frustum* mFrustum;
+	 f32 mZoom;
 
 public:
 
-	DE_CLASS_BODY(Camera)
+	GENERATE_METADATA(Camera);
+
+	Camera();
+	virtual ~Camera() override;;
+
+	GET(Frustum);
+	GET(Zoom);
 
 	void init() override;
 
@@ -54,6 +60,5 @@ public:
 		setZoom(mZoom);
 	};
 };
-
 }
 

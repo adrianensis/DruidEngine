@@ -52,7 +52,7 @@ void UIButton::setText(const String &text) {
 
 			mLabel->getTransform()->setParent(getTransform());
 
-			DE_SUBSCRIBE_TO_EVENT(EventOnDestroy, mLabel, this, [&](const Event* event){
+			SUBSCRIBE_TO_EVENT(EventOnDestroy, mLabel, this, [&](const Event* event){
 				onLabelDestroy();
 			});
 		}
@@ -60,7 +60,7 @@ void UIButton::setText(const String &text) {
 		mLabel->setText(text);
 
 		mLabel->getTransform()->setLocalPosition(
-				Vector3((-buttonScale.x + fontOffset) / 2.0f /*+ fontSize / 2.0f*/, 0, 0));
+				Vector3((-buttonScale.x /*+ fontOffset*/) / 2.0f + fontOffset /*/ 2.0f*/, 0, 0));
 	}
 }
 

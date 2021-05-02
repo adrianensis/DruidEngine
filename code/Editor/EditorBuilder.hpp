@@ -19,11 +19,14 @@ public:
 	UITextEditable* TextEditableY = nullptr;
 };
 
-class EditorBuilder : public DE_Class, public Singleton<EditorBuilder>{
+class EditorBuilder : public ObjectBase, public Singleton<EditorBuilder>{
 
 public:
 
-	DE_CLASS_BODY(EditorBuilder)
+	GENERATE_METADATA(EditorBuilder);
+
+	EditorBuilder();
+	virtual ~EditorBuilder() override;
 
 	u32 mUILayer = 3;
 
@@ -36,6 +39,5 @@ public:
 	UITextEditableVector2 createTextBoxVector2(StringRef textLabel, UIElementCallback onTextChangedCallbackX, UIElementCallback onTextChangedCallbackY);
 	UIDropdown* createDropdown(StringRef textLabel);
 };
-
 }
 

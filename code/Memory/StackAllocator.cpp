@@ -28,18 +28,18 @@ byte* StackAllocator::getTop() {
 }
 
 void StackAllocator::init(u32 size) {
-	DE_TRACE()
+	TRACE()
 
 	LinearAllocator::init(size);
-	DE_TRACE()
+	TRACE()
 	mTop = mStart;
 }
 
 void StackAllocator::initFromMemory(u32 size, byte *mem) {
-	DE_TRACE()
+	TRACE()
 
 	LinearAllocator::initFromMemory(size, mem);
-	DE_TRACE()
+	TRACE()
 	mTop = mStart;
 }
 
@@ -73,12 +73,12 @@ void StackAllocator::free() {
 	u32 size = u32Array[-1];
 
 	// reduce mAllocatedSize
-	Allocator::setAllocatedSize(Allocator::getAllocatedSize() - smHeaderSize - size);
+	Allocator::setAllocatedSize(Allocator::mAllocatedSize - smHeaderSize - size);
 
 	// clean memory block
 	std::memset(mTop, 0, size);
 
-	mTop = calculateUnalignedAddress((byte*) (reinterpret_cast<ptr>(mStart) + Allocator::getAllocatedSize()));
+	mTop = calculateUnalignedAddress((byte*) (reinterpret_cast<ptr>(mStart) + Allocator::mAllocatedSize));
 }
 
 void StackAllocator::reset() {

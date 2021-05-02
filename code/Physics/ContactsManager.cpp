@@ -11,7 +11,7 @@
 
 namespace DE {
 
-Contact::Contact() : DE_Class() {
+Contact::Contact() : ObjectBase() {
 	init();
 }
 
@@ -39,15 +39,15 @@ void Contact::init(const Contact* otherContact) {
 	relativeVelocity = otherContact->relativeVelocity;
 }
 
-ContactsManager::ContactsManager() : DE_Class(), Singleton() {
+ContactsManager::ContactsManager() : ObjectBase(), Singleton() {
 	mContactsMap = nullptr;
 	mContactsToRemove = nullptr;
 }
 
 ContactsManager::~ContactsManager() {
 	terminate();
-	DE_FREE(mContactsMap);
-	DE_FREE(mContactsToRemove);
+	Memory::free(mContactsMap);
+	Memory::free(mContactsToRemove);
 }
 
 void ContactsManager::removeContactFromMap(Contact* contact) {
@@ -68,7 +68,7 @@ void ContactsManager::removeContactFromMap(Contact* contact) {
 	}
 
 	//if (contact) {
-		DE_FREE(contact);
+		Memory::free(contact);
 	//}
 }
 
@@ -163,12 +163,12 @@ void ContactsManager::resolveContact(Contact* contact) {
 }
 
 void ContactsManager::init() {
-	DE_TRACE()
+	TRACE()
 
-	mContactsMap = DE_NEW<HashMap<Collider*, HashMap<Collider*, Contact*>*>>();
+	mContactsMap = Memory::allocate<HashMap<Collider*, HashMap<Collider*, Contact*>*>>();
 	mContactsMap->init();
 
-	mContactsToRemove = DE_NEW<List<Contact*>>();
+	mContactsToRemove = Memory::allocate<List<Contact*>>();
 	mContactsToRemove->init();
 }
 
@@ -274,11 +274,11 @@ Contact* ContactsManager::addContact(Contact* newContact) {
 
 	if (!contact) {
 //		ECHO("CONTACT ADDED!")
-		contact = DE_NEW<Contact>();
+		contact = Memory::allocate<Contact>();
 		contact->init(newContact);
 
 		if (!mContactsMap->contains(contact->colliderA)) {
-			auto subHashMap = DE_NEW<HashMap<Collider*, Contact*>>();
+			auto subHashMap = Memory::allocate<HashMap<Collider*, Contact*>>();
 			subHashMap->init();
 
 			mContactsMap->set(contact->colliderA, subHashMap);
@@ -343,16 +343,16 @@ void ContactsManager::terminate() {
 	if(mContactsMap){
 		FOR_LIST (itSubHashMaps, mContactsMap->getValues()) {
 			FOR_LIST (itContacts, itSubHashMaps.get()->getValues()) {
-				DE_FREE(itContacts.get());
+				Memory::free(itContacts.get());
 			}
-			DE_FREE(itSubHashMaps.get());
+			Memory::free(itSubHashMaps.get());
 		}
 		mContactsMap->clear();
 	}
 
 	if(mContactsToRemove){
 		FOR_LIST (it, mContactsToRemove) {
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 		mContactsToRemove->clear();
 	}

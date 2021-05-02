@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 
 namespace DE {
@@ -11,7 +11,7 @@ namespace DE {
 template<class T> class Array;
 class Camera;
 
-class RenderContext: public DE_Class {
+class RenderContext : public ObjectBase {
 
 private:
 
@@ -52,6 +52,5 @@ public:
 	static void drawRectangles(u32 rectanglesCount);
 	static void drawLines(u32 linesCount);
 };
-
 }
 

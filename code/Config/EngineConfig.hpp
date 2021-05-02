@@ -6,14 +6,17 @@
 
 namespace DE {
 
-class EngineConfig: public DE_Class, public Singleton<EngineConfig> {
+class EngineConfig: public ObjectBase, public Singleton<EngineConfig> {
 
 private:
-	DE_M(ConfigMap, ConfigMap)
+	 ConfigMap mConfigMap;
 
 public:
 
-	DE_CLASS_BODY(EngineConfig)
+	GENERATE_METADATA(EngineConfig);
+
+	EngineConfig();
+	virtual ~EngineConfig() override;
 
 	void init();
 	void readConfigFile(const String &path);

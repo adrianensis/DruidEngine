@@ -4,27 +4,27 @@
 
 namespace DE {
 
-Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : DE_Class(), x(x), y(y), z(z), w(w) {
+Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : ObjectBase(), x(x), y(y), z(z), w(w) {
 }
 
-Vector4::Vector4() : DE_Class(), x(0.0f), y(0.0f), z(0.0f), w(0.0f) {
+Vector4::Vector4() : ObjectBase(), x(0.0f), y(0.0f), z(0.0f), w(0.0f) {
 }
 
 Vector4::~Vector4() = default;
 
-Vector4::Vector4(const Vector4 &other) : DE_Class(), x(other.x), y(other.y), z(other.z), w(other.w) {
+Vector4::Vector4(const Vector4 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(other.w) {
 }
 
-Vector4::Vector4(const Vector3 &other) : DE_Class(), x(other.x), y(other.y), z(other.z), w(0) {
+Vector4::Vector4(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(0) {
 }
 
-Vector4::Vector4(const Vector2 &other) : DE_Class(), x(other.x), y(other.y), z(0), w(0) {
+Vector4::Vector4(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y), z(0), w(0) {
 }
 
-Vector4::Vector4(const Vector3 &other, f32 w) : DE_Class(), x(other.x), y(other.y), z(other.z), w(w) {
+Vector4::Vector4(const Vector3 &other, f32 w) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(w) {
 }
 
-Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : DE_Class(), x(other.x), y(other.y), z(z), w(w) {
+Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : ObjectBase(), x(other.x), y(other.y), z(z), w(w) {
 }
 
 Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {
@@ -72,10 +72,10 @@ Vector4& Vector4::mul(const Vector4 &rhs) {
 }
 
 Vector4& Vector4::div(const Vector4 &rhs) {
-	DE_ASSERT(rhs.x != 0, "Division by zero.");
-	DE_ASSERT(rhs.y != 0, "Division by zero.");
-	DE_ASSERT(rhs.z != 0, "Division by zero.");
-	DE_ASSERT(rhs.w != 0, "Division by zero.");
+	ASSERT(rhs.x != 0, "Division by zero.");
+	ASSERT(rhs.y != 0, "Division by zero.");
+	ASSERT(rhs.z != 0, "Division by zero.");
+	ASSERT(rhs.w != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -108,7 +108,7 @@ Vector4& Vector4::mul(f32 rhs) {
 }
 
 Vector4& Vector4::div(f32 rhs) {
-	DE_ASSERT(rhs != 0, "Division by zero.");
+	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -155,7 +155,7 @@ f32 Vector4::min() const {
 Vector4& Vector4::nor() {
 	f32 len = this->len();
 
-	DE_ASSERT(len > 0, "Length is zero.");
+	ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

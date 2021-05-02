@@ -11,7 +11,7 @@ class UIText;
 class Renderer;
 class RigidBody;
 
-class PlayerScript: public Script {
+class PlayerScript : public Script {
 
 private:
 	Renderer* mRenderer;
@@ -28,7 +28,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(PlayerScript)
+	GENERATE_METADATA(PlayerScript);
+
+	PlayerScript();
+	virtual ~PlayerScript() override;
 
 	void init() override;
 	void firstStep() override;
@@ -61,6 +64,5 @@ public:
 	}
 
 };
-
 }
 

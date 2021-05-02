@@ -22,22 +22,22 @@
 
 namespace DE {
 
-UIGroup::UIGroup() : DE_Class(){
+UIGroup::UIGroup() : ObjectBase(){
 	mName = "";
 	mUIElements = nullptr;
 	mVisible = true;
 }
 
 UIGroup::~UIGroup(){
-	DE_FREE(mUIElements);
+	Memory::free(mUIElements);
 }
 
 void UIGroup::init(){
-	mUIElements = DE_NEW<List<UIElement*>>();
+	mUIElements = Memory::allocate<List<UIElement*>>();
 	mUIElements->init();
 }
 
-UI::UI() : DE_Class(), Singleton() {
+UI::UI() : ObjectBase(), Singleton() {
 	//mUIElements = nullptr;
 	mFontMaterial = nullptr;
 	mUIBuilder = nullptr;
@@ -62,7 +62,7 @@ Material* UI::getFontMaterial() {
 void UI::addToGroup(StringRef groupName, UIElement* uiElement) {
 
 	if(!mGroups->contains(groupName)){
-		UIGroup* group = DE_NEW<UIGroup>();
+		UIGroup* group = Memory::allocate<UIGroup>();
 		group->init();
 		group->mName = groupName;
 
@@ -104,16 +104,16 @@ void UI::setGroupVisibility(StringRef groupName, bool visibility) {
 }
 
 void UI::init() {
-	/*mUIElements = DE_NEW<List<UIElement*>>();
+	/*mUIElements = Memory::allocate<List<UIElement*>>();
 	mUIElements->init();*/
 
-	mGroups = DE_NEW<HashMap<String, UIGroup*>>();
+	mGroups = Memory::allocate<HashMap<String, UIGroup*>>();
 	mGroups->init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);
 	mFontTileTextureSize = Vector2(1.0f / mFontTilesCount.x, 1.0f / mFontTilesCount.y);
 
-	mCharMap = DE_NEW<HashMap<c8, Vector2>>();
+	mCharMap = Memory::allocate<HashMap<c8, Vector2>>();
 	mCharMap->init();
 
 	mCharMap->set(' ', Vector2(0 / mFontTilesCount.x, 0 / mFontTilesCount.y));
@@ -227,26 +227,26 @@ void UI::setFocusedElement(UIElement* focusedElement) {
 };
 
 void UI::terminate() {
-	DE_TRACE()
+	TRACE()
 
 	if(mUIBuilder){
-		DE_FREE(mUIBuilder);
+		Memory::free(mUIBuilder);
 	}
 
 	if(mCharMap){
-		DE_FREE(mCharMap);
+		Memory::free(mCharMap);
 	}
 
 	/*if(mUIElements){
-		DE_FREE(mUIElements);
+		Memory::free(mUIElements);
 	}*/
 
 	if(mGroups){
 		FOR_LIST(it, mGroups->getValues()){
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 
-		DE_FREE(mGroups);
+		Memory::free(mGroups);
 	}
 }
 

@@ -5,36 +5,35 @@
 
 namespace DE {
 
+template<class T> class Array;
 class GameObject;
 class UIButton;
-template<class T> class Array;
 class MapElementData;
-
 class MapEditor;
 class Material;
 
-class Brush: public DE_Class {
+class Brush : public ObjectBase {
 private:
 
-	Array<GameObject*>* mGrid = nullptr;
-	Vector2 mOriginAtlasPosition = Vector2(0,0);
-	DE_M_GET_SET(IsPaintMode, bool);
+	Array<GameObject*>* mGrid;
+	Vector2 mOriginAtlasPosition;
+	bool mIsPaintMode;
+	Vector2 mDrawTileSize;
+	u32 mLastIndex;
+	u32 mBrushMaxGridSize;
+	Vector2 mBrushGridSize;
+	GameObject* mBrushCursor;
+	MapEditor* mMapEditor;
+	u32 mBrushSize;
+
+	MapElementData* mMapElementData;
 
 	void addTile(GameObject *tile, const Vector2& atlasPosition);
 
 public:
 
-	Vector2 mDrawTileSize = Vector2(1,1);
-	u32 mLastIndex = 0;
-	u32 mBrushMaxGridSize = 16;
-	Vector2 mBrushGridSize = Vector2(1,1);
-	GameObject* mBrushCursor = nullptr;
-	MapEditor* mMapEditor = nullptr;
-	u32 mBrushSize = 1;
-
-	DE_M(MapElementData, MapElementData*);
-
-	DE_CLASS_BODY(Brush)
+	Brush();
+	virtual ~Brush() override;
 
 	void init(MapEditor* mapEditor);
 	void setMaterial(Material* material);
@@ -46,13 +45,19 @@ public:
 	void clear();
 	void setDrawTileSize(const Vector2& size);
 	bool isGridSingleTile() const { return mBrushGridSize.x == 1 && mBrushGridSize.y == 1; }
-	void setBrushSize(i32 newSize) { 
-		if(newSize > 0) {
-			mBrushSize = newSize;
-		}
-	}
-	i32 getBrushSize() const { return mBrushSize; }
-};
+	void setBrushSize(i32 newSize);
 
+	GENERATE_METADATA(Brush);
+	
+	GET_SET(IsPaintMode);
+	GET(DrawTileSize);
+	GET(LastIndex);
+	GET(BrushMaxGridSize);
+	GET(BrushGridSize);
+	GET_SET(BrushCursor);
+	GET(MapEditor);
+	GET(BrushSize);
+	GET_SET(MapElementData);
+};
 }
 

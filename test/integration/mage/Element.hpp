@@ -8,6 +8,5 @@ namespace DE {
 enum class Element {
 	FIRE, ICE, WIND
 };
-
 }
 

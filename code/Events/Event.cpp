@@ -2,7 +2,7 @@
 
 namespace DE {
 
-Event::Event() : DE_Class() {
+Event::Event() : ObjectBase() {
 	mDelayAmount = 0;
 	mDelayType = TimerDurationType::NONE;
 	mInstigator = nullptr;

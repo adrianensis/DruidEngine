@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/TimeUtils.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/Assert/Assert.hpp"
 #include "Core/Singleton.hpp"
 
 namespace DE {
@@ -10,23 +10,23 @@ namespace DE {
 template<class K, class V> class HashMap;
 template<class T> class List;
 
-#define DE_PROFILER_TIMEMARK_START() Profiler::getInstance()->timeMarkStart(__PRETTY_FUNCTION__);
-#define DE_PROFILER_TIMEMARK_END() Profiler::getInstance()->timeMarkEnd(__PRETTY_FUNCTION__);
+#define PROFILER_TIMEMARK_START() Profiler::getInstance()->timeMarkStart(__PRETTY_FUNCTION__);
+#define PROFILER_TIMEMARK_END() Profiler::getInstance()->timeMarkEnd(__PRETTY_FUNCTION__);
 
-class Profiler : public DE_Class, public Singleton<Profiler>{
+class Profiler : public ObjectBase, public Singleton<Profiler>{
 private:
 
-	using TimeMap = HashMap<String, f32>;
-	using TimeMarkMap = HashMap<String, TimeMark*>;
-
-	DE_M(TimeMap, TimeMap*);
-	DE_M(TimeMarkMap, TimeMarkMap*);
-	DE_M(TotalTime, f32);
+	HashMap<String, f32>* mTimeMap;
+	HashMap<String, TimeMark*>* mTimeMarkMap;
+	f32 mTotalTime;
 
 	void printResult(String& name, f32 time);
 
 public:
-	DE_CLASS_BODY(Profiler)
+	GENERATE_METADATA(Profiler);
+
+	Profiler();
+	virtual ~Profiler() override;
 
 	void init();
 	void step(f32 deltaTime);
@@ -35,6 +35,5 @@ public:
 	void timeMarkStart(StringRef name);
 	void timeMarkEnd(StringRef name);
 };
-
 }
 

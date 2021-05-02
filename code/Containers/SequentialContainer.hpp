@@ -9,7 +9,7 @@ namespace DE {
  \tparam Elements class.
  */
 template<class T>
-class SequentialContainer: public BaseContainer {
+class SequentialContainer : public BaseContainer {
 
 protected:
 
@@ -26,7 +26,7 @@ protected:
 
 public:
 
-	DE_CLASS_BODY_TEMPLATE(SequentialContainer<T>, T);
+	GENERATE_METADATA(SequentialContainer<T>);
 
 	/*!
 	 \brief Default Constructor.

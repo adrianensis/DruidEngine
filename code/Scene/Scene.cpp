@@ -26,7 +26,7 @@
 
 namespace DE {
 
-Scene::Scene() : DE_Class() {
+Scene::Scene() : ObjectBase() {
 	mGameObjects = nullptr;
 }
 
@@ -34,33 +34,33 @@ Scene::~Scene() {
 
 	destroyGameObjects();
 
-	DE_FREE(mGameObjects);
-	DE_FREE(mNewGameObjects);
-	DE_FREE(mLoadSceneConfigMap);
+	Memory::free(mGameObjects);
+	Memory::free(mNewGameObjects);
+	Memory::free(mLoadSceneConfigMap);
 }
 
 void Scene::destroyGameObjects() {
 	FOR_LIST (it, mGameObjects) {
 		if (!it.get()->getIsDestroyed()) {
 			it.get()->destroy();
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 	}
 
 	if(mCameraGameObject){
-		DE_FREE(mCameraGameObject->getFirstComponent<Camera>());
+		Memory::free(mCameraGameObject->getFirstComponent<Camera>());
 		mCameraGameObject->destroy();
-		DE_FREE(mCameraGameObject);
+		Memory::free(mCameraGameObject);
 	}
 }
 
 void Scene::init() {
-	DE_TRACE()
+	TRACE()
 
-	mGameObjects = DE_NEW<List<GameObject*>>();
+	mGameObjects = Memory::allocate<List<GameObject*>>();
 	mGameObjects->init();
 
-	mNewGameObjects = DE_NEW<List<GameObject*>>();
+	mNewGameObjects = Memory::allocate<List<GameObject*>>();
 	mNewGameObjects->init();
 
 	mSize = 0;
@@ -68,12 +68,12 @@ void Scene::init() {
 	mPath = "config/sceneTmp.conf";
 
 	// CAMERA
-	GameObject* cameraGameObject = DE_NEW<GameObject>();
+	GameObject* cameraGameObject = Memory::allocate<GameObject>();
 	cameraGameObject->init();
 
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
-	Camera* cameraComponent = DE_NEW<Camera>();
+	Camera* cameraComponent = Memory::allocate<Camera>();
 	cameraGameObject->addComponent<Camera>(cameraComponent);
 
 	/*
@@ -97,7 +97,7 @@ void Scene::init() {
 void Scene::loadScene(const String &path) {
 
 	if(!mLoadSceneConfigMap){
-		mLoadSceneConfigMap = DE_NEW<ConfigMap>();
+		mLoadSceneConfigMap = Memory::allocate<ConfigMap>();
 		mLoadSceneConfigMap->init();
 	}
 	else {
@@ -124,7 +124,7 @@ void Scene::loadScene(const String &path) {
 
 void Scene::saveScene(const String &path) {
 
-	ConfigMap* configMap = DE_NEW<ConfigMap>();
+	ConfigMap* configMap = Memory::allocate<ConfigMap>();
 	configMap->init();
 
 	f32 maxSize = 0;
@@ -151,12 +151,11 @@ void Scene::saveScene(const String &path) {
 	}
 
 	configMap->setU32("objects.length", counter);
-	//configMap->setF32("scene.size", maxSize);
-	configMap->setF32("scene.size", mSize); // save same size
+	configMap->setF32("scene.size", maxSize * 2.0f);
 
 	configMap->writeConfigFile(path);
 
-	DE_FREE(configMap);
+	Memory::free(configMap);
 }
 
 void Scene::unloadScene() {
@@ -215,7 +214,7 @@ void Scene::removeGameObject(GameObject *gameObject) {
 
 		gameObject->destroy();
 		gameObject->finallyDestroy();
-		DE_FREE(gameObject);
+		Memory::free(gameObject);
 	}
 }
 
@@ -229,7 +228,7 @@ void Scene::step() {
 
 			String className = mLoadSceneConfigMap->getString(objectName + ".class");
 			
-			GameObject* gameObject = DE_NEW_FROM_NAME<GameObject>(className);
+			GameObject* gameObject = Memory::fromClassName<GameObject>(className);
 			gameObject->init();
 			gameObject->load(mLoadSceneConfigMap, objectName);
 			addGameObject(gameObject);

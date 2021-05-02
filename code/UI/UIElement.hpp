@@ -17,9 +17,9 @@ using UIElementCallback = std::function<void(UIElement* uiElement)>;
 
 class FunctorUIElement : public Functor<UIElementCallback> {
 public:
-	DE_GENERATE_METADATA(FunctorUIElement);
+	GENERATE_METADATA(FunctorUIElement);
 
-	DE_M(UIElement, UIElement*)
+	 UIElement* mUIElement;
 
 	FunctorUIElement():Functor<UIElementCallback>() {
 		mUIElement = nullptr;
@@ -45,26 +45,36 @@ public:
 
 };
 
-class UIElement: public GameObject {
+class UIElement : public GameObject {
 
 protected:
 
-	DE_M(OnPressedFunctor, FunctorUIElement);
-	DE_M(OnReleasedFunctor, FunctorUIElement);
+	 FunctorUIElement mOnPressedFunctor;
+	 FunctorUIElement mOnReleasedFunctor;
 
-	DE_M(OnTextChangedFunctor, FunctorUIElement);
-	DE_M(OnFocusLostFunctor, FunctorUIElement);
+	 FunctorUIElement mOnTextChangedFunctor;
+	 FunctorUIElement mOnFocusLostFunctor;
 
-	DE_M_GET(Renderer, Renderer*)
-	DE_M_GET(Collider, Collider*)
-	DE_M_GET(InputString, String)
-	DE_M_GET_SET(ConsumeInput, bool)
-	DE_M_GET_SET(Group, UIGroup*)
-	DE_M_GET(Pressed, bool)
+	 Renderer* mRenderer;
+	 Collider* mCollider;
+	 String mInputString;
+	 bool mConsumeInput;
+	 UIGroup* mGroup;
+	 bool mPressed;
 
 public:
 
-	DE_CLASS_BODY(UIElement)
+	GENERATE_METADATA(UIElement);
+
+	UIElement();
+	virtual ~UIElement() override;;
+
+	GET(Renderer);
+	GET(Collider);
+	GET(InputString);
+	GET_SET(ConsumeInput);
+	GET_SET(Group);
+	GET(Pressed);
 
 	virtual void init() override;
 	virtual void onDestroy();
@@ -113,7 +123,6 @@ public:
 	bool isVisible();
 
 	virtual void toggle() {};
-
 };
 
 }

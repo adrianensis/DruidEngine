@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include "Maths/Vector2.hpp"
 
@@ -9,17 +9,22 @@ namespace DE {
 template<class T> class List;
 class AnimationFrame;
 
-class Animation: public DE_Class {
+class Animation : public ObjectBase {
 
 private:
-	DE_M(Frames, List<AnimationFrame*>*);
-	DE_M(CurrentFrameNumber, u32);
-	DE_M(TimeAccumulator, f32);
-	DE_M_SET(Speed, f32)
+	 List<AnimationFrame*>* mFrames;
+	 u32 mCurrentFrameNumber;
+	 f32 mTimeAccumulator;
+	 f32 mSpeed;
 
 public:
 
-	DE_CLASS_BODY(Animation)
+	GENERATE_METADATA(Animation);
+
+	Animation();
+	virtual ~Animation() override;;
+
+	SET(Speed);
 
 	void init();
 
@@ -42,6 +47,5 @@ public:
 	const AnimationFrame* getNextFrame();
 	const AnimationFrame* getCurrentFrame() const;
 };
-
 }
 

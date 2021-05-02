@@ -4,16 +4,18 @@
 
 namespace DE {
 
-class UITextEditable: public UIText {
+class UITextEditable : public UIText {
 
 public:
 
-	DE_CLASS_BODY(UITextEditable)
+	GENERATE_METADATA(UITextEditable);
+
+	UITextEditable();
+	virtual ~UITextEditable() override;
 
 	virtual void init();
 	virtual void onFocusLost();
 
 };
-
 }
 

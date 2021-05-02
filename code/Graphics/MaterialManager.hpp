@@ -1,33 +1,30 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
-#include <string>
+#include "Containers/HashMap.hpp"
 
 namespace DE {
 
-template<class K, class V> class HashMap;
-class Texture;
-class Material;
+class MaterialManager: public ObjectBase, public Singleton<MaterialManager> {
+	
+private:
 
-class MaterialManager: public DE_Class, public Singleton<MaterialManager> {
-
-	using PathTextureMap = HashMap<String, Texture*>;
-	DE_M(TexturesMap, PathTextureMap*)
-	using PathMaterialMap = HashMap<String, Material*>;
-	DE_M(MaterialsMap, PathMaterialMap*)
-	DE_M(NoTextureMaterial, Material*)
+	HashMap<String, class Texture*>* mTexturesMap;
+	HashMap<String, class Material*>* mMaterialsMap;
+	class Material* mNoTextureMaterial;
 
 public:
 
-	DE_CLASS_BODY(MaterialManager)
+	GENERATE_METADATA(MaterialManager);
+
+	MaterialManager();
+	virtual ~MaterialManager() override;
 
 	void init();
-	Texture* loadTexture(const String &path);
-	Material* loadMaterial(const String &path);
-
-	Material* loadNoTextureMaterial();
+	class Texture* loadTexture(const String &path);
+	class Material* loadMaterial(const String &path);
+	class Material* loadNoTextureMaterial();
 };
-
 }
 

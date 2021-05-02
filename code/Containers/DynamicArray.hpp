@@ -16,7 +16,7 @@ template<class T>
 class DynamicArray: public SequentialContainer<T> {
 
 	template<class K, class V>
-	friend class HashMap; // Friend Class
+	friend class HashMap; // Friend ObjectBase
 
 private:
 
@@ -33,7 +33,7 @@ private:
 	}
 
 	T& randomAccessOperator(u32 index) const {
-		DE_ASSERT(index >= 0, "Index out of bounds.");
+		ASSERT(index >= 0, "Index out of bounds.");
 
 		u32 realIndex = index % smMinSize;
 		u32 arrayIndex = ceil(index / smMinSize);
@@ -43,15 +43,15 @@ private:
 	}
 
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
-		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+		ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+		ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+		ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
 	}
 
 	
 public:
 
-	DE_CLASS_BODY_TEMPLATE(DynamicArray<T>, T);
+	GENERATE_METADATA(DynamicArray<T>);
 
 	/*!
 	 \brief Default Constructor.
@@ -68,10 +68,10 @@ public:
 		if (mArrays != nullptr) {
 
 			FOR_LIST (it, mArrays) {
-				DE_FREE(it.get());
+				Memory::free(it.get());
 			}
 
-			DE_FREE(mArrays);
+			Memory::free(mArrays);
 		}
 	}
 
@@ -81,13 +81,13 @@ public:
 	 */
 	void init(const DynamicArray<T> &other) {
 		BaseContainer::init(other.BaseContainer::mLength, other.mElementSize, other.BaseContainer::mAlignment);
-		mArrays = DE_NEW<List<Array<T>*> >();
+		mArrays = Memory::allocate<List<Array<T>*> >();
 		mArrays->init();
 
 		FOR_LIST (it, other.mArrays)
 		{
 			Array<T>* otherArray = it.get();
-			Array<T>* array = DE_NEW<Array<T>>();
+			Array<T>* array = Memory::allocate<Array<T>>();
 			array->init(*otherArray);
 			mArrays->pushBack(array);
 		}
@@ -133,7 +133,7 @@ public:
 	 */
 	void init(const T rawArray[], u32 length, u32 alignment) override {
 		BaseContainer::setAllocator(&Memory::getGlobal());
-		Array<T>* array = DE_NEW<Array<T>>(alignment);
+		Array<T>* array = Memory::allocate<Array<T>>(alignment);
 		array->init(rawArray, length);
 		DynamicArray::init(*array);
 	}
@@ -162,7 +162,7 @@ public:
 		BaseContainer::init(length, sizeof(T), alignment);
 
 		// list of arrays
-		mArrays = DE_NEW<List<Array<T>*> >();
+		mArrays = Memory::allocate<List<Array<T>*> >();
 		mArrays->init();
 
 		// how many arrays are needed.
@@ -170,7 +170,7 @@ public:
 
 		FOR_RANGE(i, 0, arrayCount)
 		{
-			Array<T>* newArray = DE_NEW<Array<T>>(SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);
@@ -206,7 +206,7 @@ public:
 	void set(u32 index, const T element) {
 		// resize
 		if (index >= mArrays->getLength() * smMinSize) {
-			Array<T>* newArray = DE_NEW<Array<T>>(SequentialContainer<T>::mAlignment);
+			Array<T>* newArray = Memory::allocate<Array<T>>(SequentialContainer<T>::mAlignment);
 			newArray->init(smMinSize);
 
 			mArrays->pushBack(newArray);

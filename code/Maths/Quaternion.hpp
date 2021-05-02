@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include <ostream>
 
 #include "Core/BasicTypes.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/Assert/Assert.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
 namespace DE {
 
-class Quaternion: public DE_Class /*16 bytes alignment*/{
+class Quaternion: public ObjectBase /*16 bytes alignment*/{
 
 public:
 
@@ -27,7 +27,10 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	DE_CLASS_BODY(Quaternion)
+	GENERATE_METADATA(Quaternion);
+
+	Quaternion();
+	virtual ~Quaternion() override;
 
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
 	Quaternion(const Vector3 &v, f32 w);
@@ -163,7 +166,7 @@ public:
 
 	// can be used for assignment
 	f32& operator[](size_t index) {
-		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 		if (index == 3)
 			return w;
 		return v[index];
@@ -171,7 +174,7 @@ public:
 
 	// read only
 	f32 operator[](size_t index) const {
-		DE_ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
 		if (index == 3)
 			return w;
 		return v[index];
@@ -182,6 +185,5 @@ public:
 		return out;
 	}
 };
-
 }
 

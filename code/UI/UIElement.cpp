@@ -36,13 +36,13 @@ void UIElement::init() {
 
 void UIElement::onDestroy() {
 	GameObject::onDestroy();
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
-	DE_UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
 
 	if(hasFocus()){
 		UI::getInstance()->setFocusedElement(nullptr);
@@ -50,13 +50,13 @@ void UIElement::onDestroy() {
 }
 
 void UIElement::subscribeToKeyEvents() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
 		if(isActive()){
 
 		}
 	});
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this, [this](const Event* event){
 		if(isActive()){
 
 		}
@@ -64,7 +64,7 @@ void UIElement::subscribeToKeyEvents() {
 }
 
 void UIElement::subscribeToCharEvents() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event* event){
 		if(isActive()){
 			// TODO : boolean to enable or disable : can receive char input?
 			onChar(((const InputEventChar*)event)->mChar);
@@ -73,7 +73,7 @@ void UIElement::subscribeToCharEvents() {
 }
 
 void UIElement::subscribeToMouseButtonEvents() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event* event){
 		if(isActive()){
 			//ECHO("InputEventMouseButtonPressed")
 			const InputEventMouseButtonPressed* e = (const InputEventMouseButtonPressed*)event;
@@ -84,7 +84,7 @@ void UIElement::subscribeToMouseButtonEvents() {
 		}
 	});
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](const Event* event){
 		if(isActive()){
 
 		}
@@ -92,7 +92,7 @@ void UIElement::subscribeToMouseButtonEvents() {
 }
 
 void UIElement::subscribeToEnterEvent() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event* event){
 		if(isActive()){
 			onFocusLost(); // TODO : call something more generic
 		}
@@ -100,7 +100,7 @@ void UIElement::subscribeToEnterEvent() {
 }
 
 void UIElement::subscribeToEscEvent() {
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event* event){
 		if(isActive()){
 			onFocusLost(); // TODO : call something more generic
 		}

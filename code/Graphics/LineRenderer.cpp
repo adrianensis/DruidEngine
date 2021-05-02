@@ -8,14 +8,14 @@
 
 namespace DE {
 
-LineRenderer::LineRenderer() : DE_Class() {
+LineRenderer::LineRenderer() : ObjectBase() {
 	mIsAffectedByProjection = true;
 }
 
 LineRenderer::~LineRenderer() {
-	DE_FREE(mPositionBuffer);
-	DE_FREE(mIndicesBuffer);
-	DE_FREE(mShaderLine);
+	Memory::free(mPositionBuffer);
+	Memory::free(mIndicesBuffer);
+	Memory::free(mShaderLine);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -27,12 +27,12 @@ void LineRenderer::init() {
 
 	mMaxShapes = EngineConfig::getInstance()->getF32("line.renderers.count");
 
-	mPositionBuffer = DE_NEW<Array<f32>>();
+	mPositionBuffer = Memory::allocate<Array<f32>>();
 	mPositionBuffer->init(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 
-	mIndicesBuffer = DE_NEW<Array<u32>>();
+	mIndicesBuffer = Memory::allocate<Array<u32>>();
 	mIndicesBuffer->init(mMaxShapes * 2); // 1 index per vertex
-	mShaderLine = DE_NEW<Shader>();
+	mShaderLine = Memory::allocate<Shader>();
 	mShaderLine->initDebug();
 
 	bind();

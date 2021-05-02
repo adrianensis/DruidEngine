@@ -4,13 +4,13 @@
 
 namespace DE {
 
-Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : DE_Class(), v(x, y, z), w(w) {
+Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : ObjectBase(), v(x, y, z), w(w) {
 }
 
-Quaternion::Quaternion(const Vector3 &v, f32 w) : DE_Class(), v(v), w(w) {
+Quaternion::Quaternion(const Vector3 &v, f32 w) : ObjectBase(), v(v), w(w) {
 }
 
-Quaternion::Quaternion() : DE_Class(), v(), w(1.0f) { // identity 0,0,0,1
+Quaternion::Quaternion() : ObjectBase(), v(), w(1.0f) { // identity 0,0,0,1
 }
 
 Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
@@ -21,7 +21,7 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
 Quaternion::Quaternion(const Vector3 &v) : Quaternion(v.x, v.y, v.z) {
 }
 
-Quaternion::Quaternion(const Quaternion &other) : DE_Class(), v(other.v), w(other.w) {
+Quaternion::Quaternion(const Quaternion &other) : ObjectBase(), v(other.v), w(other.w) {
 }
 
 Quaternion::~Quaternion() = default;
@@ -93,7 +93,7 @@ Quaternion& Quaternion::mul(f32 rhs) {
 }
 
 Quaternion& Quaternion::div(f32 rhs) {
-	DE_ASSERT(rhs != 0, "Division by zero.");
+	ASSERT(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
 	return *this;
@@ -120,7 +120,7 @@ f32 Quaternion::len() const {
 Quaternion& Quaternion::nor() {
 	f32 len = this->len();
 
-	DE_ASSERT(len > 0, "Length is zero.");
+	ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

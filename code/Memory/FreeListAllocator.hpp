@@ -9,7 +9,7 @@ namespace DE {
 /*!
  \brief List of memory blocks.
  */
-class FreeListAllocator: public Allocator {
+class FreeListAllocator : public Allocator {
 
 private:
 
@@ -51,7 +51,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(FreeListAllocator)
+	GENERATE_METADATA(FreeListAllocator);
+
+	FreeListAllocator();
+	virtual ~FreeListAllocator() override;
 
 	virtual void init(u32 size) override;
 	virtual byte* allocate(u32 size) override;
@@ -62,6 +65,5 @@ public:
 	virtual void terminate() override;
 
 };
-
 }
 

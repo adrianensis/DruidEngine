@@ -12,7 +12,7 @@ namespace DE {
 Shader* Shader::msShaderDefault = nullptr;
 Shader* Shader::msShaderDebug = nullptr;
 
-Shader::Shader() : DE_Class() {
+Shader::Shader() : ObjectBase() {
 	mVertexShader = -1;
 	mFragmentShader = -1;
 	mProgram = -1;
@@ -22,7 +22,7 @@ Shader::~Shader() = default;
 
 Shader* Shader::getDefaultShader() {
 	if (!msShaderDefault) {
-		msShaderDefault = DE_NEW<Shader>();
+		msShaderDefault = Memory::allocate<Shader>();
 		msShaderDefault->init();
 	}
 	return msShaderDefault;
@@ -30,7 +30,7 @@ Shader* Shader::getDefaultShader() {
 
 Shader* Shader::getDebugShader() {
 	if (!msShaderDebug) {
-		msShaderDebug = DE_NEW<Shader>();
+		msShaderDebug = Memory::allocate<Shader>();
 		msShaderDebug->initDebug();
 	}
 	return msShaderDebug;
@@ -38,16 +38,16 @@ Shader* Shader::getDebugShader() {
 
 void Shader::freeStaticShaders() {
 	if (msShaderDefault) {
-		DE_FREE(msShaderDefault);
+		Memory::free(msShaderDefault);
 	}
 
 	if (msShaderDebug) {
-		DE_FREE(msShaderDebug);
+		Memory::free(msShaderDebug);
 	}
 }
 
 void Shader::initInternal(const String &vertex, const String &fragment) {
-	DE_TRACE()
+	TRACE()
 
 	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -106,13 +106,13 @@ void Shader::initInternal(const String &vertex, const String &fragment) {
 }
 
 void Shader::init() {
-	DE_TRACE()
+	TRACE()
 
 	initInternal("resources/shaders/vertex.shader", "resources/shaders/fragment.shader");
 }
 
 void Shader::initDebug() {
-	DE_TRACE()
+	TRACE()
 
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }
@@ -156,5 +156,4 @@ void Shader::addBool(bool value, const String &name) {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };
-
 }

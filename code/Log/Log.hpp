@@ -5,11 +5,11 @@
 #include <fstream>
 
 #include "Core/BasicTypes.hpp"
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 namespace DE {
 
-class Log: public DE_Class {
+class Log : public ObjectBase {
 public:
 
 	static const String emptyMessage;
@@ -30,7 +30,7 @@ public:
 
 	template<class T>
 	static void var(const String &varname, T var) {
-		// std::cout << "DE_VAR > " << varname << " : " << var << std::endl;
+		// std::cout << "VAR > " << varname << " : " << var << std::endl;
 		String varStr;
 		if constexpr (std::is_same<T, String>::value) {
 			varStr = var;
@@ -38,13 +38,13 @@ public:
 			varStr = std::to_string(var);
 		}
 
-		log("DE_VAR > " + varname + " : " + varStr);
+		log("VAR > " + varname + " : " + varStr);
 	};
 
 	template<class T>
 	static void val(const T &var) {
-		// std::cout << "DE_VAL > " << var << std::endl;
-		log("DE_VAL > " + std::to_string(var));
+		// std::cout << "VAL > " << var << std::endl;
+		log("VAL > " + std::to_string(var));
 	};
 
 	static void error(const String &message);
@@ -53,7 +53,7 @@ public:
 };
 
 #ifdef DE_ENABLE_LOGS
-  #define DE_TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
+  #define TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
   #define TO_STR(s) #s
   #define ECHO(x) Log::echo(x);
   #define VAR(T,x) Log::var<T>(#x, x);
@@ -61,7 +61,7 @@ public:
   #define ERROR(x) Log::error(x);
   #define BRLINE() Log::brline();
 #else
-#define DE_TRACE()
+#define TRACE()
 #define TO_STR(s)
 #define ECHO(x)
 #define VAR(T,x)

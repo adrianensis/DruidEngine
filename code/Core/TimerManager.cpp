@@ -1,17 +1,16 @@
 #include "Core/TimerManager.hpp"
 #include "Log/Log.hpp"
-#include "Containers/List.hpp"
 #include "Memory/Memory.hpp"
 
 namespace DE {
 
-TimerHandle::TimerHandle() : DE_Class(){
+TimerHandle::TimerHandle() : ObjectBase(){
 	mTimerReference = nullptr;
 }
 
 TimerHandle::~TimerHandle() = default;
 
-Timer::Timer() : DE_Class() {
+Timer::Timer() : ObjectBase() {
 	mDuration = 0;
 	mTimeCounter = 0;
 	mDurationType = TimerDurationType::TIME_AMOUNT;
@@ -25,30 +24,30 @@ void Timer::init(f32 duration, TimerDurationType durationType, std::function<voi
 	mFunctor.setCallback(callback);
 }
 
-TimerManager::TimerManager() : DE_Class(), Singleton<TimerManager>(){
+TimerManager::TimerManager() : ObjectBase(), Singleton<TimerManager>(){
 	mTimers = nullptr;
 }
 
 TimerManager::~TimerManager() {
 	if(mTimers){
-		DE_FREE(mTimers);
+		Memory::free(mTimers);
 	}
 }
 
 void TimerManager::init(){
-	mTimers = DE_NEW<List<Timer*>>();
+	mTimers = Memory::allocate<List<Timer*>>();
 	mTimers->init();
 }
 
 void TimerManager::endTimer(Timer* timer) {
 	mTimers->remove(timer);
-	DE_FREE(timer);
+	Memory::free(timer);
 }
 
 void TimerManager::step(f32 deltaTime) {
 
 	if(! mTimers->isEmpty()){
-		List<Timer*>* timers = DE_NEW<List<Timer*>>();
+		List<Timer*>* timers = Memory::allocate<List<Timer*>>();
 		timers->init(*mTimers);
 
 		FOR_LIST(itTimer, timers){
@@ -64,13 +63,13 @@ void TimerManager::step(f32 deltaTime) {
 			}
 		}
 
-		DE_FREE(timers);
+		Memory::free(timers);
 	}
 }
 
 TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback) {
 
-	Timer* timer = DE_NEW<Timer>();
+	Timer* timer = Memory::allocate<Timer>();
 	timer->init(duration, durationType, callback);
 
 	TimerHandle timerHandler;

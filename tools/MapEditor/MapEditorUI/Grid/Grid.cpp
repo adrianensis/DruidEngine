@@ -22,19 +22,19 @@
 
 namespace DE {
 
-Grid::CellData::CellData() : DE_Class() {
+Grid::CellData::CellData() : ObjectBase() {
 
 }
 
 Grid::CellData::~CellData() {
 	if (layers) {
-		DE_FREE(layers);
+		Memory::free(layers);
 	}
 }
 
 void Grid::CellData::set(MapElement *gameObject, u32 layer) {
 	if (!layers) {
-		layers = DE_NEW<Array<MapElement*>>();
+		layers = Memory::allocate<Array<MapElement*>>();
 		layers->init(10); // MAX LAYERS
 	}
 
@@ -61,7 +61,7 @@ MapElement* Grid::CellData::get(u32 layer) {
 	return gameObject;
 }
 
-Grid::Grid() : DE_Class() {
+Grid::Grid() : ObjectBase() {
 	mScene = nullptr;
 	mTileSize = 1;
 }
@@ -71,16 +71,16 @@ Grid::~Grid() {
 	if(mGrid){
 		FOR_RANGE(i, 0, mGridSize){
 			FOR_RANGE(j, 0, mGridSize){
-				DE_FREE(mGrid->get(i)->get(j));
+				Memory::free(mGrid->get(i)->get(j));
 			}
 
-			DE_FREE(mGrid->get(i));
+			Memory::free(mGrid->get(i));
 		}
 	}
 
-	DE_FREE(mGrid);
+	Memory::free(mGrid);
 
-	DE_FREE(mSelectedMapElements);
+	Memory::free(mSelectedMapElements);
 }
 
 void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
@@ -89,19 +89,19 @@ void Grid::init(MapEditor* mapEditor, u32 gridSize, f32 tileSize) {
 	mGridSize = gridSize;
 	mTileSize = tileSize;
 
-	mGrid = DE_NEW<Array<Array<CellData*>*>>();
+	mGrid = Memory::allocate<Array<Array<CellData*>*>>();
 	mGrid->init(mGridSize);
 
 	FOR_RANGE(i, 0, mGridSize){
-		mGrid->set(i, DE_NEW<Array<CellData*>>());
+		mGrid->set(i, Memory::allocate<Array<CellData*>>());
 		mGrid->get(i)->init(mGridSize);
 		FOR_RANGE(j, 0, mGridSize){
-			CellData* cellData = DE_NEW<CellData>();
+			CellData* cellData = Memory::allocate<CellData>();
 			mGrid->get(i)->set(j, cellData);
 		}
 	}
 
-	mSelectedMapElements = DE_NEW<List<MapElement*>>();
+	mSelectedMapElements = Memory::allocate<List<MapElement*>>();
 	mSelectedMapElements->init();
 }
 
@@ -120,7 +120,7 @@ void Grid::update() {
 				Vector3 clampedPosition(std::roundf(world.x / mTileSize) * mTileSize, std::roundf(world.y / mTileSize) * mTileSize, 0);
 				
 				if(mMapEditor->mMapEditorUI.mBrush.isGridSingleTile()) {
-					f32 size = mMapEditor->mMapEditorUI.mBrush.mBrushSize;
+					f32 size = mMapEditor->mMapEditorUI.mBrush.getBrushSize();
 					GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(0,0);
 					if(size == 1) {
 						Vector3 tilePosition = clampedPosition;
@@ -135,8 +135,8 @@ void Grid::update() {
 						}
 					}
 				} else {
-					FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.y){
-						FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.mBrushGridSize.x){
+					FOR_RANGE(i, 0, mMapEditor->mMapEditorUI.mBrush.getBrushGridSize().y){
+						FOR_RANGE(j, 0, mMapEditor->mMapEditorUI.mBrush.getBrushGridSize().x){
 							Vector3 tilePosition = clampedPosition + Vector3(mTileSize*j, -mTileSize*i, 0);
 							GameObject* brushTile = mMapEditor->mMapEditorUI.mBrush.getTile(i, j);
 							click(tilePosition, brushTile);
@@ -201,7 +201,7 @@ void Grid::select(CellData *cellData, u32 layer, bool multi) {
 			mSelectedMapElements->pushBack(tile);
 
 			EventOnSelectTile event;
-			DE_SEND_EVENT(this, this, event);
+			SEND_EVENT(this, this, event);
 		}
 	}
 }
@@ -219,12 +219,18 @@ void Grid::draw(GameObject* brushTile, CellData *cellData, const Vector3 &worldP
 	remove(cellData, layer);
 
 	// This is generic data and need to be set here, just before creating the MapElement
-	MapElementData* data = mMapEditor->mMapEditorUI.mBrush.mMapElementData;
+	MapElementData* data = mMapEditor->mMapEditorUI.mBrush.getMapElementData();
 	data->mPosition = worldPosition;
-	data->mSize = mMapEditor->mMapEditorUI.mBrush.mDrawTileSize;
+	data->mSize = mMapEditor->mMapEditorUI.mBrush.getDrawTileSize();
 	data->mLayer = layer;
-	data->mMaterialRegionPosition = brushTile->getFirstComponent<Renderer>()->getRegionPosition();
-	data->mMaterialRegionSize = brushTile->getFirstComponent<Renderer>()->getRegionSize();
+
+	data->mMaterialRegionPosition.set(0,0);
+	data->mMaterialRegionSize.set(1,1);
+	
+	if(brushTile) {
+		data->mMaterialRegionPosition = brushTile->getFirstComponent<Renderer>()->getRegionPosition();
+		data->mMaterialRegionSize = brushTile->getFirstComponent<Renderer>()->getRegionSize();
+	}
 
 	MapElement* newMapElement = MapElement::create(data);
 	mScene->addGameObject(newMapElement);

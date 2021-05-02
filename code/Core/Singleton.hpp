@@ -22,17 +22,15 @@ public:
 
 	static T* getInstance() {
 		if (!existsInstance()) {
-			mInstance = DE_NEW<T>();
+			mInstance = Memory::allocate<T>();
 		}
 
 		return mInstance;
 	};
-
 };
 
 template<class T>
 T* Singleton<T>::mInstance = nullptr;
 
-};
-/* namespace DE */
+}
 

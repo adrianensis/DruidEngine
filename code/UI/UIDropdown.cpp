@@ -9,11 +9,11 @@
 
 namespace DE {
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry() : DE_Class() {
+UIDropdown::UIDropdownEntry::UIDropdownEntry() : ObjectBase() {
 
 }
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry(String label, UIElementCallback callback) : DE_Class() {
+UIDropdown::UIDropdownEntry::UIDropdownEntry(String label, UIElementCallback callback) : ObjectBase() {
 	mLabel = label;
 	mCallback = callback;
 }
@@ -35,10 +35,10 @@ void UIDropdown::init() {
 
 	UIButton::init();
 
-	mButtons = DE_NEW<List<UIButton*>>();
+	mButtons = Memory::allocate<List<UIButton*>>();
 	mButtons->init();
 
-	mEntries = DE_NEW<List<UIDropdownEntry>>();
+	mEntries = Memory::allocate<List<UIDropdownEntry>>();
 	mEntries->init();
 
 	setOnFocusLostCallback([this](UIElement* uiElement){		
@@ -47,8 +47,8 @@ void UIDropdown::init() {
 }
 
 void UIDropdown::onDestroy() {
-	DE_FREE(mButtons);
-	DE_FREE(mEntries);
+	Memory::free(mButtons);
+	Memory::free(mEntries);
 	UIButton::onDestroy();
 }
 

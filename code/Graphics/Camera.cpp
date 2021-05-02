@@ -15,17 +15,17 @@ Camera::Camera() : Component() {
 }
 
 Camera::~Camera() {
-	DE_FREE(mFrustum);
+	Memory::free(mFrustum);
 }
 
 void Camera::init() {
-	DE_TRACE()
+	TRACE()
 
 	mViewTranslationMatrix.identity();
 
 	mInversePVMatrix.identity();
 
-	mFrustum = DE_NEW<Frustum>();
+	mFrustum = Memory::allocate<Frustum>();
 	mFrustum->init(this);
 };
 
@@ -38,8 +38,8 @@ void Camera::init() {
 // };
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	mIsOrtho = true;
-	// DE_FREE(mProjectionMatrix);
-	// mProjectionMatrix = DE_NEW<Matrix4>();
+	// Memory::free(mProjectionMatrix);
+	// mProjectionMatrix = Memory::allocate<Matrix4>();
 
 	mLeft = left;
 	mRight = right;
@@ -57,8 +57,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	mIsOrtho = false;
-	// DE_FREE(mProjectionMatrix);
-	// mProjectionMatrix = DE_NEW<Matrix4>();
+	// Memory::free(mProjectionMatrix);
+	// mProjectionMatrix = Memory::allocate<Matrix4>();
 	mProjectionMatrix.perspective(near, far, aspect, fov);
 
 	calculateInverseMatrix(true);

@@ -8,43 +8,27 @@
 
 namespace DE {
 
-class Transform;
-class Renderer;
-class RigidBody;
-class Collider;
-class GameObject;
-class Camera;
-class UIButton;
-class UIText;
-class UITextEditable;
-class Texture;
-class Material;
-template<class K, class V> class HashMap;
-template<class T> class Array;
-template<class T> class List;
-
-class MapEditor;
-
-class MenuBar : public DE_Class{
+class MenuBar : public ObjectBase{
 
 private:
 
-	const StringsUI mStringsUI;
+	
 
-	MapEditor* mMapEditor;
-
-	DE_M(MapElementData_ActionPoint, MapElementData_ActionPoint);
+	class MapEditor* mMapEditor;
+	MapElementData_ActionPoint mMapElementData_ActionPoint;
 
 	void createMapElement(StringRef materialPath);
 
 public:
 
-	DE_CLASS_BODY(MenuBar)
+	GENERATE_METADATA(MenuBar);
 
-	void init(MapEditor *mapEditor);
+	MenuBar();
+	virtual ~MenuBar() override;
+
+	void init(class MapEditor *mapEditor);
 
 	void createMenuBar();
 };
-
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector4.hpp"
@@ -35,26 +35,29 @@ enum class UILayout {
 	MAX
 };
 
-class UIElementData: public DE_Class {
+class UIElementData : public ObjectBase {
 public:
 
-	DE_CLASS_BODY(UIElementData)
+	GENERATE_METADATA(UIElementData);
 
-	DE_M(ElementType, UIElementType)
-	DE_M(Position, Vector2)
-	DE_M(DisplayPosition, Vector2)
-	DE_M(Size, Vector2)
-	DE_M(TextSize, Vector2)
-	DE_M(Text, String)
-	DE_M(AdjustSizeToText, bool)
-	DE_M(Layer, u32)
-	DE_M(IsAffectedByLayout, bool)
-	DE_M(Group, String)
-	DE_M(SeparatorSize, f32)
-	DE_M(BackgroundColor, Vector4)
-	DE_M(BackgroundColor2, Vector4)
-	DE_M(BackgroundColor3, Vector4)
-	DE_M(BackgroundColor4, Vector4)
+	UIElementData();
+	virtual ~UIElementData() override;
+
+	 UIElementType mElementType;
+	 Vector2 mPosition;
+	 Vector2 mDisplayPosition;
+	 Vector2 mSize;
+	 Vector2 mTextSize;
+	 String mText;
+	 bool mAdjustSizeToText;
+	 u32 mLayer;
+	 bool mIsAffectedByLayout;
+	 String mGroup;
+	 f32 mSeparatorSize;
+	 Vector4 mBackgroundColor;
+	 Vector4 mBackgroundColor2;
+	 Vector4 mBackgroundColor3;
+	 Vector4 mBackgroundColor4;
 
 	void init(const Vector2 &position, const Vector2 &size, StringRef text, u32 layer);
 
@@ -84,23 +87,24 @@ public:
 	}
 };
 
-#define DE_UI_BUILDER_DATA_SETTER(Class, Name) UIBuilder* const set##Name(Class _##Name)\
+#define UI_BUILDER_DATA_SETTER(ObjectBase, Name) UIBuilder* const set##Name(ObjectBase _##Name)\
  { mData.m##Name = _##Name; return this; }
 
-class UIBuilder: public DE_Class, public Singleton<UIBuilder> {
+class UIBuilder: public ObjectBase, public Singleton<UIBuilder> {
 private:
 
-	DE_M(Scene, Scene*)
-	DE_M(CurrentLayout, UILayout)
-	DE_M(ButtonMaterial, Material*)
-	DE_M(Data, UIElementData)
-	DE_M(DataStack, List<UIElementData>*)
-	DE_M(LastData, UIElementData)
-	DE_M(MakeRelativeToLastData, bool) // used for layouts
-	DE_M(LayoutFirstUIElementData, UIElementData)
-	DE_M(NewRowOrColumn, bool)
-	DE_M(CurrentUIElement, UIElement*)
+	 Scene* mScene;
+	 UILayout mCurrentLayout;
+	 Material* mButtonMaterial;
+	 UIElementData mData;
+	 List<UIElementData>* mDataStack;
+	 UIElementData mLastData;
+	 bool mMakeRelativeToLastData; // used for layouts
+	 UIElementData mLayoutFirstUIElementData;
+	 bool mNewRowOrColumn;
+	 UIElement* mCurrentUIElement;
 
+	void registerUIElement(UIElement* uiElement);
 	void registerCurrentUIElement(UIElement* uiElement);
 	UILayout getOppositeLayout(UILayout layout);
 	Vector2 calculateNextElementOffset(UILayout layout);
@@ -113,7 +117,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(UIBuilder)
+	GENERATE_METADATA(UIBuilder);
+
+	UIBuilder();
+	virtual ~UIBuilder() override;
 
 	UIBuilder* const setLayout(UILayout layout) {
 		mCurrentLayout = layout;
@@ -128,16 +135,16 @@ public:
 	UIBuilder* const setScene(Scene *scene) { mScene = scene; return this; }
 	UIBuilder* const setData(UIElementData data) { mData = data; return this; }
 
-	DE_UI_BUILDER_DATA_SETTER(bool, IsAffectedByLayout)
-	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Position)
-	DE_UI_BUILDER_DATA_SETTER(const Vector2&, Size)
-	DE_UI_BUILDER_DATA_SETTER(u32, Layer)
-	DE_UI_BUILDER_DATA_SETTER(StringRef, Text)
-	DE_UI_BUILDER_DATA_SETTER(Vector2, TextSize)
-	DE_UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
-	DE_UI_BUILDER_DATA_SETTER(String, Group)
-	DE_UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)
-	DE_UI_BUILDER_DATA_SETTER(f32, SeparatorSize)
+	UI_BUILDER_DATA_SETTER(bool, IsAffectedByLayout)
+	UI_BUILDER_DATA_SETTER(const Vector2&, Position)
+	UI_BUILDER_DATA_SETTER(const Vector2&, Size)
+	UI_BUILDER_DATA_SETTER(u32, Layer)
+	UI_BUILDER_DATA_SETTER(StringRef, Text)
+	UI_BUILDER_DATA_SETTER(Vector2, TextSize)
+	UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
+	UI_BUILDER_DATA_SETTER(String, Group)
+	UI_BUILDER_DATA_SETTER(const Vector4&, BackgroundColor)
+	UI_BUILDER_DATA_SETTER(f32, SeparatorSize)
 
 	UIBuilder* const restoreColors() {
 		mData.mBackgroundColor = Vector4(0.5,0.5,0.5,1);
@@ -159,6 +166,5 @@ public:
 
 	UIElement* getUIElement();
 };
-
 }
 

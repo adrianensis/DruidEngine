@@ -54,7 +54,7 @@ FreeListAllocator::Block* FreeListAllocator::allocateBlock(u32 size) {
 	/*
 		TODO : better check (in hasSpace method) if requested size is smaller than the max free block size
 	*/
-	DE_ASSERT(selectedBlock != nullptr, "No memory block found!")
+	ASSERT(selectedBlock != nullptr, "No memory block found!")
 
 	if(selectedBlock){
 		if (selectedBlock->size == size) {
@@ -137,10 +137,10 @@ FreeListAllocator::~FreeListAllocator() {
 }
 
 void FreeListAllocator::init(u32 size) {
-	DE_TRACE()
+	TRACE()
 
 	Allocator::init(size);
-	DE_TRACE()
+	TRACE()
 	FreeListAllocator::reset();
 }
 
@@ -160,7 +160,7 @@ void FreeListAllocator::free(const byte *pointer) {
 	u32 freeSize = freeBlock(unalignedAddress);
 
 	// reduce mAllocatedSize
-	Allocator::setAllocatedSize(Allocator::getAllocatedSize() - freeSize);
+	Allocator::setAllocatedSize(Allocator::mAllocatedSize - freeSize);
 }
 
 void FreeListAllocator::flush() {

@@ -8,29 +8,29 @@
 
 namespace DE {
 
-Frustum::Frustum() : DE_Class() {
+Frustum::Frustum() : ObjectBase() {
 
 }
 
 Frustum::~Frustum() {
-	DE_FREE(mPlanes);
-	DE_FREE(mVPmatrix);
+	Memory::free(mPlanes);
+	Memory::free(mVPmatrix);
 	mVPmatrix = nullptr;
 	mCamera = nullptr;
 }
 
 void Frustum::init(Camera *camera) {
-	DE_TRACE()
+	TRACE()
 
 	mCamera = camera;
-	mPlanes = DE_NEW<Array<Vector4>>();
+	mPlanes = Memory::allocate<Array<Vector4>>();
 	mPlanes->init(6);
 
 	for (u32 i = 0; i < mPlanes->getLength(); ++i) {
 		mPlanes->set(i, Vector4(0, 0, 0, 0)); // x,y,z,w <=> A,B,C,D
 	}
 
-	mVPmatrix = DE_NEW<Matrix4>();
+	mVPmatrix = Memory::allocate<Matrix4>();
 	mVPmatrix->identity();
 };
 
@@ -157,5 +157,4 @@ void Frustum::build(bool forceBuild /* = false*/) {
 		}
 	}
 };
-
 }

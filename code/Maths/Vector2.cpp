@@ -5,18 +5,18 @@
 
 namespace DE {
 
-Vector2::Vector2(f32 x, f32 y) : DE_Class(), x(x), y(y) {
+Vector2::Vector2(f32 x, f32 y) : ObjectBase(), x(x), y(y) {
 }
 
-Vector2::Vector2() : DE_Class(), x(0.0f), y(0.0f) {
+Vector2::Vector2() : ObjectBase(), x(0.0f), y(0.0f) {
 }
 
 Vector2::~Vector2() = default;
 
-Vector2::Vector2(const Vector2 &other) : DE_Class(), x(other.x), y(other.y) {
+Vector2::Vector2(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y) {
 }
 
-Vector2::Vector2(const Vector3 &other) : DE_Class(), x(other.x), y(other.y) {
+Vector2::Vector2(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y) {
 }
 
 Vector2& Vector2::set(f32 x, f32 y) {
@@ -56,8 +56,8 @@ Vector2& Vector2::mul(const Vector2 &rhs) {
 }
 
 Vector2& Vector2::div(const Vector2 &rhs) {
-	DE_ASSERT(rhs.x != 0, "Division by zero.");
-	DE_ASSERT(rhs.y != 0, "Division by zero.");
+	ASSERT(rhs.x != 0, "Division by zero.");
+	ASSERT(rhs.y != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	return *this;
@@ -82,7 +82,7 @@ Vector2& Vector2::mul(f32 rhs) {
 }
 
 Vector2& Vector2::div(f32 rhs) {
-	DE_ASSERT(rhs != 0, "Division by zero.");
+	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	return *this;
@@ -116,7 +116,7 @@ f32 Vector2::min() const {
 Vector2& Vector2::nor() {
 	f32 len = this->len();
 
-	DE_ASSERT(len > 0, "Length is zero.");
+	ASSERT(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

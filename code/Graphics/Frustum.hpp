@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector4.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector2.hpp"
@@ -12,17 +12,20 @@ class Matrix4;
 class Camera;
 template<class T> class Array;
 
-class Frustum: public DE_Class {
+class Frustum : public ObjectBase {
 
 private:
 
-	DE_M(VPmatrix, Matrix4*)
-	DE_M(Camera, Camera*)
-	DE_M(Planes, Array<Vector4>*)
+	 Matrix4* mVPmatrix;
+	 Camera* mCamera;
+	 Array<Vector4>* mPlanes;
 
 public:
 
-	DE_CLASS_BODY(Frustum)
+	GENERATE_METADATA(Frustum);
+
+	Frustum();
+	virtual ~Frustum() override;
 
 	void init(Camera *camera);
 
@@ -35,6 +38,5 @@ public:
 	bool testPoint(const Vector3 &point) const;
 	bool testRectangle(const Vector3 &leftTop, f32 width, f32 height) const;
 };
-
 }
 

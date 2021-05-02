@@ -4,31 +4,39 @@
 #include "Containers/DynamicArray.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 namespace DE {
 
-class Mesh: public DE_Class {
+class Mesh : public ObjectBase {
 
 private:
 
-	DE_M_GET(Vertices, Array<f32>*)
-	DE_M_GET(Normals, Array<f32>*)
-	DE_M_GET(TextureCoordinates, Array<f32>*)
-	DE_M_GET(Faces, Array<u32>*)
+	 Array<f32>* mVertices;
+	 Array<f32>* mNormals;
+	 Array<f32>* mTextureCoordinates;
+	 Array<u32>* mFaces;
 
-	DE_M(VertexCount, u32)
+	 u32 mVertexCount;
 
-	DE_M(VerticesIndex, u32)
-	DE_M(NormalsIndex, u32)
-	DE_M(FacesIndex, u32)
-	DE_M(TextureCoordinatesIndex, u32)
+	 u32 mVerticesIndex;
+	 u32 mNormalsIndex;
+	 u32 mFacesIndex;
+	 u32 mTextureCoordinatesIndex;
 
 	static Mesh* smRectangle;
 
 public:
 
-	DE_CLASS_BODY(Mesh)
+	GENERATE_METADATA(Mesh);
+
+	Mesh();
+	virtual ~Mesh() override;;
+
+	GET(Vertices);
+	GET(Normals);
+	GET(TextureCoordinates);
+	GET(Faces);
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh* addVertex(const Vector3 &vec);
@@ -39,6 +47,5 @@ public:
 	static Mesh* getRectangle();
 	static void freeRectangle();
 };
-
 }
 

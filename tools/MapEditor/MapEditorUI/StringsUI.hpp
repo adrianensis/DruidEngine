@@ -1,10 +1,11 @@
 #pragma once
 
-#include <string>
+#include "Core/Basic.hpp"
+#include "Core/Singleton.hpp"
 
 namespace DE {
 
-class StringsUI {
+class StringsUI : public ObjectBase, public Singleton<StringsUI> {
 public:
 	String BoolFalse = "[ ]";
 	String BoolTrue = "[X]";
@@ -28,6 +29,5 @@ public:
 	String InspectorPosCollider = "offset";
 	String Grid = "Grid";
 };
-
 }
 

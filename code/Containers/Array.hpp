@@ -13,19 +13,19 @@ class Array: public SequentialContainer<T> {
 
 private:
 
-	DE_M(TStart, T*);
-	DE_M(Start, byte*);
+	 T* mTStart;
+	 byte* mStart;
 	
 	T& randomAccessOperator(u32 index) const {
-		DE_ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
+		ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
 		return mTStart[index];
 	}
 	
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
-		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
-		DE_ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
+		ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+		ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+		ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+		ASSERT(length <= this->getLength() - destinyIndex, "Not enough space to put array.");
 	}
 	
 	void raw_copy(const Array &other) {
@@ -76,7 +76,7 @@ public:
 
 	using SequentialContainer<T>::put; // because "put" method is ambiguous.
 
-	DE_CLASS_BODY_TEMPLATE(Array<T>, T);
+	GENERATE_METADATA(Array<T>);
 
 	/*!
 	 \brief Default Constructor.
@@ -142,12 +142,12 @@ public:
 	}
 
 	T get(u32 index) const override {
-		DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
+		ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
 		return mTStart[index];
 	}
 
 	void set(u32 index, const T element) override {
-		DE_ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
+		ASSERT(index >= 0 && index < SequentialContainer<T>::getLength(), "Index out of bounds.");
 		mTStart[index] = element;
 	}
 

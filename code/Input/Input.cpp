@@ -13,15 +13,15 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 
 		if(key == GLFW_KEY_ENTER){
 			InputEventKeyEnter event;
-			DE_SEND_INPUT_EVENT(event);
+			SEND_INPUT_EVENT(event);
 		} else if(key == GLFW_KEY_ESCAPE) {
 			InputEventKeyEsc event;
-			DE_SEND_INPUT_EVENT(event);
+			SEND_INPUT_EVENT(event);
 		} else {
 			InputEventKeyPressed event;
 			event.mKey = key;
 			event.mMods = mods;
-			DE_SEND_INPUT_EVENT(event);
+			SEND_INPUT_EVENT(event);
 		}
 
 	} else if (action == GLFW_RELEASE) {
@@ -29,7 +29,7 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 		InputEventKeyReleased event;
 		event.mKey = key;
 		event.mMods = mods;
-		DE_SEND_INPUT_EVENT(event);
+		SEND_INPUT_EVENT(event);
 
 		Input::getInstance()->clearKey();
 	}
@@ -46,13 +46,13 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 		InputEventMouseButtonPressed event;
 		event.mButton = button;
 		event.mMods = mods;
-		DE_SEND_INPUT_EVENT(event);
+		SEND_INPUT_EVENT(event);
 	} else if (action == GLFW_RELEASE) {
 
 		InputEventMouseButtonReleased event;
 		event.mButton = button;
 		event.mMods = mods;
-		DE_SEND_INPUT_EVENT(event);
+		SEND_INPUT_EVENT(event);
 
 		Input::getInstance()->clearMouseButton();
 	}
@@ -63,16 +63,16 @@ void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
 
 	InputEventScroll event;
 	event.mScroll = yoffset;
-	DE_SEND_INPUT_EVENT(event);
+	SEND_INPUT_EVENT(event);
 }
 
 void Input::charCallback(GLFWwindow* window, unsigned int codepoint) {
 	InputEventChar event;
 	event.mChar = (c8) codepoint;
-	DE_SEND_INPUT_EVENT(event);
+	SEND_INPUT_EVENT(event);
 }
 
-Input::Input() : DE_Class(), Singleton<Input>() {
+Input::Input() : ObjectBase(), Singleton<Input>() {
 
 }
 
@@ -81,7 +81,7 @@ Input::~Input() {
 }
 
 void Input::init() {
-	DE_TRACE()
+	TRACE()
 
 	smMouseCoordinates = Vector2();
 	smLastMouseButtonPressed = -1;
@@ -121,7 +121,7 @@ void Input::pollEvents() {
 		smMouseCoordinates.set(newMouseCoordinates);
 
 		InputEventMouseMoved event;
-		DE_SEND_INPUT_EVENT(event);
+		SEND_INPUT_EVENT(event);
 	}
 
 	glfwPollEvents();

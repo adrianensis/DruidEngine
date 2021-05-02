@@ -7,11 +7,11 @@ namespace DE {
 /*!
  \brief Manages memory allocation.
  */
-class Allocator: public DE_Class {
+class Allocator : public ObjectBase {
 
 protected:
 
-	DE_M(Start, byte*)
+	 byte* mStart;
 
 protected:
 
@@ -29,13 +29,16 @@ protected:
 
 public:
 
-	DE_CLASS_BODY(Allocator)
+	GENERATE_METADATA(Allocator);
+
+	Allocator();
+	virtual ~Allocator() override;
 
 	// Debug
 
-	DE_M_GET(TotalSize, u32)
-	DE_M_GET(AllocatedSize, u32)
-	DE_M_GET(DebugMaxAllocatedSize, u32)
+	 u32 mTotalSize;
+	 u32 mAllocatedSize;
+	 u32 mDebugMaxAllocatedSize;
 
 	/*!
 	 \return True if space is enough.
@@ -93,7 +96,7 @@ public:
 	 \brief Constructs objects. It is used like "new" keyword.
 	 Allocate an object of T class, using the allocator.
 
-	 \tparam T Class.
+	 \tparam T ObjectBase.
 	 \param allocator Allocator used to allocate memory.
 	 \param alignment Bytes alignment.
 	 */
@@ -107,7 +110,7 @@ public:
 	 \brief Constructs objects. It is used like "new" keyword.
 	 Allocate an object of T class, using the allocator.
 
-	 \tparam T Class
+	 \tparam T ObjectBase
 	 \param allocator Allocator used to allocate memory.
 	 */
 	template<class T>
@@ -121,13 +124,12 @@ public:
 	 Deallocate data, using the allocator.
 	 \param allocator Allocator used to deallocate memory.
 	 */
-	static void internalFree(DE_Class *object, Allocator *allocator) {
+	static void internalFree(ObjectBase *object, Allocator *allocator) {
 		if (object != nullptr) {
 			object->dynamicDestructor(); // ~T(); 
 			allocator->free(reinterpret_cast<byte*>(object));
 		}
 	};
-
 };
 
 }

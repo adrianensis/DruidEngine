@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include <functional>
 
 namespace DE {
 
 template <class T>
-class Functor: public DE_Class {
+class Functor : public ObjectBase {
 
 protected:
 
@@ -14,9 +14,9 @@ protected:
 
 public:
 
-	DE_CLASS_BODY_TEMPLATE(Functor<T>, T);
+	GENERATE_METADATA(Functor<T>);
 
-	Functor() : DE_Class(){};
+	Functor() : ObjectBase(){};
 	virtual ~Functor() override {};
 
 	virtual void execute() = 0;
@@ -45,7 +45,7 @@ public:
 class FunctorVoid : public Functor<std::function<void()>> {
 public:
 
-	DE_GENERATE_METADATA(FunctorVoid);
+	GENERATE_METADATA(FunctorVoid);
 
 	FunctorVoid() : Functor<std::function<void()>>(){};
 	virtual ~FunctorVoid() override {};
@@ -56,6 +56,5 @@ public:
 	}
 
 };
-
 }
 

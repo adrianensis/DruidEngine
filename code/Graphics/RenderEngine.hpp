@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
@@ -21,38 +21,40 @@ template<class K, class V> class HashMap;
 class Vector3;
 class LineRenderer;
 
-class RenderEngine: public DE_Class, public Singleton<RenderEngine> {
+class RenderEngine: public ObjectBase, public Singleton<RenderEngine> {
 
 private:
 
-	class LayerData: public DE_Class {
+	class LayerData : public ObjectBase {
 	public:
-		DE_CLASS_BODY(LayerData)
+		GENERATE_METADATA(LayerData);
 
-		DE_M(Sorted, bool)
-		DE_M(DynamicObjectsCount, u32) // Non static objects count
-		DE_M(SortCounter, u32)
-		DE_M(Visible, bool)
+	LayerData();
+	virtual ~LayerData() override;
+
+		 bool mSorted;
+		 u32 mDynamicObjectsCount; // Non static objects count
+		 u32 mSortCounter;
+		 bool mVisible;
 	};
 
-	DE_M(BatchesMap, BatchesMap*)
-	DE_M(BatchesMapScreenSpace, BatchesMap*)
+	 BatchesMap* mBatchesMap;
+	 BatchesMap* mBatchesMapScreenSpace;
 
-	DE_M(LineRenderer, LineRenderer*)
-	DE_M(LineRendererScreenSpace, LineRenderer*)
+	 LineRenderer* mLineRenderer;
+	 LineRenderer* mLineRendererScreenSpace;
 
-	DE_M_GET_SET(Camera, Camera*)
-	DE_M_GET(CameraDirtyTranslation, bool)
+	 Camera* mCamera;
+	 bool mCameraDirtyTranslation;
 	
-	using LayersDataMap = HashMap<u32, LayerData*>;
-	DE_M_GET(LayersData, LayersDataMap*)
-	DE_M_GET(MaxLayers, u32)
-	DE_M(MaxLayersUsed, u32)
+	 HashMap<u32, LayerData*>* mLayersData;
+	 u32 mMaxLayers;
+	 u32 mMaxLayersUsed;
 
-	DE_M_GET(MinChunkDrawDistance, f32)
-	DE_M(Chunks, Array<Chunk*>*)
+	 f32 mMinChunkDrawDistance;
+	 Array<Chunk*>* mChunks;
 
-	DE_M(RenderersToFree, List<Renderer*>*)
+	 List<Renderer*>* mRenderersToFree;
 
 	void checkChunks();
 	void freeRenderersPendingtoFree();
@@ -61,7 +63,19 @@ private:
 
 public:
 
-	DE_CLASS_BODY(RenderEngine)
+	GENERATE_METADATA(RenderEngine);
+
+	RenderEngine();
+	virtual ~RenderEngine() override;;
+
+	GET_SET(Camera);
+
+	GET(CameraDirtyTranslation);
+
+	GET(LayersData);
+	GET(MaxLayers);
+
+	GET(MinChunkDrawDistance);
 
 	void init(f32 sceneSize);
 	void step(); // render

@@ -6,7 +6,7 @@ namespace DE {
 
 class UIText;
 
-class UIButton: public UIElement {
+class UIButton : public UIElement {
 
 private:
 
@@ -14,7 +14,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(UIButton)
+	GENERATE_METADATA(UIButton);
+
+	UIButton();
+	virtual ~UIButton() override;
 
 	virtual void init() override;
 	virtual void onDestroy() override;
@@ -25,6 +28,5 @@ public:
 	virtual void setVisibility(bool visibility) override;
 
 };
-
 }
 

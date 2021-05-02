@@ -6,14 +6,19 @@ namespace DE {
 
 class GameObject;
 
-class Script: public Component {
+class Script : public Component {
 private:
 
-	DE_M_GET(FirstStepDone, bool)
+	 bool mFirstStepDone;
 
 public:
 
-	DE_CLASS_BODY(Script)
+	GENERATE_METADATA(Script);
+
+	Script();
+	virtual ~Script() override;;
+
+	GET(FirstStepDone);
 
 	virtual void init();
 	virtual void firstStep();
@@ -28,6 +33,5 @@ public:
 		mFirstStepDone = true;
 	}
 };
-
 }
 

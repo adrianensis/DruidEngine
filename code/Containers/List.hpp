@@ -12,13 +12,13 @@ namespace DE {
 template<class T>
 class List;
 
-class Iterator: public DE_Class {
+class Iterator : public ObjectBase {
 
 public:
 
-	DE_GENERATE_METADATA(Iterator);
+	GENERATE_METADATA(Iterator);
 
-	Iterator() : DE_Class() { };
+	Iterator() : ObjectBase() { };
 
 	virtual ~Iterator() override { };
 
@@ -41,16 +41,16 @@ class List: public SequentialContainer<T> {
 
 private:
 
-	class Node: public DE_Class {
+	class Node : public ObjectBase {
 
 	public:
-		DE_M(Next, List<T>::Node*);
-		DE_M(Prev, List<T>::Node*);
-		DE_M(Element, T);
+		 List<T>::Node* mNext;
+		 List<T>::Node* mPrev;
+		 T mElement;
 
-		DE_CLASS_BODY_TEMPLATE(Node, T);
+		GENERATE_METADATA(Node);
 
-		Node() : DE_Class() {
+		Node() : ObjectBase() {
 		}
 
 		virtual ~Node() override {
@@ -77,8 +77,8 @@ private:
 
 	static const u32 smNodeSize = sizeof(Node);
 
-	DE_M(First, List<T>::Node*);
-	DE_M(Last, List<T>::Node*);
+	 List<T>::Node* mFirst;
+	 List<T>::Node* mLast;
 
 	List<T>::Node* newNode() {
 		List<T>::Node* node = reinterpret_cast<List<T>::Node*>(BaseContainer::mAllocator->allocate(sizeof(Node)));
@@ -124,14 +124,14 @@ private:
 	
 public:
 
-	class ListIterator: public Iterator {
+	class ListIterator : public Iterator {
 
 		friend class List;
 
 	private:
 
-		DE_M(Node, List<T>::Node*);
-		DE_M(Reverse, bool);
+		 List<T>::Node* mNode;
+		 bool mReverse;
 		
 		void init(Node *start) {
 			mNode = start;
@@ -140,7 +140,7 @@ public:
 		
 	public:
 
-		DE_CLASS_BODY_TEMPLATE(ListIterator, T);
+		GENERATE_METADATA(ListIterator);
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;
@@ -162,7 +162,7 @@ public:
 		}
 
 		bool hasNext() const {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			if (mReverse)
 				return (mNode->mPrev != nullptr);
@@ -171,7 +171,7 @@ public:
 		}
 
 		void next() {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			if (mReverse)
 				mNode = mNode->mPrev;
@@ -180,7 +180,7 @@ public:
 		}
 
 		ListIterator getNext() const {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			ListIterator it;
 
@@ -193,7 +193,7 @@ public:
 		}
 
 		bool hasPrev() const {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			if (mReverse)
 				return (mNode->mNext != nullptr);
@@ -202,7 +202,7 @@ public:
 		}
 
 		void prev() {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			if (mReverse)
 				mNode = mNode->mNext;
@@ -211,7 +211,7 @@ public:
 		}
 
 		ListIterator getPrev() const {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			ListIterator it;
 
@@ -224,7 +224,7 @@ public:
 		}
 
 		T& get() const {
-			DE_ASSERT(mNode != nullptr, "Node is null.");
+			ASSERT(mNode != nullptr, "Node is null.");
 
 			return mNode->mElement;
 		}
@@ -281,7 +281,7 @@ private:
 	}
 
 	T& randomAccessOperator(u32 index) const {
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
+		ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		const i32 signedIndex = static_cast<i32>(index);
 
@@ -315,15 +315,15 @@ private:
 	}
 
 	void checkPut(const SequentialContainer<T> &other, u32 destinyIndex, u32 sourceIndex, u32 length) override {
-		DE_ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
-		DE_ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
-		DE_ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
+		ASSERT(sourceIndex >= 0 && sourceIndex < other.getLength(), "sourceIndex is out of bounds.");
+		ASSERT(destinyIndex >= 0, "destinyIndex must be greater than 0.");
+		ASSERT(length <= other.getLength() - sourceIndex, "Not enough space to copy.");
 	}
 
 	
 public:
 
-	DE_CLASS_BODY_TEMPLATE(List<T>, T);
+	GENERATE_METADATA(List<T>);
 
 	List() : 	SequentialContainer<T>() {
 		mFirst = nullptr;
@@ -540,7 +540,7 @@ public:
 	}
 
 	void set(u32 index, const T element) {
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
+		ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		u32 i = 0;
 		ListIterator it = List::getIterator();
@@ -574,7 +574,7 @@ public:
 
 	void removeAt(u32 index) {
 		resetCache();
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
+		ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		if (!List::isEmpty()) {
 
@@ -626,7 +626,7 @@ public:
 
 	void insert(u32 index, T element) {
 		resetCache();
-		DE_ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
+		ASSERT(index >= 0 && index < BaseContainer::mLength, "Index out of bounds.");
 
 		// BaseContainer::mLength++;
 

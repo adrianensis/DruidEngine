@@ -14,13 +14,13 @@
 
 namespace DE {
 
-PhysicsEngine::PhysicsEngine() : DE_Class(), Singleton() {
+PhysicsEngine::PhysicsEngine() : ObjectBase(), Singleton() {
 	mRigidBodies = nullptr;
 	mQuadTree = nullptr;
 }
 
 PhysicsEngine::~PhysicsEngine() {
-	DE_FREE(ContactsManager::getInstance());
+	Memory::free(ContactsManager::getInstance());
 }
 
 void PhysicsEngine::addRigidBody(RigidBody *rigidBody) {
@@ -50,24 +50,24 @@ void PhysicsEngine::internalRemoveRigidBody(const Iterator *it) {
 }
 
 void PhysicsEngine::init(f32 sceneSize) {
-	DE_TRACE()
+	TRACE()
 
 	ContactsManager::getInstance()->init();
 
-	mRigidBodies = DE_NEW<List<RigidBody*>>();
+	mRigidBodies = Memory::allocate<List<RigidBody*>>();
 	mRigidBodies->init();
 
-	mRigidBodiesToFree = DE_NEW<List<RigidBody*>>();
+	mRigidBodiesToFree = Memory::allocate<List<RigidBody*>>();
 	mRigidBodiesToFree->init();
 
-	mQuadTree = DE_NEW<QuadTree>();
+	mQuadTree = Memory::allocate<QuadTree>();
 	mQuadTree->init(sceneSize);
 
 }
 
 void PhysicsEngine::step(f32 deltaTime) {
 
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	// TODO : Move this to settings.
 	u32 maxIterations = 3.0f; // how many times we want to divide dt
@@ -101,45 +101,45 @@ void PhysicsEngine::step(f32 deltaTime) {
 		updateContacts();
 
 		FOR_LIST (it, mRigidBodiesToFree) {
-			DE_FREE(it.get()->getCollider());
-			DE_FREE(it.get());
+			Memory::free(it.get()->getCollider());
+			Memory::free(it.get());
 		}
 
 		mRigidBodiesToFree->clear();
 
 	}
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void PhysicsEngine::updateContacts() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 	ContactsManager::getInstance()->updateContacts();
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void PhysicsEngine::terminate() {
-	DE_TRACE()
+	TRACE()
 
 	if(mRigidBodies){
 		FOR_LIST(it, mRigidBodies) {
-			DE_FREE(it.get()->getCollider());
-			DE_FREE(it.get());
+			Memory::free(it.get()->getCollider());
+			Memory::free(it.get());
 		}
 
-		DE_FREE(mRigidBodies);
+		Memory::free(mRigidBodies);
 	}
 
 	if(mRigidBodiesToFree){
 		FOR_LIST(it, mRigidBodiesToFree) {
-			DE_FREE(it.get()->getCollider());
-			DE_FREE(it.get());
+			Memory::free(it.get()->getCollider());
+			Memory::free(it.get());
 		}
 
-		DE_FREE(mRigidBodiesToFree);
+		Memory::free(mRigidBodiesToFree);
 	}
 
-	DE_FREE(mQuadTree);
+	Memory::free(mQuadTree);
 	mQuadTree = nullptr;
 
 	ContactsManager::getInstance()->terminate();

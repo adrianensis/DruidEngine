@@ -8,7 +8,7 @@ namespace DE {
 const String Log::emptyMessage = "";
 std::ofstream Log::logFile;
 
-Log::Log() : DE_Class() {
+Log::Log() : ObjectBase() {
 }
 
 Log::~Log() = default;
@@ -27,18 +27,18 @@ void Log::log(const String &str) {
 }
 
 void Log::trace(const String file, u32 line, const String function, const String message) {
-	// std::cout << "DE_TRACE > [" /* << std::experimental::filesystem::path(file).filename() << ":" */ << function << ":" << std::to_string(line) << "] > " << message << std::endl;
-	log("DE_TRACE > [" + function + ":" + std::to_string(line) + "] > " + message);
+	// std::cout << "TRACE > [" /* << std::experimental::filesystem::path(file).filename() << ":" */ << function << ":" << std::to_string(line) << "] > " << message << std::endl;
+	log("TRACE > [" + function + ":" + std::to_string(line) + "] > " + message);
 }
 
 void Log::echo(const String &message) {
-	// std::cout << "DE_ECHO > " << message << std::endl;
-	log("DE_ECHO > " + message);
+	// std::cout << "ECHO > " << message << std::endl;
+	log("ECHO > " + message);
 }
 
 void Log::error(const String &message) {
-	// std::cout << "DE_ERROR > " << message << std::endl;
-	log("DE_ERROR > " + message);
+	// std::cout << "ERROR > " << message << std::endl;
+	log("ERROR > " + message);
 }
 
 void Log::brline() { // break line

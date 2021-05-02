@@ -9,47 +9,54 @@ namespace DE
 {
     class MapElementData;
     
-    class MapElement : public GameObject {
+    class MapElement  : public GameObject {
     public:
-        DE_CLASS_BODY(MapElement)
+        GENERATE_METADATA(MapElement);
+
+        MapElement();
+        virtual ~MapElement() override;
         virtual void initFromData(const MapElementData* data);
         static MapElement *create(const MapElementData* data);
     };
 
-    class MapElementData : public DE_Class {
+    class MapElementData  : public ObjectBase {
     public:
-        DE_GENERATE_METADATA(MapElementData)
+        GENERATE_METADATA(MapElementData)
 
-        DE_M(MapElementClassName, String);
-        DE_M(Position, Vector3);
-        DE_M(Size, Vector2);
-        DE_M(Material, Material*);
-        DE_M(Layer, u32);
-        DE_M(MaterialRegionPosition, Vector2);
-        DE_M(MaterialRegionSize, Vector2);
+         String mMapElementClassName;
+         Vector3 mPosition;
+         Vector2 mSize;
+         Material* mMaterial;
+         u32 mLayer;
+         Vector2 mMaterialRegionPosition;
+         Vector2 mMaterialRegionSize;
 
         MapElementData() { mMapElementClassName = MapElement::getClassNameStatic(); }
     };
 
-    class MapElement_Tile : public MapElement {
+    class MapElement_Tile  : public MapElement {
     public:
-        DE_CLASS_BODY(MapElement_Tile)
+        GENERATE_METADATA(MapElement_Tile);
+        MapElement_Tile();
+        virtual ~MapElement_Tile() override;
     };
 
-    class MapElementData_Tile : public MapElementData {
+    class MapElementData_Tile  : public MapElementData {
     public:
-        DE_GENERATE_METADATA(MapElementData_Tile)
+        GENERATE_METADATA(MapElementData_Tile)
         MapElementData_Tile() { mMapElementClassName = MapElement_Tile::getClassNameStatic(); }
     };
 
-    class MapElement_ActionPoint : public MapElement {
+    class MapElement_ActionPoint  : public MapElement {
     public:
-        DE_CLASS_BODY(MapElement_ActionPoint)
+        GENERATE_METADATA(MapElement_ActionPoint);
+        MapElement_ActionPoint();
+        virtual ~MapElement_ActionPoint() override;
     };
 
-    class MapElementData_ActionPoint : public MapElementData {
+    class MapElementData_ActionPoint  : public MapElementData {
     public:
-        DE_GENERATE_METADATA(MapElementData_ActionPoint)
+        GENERATE_METADATA(MapElementData_ActionPoint)
         MapElementData_ActionPoint() { mMapElementClassName = MapElement_ActionPoint::getClassNameStatic(); }
     };
 }

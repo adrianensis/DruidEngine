@@ -20,7 +20,7 @@ template<class K, class V> class HashMap;
 template<class T> class Array;
 template<class T> class List;
 
-class Playground: public Script {
+class Playground : public Script {
 private:
 
 	Transform* mTransform;
@@ -34,7 +34,10 @@ public:
 	GameObject* mPlayer;
 	Material* mMaterial;
 
-	DE_CLASS_BODY(Playground)
+	GENERATE_METADATA(Playground);
+
+	Playground();
+	virtual ~Playground() override;
 
 	GameObject* createProjectile(f32 x, f32 y);
 	void createPlayer();
@@ -45,6 +48,5 @@ public:
 	void step() override;
 	void terminate() override;
 };
-
 }
 

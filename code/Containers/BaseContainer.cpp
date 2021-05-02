@@ -4,7 +4,7 @@
 
 namespace DE {
 
-BaseContainer::BaseContainer() : DE_Class() {
+BaseContainer::BaseContainer() : ObjectBase() {
 	mLength = 0;
 	mElementSize = 0;
 	mAlignment = 0;

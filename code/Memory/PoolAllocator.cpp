@@ -27,11 +27,11 @@ byte* PoolAllocator::getIteratorFromBlock(const byte *block) {
 }
 
 void PoolAllocator::checkAllocateBlock() const {
-	DE_ASSERT(mUsedBlocks + 1 <= mMaxBlocks, "Total memory size exceeded.");
+	ASSERT(mUsedBlocks + 1 <= mMaxBlocks, "Total memory size exceeded.");
 }
 
 void PoolAllocator::checkFreeBlock() const {
-	DE_ASSERT(mUsedBlocks > 0, "Allocated memory is 0.");
+	ASSERT(mUsedBlocks > 0, "Allocated memory is 0.");
 }
 
 PoolAllocator::PoolAllocator() : LinearAllocator() {
@@ -53,10 +53,10 @@ void PoolAllocator::internalInit(u32 blockSize, u32 numBlocks, byte *mem, u32 al
 
 	if (mem == nullptr) {
 		LinearAllocator::init((mAlignment + mFullBlockSize) * mMaxBlocks);
-	DE_TRACE()
+	TRACE()
 } else {
 	LinearAllocator::initFromMemory((mAlignment + mFullBlockSize) * mMaxBlocks, mem);
-DE_TRACE()
+TRACE()
 }
 
 mFirst = (byte*) (reinterpret_cast<ptr>(LinearAllocator::allocate(mFullBlockSize, mAlignment)) + mBlockSize);
@@ -79,28 +79,28 @@ mLast = current;
 }
 
 void PoolAllocator::init(u32 blockSize, u32 numBlocks, u32 alignment) {
-DE_TRACE()
+TRACE()
 
 PoolAllocator::internalInit(blockSize, numBlocks, nullptr, alignment);
 }
 
 void PoolAllocator::initFromMemory(u32 blockSize, byte *mem, u32 numBlocks, u32 alignment) {
-DE_TRACE()
+TRACE()
 
 PoolAllocator::internalInit(blockSize, numBlocks, mem, alignment);
 }
 
 void PoolAllocator::initFromMemory(u32 blockSize, byte *mem, u32 numBlocks) {
-DE_TRACE()
+TRACE()
 
 PoolAllocator::internalInit(blockSize, numBlocks, mem, 1);
 }
 
 void PoolAllocator::init(u32 blockSize, u32 numBlocks) {
-DE_TRACE()
+TRACE()
 
 PoolAllocator::init(blockSize, numBlocks, 1);
-DE_TRACE()
+TRACE()
 }
 
 byte* PoolAllocator::allocateBlock() {

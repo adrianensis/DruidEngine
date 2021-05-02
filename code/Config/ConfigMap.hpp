@@ -5,18 +5,20 @@
 
 namespace DE {
 
-class ConfigMap: public DE_Class {
+class ConfigMap : public ObjectBase {
 
 private:
-	using StringStringMap = HashMap<String, String>;
-	DE_M(Map, StringStringMap)
+	 HashMap<String, String> mMap;
 
 	static String trueString;
 	static String falseString;
 
 public:
 
-	DE_CLASS_BODY(ConfigMap)
+	GENERATE_METADATA(ConfigMap);
+
+	ConfigMap();
+	virtual ~ConfigMap() override;
 
 	void init();
 	void clear();
@@ -35,5 +37,4 @@ public:
 	/*template<class T>
 	const List<T>* getList(const String &key);*/
 };
-
 }

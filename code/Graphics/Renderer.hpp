@@ -12,39 +12,54 @@
 #include "Containers/Array.hpp"
 #include "Graphics/Chunk.hpp"
 
-#include <string>
-
 namespace DE {
 
-class Renderer: public Component {
+class Renderer : public Component {
 private:
 
-	using AnimationsMap = HashMap<String, Animation*>;
-	DE_M(Animations, AnimationsMap*)
-	DE_M(RenderereModelMatrix, Matrix4)
-	DE_M(PositionOffsetDirty, bool)
-	DE_M(ForceRecalculateVertices, bool)
-	DE_M(Vertices, Array<Vector2>*)
-	DE_M(IsAffectedByProjection, bool)
+	 HashMap<String, Animation*>* mAnimations;
+	 Matrix4 mRenderereModelMatrix;
+	 bool mPositionOffsetDirty;
+	 bool mForceRecalculateVertices;
+	 Array<Vector2>* mVertices;
+	 bool mIsAffectedByProjection;
 
-	DE_M_GET(CurrentAnimation, Animation*)
-	DE_M_GET(Color, Array<f32>*)
-	DE_M_GET(PositionOffset, Vector3)
-	DE_M_GET(RegionPosition, Vector2)
-	DE_M_GET(RegionSize, Vector2)
-	DE_M_GET_SET(Mesh, Mesh*)
-	DE_M_GET_SET(Material, Material*)
-	DE_M_GET_SET(IsInvertAxis, bool)
-	DE_M_GET_SET(IsLineMode, bool)
-	DE_M_GET_SET(Layer, u32)
-	DE_M_GET_SET(RenderDistance, f32)
-	DE_M_GET_SET(IsOutOfCamera, bool)
-	DE_M_GET_SET(IsAlreadyInBatch, bool)
-	DE_M_GET_SET(Chunk, Chunk*)
+	 Animation* mCurrentAnimation;
+	 Array<f32>* mColor;
+	 Vector3 mPositionOffset;
+	 Vector2 mRegionPosition;
+	 Vector2 mRegionSize;
+	 Mesh* mMesh;
+	 Material* mMaterial;
+	 bool mIsInvertAxis;
+	 bool mIsLineMode;
+	 u32 mLayer;
+	 f32 mRenderDistance;
+	 bool mIsOutOfCamera;
+	 bool mIsAlreadyInBatch;
+	 Chunk* mChunk;
 
 public:
 
-	DE_CLASS_BODY(Renderer)
+	GET(CurrentAnimation);
+	GET(Color);
+	GET(PositionOffset);
+	GET(RegionPosition);
+	GET(RegionSize);
+	GET_SET(Mesh);
+	GET_SET(Material);
+	GET_SET(IsInvertAxis);
+	GET_SET(IsLineMode);
+	GET_SET(Layer);
+	GET_SET(RenderDistance);
+	GET_SET(IsOutOfCamera);
+	GET_SET(IsAlreadyInBatch);
+	GET_SET(Chunk);
+
+	GENERATE_METADATA(Renderer);
+
+	Renderer();
+	virtual ~Renderer() override;
 
 	void init() override;
 	void setAnimation(StringRef name);
@@ -61,6 +76,5 @@ public:
 	virtual void save(ConfigMap* configMap, StringRef objectName) override;
 	virtual void load(ConfigMap* configMap, StringRef objectName) override;
 };
-
 }
 

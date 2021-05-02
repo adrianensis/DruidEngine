@@ -7,7 +7,7 @@ namespace DE {
 
 std::map<String, u32> Memory::memoryMapCounter;
 
-std::map<String, std::function<DE_Class*()>> Memory::classNamesMap;
+std::map<String, std::function<ObjectBase*()>> Memory::classNamesMap;
 
 FreeListAllocator Memory::smGlobal;
 //LinearAllocator Memory::smGlobal;
@@ -25,16 +25,16 @@ void Memory::init() {
 	// NOTE: Log starts here!!
 	Log::init();
 
-	DE_TRACE()
+	TRACE()
 
-	smGlobal.init(2 * GB);
+	smGlobal.init(/*2 * GB*/ 500 * MB);
 
 	ECHO("TOTAL MEMORY (IN MB)");
-	VAL(f32,(smGlobal.getTotalSize() / MB));
+	VAL(f32,(smGlobal.mTotalSize / MB));
 }
 
 void Memory::init(u32 size) {
-	DE_TRACE()
+	TRACE()
 
 	smGlobal.init(size);
 }
@@ -50,16 +50,16 @@ Allocator& Memory::getGlobal() {
 void Memory::free() {
 
 	ECHO("MEMORY SIZE (IN MB)");
-	VAL(f32,(smGlobal.getTotalSize() / MB));
+	VAL(f32,(smGlobal.mTotalSize / MB));
 
 	ECHO("MAX ALLOCATED MEMORY(IN MB)");
-	VAL(f32,(smGlobal.getDebugMaxAllocatedSize() / MB));
+	VAL(f32,(smGlobal.mDebugMaxAllocatedSize / MB));
 
 	ECHO("REMAINING ALLOCATED MEMORY (IN MB)");
-	VAL(f32,(smGlobal.getAllocatedSize() / MB));
+	VAL(f32,(smGlobal.mAllocatedSize / MB));
 
 	ECHO("REMAINING ALLOCATED MEMORY (BYTES)");
-	VAL(f32,(smGlobal.getAllocatedSize()));
+	VAL(f32,(smGlobal.mAllocatedSize));
 
 	smGlobal.terminate();
 
@@ -76,12 +76,12 @@ void Memory::free() {
 	ECHO("TERMINATE - OK")
 }
 
-DE_Class* Memory::internalFromClassName(StringRef className) {
-	DE_ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered: " + className)
+ObjectBase* Memory::internalFromClassName(StringRef className) {
+	ASSERT(classNamesMap.find(className) != classNamesMap.end() , "Class name is not registered: " + className)
 	return classNamesMap[className]();
 }
 
-void Memory::internalRegisterClassName(StringRef className, std::function<DE_Class*()> instantiationFunction) {
+void Memory::internalRegisterClassName(StringRef className, std::function<ObjectBase*()> instantiationFunction) {
 	classNamesMap[className] = instantiationFunction;
 }
 }

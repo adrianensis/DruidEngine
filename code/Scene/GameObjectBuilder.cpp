@@ -12,7 +12,7 @@
 
 namespace DE {
 
-GameObjectBuilder::GameObjectBuilder() : DE_Class(), Singleton<GameObjectBuilder>() {
+GameObjectBuilder::GameObjectBuilder() : ObjectBase(), Singleton<GameObjectBuilder>() {
 
 }
 
@@ -21,11 +21,11 @@ GameObjectBuilder::~GameObjectBuilder() {
 }
 
 GameObjectBuilder* GameObjectBuilder::createSprite(Material* material, u32 layer, bool isStatic) {
-	mGameObject = DE_NEW<GameObject>();
+	mGameObject = Memory::allocate<GameObject>();
 	mGameObject->init();
 	mGameObject->setIsStatic(isStatic);
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mGameObject->addComponent<Renderer>(renderer);
 
 	renderer->setLayer(layer);

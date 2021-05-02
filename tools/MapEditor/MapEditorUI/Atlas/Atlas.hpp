@@ -15,11 +15,11 @@ template<class T> class Array;
 
 class MapEditor;
 
-class Atlas : public DE_Class{
+class Atlas : public ObjectBase{
 
 private:
 
-	const StringsUI mStringsUI;
+	
 
 	String mAtlasSelectorUIGroup = "atlasSelector";
 	String mAtlasUIGroup = "atlas";
@@ -29,19 +29,21 @@ private:
 
 	MapEditor* mMapEditor;
 
-	DE_M(MapElementData_Tile, MapElementData_Tile); 
+	MapElementData_Tile mMapElementData_Tile; 
 
 	void createAtlasSelector();
 	void createAtlas(u32 index, Material* material);
 
 public:
 
-	DE_CLASS_BODY(Atlas)
+	GENERATE_METADATA(Atlas);
+
+	Atlas();
+	virtual ~Atlas() override;
 
 	void init(MapEditor *mapEditor);
 
 	void toggleAtlas();
 };
-
 }
 

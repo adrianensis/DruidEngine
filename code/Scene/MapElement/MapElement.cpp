@@ -14,7 +14,7 @@ namespace DE
         getTransform()->setLocalPosition(data->mPosition);
         getTransform()->setScale(Vector3(data->mSize, 1));
 
-        Renderer *renderer = DE_NEW<Renderer>();
+        Renderer *renderer = Memory::allocate<Renderer>();
         addComponent<Renderer>(renderer);
 
         renderer->setMesh(Mesh::getRectangle());
@@ -27,7 +27,7 @@ namespace DE
     }
 
     MapElement* MapElement::create(const MapElementData* data) {
-        MapElement *mapElement = DE_NEW_FROM_NAME<MapElement>(data->mMapElementClassName);
+        MapElement *mapElement = Memory::fromClassName<MapElement>(data->mMapElementClassName);
         mapElement->init();
         mapElement->initFromData(data);
 

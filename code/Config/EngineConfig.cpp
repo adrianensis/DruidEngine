@@ -6,7 +6,7 @@
 
 namespace DE {
 
-EngineConfig::EngineConfig() : DE_Class(), Singleton() {
+EngineConfig::EngineConfig() : ObjectBase(), Singleton() {
 }
 
 EngineConfig::~EngineConfig() {

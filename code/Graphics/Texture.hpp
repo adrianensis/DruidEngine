@@ -1,24 +1,32 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include <string>
 
 namespace DE {
 
-class Texture: public DE_Class {
+class Texture : public ObjectBase {
 
-	DE_M_GET(TextureId, u32)
-	DE_M_GET(Data, byte*)
-	DE_M_GET(Width, int)
-	DE_M_GET(Height, int)
-	DE_M_GET(Path, String)
+	 u32 mTextureId;
+	 byte* mData;
+	 int mWidth;
+	 int mHeight;
+	 String mPath;
 
 public:
 
-	DE_CLASS_BODY(Texture)
+	GENERATE_METADATA(Texture);
+
+	Texture();
+	virtual ~Texture() override;;
+
+	GET(TextureId);
+	GET(Data);
+	GET(Width);
+	GET(Height);
+	GET(Path);
 
 	void init(const String &path);
 };
-
 }
 

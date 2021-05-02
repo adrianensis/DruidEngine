@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/BasicTypes.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/Assert/Assert.hpp"
 #include <string>
 
 namespace DE {
@@ -39,7 +39,7 @@ public:
 		} else if constexpr (std::is_integral<H>::value || std::is_pointer<H>::value) {
 			return (u64) key;
 		} else {
-			DE_ASSERT(false, "Object or Class is not Hash compatible.");
+			ASSERT(false, "Object or ObjectBase is not Hash compatible.");
 		}
 	}
 };

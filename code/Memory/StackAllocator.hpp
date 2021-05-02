@@ -8,18 +8,21 @@ namespace DE {
 /*!
  \brief Allocates memory in FIFO strategy.
  */
-class StackAllocator: public LinearAllocator {
+class StackAllocator : public LinearAllocator {
 
 private:
 
-	DE_M(Top, byte*);
+	 byte* mTop;
 
 	static const u32 smHeaderSize;
 	void storeHeader(const byte *address, u32 size);
 
 public:
 
-	DE_CLASS_BODY(StackAllocator)
+	GENERATE_METADATA(StackAllocator);
+
+	StackAllocator();
+	virtual ~StackAllocator() override;
 
 	/*!
 	 \return Pointer to the top of the stack.
@@ -40,6 +43,5 @@ public:
 	void reset() override;
 
 };
-
 }
 

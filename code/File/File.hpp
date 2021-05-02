@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -10,16 +10,18 @@
 
 namespace DE {
 
-class File: public DE_Class {
+class File : public ObjectBase {
 
 public:
 
-	DE_CLASS_BODY(File)
+	GENERATE_METADATA(File);
+
+	File();
+	virtual ~File() override;
 
 	static void init();
 	static void readFile(const String &path, std::function<void(std::ifstream &file)> callback);
 	static void writeFile(const String &path, std::function<void(std::ofstream &file)> callback);
 };
-
 }
 

@@ -2,24 +2,29 @@
 
 #include "Core/BasicTypes.hpp"
 #include "Core/Singleton.hpp"
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Log/Log.hpp"
 #include <chrono>
 
 namespace DE {
 
-class TimeMark : public DE_Class {
+class TimeMark  : public ObjectBase {
 private:
-	DE_M(DeltaTimeMillis, f32)
-	DE_M(DeltaTimeSeconds, f32)
-	DE_M(DeltaTimeChronoDuration, std::chrono::milliseconds)
-	DE_M(StartTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
-	DE_M(LastTime, std::chrono::time_point<std::chrono::high_resolution_clock>)
+	 f32 mDeltaTimeMillis;
+	 f32 mDeltaTimeSeconds;
+	 std::chrono::milliseconds mDeltaTimeChronoDuration;
+	 std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime;
+	 std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime;
 
-	DE_M_GET(IsStarted, bool)
+	 bool mIsStarted;
 
 public:
-	DE_CLASS_BODY(TimeMark)
+
+	GENERATE_METADATA(TimeMark);
+
+	TimeMark();
+	virtual ~TimeMark() override;
+	GET(IsStarted);
 
 	void init();
 	void start();
@@ -44,12 +49,15 @@ public:
 	}
 };
 
-class Time : public DE_Class, public Singleton<Time>{
+class Time : public ObjectBase, public Singleton<Time>{
 private:
-	DE_M(InternalTimeMark, TimeMark)
+	 TimeMark mInternalTimeMark;
 
 public:
-	DE_CLASS_BODY(Time)
+	GENERATE_METADATA(Time);
+
+	Time();
+	virtual ~Time() override;
 
 	void init() { mInternalTimeMark.init(); }
 	void startFrame() { mInternalTimeMark.start(); }
@@ -58,6 +66,5 @@ public:
 	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
 	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
 };
-
 }
 

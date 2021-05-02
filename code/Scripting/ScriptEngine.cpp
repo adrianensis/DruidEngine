@@ -9,7 +9,7 @@
 
 namespace DE {
 
-ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
+ScriptEngine::ScriptEngine() : ObjectBase(), Singleton() {
 	mScripts = nullptr;
 	mController = nullptr;
 }
@@ -17,9 +17,9 @@ ScriptEngine::ScriptEngine() : DE_Class(), Singleton() {
 ScriptEngine::~ScriptEngine() = default;
 
 void ScriptEngine::init() {
-	DE_TRACE()
+	TRACE()
 
-	mScripts = DE_NEW<List<Script*>>();
+	mScripts = Memory::allocate<List<Script*>>();
 	mScripts->init();
 
 	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
@@ -64,25 +64,25 @@ void ScriptEngine::internalRemoveScript(const Iterator *it) {
 	Script* script = (*castedIt).get();
 	script->terminate();
 	script->finallyDestroy();
-	DE_FREE(script);
+	Memory::free(script);
 }
 
 void ScriptEngine::terminate() {
-	DE_TRACE()
+	TRACE()
 
 	if(mController){
 		mController->terminate();
-		DE_FREE(mController);
+		Memory::free(mController);
 	}
 
 	if (mScripts) {
 		FOR_LIST (it, mScripts) {
 			Script* script = it.get();
 			script->terminate();
-			DE_FREE(script);
+			Memory::free(script);
 		}
 
-		DE_FREE(mScripts);
+		Memory::free(mScripts);
 	}
 }
 

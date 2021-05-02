@@ -9,27 +9,30 @@
 
 namespace DE {
 
-class MapEditor: public Script {
+class MapEditor : public Script {
 private:
 
-	DE_M(Transform, Transform*)
-	DE_M(CameraTransform, Transform*)
-	DE_M(CameraControl, bool)
+	 Transform* mTransform;
+	 Transform* mCameraTransform;
+	 bool mCameraControl;
 
-	DE_M(IsMapLoaded, bool)
+	 bool mIsMapLoaded;
 
 public:
 
-	DE_M(Camera, Camera*)
-	DE_M(Layer, u32)
-	DE_M(Zoom, f32)
-	DE_M(Player, GameObject*)
-	DE_M(MapEditorUI, MapEditorUI)
+	 Camera* mCamera;
+	 u32 mLayer;
+	 f32 mZoom;
+	 GameObject* mPlayer;
+	 MapEditorUI mMapEditorUI;
 
-	DE_M(Grid, Grid)
-	DE_M(ConfigMap, ConfigMap*)
+	 Grid mGrid;
+	 ConfigMap* mConfigMap;
 
-	DE_CLASS_BODY(MapEditor)
+	GENERATE_METADATA(MapEditor);
+
+	MapEditor();
+	virtual ~MapEditor() override;
 
 	void createPlayer();
 	void destroyPlayer();
@@ -45,6 +48,5 @@ public:
 	void step() override;
 	void terminate() override;
 };
-
 }
 

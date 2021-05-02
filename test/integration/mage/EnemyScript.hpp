@@ -10,7 +10,7 @@ class UIText;
 class Renderer;
 class RigidBody;
 
-class EnemyScript: public Script {
+class EnemyScript : public Script {
 
 private:
 	Renderer* mRenderer;
@@ -22,7 +22,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(EnemyScript)
+	GENERATE_METADATA(EnemyScript);
+
+	EnemyScript();
+	virtual ~EnemyScript() override;
 
 	void init() override;
 	void firstStep() override;
@@ -40,6 +43,5 @@ public:
 	}
 
 };
-
 }
 

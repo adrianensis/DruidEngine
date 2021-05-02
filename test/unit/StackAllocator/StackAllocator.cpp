@@ -6,7 +6,7 @@ using namespace DE;
 
 int main() {
 
-	DE_test(DE::StackAllocator);
+	test(DE::StackAllocator);
 
 	DE::StackAllocator stack;
 	// stack.init(64);
@@ -19,16 +19,16 @@ int main() {
 	u32* a = reinterpret_cast<u32*>(stack.allocate(sizeInt));
 	*a = 300;
 
-	DE_test_show(a);
-	DE_test_show(*a);
+	test_show(a);
+	test_show(*a);
 
-	DE_test_expected_uint(*a, 300);
+	test_expected_uint(*a, 300);
 
-	DE_test_expected_uint(stack.getAllocatedSize(), sizeInt + headerSize + 1);
+	test_expected_uint(stack.getAllocatedSize(), sizeInt + headerSize + 1);
 
 	stack.free();
 
-	DE_test_expected_uint(stack.getAllocatedSize(), 0);
+	test_expected_uint(stack.getAllocatedSize(), 0);
 
 	//------------------------------------------------------
 
@@ -38,12 +38,12 @@ int main() {
 	*b = 300;
 	total += sizeInt + headerSize + 1;
 
-	DE_test_show(b);
-	DE_test_show(*b);
+	test_show(b);
+	test_show(*b);
 
-	DE_test_expected_uint(*b, 300);
+	test_expected_uint(*b, 300);
 
-	DE_test_expected_uint(stack.getAllocatedSize(), total);
+	test_expected_uint(stack.getAllocatedSize(), total);
 
 	//------------------------------------------------------
 
@@ -51,13 +51,13 @@ int main() {
 	*c = 500;
 	total += sizeInt + headerSize + 1;
 
-	DE_test_show(c);
-	DE_test_show(*c);
+	test_show(c);
+	test_show(*c);
 
-	DE_test_expected_uint(*b, 300);
-	DE_test_expected_uint(*c, 500);
+	test_expected_uint(*b, 300);
+	test_expected_uint(*c, 500);
 
-	DE_test_expected_uint(stack.getAllocatedSize(), total);
+	test_expected_uint(stack.getAllocatedSize(), total);
 
 	//------------------------------------------------------
 
@@ -66,36 +66,36 @@ int main() {
 
 	total += sizeInt + headerSize + 16;
 
-	DE_test_show(d);
-	DE_test_show(*d);
+	test_show(d);
+	test_show(*d);
 
-	DE_test_expected_uint(*b, 300);
-	DE_test_expected_uint(*c, 500);
-	DE_test_expected_uint(*d, 700);
+	test_expected_uint(*b, 300);
+	test_expected_uint(*c, 500);
+	test_expected_uint(*d, 700);
 
-	DE_test_expected_uint(stack.getAllocatedSize(), total);
+	test_expected_uint(stack.getAllocatedSize(), total);
 
 	//------------------------------------------------------
 
-	DE_test_show(stack.getAllocatedSize());
+	test_show(stack.getAllocatedSize());
 
 	stack.free(); // pop d
 
-	DE_test_show(stack.getAllocatedSize());
+	test_show(stack.getAllocatedSize());
 
 	stack.free(); // pop c
 
-	DE_test_show(stack.getAllocatedSize());
+	test_show(stack.getAllocatedSize());
 
 	stack.free(); // pop b
 
 	// stack.reset();
 
-	DE_test_expected_uint(stack.getAllocatedSize(), 0);
+	test_expected_uint(stack.getAllocatedSize(), 0);
 
 	stack.reset();
 
-	DE_test_expected_uint(stack.getAllocatedSize(), 0);
+	test_expected_uint(stack.getAllocatedSize(), 0);
 
 	summary();
 

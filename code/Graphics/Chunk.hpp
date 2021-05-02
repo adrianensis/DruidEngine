@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector3.hpp"
 
 namespace DE {
@@ -9,19 +9,26 @@ class Renderer;
 class BatchesMap;
 template<class T> class List;
 
-class Chunk: public DE_Class {
+class Chunk : public ObjectBase {
 private:
 
-	DE_M(Renderers, List<Renderer*>*);
-	DE_M(LeftTop, Vector3);
-	DE_M(Size, f32);
-	DE_M_GET(IsLoaded, bool)
-	DE_M_GET(Center, Vector3)
-	DE_M_GET(Radius, f32)
+	 List<Renderer*>* mRenderers;
+	 Vector3 mLeftTop;
+	 f32 mSize;
+	 bool mIsLoaded;
+	 Vector3 mCenter;
+	 f32 mRadius;
 
 public:
 
-	DE_CLASS_BODY(Chunk)
+	GENERATE_METADATA(Chunk);
+
+	Chunk();
+	virtual ~Chunk() override;;
+
+	GET(IsLoaded);
+	GET(Center);
+	GET(Radius);
 
 	void init();
 	void set(const Vector3 &leftTop, f32 size);

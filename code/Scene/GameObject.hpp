@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
 #include "Config/ConfigMap.hpp"
@@ -12,31 +12,42 @@ class Component;
 class Transform;
 class Scene;
 
-DE_EVENT_DECLARATION_BEGIN(EventOnDestroy)
-DE_EVENT_DECLARATION_END(EventOnDestroy)
+EVENT_DECLARATION_BEGIN(EventOnDestroy)
+EVENT_DECLARATION_END(EventOnDestroy)
 
-class GameObject: public DE_Class {
+class GameObject : public ObjectBase {
 private:
 
 	using ComponentsMap = HashMap<ClassId, List<Component*>*>;
-	DE_M(ComponentsMap, ComponentsMap*)
+	ComponentsMap* mComponentsMap;
 
 	List<Component*>* getComponents(ClassId classId);
 	Component* getFirstComponent(ClassId classId);
 
-	DE_M(IsActive, bool)
+	 bool mIsActive;
 
-	DE_M_GET_SET(Scene, Scene*)
-	DE_M_GET_SET(IsStatic, bool)
-	DE_M_GET(Transform, Transform*)
-	DE_M_GET_SET(Tag, String)
-	DE_M_GET(IsPendingToBeDestroyed, bool)
-	DE_M_GET(IsDestroyed, bool)
-	DE_M_GET_SET(ShouldPersist, bool)
+	 Scene* mScene;
+	 bool mIsStatic;
+	 Transform* mTransform;
+	 String mTag;
+	 bool mIsPendingToBeDestroyed;
+	 bool mIsDestroyed;
+	 bool mShouldPersist;
 
 public:
 
-	DE_CLASS_BODY(GameObject)
+	GENERATE_METADATA(GameObject);
+
+	GameObject();
+	virtual ~GameObject() override;;
+
+	GET_SET(Scene);
+	GET_SET(IsStatic);
+	GET(Transform);
+	GET_SET(Tag);
+	GET(IsPendingToBeDestroyed);
+	GET(IsDestroyed);
+	GET_SET(ShouldPersist);
 
 	virtual void init();
 
@@ -81,6 +92,5 @@ public:
 	virtual void save(ConfigMap* configMap, StringRef objectName);
 	virtual void load(ConfigMap* configMap, StringRef objectName);
 };
-
 }
 

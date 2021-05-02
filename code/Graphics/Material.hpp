@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Vector4.hpp"
 
 namespace DE {
@@ -8,22 +8,29 @@ namespace DE {
 class Texture;
 class Shader;
 
-class Material: public DE_Class {
+class Material : public ObjectBase {
 
 private:
 	Vector4 mColor;
 
-	DE_M_GET_SET(Shader, Shader*)
-	DE_M_GET_SET(Texture, Texture*)
-	DE_M_GET_SET(AlphaEnabled, bool)
-	DE_M_GET_SET(HasBorder, bool)
+	 Shader* mShader;
+	 Texture* mTexture;
+	 bool mAlphaEnabled;
+	 bool mHasBorder;
 
 public:
 
-	DE_CLASS_BODY(Material)
+	GENERATE_METADATA(Material);
+
+	Material();
+	virtual ~Material() override;;
+
+	GET_SET(Shader);
+	GET_SET(Texture);
+	GET_SET(AlphaEnabled);
+	GET_SET(HasBorder);
 
 	void init();
 };
-
 }
 

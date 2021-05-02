@@ -26,7 +26,7 @@
 
 namespace DE {
 
-RenderEngine::LayerData::LayerData() : DE_Class() {
+RenderEngine::LayerData::LayerData() : ObjectBase() {
 	mSorted = false;
 	mDynamicObjectsCount = 0;
 	mSortCounter = 0;
@@ -35,7 +35,7 @@ RenderEngine::LayerData::LayerData() : DE_Class() {
 
 RenderEngine::LayerData::~LayerData() = default;
 
-RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
+RenderEngine::RenderEngine() : ObjectBase(), Singleton<RenderEngine>() {
 	mCamera = nullptr;
 	mBatchesMap = nullptr;
 	mCameraDirtyTranslation = true;
@@ -44,16 +44,16 @@ RenderEngine::RenderEngine() : DE_Class(), Singleton<RenderEngine>() {
 RenderEngine::~RenderEngine() = default;
 
 void RenderEngine::init(f32 sceneSize) {
-	DE_TRACE()
+	TRACE()
 
-	mLineRenderer = DE_NEW<LineRenderer>();
+	mLineRenderer = Memory::allocate<LineRenderer>();
 	mLineRenderer->init();
 
-	mLineRendererScreenSpace = DE_NEW<LineRenderer>();
+	mLineRendererScreenSpace = Memory::allocate<LineRenderer>();
 	mLineRendererScreenSpace->init();
 	mLineRendererScreenSpace->mIsAffectedByProjection = false;
 
-	mRenderersToFree = DE_NEW<List<Renderer*>>();
+	mRenderersToFree = Memory::allocate<List<Renderer*>>();
 	mRenderersToFree->init();
 
 	// Static Chunks grid
@@ -63,7 +63,7 @@ void RenderEngine::init(f32 sceneSize) {
 	f32 chunksGridSize = EngineConfig::getInstance()->getF32("scene.chunks.gridSize");
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f; // TODO : Make it power of 2!
 
-	mChunks = DE_NEW<Array<Chunk*>>();
+	mChunks = Memory::allocate<Array<Chunk*>>();
 	mChunks->init(chunksGridSize * chunksGridSize);
 
 	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
@@ -71,7 +71,7 @@ void RenderEngine::init(f32 sceneSize) {
 	u32 count = 0;
 	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
 		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
-			Chunk* chunk = DE_NEW<Chunk>();
+			Chunk* chunk = Memory::allocate<Chunk>();
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
@@ -80,20 +80,20 @@ void RenderEngine::init(f32 sceneSize) {
 		}
 	}
 
-	mBatchesMap = DE_NEW<BatchesMap>();
+	mBatchesMap = Memory::allocate<BatchesMap>();
 	mBatchesMap->init();
 
-	mBatchesMapScreenSpace = DE_NEW<BatchesMap>();
+	mBatchesMapScreenSpace = Memory::allocate<BatchesMap>();
 	mBatchesMapScreenSpace->init();
 
 	mMaxLayersUsed = 0;
 
-	mLayersData = DE_NEW<HashMap<u32, LayerData*>>();
+	mLayersData = Memory::allocate<HashMap<u32, LayerData*>>();
 	mLayersData->init();
 
 	mMaxLayers = EngineConfig::getInstance()->getU32("scene.maxLayers");
 	FOR_RANGE(i, 0, mMaxLayers) {
-		LayerData* layerData = DE_NEW<LayerData>();
+		LayerData* layerData = Memory::allocate<LayerData>();
 		layerData->mSorted = EngineConfig::getInstance()->getBool("scene.sortByYCoordinate");
 		mLayersData->set(i, layerData);
 	}
@@ -111,7 +111,7 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
 
 void RenderEngine::step() {
 
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	if (mCamera) {
 		if (mCamera->getFrustum()) {
@@ -126,20 +126,20 @@ void RenderEngine::step() {
 	swap();
 	checkChunks();
 	freeRenderersPendingtoFree();
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 
 }
 
 void RenderEngine::swap() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	RenderContext::swap();
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::renderBatches() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	u32 drawCallCounter = 0;
 
@@ -158,11 +158,11 @@ void RenderEngine::renderBatches() {
 
 	// VAR(u32,drawCallCounter);
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::checkChunks() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	FOR_ARRAY(i, mChunks) {
 		Chunk* chunk = mChunks->get(i);
@@ -181,70 +181,70 @@ void RenderEngine::checkChunks() {
 		}
 	}
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::freeRenderersPendingtoFree() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	FOR_LIST(it, mRenderersToFree){
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
 	mRenderersToFree->clear();
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::stepDebug() {
-	DE_PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	mLineRenderer->render();
 	mLineRendererScreenSpace->render();
 
-	DE_PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::terminate() {
-	DE_TRACE()
+	TRACE()
 
-	DE_FREE(mLineRenderer);
-	DE_FREE(mLineRendererScreenSpace);
+	Memory::free(mLineRenderer);
+	Memory::free(mLineRendererScreenSpace);
 
 	if(mChunks){
 		FOR_ARRAY(i, mChunks) {
-			DE_FREE(mChunks->get(i));
+			Memory::free(mChunks->get(i));
 		}
 
-		DE_FREE(mChunks);
+		Memory::free(mChunks);
 	}
 
 	if(mBatchesMap){
-		DE_FREE(mBatchesMap);
+		Memory::free(mBatchesMap);
 	}
 
 	if(mBatchesMapScreenSpace){
-		DE_FREE(mBatchesMapScreenSpace);
+		Memory::free(mBatchesMapScreenSpace);
 	}
 
 	if(mLayersData){
 		FOR_LIST(it, mLayersData->getValues()) {
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 
-		DE_FREE(mLayersData);
+		Memory::free(mLayersData);
 	}
 
-	//DE_FREE(Mesh::getRectangle());
+	//Memory::free(Mesh::getRectangle());
 
 	Mesh::freeRectangle();
 
 	if(mRenderersToFree){
 		FOR_LIST(it, mRenderersToFree){
-			DE_FREE(it.get());
+			Memory::free(it.get());
 		}
 
-		DE_FREE(mRenderersToFree);
+		Memory::free(mRenderersToFree);
 	}
 }
 
@@ -255,7 +255,7 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 		if(chunk){
 			chunk->addRenderer(renderer);
 		} else {
-			//DE_ASSERT(false, "Renderer can't find a chunk.")
+			ASSERT(false, "Renderer can't find a chunk.")
 		}
 	} else {
 		// UI Case!

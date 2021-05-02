@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/BasicTypes.hpp"
 #include "Maths/Vector4.hpp"
 
@@ -10,11 +10,11 @@ template<class T> class Array;
 
 class Matrix4;
 
-class Shader: public DE_Class {
+class Shader : public ObjectBase {
 private:
-	DE_M(VertexShader, u32)
-	DE_M(FragmentShader, u32)
-	DE_M(Program, u32)
+	 u32 mVertexShader;
+	 u32 mFragmentShader;
+	 u32 mProgram;
 
 	static Shader* msShaderDefault;
 	static Shader* msShaderDebug;
@@ -23,7 +23,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(Shader)
+	GENERATE_METADATA(Shader);
+
+	Shader();
+	virtual ~Shader() override;
 
 	static Shader* getDefaultShader();
 	static Shader* getDebugShader();
@@ -42,6 +45,5 @@ public:
 	void addVector3(Array<f32> *value, const String &name);
 	void addBool(bool value, const String &name);
 };
-
 }
 

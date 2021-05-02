@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 
 namespace DE {
@@ -9,18 +9,21 @@ class RenderEngine;
 class PhysicsEngine;
 class ScriptEngine;
 
-class Engine: public DE_Class, public Singleton<Engine> {
+class Engine: public ObjectBase, public Singleton<Engine> {
 
 private:
 
-	DE_M(FPS, f32)
-	DE_M(RenderEngine, RenderEngine*)
-	DE_M(PhysicsEngine, PhysicsEngine*)
-	DE_M(ScriptEngine, ScriptEngine*)
+	 f32 mFPS;
+	 RenderEngine* mRenderEngine;
+	 PhysicsEngine* mPhysicsEngine;
+	 ScriptEngine* mScriptEngine;
 
 public:
 
-	DE_CLASS_BODY(Engine)
+	GENERATE_METADATA(Engine);
+
+	Engine();
+	virtual ~Engine() override;
 
 	void init();
 	void initSubsystems();
@@ -28,6 +31,5 @@ public:
 	void run();
 	void terminate();
 };
-
 }
 

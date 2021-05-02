@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 
 namespace DE {
@@ -12,20 +12,25 @@ class GameObject;
 template<class T> class List;
 class Iterator;
 
-class PhysicsEngine: public DE_Class, public Singleton<PhysicsEngine> {
+class PhysicsEngine: public ObjectBase, public Singleton<PhysicsEngine> {
 private:
 
-	DE_M(RigidBodies, List<RigidBody*>*)
-	DE_M(RigidBodiesToFree, List<RigidBody*>*)
-	DE_M(QuadTree, QuadTree*)
+	 List<RigidBody*>* mRigidBodies;
+	 List<RigidBody*>* mRigidBodiesToFree;
+	 QuadTree* mQuadTree;
 
-	DE_M_GET_SET(DebugColliders, bool)
+	 bool mDebugColliders;
 
 	void internalRemoveRigidBody(const Iterator *it);
 
 public:
 
-	DE_CLASS_BODY(PhysicsEngine)
+	GENERATE_METADATA(PhysicsEngine);
+
+	PhysicsEngine();
+	virtual ~PhysicsEngine() override;;
+
+	GET_SET(DebugColliders);
 
 	void addRigidBody(RigidBody *rigidBody);
 	void addCollider(RigidBody *rigidBody, Collider *collider);

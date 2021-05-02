@@ -6,31 +6,31 @@
 
 namespace DE {
 
-class Transform: public Component {
+class Transform : public Component {
 
 private:
 
-	DE_M(WorldPosition, Vector3)
+	 Vector3 mWorldPosition;
 
 	mutable Matrix4 mModelMatrix;
 	mutable Matrix4 mTranslationMatrix;
 	mutable Matrix4 mRotationMatrix;
 	mutable Matrix4 mScaleMatrix;
 
-	DE_M(ModelMatrixGenerated, bool)
+	 bool mModelMatrixGenerated;
 
 	mutable bool mIsDirtyTranslation;
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	DE_M_GET_SET(Parent, Transform*)
+	 bool mForceModelMatrixCalculation;
 
-	DE_M(ForceModelMatrixCalculation, bool)
+	 Transform* mParent;
 
-	DE_M_GET(LocalPosition, Vector3)
-	DE_M_GET(Rotation, Vector3)
-	DE_M_GET(Scale, Vector3)
-	DE_M_GET_SET(AffectedByProjection, bool)
+	 Vector3 mLocalPosition;
+	 Vector3 mRotation;
+	 Vector3 mScale;
+	 bool mAffectedByProjection;
 
 public:
 
@@ -38,7 +38,17 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	DE_CLASS_BODY(Transform)
+	GENERATE_METADATA(Transform);
+
+	Transform();
+	virtual ~Transform() override;;
+
+	GET_SET(Parent);
+
+	GET(LocalPosition);
+	GET(Rotation);
+	GET(Scale);
+	GET_SET(AffectedByProjection);
 
 	void init() override;
 
@@ -82,6 +92,5 @@ public:
 
 	
 };
-
 }
 

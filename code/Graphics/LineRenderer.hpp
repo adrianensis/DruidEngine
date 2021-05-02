@@ -7,24 +7,27 @@ namespace DE {
 class Shader;
 template<class T> class Array;
 
-class LineRenderer: public DE_Class {
+class LineRenderer : public ObjectBase {
 private:
-		DE_M(ShaderLine, Shader*)
+		 Shader* mShaderLine;
 		
-		DE_M(MaxShapes, u32)
-		DE_M(ShapesCounter, u32)
+		 u32 mMaxShapes;
+		 u32 mShapesCounter;
 
-		DE_M(VAO, u32)
-		DE_M(VBOPosition, u32)
-		DE_M(EBO, u32)
-		DE_M(PositionBufferIndex, u32)
-		DE_M(PositionBuffer, Array<f32>*)
-		DE_M(IndicesBuffer, Array<u32>*)
+		 u32 mVAO;
+		 u32 mVBOPosition;
+		 u32 mEBO;
+		 u32 mPositionBufferIndex;
+		 Array<f32>* mPositionBuffer;
+		 Array<u32>* mIndicesBuffer;
 
-		DE_M(Size, f32)
+		 f32 mSize;
 public:
-		DE_CLASS_BODY(LineRenderer)
-		DE_M(IsAffectedByProjection, bool)
+		GENERATE_METADATA(LineRenderer);
+
+	LineRenderer();
+	virtual ~LineRenderer() override;
+		 bool mIsAffectedByProjection;
 		
 		void init();
 		void add(const Vector3 &start, const Vector3 &end);

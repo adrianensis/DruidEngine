@@ -53,13 +53,13 @@ void Playground::createPlayer() {
 
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
-	mPlayer = DE_NEW<GameObject>();
+	mPlayer = Memory::allocate<GameObject>();
 	mPlayer->init();
 
 	mPlayer->getTransform()->setLocalPosition(Vector3(-300, -100, 0));
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mPlayer->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -82,10 +82,10 @@ void Playground::createPlayer() {
 
 	//renderer->setIsLineMode(true);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	mPlayer->addComponent<RigidBody>(rigidBody);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y);
 	collider->setCollisionLayer(1);
@@ -96,13 +96,13 @@ void Playground::createPlayer() {
 GameObject* Playground::createProjectile(f32 x, f32 y) {
 	Vector2 size(40,40);
 
-	GameObject* tile = DE_NEW<GameObject>();
+	GameObject* tile = Memory::allocate<GameObject>();
 	tile->init();
 
 	tile->getTransform()->setLocalPosition(mPlayer->getTransform()->getWorldPosition());
 	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	tile->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -118,10 +118,10 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 	//tile->setIsStatic(true);
 	//tile->setShouldPersist(true);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	tile->addComponent<RigidBody>(rigidBody);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	tile->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
 	collider->setShape(ColliderShape::SPHERE);
@@ -131,7 +131,7 @@ GameObject* Playground::createProjectile(f32 x, f32 y) {
 
 	rigidBody->setLinear(-direction * 50);
 
-	ProjectileScript* script = DE_NEW<ProjectileScript>();
+	ProjectileScript* script = Memory::allocate<ProjectileScript>();
 	tile->addComponent<Script>(script);
 
 	getGameObject()->getScene()->addGameObject(tile);

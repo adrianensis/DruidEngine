@@ -53,8 +53,17 @@
 
 namespace DE {
 
-Brush::Brush() : DE_Class() {
+Brush::Brush() : ObjectBase() {
+	mDrawTileSize = Vector2(1,1);
+	mLastIndex = 0;
+	mBrushMaxGridSize = 16;
+	mBrushGridSize = Vector2(1,1);
+	mBrushCursor = nullptr;
+	mMapEditor = nullptr;
+	mBrushSize = 1;
 	mMapElementData = nullptr;
+	mGrid = nullptr;
+	mOriginAtlasPosition = Vector2(0,0);
 }
 
 Brush::~Brush() {
@@ -73,7 +82,7 @@ void Brush::setMaterial(Material* material){
 
 		free();
 
-		mGrid = DE_NEW<Array<GameObject*>>();
+		mGrid = Memory::allocate<Array<GameObject*>>();
 		mGrid->init(mBrushMaxGridSize);
 
 		mBrushCursor = GameObjectBuilder::getInstance()->
@@ -146,7 +155,7 @@ void Brush::free(){
 	}
 
 	if(mGrid){
-		DE_FREE(mGrid);
+		Memory::free(mGrid);
 		mGrid = nullptr;
 	}
 }
@@ -176,6 +185,12 @@ void Brush::clear(){
 
 void Brush::setDrawTileSize(const Vector2& size) {
 	mDrawTileSize = size;
+}
+
+void Brush::setBrushSize(i32 newSize) { 
+	if(newSize > 0) {
+		mBrushSize = newSize;
+	}
 }
 
 }

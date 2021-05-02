@@ -19,11 +19,11 @@ class MapEditor;
 /**
  * @brief
  */
-class Inspector : public DE_Class{
+class Inspector : public ObjectBase{
 
 private:
 
-	const StringsUI mStringsUI;
+	
 
 	// LAYERS
 	Array<UIButton*>* mLayerButtons = nullptr;
@@ -47,7 +47,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(Inspector)
+	GENERATE_METADATA(Inspector);
+
+	Inspector();
+	virtual ~Inspector() override;
 
 	void init(MapEditor *mapEditor);
 
@@ -60,6 +63,5 @@ public:
 
 	void selectLayer(u32 layer);
 };
-
 }
 

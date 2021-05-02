@@ -8,11 +8,14 @@ namespace DE {
 /*!
  \brief Allocates memory in a linear way. The whole memory is freed in one shot.
  */
-class LinearAllocator: public Allocator {
+class LinearAllocator : public Allocator {
 
 public:
 
-	DE_CLASS_BODY(LinearAllocator)
+	GENERATE_METADATA(LinearAllocator);
+
+	LinearAllocator();
+	virtual ~LinearAllocator() override;
 
 	void init(u32 size) override;
 	byte* allocate(u32 size) override;
@@ -21,6 +24,5 @@ public:
 	void reset() override;
 
 };
-
 }
 

@@ -65,7 +65,7 @@ void MenuBar::init(MapEditor *mapEditor) {
 }
 
 void MenuBar::createMapElement(StringRef materialPath) {
-	mMapEditor->mMapEditorUI.mBrush.mMapElementData = &mMapElementData_ActionPoint;
+	mMapEditor->mMapEditorUI.mBrush.setMapElementData(&mMapElementData_ActionPoint);
 	mMapEditor->mMapEditorUI.mBrush.clear();
 	Material* material = MaterialManager::getInstance()->loadMaterial(materialPath);
 	mMapEditor->mMapEditorUI.mBrush.setMaterial(material);
@@ -85,7 +85,7 @@ void MenuBar::createMenuBar() {
 	UI::getInstance()->getBuilder()->
 		setLayout(UILayout::HORIZONTAL)->
 		setPosition(Vector2(-1 * RenderContext::getAspectRatio(), 1))->
-		setSize(Vector2(0, 0.1f))->
+		setTextSize(UI::getInstance()->getDefaultFontSize()*1.5f)->
 		setAdjustSizeToText(true)->
 		setLayer(mMapEditor->mMapEditorUI.mUILayer);
 
@@ -98,13 +98,13 @@ void MenuBar::createMenuBar() {
 		addOption("Close", [&](UIElement* uiElement) {});
 
 	EditorBuilder::getInstance()->createDropdown("View")->
-		addOption(mStringsUI.Collider, [&](UIElement* uiElement) {
+		addOption(StringsUI::getInstance()->Collider, [&](UIElement* uiElement) {
 			PhysicsEngine::getInstance()->setDebugColliders(!PhysicsEngine::getInstance()->getDebugColliders());
 		})->
-		addOption(mStringsUI.Grid, [&, scene = scene](UIElement* uiElement) {
+		addOption(StringsUI::getInstance()->Grid, [&, scene = scene](UIElement* uiElement) {
 			mMapEditor->mMapEditorUI.toggleGrid();
 		})->
-		addOption(mStringsUI.Atlas, [&, scene = scene](UIElement* uiElement) {
+		addOption(StringsUI::getInstance()->Atlas, [&, scene = scene](UIElement* uiElement) {
 			mMapEditor->mMapEditorUI.toggleAtlas();
 		});
 
@@ -122,13 +122,13 @@ void MenuBar::createMenuBar() {
 			createMapElement("resources/editor-icons/WayPoint.png");
 		})->
 		addOption("Trigger Area", [&](UIElement* uiElement) {
-			// Not implemented yet.
+			// TODO: To be implemented.
 		})->
 		addOption("Event Area", [&](UIElement* uiElement) {
-			// Not implemented yet.
+			// TODO: To be implemented.
 		})->
 		addOption("Death Area", [&](UIElement* uiElement) {
-			// Not implemented yet.
+			// TODO: To be implemented.
 		});
 
 	EditorBuilder::getInstance()->createDropdown("Brush")->
@@ -136,11 +136,10 @@ void MenuBar::createMenuBar() {
 		addOption("Select Mode", [&](UIElement* uiElement) {mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(false);});
 
 	EditorBuilder::getInstance()->createDropdown("Sprites")->
-		addOption("Static Sprite", [&](UIElement* uiElement) {})->
-		addOption("Animated Sprite", [&](UIElement* uiElement) {})->
-		addOption("Sprite from Atlas selection", [&](UIElement* uiElement) {});
+		addOption("Create", [&](UIElement* uiElement) { mMapEditor->mMapEditorUI.createSpriteFromBrush(); })->
+		addOption("Add frame", [&](UIElement* uiElement) {});
 
-	EditorBuilder::getInstance()->createButton(mStringsUI.Play,[&](UIElement* uiElement) {
+	EditorBuilder::getInstance()->createButton(StringsUI::getInstance()->Play,[&](UIElement* uiElement) {
 		if (mMapEditor->mPlayer) {
 			mMapEditor->destroyPlayer();
 		} else {
@@ -148,10 +147,6 @@ void MenuBar::createMenuBar() {
 		}
 
 		mMapEditor->switchCameraControl();
-	});
-
-	EditorBuilder::getInstance()->createButton(mStringsUI.AddSprite,[&](UIElement* uiElement) {
-		mMapEditor->mMapEditorUI.createSpriteFromBrush();
 	});
 }
 

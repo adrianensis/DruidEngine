@@ -9,23 +9,29 @@ class Scene;
 class Script;
 class GameObject;
 
-class ScenesManager: public DE_Class, public Singleton<ScenesManager> {
+class ScenesManager: public ObjectBase, public Singleton<ScenesManager> {
 
 private:
-	DE_M(Scenes, List<Scene*>*);
-	DE_M(CurrentSceneIndex, u32);
+	 List<Scene*>* mScenes;
+	 u32 mCurrentSceneIndex;
 	
-	DE_M_GET(CurrentScene, Scene*)
-	DE_M_GET(SceneHasChanged, bool)
-	DE_M_GET_SET(GameObjectController, GameObject*)
+	 Scene* mCurrentScene;
+	 bool mSceneHasChanged;
+	 GameObject* mGameObjectController;
 
 	void internalLoadScene();
 	void addScene(Scene *newScene);
 
 public:
 
-	DE_CLASS_BODY(ScenesManager)
+	GENERATE_METADATA(ScenesManager);
 
+	ScenesManager();
+	virtual ~ScenesManager() override;;
+
+	GET(CurrentScene);
+	GET(SceneHasChanged);
+	GET_SET(GameObjectController);
 
 	void init();
 	void step();

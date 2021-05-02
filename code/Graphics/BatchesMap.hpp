@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 namespace DE {
 
@@ -9,16 +9,18 @@ class Renderer;
 class Batch;
 template<class K, class V> class HashMap;
 
-class BatchesMap: public DE_Class {
+class BatchesMap: public ObjectBase {
+
 private:
 
-	using TextureBatchMap = HashMap<Texture*, Batch*>;
-	DE_M(Batches, TextureBatchMap*);
+	HashMap<Texture*, Batch*>* mBatches;
 
 public:
+	
+	GENERATE_METADATA(BatchesMap);
 
-	DE_CLASS_BODY(BatchesMap)
-
+	BatchesMap();
+	virtual ~BatchesMap() override;
 	void init();
 	u32 render(u32 layer);
 	void addRenderer(Renderer *renderer);

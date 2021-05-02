@@ -15,7 +15,6 @@
 #include "Maths/Vector4.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Input/Input.hpp"
-#include "Containers/List.hpp"
 #include "Containers/HashMap.hpp"
 #include "Containers/Array.hpp"
 
@@ -53,7 +52,7 @@ namespace DE {
 
 void MapEditorUI::resetBrush() {
 	mMapEditor->mMapEditorUI.mBrush.setIsPaintMode(false);
-	mBrush.mBrushCursor->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
+	mBrush.getBrushCursor()->getFirstComponent<Renderer>()->setRegion(0, 0, 1, 1);
 	mBrush.clear();
 }
 
@@ -67,7 +66,7 @@ MapEditorUI::MapEditorUI(){
 }
 
 MapEditorUI::~MapEditorUI(){
-	DE_FREE(mInspector);
+	Memory::free(mInspector);
 }
 
 void MapEditorUI::init(MapEditor *mapEditor) {
@@ -81,16 +80,19 @@ void MapEditorUI::init(MapEditor *mapEditor) {
 	createAtlas();
 	createInfoBar();
 	createBrush();
+
+	mSpriteButtons = Memory::allocate<List<UIButton*>>();
+	mSpriteButtons->init();
 }
 
 void MapEditorUI::createMenuBar() {
 
-	mMenuBar = DE_NEW<MenuBar>();
+	mMenuBar = Memory::allocate<MenuBar>();
 	mMenuBar->init(mMapEditor);
 }
 
 void MapEditorUI::createInspector() {
-	mInspector = DE_NEW<Inspector>();
+	mInspector = Memory::allocate<Inspector>();
 	mInspector->init(mMapEditor);
 }
 
@@ -109,15 +111,15 @@ void MapEditorUI::createInfoBar() {
 		setAdjustSizeToText(true)->
 		setLayer(mUILayer);
 
-	mTextFPS = EditorBuilder::getInstance()->createLabel(mStringsUI.FPS);
+	mTextFPS = EditorBuilder::getInstance()->createLabel(StringsUI::getInstance()->FPS);
 }
 
 void MapEditorUI::updateInfoBar() {
-	mTextFPS->setText(mStringsUI.FPS + std::to_string(1.0f/Time::getInstance()->getDeltaTimeSeconds()));
+	mTextFPS->setText(StringsUI::getInstance()->FPS + std::to_string(1.0f/Time::getInstance()->getDeltaTimeSeconds()));
 }
 
 void MapEditorUI::createAtlas() {
-	mAtlas = DE_NEW<Atlas>();
+	mAtlas = Memory::allocate<Atlas>();
 	mAtlas->init(mMapEditor);
 }
 
@@ -155,21 +157,25 @@ void MapEditorUI::toggleAtlas(){
 
 void MapEditorUI::createSpriteFromBrush() {
 
+	f32 spritesCount = mSpriteButtons->getLength();
+	f32 size = 0.1f;
+	f32 offsetX = size * spritesCount;
+
 	GameObject* tileMin = mBrush.getTile(0,0);
-	GameObject* tileMax = mBrush.getTile(mBrush.mBrushGridSize.y-1, mBrush.mBrushGridSize.x-1);
+	GameObject* tileMax = mBrush.getTile(mBrush.getBrushGridSize().y-1, mBrush.getBrushGridSize().x-1);
 
 	UI::getInstance()->getBuilder()->
 		setLayout(UILayout::HORIZONTAL)->
-		setPosition(Vector2(-0.9f * RenderContext::getAspectRatio(), -0.92f))->
-		setSize(Vector2(0.1f, 0.1f))->
+		setPosition(Vector2(-1.0f * RenderContext::getAspectRatio() + offsetX, -0.8f))->
+		setSize(Vector2(size, size))->
 		setAdjustSizeToText(false)->
 		setLayer(mUILayer);
 
 	UIButton* spriteButton = (UIButton*) UI::getInstance()->getBuilder()->setText("")->
 		create(UIElementType::BUTTON)->getUIElement();
 
-		Vector2 tileSize(mMapEditor->mGrid.getTileSize() * mBrush.mBrushGridSize.x,
-											mMapEditor->mGrid.getTileSize() * mBrush.mBrushGridSize.y);
+		Vector2 tileSize(mMapEditor->mGrid.getTileSize() * mBrush.getBrushGridSize().x,
+											mMapEditor->mGrid.getTileSize() * mBrush.getBrushGridSize().y);
 
 	spriteButton->setOnPressedCallback([&, self = spriteButton, mapEditor = mMapEditor, tileSize = tileSize](UIElement* uiElement) {
 		//scene->saveScene(scene->getPath());
@@ -186,9 +192,11 @@ void MapEditorUI::createSpriteFromBrush() {
 	spriteButtonRenderer->setMaterial(brushRenderer->getMaterial());
 
 	spriteButtonRenderer->setRegion(brushRenderer->getRegionPosition().x, brushRenderer->getRegionPosition().y,
-		brushRenderer->getRegionSize().x * mBrush.mBrushGridSize.x, brushRenderer->getRegionSize().y * mBrush.mBrushGridSize.y);
+		brushRenderer->getRegionSize().x * mBrush.getBrushGridSize().x, brushRenderer->getRegionSize().y * mBrush.getBrushGridSize().y);
 
 	UI::getInstance()->addToGroup(mSpritesUIGroup, spriteButton);
+
+	mSpriteButtons->pushBack(spriteButton);
 
 	/*
 		TODO : Read sprites from config file

@@ -3,7 +3,7 @@
 
 namespace DE {
 
-AnimationFrame::AnimationFrame() : DE_Class() {
+AnimationFrame::AnimationFrame() : ObjectBase() {
 	mWidth = 0.0f;
 	mHeight = 0.0f;
 }

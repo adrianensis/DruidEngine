@@ -21,7 +21,7 @@ template<class T> class Array;
 template<class T> class List;
 template<class K, class V> class HashMap;
 
-class GameController: public Script {
+class GameController : public Script {
 private:
 
 	GameObject* mPlayer;
@@ -46,7 +46,10 @@ private:
 public:
 	static f32 smGlobalSpeed;
 
-	DE_CLASS_BODY(GameController)
+	GENERATE_METADATA(GameController);
+
+	GameController();
+	virtual ~GameController() override;
 
 	void createPlayer(f32 x, f32 y);
 	void createCrossHair();
@@ -63,6 +66,5 @@ public:
 	void terminate() override;
 
 };
-
 }
 

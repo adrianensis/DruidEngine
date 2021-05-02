@@ -6,25 +6,25 @@
 
 namespace DE {
 
-Profiler::Profiler() : DE_Class(), Singleton<Profiler>() {
+Profiler::Profiler() : ObjectBase(), Singleton<Profiler>() {
 
 }
 
 Profiler::~Profiler() {
-	DE_FREE(mTimeMap);
+	Memory::free(mTimeMap);
 
 	FOR_LIST(it, mTimeMarkMap->getValues()){
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mTimeMarkMap);
+	Memory::free(mTimeMarkMap);
 }
 
 void Profiler::init(){
-	mTimeMap = DE_NEW<TimeMap>();
+	mTimeMap = Memory::allocate<HashMap<String, f32>>();
 	mTimeMap->init();
 
-	mTimeMarkMap = DE_NEW<TimeMarkMap>();
+	mTimeMarkMap = Memory::allocate<HashMap<String, TimeMark*>>();
 	mTimeMarkMap->init();
 }
 
@@ -47,7 +47,7 @@ void Profiler::terminate(){
 	mTimeMap->clear();
 
 	FOR_LIST(it, mTimeMarkMap->getValues()){
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
 	mTimeMarkMap->clear();
@@ -64,7 +64,7 @@ void Profiler::timeMarkStart(const String &name) {
 	if(!mTimeMap->contains(name)){
 		mTimeMap->set(name, 0);
 
-		TimeMark* timeMark = DE_NEW<TimeMark>();
+		TimeMark* timeMark = Memory::allocate<TimeMark>();
 		mTimeMarkMap->set(name, timeMark);
 	}
 

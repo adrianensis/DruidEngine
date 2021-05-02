@@ -34,7 +34,7 @@ using namespace std::chrono_literals;
 
 namespace DE {
 
-Engine::Engine() : DE_Class(), Singleton() {
+Engine::Engine() : ObjectBase(), Singleton() {
 	mFPS = 60; // TODO : Settings?
 	mRenderEngine = nullptr;
 	mPhysicsEngine = nullptr;
@@ -45,7 +45,7 @@ Engine::~Engine() = default;
 
 void Engine::init() {
 
-	DE_TRACE()
+	TRACE()
 
 	RenderContext::init();
 
@@ -125,28 +125,28 @@ void Engine::terminate() {
 
 	RenderContext::terminate();
 
-	DE_FREE(RenderEngine::getInstance());
-	DE_FREE(MaterialManager::getInstance());
-	DE_FREE(ScriptEngine::getInstance());
-	DE_FREE(PhysicsEngine::getInstance());
-	DE_FREE(UI::getInstance());
-	DE_FREE(EngineConfig::getInstance());
-	DE_FREE(ScenesManager::getInstance());
-	DE_FREE(Time::getInstance());
+	Memory::free(RenderEngine::getInstance());
+	Memory::free(MaterialManager::getInstance());
+	Memory::free(ScriptEngine::getInstance());
+	Memory::free(PhysicsEngine::getInstance());
+	Memory::free(UI::getInstance());
+	Memory::free(EngineConfig::getInstance());
+	Memory::free(ScenesManager::getInstance());
+	Memory::free(Time::getInstance());
 
 	if (EventsManager::existsInstance()){
-		DE_FREE(EventsManager::getInstance());
+		Memory::free(EventsManager::getInstance());
 	}
 
 	if (Profiler::existsInstance()){
-		DE_FREE(Profiler::getInstance());
+		Memory::free(Profiler::getInstance());
 	}
 
 	if (TimerManager::existsInstance()){
-		DE_FREE(TimerManager::getInstance());
+		Memory::free(TimerManager::getInstance());
 	}
 
-	DE_FREE(Input::getInstance());
+	Memory::free(Input::getInstance());
 }
 
 }

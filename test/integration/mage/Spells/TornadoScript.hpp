@@ -8,7 +8,7 @@ namespace DE {
 
 class Renderer;
 
-class TornadoScript: public Script {
+class TornadoScript : public Script {
 
 private:
 	Renderer* mRenderer;
@@ -19,7 +19,10 @@ private:
 
 public:
 
-	DE_CLASS_BODY(TornadoScript)
+	GENERATE_METADATA(TornadoScript);
+
+	TornadoScript();
+	virtual ~TornadoScript() override;
 
 	void init() override;
 	void firstStep() override;
@@ -31,6 +34,5 @@ public:
 	void onExitCollision(GameObject *otherGameObject) override;
 
 };
-
 }
 

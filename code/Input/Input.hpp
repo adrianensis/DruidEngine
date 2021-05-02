@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 
 #include "Graphics/RenderContext.hpp"
@@ -12,7 +12,7 @@ namespace DE {
 
 class UIElement;
 
-class Input: public DE_Class, public Singleton<Input> {
+class Input: public ObjectBase, public Singleton<Input> {
 
 private:
 
@@ -31,7 +31,10 @@ public:
 	bool smButtonJustPressed;
 	f32 smScroll;
 
-	DE_CLASS_BODY(Input)
+	GENERATE_METADATA(Input);
+
+	Input();
+	virtual ~Input() override;
 
 	void init();
 	void pollEvents();
@@ -49,6 +52,5 @@ public:
 
 	void setInputCharReceiver(UIElement* uiElement);
 };
-
 }
 

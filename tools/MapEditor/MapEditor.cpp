@@ -54,13 +54,13 @@ void MapEditor::createPlayer() {
 
 	Material* material = MaterialManager::getInstance()->loadMaterial("resources/tiles.png");
 
-	mPlayer = DE_NEW<GameObject>();
+	mPlayer = Memory::allocate<GameObject>();
 	mPlayer->init();
 
 	mPlayer->getTransform()->setLocalPosition(Vector3(-300, -100, 0));
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	mPlayer->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -82,10 +82,10 @@ void MapEditor::createPlayer() {
 
 	//renderer->setIsLineMode(true);
 
-	RigidBody* rigidBody = DE_NEW<RigidBody>();
+	RigidBody* rigidBody = Memory::allocate<RigidBody>();
 	mPlayer->addComponent<RigidBody>(rigidBody);
 
-	Collider* collider = DE_NEW<Collider>();
+	Collider* collider = Memory::allocate<Collider>();
 	mPlayer->addComponent<Collider>(collider);
 	collider->setSize(size.x / 1.5f, size.y/3.0f);
 	collider->setPositionOffset(Vector3(0,-size.y/2,0));
@@ -101,7 +101,7 @@ void MapEditor::destroyPlayer(){
 void MapEditor::init() {
 	mTransform = getGameObject()->getTransform();
 
-	mConfigMap = DE_NEW<ConfigMap>();
+	mConfigMap = Memory::allocate<ConfigMap>();
 	mConfigMap->init();
 
 	mConfigMap->readConfigFile("config/editor.conf");
@@ -127,7 +127,7 @@ void MapEditor::firstStep() {
 
 	//createPlayer();
 
-	DE_SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event* event){
 		if(const InputEventKeyPressed* eventKeyPressed = (const InputEventKeyPressed*) event){
 			switch (eventKeyPressed->mKey)
 			{
@@ -175,10 +175,10 @@ void MapEditor::addColliderToTile(GameObject *tile) {
 		List<RigidBody*>* rigidBodies = tile->getComponents<RigidBody>();
 
 		if(!rigidBodies || (rigidBodies && rigidBodies->isEmpty())){
-			RigidBody* rigidBody = DE_NEW<RigidBody>();
+			RigidBody* rigidBody = Memory::allocate<RigidBody>();
 			tile->addComponent<RigidBody>(rigidBody);
 
-			Collider* collider = DE_NEW<Collider>();
+			Collider* collider = Memory::allocate<Collider>();
 			tile->addComponent<Collider>(collider);
 			collider->setSize(tile->getTransform()->getScale().x, tile->getTransform()->getScale().y);
 
@@ -275,7 +275,7 @@ if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 void MapEditor::terminate() {
 
 
-	DE_FREE(mConfigMap);
+	Memory::free(mConfigMap);
 }
 
 }

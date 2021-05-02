@@ -3,7 +3,7 @@
 
 namespace DE {
 
-TimeMark::TimeMark() : DE_Class(){
+TimeMark::TimeMark() : ObjectBase(){
 	mDeltaTimeMillis = 0.0;
 	mDeltaTimeSeconds = 0.0;
 }
@@ -45,7 +45,7 @@ f32 TimeMark::getDeltaTimeSeconds() {
 	return mIsStarted ? mDeltaTimeSeconds : 0.0f;
 }
 
-Time::Time() : DE_Class(), Singleton<Time>(){
+Time::Time() : ObjectBase(), Singleton<Time>(){
 
 }
 

@@ -11,32 +11,32 @@ namespace DE {
  \tparam T Talue class.
  */
 template<class T>
-class Tree: public BaseContainer {
+class Tree : public BaseContainer {
 
 private:
 
-	class Node: public DE_Class {
+	class Node : public ObjectBase {
 
 	public:
-		DE_M(Parent, Node*);
-		DE_M(Element, T);
-		DE_M(Children, Array<Node*>*);
+		 Node* mParent;
+		 T mElement;
+		 Array<Node*>* mChildren;
 
-		DE_CLASS_BODY_TEMPLATE(Node, T);
+		GENERATE_METADATA(Node);
 
-		Node() : DE_Class() {
+		Node() : ObjectBase() {
 			mChildren = nullptr;
 		};
 
 		virtual ~Node() override {
 			mParent = nullptr;
-			DE_FREE(mChildren);
+			Memory::free(mChildren);
 		};
 
 		void init(Node *parent, const T element, u32 childrenCount) {
 			mParent = parent;
 			mElement = element;
-			mChildren = DE_NEW<Array<Node*>>();
+			mChildren = Memory::allocate<Array<Node*>>();
 			mChildren->init(childrenCount);
 			mChildren->set(0, nullptr);
 			mChildren->set(1, nullptr);
@@ -65,13 +65,13 @@ private:
 	static const u32 smNodeSize = sizeof(Node);
 
 	Node* newNode(Node *parent, const T element) {
-		Node* node = DE_NEW<Node>();
+		Node* node = Memory::allocate<Node>();
 		node->init(parent, element, smChildrenCount);
 		return node;
 	};
 
 	void freeNode(Node *node) {
-		DE_FREE(node);
+		Memory::free(node);
 	};
 
 	void freeSubTree(Node *node) {
@@ -104,12 +104,12 @@ private:
 			return find(element, child);
 	};
 
-	DE_M(Root, Node*);
+	 Node* mRoot;
 	static const u32 smChildrenCount = 2;
 
 public:
 
-	DE_CLASS_BODY_TEMPLATE(Tree<T>, T);
+	GENERATE_METADATA(Tree<T>);
 
 	Tree() : BaseContainer() {
 		mRoot = nullptr;

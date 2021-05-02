@@ -8,7 +8,7 @@
 
 namespace DE {
 
-Animation::Animation() : DE_Class() {
+Animation::Animation() : ObjectBase() {
 	mFrames = nullptr;
 	mCurrentFrameNumber = 0;
 	mSpeed = 1.0f;
@@ -17,16 +17,16 @@ Animation::Animation() : DE_Class() {
 
 Animation::~Animation() {
 	FOR_LIST(it, mFrames){
-		DE_FREE(it.get());
+		Memory::free(it.get());
 	}
 
-	DE_FREE(mFrames);
+	Memory::free(mFrames);
 }
 
 void Animation::init() {
-	DE_TRACE()
+	TRACE()
 
-	mFrames = DE_NEW<List<AnimationFrame*>>();
+	mFrames = Memory::allocate<List<AnimationFrame*>>();
 	mFrames->init();
 }
 
@@ -42,7 +42,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 
 	// TODO: check if coordinates are > 1 or < 0 !!!!!
 
-	Animation* animation = DE_NEW<Animation>();
+	Animation* animation = Memory::allocate<Animation>();
 	animation->init();
 	animation->setSpeed(speed);
 
@@ -80,7 +80,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame* frame = DE_NEW<AnimationFrame>();
+		AnimationFrame* frame = Memory::allocate<AnimationFrame>();
 		frame->init(pos, width, height);
 		animation->addFrame(frame);
 

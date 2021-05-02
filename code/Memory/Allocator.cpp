@@ -16,22 +16,22 @@ void Allocator::checkAllocate(u32 size) const {
 	VAR(u32, mAllocatedSize)
 	VAR(u32, size)
 	VAR(u32, mAllocatedSize + size)*/
-	DE_ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
+	ASSERT(mAllocatedSize + size <= mTotalSize, "Total memory size exceeded.");
 }
 
 void Allocator::checkAlignment(u32 alignment) const {
 	// Because we need at least, 1 byte for adjustment storage.
-	DE_ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
+	ASSERT(alignment >= 1, "Alignment must be greater than or equal to 1.");
 
 	// 128 (decimal) = 1000 0000 (binary)
-	DE_ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
+	ASSERT(alignment <= 128, "Alignment must be less than or equal to 128.");
 
 	// IMPORTANT: 'alignment must be a power of 2 (typically 4 or 16).
-	DE_ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
+	ASSERT((alignment & (alignment - 1)) == 0, "Alignment is not power of 2."); // power of 2
 }
 
 void Allocator::checkFree() const {
-	DE_ASSERT(mAllocatedSize > 0, "Allocated memory is 0.");
+	ASSERT(mAllocatedSize > 0, "Allocated memory is 0.");
 }
 
 byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress, u32 alignment) const {
@@ -88,7 +88,7 @@ byte* Allocator::calculateAlignedAddress(const byte *unalignedAddress, u32 align
 	// Store the adjustment in the byte immediately
 	// preceding the adjusted address.
 	// 256 = 1 0000 0000
-	DE_ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
+	ASSERT(adjustment < 256, "Adjustment is equal or greater than 256 (uint8_t).");
 
 	// The aligned address is accessed as a uint8_t array or byte array.
 	byte* byteArray = reinterpret_cast<byte*>(alignedAddress);
@@ -119,7 +119,7 @@ byte* Allocator::allocateAlignedAddress(byte *unalignedAddress, u32 size, u32 al
 
 	// Game Engine Architecture 2ed, page 246.
 
-	Allocator::setAllocatedSize(Allocator::getAllocatedSize() + expandedSize);
+	Allocator::setAllocatedSize(Allocator::mAllocatedSize + expandedSize);
 
 	byte* alignedAddress = Allocator::calculateAlignedAddress(unalignedAddress, alignment);
 
@@ -139,7 +139,7 @@ void Allocator::clean(byte *mem, u32 size) {
 	std::memset(mem, 0, size);
 }
 
-Allocator::Allocator() : DE_Class() {
+Allocator::Allocator() : ObjectBase() {
 	mStart = nullptr;
 }
 
@@ -159,13 +159,13 @@ void Allocator::setMemoryChunk(byte *mem) {
 }
 
 void Allocator::init(u32 size) {
-	DE_TRACE()
+	TRACE()
 
 	initFromMemory(size, new byte[size]);
 }
 
 void Allocator::initFromMemory(u32 size, byte *mem) {
-	DE_TRACE()
+	TRACE()
 
 	mTotalSize = size;
 

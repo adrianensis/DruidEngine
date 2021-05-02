@@ -14,7 +14,7 @@
 
 namespace DE {
 
-GameObject::GameObject() : DE_Class() {
+GameObject::GameObject() : ObjectBase() {
 	mComponentsMap = nullptr;
 	mTransform = nullptr;
 	mScene = nullptr;
@@ -23,15 +23,15 @@ GameObject::GameObject() : DE_Class() {
 }
 
 GameObject::~GameObject() {
-	DE_FREE(mComponentsMap);
-	DE_FREE(mTransform);
+	Memory::free(mComponentsMap);
+	Memory::free(mTransform);
 }
 
 void GameObject::addComponent(Component *component, ClassId classId) {
 	List<Component*>* list = nullptr;
 
 	if (!mComponentsMap->contains(classId)) {
-		list = DE_NEW<List<Component*>>();
+		list = Memory::allocate<List<Component*>>();
 		list->init();
 		mComponentsMap->set(classId, list);
 	}
@@ -55,10 +55,10 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 void GameObject::init() {
 	// TRACE();
 
-	mComponentsMap = DE_NEW<ComponentsMap>();
+	mComponentsMap = Memory::allocate<ComponentsMap>();
 	mComponentsMap->init();
 
-	mTransform = DE_NEW<Transform>();
+	mTransform = Memory::allocate<Transform>();
 	addComponent(mTransform);
 
 	mTag = "";
@@ -105,7 +105,7 @@ void GameObject::destroy() {
 	mIsActive = false;
 
 	EventOnDestroy event;
-	DE_SEND_EVENT(this, this, event);
+	SEND_EVENT(this, this, event);
 
 	onDestroy();
 
@@ -121,7 +121,7 @@ void GameObject::destroy() {
 			removeComponent(itComponent.get(), id);
 		}
 
-		DE_FREE(list);
+		Memory::free(list);
 	}
 
 	mComponentsMap->clear();
@@ -175,15 +175,15 @@ void GameObject::load(ConfigMap* configMap, StringRef objectName) {
 	getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
 	getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = DE_NEW<Renderer>();
+	Renderer* renderer = Memory::allocate<Renderer>();
 	addComponent<Renderer>(renderer);
 	renderer->load(configMap, objectName);
 
 	if(configMap->getBool(objectName + ".hasCollider")) {
-		RigidBody* rigidBody = DE_NEW<RigidBody>();
+		RigidBody* rigidBody = Memory::allocate<RigidBody>();
 		addComponent<RigidBody>(rigidBody);
 
-		Collider* collider = DE_NEW<Collider>();
+		Collider* collider = Memory::allocate<Collider>();
 		addComponent<Collider>(collider);
 		collider->load(configMap, objectName);
 	}

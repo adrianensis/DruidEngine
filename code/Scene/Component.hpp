@@ -1,27 +1,35 @@
 #pragma once
 
-#include "Core/DE_Class.hpp"
+#include "Core/ObjectBase.hpp"
 
 namespace DE {
 
 class GameObject;
 class ConfigMap;
 
-class Component: public DE_Class {
+class Component : public ObjectBase {
 
 private:
 
-	DE_M(IsActive, bool)
-	DE_M(IsStatic, bool)
+	 bool mIsActive;
+	 bool mIsStatic;
 
-	DE_M_GET_SET(GameObject, GameObject*)
-	DE_M_GET_SET(AlreadyAddedToEngine, bool)
-	DE_M_GET(IsPendingToBeDestroyed, bool)
-	DE_M_GET(IsDestroyed, bool)
+	 GameObject* mGameObject;
+	 bool mAlreadyAddedToEngine;
+	 bool mIsPendingToBeDestroyed;
+	 bool mIsDestroyed;
 
 public:
 
-	DE_CLASS_BODY(Component)
+	GENERATE_METADATA(Component);
+
+	Component();
+	virtual ~Component() override;;
+
+	GET_SET(GameObject);
+	GET_SET(AlreadyAddedToEngine);
+	GET(IsPendingToBeDestroyed);
+	GET(IsDestroyed);
 
 	virtual void init() = 0;
 
@@ -51,6 +59,5 @@ public:
 	virtual void save(ConfigMap* configMap, StringRef objectName);
 	virtual void load(ConfigMap* configMap, StringRef objectName);
 };
-
 }
 

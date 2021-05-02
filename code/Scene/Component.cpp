@@ -4,7 +4,7 @@
 
 namespace DE {
 
-Component::Component() : DE_Class() {
+Component::Component() : ObjectBase() {
 	mGameObject = nullptr;
 	mIsActive = true;
 	mIsDestroyed = false;
