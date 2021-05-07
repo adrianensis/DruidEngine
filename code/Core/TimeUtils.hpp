@@ -10,13 +10,13 @@ namespace DE {
 
 class TimeMark  : public ObjectBase {
 private:
-	 f32 mDeltaTimeMillis;
-	 f32 mDeltaTimeSeconds;
-	 std::chrono::milliseconds mDeltaTimeChronoDuration;
-	 std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime;
-	 std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime;
+	PRIVATE(DeltaTimeMillis, NONE, f32)
+	PRIVATE(DeltaTimeSeconds, NONE, f32)
+	std::chrono::milliseconds mDeltaTimeChronoDuration;
+	std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime;
+	std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime;
 
-	 bool mIsStarted;
+	PRIVATE(IsStarted, NONE, bool)
 
 public:
 
@@ -51,7 +51,7 @@ public:
 
 class Time : public ObjectBase, public Singleton<Time>{
 private:
-	 TimeMark mInternalTimeMark;
+	PRIVATE(InternalTimeMark, NONE, TimeMark)
 
 public:
 	GENERATE_METADATA(Time);

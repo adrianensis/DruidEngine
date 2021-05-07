@@ -11,11 +11,11 @@ class Renderer;
 class TornadoScript : public Script {
 
 private:
-	Renderer* mRenderer;
-	Element mElement;
+PRIVATE(Renderer, NONE, Renderer*)
+	PRIVATE(Element, NONE, Element)
 
-	f32 mDurationTime;
-	f32 mDurationTimeCounter;
+	PRIVATE(DurationTime, NONE, f32)
+	PRIVATE(DurationTimeCounter, NONE, f32)
 
 public:
 

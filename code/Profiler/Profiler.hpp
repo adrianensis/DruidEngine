@@ -18,7 +18,7 @@ private:
 
 	HashMap<String, f32>* mTimeMap;
 	HashMap<String, TimeMark*>* mTimeMarkMap;
-	f32 mTotalTime;
+	PRIVATE(TotalTime, NONE, f32)
 
 	void printResult(String& name, f32 time);
 

@@ -11,12 +11,11 @@ class Shader;
 class Material : public ObjectBase {
 
 private:
-	Vector4 mColor;
-
-	 Shader* mShader;
-	 Texture* mTexture;
-	 bool mAlphaEnabled;
-	 bool mHasBorder;
+	PRIVATE(Color, GET_SET, Vector4)
+	PRIVATE(Shader, GET_SET, Shader*);
+	PRIVATE(Texture, GET_SET, Texture*);
+	PRIVATE(AlphaEnabled, GET_SET, bool)
+	PRIVATE(HasBorder, GET_SET, bool)
 
 public:
 
@@ -24,11 +23,6 @@ public:
 
 	Material();
 	virtual ~Material() override;;
-
-	GET_SET(Shader);
-	GET_SET(Texture);
-	GET_SET(AlphaEnabled);
-	GET_SET(HasBorder);
 
 	void init();
 };

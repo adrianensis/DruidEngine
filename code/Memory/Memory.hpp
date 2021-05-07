@@ -21,12 +21,12 @@ class Memory : public ObjectBase {
 private:
 
 	/*
-	 * Global Heap for general purposes
-	 * Special Heap for gameObjects (spawn and destroy)
-	 * Level-Loading Heap
-	 * Stack-allocator for single-frame allocations (cleared every frame)
-	 * Debug memory Heap, only for allocations that will not be needed in final game.
-	 */
+	* Global Heap for general purposes
+	* Special Heap for gameObjects (spawn and destroy)
+	* Level-Loading Heap
+	* Stack-allocator for single-frame allocations (cleared every frame)
+	* Debug memory Heap, only for allocations that will not be needed in final game.
+	*/
 
 	static FreeListAllocator smGlobal;
 	// static LinearAllocator smGlobal;

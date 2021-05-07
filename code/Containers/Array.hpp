@@ -13,8 +13,8 @@ class Array: public SequentialContainer<T> {
 
 private:
 
-	 T* mTStart;
-	 byte* mStart;
+PRIVATE(TStart, NONE, T*)
+PRIVATE(Start, NONE, byte*)
 	
 	T& randomAccessOperator(u32 index) const {
 		ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
@@ -79,16 +79,16 @@ public:
 	GENERATE_METADATA(Array<T>);
 
 	/*!
-	 \brief Default Constructor.
-	 */
+	\brief Default Constructor.
+	*/
 	Array() : 	SequentialContainer<T>(){
 		mStart = nullptr;
 		mTStart = nullptr;
 	}
 
 	/*!
-	 \brief Destructor.
-	 */
+	\brief Destructor.
+	*/
 	virtual ~Array() override {
 		if (mStart != nullptr) {
 			this->mAllocator->free(mStart);
@@ -98,9 +98,9 @@ public:
 	}
 
 	/*!
-	 \brief Copy Constructor.
-	 \param other Other Array.
-	 */
+	\brief Copy Constructor.
+	\param other Other Array.
+	*/
 	void init(const Array<T> &other) {
 		raw_copy(other);
 		mTStart = reinterpret_cast<T*>(mStart);

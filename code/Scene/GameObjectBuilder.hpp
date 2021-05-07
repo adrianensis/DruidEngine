@@ -13,7 +13,7 @@ class GameObjectBuilder: public ObjectBase, public Singleton<GameObjectBuilder> 
 
 private:
 
-	 GameObject* mGameObject;
+PRIVATE(GameObject, NONE, GameObject*)
 
 public:
 

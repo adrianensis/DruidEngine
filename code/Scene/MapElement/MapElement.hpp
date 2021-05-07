@@ -23,13 +23,13 @@ namespace DE
     public:
         GENERATE_METADATA(MapElementData)
 
-         String mMapElementClassName;
-         Vector3 mPosition;
-         Vector2 mSize;
-         Material* mMaterial;
-         u32 mLayer;
-         Vector2 mMaterialRegionPosition;
-         Vector2 mMaterialRegionSize;
+        PUBLIC(MapElementClassName, NONE, String)
+        PUBLIC(Position, NONE, Vector3)
+        PUBLIC(Size, NONE, Vector2)
+        PUBLIC(Material, NONE, Material*)
+        PUBLIC(Layer, NONE, u32)
+        PUBLIC(MaterialRegionPosition, NONE, Vector2)
+        PUBLIC(MaterialRegionSize, NONE, Vector2)
 
         MapElementData() { mMapElementClassName = MapElement::getClassNameStatic(); }
     };

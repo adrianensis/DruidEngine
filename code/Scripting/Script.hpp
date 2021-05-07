@@ -9,7 +9,7 @@ class GameObject;
 class Script : public Component {
 private:
 
-	 bool mFirstStepDone;
+	PRIVATE(FirstStepDone, NONE, bool)
 
 public:
 

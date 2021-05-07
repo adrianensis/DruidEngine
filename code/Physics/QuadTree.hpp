@@ -24,29 +24,29 @@ private:
 		void internalFreeCollider(Collider *collider);
 
 	public:
-		 Vector2 mLeftTop;
-		 f32 mWidth;
-		 f32 mHeight;
-		 f32 mMinWidth;
-		 f32 mMinHeight;
+		PUBLIC(LeftTop, NONE, Vector2)
+		PUBLIC(Width, NONE, f32)
+		PUBLIC(Height, NONE, f32)
+		PUBLIC(MinWidth, NONE, f32)
+		PUBLIC(MinHeight, NONE, f32)
 
-		 f32 mRadius;
+		PUBLIC(Radius, NONE, f32)
 
-		 QuadTree* mTree;
+PRIVATE(Tree, NONE, QuadTree*)
 
-		 f32 mHalfWidth;
-		 f32 mHalfHeight;
-		 bool mIsDivisible;
+		PUBLIC(HalfWidth, NONE, f32)
+		PUBLIC(HalfHeight, NONE, f32)
+		PUBLIC(IsDivisible, NONE, bool)
 
-		 List<Collider*>* mColliders;
-		 List<Collider*>* mExitingColliders;
-		 Array<Node*>* mChildren;
-		 Array<Vector2>* mLeftTopChildrenArray;
+		PUBLIC(Colliders, NONE, List<Collider*>*)
+		PUBLIC(ExitingColliders, NONE, List<Collider*>*)
+		PUBLIC(Children, NONE, Array<Node*>*)
+		PUBLIC(LeftTopChildrenArray, NONE, Array<Vector2>*)
 
-		 u32 mChildrenCount;
+		PUBLIC(ChildrenCount, NONE, u32)
 
-		 u32 mDynamicCollidersCount;
-		 u32 mStaticCollidersCount;
+		PUBLIC(DynamicCollidersCount, NONE, u32)
+		PUBLIC(StaticCollidersCount, NONE, u32)
 
 		GENERATE_METADATA(Node);
 
@@ -69,12 +69,12 @@ private:
 
 	};
 
-	 Node* mRoot;
+	PRIVATE(Root, NONE, Node*);
 
-	 f32 mWidth;
-	 f32 mHeight;
+	PRIVATE(Width, NONE, f32)
+	PRIVATE(Height, NONE, f32)
 
-	 ColliderStatus mStatus;
+	PRIVATE(Status, GET_SET, ColliderStatus)
 
 public:
 
@@ -82,8 +82,6 @@ public:
 
 	QuadTree();
 	virtual ~QuadTree() override;;
-
-	GET_SET(Status);
 
 	void init(f32 size);
 

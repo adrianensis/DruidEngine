@@ -12,17 +12,17 @@ class Mesh : public ObjectBase {
 
 private:
 
-	 Array<f32>* mVertices;
-	 Array<f32>* mNormals;
-	 Array<f32>* mTextureCoordinates;
-	 Array<u32>* mFaces;
+	Array<f32>* mVertices;
+	Array<f32>* mNormals;
+	Array<f32>* mTextureCoordinates;
+	Array<u32>* mFaces;
 
-	 u32 mVertexCount;
+	PRIVATE(VertexCount, NONE, u32)
 
-	 u32 mVerticesIndex;
-	 u32 mNormalsIndex;
-	 u32 mFacesIndex;
-	 u32 mTextureCoordinatesIndex;
+	PRIVATE(VerticesIndex, NONE, u32)
+	PRIVATE(NormalsIndex, NONE, u32)
+	PRIVATE(FacesIndex, NONE, u32)
+	PRIVATE(TextureCoordinatesIndex, NONE, u32)
 
 	static Mesh* smRectangle;
 

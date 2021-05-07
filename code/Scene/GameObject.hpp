@@ -19,20 +19,20 @@ class GameObject : public ObjectBase {
 private:
 
 	using ComponentsMap = HashMap<ClassId, List<Component*>*>;
-	ComponentsMap* mComponentsMap;
+PRIVATE(ComponentsMap, NONE, ComponentsMap*)
 
 	List<Component*>* getComponents(ClassId classId);
 	Component* getFirstComponent(ClassId classId);
 
-	 bool mIsActive;
+	PRIVATE(IsActive, NONE, bool)
 
-	 Scene* mScene;
-	 bool mIsStatic;
-	 Transform* mTransform;
-	 String mTag;
-	 bool mIsPendingToBeDestroyed;
-	 bool mIsDestroyed;
-	 bool mShouldPersist;
+PRIVATE(Scene, NONE, Scene*)
+	PRIVATE(IsStatic, NONE, bool)
+PRIVATE(Transform, NONE, Transform*)
+	PRIVATE(Tag, NONE, String)
+	PRIVATE(IsPendingToBeDestroyed, NONE, bool)
+	PRIVATE(IsDestroyed, NONE, bool)
+	PRIVATE(ShouldPersist, NONE, bool)
 
 public:
 

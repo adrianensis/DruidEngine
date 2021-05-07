@@ -8,7 +8,7 @@ namespace DE {
 class ConfigMap : public ObjectBase {
 
 private:
-	 HashMap<String, String> mMap;
+	HashMap<String, String> mMap;
 
 	static String trueString;
 	static String falseString;

@@ -26,7 +26,7 @@ private:
 	using EventReceiversMap = HashMap<ClassId, ReceiverFunctorsMap*>;
 	using OwnersReceiversMap = HashMap<ObjectBase*, EventReceiversMap*>;
 
-	OwnersReceiversMap* mOwnersReceiversMap;
+PRIVATE(OwnersReceiversMap, NONE, OwnersReceiversMap*)
 
 	void removeMapContent();
 

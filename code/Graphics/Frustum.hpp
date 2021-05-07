@@ -16,9 +16,9 @@ class Frustum : public ObjectBase {
 
 private:
 
-	 Matrix4* mVPmatrix;
-	 Camera* mCamera;
-	 Array<Vector4>* mPlanes;
+PRIVATE(VPmatrix, NONE, Matrix4*)
+PRIVATE(Camera, NONE, Camera*)
+	Array<Vector4>* mPlanes;
 
 public:
 
@@ -30,8 +30,8 @@ public:
 	void init(Camera *camera);
 
 	/**
-	 * Builds the frustum planes.
-	 */
+	* Builds the frustum planes.
+	*/
 	void build(bool forceBuild = false);
 
 	bool testSphere(const Vector3 &center, f32 radius) const;

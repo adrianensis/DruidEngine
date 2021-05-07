@@ -11,12 +11,12 @@ class Renderer;
 class ProjectileScript : public Script {
 
 private:
-	Renderer* mRenderer;
-	Element mElement;
+PRIVATE(Renderer, NONE, Renderer*)
+	PRIVATE(Element, NONE, Element)
 
-	f32 mExplosionTime;
-	f32 mExplosionTimeCounter;
-	bool mIsExploding;
+	PRIVATE(ExplosionTime, NONE, f32)
+	PRIVATE(ExplosionTimeCounter, NONE, f32)
+	PRIVATE(IsExploding, NONE, bool)
 
 public:
 

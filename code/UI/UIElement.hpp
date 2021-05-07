@@ -19,7 +19,7 @@ class FunctorUIElement : public Functor<UIElementCallback> {
 public:
 	GENERATE_METADATA(FunctorUIElement);
 
-	 UIElement* mUIElement;
+	PUBLIC(UIElement, NONE, UIElement*)
 
 	FunctorUIElement():Functor<UIElementCallback>() {
 		mUIElement = nullptr;
@@ -49,18 +49,18 @@ class UIElement : public GameObject {
 
 protected:
 
-	 FunctorUIElement mOnPressedFunctor;
-	 FunctorUIElement mOnReleasedFunctor;
+	PROTECTED(OnPressedFunctor, NONE, FunctorUIElement)
+	PROTECTED(OnReleasedFunctor, NONE, FunctorUIElement)
 
-	 FunctorUIElement mOnTextChangedFunctor;
-	 FunctorUIElement mOnFocusLostFunctor;
+	PROTECTED(OnTextChangedFunctor, NONE, FunctorUIElement)
+	PROTECTED(OnFocusLostFunctor, NONE, FunctorUIElement)
 
-	 Renderer* mRenderer;
-	 Collider* mCollider;
-	 String mInputString;
-	 bool mConsumeInput;
-	 UIGroup* mGroup;
-	 bool mPressed;
+	PRIVATE(Renderer, GET, Renderer*)
+	PRIVATE(Collider, GET, Collider*)
+	PROTECTED(InputString, GET, String)
+	PROTECTED(ConsumeInput, GET_SET, bool)
+	PRIVATE(Group, GET_SET, UIGroup*)
+	PROTECTED(Pressed, GET, bool)
 
 public:
 
@@ -68,13 +68,6 @@ public:
 
 	UIElement();
 	virtual ~UIElement() override;;
-
-	GET(Renderer);
-	GET(Collider);
-	GET(InputString);
-	GET_SET(ConsumeInput);
-	GET_SET(Group);
-	GET(Pressed);
 
 	virtual void init() override;
 	virtual void onDestroy();

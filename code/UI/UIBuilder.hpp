@@ -43,21 +43,21 @@ public:
 	UIElementData();
 	virtual ~UIElementData() override;
 
-	 UIElementType mElementType;
-	 Vector2 mPosition;
-	 Vector2 mDisplayPosition;
-	 Vector2 mSize;
-	 Vector2 mTextSize;
-	 String mText;
-	 bool mAdjustSizeToText;
-	 u32 mLayer;
-	 bool mIsAffectedByLayout;
-	 String mGroup;
-	 f32 mSeparatorSize;
-	 Vector4 mBackgroundColor;
-	 Vector4 mBackgroundColor2;
-	 Vector4 mBackgroundColor3;
-	 Vector4 mBackgroundColor4;
+	PUBLIC(ElementType, NONE, UIElementType)
+	PUBLIC(Position, NONE, Vector2)
+	PUBLIC(DisplayPosition, NONE, Vector2)
+	PUBLIC(Size, NONE, Vector2)
+	PUBLIC(TextSize, NONE, Vector2)
+	PUBLIC(Text, NONE, String)
+	PUBLIC(AdjustSizeToText, NONE, bool)
+	PUBLIC(Layer, NONE, u32)
+	PUBLIC(IsAffectedByLayout, NONE, bool)
+	PUBLIC(Group, NONE, String)
+	PUBLIC(SeparatorSize, NONE, f32)
+	PUBLIC(BackgroundColor, NONE, Vector4)
+	Vector4 mBackgroundColor2;
+	Vector4 mBackgroundColor3;
+	Vector4 mBackgroundColor4;
 
 	void init(const Vector2 &position, const Vector2 &size, StringRef text, u32 layer);
 
@@ -93,16 +93,16 @@ public:
 class UIBuilder: public ObjectBase, public Singleton<UIBuilder> {
 private:
 
-	 Scene* mScene;
-	 UILayout mCurrentLayout;
-	 Material* mButtonMaterial;
-	 UIElementData mData;
-	 List<UIElementData>* mDataStack;
-	 UIElementData mLastData;
-	 bool mMakeRelativeToLastData; // used for layouts
-	 UIElementData mLayoutFirstUIElementData;
-	 bool mNewRowOrColumn;
-	 UIElement* mCurrentUIElement;
+PRIVATE(Scene, NONE, Scene*)
+	PRIVATE(CurrentLayout, NONE, UILayout)
+PRIVATE(ButtonMaterial, NONE, Material*)
+	PRIVATE(Data, NONE, UIElementData)
+	List<UIElementData>* mDataStack;
+	PRIVATE(LastData, NONE, UIElementData)
+	PRIVATE(MakeRelativeToLastData, NONE, bool) // used for layouts
+	PRIVATE(LayoutFirstUIElementData, NONE, UIElementData)
+	PRIVATE(NewRowOrColumn, NONE, bool)
+PRIVATE(CurrentUIElement, NONE, UIElement*)
 
 	void registerUIElement(UIElement* uiElement);
 	void registerCurrentUIElement(UIElement* uiElement);

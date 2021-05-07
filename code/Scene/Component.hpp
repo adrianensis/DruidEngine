@@ -11,13 +11,13 @@ class Component : public ObjectBase {
 
 private:
 
-	 bool mIsActive;
-	 bool mIsStatic;
+	PRIVATE(IsActive, NONE, bool)
+	PRIVATE(IsStatic, NONE, bool)
 
-	 GameObject* mGameObject;
-	 bool mAlreadyAddedToEngine;
-	 bool mIsPendingToBeDestroyed;
-	 bool mIsDestroyed;
+	PRIVATE(GameObject, NONE, GameObject*)
+	PRIVATE(AlreadyAddedToEngine, NONE, bool)
+	PRIVATE(IsPendingToBeDestroyed, NONE, bool)
+	PRIVATE(IsDestroyed, NONE, bool)
 
 public:
 

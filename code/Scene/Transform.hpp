@@ -10,27 +10,28 @@ class Transform : public Component {
 
 private:
 
-	 Vector3 mWorldPosition;
+	PRIVATE(WorldPosition, NONE, Vector3)
 
 	mutable Matrix4 mModelMatrix;
 	mutable Matrix4 mTranslationMatrix;
 	mutable Matrix4 mRotationMatrix;
 	mutable Matrix4 mScaleMatrix;
 
-	 bool mModelMatrixGenerated;
+	PRIVATE(ModelMatrixGenerated, NONE, bool)
 
 	mutable bool mIsDirtyTranslation;
 	mutable bool mIsDirtyRotation;
 	mutable bool mIsDirtyScale;
 
-	 bool mForceModelMatrixCalculation;
+	PRIVATE(ForceModelMatrixCalculation, NONE, bool)
 
-	 Transform* mParent;
+	//Transform* mParent;
+	PRIVATE(Parent, GET_SET, Transform*);
 
-	 Vector3 mLocalPosition;
-	 Vector3 mRotation;
-	 Vector3 mScale;
-	 bool mAffectedByProjection;
+	PRIVATE(LocalPosition, NONE, Vector3)
+	PRIVATE(Rotation, NONE, Vector3)
+	PRIVATE(Scale, NONE, Vector3)
+	PRIVATE(AffectedByProjection, NONE, bool)
 
 public:
 
@@ -43,7 +44,7 @@ public:
 	Transform();
 	virtual ~Transform() override;;
 
-	GET_SET(Parent);
+	//GET_SET(Parent);
 
 	GET(LocalPosition);
 	GET(Rotation);
@@ -53,21 +54,21 @@ public:
 	void init() override;
 
 	/*!
-	 \brief Translate the object by an increment vector.
-	 \param Vector3 Delta position.
-	 */
+	\brief Translate the object by an increment vector.
+	\param Vector3 Delta position.
+	*/
 	void translate(const Vector3 &vector);
 
 	/*!
-	 \brief Rotate the object by an increment vector.
-	 \param Vector3 Delta rotation.
-	 */
+	\brief Rotate the object by an increment vector.
+	\param Vector3 Delta rotation.
+	*/
 	void rotate(const Vector3 &vector);
 
 	/*!
-	 \brief Orient the object to a 3D point.
-	 \param Vector3 Target position.
-	 */
+	\brief Orient the object to a 3D point.
+	\param Vector3 Target position.
+	*/
 	void lookAt(const Vector3 &targetPosition);
 
 	// void setWorldPosition(const Vector3& vector);

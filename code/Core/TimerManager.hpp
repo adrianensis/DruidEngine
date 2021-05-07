@@ -17,9 +17,9 @@ enum class TimerDurationType {
 
 class Timer : public ObjectBase{
 private:
-	f32 mDuration;
-	f32 mTimeCounter;
-	TimerDurationType mDurationType;
+	PRIVATE(Duration, GET, f32)
+	PRIVATE(TimeCounter, GET_SET, f32)
+	PRIVATE(DurationType, GET, TimerDurationType)
 
 public:
 
@@ -28,11 +28,7 @@ public:
 	Timer();
 	virtual ~Timer() override;
 
-	GET(Duration);
-	GET_SET(TimeCounter);
-	GET(DurationType);
-
-	 FunctorVoid mFunctor;
+	PUBLIC(Functor, NONE, FunctorVoid)
 
 	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 };
@@ -42,7 +38,7 @@ class TimerHandle : public ObjectBase{
 	friend class TimerManager;
 
 private:
-	 Timer* mTimerReference;
+PRIVATE(TimerReference, NONE, Timer*)
 
 public:
 	GENERATE_METADATA(TimerHandle);
@@ -68,7 +64,7 @@ public:
 
 class TimerManager : public ObjectBase, public Singleton<TimerManager>{
 private:
-	 List<Timer*>* mTimers;
+	List<Timer*>* mTimers;
 
 	void endTimer(Timer* timer);
 

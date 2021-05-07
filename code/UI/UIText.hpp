@@ -8,9 +8,9 @@ namespace DE {
 
 class UIText : public UIElement {
 
-	u32 mLayer;
-	Vector2 mSize;
-	String mString;
+	PRIVATE(Layer, NONE, u32)
+	PRIVATE(Size, NONE, Vector2)
+	PRIVATE(String, NONE, String)
 
 public:
 

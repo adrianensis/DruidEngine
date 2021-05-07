@@ -9,7 +9,7 @@ namespace DE {
 class EngineConfig: public ObjectBase, public Singleton<EngineConfig> {
 
 private:
-	 ConfigMap mConfigMap;
+	PRIVATE(ConfigMap, NONE, ConfigMap)
 
 public:
 

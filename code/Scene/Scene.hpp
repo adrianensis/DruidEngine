@@ -13,19 +13,19 @@ class Scene : public ObjectBase {
 
 private:
 
-	 List<GameObject*>* mGameObjects;
-	 List<GameObject*>* mNewGameObjects;
-	 GameObject* mCameraGameObject;
+	List<GameObject*>* mGameObjects;
+	List<GameObject*>* mNewGameObjects;
+PRIVATE(CameraGameObject, NONE, GameObject*)
 
-	 f32 mSize;
-	 String mPath;
+	PRIVATE(Size, NONE, f32)
+	PRIVATE(Path, NONE, String)
 
 	void destroyGameObjects();
 
-	 ConfigMap* mLoadSceneConfigMap;
-	 u32 mMaxGameObjectsToLoadPerFrame;
-	 u32 mGameObjectsToLoadTotal;
-	 u32 mGameObjectsToLoadIndex;
+PRIVATE(LoadSceneConfigMap, NONE, ConfigMap*)
+	PRIVATE(MaxGameObjectsToLoadPerFrame, NONE, u32)
+	PRIVATE(GameObjectsToLoadTotal, NONE, u32)
+	PRIVATE(GameObjectsToLoadIndex, NONE, u32)
 
 public:
 

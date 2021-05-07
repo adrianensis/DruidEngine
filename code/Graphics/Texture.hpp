@@ -7,11 +7,11 @@ namespace DE {
 
 class Texture : public ObjectBase {
 
-	 u32 mTextureId;
-	 byte* mData;
-	 int mWidth;
-	 int mHeight;
-	 String mPath;
+	PRIVATE(TextureId, NONE, u32)
+PRIVATE(Data, NONE, byte*)
+	PRIVATE(Width, NONE, int)
+	PRIVATE(Height, NONE, int)
+	PRIVATE(Path, NONE, String)
 
 public:
 

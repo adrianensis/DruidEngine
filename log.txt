@@ -1,0 +1,22 @@
+TRACE > [static void DE::Memory::init():28] > 
+TRACE > [virtual void DE::FreeListAllocator::init(DE::u32):140] > 
+TRACE > [virtual void DE::Allocator::init(DE::u32):162] > 
+TRACE > [virtual void DE::Allocator::initFromMemory(DE::u32, DE::byte*):168] > 
+TRACE > [virtual void DE::FreeListAllocator::init(DE::u32):143] > 
+TRACE > [virtual void DE::LinearAllocator::init(DE::u32):14] > 
+TRACE > [virtual void DE::Allocator::init(DE::u32):162] > 
+TRACE > [virtual void DE::Allocator::initFromMemory(DE::u32, DE::byte*):168] > 
+TRACE > [virtual void DE::LinearAllocator::init(DE::u32):17] > 
+ECHO > TOTAL MEMORY (IN MB)
+VAL > 500.000000
+TRACE > [void DE::Engine::init():48] > 
+TRACE > [static void DE::RenderContext::init():38] > 
+TRACE > [void DE::Input::init():84] > 
+TRACE > [void DE::MaterialManager::init():34] > 
+TRACE > [void DE::Scene::init():58] > 
+TRACE > [virtual void DE::Camera::init():22] > 
+TRACE > [void DE::Frustum::init(DE::Camera*):23] > 
+TRACE > [void DE::ScriptEngine::terminate():71] > 
+TRACE > [void DE::RenderEngine::terminate():209] > 
+TRACE > [void DE::PhysicsEngine::terminate():122] > 
+TRACE > [void DE::UI::terminate():230] > 

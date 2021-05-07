@@ -10,7 +10,7 @@ class Functor : public ObjectBase {
 
 protected:
 
-	T mCallback;
+	PROTECTED(Callback, NONE, T)
 
 public:
 
@@ -38,7 +38,7 @@ public:
 	}
 
 	bool operator== (const Functor& functor) const{
-	    return this == &functor;
+	   return this == &functor;
 	}
 };
 

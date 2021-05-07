@@ -23,16 +23,16 @@ template<class T> class List;
 class Playground : public Script {
 private:
 
-	Transform* mTransform;
-	Camera* mCamera;
-	Transform* mCameraTransform;
+	PRIVATE(Transform, NONE, Transform*)
+	PRIVATE(Camera, NONE, Camera*)
+	PRIVATE(CameraTransform, NONE, Transform*)
 
-	bool mCameraControl;
+	PRIVATE(CameraControl, NONE, bool)
 
 public:
 
-	GameObject* mPlayer;
-	Material* mMaterial;
+	PUBLIC(Player, NONE, GameObject*)
+	PUBLIC(Material, NONE, Material*)
 
 	GENERATE_METADATA(Playground);
 

@@ -35,8 +35,8 @@ public:
 	virtual ~Vector2() override;
 
 	/*!
-	 \brief Default Constructor.
-	 */
+	\brief Default Constructor.
+	*/
 	Vector2(f32 x, f32 y);
 	Vector2(const Vector2 &other);
 	Vector2(const Vector3 &other);

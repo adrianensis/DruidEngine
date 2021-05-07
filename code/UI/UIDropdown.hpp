@@ -13,11 +13,11 @@ private:
 
 		GENERATE_METADATA(UIDropdownEntry);
 
-	UIDropdownEntry();
-	virtual ~UIDropdownEntry() override;
+		UIDropdownEntry();
+		virtual ~UIDropdownEntry() override;
 
-		 String mLabel;
-		 UIElementCallback mCallback;
+		PUBLIC(Label, NONE, String)
+		PUBLIC(Callback, NONE, UIElementCallback)
 
 		UIDropdownEntry(String label, UIElementCallback callback);
 

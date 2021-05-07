@@ -12,12 +12,12 @@ class GameObject;
 class ScenesManager: public ObjectBase, public Singleton<ScenesManager> {
 
 private:
-	 List<Scene*>* mScenes;
-	 u32 mCurrentSceneIndex;
+	List<Scene*>* mScenes;
+	PRIVATE(CurrentSceneIndex, NONE, u32)
 	
-	 Scene* mCurrentScene;
-	 bool mSceneHasChanged;
-	 GameObject* mGameObjectController;
+PRIVATE(CurrentScene, NONE, Scene*)
+	PRIVATE(SceneHasChanged, NONE, bool)
+PRIVATE(GameObjectController, NONE, GameObject*)
 
 	void internalLoadScene();
 	void addScene(Scene *newScene);

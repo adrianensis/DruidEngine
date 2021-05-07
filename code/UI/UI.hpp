@@ -27,8 +27,8 @@ public:
 	UIGroup();
 	virtual ~UIGroup() override;
 
-	String mName;
-	bool mVisible;
+	PUBLIC(Name, NONE, String)
+	PUBLIC(Visible, NONE, bool)
 	List<UIElement*>* mUIElements;
 
 	void init();
@@ -42,14 +42,14 @@ private:
 
 	HashMap<c8, Vector2>* mCharMap;
 
-	Vector2 mFontTilesCount;
-	Vector2 mFontTileTextureSize;
+	PRIVATE(FontTilesCount, NONE, Vector2)
+	PRIVATE(FontTileTextureSize, NONE, Vector2)
 
-	Material* mFontMaterial;
+PRIVATE(FontMaterial, NONE, Material*)
 
 	Vector2 mDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
 
-	UIBuilder* mUIBuilder;
+PRIVATE(UIBuilder, NONE, UIBuilder*)
 
 	UIElement* mFocusedElement = nullptr;
 

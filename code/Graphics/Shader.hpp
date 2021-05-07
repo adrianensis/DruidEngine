@@ -12,9 +12,9 @@ class Matrix4;
 
 class Shader : public ObjectBase {
 private:
-	 u32 mVertexShader;
-	 u32 mFragmentShader;
-	 u32 mProgram;
+	PRIVATE(VertexShader, NONE, u32)
+	PRIVATE(FragmentShader, NONE, u32)
+	PRIVATE(Program, NONE, u32)
 
 	static Shader* msShaderDefault;
 	static Shader* msShaderDebug;

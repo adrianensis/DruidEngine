@@ -10,7 +10,7 @@ class UIButton : public UIElement {
 
 private:
 
-	UIText* mLabel;
+PRIVATE(Label, NONE, UIText*)
 
 public:
 
