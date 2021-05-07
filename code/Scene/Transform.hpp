@@ -28,10 +28,10 @@ private:
 	//Transform* mParent;
 	PRIVATE(Parent, GET_SET, Transform*);
 
-	PRIVATE(LocalPosition, NONE, Vector3)
-	PRIVATE(Rotation, NONE, Vector3)
-	PRIVATE(Scale, NONE, Vector3)
-	PRIVATE(AffectedByProjection, NONE, bool)
+	PRIVATE(LocalPosition, GET, Vector3)
+	PRIVATE(Rotation, GET, Vector3)
+	PRIVATE(Scale, GET, Vector3)
+	PRIVATE(AffectedByProjection, GET_SET, bool)
 
 public:
 
@@ -43,13 +43,6 @@ public:
 
 	Transform();
 	virtual ~Transform() override;;
-
-	//GET_SET(Parent);
-
-	GET(LocalPosition);
-	GET(Rotation);
-	GET(Scale);
-	GET_SET(AffectedByProjection);
 
 	void init() override;
 

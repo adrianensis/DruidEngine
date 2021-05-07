@@ -26,13 +26,13 @@ PRIVATE(ComponentsMap, NONE, ComponentsMap*)
 
 	PRIVATE(IsActive, NONE, bool)
 
-PRIVATE(Scene, NONE, Scene*)
-	PRIVATE(IsStatic, NONE, bool)
-PRIVATE(Transform, NONE, Transform*)
-	PRIVATE(Tag, NONE, String)
-	PRIVATE(IsPendingToBeDestroyed, NONE, bool)
-	PRIVATE(IsDestroyed, NONE, bool)
-	PRIVATE(ShouldPersist, NONE, bool)
+	PRIVATE(Scene, GET_SET, Scene*)
+	PRIVATE(IsStatic, GET_SET, bool)
+	PRIVATE(Transform, GET, Transform*)
+	PRIVATE(Tag, GET_SET, String)
+	PRIVATE(IsPendingToBeDestroyed, GET, bool)
+	PRIVATE(IsDestroyed, GET, bool)
+	PRIVATE(ShouldPersist, GET_SET, bool)
 
 public:
 
@@ -40,14 +40,6 @@ public:
 
 	GameObject();
 	virtual ~GameObject() override;;
-
-	GET_SET(Scene);
-	GET_SET(IsStatic);
-	GET(Transform);
-	GET_SET(Tag);
-	GET(IsPendingToBeDestroyed);
-	GET(IsDestroyed);
-	GET_SET(ShouldPersist);
 
 	virtual void init();
 

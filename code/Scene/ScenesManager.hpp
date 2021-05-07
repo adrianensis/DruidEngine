@@ -15,9 +15,9 @@ private:
 	List<Scene*>* mScenes;
 	PRIVATE(CurrentSceneIndex, NONE, u32)
 	
-PRIVATE(CurrentScene, NONE, Scene*)
-	PRIVATE(SceneHasChanged, NONE, bool)
-PRIVATE(GameObjectController, NONE, GameObject*)
+	PRIVATE(CurrentScene, GET, Scene*)
+	PRIVATE(SceneHasChanged, GET, bool)
+	PRIVATE(GameObjectController, GET_SET, GameObject*)
 
 	void internalLoadScene();
 	void addScene(Scene *newScene);
@@ -28,11 +28,7 @@ public:
 
 	ScenesManager();
 	virtual ~ScenesManager() override;;
-
-	GET(CurrentScene);
-	GET(SceneHasChanged);
-	GET_SET(GameObjectController);
-
+	
 	void init();
 	void step();
 	void loadCurrentScene();

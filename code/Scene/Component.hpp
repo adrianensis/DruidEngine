@@ -14,10 +14,10 @@ private:
 	PRIVATE(IsActive, NONE, bool)
 	PRIVATE(IsStatic, NONE, bool)
 
-	PRIVATE(GameObject, NONE, GameObject*)
-	PRIVATE(AlreadyAddedToEngine, NONE, bool)
-	PRIVATE(IsPendingToBeDestroyed, NONE, bool)
-	PRIVATE(IsDestroyed, NONE, bool)
+	PRIVATE(GameObject, GET_SET, GameObject*)
+	PRIVATE(AlreadyAddedToEngine, GET_SET, bool)
+	PRIVATE(IsPendingToBeDestroyed, GET, bool)
+	PRIVATE(IsDestroyed, GET, bool)
 
 public:
 
@@ -25,11 +25,6 @@ public:
 
 	Component();
 	virtual ~Component() override;;
-
-	GET_SET(GameObject);
-	GET_SET(AlreadyAddedToEngine);
-	GET(IsPendingToBeDestroyed);
-	GET(IsDestroyed);
 
 	virtual void init() = 0;
 

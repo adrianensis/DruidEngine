@@ -13,16 +13,16 @@ class Scene : public ObjectBase {
 
 private:
 
-	List<GameObject*>* mGameObjects;
-	List<GameObject*>* mNewGameObjects;
-PRIVATE(CameraGameObject, NONE, GameObject*)
+	PRIVATE(GameObjects, GET, List<GameObject*>*);
+	PRIVATE(NewGameObjects, GET, List<GameObject*>*);
+	PRIVATE(CameraGameObject, GET_SET, GameObject*)
 
-	PRIVATE(Size, NONE, f32)
-	PRIVATE(Path, NONE, String)
+	PRIVATE(Size, GET, f32)
+	PRIVATE(Path, GET, String)
 
 	void destroyGameObjects();
 
-PRIVATE(LoadSceneConfigMap, NONE, ConfigMap*)
+	PRIVATE(LoadSceneConfigMap, NONE, ConfigMap*)
 	PRIVATE(MaxGameObjectsToLoadPerFrame, NONE, u32)
 	PRIVATE(GameObjectsToLoadTotal, NONE, u32)
 	PRIVATE(GameObjectsToLoadIndex, NONE, u32)
@@ -33,13 +33,6 @@ public:
 
 	Scene();
 	virtual ~Scene() override;;
-
-	GET(GameObjects);
-	GET(NewGameObjects);
-	GET_SET(CameraGameObject);
-
-	GET(Size);
-	GET(Path);
 
 	void init();
 
