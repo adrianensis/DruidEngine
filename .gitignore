@@ -1,0 +1,6 @@
+build/
+doc/
+compiledLibs/
+binaries/
+dependencies/
+log.txt
