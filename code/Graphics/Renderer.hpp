@@ -41,10 +41,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Renderer);
-
-	Renderer();
-	virtual ~Renderer() override;
+	GENERATE_METADATA(CONSTRUCTOR, Renderer)
 
 	void init() override;
 	void setAnimation(StringRef name);

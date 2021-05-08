@@ -15,10 +15,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(ConfigMap);
-
-	ConfigMap();
-	virtual ~ConfigMap() override;
+	GENERATE_METADATA(CONSTRUCTOR, ConfigMap)
 
 	void init();
 	void clear();

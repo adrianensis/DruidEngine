@@ -34,10 +34,7 @@ PRIVATE(Frustum, NONE, Frustum*)
 
 public:
 
-	GENERATE_METADATA(Camera);
-
-	Camera();
-	virtual ~Camera() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Camera)
 
 	GET(Frustum);
 	GET(Zoom);

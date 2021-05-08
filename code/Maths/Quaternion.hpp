@@ -27,10 +27,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	GENERATE_METADATA(Quaternion);
-
-	Quaternion();
-	virtual ~Quaternion() override;
+	GENERATE_METADATA(CONSTRUCTOR, Quaternion)
 
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
 	Quaternion(const Vector3 &v, f32 w);

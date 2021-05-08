@@ -14,10 +14,7 @@ PRIVATE(Label, NONE, UIText*)
 
 public:
 
-	GENERATE_METADATA(UIButton);
-
-	UIButton();
-	virtual ~UIButton() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIButton)
 
 	virtual void init() override;
 	virtual void onDestroy() override;

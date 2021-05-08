@@ -22,10 +22,7 @@ protected:
 
 public:
 
-	GENERATE_METADATA(BaseContainer);
-
-	BaseContainer();
-	virtual ~BaseContainer() override;
+	GENERATE_METADATA(CONSTRUCTOR, BaseContainer)
 
 	/*!
 	\brief Clear the container.

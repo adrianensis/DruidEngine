@@ -13,10 +13,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Script);
-
-	Script();
-	virtual ~Script() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Script)
 
 	GET(FirstStepDone);
 

@@ -24,7 +24,7 @@ private:
 		K mKey;
 		V mElement;
 
-		GENERATE_METADATA(Node);
+		GENERATE_METADATA(NONE, Node)
 
 		Node() : ObjectBase() {
 		};
@@ -57,7 +57,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(HashMap<K,V>);
+	GENERATE_METADATA(NONE, HashMap<K,V>)
 
 	/*!
 	\brief Default Constructor.

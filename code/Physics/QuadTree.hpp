@@ -7,8 +7,8 @@
 namespace DE {
 
 class Collider;
-enum class ColliderStatus
-;
+enum class ColliderStatus;
+
 template<class T> class List;
 class Iterator;
 template<class T> class Array;
@@ -48,10 +48,7 @@ PRIVATE(Tree, NONE, QuadTree*)
 		PUBLIC(DynamicCollidersCount, NONE, u32)
 		PUBLIC(StaticCollidersCount, NONE, u32)
 
-		GENERATE_METADATA(Node);
-
-	Node();
-	virtual ~Node() override;
+		GENERATE_METADATA(CONSTRUCTOR, Node)
 
 		void init(const Vector2 &leftTop, f32 width, f32 height, f32 minWidth, f32 minHeight, QuadTree *tree);
 		Node* createChildNode(u32 index);
@@ -78,10 +75,7 @@ PRIVATE(Tree, NONE, QuadTree*)
 
 public:
 
-	GENERATE_METADATA(QuadTree);
-
-	QuadTree();
-	virtual ~QuadTree() override;;
+	GENERATE_METADATA(CONSTRUCTOR, QuadTree)
 
 	void init(f32 size);
 

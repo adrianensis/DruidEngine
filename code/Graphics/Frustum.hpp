@@ -22,10 +22,7 @@ PRIVATE(Camera, NONE, Camera*)
 
 public:
 
-	GENERATE_METADATA(Frustum);
-
-	Frustum();
-	virtual ~Frustum() override;
+	GENERATE_METADATA(CONSTRUCTOR, Frustum)
 
 	void init(Camera *camera);
 

@@ -62,10 +62,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Batch);
-
-	Batch();
-	virtual ~Batch() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Batch)
 
 	SET(Material);
 	SET(Mesh);

@@ -20,10 +20,7 @@ PRIVATE(ScriptEngine, NONE, ScriptEngine*)
 
 public:
 
-	GENERATE_METADATA(Engine);
-
-	Engine();
-	virtual ~Engine() override;
+	GENERATE_METADATA(CONSTRUCTOR, Engine)
 
 	void init();
 	void initSubsystems();

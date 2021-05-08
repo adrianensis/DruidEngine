@@ -34,10 +34,7 @@ PRIVATE(OwnersReceiversMap, NONE, OwnersReceiversMap*)
 	void unsubscribe(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver);
 
 public:
-	GENERATE_METADATA(EventsManager);
-
-	EventsManager();
-	virtual ~EventsManager() override;
+	GENERATE_METADATA(CONSTRUCTOR, EventsManager)
 
 	void init();
 	void terminate();

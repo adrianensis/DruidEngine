@@ -33,10 +33,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(RigidBody);
-
-	RigidBody();
-	virtual ~RigidBody() override;;
+	GENERATE_METADATA(CONSTRUCTOR, RigidBody)
 
 	void init() override;
 

@@ -28,10 +28,7 @@ PRIVATE(Book, NONE, GameObject*)
 
 public:
 
-	GENERATE_METADATA(PlayerScript);
-
-	PlayerScript();
-	virtual ~PlayerScript() override;
+	GENERATE_METADATA(CONSTRUCTOR, PlayerScript)
 
 	void init() override;
 	void firstStep() override;

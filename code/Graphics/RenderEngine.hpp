@@ -27,10 +27,7 @@ private:
 
 	class LayerData : public ObjectBase {
 	public:
-		GENERATE_METADATA(LayerData);
-
-	LayerData();
-	virtual ~LayerData() override;
+		GENERATE_METADATA(CONSTRUCTOR, LayerData)
 
 		PUBLIC(Sorted, NONE, bool)
 		PUBLIC(DynamicObjectsCount, NONE, u32) // Non static objects count
@@ -65,10 +62,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(RenderEngine);
-
-	RenderEngine();
-	virtual ~RenderEngine() override;;
+	GENERATE_METADATA(CONSTRUCTOR, RenderEngine)
 
 	void init(f32 sceneSize);
 	void step(); // render

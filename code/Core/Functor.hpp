@@ -14,7 +14,7 @@ protected:
 
 public:
 
-	GENERATE_METADATA(Functor<T>);
+	GENERATE_METADATA(NONE, Functor<T>)
 
 	Functor() : ObjectBase(){};
 	virtual ~Functor() override {};
@@ -45,7 +45,7 @@ public:
 class FunctorVoid : public Functor<std::function<void()>> {
 public:
 
-	GENERATE_METADATA(FunctorVoid);
+	GENERATE_METADATA(NONE, FunctorVoid)
 
 	FunctorVoid() : Functor<std::function<void()>>(){};
 	virtual ~FunctorVoid() override {};

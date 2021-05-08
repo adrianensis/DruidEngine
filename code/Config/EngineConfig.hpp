@@ -13,10 +13,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(EngineConfig);
-
-	EngineConfig();
-	virtual ~EngineConfig() override;
+	GENERATE_METADATA(CONSTRUCTOR, EngineConfig)
 
 	void init();
 	void readConfigFile(const String &path);

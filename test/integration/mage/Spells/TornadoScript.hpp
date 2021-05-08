@@ -19,10 +19,7 @@ PRIVATE(Renderer, NONE, Renderer*)
 
 public:
 
-	GENERATE_METADATA(TornadoScript);
-
-	TornadoScript();
-	virtual ~TornadoScript() override;
+	GENERATE_METADATA(CONSTRUCTOR, TornadoScript)
 
 	void init() override;
 	void firstStep() override;

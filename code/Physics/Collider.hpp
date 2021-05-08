@@ -43,10 +43,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Collider);
-
-	Collider();
-	virtual ~Collider() override;
+	GENERATE_METADATA(CONSTRUCTOR, Collider)
 
 	void init() override;
 

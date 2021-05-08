@@ -14,10 +14,7 @@ class UIText : public UIElement {
 
 public:
 
-	GENERATE_METADATA(UIText);
-
-	UIText();
-	virtual ~UIText() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIText)
 
 	virtual void init() override;
 	virtual void onDestroy() override;

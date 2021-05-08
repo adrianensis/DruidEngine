@@ -15,10 +15,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(AnimationFrame);
-
-	AnimationFrame();
-	virtual ~AnimationFrame() override;;
+	GENERATE_METADATA(CONSTRUCTOR, AnimationFrame)
 
 	GET(Position);
 	GET(Width);

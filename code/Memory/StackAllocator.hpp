@@ -19,10 +19,7 @@ PRIVATE(Top, NONE, byte*)
 
 public:
 
-	GENERATE_METADATA(StackAllocator);
-
-	StackAllocator();
-	virtual ~StackAllocator() override;
+	GENERATE_METADATA(CONSTRUCTOR, StackAllocator)
 
 	/*!
 	\return Pointer to the top of the stack.

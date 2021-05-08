@@ -19,10 +19,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Animation);
-
-	Animation();
-	virtual ~Animation() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Animation)
 
 	SET(Speed);
 

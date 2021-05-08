@@ -29,10 +29,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Scene);
-
-	Scene();
-	virtual ~Scene() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Scene)
 
 	void init();
 

@@ -22,7 +22,7 @@ PRIVATE(Parent, NONE, Node*)
 		T mElement;
 		Array<Node*>* mChildren;
 
-		GENERATE_METADATA(Node);
+		GENERATE_METADATA(CONSTRUCTOR, Node)
 
 		Node() : ObjectBase() {
 			mChildren = nullptr;
@@ -109,7 +109,7 @@ PRIVATE(Root, NONE, Node*)
 
 public:
 
-	GENERATE_METADATA(Tree<T>);
+	GENERATE_METADATA(NONE, Tree<T>)
 
 	Tree() : BaseContainer() {
 		mRoot = nullptr;

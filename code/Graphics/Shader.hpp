@@ -23,10 +23,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Shader);
-
-	Shader();
-	virtual ~Shader() override;
+	GENERATE_METADATA(CONSTRUCTOR, Shader)
 
 	static Shader* getDefaultShader();
 	static Shader* getDebugShader();

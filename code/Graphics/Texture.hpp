@@ -15,10 +15,7 @@ PRIVATE(Data, NONE, byte*)
 
 public:
 
-	GENERATE_METADATA(Texture);
-
-	Texture();
-	virtual ~Texture() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Texture)
 
 	GET(TextureId);
 	GET(Data);

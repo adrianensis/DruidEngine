@@ -12,16 +12,16 @@ private:
 
 	PRIVATE(WorldPosition, NONE, Vector3)
 
-	mutable Matrix4 mModelMatrix;
-	mutable Matrix4 mTranslationMatrix;
-	mutable Matrix4 mRotationMatrix;
-	mutable Matrix4 mScaleMatrix;
+	PRIVATE(ModelMatrix, NONE, mutable Matrix4)
+	PRIVATE(TranslationMatrix, NONE, mutable Matrix4)
+	PRIVATE(RotationMatrix, NONE, mutable Matrix4)
+	PRIVATE(ScaleMatrix, NONE, mutable Matrix4)
 
 	PRIVATE(ModelMatrixGenerated, NONE, bool)
 
-	mutable bool mIsDirtyTranslation;
-	mutable bool mIsDirtyRotation;
-	mutable bool mIsDirtyScale;
+	PRIVATE(IsDirtyTranslation, NONE, mutable bool)
+	PRIVATE(IsDirtyRotation, NONE, mutable bool)
+	PRIVATE(IsDirtyScale, NONE, mutable bool)
 
 	PRIVATE(ForceModelMatrixCalculation, NONE, bool)
 
@@ -39,10 +39,7 @@ public:
 	static const Vector3 smUp;
 	static const Vector3 smForward;
 
-	GENERATE_METADATA(Transform);
-
-	Transform();
-	virtual ~Transform() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Transform)
 
 	void init() override;
 

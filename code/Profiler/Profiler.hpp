@@ -23,10 +23,7 @@ private:
 	void printResult(String& name, f32 time);
 
 public:
-	GENERATE_METADATA(Profiler);
-
-	Profiler();
-	virtual ~Profiler() override;
+	GENERATE_METADATA(CONSTRUCTOR, Profiler)
 
 	void init();
 	void step(f32 deltaTime);

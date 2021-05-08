@@ -28,10 +28,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Mesh);
-
-	Mesh();
-	virtual ~Mesh() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Mesh)
 
 	GET(Vertices);
 	GET(Normals);

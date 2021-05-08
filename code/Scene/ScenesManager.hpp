@@ -24,11 +24,8 @@ private:
 
 public:
 
-	GENERATE_METADATA(ScenesManager);
+	GENERATE_METADATA(CONSTRUCTOR, ScenesManager)
 
-	ScenesManager();
-	virtual ~ScenesManager() override;;
-	
 	void init();
 	void step();
 	void loadCurrentScene();

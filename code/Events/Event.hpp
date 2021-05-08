@@ -9,7 +9,7 @@ namespace DE {
 
 #define EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
 public: \
-	GENERATE_METADATA(EventClassName); \
+	GENERATE_METADATA(NONE, EventClassName) \
 	EventClassName():Event() {}; \
 	~EventClassName() override {}; \
 
@@ -17,10 +17,7 @@ public: \
 
 class Event : public ObjectBase{
 public:
-	GENERATE_METADATA(Event);
-
-	Event();
-	virtual ~Event() override;
+	GENERATE_METADATA(CONSTRUCTOR, Event)
 
 	PUBLIC(DelayAmount, NONE, f32)
 	PUBLIC(DelayType, NONE, TimerDurationType)
@@ -46,7 +43,7 @@ using EventCallback = std::function<void(const Event*)>;
 template<class E>
 class EventFunctor : public Functor<EventCallback> {
 public:
-	GENERATE_METADATA(EventFunctor);
+	GENERATE_METADATA(NONE, EventFunctor)
 
 	PUBLIC(Event, NONE, E*)
 	PUBLIC(EventClassId, NONE, ClassId)

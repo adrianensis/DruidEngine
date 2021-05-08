@@ -26,7 +26,7 @@ protected:
 
 public:
 
-	GENERATE_METADATA(SequentialContainer<T>);
+	GENERATE_METADATA(NONE, SequentialContainer<T>)
 
 	/*!
 	\brief Default Constructor.

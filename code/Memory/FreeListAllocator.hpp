@@ -51,10 +51,7 @@ PRIVATE(FirstBlockFree, NONE, Block*)
 
 public:
 
-	GENERATE_METADATA(FreeListAllocator);
-
-	FreeListAllocator();
-	virtual ~FreeListAllocator() override;
+	GENERATE_METADATA(CONSTRUCTOR, FreeListAllocator)
 
 	virtual void init(u32 size) override;
 	virtual byte* allocate(u32 size) override;

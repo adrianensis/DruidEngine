@@ -29,10 +29,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	GENERATE_METADATA(Vector2);
-
-	Vector2();
-	virtual ~Vector2() override;
+	GENERATE_METADATA(CONSTRUCTOR, Vector2)
 
 	/*!
 	\brief Default Constructor.

@@ -21,10 +21,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Chunk);
-
-	Chunk();
-	virtual ~Chunk() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Chunk)
 
 	GET(IsLoaded);
 	GET(Center);

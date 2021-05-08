@@ -23,10 +23,9 @@ PRIVATE(ShaderLine, NONE, Shader*)
 
 		PRIVATE(Size, NONE, f32)
 public:
-		GENERATE_METADATA(LineRenderer);
+		GENERATE_METADATA(CONSTRUCTOR, LineRenderer)
 
-		LineRenderer();
-		virtual ~LineRenderer() override;
+	
 		PUBLIC(IsAffectedByProjection, NONE, bool)
 		
 		void init();

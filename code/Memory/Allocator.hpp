@@ -29,10 +29,7 @@ protected:
 
 public:
 
-	GENERATE_METADATA(Allocator);
-
-	Allocator();
-	virtual ~Allocator() override;
+	GENERATE_METADATA(CONSTRUCTOR, Allocator)
 
 	// Debug
 

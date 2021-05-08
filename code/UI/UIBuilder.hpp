@@ -38,10 +38,7 @@ enum class UILayout {
 class UIElementData : public ObjectBase {
 public:
 
-	GENERATE_METADATA(UIElementData);
-
-	UIElementData();
-	virtual ~UIElementData() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIElementData)
 
 	PUBLIC(ElementType, NONE, UIElementType)
 	PUBLIC(Position, NONE, Vector2)
@@ -117,10 +114,7 @@ PRIVATE(CurrentUIElement, NONE, UIElement*)
 
 public:
 
-	GENERATE_METADATA(UIBuilder);
-
-	UIBuilder();
-	virtual ~UIBuilder() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIBuilder)
 
 	UIBuilder* const setLayout(UILayout layout) {
 		mCurrentLayout = layout;

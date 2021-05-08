@@ -46,10 +46,7 @@ PRIVATE(TextMana, NONE, UIText*)
 public:
 	static f32 smGlobalSpeed;
 
-	GENERATE_METADATA(GameController);
-
-	GameController();
-	virtual ~GameController() override;
+	GENERATE_METADATA(CONSTRUCTOR, GameController)
 
 	void createPlayer(f32 x, f32 y);
 	void createCrossHair();

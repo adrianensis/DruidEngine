@@ -17,7 +17,7 @@ using UIElementCallback = std::function<void(UIElement* uiElement)>;
 
 class FunctorUIElement : public Functor<UIElementCallback> {
 public:
-	GENERATE_METADATA(FunctorUIElement);
+	GENERATE_METADATA(NONE, FunctorUIElement)
 
 	PUBLIC(UIElement, NONE, UIElement*)
 
@@ -64,10 +64,7 @@ protected:
 
 public:
 
-	GENERATE_METADATA(UIElement);
-
-	UIElement();
-	virtual ~UIElement() override;;
+	GENERATE_METADATA(CONSTRUCTOR, UIElement)
 
 	virtual void init() override;
 	virtual void onDestroy();

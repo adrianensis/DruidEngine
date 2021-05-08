@@ -22,10 +22,7 @@ PRIVATE(RigidBody, NONE, RigidBody*)
 
 public:
 
-	GENERATE_METADATA(EnemyScript);
-
-	EnemyScript();
-	virtual ~EnemyScript() override;
+	GENERATE_METADATA(CONSTRUCTOR, EnemyScript)
 
 	void init() override;
 	void firstStep() override;

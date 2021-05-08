@@ -3,12 +3,11 @@
 #include "Core/BasicTypes.hpp"
 #include <type_traits>
 
+#define NONE(...)
+
 // --------------------------------------------------------
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
-
-#define DEFAULT_CLASS(...) // declare constructor-destructor
-#define TEMPLATE(...) // not declare constructor-destructor
 
 #define GENERATE_ID_STATIC(...)\
 	static ClassId getClassIdStatic(){\
@@ -34,12 +33,19 @@
 #define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...)\
 	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
 
-#define GENERATE_METADATA(...)\
+#define GENERATE_METADATA(ConstructorsMacro, ...)\
+	ConstructorsMacro(__VA_ARGS__);\
 	GENERATE_NAME_STATIC(__VA_ARGS__);\
 	GENERATE_NAME_VIRTUAL(__VA_ARGS__);\
 	GENERATE_ID_STATIC(__VA_ARGS__);\
 	GENERATE_ID_VIRTUAL(__VA_ARGS__);\
 	GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(__VA_ARGS__); 
+
+// Constructors
+
+#define CONSTRUCTOR(...) __VA_ARGS__(); virtual ~__VA_ARGS__() override;
+
+// Instanceable
 
 #define INSTANCEABLE_BY_CLASSNAME(...)\
 	Memory::registerClassName<__VA_ARGS__>(__VA_ARGS__::getClassNameStatic());
@@ -74,8 +80,6 @@
 	void set ## BaseName (SETTER_TYPE(m ## BaseName) new ## BaseName){ m ## BaseName = new ## BaseName; };
 
 #define GET_SET(BaseName) GET(BaseName) SET(BaseName)
-
-#define NONE(...)
 
 #define MEMBER_BASE(BaseName, ...) __VA_ARGS__ m ## BaseName = {};
 

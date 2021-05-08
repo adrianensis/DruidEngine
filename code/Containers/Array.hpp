@@ -13,9 +13,9 @@ class Array: public SequentialContainer<T> {
 
 private:
 
-PRIVATE(TStart, NONE, T*)
-PRIVATE(Start, NONE, byte*)
-	
+	PRIVATE(TStart, NONE, T*)
+	PRIVATE(Start, NONE, byte*)
+		
 	T& randomAccessOperator(u32 index) const {
 		ASSERT(index >= 0 && index < this->getLength(), "Index out of bounds.");
 		return mTStart[index];
@@ -76,7 +76,7 @@ public:
 
 	using SequentialContainer<T>::put; // because "put" method is ambiguous.
 
-	GENERATE_METADATA(Array<T>);
+	GENERATE_METADATA(NONE, Array<T>)
 
 	/*!
 	\brief Default Constructor.

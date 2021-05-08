@@ -19,10 +19,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Material);
-
-	Material();
-	virtual ~Material() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Material)
 
 	void init();
 };

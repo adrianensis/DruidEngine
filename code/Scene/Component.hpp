@@ -21,10 +21,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Component);
-
-	Component();
-	virtual ~Component() override;;
+	GENERATE_METADATA(CONSTRUCTOR, Component)
 
 	virtual void init() = 0;
 

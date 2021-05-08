@@ -11,10 +11,9 @@ private:
 	class UIDropdownEntry : public ObjectBase{
 	public:
 
-		GENERATE_METADATA(UIDropdownEntry);
+		GENERATE_METADATA(CONSTRUCTOR, UIDropdownEntry)
 
-		UIDropdownEntry();
-		virtual ~UIDropdownEntry() override;
+	
 
 		PUBLIC(Label, NONE, String)
 		PUBLIC(Callback, NONE, UIElementCallback)
@@ -41,10 +40,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(UIDropdown);
-
-	UIDropdown();
-	virtual ~UIDropdown() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIDropdown)
 
 	virtual void init() override;
 	virtual void onDestroy() override;

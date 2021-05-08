@@ -25,10 +25,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(PhysicsEngine);
-
-	PhysicsEngine();
-	virtual ~PhysicsEngine() override;;
+	GENERATE_METADATA(CONSTRUCTOR, PhysicsEngine)
 
 	void addRigidBody(RigidBody *rigidBody);
 	void addCollider(RigidBody *rigidBody, Collider *collider);

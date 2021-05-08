@@ -39,7 +39,7 @@ private:
 	Memory();
 	~Memory();
 
-	static std::map<String, u32> memoryMapCounter;
+	static std::map<String, i32> memoryMapCounter;
 
 	// Instantiation by ObjectBase Name
 	static std::map<String, std::function<ObjectBase*()>> classNamesMap;
@@ -82,9 +82,9 @@ public:
 			String className(pointer->getClassName());
 
 			if(memoryMapCounter.find(className) != memoryMapCounter.end()){
-				if(memoryMapCounter[className] > 0){
+				//if(memoryMapCounter[className] > 0){
 					memoryMapCounter[className] = memoryMapCounter[className] - 1;
-				}
+				//}
 			}
 
 			Allocator::internalFree(pointer, (Allocator*) (&smGlobal));

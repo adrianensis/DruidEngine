@@ -20,10 +20,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(TimeMark);
-
-	TimeMark();
-	virtual ~TimeMark() override;
+	GENERATE_METADATA(CONSTRUCTOR, TimeMark)
 	GET(IsStarted);
 
 	void init();
@@ -54,10 +51,7 @@ private:
 	PRIVATE(InternalTimeMark, NONE, TimeMark)
 
 public:
-	GENERATE_METADATA(Time);
-
-	Time();
-	virtual ~Time() override;
+	GENERATE_METADATA(CONSTRUCTOR, Time)
 
 	void init() { mInternalTimeMark.init(); }
 	void startFrame() { mInternalTimeMark.start(); }

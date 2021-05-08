@@ -51,7 +51,7 @@ private:
 	
 public:
 
-	GENERATE_METADATA(DynamicArray<T>);
+	GENERATE_METADATA(NONE, DynamicArray<T>)
 
 	/*!
 	\brief Default Constructor.

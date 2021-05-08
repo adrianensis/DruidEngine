@@ -23,10 +23,7 @@ private:
 
 public:
 
-	GENERATE_METADATA(Timer);
-
-	Timer();
-	virtual ~Timer() override;
+	GENERATE_METADATA(CONSTRUCTOR, Timer)
 
 	PUBLIC(Functor, NONE, FunctorVoid)
 
@@ -41,10 +38,7 @@ private:
 PRIVATE(TimerReference, NONE, Timer*)
 
 public:
-	GENERATE_METADATA(TimerHandle);
-
-	TimerHandle();
-	virtual ~TimerHandle() override;
+	GENERATE_METADATA(CONSTRUCTOR, TimerHandle)
 
 	void init(Timer* timerReference){
 		mTimerReference = timerReference;
@@ -69,10 +63,7 @@ private:
 	void endTimer(Timer* timer);
 
 public:
-	GENERATE_METADATA(TimerManager);
-
-	TimerManager();
-	virtual ~TimerManager() override;
+	GENERATE_METADATA(CONSTRUCTOR, TimerManager)
 
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);

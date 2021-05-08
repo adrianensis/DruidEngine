@@ -35,10 +35,7 @@ PRIVATE(Last, NONE, byte*)
 
 public:
 
-	GENERATE_METADATA(PoolAllocator);
-
-	PoolAllocator();
-	virtual ~PoolAllocator() override;
+	GENERATE_METADATA(CONSTRUCTOR, PoolAllocator)
 
 	/*!
 	\return The count of free blocks.

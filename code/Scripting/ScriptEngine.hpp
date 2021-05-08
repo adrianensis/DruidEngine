@@ -16,10 +16,7 @@ private:
 PRIVATE(Controller, NONE, Script*)
 	void internalRemoveScript(const Iterator *it);
 
-public:GENERATE_METADATA(ScriptEngine);
-
-	ScriptEngine();
-	virtual ~ScriptEngine() override;
+public:GENERATE_METADATA(CONSTRUCTOR, ScriptEngine)
 
 	void init();
 	void addScript(Script *newScript);

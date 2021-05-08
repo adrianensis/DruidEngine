@@ -16,7 +16,7 @@ class Iterator : public ObjectBase {
 
 public:
 
-	GENERATE_METADATA(Iterator);
+	GENERATE_METADATA(NONE, Iterator)
 
 	Iterator() : ObjectBase() { };
 
@@ -48,7 +48,7 @@ private:
 		List<T>::Node* mPrev;
 		T mElement;
 
-		GENERATE_METADATA(Node);
+		GENERATE_METADATA(NONE, Node)
 
 		Node() : ObjectBase() {
 		}
@@ -140,7 +140,7 @@ public:
 		
 	public:
 
-		GENERATE_METADATA(ListIterator);
+		GENERATE_METADATA(NONE, ListIterator)
 
 		ListIterator() : 		Iterator() {
 			mNode = nullptr;
@@ -323,7 +323,7 @@ private:
 	
 public:
 
-	GENERATE_METADATA(List<T>);
+	GENERATE_METADATA(NONE, List<T>)
 
 	List() : 	SequentialContainer<T>() {
 		mFirst = nullptr;

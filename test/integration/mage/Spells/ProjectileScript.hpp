@@ -20,10 +20,7 @@ PRIVATE(Renderer, NONE, Renderer*)
 
 public:
 
-	GENERATE_METADATA(ProjectileScript);
-
-	ProjectileScript();
-	virtual ~ProjectileScript() override;
+	GENERATE_METADATA(CONSTRUCTOR, ProjectileScript)
 
 	void init() override;
 	void firstStep() override;

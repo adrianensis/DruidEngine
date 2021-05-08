@@ -22,10 +22,7 @@ template<class K, class V> class HashMap;
 
 class UIGroup : public ObjectBase {
 public:
-	GENERATE_METADATA(UIGroup);
-
-	UIGroup();
-	virtual ~UIGroup() override;
+	GENERATE_METADATA(CONSTRUCTOR, UIGroup)
 
 	PUBLIC(Name, NONE, String)
 	PUBLIC(Visible, NONE, bool)
@@ -55,10 +52,7 @@ PRIVATE(UIBuilder, NONE, UIBuilder*)
 
 public:
 
-	GENERATE_METADATA(UI);
-
-	UI();
-	virtual ~UI() override;
+	GENERATE_METADATA(CONSTRUCTOR, UI)
 
 	UIBuilder* getBuilder();
 
