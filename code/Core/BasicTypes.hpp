@@ -3,15 +3,11 @@
 #include <cstdint> // std::uintptr_t
 #include <string>
 
-namespace DE {
-
 using ptr = std::uintptr_t;
 using ptrdiff = std::ptrdiff_t;
 
 using f32 = float;
 using f64 = double;
-
-using c8 = char;
 
 using i8 = std::int8_t;
 using i16 = std::int16_t;
@@ -24,10 +20,5 @@ using u16 = std::uint16_t;
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
-using ClassId = u64;
-
-using String = std::string;
-using StringRef = const String&;
-
-}
-
+using ClassId = u32;
+using ObjectId = u32;

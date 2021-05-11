@@ -10,9 +10,7 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
-namespace DE {
-
-class Quaternion: public ObjectBase /*16 bytes alignment*/{
+CLASS(Quaternion, ObjectBase) /*16 bytes alignment*/{
 
 public:
 
@@ -27,8 +25,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	GENERATE_METADATA(CONSTRUCTOR, Quaternion)
-
+	Quaternion();
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
 	Quaternion(const Vector3 &v, f32 w);
 	Quaternion(f32 roll, f32 pitch, f32 yaw);
@@ -182,5 +179,4 @@ public:
 		return out;
 	}
 };
-}
 

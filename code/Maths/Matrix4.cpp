@@ -3,7 +3,6 @@
 #include "Maths/Vector4.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Quaternion.hpp"
-#include "Containers/Array.hpp"
 
 #include <cstring>
 
@@ -35,8 +34,6 @@
 
  */
 
-namespace DE {
-
 bool Matrix4::smIdentityCreated = false;
 Matrix4 Matrix4::smIdentity = Matrix4();
 
@@ -48,9 +45,9 @@ const Matrix4& Matrix4::getIdentity() {
 	return smIdentity;
 }
 
-void Matrix4::setRows(const Array<f32> &row0, const Array<f32> &row1, const Array<f32> &row2, const Array<f32> &row3) {
+void Matrix4::setRows(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3) {
 
-	const Array<f32>* rows[4] = { &row0, &row1, &row2, &row3 };
+	const std::array<f32, 4>* rows[4] = { &row0, &row1, &row2, &row3 };
 
 	FOR_RANGE(row, 0, 4)
 		FOR_RANGE(col, 0, 4)
@@ -78,11 +75,6 @@ void Matrix4::setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &r
 			Matrix4::set(row, col, rows[row][col]);
 };
 
-Matrix4::Matrix4() : ObjectBase() {
-}
-
-Matrix4::~Matrix4() = default;
-
 void Matrix4::init(u32 n) {
 	Matrix4::setRows(n);
 };
@@ -91,11 +83,11 @@ void Matrix4::init(const Matrix4 &other) {
 	Matrix4::init(other.mData); //TRACE()
 };
 
-void Matrix4::init(Array<f32> &data) {
+void Matrix4::init(std::array<f32, 16> &data) {
 	memcpy(mData, &data[0], 16 * sizeof(f32));
 };
 
-void Matrix4::init(const Array<f32> &row0, const Array<f32> &row1, const Array<f32> &row2, const Array<f32> &row3) {
+void Matrix4::init(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3) {
 	Matrix4::setRows(row0, row1, row2, row3);
 };
 
@@ -343,4 +335,3 @@ void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	this->set(2, 3, (-2 * far * near) / (far - near));
 	this->set(3, 2, -1.0f);
 };
-}

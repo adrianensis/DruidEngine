@@ -1,20 +1,17 @@
 #include "Core/Assert/Assert.hpp"
-#include "Log/Log.hpp"
-#include <string>   // String
+#include <string>   // std::string
 #include <cstdlib>  // abort
+#include <iostream>  // abort
 
 //#include <experimental/filesystem>
 
-namespace DE {
 
-void assert(const bool condition, const String &file, u32 line, const String &function,
-		const String &message) {
+void assert(const bool condition, const std::string& file, u32 line, const std::string& function,
+		const std::string& message) {
 	if (!condition) {
 		std::cout << "ASSERT > [" << function << ":"
 				<< std::to_string(line) << "] > " << message << std::endl;
 		throw;
 		//abort();
 	}
-}
-
 }

@@ -11,7 +11,7 @@ rm -R $destiny 2> /dev/null
 # ------------------------------------------------------------------------
 
 sudo apt-get -y update
-sudo apt-get -y install build-essential wget unzip cmake clang cmake-data  libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz
+sudo apt-get -y install build-essential wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz
 
 # ------------------------------------------------------------------------
 
@@ -28,5 +28,10 @@ mv "$destiny/soil-master" $destiny/SOIL
 
 # glad
 unzip scripts/dependencies-zip/glad.zip -d $destiny/glad
+
+# ------------------------------------------------------------------------
+
+# json
+unzip scripts/dependencies-zip/json-3.9.1.zip -d $destiny
 
 # ------------------------------------------------------------------------

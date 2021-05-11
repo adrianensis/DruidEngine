@@ -3,14 +3,13 @@
 #include "Core/ObjectBase.hpp"
 #include <functional>
 
-namespace DE {
 
 template <class T>
 class Functor : public ObjectBase {
 
 protected:
 
-	PROTECTED(Callback, NONE, T)
+	PRO(Callback, NONE, T)
 
 public:
 
@@ -45,7 +44,7 @@ public:
 class FunctorVoid : public Functor<std::function<void()>> {
 public:
 
-	GENERATE_METADATA(NONE, FunctorVoid)
+	//GENERATE_METADATA(NONE, FunctorVoid)
 
 	FunctorVoid() : Functor<std::function<void()>>(){};
 	virtual ~FunctorVoid() override {};
@@ -54,7 +53,5 @@ public:
 		if (mCallback)
 			mCallback();
 	}
-
 };
-}
 

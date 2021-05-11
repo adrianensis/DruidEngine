@@ -1,37 +1,32 @@
 #pragma once
 
-#include "Core/Basic.hpp"
-#include "Containers/HashMap.hpp"
+#include "Core/Core.hpp"
+#include <map>
 
-namespace DE {
+CLASS(ConfigMap, ObjectBase) {
 
-class ConfigMap : public ObjectBase {
+	PRI(Map, NONE, std::map<std::string, std::string>);
 
 private:
-	HashMap<String, String> mMap;
-
-	static String trueString;
-	static String falseString;
+	static std::string trueString;
+	static std::string falseString;
 
 public:
 
-	GENERATE_METADATA(CONSTRUCTOR, ConfigMap)
-
 	void init();
 	void clear();
-	bool contains(StringRef key);
-	void readConfigFile(const String &path);
-	void writeConfigFile(const String &path);
-	String getString(const String &key);
-	u32 getU32(const String &key);
-	f32 getF32(const String &key);
-	bool getBool(const String &key);
-	void setString(const String &key, const String &value);
-	void setU32(const String &key, u32 value);
-	void setF32(const String &key, f32 value);
-	void setBool(const String &key, bool value);
+	bool contains(std::string& key);
+	void readConfigFile(const std::string& path);
+	void writeConfigFile(const std::string& path);
+	std::string getString(const std::string& key);
+	u32 getU32(const std::string& key);
+	f32 getF32(const std::string& key);
+	bool getBool(const std::string& key);
+	void setString(const std::string& key, const std::string& value);
+	void setU32(const std::string& key, u32 value);
+	void setF32(const std::string& key, f32 value);
+	void setBool(const std::string& key, bool value);
 
 	/*template<class T>
-	const List<T>* getList(const String &key);*/
+	const List<T>* getList(const std::string& key);*/
 };
-}

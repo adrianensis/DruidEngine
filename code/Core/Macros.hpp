@@ -9,46 +9,48 @@
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 
+#define CLASS_MACRO_BASE(ClassName, ...)\
+class ClassName;\
+class ClassName ## _PARENT: public __VA_ARGS__ {\
+	GENERATE_METADATA(ClassName)\
+};\
+class ClassName: public ClassName ## _PARENT\
+
+#define SINGLETON(...) public Singleton<__VA_ARGS__>
+
+#define CLASS(ClassName, ...) CLASS_MACRO_BASE(ClassName, __VA_ARGS__)
+
 #define GENERATE_ID_STATIC(...)\
 	static ClassId getClassIdStatic(){\
-		static ClassId classId = Hash::hash(# __VA_ARGS__); return classId;\
+		static ClassId classId = Hash::hashString(# __VA_ARGS__); return classId;\
 	};
 
 #define GENERATE_ID_VIRTUAL(...)\
 	ClassId getClassId() const override {\
-		return __VA_ARGS__::getClassIdStatic();\
+		return __VA_ARGS__ ## _PARENT::getClassIdStatic();\
 	};
 
 #define GENERATE_NAME_STATIC(...)\
-	static String getClassNameStatic(){\
-		static String className = String(# __VA_ARGS__);\
+	static std::string getClassNameStatic(){\
+		static std::string className = std::string(# __VA_ARGS__);\
 		return className;\
 	};
 
 #define GENERATE_NAME_VIRTUAL(...)\
-	String getClassName() const override {\
-		return __VA_ARGS__::getClassNameStatic();\
+	std::string getClassName() const override {\
+		return __VA_ARGS__ ## _PARENT::getClassNameStatic();\
 	};
 
 #define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...)\
 	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
 
-#define GENERATE_METADATA(ConstructorsMacro, ...)\
-	ConstructorsMacro(__VA_ARGS__);\
+#define GENERATE_METADATA(...)\
+	public:\
 	GENERATE_NAME_STATIC(__VA_ARGS__);\
 	GENERATE_NAME_VIRTUAL(__VA_ARGS__);\
 	GENERATE_ID_STATIC(__VA_ARGS__);\
 	GENERATE_ID_VIRTUAL(__VA_ARGS__);\
-	GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(__VA_ARGS__); 
-
-// Constructors
-
-#define CONSTRUCTOR(...) __VA_ARGS__(); virtual ~__VA_ARGS__() override;
-
-// Instanceable
-
-#define INSTANCEABLE_BY_CLASSNAME(...)\
-	Memory::registerClassName<__VA_ARGS__>(__VA_ARGS__::getClassNameStatic());
+	private:
 
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
@@ -67,7 +69,7 @@
 		COND_TYPE(\
 			IS_ARITHMETIC(decltype(Var)),\
 			REMOVE_REF(decltype(Var)),\
-			std::add_const<decltype(Var)>::type\
+			decltype(Var)\
 		)\
 	)
 
@@ -76,20 +78,29 @@
 #define GET(BaseName)\
 	GETTER_TYPE(m ## BaseName) get ## BaseName() const { return m ## BaseName; };
 
+#define GETREF(BaseName)\
+	std::add_lvalue_reference<GETTER_TYPE(m ## BaseName)>::type get ## BaseName() { return m ## BaseName; };
+
+#define GETREF_CONST(BaseName)\
+	std::add_lvalue_reference<std::add_const<GETTER_TYPE(m ## BaseName)>::type>::type get ## BaseName() const { return m ## BaseName; };
+
 #define SET(BaseName)\
 	void set ## BaseName (SETTER_TYPE(m ## BaseName) new ## BaseName){ m ## BaseName = new ## BaseName; };
 
 #define GET_SET(BaseName) GET(BaseName) SET(BaseName)
+#define GETREF_SET(BaseName) GETREF(BaseName) SET(BaseName)
+#define GETREF_CONST_SET(BaseName) GETREF_CONST(BaseName) SET(BaseName)
 
-#define MEMBER_BASE(BaseName, ...) __VA_ARGS__ m ## BaseName = {};
+#define MEMBER_BASE(BaseName, ...)\
+	__VA_ARGS__ m ## BaseName = {};
 
 #define MEMBER(BaseName, AccessorMacroName, Visibility, ...)\
 	Visibility:\
 	MEMBER_BASE(BaseName, __VA_ARGS__) public: AccessorMacroName(BaseName) Visibility:
 
-#define PUBLIC(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)
-#define PROTECTED(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, protected, __VA_ARGS__)
-#define PRIVATE(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, private, __VA_ARGS__)
+#define PUB(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)
+#define PRO(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, protected, __VA_ARGS__)
+#define PRI(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, private, __VA_ARGS__)
 
 // --------------------------------------------------------
 // FOR LOOPS

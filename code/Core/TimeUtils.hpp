@@ -1,27 +1,18 @@
 #pragma once
 
-#include "Core/BasicTypes.hpp"
-#include "Core/Singleton.hpp"
-#include "Core/ObjectBase.hpp"
-#include "Log/Log.hpp"
+#include "Core/Core.hpp"
 #include <chrono>
 
-namespace DE {
+CLASS(TimeMark, ObjectBase) {
 
-class TimeMark  : public ObjectBase {
-private:
-	PRIVATE(DeltaTimeMillis, NONE, f32)
-	PRIVATE(DeltaTimeSeconds, NONE, f32)
-	std::chrono::milliseconds mDeltaTimeChronoDuration;
-	std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime;
-	std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime;
-
-	PRIVATE(IsStarted, NONE, bool)
+	PRI(DeltaTimeMillis, NONE, f32)
+	PRI(DeltaTimeSeconds, NONE, f32)
+	PRI(DeltaTimeChronoDuration, NONE, std::chrono::milliseconds);
+	PRI(StartTime, NONE, std::chrono::time_point<std::chrono::high_resolution_clock>);
+	PRI(LastTime, NONE, std::chrono::time_point<std::chrono::high_resolution_clock>);
+	PRI(IsStarted, GET, bool)
 
 public:
-
-	GENERATE_METADATA(CONSTRUCTOR, TimeMark)
-	GET(IsStarted);
 
 	void init();
 	void start();
@@ -30,28 +21,25 @@ public:
 	f32 getDeltaTimeMillis();
 	f32 getDeltaTimeSeconds();
 
-	TimeMark& operator= (const TimeMark &other) {
-		// self-assignment guard
-		if (this == &other)
-			return *this;
-
-		// do the copy
-		mDeltaTimeMillis = other.mDeltaTimeMillis;
-		mDeltaTimeSeconds = other.mDeltaTimeSeconds;
-		mDeltaTimeChronoDuration = other.mDeltaTimeChronoDuration;
-		mStartTime = other.mStartTime;
-		mLastTime = other.mLastTime;
+	TimeMark& operator=(const TimeMark &rhs) {
+		if (this == &rhs)
+			return *this; // handle self assignment
+		
+		mDeltaTimeMillis = rhs.mDeltaTimeMillis;
+		mDeltaTimeSeconds = rhs.mDeltaTimeSeconds;
+		mDeltaTimeChronoDuration = rhs.mDeltaTimeChronoDuration;
+		mStartTime = rhs.mStartTime;
+		mLastTime = rhs.mLastTime;
 
 		return *this;
 	}
 };
 
-class Time : public ObjectBase, public Singleton<Time>{
+CLASS(Time, ObjectBase), SINGLETON(Time) {
 private:
-	PRIVATE(InternalTimeMark, NONE, TimeMark)
+	PRI(InternalTimeMark, NONE, TimeMark)
 
 public:
-	GENERATE_METADATA(CONSTRUCTOR, Time)
 
 	void init() { mInternalTimeMark.init(); }
 	void startFrame() { mInternalTimeMark.start(); }
@@ -60,5 +48,3 @@ public:
 	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
 	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
 };
-}
-

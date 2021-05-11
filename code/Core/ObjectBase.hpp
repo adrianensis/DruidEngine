@@ -3,35 +3,42 @@
 #include "Core/Hash.hpp"
 #include <type_traits>
 #include <iostream>
+#include <list>
+#include <any>
 
 #include "Core/Macros.hpp"
-
-namespace DE {
 
 /*!
  \brief Base class.
  */
-class ObjectBase : public Hash {
+class ObjectBase {
+
+protected:
+
+	static ObjectId smObjectIdCounter;
+
+	PRI(ObjectId, GET, ObjectId);
 
 public:
-	static String getClassNameStatic() {
-		static String className = "ObjectBase";
+
+	static std::string getClassNameStatic() {
+		static std::string className = "ObjectBase";
 		return className;
 	};
 
 	static ClassId getClassIdStatic() {
-		return 0;
+		static ClassId classId = Hash::hashString("ObjectBase");
+		return classId;
 	};
 
-	ObjectBase() = default;
+	ObjectBase() { if(mObjectId == 0) { mObjectId = smObjectIdCounter++; } };
 	virtual ~ObjectBase() = default;
-	virtual void dynamicDestructor(){ this->~ObjectBase(); };
 
 	virtual ClassId getClassId() const {
 		return ObjectBase::getClassIdStatic();
 	};
 
-	virtual String getClassName() const {
+	virtual std::string getClassName() const {
 		return ObjectBase::getClassNameStatic();
 	};
 
@@ -53,6 +60,8 @@ public:
 	bool hasSameClass(ObjectBase* object) const {
 		return this->getClassId() == object->getClassId();
 	}
-};
-}
 
+	ObjectBase& operator= (const ObjectBase &other) {
+		return *this;
+	}
+};

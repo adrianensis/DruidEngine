@@ -8,9 +8,7 @@
 #include <chrono>
 #include <cmath>
 #include <math.h> /* isnan */
-#include "Core/Basic.hpp"
-
-using namespace DE;\
+#include "Core/Core.hpp"
 
 #define test(theClass)\
     float __test__totaltime = 0;\

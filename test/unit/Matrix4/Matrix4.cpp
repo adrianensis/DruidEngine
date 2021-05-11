@@ -1,17 +1,12 @@
 #include "Test/Test.hpp"
-#include "Memory/Memory.hpp"
 #include "Maths/Matrix4.hpp"
-#include "Containers/Array.hpp"
-
-using namespace DE;
+#include <array>
 
 int main() {
 
-	DE::Memory::init();
+	test(Matrix4);
 
-	test(DE::Matrix4);
-
-	DE::Matrix4* m = DE::Memory::allocate<Matrix4>();
+	Matrix4* m = new Matrix4();
 
 	m->init(1);
 
@@ -52,19 +47,18 @@ int main() {
 	test_expected_uint(m->get(3, 2), 3);
 	test_expected_uint(m->get(3, 3), 3);
 
-	DE::Matrix4* m2 = DE::Memory::allocate<Matrix4>();
+	Matrix4* m2 = new Matrix4();
 
 	m2->init(*m);
 
 	test_expected_uint(m2->get(0, 0), 3);
 
-	DE::Array<f32>* array = DE::Memory::allocate<Array<f32>>();
-	array->init(16);
-	array->fill(1);
+	std::array<f32, 16> array;
+	array.fill(1);
 
-	DE::Matrix4* m3 = DE::Memory::allocate<Matrix4>();
+	Matrix4* m3 = new Matrix4();
 
-	m3->init(*array);
+	m3->init(array);
 
 	test_expected_uint(m3->get(0, 0), 1);
 	test_expected_uint(m3->get(0, 1), 1);
@@ -83,12 +77,9 @@ int main() {
 	test_expected_uint(m3->get(3, 2), 1);
 	test_expected_uint(m3->get(3, 3), 1);
 
-	DE::Memory::free(m);
-	DE::Memory::free(m2);
-	DE::Memory::free(array);
-	DE::Memory::free(m3);
-
-	DE::Memory::free();
+	delete m;
+	delete m2;
+	delete m3;
 
 	summary();
 

@@ -7,7 +7,6 @@
 #include "Maths/Vector3.hpp"
 #include <limits>
 
-namespace DE {
 
 class MathUtils {
 public:
@@ -55,5 +54,4 @@ public:
 	static Vector3 midPoint(const Vector3 &a, const Vector3 &b);
 
 };
-}
 

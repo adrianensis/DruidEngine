@@ -1,8 +1,6 @@
 #include "Maths/MathUtils.hpp"
 #include <algorithm>
-#include "Log/Log.hpp"
 
-namespace DE {
 
 f32 MathUtils::FLOAT_EPSILON = 0.0000001f;
 
@@ -187,4 +185,3 @@ Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &l
 Vector3 MathUtils::midPoint(const Vector3 &a, const Vector3 &b) {
 	return Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
 };
-}

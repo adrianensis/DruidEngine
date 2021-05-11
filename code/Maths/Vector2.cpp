@@ -3,20 +3,16 @@
 
 #include <algorithm>  // std::max
 
-namespace DE {
-
-Vector2::Vector2(f32 x, f32 y) : ObjectBase(), x(x), y(y) {
+Vector2::Vector2() : x(0), y(0) {
 }
 
-Vector2::Vector2() : ObjectBase(), x(0.0f), y(0.0f) {
+Vector2::Vector2(f32 x, f32 y) : x(x), y(y) {
 }
 
-Vector2::~Vector2() = default;
-
-Vector2::Vector2(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y) {
+Vector2::Vector2(const Vector2 &other) : x(other.x), y(other.y) {
 }
 
-Vector2::Vector2(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y) {
+Vector2::Vector2(const Vector3 &other) : x(other.x), y(other.y) {
 }
 
 Vector2& Vector2::set(f32 x, f32 y) {
@@ -97,7 +93,7 @@ f32 Vector2::sqrlen() const {
 }
 
 f32 Vector2::sqrdst(const Vector2 &v) const {
-	Vector2 sub = DE::Vector2(v) - (*this);
+	Vector2 sub = Vector2(v) - (*this);
 	return sub.dot(sub);
 }
 
@@ -152,6 +148,4 @@ Vector2& Vector2::clamp(f32 maxLength) {
 	}
 
 	return *this;
-}
-
 }

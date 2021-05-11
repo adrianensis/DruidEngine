@@ -2,29 +2,25 @@
 
 #include <algorithm>  // std::max
 
-namespace DE {
-
-Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : ObjectBase(), x(x), y(y), z(z), w(w) {
+Vector4::Vector4() : x(0), y(0), z(0), w(0) {
 }
 
-Vector4::Vector4() : ObjectBase(), x(0.0f), y(0.0f), z(0.0f), w(0.0f) {
+Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : x(x), y(y), z(z), w(w) {
 }
 
-Vector4::~Vector4() = default;
-
-Vector4::Vector4(const Vector4 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(other.w) {
+Vector4::Vector4(const Vector4 &other) : x(other.x), y(other.y), z(other.z), w(other.w) {
 }
 
-Vector4::Vector4(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(0) {
+Vector4::Vector4(const Vector3 &other) : x(other.x), y(other.y), z(other.z), w(0) {
 }
 
-Vector4::Vector4(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y), z(0), w(0) {
+Vector4::Vector4(const Vector2 &other) : x(other.x), y(other.y), z(0), w(0) {
 }
 
-Vector4::Vector4(const Vector3 &other, f32 w) : ObjectBase(), x(other.x), y(other.y), z(other.z), w(w) {
+Vector4::Vector4(const Vector3 &other, f32 w) : x(other.x), y(other.y), z(other.z), w(w) {
 }
 
-Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : ObjectBase(), x(other.x), y(other.y), z(z), w(w) {
+Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : x(other.x), y(other.y), z(z), w(w) {
 }
 
 Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {
@@ -136,7 +132,7 @@ f32 Vector4::sqrlen() const {
 }
 
 f32 Vector4::sqrdst(const Vector4 &v) const {
-	Vector4 sub = DE::Vector4(v) - (*this);
+	Vector4 sub = Vector4(v) - (*this);
 	return sub.dot(sub);
 }
 
@@ -188,6 +184,4 @@ Vector4& Vector4::clamp(f32 maxLength) {
 	}
 
 	return *this;
-}
-
 }

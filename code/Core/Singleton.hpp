@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Core/Basic.hpp"
-#include "Memory/Memory.hpp"
-
-namespace DE {
-
 template<class T>
 class Singleton {
 
@@ -22,15 +17,12 @@ public:
 
 	static T* getInstance() {
 		if (!existsInstance()) {
-			mInstance = Memory::allocate<T>();
+			mInstance = new T;
 		}
 
 		return mInstance;
-	};
+	}
 };
 
 template<class T>
 T* Singleton<T>::mInstance = nullptr;
-
-}
-

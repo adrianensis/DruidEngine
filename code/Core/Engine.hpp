@@ -1,32 +1,17 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
-#include "Core/Singleton.hpp"
+#include "Core/Core.hpp"
 
-namespace DE {
+CLASS(Engine, ObjectBase), SINGLETON(Engine) {
 
-class RenderEngine;
-class PhysicsEngine;
-class ScriptEngine;
-
-class Engine: public ObjectBase, public Singleton<Engine> {
-
-private:
-
-	PRIVATE(FPS, NONE, f32)
-PRIVATE(RenderEngine, NONE, RenderEngine*)
-PRIVATE(PhysicsEngine, NONE, PhysicsEngine*)
-PRIVATE(ScriptEngine, NONE, ScriptEngine*)
+	PRI(FPS, NONE, f32)
 
 public:
 
-	GENERATE_METADATA(CONSTRUCTOR, Engine)
-
+	~Engine();
 	void init();
 	void initSubsystems();
 	void terminateSubSystems();
 	void run();
 	void terminate();
 };
-}
-

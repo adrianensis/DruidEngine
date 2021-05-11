@@ -1,18 +1,7 @@
 #include "EngineConfig.hpp"
-#include "Containers/HashMap.hpp"
-#include "Containers/List.hpp"
-#include "Memory/Memory.hpp"
 #include "File/File.hpp"
 
-namespace DE {
-
-EngineConfig::EngineConfig() : ObjectBase(), Singleton() {
-}
-
-EngineConfig::~EngineConfig() {
-}
-
-void EngineConfig::readConfigFile(const String &path) {
+void EngineConfig::readConfigFile(const std::string& path) {
 	mConfigMap.readConfigFile(path);
 }
 
@@ -21,20 +10,18 @@ void EngineConfig::init() {
 	mConfigMap.readConfigFile("config/engine.conf");
 }
 
-String EngineConfig::getString(const String &key) {
+std::string EngineConfig::getString(const std::string& key) {
 	return mConfigMap.getString(key);
 }
 
-u32 EngineConfig::getU32(const String &key) {
+u32 EngineConfig::getU32(const std::string& key) {
 	return mConfigMap.getU32(key);
 }
 
-f32 EngineConfig::getF32(const String &key) {
+f32 EngineConfig::getF32(const std::string& key) {
 	return mConfigMap.getF32(key);
 }
 
-bool EngineConfig::getBool(const String &key) {
+bool EngineConfig::getBool(const std::string& key) {
 	return mConfigMap.getBool(key);
-}
-
 }

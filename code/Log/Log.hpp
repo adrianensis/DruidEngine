@@ -5,14 +5,11 @@
 #include <fstream>
 
 #include "Core/BasicTypes.hpp"
-#include "Core/ObjectBase.hpp"
 
-namespace DE {
-
-class Log : public ObjectBase {
+class Log {
 public:
 
-	static const String emptyMessage;
+	static const std::string emptyMessage;
 	static std::ofstream logFile;
 
 	Log();
@@ -21,18 +18,18 @@ public:
 	static void init();
 	static void terminate();
 
-	static void log(const String &str);
+	static void log(const std::string& str);
 
-	static void trace(const String file, u32 line, const String function, const String message =
+	static void trace(const std::string file, u32 line, const std::string function, const std::string message =
 			emptyMessage);
 
-	static void echo(const String &message);
+	static void echo(const std::string& message);
 
 	template<class T>
-	static void var(const String &varname, T var) {
+	static void var(const std::string& varname, T var) {
 		// std::cout << "VAR > " << varname << " : " << var << std::endl;
-		String varStr;
-		if constexpr (std::is_same<T, String>::value) {
+		std::string varStr;
+		if constexpr (std::is_same<T, std::string>::value) {
 			varStr = var;
 		} else {
 			varStr = std::to_string(var);
@@ -47,7 +44,7 @@ public:
 		log("VAL > " + std::to_string(var));
 	};
 
-	static void error(const String &message);
+	static void error(const std::string& message);
 
 	static void brline();
 };
@@ -69,6 +66,3 @@ public:
 #define ERROR(x)
 #define BRLINE()
 #endif
-
-}
-

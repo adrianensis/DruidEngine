@@ -8,14 +8,12 @@
 #include "Core/Assert/Assert.hpp"
 #include "Maths/MathUtils.hpp"
 
-namespace DE {
-
 class Vector3;
 
 /*!
  \brief 2D Vector.
  */
-class Vector2 : public ObjectBase {
+CLASS(Vector2, ObjectBase) {
 
 public:
 
@@ -29,11 +27,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	GENERATE_METADATA(CONSTRUCTOR, Vector2)
-
-	/*!
-	\brief Default Constructor.
-	*/
+	Vector2();
 	Vector2(f32 x, f32 y);
 	Vector2(const Vector2 &other);
 	Vector2(const Vector3 &other);
@@ -173,5 +167,4 @@ public:
 		return out;
 	}
 };
-}
 

@@ -76,6 +76,11 @@ file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB_RECURSE SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
 message(${SOIL_SOURCE})
 
+# JSON
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory("${DEPENDENCIES_DIR}/json-3.9.1")
+
+
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
 # ----------------------------------------------------------------------------
@@ -133,6 +138,7 @@ add_library(${DRUID} ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
 target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
+target_link_libraries( ${DRUID} nlohmann_json)
 
 #target_link_libraries( ${DRUID} "stdc++fs")
 

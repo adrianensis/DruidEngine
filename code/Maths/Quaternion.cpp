@@ -2,15 +2,14 @@
 
 #include <algorithm>  // std::max
 
-namespace DE {
+Quaternion::Quaternion() : v(), w(0){
 
-Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : ObjectBase(), v(x, y, z), w(w) {
 }
 
-Quaternion::Quaternion(const Vector3 &v, f32 w) : ObjectBase(), v(v), w(w) {
+Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : v(x, y, z), w(w) {
 }
 
-Quaternion::Quaternion() : ObjectBase(), v(), w(1.0f) { // identity 0,0,0,1
+Quaternion::Quaternion(const Vector3 &v, f32 w) : v(v), w(w) {
 }
 
 Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
@@ -21,10 +20,8 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw) {
 Quaternion::Quaternion(const Vector3 &v) : Quaternion(v.x, v.y, v.z) {
 }
 
-Quaternion::Quaternion(const Quaternion &other) : ObjectBase(), v(other.v), w(other.w) {
+Quaternion::Quaternion(const Quaternion &other) : v(other.v), w(other.w) {
 }
-
-Quaternion::~Quaternion() = default;
 
 Quaternion& Quaternion::set(f32 x, f32 y, f32 z, f32 w) {
 	//if (this->w == w ) return *this; // handle self assignment
@@ -313,7 +310,5 @@ void Quaternion::toMatrix(Matrix4 *outMatrix) const {
 	outMatrix->set(2, 0, xz2 - wy2);
 	outMatrix->set(2, 1, yz2 + wx2);
 	outMatrix->set(2, 2, 1 - (xx2 + yy2));
-
-}
 
 }

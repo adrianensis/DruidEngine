@@ -8,15 +8,13 @@
 #include "Core/Assert/Assert.hpp"
 #include "Maths/MathUtils.hpp"
 
-namespace DE {
-
 class Vector2;
 class Vector3;
 
 /*!
  \brief 4D Vector.
  */
-class Vector4: public ObjectBase /*16 bytes alignment*/{
+CLASS(Vector4, ObjectBase) /*16 bytes alignment*/{
 
 public:
 
@@ -30,8 +28,7 @@ public:
 	// CONSTRUCTORS/DESTRUCTOR
 	//-------------------------------------------------------------------
 
-	GENERATE_METADATA(CONSTRUCTOR, Vector4)
-
+	Vector4();
 	Vector4(f32 x, f32 y, f32 z, f32 w);
 	Vector4(const Vector4 &other);
 	Vector4(const Vector3 &other);
@@ -173,5 +170,3 @@ public:
 		return out;
 	}
 };
-}
-

@@ -4,26 +4,22 @@
 
 #include <algorithm>  // std::max
 
-namespace DE {
-
-Vector3::Vector3(f32 x, f32 y, f32 z) : ObjectBase(), x(x), y(y), z(z) {
+Vector3::Vector3() : x(0), y(0), z(0) {
 }
 
-Vector3::Vector3() : ObjectBase(), x(0.0f), y(0.0f), z(0.0f) {
+Vector3::Vector3(f32 x, f32 y, f32 z) : x(x), y(y), z(z) {
 }
 
-Vector3::~Vector3() = default;
-
-Vector3::Vector3(const Vector3 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector3 &other) : x(other.x), y(other.y), z(other.z) {
 }
 
-Vector3::Vector3(const Vector2 &other) : ObjectBase(), x(other.x), y(other.y), z(0.0f) {
+Vector3::Vector3(const Vector2 &other) : x(other.x), y(other.y), z(0.0f) {
 }
 
-Vector3::Vector3(const Vector2 &other, f32 z) : ObjectBase(), x(other.x), y(other.y), z(z) {
+Vector3::Vector3(const Vector2 &other, f32 z) : x(other.x), y(other.y), z(z) {
 }
 
-Vector3::Vector3(const Vector4 &other) : ObjectBase(), x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector4 &other) : x(other.x), y(other.y), z(other.z) {
 }
 
 Vector3& Vector3::set(f32 x, f32 y, f32 z) {
@@ -114,7 +110,7 @@ f32 Vector3::sqrlen() const {
 }
 
 f32 Vector3::sqrdst(const Vector3 &v) const {
-	Vector3 sub = DE::Vector3(v) - (*this);
+	Vector3 sub = Vector3(v) - (*this);
 	return sub.dot(sub);
 }
 
@@ -223,6 +219,4 @@ Vector3& Vector3::clamp(f32 maxLength) {
 	}
 
 	return *this;
-}
-
 }

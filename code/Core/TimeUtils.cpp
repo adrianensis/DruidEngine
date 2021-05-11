@@ -1,14 +1,12 @@
 #include "Core/TimeUtils.hpp"
-#include "Log/Log.hpp"
 
-namespace DE {
 
-TimeMark::TimeMark() : ObjectBase(){
+/*TimeMark::TimeMark() : ObjectBase(){
 	mDeltaTimeMillis = 0.0;
 	mDeltaTimeSeconds = 0.0;
 }
 
-TimeMark::~TimeMark() = default;
+TimeMark::~TimeMark() = default;*/
 
 void TimeMark::init() {
 	mIsStarted = false;
@@ -45,10 +43,8 @@ f32 TimeMark::getDeltaTimeSeconds() {
 	return mIsStarted ? mDeltaTimeSeconds : 0.0f;
 }
 
-Time::Time() : ObjectBase(), Singleton<Time>(){
+/*Time::Time() : Singleton<Time>(){
 
 }
 
-Time::~Time() = default;
-
-}
+Time::~Time() = default;*/
