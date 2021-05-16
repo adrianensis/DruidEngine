@@ -5,7 +5,7 @@
 #include "Maths/Vector4.hpp"
 #include <array>
 
-CLASS(Matrix4, ObjectBase) {
+CLASS(Matrix4, ObjectBase){
 private:
 
 	static bool smIdentityCreated;

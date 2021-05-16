@@ -2,13 +2,13 @@
 #include "Maths/Quaternion.hpp"
 #include <cmath>
 
-Quaternion mul(Quaternion q1, Quaternion q2) {
+Quaternion mul(Quaternion q1, Quaternion q2){
 	float w = (q1.w * q2.w) - (q1.v.dot(q2.v));
 	Vector3 v(q2.v * q1.w + q1.v * q1.w + Vector3(q1.v).cross(q2.v));
 	return Quaternion(v, w);
 }
 
-int main() {
+int main(){
 
 	test(Quaternion);
 

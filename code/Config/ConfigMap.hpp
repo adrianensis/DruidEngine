@@ -3,7 +3,14 @@
 #include "Core/Core.hpp"
 #include <map>
 
-CLASS(ConfigMap, ObjectBase) {
+/*
+	example for constant config object:
+
+	ConfigMap const conf;
+	conf.setF32("key", 1.0f);
+*/
+
+CLASS(ConfigMap, ObjectBase){
 
 	PRI(Map, NONE, std::map<std::string, std::string>);
 

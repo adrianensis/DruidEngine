@@ -2,7 +2,7 @@
 #include "Maths/Matrix4.hpp"
 #include <array>
 
-int main() {
+int main(){
 
 	test(Matrix4);
 

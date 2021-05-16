@@ -4,25 +4,25 @@
 
 #include <algorithm>  // std::max
 
-Vector3::Vector3() : x(0), y(0), z(0) {
+Vector3::Vector3() : x(0), y(0), z(0){
 }
 
-Vector3::Vector3(f32 x, f32 y, f32 z) : x(x), y(y), z(z) {
+Vector3::Vector3(f32 x, f32 y, f32 z) : x(x), y(y), z(z){
 }
 
-Vector3::Vector3(const Vector3 &other) : x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector3 &other) : x(other.x), y(other.y), z(other.z){
 }
 
-Vector3::Vector3(const Vector2 &other) : x(other.x), y(other.y), z(0.0f) {
+Vector3::Vector3(const Vector2 &other) : x(other.x), y(other.y), z(0.0f){
 }
 
-Vector3::Vector3(const Vector2 &other, f32 z) : x(other.x), y(other.y), z(z) {
+Vector3::Vector3(const Vector2 &other, f32 z) : x(other.x), y(other.y), z(z){
 }
 
-Vector3::Vector3(const Vector4 &other) : x(other.x), y(other.y), z(other.z) {
+Vector3::Vector3(const Vector4 &other) : x(other.x), y(other.y), z(other.z){
 }
 
-Vector3& Vector3::set(f32 x, f32 y, f32 z) {
+Vector3& Vector3::set(f32 x, f32 y, f32 z){
 	if (this->x == x && this->y == y && this->z == z)
 		return *this; // handle self assignment
 	//assignment operator
@@ -32,7 +32,7 @@ Vector3& Vector3::set(f32 x, f32 y, f32 z) {
 	return *this;
 }
 
-Vector3& Vector3::set(const Vector3 &rhs) {
+Vector3& Vector3::set(const Vector3 &rhs){
 	if (this == &rhs)
 		return *this; // handle self assignment
 	//assignment operator
@@ -40,7 +40,7 @@ Vector3& Vector3::set(const Vector3 &rhs) {
 	return *this;
 }
 
-Vector3& Vector3::add(const Vector3 &rhs) {
+Vector3& Vector3::add(const Vector3 &rhs){
 	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
@@ -48,21 +48,21 @@ Vector3& Vector3::add(const Vector3 &rhs) {
 	return *this;
 }
 
-Vector3& Vector3::sub(const Vector3 &rhs) {
+Vector3& Vector3::sub(const Vector3 &rhs){
 	x = x - rhs.x;
 	y = y - rhs.y;
 	z = z - rhs.z;
 	return *this;
 }
 
-Vector3& Vector3::mul(const Vector3 &rhs) {
+Vector3& Vector3::mul(const Vector3 &rhs){
 	x = x * rhs.x;
 	y = y * rhs.y;
 	z = z * rhs.z;
 	return *this;
 }
 
-Vector3& Vector3::div(const Vector3 &rhs) {
+Vector3& Vector3::div(const Vector3 &rhs){
 	ASSERT(rhs.x != 0, "Division by zero.");
 	ASSERT(rhs.y != 0, "Division by zero.");
 	ASSERT(rhs.z != 0, "Division by zero.");
@@ -72,28 +72,28 @@ Vector3& Vector3::div(const Vector3 &rhs) {
 	return *this;
 }
 
-Vector3& Vector3::add(f32 rhs) {
+Vector3& Vector3::add(f32 rhs){
 	x = x + rhs;
 	y = y + rhs;
 	z = z + rhs;
 	return *this;
 }
 
-Vector3& Vector3::sub(f32 rhs) {
+Vector3& Vector3::sub(f32 rhs){
 	x = x - rhs;
 	y = y - rhs;
 	z = z - rhs;
 	return *this;
 }
 
-Vector3& Vector3::mul(f32 rhs) {
+Vector3& Vector3::mul(f32 rhs){
 	x = x * rhs;
 	y = y * rhs;
 	z = z * rhs;
 	return *this;
 }
 
-Vector3& Vector3::div(f32 rhs) {
+Vector3& Vector3::div(f32 rhs){
 	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
@@ -126,12 +126,12 @@ f32 Vector3::min() const {
 	return std::min(x, std::min(y, z));
 }
 
-Vector3& Vector3::nor() {
+Vector3& Vector3::nor(){
 	f32 len = this->len();
 
 	//ASSERT(len > 0, "Length is zero.");
 
-	if (len > 0) {
+	if (len > 0){
 		this->div(len);
 	}
 
@@ -150,7 +150,7 @@ bool Vector3::eq(const Vector3 &v, f32 e) const {
 	return MathUtils::eqf(this->x, v.x, e) && MathUtils::eqf(this->y, v.y, e) && MathUtils::eqf(this->z, v.z, e);
 }
 
-Vector3& Vector3::cross(const Vector3 &v) {
+Vector3& Vector3::cross(const Vector3 &v){
 	f32 x1 = this->x;
 	f32 y1 = this->y;
 	f32 z1 = this->z;
@@ -166,19 +166,19 @@ Vector3& Vector3::cross(const Vector3 &v) {
 	return *this;
 }
 
-Vector3& Vector3::lerp(const Vector3 &target, f32 t) {
+Vector3& Vector3::lerp(const Vector3 &target, f32 t){
 	//start + percent*(end - start)
 	(*this) += (Vector3(target) - (*this)) * t;
 	return *this;
 }
 
-Vector3& Vector3::nlerp(const Vector3 &target, f32 t) {
+Vector3& Vector3::nlerp(const Vector3 &target, f32 t){
 	//start + percent*(end - start)
 	this->lerp(target, t).nor();
 	return *this;
 }
 
-Vector3& Vector3::slerp(const Vector3 &target, f32 t) {
+Vector3& Vector3::slerp(const Vector3 &target, f32 t){
 
 	if (t == 0)
 		return *this;
@@ -212,8 +212,8 @@ f32 Vector3::angle(const Vector3 &v, const Vector3 &n) const {
 	return radians;
 }
 
-Vector3& Vector3::clamp(f32 maxLength) {
-	if (this->sqrlen() > maxLength * maxLength) {
+Vector3& Vector3::clamp(f32 maxLength){
+	if (this->sqrlen() > maxLength * maxLength){
 		this->nor();
 		this->mul(maxLength);
 	}

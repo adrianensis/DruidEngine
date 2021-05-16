@@ -1,7 +1,7 @@
-#include "Core/TimeUtils.hpp"
+#include "Core/Time/TimeUtils.hpp"
 #include "Test/Test.hpp"
 
-int main() {
+int main(){
 
 	test(Time);
 
@@ -17,7 +17,7 @@ int main() {
 
 	// waste some time in this loop
 	int a = 0;
-	while (Time::getElapsedTime() < 300) {
+	while (Time::getElapsedTime() < 300){
 		a++;
 	}
 
@@ -32,7 +32,7 @@ int main() {
 	test_tick(); // Starts measuring time for test
 
 	f32 msCount = 200.0f;
-	while (Time::getElapsedTime() < msCount) {
+	while (Time::getElapsedTime() < msCount){
 		//test_show(Time::getElapsedTime());
 	}
 

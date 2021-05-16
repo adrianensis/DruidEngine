@@ -1,4 +1,5 @@
-#include "Core/TimeUtils.hpp"
+#include "Core/Time/TimeUtils.hpp"
+#include "Core/Time/TimerManager.hpp"
 #include "Core/Engine.hpp"
 #include "Core/Singleton.hpp"
 
@@ -11,29 +12,32 @@
 using namespace std::chrono_literals;
 
 
-/*Engine::Engine() : Singleton() {
+/*Engine::Engine() : Singleton(){
 	mFPS = 60; // TODO : Settings?
 }
 
 Engine::~Engine() = default;*/
 
-Engine::~Engine() {
+Engine::~Engine(){
 
 };
 
-void Engine::init() {
+void Engine::init(){
 	mFPS = 60;
+
+	TimerManager::getInstance()->init();
 }
 
-void Engine::initSubsystems() {
+void Engine::initSubsystems(){
 
 }
 
-void Engine::terminateSubSystems() {
+void Engine::terminateSubSystems(){
 
+	TimerManager::getInstance()->terminate();
 }
 
-void Engine::run() {
+void Engine::run(){
 	Time::getInstance()->init();
 
 	f32 inverseFPS = 1.0f / mFPS;
@@ -41,9 +45,11 @@ void Engine::run() {
 
 	f32 diff = 0;
 
-	while (false) {
+	while (false){
 
 		Time::getInstance()->startFrame();
+
+		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 
 		f32 dtMillis = (Time::getInstance()->getElapsedTimeMillis());
 
@@ -58,6 +64,8 @@ void Engine::run() {
 	}
 }
 
-void Engine::terminate() {
-
+void Engine::terminate(){
+	TRACE();
+	TimerManager::deleteInstance();
+	Time::deleteInstance();
 }

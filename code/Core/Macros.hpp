@@ -9,16 +9,35 @@
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 
+#define CLASS_MACRO_CONSTRUCTOR(ClassName)\
+	ClassName ## _PARENT() = default;\
+	virtual ~ClassName ## _PARENT() override = default;\
+
 #define CLASS_MACRO_BASE(ClassName, ...)\
 class ClassName;\
 class ClassName ## _PARENT: public __VA_ARGS__ {\
 	GENERATE_METADATA(ClassName)\
+	public:\
+	CLASS_MACRO_CONSTRUCTOR(ClassName)\
 };\
 class ClassName: public ClassName ## _PARENT\
+
+#define CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, ...)\
+template< class Template > class ClassName;\
+template< class Template >\
+class ClassName ## _PARENT: public __VA_ARGS__ {\
+	GENERATE_METADATA(ClassName)\
+	public:\
+	CLASS_MACRO_CONSTRUCTOR(ClassName)\
+};\
+template< class Template >\
+class ClassName: public ClassName ## _PARENT< Template >\
 
 #define SINGLETON(...) public Singleton<__VA_ARGS__>
 
 #define CLASS(ClassName, ...) CLASS_MACRO_BASE(ClassName, __VA_ARGS__)
+
+#define CLASS_TEMPLATE(ClassName, Template, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, __VA_ARGS__)
 
 #define GENERATE_ID_STATIC(...)\
 	static ClassId getClassIdStatic(){\
@@ -79,7 +98,7 @@ class ClassName: public ClassName ## _PARENT\
 	GETTER_TYPE(m ## BaseName) get ## BaseName() const { return m ## BaseName; };
 
 #define GETREF(BaseName)\
-	std::add_lvalue_reference<GETTER_TYPE(m ## BaseName)>::type get ## BaseName() { return m ## BaseName; };
+	std::add_lvalue_reference<GETTER_TYPE(m ## BaseName)>::type get ## BaseName(){ return m ## BaseName; };
 
 #define GETREF_CONST(BaseName)\
 	std::add_lvalue_reference<std::add_const<GETTER_TYPE(m ## BaseName)>::type>::type get ## BaseName() const { return m ## BaseName; };
@@ -101,6 +120,23 @@ class ClassName: public ClassName ## _PARENT\
 #define PUB(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)
 #define PRO(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, protected, __VA_ARGS__)
 #define PRI(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, private, __VA_ARGS__)
+
+// --------------------------------------------------------
+// COPY
+// --------------------------------------------------------
+
+#define COPY(...)\
+virtual void copy(const ObjectBase *other) override {\
+	if (this != other){\
+		if(const __VA_ARGS__* otherCast = dynamic_cast<const __VA_ARGS__*>(other)){\
+			specificCopy(otherCast);\
+		}\
+	}\
+}\
+\
+void specificCopy(const __VA_ARGS__* other)
+
+#define DO_COPY(BaseName) m ## BaseName = other->m ## BaseName;
 
 // --------------------------------------------------------
 // FOR LOOPS

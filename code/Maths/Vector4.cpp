@@ -2,28 +2,28 @@
 
 #include <algorithm>  // std::max
 
-Vector4::Vector4() : x(0), y(0), z(0), w(0) {
+Vector4::Vector4() : x(0), y(0), z(0), w(0){
 }
 
-Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : x(x), y(y), z(z), w(w) {
+Vector4::Vector4(f32 x, f32 y, f32 z, f32 w) : x(x), y(y), z(z), w(w){
 }
 
-Vector4::Vector4(const Vector4 &other) : x(other.x), y(other.y), z(other.z), w(other.w) {
+Vector4::Vector4(const Vector4 &other) : x(other.x), y(other.y), z(other.z), w(other.w){
 }
 
-Vector4::Vector4(const Vector3 &other) : x(other.x), y(other.y), z(other.z), w(0) {
+Vector4::Vector4(const Vector3 &other) : x(other.x), y(other.y), z(other.z), w(0){
 }
 
-Vector4::Vector4(const Vector2 &other) : x(other.x), y(other.y), z(0), w(0) {
+Vector4::Vector4(const Vector2 &other) : x(other.x), y(other.y), z(0), w(0){
 }
 
-Vector4::Vector4(const Vector3 &other, f32 w) : x(other.x), y(other.y), z(other.z), w(w) {
+Vector4::Vector4(const Vector3 &other, f32 w) : x(other.x), y(other.y), z(other.z), w(w){
 }
 
-Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : x(other.x), y(other.y), z(z), w(w) {
+Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : x(other.x), y(other.y), z(z), w(w){
 }
 
-Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {
+Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w){
 	if (this->x == x && this->y == y && this->z == z && this->w == w)
 		return *this; // handle self assignment
 	//assignment operator
@@ -34,7 +34,7 @@ Vector4& Vector4::set(f32 x, f32 y, f32 z, f32 w) {
 	return *this;
 }
 
-Vector4& Vector4::set(const Vector4 &rhs) {
+Vector4& Vector4::set(const Vector4 &rhs){
 	if (this == &rhs)
 		return *this; // handle self assignment
 	//assignment operator
@@ -42,7 +42,7 @@ Vector4& Vector4::set(const Vector4 &rhs) {
 	return *this;
 }
 
-Vector4& Vector4::add(const Vector4 &rhs) {
+Vector4& Vector4::add(const Vector4 &rhs){
 	// can be parallelized with SIMD auto-vectorization
 	x = x + rhs.x;
 	y = y + rhs.y;
@@ -51,7 +51,7 @@ Vector4& Vector4::add(const Vector4 &rhs) {
 	return *this;
 }
 
-Vector4& Vector4::sub(const Vector4 &rhs) {
+Vector4& Vector4::sub(const Vector4 &rhs){
 	x = x - rhs.x;
 	y = y - rhs.y;
 	z = z - rhs.z;
@@ -59,7 +59,7 @@ Vector4& Vector4::sub(const Vector4 &rhs) {
 	return *this;
 }
 
-Vector4& Vector4::mul(const Vector4 &rhs) {
+Vector4& Vector4::mul(const Vector4 &rhs){
 	x = x * rhs.x;
 	y = y * rhs.y;
 	z = z * rhs.z;
@@ -67,7 +67,7 @@ Vector4& Vector4::mul(const Vector4 &rhs) {
 	return *this;
 }
 
-Vector4& Vector4::div(const Vector4 &rhs) {
+Vector4& Vector4::div(const Vector4 &rhs){
 	ASSERT(rhs.x != 0, "Division by zero.");
 	ASSERT(rhs.y != 0, "Division by zero.");
 	ASSERT(rhs.z != 0, "Division by zero.");
@@ -79,7 +79,7 @@ Vector4& Vector4::div(const Vector4 &rhs) {
 	return *this;
 }
 
-Vector4& Vector4::add(f32 rhs) {
+Vector4& Vector4::add(f32 rhs){
 	x = x + rhs;
 	y = y + rhs;
 	z = z + rhs;
@@ -87,7 +87,7 @@ Vector4& Vector4::add(f32 rhs) {
 	return *this;
 }
 
-Vector4& Vector4::sub(f32 rhs) {
+Vector4& Vector4::sub(f32 rhs){
 	x = x - rhs;
 	y = y - rhs;
 	z = z - rhs;
@@ -95,7 +95,7 @@ Vector4& Vector4::sub(f32 rhs) {
 	return *this;
 }
 
-Vector4& Vector4::mul(f32 rhs) {
+Vector4& Vector4::mul(f32 rhs){
 	x = x * rhs;
 	y = y * rhs;
 	z = z * rhs;
@@ -103,7 +103,7 @@ Vector4& Vector4::mul(f32 rhs) {
 	return *this;
 }
 
-Vector4& Vector4::div(f32 rhs) {
+Vector4& Vector4::div(f32 rhs){
 	ASSERT(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
@@ -148,7 +148,7 @@ f32 Vector4::min() const {
 	return std::min(x, std::min(y, std::min(z, w)));
 }
 
-Vector4& Vector4::nor() {
+Vector4& Vector4::nor(){
 	f32 len = this->len();
 
 	ASSERT(len > 0, "Length is zero.");
@@ -171,14 +171,14 @@ bool Vector4::eq(const Vector4 &v) const {
 			&& MathUtils::eqf(this->w, v.w);
 }
 
-Vector4& Vector4::lerp(const Vector4 &target, f32 t) {
+Vector4& Vector4::lerp(const Vector4 &target, f32 t){
 	//start + percent*(end - start)
 	(*this) += (Vector4(target) - (*this)) * t;
 	return *this;
 }
 
-Vector4& Vector4::clamp(f32 maxLength) {
-	if (this->sqrlen() > maxLength * maxLength) {
+Vector4& Vector4::clamp(f32 maxLength){
+	if (this->sqrlen() > maxLength * maxLength){
 		this->nor();
 		this->mul(maxLength);
 	}

@@ -12,8 +12,8 @@ public:
 	static const std::string emptyMessage;
 	static std::ofstream logFile;
 
-	Log();
-	~Log();
+	Log() = default;
+	~Log() = default;
 
 	static void init();
 	static void terminate();
@@ -26,10 +26,10 @@ public:
 	static void echo(const std::string& message);
 
 	template<class T>
-	static void var(const std::string& varname, T var) {
+	static void var(const std::string& varname, T var){
 		// std::cout << "VAR > " << varname << " : " << var << std::endl;
 		std::string varStr;
-		if constexpr (std::is_same<T, std::string>::value) {
+		if constexpr (std::is_same<T, std::string>::value){
 			varStr = var;
 		} else {
 			varStr = std::to_string(var);
@@ -39,7 +39,7 @@ public:
 	};
 
 	template<class T>
-	static void val(const T &var) {
+	static void val(const T &var){
 		// std::cout << "VAL > " << var << std::endl;
 		log("VAL > " + std::to_string(var));
 	};

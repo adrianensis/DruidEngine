@@ -21,43 +21,43 @@ f32 MathUtils::LN10 = log1p(10.0f); // log_e(10)
 f32 MathUtils::PI_180 = PI / 180.0f;
 f32 MathUtils::INV_PI_180 = 180.0f / PI;
 
-f32 MathUtils::rad(f32 deg) {
+f32 MathUtils::rad(f32 deg){
 	return deg * PI_180;
 }
 
-f32 MathUtils::deg(f32 rad) {
+f32 MathUtils::deg(f32 rad){
 	return rad * INV_PI_180;
 }
 
-bool MathUtils::eqf(f32 a, f32 b, f32 epsilon) {
+bool MathUtils::eqf(f32 a, f32 b, f32 epsilon){
 	return fabsf(a - b) < epsilon;
 }
 
-bool MathUtils::eqf(f32 a, f32 b) {
+bool MathUtils::eqf(f32 a, f32 b){
 	return eqf(a, b, FLOAT_EPSILON);
 }
 
-f32 MathUtils::clamp(f32 n, f32 lower, f32 upper) {
+f32 MathUtils::clamp(f32 n, f32 lower, f32 upper){
 	return std::max(lower, std::min(n, upper));
 }
 
-bool MathUtils::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps) {
+bool MathUtils::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps){
 	return (leftTop.x - eps <= point.x && leftTop.y + eps >= point.y && leftTop.x + width + eps >= point.x
 			&& leftTop.y - height - eps <= point.y);
 }
 
-bool MathUtils::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps) {
+bool MathUtils::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps){
 	return (leftTop.x - radius - eps <= center.x && leftTop.y + radius + eps >= center.y && leftTop.x + width + radius + eps >= center.x
 			&& leftTop.y - height - radius - eps <= center.y);
 }
 
-bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps) {
+bool MathUtils::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps){
 	f32 distance = centerA.dst(centerB);
 	return (distance < (radiusA + radiusB + eps));
 }
 
 bool testLineLine(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
-		const Vector2 &lineBEnd, Vector2 &intersectionResult) {
+		const Vector2 &lineBEnd, Vector2 &intersectionResult){
 
 	// Source : http://www-cs.ccny.cuny.edu/~wolberg/capstone/intersection/Intersection%20point%20of%20two%20lines.html
 
@@ -80,7 +80,7 @@ bool testLineLine(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vect
 
 	bool intersection = false;
 	// if uA and uB are between 0-1, lines are colliding
-	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1){
 
 		intersectionResult.x = lineAStart.x + (uA * (lineAEnd.x - lineAStart.x));
 		intersectionResult.y = lineAStart.y + (uA * (lineAEnd.y - lineAStart.y));
@@ -92,13 +92,13 @@ bool testLineLine(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vect
 }
 
 bool MathUtils::testLineSphereSimple(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center,
-		f32 radius, f32 eps) {
+		f32 radius, f32 eps){
 
 	bool lineIntersectsSphere = false;
 
 	Vector2 closestPoint(closestPointInLine(lineStart, lineEnd, center));
 
-	if (testSpherePoint(lineStart, center, radius + eps) || testSpherePoint(lineEnd, center, radius + eps)) {
+	if (testSpherePoint(lineStart, center, radius + eps) || testSpherePoint(lineEnd, center, radius + eps)){
 		lineIntersectsSphere = true;
 	} else {
 		lineIntersectsSphere = testSpherePoint(closestPoint, center, radius + eps);
@@ -108,7 +108,7 @@ bool MathUtils::testLineSphereSimple(const Vector2 &lineStart, const Vector2 &li
 }
 
 bool MathUtils::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center, f32 radius,
-		f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2) {
+		f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2){
 
 	// X(t) = x1 + (x2 - x1) * t
 	// Y(t) = y1 + (y2 - y1) * t
@@ -132,7 +132,7 @@ bool MathUtils::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd,
 
 	f32 det = B * B - 4 * A * C;
 
-	if (det >= 0) {
+	if (det >= 0){
 
 		// Two solutions.
 		f32 sqrtDet = sqrtf(det);
@@ -149,11 +149,11 @@ bool MathUtils::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd,
 	return lineIntersectsSphere;
 }
 
-bool MathUtils::testSpherePoint(const Vector2 &point, const Vector2 &center, f32 radius) {
+bool MathUtils::testSpherePoint(const Vector2 &point, const Vector2 &center, f32 radius){
 	return center.dst(point) <= radius;
 }
 
-bool MathUtils::testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point, f32 eps) {
+bool MathUtils::testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point, f32 eps){
 	// get distance from the point to the two ends of the line
 	f32 d1 = lineStart.dst(point);
 	f32 d2 = lineEnd.dst(point);
@@ -162,14 +162,14 @@ bool MathUtils::testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, 
 
 	bool pointIsInLine = false;
 
-	if (d1 + d2 >= lineLen - eps && d1 + d2 <= lineLen + eps) {
+	if (d1 + d2 >= lineLen - eps && d1 + d2 <= lineLen + eps){
 		pointIsInLine = true;
 	}
 
 	return pointIsInLine;
 }
 
-Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point) {
+Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point){
 
 	Vector2 pointStartVector = (point - lineStart)/*.nor()*/;
 	Vector2 lineVector = (lineEnd - lineStart)/*.nor()*/;
@@ -182,6 +182,6 @@ Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &l
 	return Vector2(lineStart + (lineVector.mul(t)));
 }
 
-Vector3 MathUtils::midPoint(const Vector3 &a, const Vector3 &b) {
+Vector3 MathUtils::midPoint(const Vector3 &a, const Vector3 &b){
 	return Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
 };

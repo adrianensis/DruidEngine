@@ -2,7 +2,7 @@
 #include "Maths/Vector2.hpp"
 #include <cmath>
 
-int main() {
+int main(){
 
 	test(Vector2);
 

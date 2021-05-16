@@ -8,7 +8,7 @@
 #include <functional>
 #include <regex>
 
-CLASS(File, ObjectBase) {
+CLASS(File, ObjectBase){
 
 public:
 	static void init();

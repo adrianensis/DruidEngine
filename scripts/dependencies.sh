@@ -31,7 +31,7 @@ unzip scripts/dependencies-zip/glad.zip -d $destiny/glad
 
 # ------------------------------------------------------------------------
 
-# json
+# JSON https://github.com/nlohmann/json
 unzip scripts/dependencies-zip/json-3.9.1.zip -d $destiny
 
 # ------------------------------------------------------------------------

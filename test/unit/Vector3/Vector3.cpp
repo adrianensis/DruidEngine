@@ -2,7 +2,7 @@
 #include "Maths/Vector3.hpp"
 #include <cmath>
 
-int main() {
+int main(){
 
 	test(Vector3);
 
