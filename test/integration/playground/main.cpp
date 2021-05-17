@@ -2,6 +2,7 @@
 #include "Core/Time/TimerManager.hpp"
 #include "Config/ConfigMap.hpp"
 
+#include <python3.8/Python.h>
 #include <iostream>
 
 int main(){
@@ -58,6 +59,11 @@ int main(){
 	std::cout << std::endl;
 	std::cout << b.getA() << std::endl;
 	std::cout << b.getB() << std::endl;*/
+
+	// Initialize the Python Interpreter
+    Py_Initialize();
+
+	PyRun_SimpleString("from time import time,ctime\n""print('Today is',ctime(time()))\n");
 
 	delete engine;
 

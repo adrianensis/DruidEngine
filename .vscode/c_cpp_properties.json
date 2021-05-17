@@ -7,7 +7,8 @@
                 "${workspaceFolder}/code",
                 "${workspaceFolder}/test",
                 "${workspaceFolder}/tools",
-                "${workspaceFolder}/tools/**"
+                "${workspaceFolder}/tools/**",
+                "/usr/include/python3.8"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

@@ -2,7 +2,7 @@
 # DRUID ENGINE
 # ----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 # project name
 set(DRUID druid)
@@ -20,7 +20,7 @@ if(ENABLE_LOGS)
 endif(ENABLE_LOGS)
 
 if(UNIX)
-  set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -std=c++17") # this macro was invented by me
+  set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -std=c++17 ") # this macro was invented by me
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL} -D DE_DEBUG -ffast-math -mavx")
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -ffast-math -mavx")
   #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
@@ -74,12 +74,18 @@ include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
 #link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
 file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB_RECURSE SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
-message(${SOIL_SOURCE})
+# message(${SOIL_SOURCE})
 
 # JSON
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory("${DEPENDENCIES_DIR}/json-3.9.1")
 
+# Pyhon
+find_package (Python3 COMPONENTS Interpreter Development)
+message("Python3 found: ${Python3_FOUND}")
+include_directories(${Python3_INCLUDE_DIRS})
+message(${Python3_INCLUDE_DIRS})
+message(${Python3_LIBRARIES})
 
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
@@ -139,6 +145,7 @@ target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
 target_link_libraries( ${DRUID} nlohmann_json)
+target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
 
 #target_link_libraries( ${DRUID} "stdc++fs")
 
