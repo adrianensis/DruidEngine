@@ -142,6 +142,9 @@ void specificCopy(const __VA_ARGS__* other)
 // FOR LOOPS
 // --------------------------------------------------------
 
+#define FOR_MAP(it, map)\
+for (auto it = map.begin(); it != map.end(); ++it)
+
 #define FOR_RANGE(it, start, size) for (i32 it = start; it < size; ++it)
 #define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; it < size && condition; ++it)
 
@@ -151,3 +154,9 @@ void specificCopy(const __VA_ARGS__* other)
 #define FOR_LIST(it, list) for (auto it = list->getIterator(); !it.isNull(); it.next())
 #define FOR_LIST_COND(it, list, cond) for (auto it = list->getIterator(); (!it.isNull()) && cond; it.next())
 
+// --------------------------------------------------------
+// STD CONTAINERS
+// --------------------------------------------------------
+
+#define MAP_CONTAINS(map, key) (map.find(key) != map.end())
+#define MAP_INSERT(map, key, value) map.insert(std::make_pair(key, value));

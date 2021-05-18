@@ -81,11 +81,11 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory("${DEPENDENCIES_DIR}/json-3.9.1")
 
 # Pyhon
-find_package (Python3 COMPONENTS Interpreter Development)
-message("Python3 found: ${Python3_FOUND}")
-include_directories(${Python3_INCLUDE_DIRS})
-message(${Python3_INCLUDE_DIRS})
-message(${Python3_LIBRARIES})
+# find_package (Python3 COMPONENTS Interpreter Development)
+# message("Python3 found: ${Python3_FOUND}")
+# include_directories(${Python3_INCLUDE_DIRS})
+# message(${Python3_INCLUDE_DIRS})
+# message(${Python3_LIBRARIES})
 
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
@@ -145,9 +145,7 @@ target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
 target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries( ${DRUID} glfw)
 target_link_libraries( ${DRUID} nlohmann_json)
-target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
-
-#target_link_libraries( ${DRUID} "stdc++fs")
+# target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
 
 # SOIL
 #target_link_libraries( ${DRUID} SOIL )

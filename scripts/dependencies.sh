@@ -11,7 +11,8 @@ rm -R $destiny 2> /dev/null
 # ------------------------------------------------------------------------
 
 sudo apt-get -y update
-sudo apt-get -y install build-essential python3.8-dev wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz
+sudo apt-get -y install build-essential wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz
+# python3.8-dev
 
 # ------------------------------------------------------------------------
 
