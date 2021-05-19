@@ -73,7 +73,7 @@ public:
 
 	/*
 	* & -> it's a reference, not a full copy.
-	* const Quaternion& -> it's a constant reference.
+	* Quaternion& -> it's a constant reference.
 	* operator=(...) const -> the method promises not to change *this. Non-member
 	* functions can not have constant qualification.
 	*/

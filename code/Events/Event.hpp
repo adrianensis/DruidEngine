@@ -5,11 +5,10 @@
 #include "Core/Functor.hpp"
 #include "Core/Time/TimerManager.hpp"
 
-#define EVENT_DECLARATION_BEGIN(EventClassName) class EventClassName : public Event{ \
+#define EVENT_DECLARATION_BEGIN(EventClassName) CLASS(EventClassName, Event) { \
 public: \
-	GENERATE_METADATA(NONE, EventClassName) \
-	EventClassName():Event() {}; \
-	~EventClassName() override {}; \
+	EventClassName() {}; \
+	virtual ~EventClassName() override {}; \
 
 #define EVENT_DECLARATION_END(EventClassName) };
 

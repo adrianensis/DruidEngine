@@ -35,5 +35,5 @@ public:
 	void setBool(const std::string& key, bool value);
 
 	/*template<class T>
-	const List<T>* getList(const std::string& key);*/
+	const std::list<T>* getList(const std::string& key);*/
 };

@@ -92,7 +92,7 @@ int main(){
 
 	Quaternion ii(0, 0, 0, 1);
 
-	/*Matrix4* mRot = Memory::allocate<Matrix4>();
+	/*Matrix4* mRot = new Matrix4;
 	mRot->rotation(Vector3(0, 0, 0));
 
 	ii.fromMatrix(*mRot);
