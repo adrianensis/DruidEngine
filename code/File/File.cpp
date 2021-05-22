@@ -5,7 +5,7 @@ void File::init(){
 	TRACE()
 }
 
-void File::readFile(const std::string &path, std::function<void(std::ifstream &file)> callback){
+void File::readFile(const std::string& path, std::function<void(std::ifstream &file)> callback){
 
 	std::ifstream file;
 	file.open(path);
@@ -17,7 +17,7 @@ void File::readFile(const std::string &path, std::function<void(std::ifstream &f
 	file.close();
 }
 
-void File::writeFile(const std::string &path, std::function<void(std::ofstream &file)> callback){
+void File::writeFile(const std::string& path, std::function<void(std::ofstream &file)> callback){
 
 	std::ofstream file;
 	file.open(path);

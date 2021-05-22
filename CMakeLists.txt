@@ -16,7 +16,7 @@ project(${DRUID})
 # set(CMAKE_CXX_FLAGS_ALL "-std=c++17 -Wall") # this macro was invented by me
 
 if(ENABLE_LOGS)
-  set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -D DE_ENABLE_LOGS")
+  set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -Wall -D DE_ENABLE_LOGS")
 endif(ENABLE_LOGS)
 
 if(UNIX)

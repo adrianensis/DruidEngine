@@ -33,8 +33,8 @@ public:
 
 	void init();
 
-	void loadScene(const std::string &path);
-	void saveScene(const std::string &path);
+	void loadScene(const std::string& path);
+	void saveScene(const std::string& path);
 	void unloadScene();
 	bool isLoadFinished() const;
 

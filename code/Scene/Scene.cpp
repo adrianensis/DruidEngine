@@ -4,6 +4,7 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
 #include "Config/ConfigMap.hpp"
+#include "Graphics/RenderContext.hpp"
 #include "Maths/MathUtils.hpp"
 #include <future>         // std::async, std::future
 
@@ -55,7 +56,7 @@ void Scene::init() {
 	//Camera* cameraComponent = new Camera;
 	//cameraGameObject->addComponent<Camera>(cameraComponent);
 
-	//f32 size = RenderContext::getWindowSize().y;
+	f32 size = RenderContext::getWindowSize().y;
 	// TODO : use RenderContext::getWindowSize().x also? To keep the scaleproportions?
 	//cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
 
@@ -67,7 +68,7 @@ void Scene::init() {
 	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
 
-void Scene::loadScene(const std::string &path) {
+void Scene::loadScene(const std::string& path) {
 
 	if(!mLoadSceneConfigMap){
 		mLoadSceneConfigMap = new ConfigMap;
@@ -95,7 +96,7 @@ void Scene::loadScene(const std::string &path) {
 	mGameObjectsToLoadIndex = 0;
 }
 
-void Scene::saveScene(const std::string &path) {
+void Scene::saveScene(const std::string& path) {
 
 	ConfigMap* configMap = new ConfigMap;
 	configMap->init();

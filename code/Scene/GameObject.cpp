@@ -20,8 +20,6 @@ GameObject::~GameObject() {
 }
 
 void GameObject::addComponent(Component *component, ClassId classId) {
-	std::list<Component*>* list = nullptr;
-
 	if (! MAP_CONTAINS(*mComponentsMap, classId)) {
 		MAP_INSERT(*mComponentsMap, classId, new std::list<Component*>);
 	}
@@ -80,12 +78,11 @@ void GameObject::setIsActive(bool isActive) {
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
 	FOR_MAP(it, *mComponentsMap) {
-		FOR_LIST(itComponent, *it->second)
-		{
+		FOR_LIST(itComponent, *it->second) {
 			(*itComponent)->setIsActive(isActive);
 		}
 	}
-};
+}
 
 void GameObject::destroy() {
 	mIsPendingToBeDestroyed = true;
@@ -110,7 +107,7 @@ void GameObject::destroy() {
 	}
 
 	mComponentsMap->clear();
-};
+}
 
 void GameObject::save(ConfigMap* configMap, std::string& objectName) {
 

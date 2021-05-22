@@ -8,7 +8,6 @@
 #include <list>
 #include <map>
 
-class Component;
 class Transform;
 class Scene;
 

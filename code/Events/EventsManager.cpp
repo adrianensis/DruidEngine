@@ -20,7 +20,7 @@ bool EventsManager::eventTypeHasReceiver(ObjectBase* eventOwner, ClassId eventCl
 	return MAP_CONTAINS(mOwnersMap.at(eventOwner).at(eventClassId), eventReceiver);
 }
 
-bool EventsManager::insertEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver, EventCallback eventCallback) {
+void EventsManager::insertEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver, EventCallback eventCallback) {
 
 	EventFunctor<Event> eventFunctor;
 	eventFunctor.setCallback(eventCallback);
@@ -30,7 +30,7 @@ bool EventsManager::insertEventCallback(ClassId eventClassId, ObjectBase* eventO
 	MAP_INSERT(mOwnersMap.at(eventOwner).at(eventClassId), eventReceiver, eventFunctor);
 }
 
-bool EventsManager::removeEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver) {
+void EventsManager::removeEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver) {
 	mOwnersMap.at(eventOwner).at(eventClassId).erase(eventReceiver);
 }
 

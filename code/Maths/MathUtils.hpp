@@ -51,7 +51,7 @@ public:
 	static bool testSpherePoint(const Vector2 &point, const Vector2 &center, f32 radius);
 	static bool testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point, f32 eps);
 	static Vector2 closestPointInLine(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point);
-	static Vector3 midPoint(const Vector3 &a, const Vector3 &b);
+	static Vector2 midPoint(const Vector2 &a, const Vector2 &b);
 
 };
 

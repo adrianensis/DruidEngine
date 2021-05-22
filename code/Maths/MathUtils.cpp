@@ -182,6 +182,6 @@ Vector2 MathUtils::closestPointInLine(const Vector2 &lineStart, const Vector2 &l
 	return Vector2(lineStart + (lineVector.mul(t)));
 }
 
-Vector3 MathUtils::midPoint(const Vector3 &a, const Vector3 &b){
-	return Vector3((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f, (a.z + b.z) / 2.0f);
+Vector2 MathUtils::midPoint(const Vector2 &a, const Vector2 &b){
+	return Vector2((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f);
 };

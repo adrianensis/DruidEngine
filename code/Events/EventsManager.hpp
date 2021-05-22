@@ -28,8 +28,8 @@ private:
 	bool ownerExists(ObjectBase* eventOwner) const;
 	bool ownerHasEventType(ObjectBase* eventOwner, ClassId eventClassId) const;
 	bool eventTypeHasReceiver(ObjectBase* eventOwner, ClassId eventClassId, ObjectBase* eventReceiver) const;
-	bool insertEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver, EventCallback eventCallback);
-	bool removeEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver);
+	void insertEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver, EventCallback eventCallback);
+	void removeEventCallback(ClassId eventClassId, ObjectBase* eventOwner, ObjectBase* eventReceiver);
 
 	ReceiversFunctorMap& getReceiversFunctorMap(ObjectBase* eventOwner, ClassId eventClassId);
 

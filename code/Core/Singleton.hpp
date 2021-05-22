@@ -26,7 +26,7 @@ public:
 	static void deleteInstance(){
 		if(mInstance){
 			delete mInstance;
-			mInstance != nullptr;
+			mInstance = nullptr;
 		}
 	}	
 };

@@ -145,11 +145,11 @@ void specificCopy(const __VA_ARGS__* other)
 #define FOR_MAP(it, map)\
 for (auto it = (map).begin(); it != (map).end(); ++it)
 
-#define FOR_RANGE(it, start, size) for (i32 it = start; it < size; ++it)
-#define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; it < size && condition; ++it)
+#define FOR_RANGE(it, start, size) for (i32 it = start; it < (i32)(size); ++it)
+#define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; it < (i32)(size) && condition; ++it)
 
-#define FOR_ARRAY(it, array) FOR_RANGE(it, 0, array->getLength())
-#define FOR_ARRAY_COND(it, array, condition) for (u32 it = 0; it < array->getLength() && condition; ++it)
+#define FOR_ARRAY(it, array) FOR_RANGE(it, 0, (array).size())
+#define FOR_ARRAY_COND(it, array, condition) FOR_RANGE_COND(it, 0, (array).size(), condition)
 
 #define FOR_LIST(it, list) for (auto it = (list).begin(); it != (list).end(); ++it)
 #define FOR_LIST_COND(it, list, cond) for (auto it = (list).begin(); it != (list).end() && cond; ++it)

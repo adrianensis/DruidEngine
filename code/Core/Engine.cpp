@@ -2,6 +2,7 @@
 #include "Core/Time/TimerManager.hpp"
 #include "Core/Engine.hpp"
 #include "Core/Singleton.hpp"
+#include "Graphics/RenderContext.hpp"
 
 #include <string>
 #include <iostream>
@@ -11,19 +12,14 @@
 
 using namespace std::chrono_literals;
 
-
-/*Engine::Engine() : Singleton(){
-	mFPS = 60; // TODO : Settings?
-}
-
-Engine::~Engine() = default;*/
-
 Engine::~Engine(){
 
 };
 
 void Engine::init(){
 	mFPS = 60;
+
+	RenderContext::init();
 
 	TimerManager::getInstance()->init();
 }
@@ -45,7 +41,7 @@ void Engine::run(){
 
 	f32 diff = 0;
 
-	while (false){
+	while (!RenderContext::isClosed()){
 
 		Time::getInstance()->startFrame();
 
@@ -58,7 +54,7 @@ void Engine::run(){
 			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
-		//std::cout << Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		std::cout << Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 		Time::getInstance()->endFrame();
 	}
@@ -68,4 +64,6 @@ void Engine::terminate(){
 	TRACE();
 	TimerManager::deleteInstance();
 	Time::deleteInstance();
+
+	RenderContext::terminate();
 }

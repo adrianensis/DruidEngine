@@ -20,17 +20,10 @@ CLASS(Event, ObjectBase) {
 
 public:
 	// NOTE : Override in children!
-	Event& operator= (const Event &event) {
-	   // self-assignment guard
-	   if (this == &event)
-	       return *this;
-
-	   // do the copy
-	   mInstigator = event.mInstigator; // can handle self-assignment
-	   mDelayType = event.mDelayType; // can handle self-assignment
-	   mDelayAmount = event.mDelayAmount;
-
-	   return *this;
+	COPY(Event) {
+		DO_COPY(Instigator)
+		DO_COPY(DelayType)
+		DO_COPY(DelayAmount)
 	}
 };
 
@@ -38,19 +31,12 @@ using EventCallback = std::function<void(const Event*)>;
 
 template<class E>
 class EventFunctor : public Functor<EventCallback> {
-public:
 
 	PUB(Event, NONE, E*)
 	PUB(EventClassId, NONE, ClassId)
 	PUB(EventReceiver, NONE, ObjectBase*)
 
-	EventFunctor():Functor<EventCallback>() {
-		mEvent = nullptr;
-		mEventClassId = 0;
-		mEventReceiver = nullptr;
-	};
-	~EventFunctor() override {};
-
+public:
 	void execute() override {
 		if(mCallback){
 			mCallback(mEvent);
@@ -58,18 +44,11 @@ public:
 	}
 
 	// NOTE : Override in children!
-	EventFunctor& operator= (const EventFunctor &eventFunctor) {
-		// self-assignment guard
-		if (this == &eventFunctor)
-			return *this;
-
-		// do the copy
-		Functor::operator=(eventFunctor);
-		mEvent = eventFunctor.mEvent;
-		mEventClassId = eventFunctor.mEventClassId;
-		mEventReceiver = eventFunctor.mEventReceiver;
-
-		return *this;
+	COPY(EventFunctor) {
+		Functor::operator=(*other);
+		DO_COPY(Event)
+		DO_COPY(EventClassId)
+		DO_COPY(EventReceiver)
 	}
 
 	bool operator== (const EventFunctor& eventFunctor) const{
