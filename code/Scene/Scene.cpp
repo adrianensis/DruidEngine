@@ -3,9 +3,11 @@
 #include "Scene/Transform.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
-#include "Config/ConfigMap.hpp"
+#include "Config/ConfigObject.hpp"
 #include "Graphics/RenderContext.hpp"
+#include "Graphics/Camera.hpp"
 #include "Maths/MathUtils.hpp"
+#include "Core/EngineConfig.hpp"
 #include <future>         // std::async, std::future
 
 Scene::Scene() {
@@ -53,17 +55,17 @@ void Scene::init() {
 
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
-	//Camera* cameraComponent = new Camera;
-	//cameraGameObject->addComponent<Camera>(cameraComponent);
+	Camera* cameraComponent = new Camera;
+	cameraGameObject->addComponent<Camera>(cameraComponent);
 
 	f32 size = RenderContext::getWindowSize().y;
 	// TODO : use RenderContext::getWindowSize().x also? To keep the scaleproportions?
-	//cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
+	cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
 
 	setCameraGameObject(cameraGameObject);
 
 	// SET DEFAULT SIZE
-	mSize = 4000; //EngineConfig::getInstance()->getF32("scene.defaultSize");
+	mSize = EngineConfig::getInstance()->getConfig().getF32("scene.defaultSize");
 
 	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
@@ -71,7 +73,7 @@ void Scene::init() {
 void Scene::loadScene(const std::string& path) {
 
 	if(!mLoadSceneConfigMap){
-		mLoadSceneConfigMap = new ConfigMap;
+		mLoadSceneConfigMap = new ConfigObject;
 		mLoadSceneConfigMap->init();
 	}
 	else {
@@ -80,14 +82,14 @@ void Scene::loadScene(const std::string& path) {
 
 	mPath = path;
 
-	//std::future<void> fut = std::async (&ConfigMap::readConfigFile,&mLoadSceneConfigMap,mPath); 
+	//std::future<void> fut = std::async (&ConfigObject::readConfigFile,&mLoadSceneConfigMap,mPath); 
 	mLoadSceneConfigMap->readConfigFile(mPath); // TODO: do async / in other thread.
 	//fut.wait();
 
 	mSize = mLoadSceneConfigMap->getF32("scene.size");
 
 	if (mSize == 0) {
-		mSize = 4000; //EngineConfig::getInstance()->getF32("scene.defaultSize");
+		mSize = EngineConfig::getInstance()->getConfig().getF32("scene.defaultSize");
 	}
 
 	u32 length = mLoadSceneConfigMap->getU32("objects.length");
@@ -98,7 +100,7 @@ void Scene::loadScene(const std::string& path) {
 
 void Scene::saveScene(const std::string& path) {
 
-	ConfigMap* configMap = new ConfigMap;
+	ConfigObject* configMap = new ConfigObject;
 	configMap->init();
 
 	f32 maxSize = 0;
@@ -212,7 +214,7 @@ void Scene::step() {
 	if (thereAreNewGameObjects()) {
 
 		const std::list<GameObject*>* newGameObjects = getNewGameObjects();
-		//u32 maxToSpawn = EngineConfig::getInstance()->getF32("scene.maxNewObjectsToSpawn");
+		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().getF32("scene.maxNewObjectsToSpawn");
 
 		// VAR(f32, newGameObjects->getLength());
 

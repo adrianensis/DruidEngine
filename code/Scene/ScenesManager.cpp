@@ -3,6 +3,7 @@
 #include "Scene/GameObject.hpp"
 #include "Graphics/Camera.hpp"
 #include "Graphics/RenderEngine.hpp"
+#include "Core/EngineConfig.hpp"
 //#include "Scripting/Script.hpp"
 #include <string>
 
@@ -22,13 +23,11 @@ ScenesManager::~ScenesManager() {
 }
 
 void ScenesManager::internalLoadScene() {
-	/*if (EngineConfig::getInstance()->getU32("scenes.length") > 0) {
-		std::string sceneName = EngineConfig::getInstance()->getString(
+	if (EngineConfig::getInstance()->getConfig().getU32("scenes.length") > 0) {
+		std::string sceneName = EngineConfig::getInstance()->getConfig().getString(
 				"scenes[" + std::to_string(mCurrentSceneIndex) + "]");
 		mCurrentScene->loadScene(sceneName);
-	}*/
-
-	//mCurrentScene->loadScene("config/sceneTmp.conf");
+	}
 
 	mGameObjectController->setScene(mCurrentScene);
 	RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getFirstComponent<Camera>());
@@ -45,9 +44,9 @@ void ScenesManager::init() {
 
 	u32 scenesCount = 1;
 
-	/*if (EngineConfig::getInstance()->getU32("scenes.length") > 0) {
-		scenesCount = EngineConfig::getInstance()->getU32("scenes.length");
-	}*/
+	if (EngineConfig::getInstance()->getConfig().getU32("scenes.length") > 0) {
+		scenesCount = EngineConfig::getInstance()->getConfig().getU32("scenes.length");
+	}
 
 	FOR_RANGE(i, 0, scenesCount) {
 		Scene* scene = new Scene;

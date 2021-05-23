@@ -4,7 +4,7 @@
 #include "Scene/Transform.hpp"
 
 #include "Events/EventsManager.hpp"
-#include "Config/ConfigMap.hpp"
+#include "Config/ConfigObject.hpp"
 
 GameObject::GameObject() {
 	mComponentsMap = nullptr;
@@ -109,7 +109,7 @@ void GameObject::destroy() {
 	mComponentsMap->clear();
 }
 
-void GameObject::save(ConfigMap* configMap, std::string& objectName) {
+void GameObject::save(ConfigObject* configMap, std::string& objectName) {
 
 	/*configMap->setString(objectName + ".class", getClassName());
 
@@ -141,7 +141,7 @@ void GameObject::save(ConfigMap* configMap, std::string& objectName) {
 	}*/
 }
 
-void GameObject::load(ConfigMap* configMap, std::string& objectName) {
+void GameObject::load(ConfigObject* configMap, std::string& objectName) {
 	/*setIsStatic(configMap->getBool(objectName + ".isStatic"));
 	setShouldPersist(configMap->getBool(objectName + ".shouldPersist"));
 

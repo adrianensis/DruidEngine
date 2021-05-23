@@ -33,23 +33,23 @@ public:
 	static std::string getClassNameStatic(){
 		static std::string className = "ObjectBase";
 		return className;
-	};
+	}
 
 	static ClassId getClassIdStatic(){
 		static ClassId classId = Hash::hashString("ObjectBase");
 		return classId;
-	};
+	}
 
 	ObjectBase(){ if(mObjectId == 0){ mObjectId = smObjectIdCounter++; } };
-	virtual ~ObjectBase(){ TRACE() };
+	virtual ~ObjectBase(){ };
 
 	virtual ClassId getClassId() const {
 		return ObjectBase::getClassIdStatic();
-	};
+	}
 
 	virtual std::string getClassName() const {
 		return ObjectBase::getClassNameStatic();
-	};
+	}
 
 	template<class T>
 	bool isDerivedClass() const {

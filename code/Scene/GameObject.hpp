@@ -3,7 +3,7 @@
 #include "Core/ObjectBase.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
-#include "Config/ConfigMap.hpp"
+#include "Config/ConfigObject.hpp"
 
 #include <list>
 #include <map>
@@ -77,6 +77,6 @@ public:
 
 	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
 
-	virtual void save(ConfigMap* configMap, std::string& objectName);
-	virtual void load(ConfigMap* configMap, std::string& objectName);
+	virtual void save(ConfigObject* configMap, std::string& objectName);
+	virtual void load(ConfigObject* configMap, std::string& objectName);
 };

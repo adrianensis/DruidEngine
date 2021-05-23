@@ -1,5 +1,5 @@
 #include "Scene/Component.hpp"
-#include "Config/ConfigMap.hpp"
+#include "Config/ConfigObject.hpp"
 #include "Scene/GameObject.hpp"
 
 Component::Component() {
@@ -25,10 +25,10 @@ void Component::destroy() {
 	}
 };
 
-void Component::save(ConfigMap* configMap, std::string& objectName) {
+void Component::save(ConfigObject* configMap, std::string& objectName) {
 	
 }
 
-void Component::load(ConfigMap* configMap, std::string& objectName) {
+void Component::load(ConfigObject* configMap, std::string& objectName) {
 
 }

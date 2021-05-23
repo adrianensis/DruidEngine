@@ -4,7 +4,7 @@
 #include "File/File.hpp"
 
 class GameObject;
-class ConfigMap;
+class ConfigObject;
 
 CLASS(Scene, ObjectBase) {
 
@@ -17,7 +17,7 @@ private:
 	PRI(Size, GET, f32)
 	PRI(Path, GET, std::string)
 
-	PRI(LoadSceneConfigMap, NONE, ConfigMap*)
+	PRI(LoadSceneConfigMap, NONE, ConfigObject*)
 	PRI(MaxGameObjectsToLoadPerFrame, NONE, u32)
 	PRI(GameObjectsToLoadTotal, NONE, u32)
 	PRI(GameObjectsToLoadIndex, NONE, u32)

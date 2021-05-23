@@ -3,6 +3,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera.hpp"
+#include "Core/EngineConfig.hpp"
 
 LineRenderer::LineRenderer() {
 	mIsAffectedByProjection = true;
@@ -19,7 +20,7 @@ LineRenderer::~LineRenderer() {
 void LineRenderer::init() {
 	//TRACE();
 
-	mMaxShapes = 350; //EngineConfig::getInstance()->getF32("line.renderers.count");
+	mMaxShapes = EngineConfig::getInstance()->getConfig().getF32("line.renderers.count");
 
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 	mIndicesBuffer.reserve(mMaxShapes * 2); // 1 index per vertex

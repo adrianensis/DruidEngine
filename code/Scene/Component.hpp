@@ -3,7 +3,7 @@
 #include "Core/ObjectBase.hpp"
 
 class GameObject;
-class ConfigMap;
+class ConfigObject;
 
 CLASS(Component, ObjectBase) {
 
@@ -40,6 +40,6 @@ public:
 
 	virtual void onDestroy() { };
 
-	virtual void save(ConfigMap* configMap, std::string& objectName);
-	virtual void load(ConfigMap* configMap, std::string& objectName);
+	virtual void save(ConfigObject* configMap, std::string& objectName);
+	virtual void load(ConfigObject* configMap, std::string& objectName);
 };

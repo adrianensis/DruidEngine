@@ -1,6 +1,7 @@
 #include "Core/Time/TimeUtils.hpp"
 #include "Core/Time/TimerManager.hpp"
 #include "Core/Engine.hpp"
+#include "Core/EngineConfig.hpp"
 #include "Core/Singleton.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
@@ -24,6 +25,8 @@ Engine::~Engine(){
 void Engine::init(){
 	mFPS = 60;
 
+	EngineConfig::getInstance()->init();
+
 	RenderContext::init();
 
 	TimerManager::getInstance()->init();
@@ -35,7 +38,6 @@ void Engine::init(){
 
 void Engine::initSubsystems(){
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
-
 	RenderEngine::getInstance()->init(sceneSize);
 }
 

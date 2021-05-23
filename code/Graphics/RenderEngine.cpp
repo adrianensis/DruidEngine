@@ -13,7 +13,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-//#include "Config/EngineConfig.hpp"
+#include "Core/EngineConfig.hpp"
 #include "Graphics/Chunk.hpp"
 #include "Graphics/LineRenderer.hpp"
 #include "Graphics/BatchesMap.hpp"
@@ -47,9 +47,9 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Static Chunks grid
 
-	mMinChunkDrawDistance = 1500;//EngineConfig::getInstance()->getF32("scene.chunks.minChunkDrawDistance");
+	mMinChunkDrawDistance = EngineConfig::getInstance()->getConfig().getF32("scene.chunks.minChunkDrawDistance");
 
-	f32 chunksGridSize = 4;//EngineConfig::getInstance()->getF32("scene.chunks.gridSize");
+	f32 chunksGridSize = EngineConfig::getInstance()->getConfig().getF32("scene.chunks.gridSize");
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f; // TODO : Make it power of 2!
 
 	mChunks.reserve(chunksGridSize * chunksGridSize);
@@ -76,10 +76,10 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mMaxLayersUsed = 0;
 
-	mMaxLayers = 10;//EngineConfig::getInstance()->getU32("scene.maxLayers");
+	mMaxLayers = EngineConfig::getInstance()->getConfig().getU32("scene.maxLayers");
 	FOR_RANGE(i, 0, mMaxLayers) {
 		LayerData* layerData = new LayerData;
-		layerData->mSorted = true;//EngineConfig::getInstance()->getBool("scene.sortByYCoordinate");
+		layerData->mSorted = EngineConfig::getInstance()->getConfig().getBool("scene.sortByYCoordinate");
 		MAP_INSERT(mLayersData, i, layerData);
 	}
 }
