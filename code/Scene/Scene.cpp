@@ -5,6 +5,8 @@
 #include "Maths/Vector3.hpp"
 #include "Config/ConfigObject.hpp"
 #include "Graphics/RenderContext.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Renderer.hpp"
 #include "Graphics/Camera.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Core/EngineConfig.hpp"
@@ -47,7 +49,7 @@ void Scene::init() {
 
 	mSize = 0;
 
-	mPath = "config/sceneTmp.conf";
+	mPath = "config/sceneTmp.json";
 
 	// CAMERA
 	GameObject* cameraGameObject = new GameObject;
@@ -100,8 +102,8 @@ void Scene::loadScene(const std::string& path) {
 
 void Scene::saveScene(const std::string& path) {
 
-	ConfigObject* configMap = new ConfigObject;
-	configMap->init();
+	ConfigObject configMap;
+	configMap.init();
 
 	f32 maxSize = 0;
 	u32 counter = 0;
@@ -120,18 +122,16 @@ void Scene::saveScene(const std::string& path) {
 			maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale),
 							   std::abs(worldPosition.y) + maxObjectScale);
 
-			(*it)->save(configMap, objectName);
+			configMap.getJson()["objects"].push_back((*it)->serialize());
 
 			counter++;
 		}
 	}
 
-	configMap->setU32("objects.length", counter);
-	configMap->setF32("scene.size", maxSize * 2.0f);
+	configMap.setU32("objects.length", counter);
+	configMap.setF32("scene.size", maxSize * 2.0f);
 
-	configMap->writeConfigFile(path);
-
-	delete configMap;
+	configMap.writeConfigFile(path);
 }
 
 void Scene::unloadScene() {
@@ -148,18 +148,18 @@ void Scene::addGameObject(GameObject *gameObject) {
 }
 
 void Scene::updateComponents(GameObject *gameObject) {
-	/*std::list<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
+	const std::list<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
 
-	Script* script = gameObject->getFirstComponent<Script>();
+	/*Script* script = gameObject->getFirstComponent<Script>();
 	RigidBody* rigidBody = gameObject->getFirstComponent<RigidBody>();
 
 	if (script && !script->getAlreadyAddedToEngine()) {
 		ScriptEngine::getInstance()->addScript(script);
 		script->setAlreadyAddedToEngine(true);
-	}
+	}*/
 
 	if (rendererList) {
-		FOR_LIST (it, rendererList) {
+		FOR_LIST (it, *rendererList) {
 			if (!(*it)->getAlreadyAddedToEngine()) {
 				RenderEngine::getInstance()->addRenderer((*it));
 				(*it)->setAlreadyAddedToEngine(true);
@@ -167,7 +167,7 @@ void Scene::updateComponents(GameObject *gameObject) {
 		}
 	}
 
-	if (rigidBody) {
+	/*if (rigidBody) {
 		if (!rigidBody->getAlreadyAddedToEngine()) {
 			PhysicsEngine::getInstance()->addRigidBody(rigidBody);
 			rigidBody->setAlreadyAddedToEngine(true);
@@ -196,20 +196,20 @@ void Scene::removeGameObject(GameObject *gameObject) {
 void Scene::step() {
 
 	// TODO : refactor into a private method
-	/*if(mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
+	if(mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
 		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
 			std::string indexStr = std::to_string(mGameObjectsToLoadIndex);
 			std::string objectName = "objects[" + indexStr + "]";
 
 			std::string className = mLoadSceneConfigMap->getString(objectName + ".class");
 			
-			GameObject* gameObject = Memory::fromClassName<GameObject>(className);
+			GameObject* gameObject = new GameObject;//Memory::fromClassName<GameObject>(className);
 			gameObject->init();
-			gameObject->load(mLoadSceneConfigMap, objectName);
+			gameObject->deserialize(JSON());
 			addGameObject(gameObject);
 			mGameObjectsToLoadIndex += 1;
 		}
-	}*/
+	}
 
 	if (thereAreNewGameObjects()) {
 

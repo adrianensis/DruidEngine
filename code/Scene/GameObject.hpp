@@ -3,7 +3,7 @@
 #include "Core/ObjectBase.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
-#include "Config/ConfigObject.hpp"
+#include "Core/Serialization.hpp"
 
 #include <list>
 #include <map>
@@ -14,7 +14,7 @@ class Scene;
 EVENT_DECLARATION_BEGIN(EventOnDestroy)
 EVENT_DECLARATION_END(EventOnDestroy)
 
-CLASS(GameObject, ObjectBase) {
+CLASS(GameObject, ObjectBase), public ISerializable {
 
 	PRI(ComponentsMap, NONE, std::map<ClassId, std::list<Component*>*>*)
 	PRI(IsActive, NONE, bool)
@@ -77,6 +77,6 @@ public:
 
 	virtual void onDestroy() { /*TODO: call script onDestroy here??*/ };
 
-	virtual void save(ConfigObject* configMap, std::string& objectName);
-	virtual void load(ConfigObject* configMap, std::string& objectName);
+	virtual JSON serialize() const override;
+	virtual void deserialize(const JSON& jsonObject) override;
 };

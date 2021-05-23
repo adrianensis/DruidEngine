@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Core/Core.hpp"
+#include "Core/Serialization.hpp"
 #include <map>
-#include "json.hpp"
-
-using JSON = nlohmann::json;
 
 /*
 	example for constant config object:
@@ -15,7 +13,7 @@ using JSON = nlohmann::json;
 
 CLASS(ConfigObject, ObjectBase){
 
-	PRI(Json, GET, JSON);
+	PRI(Json, GETREF, JSON);
 
 public:
 

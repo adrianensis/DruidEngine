@@ -109,7 +109,16 @@ void GameObject::destroy() {
 	mComponentsMap->clear();
 }
 
-void GameObject::save(ConfigObject* configMap, std::string& objectName) {
+JSON GameObject::serialize() const {
+
+	return JSON();
+}
+
+void GameObject::deserialize(const JSON& jsonObject) {
+
+}
+
+//void GameObject::serialize(ConfigObject* configMap, std::string& objectName) {
 
 	/*configMap->setString(objectName + ".class", getClassName());
 
@@ -136,12 +145,12 @@ void GameObject::save(ConfigObject* configMap, std::string& objectName) {
 		ClassId id = it.get();
 		FOR_LIST(itComponent, mComponentsMap->get(id))
 		{
-			itComponent.get()->save(configMap, objectName);
+			itComponent.get()->serialize(configMap, objectName);
 		}
 	}*/
-}
+//}
 
-void GameObject::load(ConfigObject* configMap, std::string& objectName) {
+//void GameObject::deserialize(ConfigObject* configMap, std::string& objectName) {
 	/*setIsStatic(configMap->getBool(objectName + ".isStatic"));
 	setShouldPersist(configMap->getBool(objectName + ".shouldPersist"));
 
@@ -159,7 +168,7 @@ void GameObject::load(ConfigObject* configMap, std::string& objectName) {
 
 	Renderer* renderer = new Renderer;
 	addComponent<Renderer>(renderer);
-	renderer->load(configMap, objectName);
+	renderer->deserialize(configMap, objectName);
 
 	if(configMap->getBool(objectName + ".hasCollider")) {
 		RigidBody* rigidBody = new RigidBody;
@@ -167,6 +176,6 @@ void GameObject::load(ConfigObject* configMap, std::string& objectName) {
 
 		Collider* collider = new Collider;
 		addComponent<Collider>(collider);
-		collider->load(configMap, objectName);
+		collider->deserialize(configMap, objectName);
 	}*/
-}
+//}

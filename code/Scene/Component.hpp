@@ -39,7 +39,4 @@ public:
 	void destroy();
 
 	virtual void onDestroy() { };
-
-	virtual void save(ConfigObject* configMap, std::string& objectName);
-	virtual void load(ConfigObject* configMap, std::string& objectName);
 };

@@ -25,10 +25,10 @@ void Component::destroy() {
 	}
 };
 
-void Component::save(ConfigObject* configMap, std::string& objectName) {
+/*void Component::serialize(ConfigObject* configMap, std::string& objectName) {
 	
 }
 
-void Component::load(ConfigObject* configMap, std::string& objectName) {
+void Component::deserialize(ConfigObject* configMap, std::string& objectName) {
 
-}
+}*/

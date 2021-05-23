@@ -55,6 +55,6 @@ public:
 	const std::vector<Vector2>* getVertices(bool force = false);
 	void forceRecalculateVertices();
 
-	virtual void save(ConfigObject* configMap, std::string& objectName) override;
-	virtual void load(ConfigObject* configMap, std::string& objectName) override;
+	//virtual void serialize(ConfigObject* configMap, std::string& objectName) override;
+	//virtual void deserialize(ConfigObject* configMap, std::string& objectName) override;
 };

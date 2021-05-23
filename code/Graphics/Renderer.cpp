@@ -154,7 +154,7 @@ void Renderer::forceRecalculateVertices() {
 	mForceRecalculateVertices = true;
 }
 
-void Renderer::save(ConfigObject* configMap, std::string& objectName) {
+/*void Renderer::serialize(ConfigObject* configMap, std::string& objectName) {
 	Texture *texture = getMaterial()->getTexture();
 	configMap->setString(objectName + ".texture.path", texture->getPath());
 	configMap->setF32(objectName + ".texture.region.u", getRegionPosition().x);
@@ -164,7 +164,7 @@ void Renderer::save(ConfigObject* configMap, std::string& objectName) {
 	configMap->setU32(objectName + ".layer", getLayer());
 }
 
-void Renderer::load(ConfigObject* configMap, std::string& objectName) {
+void Renderer::deserialize(ConfigObject* configMap, std::string& objectName) {
 	Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectName + ".texture.path"));
 	Vector2 textureRegionPosition(configMap->getF32(objectName + ".texture.region.u"),
 			configMap->getF32(objectName + ".texture.region.v"));
@@ -176,4 +176,4 @@ void Renderer::load(ConfigObject* configMap, std::string& objectName) {
 	setMaterial(material);
 	setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);
 
-}
+}*/
