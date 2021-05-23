@@ -34,13 +34,13 @@ private:
 
 	};
 
-	PRI(BatchesMap, NONE,BatchesMap*)
-	PRI(BatchesMapScreenSpace, NONE,BatchesMap*)
+	PRI(BatchesMap, NONE, BatchesMap*)
+	PRI(BatchesMapScreenSpace, NONE, BatchesMap*)
 
-	PRI(LineRenderer, NONE,LineRenderer*)
-	PRI(LineRendererScreenSpace, NONE,LineRenderer*)
+	PRI(LineRenderer, NONE, LineRenderer*)
+	PRI(LineRendererScreenSpace, NONE, LineRenderer*)
 
-	PRI(Camera, GET_SET,Camera*)
+	PRI(Camera, GET_SET, Camera*)
 	PRI(CameraDirtyTranslation, GET, bool)
 	
 	PRI(LayersData, GETREF_CONST_SET, std::map<u32, LayerData*>);

@@ -15,9 +15,8 @@
 #include "Scene/Transform.hpp"
 //#include "Config/EngineConfig.hpp"
 #include "Graphics/Chunk.hpp"
-//#include "Graphics/LineRenderer.hpp"
+#include "Graphics/LineRenderer.hpp"
 #include "Graphics/BatchesMap.hpp"
-//#include "UI/UI.hpp"
 //#include "Profiler/Profiler.hpp"
 
 RenderEngine::LayerData::LayerData(){
@@ -39,12 +38,12 @@ RenderEngine::~RenderEngine() = default;
 void RenderEngine::init(f32 sceneSize) {
 	TRACE()
 
-	/*mLineRenderer = new LineRenderer;
+	mLineRenderer = new LineRenderer;
 	mLineRenderer->init();
 
 	mLineRendererScreenSpace = new LineRenderer;
 	mLineRendererScreenSpace->init();
-	mLineRendererScreenSpace->mIsAffectedByProjection = false;*/
+	mLineRendererScreenSpace->mIsAffectedByProjection = false;
 
 	// Static Chunks grid
 
@@ -184,8 +183,8 @@ void RenderEngine::freeRenderersPendingtoFree() {
 void RenderEngine::stepDebug() {
 	//PROFILER_TIMEMARK_START()
 
-	//mLineRenderer->render();
-	//mLineRendererScreenSpace->render();
+	mLineRenderer->render();
+	mLineRendererScreenSpace->render();
 
 	//PROFILER_TIMEMARK_END()
 }
@@ -262,9 +261,9 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
 		bool isAffectedByProjection /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
 	
-	/*if(isAffectedByProjection){
+	if(isAffectedByProjection){
 		mLineRenderer->add(start, end);
 	} else{
 		mLineRendererScreenSpace->add(start, end);
-	}*/
+	}
 }
