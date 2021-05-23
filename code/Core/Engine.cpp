@@ -3,6 +3,8 @@
 #include "Core/Engine.hpp"
 #include "Core/Singleton.hpp"
 #include "Graphics/RenderContext.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/MaterialManager.hpp"
 
 #include <string>
 #include <iostream>
@@ -22,13 +24,18 @@ void Engine::init(){
 	RenderContext::init();
 
 	TimerManager::getInstance()->init();
+
+	MaterialManager::getInstance()->init();
 }
 
 void Engine::initSubsystems(){
-
+	//f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
+	RenderEngine::getInstance()->init(4000);
 }
 
 void Engine::terminateSubSystems(){
+
+	RenderEngine::getInstance()->terminate();
 
 	TimerManager::getInstance()->terminate();
 }
@@ -41,11 +48,14 @@ void Engine::run(){
 
 	f32 diff = 0;
 
+	initSubsystems();
+
 	while (!RenderContext::isClosed()){
 
 		Time::getInstance()->startFrame();
 
 		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
+		RenderEngine::getInstance()->step();
 
 		f32 dtMillis = (Time::getInstance()->getElapsedTimeMillis());
 
@@ -62,6 +72,8 @@ void Engine::run(){
 
 void Engine::terminate(){
 	TRACE();
+
+	RenderEngine::deleteInstance();
 	TimerManager::deleteInstance();
 	Time::deleteInstance();
 
