@@ -21,12 +21,6 @@ unzip scripts/dependencies-zip/glfw-3.2.1.zip -d $destiny
 
 # ------------------------------------------------------------------------
 
-# SOIL
-#unzip scripts/dependencies-zip/soil.zip -d $destiny
-#mv "$destiny/soil-master" $destiny/SOIL
-
-# ------------------------------------------------------------------------
-
 # glad
 unzip scripts/dependencies-zip/glad.zip -d $destiny/glad
 

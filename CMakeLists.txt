@@ -69,13 +69,6 @@ include_directories("${DEPENDENCIES_DIR}/glfw-3.2.1/include")
 set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
-# SOIL
-#include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
-#link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
-#file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
-# file(GLOB_RECURSE SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
-# message(${SOIL_SOURCE})
-
 # JSON
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 include_directories("${DEPENDENCIES_DIR}/json-3.9.1/single_include/nlohmann")
@@ -139,7 +132,7 @@ endforeach()
 # ----------------------------------------------------------------------------
 
 # single library
-add_library(${DRUID} ${OBJS} ${GLAD_SOURCE}) #${SOIL_SOURCE}
+add_library(${DRUID} ${OBJS} ${GLAD_SOURCE})
 
 # ----------------------------------------------------------------------------
 # LINK LIBRARIES
