@@ -35,6 +35,8 @@ void Engine::init(){
 
 void Engine::initSubsystems(){
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
+
+	RenderEngine::getInstance()->init(sceneSize);
 }
 
 void Engine::terminateSubSystems(){
