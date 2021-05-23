@@ -52,8 +52,8 @@ Vector2& Vector2::mul(const Vector2 &rhs){
 }
 
 Vector2& Vector2::div(const Vector2 &rhs){
-	ASSERT(rhs.x != 0, "Division by zero.");
-	ASSERT(rhs.y != 0, "Division by zero.");
+	ASSERT_MSG(rhs.x != 0, "Division by zero.");
+	ASSERT_MSG(rhs.y != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	return *this;
@@ -78,7 +78,7 @@ Vector2& Vector2::mul(f32 rhs){
 }
 
 Vector2& Vector2::div(f32 rhs){
-	ASSERT(rhs != 0, "Division by zero.");
+	ASSERT_MSG(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	return *this;
@@ -112,7 +112,7 @@ f32 Vector2::min() const {
 Vector2& Vector2::nor(){
 	f32 len = this->len();
 
-	ASSERT(len > 0, "Length is zero.");
+	ASSERT_MSG(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

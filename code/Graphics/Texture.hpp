@@ -1,15 +1,17 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include <string>
 
 CLASS(Texture, ObjectBase) {
 
 	PRI(TextureId, GET, u32)
 	PRI(Data, GET, byte*)
-	PRI(Width, GET, int)
-	PRI(Height, GET, int)
-	PRI(Path, GET, std::string)
+	PRI(Width, GET, u32)
+	PRI(Height, GET, u32)
+	PRI(Path, GETREF_CONST, std::string)
+
+	byte* readPNG();
 
 public:
 

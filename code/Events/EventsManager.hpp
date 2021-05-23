@@ -48,7 +48,7 @@ public:
 		if(std::is_base_of<Event, E>::value){
 			subscribe(E::getClassIdStatic(), eventOwner, eventReceiver, eventCallback);
 		} else {
-			ASSERT(false, "The event class must inherit from Event.");
+			ASSERT_MSG(false, "The event class must inherit from Event.");
 		}
 	}
 
@@ -57,7 +57,7 @@ public:
 		if(std::is_base_of<Event, E>::value){
 			unsubscribe(E::getClassIdStatic(), eventOwner, eventReceiver);
 		} else {
-			ASSERT(false, "The event class must inherit from Event.");
+			ASSERT_MSG(false, "The event class must inherit from Event.");
 		}
 	}
 

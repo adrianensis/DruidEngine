@@ -70,15 +70,20 @@ set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")
 include_directories("${DEPENDENCIES_DIR}/glad/include")
 
 # SOIL
-include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
+#include_directories("${DEPENDENCIES_DIR}/SOIL/inc")
 #link_directories("${DEPENDENCIES_DIR}/SOIL/lib")
-file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
+#file(GLOB SOIL_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.c")
 # file(GLOB_RECURSE SOIL_CPP_SOURCE "${DEPENDENCIES_DIR}/SOIL/src/*.cpp")
 # message(${SOIL_SOURCE})
 
 # JSON
 set(JSON_BuildTests OFF CACHE INTERNAL "")
+include_directories("${DEPENDENCIES_DIR}/json-3.9.1/single_include/nlohmann")
 add_subdirectory("${DEPENDENCIES_DIR}/json-3.9.1")
+
+# libpng
+include_directories("${DEPENDENCIES_DIR}/libpng-1.6.37/build/include")
+link_directories("${DEPENDENCIES_DIR}/libpng-1.6.37/build/lib")
 
 # Pyhon
 # find_package (Python3 COMPONENTS Interpreter Development)
@@ -134,17 +139,18 @@ endforeach()
 # ----------------------------------------------------------------------------
 
 # single library
-add_library(${DRUID} ${OBJS} ${GLAD_SOURCE} ${SOIL_SOURCE})
+add_library(${DRUID} ${OBJS} ${GLAD_SOURCE}) #${SOIL_SOURCE}
 
 # ----------------------------------------------------------------------------
 # LINK LIBRARIES
 # ----------------------------------------------------------------------------
 
 # link libraries with druid library
-target_link_libraries( ${DRUID} ${OPENGL_gl_LIBRARY})
-target_link_libraries( ${DRUID} ${OPENGL_glu_LIBRARY})
-target_link_libraries( ${DRUID} glfw)
-target_link_libraries( ${DRUID} nlohmann_json)
+target_link_libraries(${DRUID} ${OPENGL_gl_LIBRARY})
+target_link_libraries(${DRUID} ${OPENGL_glu_LIBRARY})
+target_link_libraries(${DRUID} glfw)
+target_link_libraries(${DRUID} nlohmann_json)
+target_link_libraries(${DRUID} libpng.so)
 # target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
 
 # SOIL

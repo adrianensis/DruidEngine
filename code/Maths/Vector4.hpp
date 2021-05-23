@@ -154,14 +154,14 @@ public:
 
 	// can be used for assignment
 	f32& operator[](const size_t index){
-		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT_MSG(index >= 0 && index < 4, "Index out of bounds.");
 
 		return *(&x + index);
 	}
 
 	// read only
 	f32 operator[](const size_t index) const {
-		ASSERT(index >= 0 && index < 4, "Index out of bounds.");
+		ASSERT_MSG(index >= 0 && index < 4, "Index out of bounds.");
 		return *(&x + index);
 	}
 

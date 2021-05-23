@@ -90,7 +90,7 @@ Quaternion& Quaternion::mul(f32 rhs){
 }
 
 Quaternion& Quaternion::div(f32 rhs){
-	ASSERT(rhs != 0, "Division by zero.");
+	ASSERT_MSG(rhs != 0, "Division by zero.");
 	v.div(rhs);
 	w = w / rhs;
 	return *this;
@@ -117,7 +117,7 @@ f32 Quaternion::len() const {
 Quaternion& Quaternion::nor(){
 	f32 len = this->len();
 
-	ASSERT(len > 0, "Length is zero.");
+	ASSERT_MSG(len > 0, "Length is zero.");
 	this->div(len);
 
 	return *this;

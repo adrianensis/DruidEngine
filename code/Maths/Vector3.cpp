@@ -63,9 +63,9 @@ Vector3& Vector3::mul(const Vector3 &rhs){
 }
 
 Vector3& Vector3::div(const Vector3 &rhs){
-	ASSERT(rhs.x != 0, "Division by zero.");
-	ASSERT(rhs.y != 0, "Division by zero.");
-	ASSERT(rhs.z != 0, "Division by zero.");
+	ASSERT_MSG(rhs.x != 0, "Division by zero.");
+	ASSERT_MSG(rhs.y != 0, "Division by zero.");
+	ASSERT_MSG(rhs.z != 0, "Division by zero.");
 	x = x / rhs.x;
 	y = y / rhs.y;
 	z = z / rhs.z;
@@ -94,7 +94,7 @@ Vector3& Vector3::mul(f32 rhs){
 }
 
 Vector3& Vector3::div(f32 rhs){
-	ASSERT(rhs != 0, "Division by zero.");
+	ASSERT_MSG(rhs != 0, "Division by zero.");
 	x = x / rhs;
 	y = y / rhs;
 	z = z / rhs;
@@ -129,7 +129,7 @@ f32 Vector3::min() const {
 Vector3& Vector3::nor(){
 	f32 len = this->len();
 
-	//ASSERT(len > 0, "Length is zero.");
+	//ASSERT_MSG(len > 0, "Length is zero.");
 
 	if (len > 0){
 		this->div(len);
