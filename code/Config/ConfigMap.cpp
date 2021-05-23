@@ -44,6 +44,10 @@ void ConfigMap::writeConfigFile(const std::string& path){
 	});
 }
 
+void ConfigMap::init(){
+	
+}
+
 void ConfigMap::clear(){
 	mMap.clear();
 }

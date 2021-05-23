@@ -5,6 +5,9 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/MaterialManager.hpp"
+#include "Events/EventsManager.hpp"
+#include "Scene/Scene.hpp"
+#include "Scene/ScenesManager.hpp"
 
 #include <string>
 #include <iostream>
@@ -24,13 +27,14 @@ void Engine::init(){
 	RenderContext::init();
 
 	TimerManager::getInstance()->init();
+	EventsManager::getInstance()->init();
 
 	MaterialManager::getInstance()->init();
+	ScenesManager::getInstance()->init();
 }
 
 void Engine::initSubsystems(){
-	//f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
-	RenderEngine::getInstance()->init(4000);
+	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 }
 
 void Engine::terminateSubSystems(){
@@ -54,6 +58,13 @@ void Engine::run(){
 
 		Time::getInstance()->startFrame();
 
+		if (ScenesManager::getInstance()->getSceneHasChanged()) {
+			terminateSubSystems();
+			ScenesManager::getInstance()->loadCurrentScene();
+			initSubsystems();
+		}
+
+		ScenesManager::getInstance()->step();
 		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
 		RenderEngine::getInstance()->step();
 
@@ -73,7 +84,9 @@ void Engine::run(){
 void Engine::terminate(){
 	TRACE();
 
+	ScenesManager::deleteInstance();
 	RenderEngine::deleteInstance();
+	EventsManager::deleteInstance();
 	TimerManager::deleteInstance();
 	Time::deleteInstance();
 
