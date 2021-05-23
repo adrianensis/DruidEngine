@@ -56,15 +56,13 @@ void RenderEngine::init(f32 sceneSize) {
 
 	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
 
-	u32 count = 0;
 	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
 		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
 			Chunk* chunk = new Chunk;
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
-			mChunks[count] = chunk;
-			count++;
+			mChunks.push_back(chunk);
 		}
 	}
 
@@ -242,7 +240,8 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 	bool found = false;
 	Chunk* chunkTmp = nullptr;
 	Chunk* chunkFound = nullptr;
-	FOR_ARRAY_COND(i, mChunks, !found) {
+	// FOR_ARRAY_COND(i, mChunks, !found) {
+	for (i32 i = 0; (i < (i32)(mChunks.size())) && (!found); ++i) {
 		// FOR_ARRAY(i, mChunks){
 		chunkTmp = mChunks.at(i);
 		if (chunkTmp->containsRenderer/*Sphere*/(renderer)) {

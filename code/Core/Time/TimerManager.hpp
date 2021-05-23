@@ -49,7 +49,7 @@ public:
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 	void cancelTimer(const TimerHandle& timerHandle);
-	void step(f32 deltaTime /*Seconds*/);
+	void step();
 	void terminate();
 
 };

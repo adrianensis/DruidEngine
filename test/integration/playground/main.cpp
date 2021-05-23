@@ -1,6 +1,9 @@
 #include "Core/Engine.hpp"
 #include "Scene/ScenesManager.hpp"
 #include "Scene/GameObject.hpp"
+#include "Scripting/Script.hpp"
+
+#include "Playground.hpp"
 
 #include "Config/ConfigObject.hpp"
 
@@ -15,29 +18,12 @@ int main(){
 	GameObject* controller = new GameObject;
 	controller->init();
 
-	// JSON TEST
-	// ----------------------------------------------------
-	// ----------------------------------------------------
-	ConfigObject* configMap = new ConfigObject;
-	configMap->init();
-
-	configMap->getJson()["objects"].push_back(JSON::object());
-	configMap->getJson()["objects"].push_back(JSON::object());
-	configMap->getJson()["objects"].push_back(JSON::object());
-
-	//configMap->getJson()["objects"] = JsonObjects;
-
-	configMap->writeConfigFile("config/test.json");
-
-	// ----------------------------------------------------
-	// ----------------------------------------------------
-
-	//Script* script = Memory::allocate<Playground>();
-	//controller->addComponent<Script>(script);
+	Script* script = new Playground;
+	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);
 
-	//engine->run();
+	engine->run();
 
 	engine->terminate();
 

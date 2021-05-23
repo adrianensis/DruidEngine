@@ -50,7 +50,7 @@ void LineRenderer::bind() {
 	mEBO = RenderContext::createEBO();
 
 	FOR_RANGE(i, 0, mMaxShapes*2) {
-		mIndicesBuffer[i] = i;	
+		mIndicesBuffer.push_back(i);	
 	}
 
 	RenderContext::setDataEBO(mEBO, mIndicesBuffer);

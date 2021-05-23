@@ -48,7 +48,9 @@ private:
 	PRI(MaxLayersUsed, NONE, u32)
 
 	PRI(MinChunkDrawDistance, GET, f32)
-	PRI(Chunks, NONE, std::vector<Chunk*>)
+	//PRI(Chunks, NONE, std::vector<Chunk*>)
+
+	std::vector<Chunk*> mChunks;
 
 	PRI(RenderersToFree, NONE, std::list<Renderer*>)
 

@@ -34,9 +34,6 @@ CLASS(Batch, ObjectBase) {
 	PRI(VertexTextureSize, NONE, u32)
 	PRI(VertexColorSize, NONE, u32)
 	PRI(FacesSize, NONE, u32)
-	PRI(PositionBufferIndex, NONE, u32)
-	PRI(TextureBufferIndex, NONE, u32)
-	PRI(ColorBufferIndex, NONE, u32)
 	PRI(PositionBuffer, NONE, std::vector<f32>);
 	PRI(TextureBuffer, NONE, std::vector<f32>);
 	PRI(ColorBuffer, NONE, std::vector<f32>);

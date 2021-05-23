@@ -84,13 +84,10 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mFacesSize = 6;
 
 	mPositionBuffer.reserve(mMaxVertexBufferSize * mVertexPositionSize);
-	mPositionBufferIndex = 0;
 
 	mTextureBuffer.reserve(mMaxVertexBufferSize * mVertexTextureSize);
-	mTextureBufferIndex = 0;
 
 	mColorBuffer.reserve(mMaxVertexBufferSize * mVertexColorSize);
-	mColorBufferIndex = 0;
 
 	mIndicesBuffer.reserve(mMaxVertexBufferSize * mFacesSize);
 
@@ -121,7 +118,7 @@ void Batch::bind() {
 
 	FOR_RANGE(i, 0, mMaxMeshes) {
 		FOR_RANGE(j, 0, 6) {
-			mIndicesBuffer[j + 6*i] = mMesh->getFaces()[j] + (4*i);
+			mIndicesBuffer.push_back(mMesh->getFaces()[j] + (4*i)); //mIndicesBuffer[j + 6*i]
 		}
 	}
 
@@ -361,9 +358,8 @@ void Batch::addRenderer(Renderer *renderer) {
 }
 
 void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, std::list<Renderer*> *list) {
-	list->erase(it);
-
 	Renderer* renderer = *it;
+
 	renderer->setIsAlreadyInBatch(false);
 
 	if(renderer->getIsAffectedByProjection()) {
@@ -376,6 +372,8 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, s
 		renderer->finallyDestroy();
 		delete renderer;
 	}
+
+	it = list->erase(it);
 }
 
 void Batch::addToVertexBuffer(Renderer* renderer) {
@@ -388,9 +386,9 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 		Vector3 vertexPosition(vertexPositions->at(i));
 
-		mPositionBuffer[mPositionBufferIndex] = vertexPosition.x; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = vertexPosition.y; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = vertexPosition.z; mPositionBufferIndex++;
+		mPositionBuffer.push_back(vertexPosition.x);
+		mPositionBuffer.push_back(vertexPosition.y);
+		mPositionBuffer.push_back(vertexPosition.z);
 
 		Vector2 vertexTexture(
 		mMesh->getTextureCoordinates()[i*mVertexTextureSize + 0],
@@ -399,9 +397,9 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 		Vector2 regionSize = renderer->getRegionSize();
 		Vector2 regionPosition = renderer->getRegionPosition();
 
-		Vector2 textureCoord(vertexTexture.x*regionSize.x + regionPosition.x, (1.0f-vertexTexture.y)*regionSize.y + regionPosition.y);
+		Vector2 textureCoord(vertexTexture.x*regionSize.x + regionPosition.x, vertexTexture.y*regionSize.y + regionPosition.y);
 
-		if(renderer->getIsInvertAxis()){
+		if(renderer->getInvertAxisX()){
 
 			textureCoord.x = 1.0f - textureCoord.x;
 
@@ -412,22 +410,22 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 			}
 		}
 
-		mTextureBuffer[mTextureBufferIndex] = textureCoord.x; mTextureBufferIndex++;
-		mTextureBuffer[mTextureBufferIndex] = textureCoord.y; mTextureBufferIndex++;
+		mTextureBuffer.push_back(textureCoord.x);
+		mTextureBuffer.push_back(textureCoord.y);
 
-		mColorBuffer[mColorBufferIndex] = renderer->getColor()[0]; mColorBufferIndex++;
-		mColorBuffer[mColorBufferIndex] = renderer->getColor()[1]; mColorBufferIndex++;
-		mColorBuffer[mColorBufferIndex] = renderer->getColor()[2]; mColorBufferIndex++;
-		mColorBuffer[mColorBufferIndex] = renderer->getColor()[3]; mColorBufferIndex++;
+		mColorBuffer.push_back(renderer->getColor()[0]);
+		mColorBuffer.push_back(renderer->getColor()[1]);
+		mColorBuffer.push_back(renderer->getColor()[2]);
+		mColorBuffer.push_back(renderer->getColor()[3]);
 	}
 
 	mMeshesIndex++;
 }
 
 void Batch::clearVertexBuffer() {
-	mPositionBufferIndex = 0;
-	mTextureBufferIndex = 0;
-	mColorBufferIndex = 0;
+	mPositionBuffer.clear();
+	mTextureBuffer.clear();
+	mColorBuffer.clear();
 
 	mMeshesIndex = 0;
 }

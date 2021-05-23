@@ -22,7 +22,7 @@ Renderer::Renderer() {
 	mRegionPosition = Vector2(0.0, 0.0);
 	mRegionSize = Vector2(1.0, 1.0);
 
-	mIsInvertAxis = false;
+	mInvertAxisX = false;
 
 	mIsLineMode = false;
 
@@ -52,10 +52,10 @@ void Renderer::init() {
 
 	mVertices.reserve(4);
 
-	mVertices[0] = Vector2(0, 0); // LEFT TOP VERTEX
-	mVertices[1] = Vector2(0, 0); // LEFT BOTTOM
-	mVertices[2] = Vector2(0, 0); // RIGHT BOTTOM
-	mVertices[3] = Vector2(0, 0); // RIGHT TOP
+	mVertices.push_back(Vector2(0,0)); // LEFT TOP VERTEX
+	mVertices.push_back(Vector2(0,0)); // LEFT BOTTOM
+	mVertices.push_back(Vector2(0,0)); // RIGHT BOTTOM
+	mVertices.push_back(Vector2(0,0)); // RIGHT TOP
 
 	mForceRecalculateVertices = false;
 

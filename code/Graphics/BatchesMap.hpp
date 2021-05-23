@@ -11,9 +11,7 @@ template<class K, class V> class HashMap;
 
 CLASS(BatchesMap, ObjectBase) {
 
-private:
-
-	std::map<Texture*, Batch*> mBatches;
+	PRI(Batches, NONE, std::map<Texture*, Batch*>);
 
 public:
 

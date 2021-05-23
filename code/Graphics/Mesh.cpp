@@ -11,48 +11,32 @@ void Mesh::init(u32 vertexCount, u32 facesCount) {
 	mTextureCoordinates.reserve(vertexCount * 3);
 	mNormals.reserve(vertexCount * 3);
 	mFaces.reserve(facesCount * 3);
-
-	mVerticesIndex = 0; // Vertices index
-	mNormalsIndex = 0; // Normals index
-	mFacesIndex = 0; // Face index
-	mTextureCoordinatesIndex = 0; // TexCoord index
 }
 
 Mesh* Mesh::addVertex(const Vector3 &vector) {
-	mVertices[mVerticesIndex] = vector.x;
-	mVerticesIndex++;
-	mVertices[mVerticesIndex] = vector.y;
-	mVerticesIndex++;
-	mVertices[mVerticesIndex] = vector.z;
-	mVerticesIndex++;
+	mVertices.push_back(vector.x);
+	mVertices.push_back(vector.y);
+	mVertices.push_back(vector.z);
 	return this;
 }
 
 Mesh* Mesh::addNormal(const Vector3 &vector) {
-	mNormals[mNormalsIndex] = vector.x;
-	mNormalsIndex++;
-	mNormals[mNormalsIndex] = vector.y;
-	mNormalsIndex++;
-	mNormals[mNormalsIndex] = vector.z;
-	mNormalsIndex++;
+	mNormals.push_back(vector.x);
+	mNormals.push_back(vector.y);
+	mNormals.push_back(vector.z);
 	return this;
 }
 
 Mesh* Mesh::addTexCoord(u32 u, u32 v) {
-	mTextureCoordinates[mTextureCoordinatesIndex] = u;
-	mTextureCoordinatesIndex++;
-	mTextureCoordinates[mTextureCoordinatesIndex] = v;
-	mTextureCoordinatesIndex++;
+	mTextureCoordinates.push_back(u);
+	mTextureCoordinates.push_back(v);
 	return this;
 }
 
 Mesh* Mesh::addFace(u32 v1, u32 v2, u32 v3) {
-	mFaces[mFacesIndex] = v1;
-	mFacesIndex++;
-	mFaces[mFacesIndex] = v2;
-	mFacesIndex++;
-	mFaces[mFacesIndex] = v3;
-	mFacesIndex++;
+	mFaces.push_back(v1);
+	mFaces.push_back(v2);
+	mFaces.push_back(v3);
 	return this;
 }
 

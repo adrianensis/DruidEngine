@@ -15,11 +15,6 @@ CLASS(Mesh, ObjectBase) {
 
 	PRI(VertexCount, NONE, u32)
 
-	PRI(VerticesIndex, NONE, u32)
-	PRI(NormalsIndex, NONE, u32)
-	PRI(FacesIndex, NONE, u32)
-	PRI(TextureCoordinatesIndex, NONE, u32)
-
 private:
 	static Mesh* smRectangle;
 

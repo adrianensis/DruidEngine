@@ -76,15 +76,18 @@ class ClassName: public ClassName ## _PARENT< Template >\
 // --------------------------------------------------------
 
 #define REMOVE_REF(Class) std::remove_reference<Class>::type
+#define REMOVE_POINTER(Class) std::remove_pointer<Class>::type
 #define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
 #define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
+#define ADD_CONST(Class) std::add_const<Class>::type
+#define ADD_POINTER(Class) std::add_pointer<Class>::type
 
 #define COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type
 
 #define GETTER_TYPE(Var)\
 	COND_TYPE(\
 		IS_POINTER(decltype(Var)),\
-		std::add_const<REMOVE_REF(decltype(Var))>::type,\
+		ADD_CONST(decltype(Var)),\
 		COND_TYPE(\
 			IS_ARITHMETIC(decltype(Var)),\
 			REMOVE_REF(decltype(Var)),\
@@ -92,7 +95,7 @@ class ClassName: public ClassName ## _PARENT< Template >\
 		)\
 	)
 
-#define SETTER_TYPE(Var) GETTER_TYPE(Var) // NOTE: It's the same as the getter.
+#define SETTER_TYPE(Var) GETTER_TYPE(Var) // same
 
 #define GET(BaseName)\
 	GETTER_TYPE(m ## BaseName) get ## BaseName() const { return m ## BaseName; };
@@ -101,7 +104,7 @@ class ClassName: public ClassName ## _PARENT< Template >\
 	std::add_lvalue_reference<GETTER_TYPE(m ## BaseName)>::type get ## BaseName(){ return m ## BaseName; };
 
 #define GETREF_CONST(BaseName)\
-	std::add_lvalue_reference<std::add_const<GETTER_TYPE(m ## BaseName)>::type>::type get ## BaseName() const { return m ## BaseName; };
+	std::add_lvalue_reference<ADD_CONST(GETTER_TYPE(m ## BaseName))>::type get ## BaseName() const { return m ## BaseName; };
 
 #define SET(BaseName)\
 	void set ## BaseName (SETTER_TYPE(m ## BaseName) new ## BaseName){ m ## BaseName = new ## BaseName; };
@@ -146,17 +149,17 @@ void specificCopy(const __VA_ARGS__* other)
 for (auto it = (map).begin(); it != (map).end(); ++it)
 
 #define FOR_RANGE(it, start, size) for (i32 it = start; it < (i32)(size); ++it)
-#define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; it < (i32)(size) && condition; ++it)
+#define FOR_RANGE_COND(it, start, size, condition) for (i32 it = start; (it < (i32)(size)) && (condition); ++it)
 
 #define FOR_ARRAY(it, array) FOR_RANGE(it, 0, (array).size())
-#define FOR_ARRAY_COND(it, array, condition) FOR_RANGE_COND(it, 0, (array).size(), condition)
+#define FOR_ARRAY_COND(it, array, condition) FOR_RANGE_COND(it, 0, (array).size(), (condition))
 
 #define FOR_LIST(it, list) for (auto it = (list).begin(); it != (list).end(); ++it)
-#define FOR_LIST_COND(it, list, cond) for (auto it = (list).begin(); it != (list).end() && cond; ++it)
+#define FOR_LIST_COND(it, list, condition) for (auto it = (list).begin(); (it != (list).end()) && (condition); ++it)
 
 // --------------------------------------------------------
 // STD CONTAINERS
 // --------------------------------------------------------
 
 #define MAP_CONTAINS(map, key) ((map).find(key) != (map).end())
-#define MAP_INSERT(map, key, value) (map).insert(std::make_pair((key), (value)));
+#define MAP_INSERT(map, key, value) (map).insert_or_assign((key), (value));

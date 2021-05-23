@@ -6,6 +6,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/MaterialManager.hpp"
+#include "Scripting/ScriptEngine.hpp"
 #include "Events/EventsManager.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/ScenesManager.hpp"
@@ -39,10 +40,12 @@ void Engine::init(){
 void Engine::initSubsystems(){
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 	RenderEngine::getInstance()->init(sceneSize);
+	ScriptEngine::getInstance()->init();
 }
 
 void Engine::terminateSubSystems(){
 
+	ScriptEngine::getInstance()->terminate();
 	RenderEngine::getInstance()->terminate();
 
 	TimerManager::getInstance()->terminate();
@@ -56,8 +59,6 @@ void Engine::run(){
 
 	f32 diff = 0;
 
-	initSubsystems();
-
 	while (!RenderContext::isClosed()){
 
 		Time::getInstance()->startFrame();
@@ -69,7 +70,8 @@ void Engine::run(){
 		}
 
 		ScenesManager::getInstance()->step();
-		TimerManager::getInstance()->step(Time::getInstance()->getDeltaTimeSeconds());
+		TimerManager::getInstance()->step();
+		ScriptEngine::getInstance()->step();
 		RenderEngine::getInstance()->step();
 
 		f32 dtMillis = (Time::getInstance()->getElapsedTimeMillis());

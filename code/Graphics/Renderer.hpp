@@ -30,7 +30,7 @@ CLASS(Renderer, Component) {
 	PRI(RegionSize, GET, Vector2)
 	PRI(Mesh, GET_SET, Mesh*)
 	PRI(Material, GET_SET, Material*)
-	PRI(IsInvertAxis, GET_SET, bool)
+	PRI(InvertAxisX, GET_SET, bool)
 	PRI(IsLineMode, GET_SET, bool)
 	PRI(Layer, GET_SET, u32)
 	PRI(RenderDistance, GET_SET, f32)

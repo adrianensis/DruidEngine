@@ -1,16 +1,14 @@
 #include "Graphics/Chunk.hpp"
 
-//#include "Graphics/Batch.hpp"
 #include "Graphics/Texture.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Mesh.hpp"
-//#include "Graphics/BatchesMap.hpp"
-//#include "Containers/HashMap.hpp"
+#include "Graphics/BatchesMap.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-//#include "Graphics/RenderEngine.hpp"
+#include "Graphics/RenderEngine.hpp"
 #include "Log/Log.hpp"
 
 Chunk::~Chunk() {
@@ -54,25 +52,25 @@ void Chunk::update(BatchesMap *batchesMap) {
 
 		if(renderer->isActive()){
 			if (!renderer->getIsAlreadyInBatch()) {
-				//batchesMap->addRenderer(renderer);
+				batchesMap->addRenderer(renderer);
 			}
 
 			if (!renderer->isStatic() && renderer->getIsAffectedByProjection() && ! containsRenderer(renderer)) {
-				//Chunk* newChunk = RenderEngine::getInstance()->assignChunk(renderer);
+				Chunk* newChunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
 				// If not, keep the renderer here until a new chunk is found.
-				/*if (newChunk && newChunk != this) {
+				if (newChunk && newChunk != this) {
 					it = mRenderers->erase(it);
 					renderer = *it;
 					newChunk->addRenderer(renderer);
-				}*/
+				}
 			}
 		}
 
 		if(renderer->getIsPendingToBeDestroyed()) {
 			renderer->finallyDestroy();
-			//RenderEngine::getInstance()->freeRenderer(renderer);
+			RenderEngine::getInstance()->freeRenderer(renderer);
 		}
 
 		if(renderer->getIsDestroyed()) {
