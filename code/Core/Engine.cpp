@@ -3,6 +3,7 @@
 #include "Core/Engine.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Core/Singleton.hpp"
+#include "Input/Input.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/MaterialManager.hpp"
@@ -29,6 +30,8 @@ void Engine::init(){
 	EngineConfig::getInstance()->init();
 
 	RenderContext::init();
+
+	Input::getInstance()->init();
 
 	TimerManager::getInstance()->init();
 	EventsManager::getInstance()->init();
@@ -69,19 +72,21 @@ void Engine::run(){
 			initSubsystems();
 		}
 
+		Input::getInstance()->pollEvents();
+
 		ScenesManager::getInstance()->step();
 		TimerManager::getInstance()->step();
 		ScriptEngine::getInstance()->step();
 		RenderEngine::getInstance()->step();
 
-		f32 dtMillis = (Time::getInstance()->getElapsedTimeMillis());
+		f32 dtMillis = Time::getInstance()->getElapsedTimeMillis();
 
 		if(inverseFPSMillis > dtMillis){
 			diff = inverseFPSMillis - dtMillis;
 			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
-		std::cout << Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		//std::cout << Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 		Time::getInstance()->endFrame();
 	}
@@ -95,6 +100,6 @@ void Engine::terminate(){
 	EventsManager::deleteInstance();
 	TimerManager::deleteInstance();
 	Time::deleteInstance();
-
+	Input::deleteInstance();
 	RenderContext::terminate();
 }

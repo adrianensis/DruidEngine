@@ -158,9 +158,9 @@ void RenderEngine::checkChunks() {
 			chunk->unload();
 		}
 
-		if (chunk->getIsLoaded()) {
+		//if (chunk->getIsLoaded()) {
 			chunk->update(mBatchesMap);
-		}
+		//}
 	}
 
 	//PROFILER_TIMEMARK_END()

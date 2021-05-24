@@ -13,7 +13,7 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
 #include "Maths/Matrix4.hpp"
-//#include "Input/Input.hpp"
+#include "Input/Input.hpp"
 
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material.hpp"
@@ -106,67 +106,21 @@ void Playground::step() {
 
 void Playground::processMovement() {
 
-	f32 movement = (mCameraControl ? 2000.0f * Time::getInstance()->getDeltaTimeSeconds() : 500.0f);
+	f32 movement = 500.0f * Time::getInstance()->getDeltaTimeSeconds();
 
-	if (!mCameraControl) {
-		mCameraTransform->setParent(mPlayer->getTransform());
-		mCameraTransform->setLocalPosition(Vector3(0, 0, 0));
-	}
+	Transform* playerTransform = mPlayer->getTransform();
 
 	Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getFirstComponent<Renderer>() : nullptr;
 
-	/*if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
-		if(mCameraControl){
-			mCameraTransform->translate(Vector3(0, movement, 0));
-		} else {
-			mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,movement,0));
-
-			if (renderer) {
-				renderer->setAnimation("run");
-			}
-		}
-
+	if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
+		playerTransform->translate(Vector3(0,movement,0));
 	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_DOWN)) {
-		if(mCameraControl){
-			mCameraTransform->translate(Vector3(0, -movement, 0));
-		} else {
-			mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,-movement,0));
-
-			if (renderer) {
-				renderer->setAnimation("run");
-			}
-		}
+		playerTransform->translate(Vector3(0,-movement,0));
 	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT)) {
-		if(mCameraControl){
-			mCameraTransform->translate(Vector3(-movement, 0, 0));
-		} else {
-			mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(-movement,0,0));
-
-			if (renderer) {
-				renderer->setAnimation("run");
-				renderer->setIsInvertAxis(true);
-			}
-		}
+		playerTransform->translate(Vector3(-movement,0,0));
 	} else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT)) {
-		if(mCameraControl){
-			mCameraTransform->translate(Vector3(movement, 0, 0));
-		} else {
-			mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(movement,0,0));
-
-			if (renderer) {
-				renderer->setAnimation("run");
-				renderer->setIsInvertAxis(false);
-			}
-		}
-	} else {
-		if(!mCameraControl){
-			mPlayer->getFirstComponent<RigidBody>()->setLinear(Vector3(0,0,0));
-
-			if (renderer) {
-				renderer->setAnimation("idle");
-			}
-		}
-	}*/
+		playerTransform->translate(Vector3(movement,0,0));
+	}
 }
 
 void Playground::terminate() {

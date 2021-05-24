@@ -35,7 +35,7 @@ void RenderContext::init() {
 
 	smWindowSize.set(1080, 720);
 
-	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "DruidEngine", NULL, NULL);
+	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "Engine", NULL, NULL);
 
 	if (!smWindow) {
 		std::cout << "Failed to create GLFW window" << std::endl;

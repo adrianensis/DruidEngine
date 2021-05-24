@@ -50,6 +50,8 @@ void Chunk::update(BatchesMap *batchesMap) {
 	FOR_LIST(it, *mRenderers) {
 		Renderer* renderer = *it;
 
+		bool removeFromList = false;
+
 		if(renderer->isActive()){
 			if (!renderer->getIsAlreadyInBatch()) {
 				batchesMap->addRenderer(renderer);
@@ -61,9 +63,8 @@ void Chunk::update(BatchesMap *batchesMap) {
 				// Only remove the renderer from this chunk if another chunk is found.
 				// If not, keep the renderer here until a new chunk is found.
 				if (newChunk && newChunk != this) {
-					it = mRenderers->erase(it);
-					renderer = *it;
 					newChunk->addRenderer(renderer);
+					removeFromList = true;
 				}
 			}
 		}
@@ -74,8 +75,11 @@ void Chunk::update(BatchesMap *batchesMap) {
 		}
 
 		if(renderer->getIsDestroyed()) {
+			removeFromList = true;
+		}
+
+		if(removeFromList) {
 			it = mRenderers->erase(it);
-			renderer = *it;
 		}
 	}
 }
