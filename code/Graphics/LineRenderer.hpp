@@ -14,7 +14,6 @@ CLASS(LineRenderer, ObjectBase) {
 	PRI(VAO, NONE, u32)
 	PRI(VBOPosition, NONE, u32)
 	PRI(EBO, NONE, u32)
-	PRI(PositionBufferIndex, NONE, u32)
 	PRI(PositionBuffer, NONE, std::vector<f32>)
 	PRI(IndicesBuffer, NONE, std::vector<u32>)
 

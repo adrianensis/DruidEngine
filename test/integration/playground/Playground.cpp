@@ -94,7 +94,6 @@ void Playground::step() {
 	}
 
 	processMovement();
-
 }
 
 void Playground::processMovement() {

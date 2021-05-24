@@ -33,12 +33,12 @@ void LineRenderer::init() {
 
 void LineRenderer::add(const Vector3 &start, const Vector3 &end) {
 	if(mShapesCounter < mMaxShapes){
-		mPositionBuffer[mPositionBufferIndex] = start.x; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = start.y; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = start.z; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = end.x; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = end.y; mPositionBufferIndex++;
-		mPositionBuffer[mPositionBufferIndex] = end.z; mPositionBufferIndex++;
+		mPositionBuffer.push_back(start.x);
+		mPositionBuffer.push_back(start.y);
+		mPositionBuffer.push_back(start.z);
+		mPositionBuffer.push_back(end.x);
+		mPositionBuffer.push_back(end.y);
+		mPositionBuffer.push_back(end.z);
 
 		mShapesCounter++;
 	}
@@ -82,7 +82,7 @@ void LineRenderer::render() {
 
 		RenderContext::enableVAO(0);
 
-		mPositionBufferIndex = 0;
+		mPositionBuffer.clear();
 		mShapesCounter = 0;
 	}
 }
