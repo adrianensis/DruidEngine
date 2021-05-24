@@ -29,7 +29,7 @@
 
 #include "ProjectileScript.hpp"
 
-void Playground::createPlayer() {
+void Playground::createPlayer(const Vector2& position) {
 	Vector2 size(400, 400 );
 
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
@@ -37,7 +37,7 @@ void Playground::createPlayer() {
 	mPlayer = new GameObject;
 	mPlayer->init();
 
-	mPlayer->getTransform()->setLocalPosition(Vector3(0, 0, 0));
+	mPlayer->getTransform()->setLocalPosition(position);
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
 	Renderer* renderer = new Renderer;
@@ -70,19 +70,11 @@ void Playground::init() {
 	mTransform = getGameObject()->getTransform();
 	mPlayer = nullptr;
 	mMaterial = nullptr;
-
-	mCamera = nullptr;
-	mCameraTransform = nullptr;
-
-	mCameraControl = true;
 }
 
 void Playground::firstStep() {
 
 	//RenderEngine::getInstance()->setDebugColliders(true);
-
-	mCamera = getGameObject()->getScene()->getCameraGameObject()->getFirstComponent<Camera>();
-	mCameraTransform = mCamera->getGameObject()->getTransform();
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial("resources/snorlax.png");
 
@@ -92,13 +84,14 @@ void Playground::firstStep() {
 		++i;
 	}
 
-	createPlayer();
-	mCameraControl = false;
-	//createTile(300,300,30, 30);
-
+	createPlayer(Vector2());
 }
 
 void Playground::step() {
+
+	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+		createPlayer(Input::getInstance()->getMousePosition() * 800);
+	}
 
 	processMovement();
 
@@ -109,8 +102,6 @@ void Playground::processMovement() {
 	f32 movement = 500.0f * Time::getInstance()->getDeltaTimeSeconds();
 
 	Transform* playerTransform = mPlayer->getTransform();
-
-	Renderer* renderer = mCameraControl ? nullptr : mPlayer ? mPlayer->getFirstComponent<Renderer>() : nullptr;
 
 	if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP)) {
 		playerTransform->translate(Vector3(0,movement,0));

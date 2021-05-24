@@ -158,8 +158,10 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer*> *renderers) {
 
 	f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
 
+	renderers->push_back(renderer);
+
 	// CASE 1 : IF LIST IS EMPTY
-	if (renderers->empty()) {
+	/*if (renderers->empty()) {
 		renderers->push_back(renderer);
 	} else {
 
@@ -177,7 +179,7 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer*> *renderers) {
 			bool foundSmallerY = false;
 
 			// TODO : complete insert sorted
-			/*auto itSmallerY = renderers->getIterator();
+			auto itSmallerY = renderers->getIterator();
 
 			FOR_LIST_COND(it, renderers, !foundSmallerY)
 			{
@@ -196,11 +198,11 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer*> *renderers) {
 				renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
 			} else {
 				renderers->pushBack(renderer);
-			}*/
+			}
 
 			renderers->push_back(renderer);
 		}
-	}
+	}*/
 }
 
 void Batch::addRenderer(Renderer *renderer) {

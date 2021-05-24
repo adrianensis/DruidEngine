@@ -18,16 +18,13 @@ class Material;
 CLASS(Playground, Script) {
 
 	PRI(Transform, NONE, Transform*)
-	PRI(Camera, NONE, Camera*)
-	PRI(CameraTransform, NONE, Transform*)
 
-	PRI(CameraControl, NONE, bool)
 	PUB(Player, NONE, GameObject*)
 	PUB(Material, NONE, Material*)
 
 public:
 
-	void createPlayer();
+	void createPlayer(const Vector2& position);
 	void processMovement();
 
 	void init() override;
