@@ -19,6 +19,8 @@ BatchesMap::~BatchesMap() {
 
 void BatchesMap::init() {
 	//TRACE();
+
+	mIsWorldSpace = true;
 }
 
 void BatchesMap::addRenderer(Renderer *renderer) {
@@ -30,6 +32,7 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 		Batch* batch = new Batch;
 		batch->init(renderer->getMesh(), renderer->getMaterial());
 		// batch->setChunk(chunk);
+		batch->setIsWorldSpace(mIsWorldSpace);
 
 		MAP_INSERT(mBatches, texture, batch);
 	}
@@ -37,12 +40,15 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 	mBatches.at(texture)->addRenderer(renderer);
 }
 
-u32 BatchesMap::render(u32 layer) {
-	u32 drawCallCounter = 0;
-
+void BatchesMap::render(u32 layer) {
 	FOR_MAP(it, mBatches) {
-		drawCallCounter += it->second->render(layer);
+		it->second->render(layer);
 	}
+}
 
-	return drawCallCounter;
+void BatchesMap::setIsWorldSpace(bool isWorldSpace) {
+	mIsWorldSpace = isWorldSpace;
+	FOR_MAP(it, mBatches) {
+		it->second->setIsWorldSpace(mIsWorldSpace);
+	}
 }

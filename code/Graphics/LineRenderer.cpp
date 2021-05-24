@@ -6,7 +6,7 @@
 #include "Core/EngineConfig.hpp"
 
 LineRenderer::LineRenderer() {
-	mIsAffectedByProjection = true;
+	mIsWorldSpace = true;
 }
 
 LineRenderer::~LineRenderer() {
@@ -67,7 +67,7 @@ void LineRenderer::render() {
 		const Matrix4& viewTranslationMatrix = RenderEngine::getInstance()->getCamera()->getViewTranslationMatrix();
 		const Matrix4& viewRotationMatrix = RenderEngine::getInstance()->getCamera()->getViewRotationMatrix();
 
-		if(mIsAffectedByProjection) {
+		if(mIsWorldSpace) {
 			mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
 			mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
 			mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");

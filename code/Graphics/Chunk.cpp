@@ -57,7 +57,7 @@ void Chunk::update(BatchesMap *batchesMap) {
 				batchesMap->addRenderer(renderer);
 			}
 
-			if (!renderer->isStatic() && renderer->getIsAffectedByProjection() && ! containsRenderer(renderer)) {
+			if (!renderer->isStatic() && ! containsRenderer(renderer)) {
 				Chunk* newChunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.

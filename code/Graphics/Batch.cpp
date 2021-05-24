@@ -16,39 +16,6 @@
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Chunk.hpp"
 
-Matrix4 Batch::smScreenOrtho;
-bool Batch::smIsScreenOrthoReady = false;
-
-u8 Batch::rendererYCoordinateComparator(Renderer *a, Renderer *b) {
-
-	/*
-	 We want objects with:
-
-	 BIGGER y coordinate -> BEHIND
-	 SMALLER y coordinate -> FRONT
-	 */
-
-	f32 aY = a->getGameObject()->getTransform()->getWorldPosition().y;
-	f32 bY = b->getGameObject()->getTransform()->getWorldPosition().y;
-
-	return (aY > bY) ? 1 : (bY > aY) ? 2 : 0;
-}
-
-Batch::Batch() {
-	mVBOPosition = 0;
-	mEBO = 0;
-	mVBOTexture = 0;
-	mVBOColor = 0;
-	mVBONormal = 0;
-	mVAO = 0;
-	mMesh = nullptr;
-	mMaterial = nullptr;
-	mRenderEngine = nullptr;
-	mTextureId = 0;
-
-	mBinded = false;
-}
-
 Batch::~Batch() {
 	FOR_MAP(itList, mRenderers) {
 		if (itList->second) {
@@ -74,35 +41,18 @@ Batch::~Batch() {
 void Batch::init(const Mesh *mesh, Material *material) {
 	// TRACE();
 
-	mMaxMeshes = 2000;
-	mVerticesPerMesh = 4;
-	mMeshesIndex = 0;
-	mMaxVertexBufferSize = mVerticesPerMesh * mMaxMeshes;
-	mVertexPositionSize = 3;
-	mVertexTextureSize = 2;
-	mVertexColorSize = 4;
-	mFacesSize = 6;
-
-	mPositionBuffer.reserve(mMaxVertexBufferSize * mVertexPositionSize);
-
-	mTextureBuffer.reserve(mMaxVertexBufferSize * mVertexTextureSize);
-
-	mColorBuffer.reserve(mMaxVertexBufferSize * mVertexColorSize);
-
-	mIndicesBuffer.reserve(mMaxVertexBufferSize * mFacesSize);
-
 	mRenderEngine = RenderEngine::getInstance();
+	mMesh = mesh;
+	mMaterial = material;
+	mIsWorldSpace = true;
+
+	mMaxMeshes = 2000;
+	mMeshesIndex = 0;
+
+	mMeshBuilder.init(mesh->getVertexCount() * mMaxMeshes, mesh->getFacesCount() * mMaxMeshes);
 
 	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()) {
 		MAP_INSERT(mRenderers, i, nullptr)
-	}
-
-	mMesh = mesh;
-	mMaterial = material;
-
-	if (!smIsScreenOrthoReady) {
-		smIsScreenOrthoReady = true;
-		smScreenOrtho.ortho(-1 * RenderContext::getAspectRatio(), 1 * RenderContext::getAspectRatio(), -1, 1, 1, -1);
 	}
 
 	bind();
@@ -110,37 +60,24 @@ void Batch::init(const Mesh *mesh, Material *material) {
 
 void Batch::bind() {
 	mVAO = RenderContext::createVAO();
-	mVBOPosition = RenderContext::createVBO(mVertexPositionSize, 0);
-	mVBOTexture = RenderContext::createVBO(mVertexTextureSize, 1);
-	mVBOColor = RenderContext::createVBO(mVertexColorSize, 2);
+	mVBOPosition = RenderContext::createVBO(Mesh::smVertexPositionSize, 0);
+	mVBOTexture = RenderContext::createVBO(Mesh::smVertexTexCoordSize, 1);
+	mVBOColor = RenderContext::createVBO(Mesh::smVertexColorSize, 2);
 	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
 	mEBO = RenderContext::createEBO();
 
 	FOR_RANGE(i, 0, mMaxMeshes) {
-		FOR_RANGE(j, 0, 6) {
-			mIndicesBuffer.push_back(mMesh->getFaces()[j] + (4*i)); //mIndicesBuffer[j + 6*i]
-		}
+		i32 offset = + (4*i);
+		mMeshBuilder.addFace(0 + offset, 1 + offset, 3 + offset)->
+		addFace(1 + offset, 2 + offset, 3 + offset);
 	}
 
-	RenderContext::setDataEBO(mEBO, mIndicesBuffer);
+	RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
 
 	Texture* texture = mMaterial->getTexture();
 
 	if(texture) {
-		glGenTextures(1, &mTextureId);
-
-		glBindTexture(GL_TEXTURE_2D, mTextureId);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE,
-						texture->getData());
-
-		//glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); //GL_TEXTURE_MAG_FILTER
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+		texture->bind();
 	}
 
 	RenderContext::enableVAO(0);
@@ -150,133 +87,69 @@ void Batch::update() {
 
 }
 
-bool Batch::checkInFrustum(Camera *cam, Renderer *renderer) {
-	Transform* t = renderer->getGameObject()->getTransform();
-
-	Vector3 scale = t->getScale();
-	f32 maxRadius = std::max(scale.x, scale.y); // TODO: if 3D, compare also with z
-
-	Vector3 position(Vector3(t->getWorldPosition()).add(renderer->getPositionOffset()));
-
-	return cam->getFrustum()->testSphere(position, maxRadius);
-}
-
-bool Batch::checkDistance(Camera *cam, Renderer *renderer) {
-	Transform* t = renderer->getGameObject()->getTransform();
-
-	Vector3 camPosition(cam->getGameObject()->getTransform()->getLocalPosition());
-	Vector3 rendererPosition(t->getLocalPosition());
-
-	return rendererPosition.dst(camPosition) < renderer->getRenderDistance();
-}
-
-bool Batch::checkIsOutOfCamera(Camera *cam, Renderer *renderer) {
-
-	bool getIsOutOfCamera = false;
-
-	if (renderer->getIsAffectedByProjection()) {
-		renderer->setIsOutOfCamera(!checkInFrustum(cam, renderer));
-		getIsOutOfCamera = renderer->getIsOutOfCamera();
-	} else {
-		getIsOutOfCamera = false;
-	}
-
-	return getIsOutOfCamera;
-}
-
-u32 Batch::render(u32 layer) {
+void Batch::render(u32 layer) {
 
 	clearVertexBuffer();
 
-	u32 drawCallCounter = 0;
-
 	std::list<Renderer*>* renderers = mRenderers[layer];
 
-	if (renderers && renderers->size() > 0) {
+	if (renderers && !renderers->empty()) {
 
-		bool isSortedLayer = mRenderEngine->getLayersData().at(layer)->mSorted;
+		//bool isSortedLayer = mRenderEngine->getLayersData().at(layer)->mSorted;
 
-		Shader* shader = mMaterial->getShader();
-
-		shader->use();
 		RenderContext::enableVAO(mVAO);
 
-		if(mMaterial->getTexture()) {
-			glBindTexture(GL_TEXTURE_2D, mTextureId);
-		}
+		mMaterial->bind(mIsWorldSpace);
 
-		Camera* camera = mRenderEngine->getCamera();
+		processRenderers(renderers);
 
-		const Matrix4& projectionMatrix = camera->getProjectionMatrix();
-		const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
-		const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
-
-		shader->addMatrix(projectionMatrix, "projectionMatrix");
-		shader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-		shader->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-
-		shader->addBool(mMaterial->getTexture() != nullptr, "hasTexture");
-		shader->addBool(mMaterial->getAlphaEnabled(), "alphaEnabled");
-		shader->addBool(mMaterial->getHasBorder(), "hasBorder");
-
-		shader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
-
-		FOR_LIST(it, *renderers) {
-			Renderer* renderer = *it;
-
-			if(renderer->getLayer() == layer) {
-
-				bool toRemove = false;
-				if(renderer->isActive()) {
-					const Chunk* chunk = renderer->getChunk();
-					bool chunkOk = (!chunk) || (chunk && chunk->getIsLoaded());
-
-					if (chunkOk) {
-						Transform* t = renderer->getGameObject()->getTransform();
-
-						if (!checkIsOutOfCamera(camera, renderer)) {
-
-							shader->addBool(renderer->getIsAffectedByProjection(), "isAffectedByProjection");
-
-							bool IsLineMode = renderer->getIsLineMode();
-
-							renderer->updateAnimation();
-							addToVertexBuffer(renderer);
-
-							drawCallCounter++;
-						}
-					} else if (renderer->getIsAffectedByProjection() && !chunk->getIsLoaded()) {
-						toRemove = true;
-					}
-
-					if (isSortedLayer && renderer->getIsAffectedByProjection() && !renderer->isStatic()) {
-						toRemove = true;
-					}
-
-				} else if (renderer->getIsPendingToBeDestroyed()) {
-					// destroy renderer and remove from list
-					toRemove = true;
-				}
-
-				if(toRemove){
-					internalRemoveRendererFromList(it, renderers);
-				}
-			}
-		}
-
-		if(mMeshesIndex > 0) {
-			RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
-			RenderContext::setDataVBO(mVBOTexture, mTextureBuffer);
-			RenderContext::setDataVBO(mVBOColor, mColorBuffer);
-
-			RenderContext::drawRectangles(mMeshesIndex);
-		}
+		drawCall();
 
 		RenderContext::enableVAO(0);
-
 	}
+}
 
-	return drawCallCounter;
+void Batch::processRenderers(std::list<Renderer*>* renderers) {
+	FOR_LIST(it, *renderers) {
+		Renderer* renderer = *it;
+
+		bool toRemove = false;
+
+		if (renderer->getIsPendingToBeDestroyed()) {
+			toRemove = true;
+		} else if(renderer->isActive()) {
+			if (isChunkOk(renderer)) {
+				//if (!checkIsOutOfCamera(camera, renderer)) { }
+				renderer->updateAnimation();
+				addToVertexBuffer(renderer);
+			} else {
+				toRemove = true;
+			}
+
+			/*if (isSortedLayer && mIsWorldSpace && !renderer->isStatic()) {
+				toRemove = true;
+			}*/
+		}
+
+		if(toRemove){
+			internalRemoveRendererFromList(it, renderers);
+		}
+	}
+}
+
+bool Batch::isChunkOk(Renderer* renderer) const {
+	const Chunk* chunk = renderer->getChunk();
+	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
+}
+
+void Batch::drawCall() const {
+	if(mMeshesIndex > 0) {
+		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
+		RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
+		RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
+
+		RenderContext::drawRectangles(mMeshesIndex);
+	}
 }
 
 void Batch::insertSorted(Renderer *renderer, std::list<Renderer*> *renderers) {
@@ -332,8 +205,6 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer*> *renderers) {
 
 void Batch::addRenderer(Renderer *renderer) {
 
-	checkIsOutOfCamera(mRenderEngine->getCamera(), renderer);
-
 	u32 layer = renderer->getLayer();
 
 	std::list<Renderer*>* renderers = mRenderers[layer];
@@ -344,9 +215,7 @@ void Batch::addRenderer(Renderer *renderer) {
 		MAP_INSERT(mRenderers, layer, renderers);
 	}
 
-	renderer->setIsAlreadyInBatch(true);
-
-	if (!renderer->isStatic() && renderer->getIsAffectedByProjection()) {
+	if (!renderer->isStatic()) {
 		mRenderEngine->getLayersData().at(renderer->getLayer())->mDynamicObjectsCount++;
 	}
 
@@ -355,6 +224,9 @@ void Batch::addRenderer(Renderer *renderer) {
 	} else {
 		renderers->push_back(renderer);
 	}
+
+	renderer->setIsAlreadyInBatch(true);
+
 }
 
 void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, std::list<Renderer*> *list) {
@@ -362,13 +234,13 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, s
 
 	renderer->setIsAlreadyInBatch(false);
 
-	if(renderer->getIsAffectedByProjection()) {
+	if(mIsWorldSpace) {
 		if (!renderer->isStatic()) {
 			mRenderEngine->getLayersData().at(renderer->getLayer())->mDynamicObjectsCount--;
 		}
 	} else {
 		// NOTE: UI CASE
-		// UI is not Freed in Chunk so it has to be freed here.
+		// UI is not deleted in Chunk so it has to be deleted here.
 		renderer->finallyDestroy();
 		delete renderer;
 	}
@@ -382,17 +254,13 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 	const std::vector<Vector2>* vertexPositions = renderer->getVertices();
 
-	FOR_RANGE(i,0,mVerticesPerMesh) {
+	FOR_RANGE(i,0,mMesh->getVertexCount()) {
 
-		Vector3 vertexPosition(vertexPositions->at(i));
-
-		mPositionBuffer.push_back(vertexPosition.x);
-		mPositionBuffer.push_back(vertexPosition.y);
-		mPositionBuffer.push_back(vertexPosition.z);
+		mMeshBuilder.addVertex(vertexPositions->at(i));
 
 		Vector2 vertexTexture(
-		mMesh->getTextureCoordinates()[i*mVertexTextureSize + 0],
-		mMesh->getTextureCoordinates()[i*mVertexTextureSize + 1]);
+		mMesh->getTextureCoordinates()[i*Mesh::smVertexTexCoordSize + 0],
+		mMesh->getTextureCoordinates()[i*Mesh::smVertexTexCoordSize + 1]);
 
 		Vector2 regionSize = renderer->getRegionSize();
 		Vector2 regionPosition = renderer->getRegionPosition();
@@ -410,22 +278,21 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 			}
 		}
 
-		mTextureBuffer.push_back(textureCoord.x);
-		mTextureBuffer.push_back(textureCoord.y);
+		mMeshBuilder.addTexCoord(textureCoord.x, textureCoord.y);
 
-		mColorBuffer.push_back(renderer->getColor()[0]);
-		mColorBuffer.push_back(renderer->getColor()[1]);
-		mColorBuffer.push_back(renderer->getColor()[2]);
-		mColorBuffer.push_back(renderer->getColor()[3]);
+		mMeshBuilder.addColor(
+			renderer->getColor()[0],
+			renderer->getColor()[1],
+			renderer->getColor()[2],
+			renderer->getColor()[3]);
 	}
 
 	mMeshesIndex++;
 }
 
 void Batch::clearVertexBuffer() {
-	mPositionBuffer.clear();
-	mTextureBuffer.clear();
-	mColorBuffer.clear();
 
 	mMeshesIndex = 0;
+
+	mMeshBuilder.clear();
 }

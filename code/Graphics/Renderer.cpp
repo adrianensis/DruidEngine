@@ -31,7 +31,7 @@ Renderer::Renderer() {
 	mRenderDistance = 1500; // TODO : move to settings?
 	mIsOutOfCamera = false;
 
-	mIsAffectedByProjection = true;
+	mIsWorldSpace = true;
 
 	mChunk = nullptr;
 	mIsAlreadyInBatch = false;
@@ -114,13 +114,13 @@ void Renderer::setColor(const Vector4 &color) {
 	mColor[3] = color.w;
 };
 
-bool Renderer::getIsAffectedByProjection() {
+bool Renderer::getIsWorldSpace() {
 
 	if(getGameObject()){
-		mIsAffectedByProjection = getGameObject()->getTransform()->getAffectedByProjection();
+		mIsWorldSpace = getGameObject()->getTransform()->getAffectedByProjection();
 	}
 
-	return mIsAffectedByProjection;
+	return mIsWorldSpace;
 }
 
 const std::vector<Vector2>* Renderer::getVertices(bool force /*= false*/) {

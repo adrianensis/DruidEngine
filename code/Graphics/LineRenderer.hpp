@@ -20,7 +20,7 @@ CLASS(LineRenderer, ObjectBase) {
 
 	PRI(Size, NONE, f32)
 
-	PUB(IsAffectedByProjection, NONE, bool)
+	PUB(IsWorldSpace, NONE, bool)
 	
 public:
 	

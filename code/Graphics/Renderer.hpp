@@ -21,7 +21,7 @@ CLASS(Renderer, Component) {
 	PRI(PositionOffsetDirty, NONE, bool)
 	PRI(ForceRecalculateVertices, NONE, bool)
 	PRI(Vertices, NONE, std::vector<Vector2>)
-	PRI(IsAffectedByProjection, NONE, bool)
+	PRI(IsWorldSpace, NONE, bool)
 
 	PRI(CurrentAnimation, GET, Animation*)
 	PRI(Color, GETREF_CONST, std::array<f32, 4>)
@@ -51,7 +51,7 @@ public:
 	void setColor(const Vector4& color);
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 	void setPositionOffset(Vector3 newPositionOffset);
-	bool getIsAffectedByProjection();
+	bool getIsWorldSpace();
 	const std::vector<Vector2>* getVertices(bool force = false);
 	void forceRecalculateVertices();
 

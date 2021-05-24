@@ -19,4 +19,5 @@ public:
 	virtual ~Texture() override;
 
 	void init(const std::string& path);
+	void bind();
 };

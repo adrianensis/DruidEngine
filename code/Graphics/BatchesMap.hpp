@@ -12,12 +12,15 @@ template<class K, class V> class HashMap;
 CLASS(BatchesMap, ObjectBase) {
 
 	PRI(Batches, NONE, std::map<Texture*, Batch*>);
+	PRI(IsWorldSpace, GET, bool)
 
 public:
 
 	virtual ~BatchesMap() override;
 	
 	void init();
-	u32 render(u32 layer);
+	void render(u32 layer);
 	void addRenderer(Renderer *renderer);
+
+	void setIsWorldSpace(bool isWorldSpace);
 };

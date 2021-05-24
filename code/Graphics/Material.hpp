@@ -18,4 +18,5 @@ public:
 
 	Material();
 	void init();
+	void bind(bool isWorldSpace);
 };

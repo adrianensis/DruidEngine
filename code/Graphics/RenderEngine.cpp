@@ -43,7 +43,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mLineRendererScreenSpace = new LineRenderer;
 	mLineRendererScreenSpace->init();
-	mLineRendererScreenSpace->mIsAffectedByProjection = false;
+	mLineRendererScreenSpace->mIsWorldSpace = false;
 
 	// Static Chunks grid
 
@@ -71,6 +71,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mBatchesMapScreenSpace = new BatchesMap;
 	mBatchesMapScreenSpace->init();
+	mBatchesMapScreenSpace->setIsWorldSpace(false);
 
 	mMaxLayersUsed = 0;
 
@@ -124,21 +125,17 @@ void RenderEngine::swap() {
 void RenderEngine::renderBatches() {
 	//PROFILER_TIMEMARK_START()
 
-	u32 drawCallCounter = 0;
-
 	FOR_RANGE(layer, 0, mMaxLayers) {
 		if(mLayersData.at(layer)->mVisible){
-			drawCallCounter += mBatchesMap->render(layer);
+			mBatchesMap->render(layer);
 		}
 	}
 
 	FOR_RANGE(layer, 0, mMaxLayers) {
 		//if(mLayersData->get(layer)->mVisible){
-		drawCallCounter += mBatchesMapScreenSpace->render(layer);
+			mBatchesMapScreenSpace->render(layer);
 		//}
 	}
-
-	// VAR(u32,drawCallCounter);
 
 	//PROFILER_TIMEMARK_END()
 }
@@ -209,8 +206,6 @@ void RenderEngine::terminate() {
 		delete it->second;
 	}
 
-	//delete Mesh::getRectangle();
-
 	Mesh::freeRectangle();
 
 	FOR_LIST(it, mRenderersToFree){
@@ -220,7 +215,7 @@ void RenderEngine::terminate() {
 
 void RenderEngine::addRenderer(Renderer *renderer) {
 
-	if (renderer->getIsAffectedByProjection()) {
+	if (renderer->getIsWorldSpace()) {
 		Chunk* chunk = assignChunk(renderer);
 		if(chunk){
 			chunk->addRenderer(renderer);
@@ -258,9 +253,9 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 }
 
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
-		bool isAffectedByProjection /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
+		bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
 	
-	if(isAffectedByProjection){
+	if(isWorldSpace){
 		mLineRenderer->add(start, end);
 	} else{
 		mLineRendererScreenSpace->add(start, end);
