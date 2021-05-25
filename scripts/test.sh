@@ -1,5 +1,8 @@
 #! /bin/bash
 
+currentDir=$(dirname "$BASH_SOURCE")"/.."
+cd $currentDir
+
 outputDir="output"
 
 function readTest(){

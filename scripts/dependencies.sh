@@ -2,7 +2,8 @@
 
 destiny="dependencies"
 
-projectDir="$PWD"
+currentDir=$(dirname "$BASH_SOURCE")"/.."
+cd $currentDir
 
 # ------------------------------------------------------------------------
 

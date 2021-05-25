@@ -206,23 +206,23 @@ endif(BUILD_INTEGRATION_TESTS)
 # TOOLS
 # ----------------------------------------------------------------------------
 
-if(BUILD_TOOLS)
+# if(BUILD_TOOLS)
 
-file(GLOB TOOL_PATHS "tools/*")
+# file(GLOB TOOL_PATHS "tools/*")
 
-foreach(TOOL_PATH ${TOOL_PATHS})
+# foreach(TOOL_PATH ${TOOL_PATHS})
 
-  file(GLOB_RECURSE TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
+#   file(GLOB_RECURSE TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
 
-  include_directories("${TOOL_PATH}")
+#   include_directories("${TOOL_PATH}")
 
-  get_filename_component(TOOL_NAME ${TOOL_PATH} NAME_WE) # NAME_WE = name with extension
+#   get_filename_component(TOOL_NAME ${TOOL_PATH} NAME_WE) # NAME_WE = name with extension
 
-  set(TOOL_FINAL_NAME "tool_${TOOL_NAME}" )
-  add_executable( ${TOOL_FINAL_NAME} ${TOOL_SOURCES} )
-  target_link_libraries( ${TOOL_FINAL_NAME} ${DRUID})
-  install(TARGETS ${TOOL_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+#   set(TOOL_FINAL_NAME "tool_${TOOL_NAME}" )
+#   add_executable( ${TOOL_FINAL_NAME} ${TOOL_SOURCES} )
+#   target_link_libraries( ${TOOL_FINAL_NAME} ${DRUID})
+#   install(TARGETS ${TOOL_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
-endforeach()
+# endforeach()
 
-endif(BUILD_TOOLS)
+# endif(BUILD_TOOLS)

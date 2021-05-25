@@ -1,5 +1,8 @@
 #! /bin/bash
 
+currentDir=$(dirname "$BASH_SOURCE")"/.."
+cd $currentDir
+
 buildDir="build"
 buildType="Debug"
 buildUnitTests=false
