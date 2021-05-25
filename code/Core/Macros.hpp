@@ -79,6 +79,7 @@ class ClassName: public ClassName ## _PARENT< Template >\
 #define REMOVE_POINTER(Class) std::remove_pointer<Class>::type
 #define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
 #define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
+#define IS_ENUM(Class) std::is_enum<Class>::value
 #define ADD_CONST(Class) std::add_const<Class>::type
 #define ADD_POINTER(Class) std::add_pointer<Class>::type
 
@@ -89,7 +90,7 @@ class ClassName: public ClassName ## _PARENT< Template >\
 		IS_POINTER(decltype(Var)),\
 		ADD_CONST(decltype(Var)),\
 		COND_TYPE(\
-			IS_ARITHMETIC(decltype(Var)),\
+			IS_ARITHMETIC(decltype(Var)) || IS_ENUM(decltype(Var)),\
 			REMOVE_REF(decltype(Var)),\
 			decltype(Var)\
 		)\

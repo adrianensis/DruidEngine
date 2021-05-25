@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <map>
+#include <list>
 
 class Material;
 class Renderer;

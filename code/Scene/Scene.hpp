@@ -2,6 +2,7 @@
 
 #include "Core/ObjectBase.hpp"
 #include "File/File.hpp"
+#include <list>
 
 class GameObject;
 class ConfigObject;

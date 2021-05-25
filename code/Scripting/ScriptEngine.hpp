@@ -2,6 +2,7 @@
 
 #include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
+#include <list>
 
 class Script;
 class Iterator;
