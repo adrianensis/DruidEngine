@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
+#include "Core/Serialization.hpp"
 
 #include <netinet/in.h>
 #include <functional>
@@ -27,6 +28,8 @@ private:
 
 	mutable std::string buffer;
 
+	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
+
 public:
 	void init(u16 port);
 
@@ -35,5 +38,6 @@ public:
 	void writeData(const std::string& data) const;
 	std::string readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
-	void onData(std::function<void(std::ifstream &file)> callback);
+	JSON readJSON() const;
+	void writeJSON(JSON& json) const;
 };

@@ -39,5 +39,6 @@ cd ./dependencies/libpng-1.6.37
 cmake . -DCMAKE_INSTALL_PREFIX=./build
 make
 make install
+cd ../..
 
 # ------------------------------------------------------------------------

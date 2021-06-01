@@ -108,6 +108,33 @@ std::string Server::readData(u32 size/* = DEFAULT_SOCKET_READ_SIZE*/) const {
 	return buffer;
 }
 
-void Server::onData(std::function<void(std::ifstream &file)> callback){
+JSON Server::readJSON() const {
+	JSON json = readSimpleJSON();
+
+	if(json.contains("__size")) {
+		json = readSimpleJSON(json["__size"]);
+	}
+
+	return json;
+}
+
+JSON Server::readSimpleJSON(u32 size/* = DEFAULT_SOCKET_READ_SIZE*/) const {
+	JSON json;
+	std::string data = readData(size);
+
+	if(!data.empty()) {
+		ECHO(data);
+
+		json = JSON::parse(data);
+
+		if(!json.empty()) {
+			ECHO(json.dump());
+		}
+	}
+
+	return json;
+}
+
+void Server::writeJSON(JSON& json) const {
 
 }
