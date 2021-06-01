@@ -38,10 +38,10 @@ RenderEngine::~RenderEngine() = default;
 void RenderEngine::init(f32 sceneSize) {
 	TRACE()
 
-	mLineRenderer = new LineRenderer;
+	mLineRenderer = NEW(LineRenderer);
 	mLineRenderer->init();
 
-	mLineRendererScreenSpace = new LineRenderer;
+	mLineRendererScreenSpace = NEW(LineRenderer);
 	mLineRendererScreenSpace->init();
 	mLineRendererScreenSpace->mIsWorldSpace = false;
 
@@ -58,7 +58,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
 		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
-			Chunk* chunk = new Chunk;
+			Chunk* chunk = NEW(Chunk);
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
@@ -66,10 +66,10 @@ void RenderEngine::init(f32 sceneSize) {
 		}
 	}
 
-	mBatchesMap = new BatchesMap;
+	mBatchesMap = NEW(BatchesMap);
 	mBatchesMap->init();
 
-	mBatchesMapScreenSpace = new BatchesMap;
+	mBatchesMapScreenSpace = NEW(BatchesMap);
 	mBatchesMapScreenSpace->init();
 	mBatchesMapScreenSpace->setIsWorldSpace(false);
 
@@ -77,7 +77,7 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mMaxLayers = EngineConfig::getInstance()->getConfig().getU32("scene.maxLayers");
 	FOR_RANGE(i, 0, mMaxLayers) {
-		LayerData* layerData = new LayerData;
+		LayerData* layerData = NEW(LayerData);
 		layerData->mSorted = EngineConfig::getInstance()->getConfig().getBool("scene.sortByYCoordinate");
 		MAP_INSERT(mLayersData, i, layerData);
 	}
@@ -166,9 +166,7 @@ void RenderEngine::checkChunks() {
 void RenderEngine::freeRenderersPendingtoFree() {
 	//PROFILER_TIMEMARK_START()
 
-	FOR_LIST(it, mRenderersToFree){
-		delete *it;
-	}
+	LIST_DELETE_CONTENT(mRenderersToFree)
 
 	mRenderersToFree.clear();
 
@@ -187,30 +185,26 @@ void RenderEngine::stepDebug() {
 void RenderEngine::terminate() {
 	TRACE()
 
-	delete mLineRenderer;
-	delete mLineRendererScreenSpace;
+	DELETE(mLineRenderer);
+	DELETE(mLineRendererScreenSpace);
 
 	FOR_ARRAY(i, mChunks) {
-		delete mChunks.at(i);
+		DELETE(mChunks.at(i));
 	}
 
 	if(mBatchesMap){
-		delete mBatchesMap;
+		DELETE(mBatchesMap);
 	}
 
 	if(mBatchesMapScreenSpace){
-		delete mBatchesMapScreenSpace;
+		DELETE(mBatchesMapScreenSpace);
 	}
 
-	FOR_MAP(it, mLayersData) {
-		delete it->second;
-	}
+	MAP_DELETE_CONTENT(mLayersData)
 
 	Mesh::freeRectangle();
 
-	FOR_LIST(it, mRenderersToFree){
-		delete *it;
-	}
+	LIST_DELETE_CONTENT(mRenderersToFree)
 }
 
 void RenderEngine::addRenderer(Renderer *renderer) {

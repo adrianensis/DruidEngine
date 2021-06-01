@@ -12,17 +12,15 @@ Animation::Animation() {
 }
 
 Animation::~Animation() {
-	FOR_LIST(it, *mFrames){
-		delete *it;
-	}
+	LIST_DELETE_CONTENT(*mFrames)
 
-	delete mFrames;
+	DELETE(mFrames);
 }
 
 void Animation::init() {
 	TRACE()
 
-	mFrames = new std::vector<AnimationFrame*>;
+	mFrames = NEW(std::vector<AnimationFrame*>);
 }
 
 void Animation::addFrame(AnimationFrame *frame) {
@@ -37,7 +35,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 
 	// TODO: check if coordinates are > 1 or < 0 !!!!!
 
-	Animation* animation = new Animation;
+	Animation* animation = NEW(Animation);
 	animation->init();
 	animation->setSpeed(speed);
 
@@ -75,7 +73,7 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame* frame = new AnimationFrame;
+		AnimationFrame* frame = NEW(AnimationFrame);
 		frame->init(pos, width, height);
 		animation->addFrame(frame);
 

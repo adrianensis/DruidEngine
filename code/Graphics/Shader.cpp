@@ -18,7 +18,7 @@ Shader::~Shader() = default;
 
 Shader* Shader::getDefaultShader() {
 	if (!msShaderDefault) {
-		msShaderDefault = new Shader;
+		msShaderDefault = NEW(Shader);
 		msShaderDefault->init();
 	}
 	return msShaderDefault;
@@ -26,7 +26,7 @@ Shader* Shader::getDefaultShader() {
 
 Shader* Shader::getDebugShader() {
 	if (!msShaderDebug) {
-		msShaderDebug = new Shader;
+		msShaderDebug = NEW(Shader);
 		msShaderDebug->initDebug();
 	}
 	return msShaderDebug;
@@ -34,11 +34,11 @@ Shader* Shader::getDebugShader() {
 
 void Shader::freeStaticShaders() {
 	if (msShaderDefault) {
-		delete msShaderDefault;
+		DELETE(msShaderDefault);
 	}
 
 	if (msShaderDebug) {
-		delete msShaderDebug;
+		DELETE(msShaderDebug);
 	}
 }
 

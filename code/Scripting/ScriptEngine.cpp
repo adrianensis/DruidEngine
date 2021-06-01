@@ -49,7 +49,7 @@ void ScriptEngine::internalRemoveScript(std::list<Script*>::iterator& it) {
 	
 	script->terminate();
 	script->finallyDestroy();
-	delete script;
+	DELETE(script);
 
 	it = mScripts.erase(it);
 }
@@ -59,12 +59,12 @@ void ScriptEngine::terminate() {
 
 	if(mController){
 		mController->terminate();
-		delete mController;
+		DELETE(mController);
 	}
 
 	FOR_LIST (it, mScripts) {
 		Script* script = *it;
 		script->terminate();
-		delete script;
+		DELETE(script);
 	}
 }

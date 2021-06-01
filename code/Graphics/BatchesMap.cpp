@@ -12,9 +12,7 @@
 #include "Log/Log.hpp"
 
 BatchesMap::~BatchesMap() {
-	FOR_MAP(it, mBatches) {
-		delete it->second;
-	}
+	MAP_DELETE_CONTENT(mBatches)
 }
 
 void BatchesMap::init() {
@@ -29,7 +27,7 @@ void BatchesMap::addRenderer(Renderer *renderer) {
 
 	if (! MAP_CONTAINS(mBatches, texture)) {
 
-		Batch* batch = new Batch;
+		Batch* batch = NEW(Batch);
 		batch->init(renderer->getMesh(), renderer->getMaterial());
 		// batch->setChunk(chunk);
 		batch->setIsWorldSpace(mIsWorldSpace);

@@ -7,7 +7,6 @@
 class Texture;
 class Renderer;
 class Batch;
-template<class K, class V> class HashMap;
 
 CLASS(BatchesMap, ObjectBase) {
 
@@ -16,7 +15,7 @@ CLASS(BatchesMap, ObjectBase) {
 
 public:
 
-	virtual ~BatchesMap() override;
+	~BatchesMap() override;
 	
 	void init();
 	void render(u32 layer);

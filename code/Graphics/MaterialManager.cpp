@@ -4,39 +4,28 @@
 #include "Graphics/Shader.hpp"
 
 MaterialManager::~MaterialManager() {
-	FOR_MAP(it, *mTexturesMap) {
-		delete it->second;
-	}
 
-	delete mTexturesMap;
+	MAP_DELETE_CONTENT(mTexturesMap)
+	MAP_DELETE_CONTENT(mMaterialsMap)
 
-	FOR_MAP(it, *mMaterialsMap) {
-		delete it->second;
-	}
-
-	delete mMaterialsMap;
-
-	delete mNoTextureMaterial;
+	DELETE(mNoTextureMaterial);
 
 	Shader::freeStaticShaders();
 }
 
 void MaterialManager::init() {
 	TRACE()
-
-	mTexturesMap = new std::map<std::string, Texture*>;
-	mMaterialsMap = new std::map<std::string, Material*>;
 }
 
 Texture* MaterialManager::loadTexture(const std::string& path) {
 	Texture* texture = nullptr;
 
-	if (MAP_CONTAINS(*mTexturesMap, path)) {
-		texture = mTexturesMap->at(path);
+	if (MAP_CONTAINS(mTexturesMap, path)) {
+		texture = mTexturesMap.at(path);
 	} else {
-		texture = new Texture;
+		texture = NEW(Texture);
 		texture->init(path);
-		MAP_INSERT(*mTexturesMap, path, texture);
+		MAP_INSERT(mTexturesMap, path, texture);
 	}
 
 	return texture;
@@ -45,14 +34,14 @@ Texture* MaterialManager::loadTexture(const std::string& path) {
 Material* MaterialManager::loadMaterial(const std::string& path) {
 	Material* material = nullptr;
 
-	if (MAP_CONTAINS(*mMaterialsMap, path)) {
-		material = mMaterialsMap->at(path);
+	if (MAP_CONTAINS(mMaterialsMap, path)) {
+		material = mMaterialsMap.at(path);
 	} else {
-		material = new Material;
+		material = NEW(Material);
 		material->init();
 		material->setTexture(loadTexture(path));
 		material->setShader(Shader::getDefaultShader());
-		MAP_INSERT(*mMaterialsMap, path, material);
+		MAP_INSERT(mMaterialsMap, path, material);
 	}
 
 	return material;
@@ -61,7 +50,7 @@ Material* MaterialManager::loadMaterial(const std::string& path) {
 Material* MaterialManager::loadNoTextureMaterial() {
 
 	if(!mNoTextureMaterial){
-		mNoTextureMaterial = new Material;
+		mNoTextureMaterial = NEW(Material);
 		mNoTextureMaterial->init();
 		mNoTextureMaterial->setShader(Shader::getDefaultShader());
 	}

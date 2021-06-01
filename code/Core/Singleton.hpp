@@ -17,7 +17,7 @@ public:
 
 	static T* getInstance(){
 		if (!existsInstance()){
-			mInstance = new T;
+			mInstance = NEW(T);
 		}
 
 		return mInstance;
@@ -25,7 +25,7 @@ public:
 
 	static void deleteInstance(){
 		if(mInstance){
-			delete mInstance;
+			DELETE(mInstance);
 			mInstance = nullptr;
 		}
 	}	

@@ -30,7 +30,7 @@ private:
 public:
 
 	Scene();
-	virtual ~Scene() override;
+	~Scene() override;
 
 	void init();
 

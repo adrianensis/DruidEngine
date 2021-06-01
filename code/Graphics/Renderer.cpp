@@ -40,9 +40,7 @@ Renderer::Renderer() {
 }
 
 Renderer::~Renderer() {
-	FOR_MAP(it, mAnimations) {
-		delete it->second;
-	}
+	MAP_DELETE_CONTENT(mAnimations)
 }
 
 void Renderer::init() {

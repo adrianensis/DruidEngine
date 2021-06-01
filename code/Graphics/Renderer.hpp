@@ -41,7 +41,7 @@ CLASS(Renderer, Component) {
 public:
 
 	Renderer();
-	virtual ~Renderer() override;
+	~Renderer() override;
 	
 	void init() override;
 	void setAnimation(const std::string& name);

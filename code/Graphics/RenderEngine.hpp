@@ -62,7 +62,7 @@ private:
 public:
 
 	RenderEngine();
-	virtual ~RenderEngine() override;
+	~RenderEngine() override;
 
 	void init(f32 sceneSize);
 	void step(); // render

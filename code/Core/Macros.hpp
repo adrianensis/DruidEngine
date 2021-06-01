@@ -6,12 +6,19 @@
 #define NONE(...)
 
 // --------------------------------------------------------
+// NEW - DELETE
+// --------------------------------------------------------
+
+#define NEW(...) new __VA_ARGS__
+#define DELETE(Var) delete Var
+
+// --------------------------------------------------------
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 
 #define CLASS_MACRO_CONSTRUCTOR(ClassName)\
 	ClassName ## _PARENT() = default;\
-	virtual ~ClassName ## _PARENT() override = default;\
+	~ClassName ## _PARENT() override = default;\
 
 #define CLASS_MACRO_BASE(ClassName, ...)\
 class ClassName;\
@@ -164,3 +171,5 @@ for (auto it = (map).begin(); it != (map).end(); ++it)
 
 #define MAP_CONTAINS(map, key) ((map).find(key) != (map).end())
 #define MAP_INSERT(map, key, value) (map).insert_or_assign((key), (value));
+#define MAP_DELETE_CONTENT(map) FOR_MAP(_internal_it, map) { DELETE(_internal_it->second); }
+#define LIST_DELETE_CONTENT(list) FOR_LIST(_internal_it, list) { DELETE(*_internal_it); }

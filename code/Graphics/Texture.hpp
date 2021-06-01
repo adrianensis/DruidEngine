@@ -16,7 +16,7 @@ CLASS(Texture, ObjectBase) {
 public:
 
 	Texture();
-	virtual ~Texture() override;
+	~Texture() override;
 
 	void init(const std::string& path);
 	void bind();

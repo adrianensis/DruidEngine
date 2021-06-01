@@ -18,7 +18,7 @@ CLASS(Animation, ObjectBase) {
 public:
 
 	Animation();
-	virtual ~Animation() override;
+	~Animation() override;
 
 	SET(Speed);
 

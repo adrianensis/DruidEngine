@@ -10,7 +10,7 @@ LineRenderer::LineRenderer() {
 }
 
 LineRenderer::~LineRenderer() {
-	delete mShaderLine;
+	DELETE(mShaderLine);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -25,7 +25,7 @@ void LineRenderer::init() {
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 	mIndicesBuffer.reserve(mMaxShapes * 2); // 1 index per vertex
 
-	mShaderLine = new Shader;
+	mShaderLine = NEW(Shader);
 	mShaderLine->initDebug();
 
 	bind();

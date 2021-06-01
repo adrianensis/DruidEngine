@@ -5,7 +5,6 @@
 #include <list>
 
 class Script;
-class Iterator;
 
 CLASS(ScriptEngine, ObjectBase) , SINGLETON(ScriptEngine) {
 

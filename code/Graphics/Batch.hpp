@@ -35,6 +35,8 @@ CLASS(Batch, ObjectBase) {
 	PRI(Binded, NONE, bool)
 	PRI(IsWorldSpace, GET_SET, bool)
 
+private:
+
 	void addToVertexBuffer(Renderer* renderer);
 	void clearVertexBuffer();
 	bool isChunkOk(Renderer* renderer) const;
@@ -55,8 +57,7 @@ public:
 	void bind();
 	void update();
 
-	// returns the count of draw calls
 	void render(u32 layer);
 
-	void addRenderer(class Renderer *renderer);
+	void addRenderer(Renderer *renderer);
 };

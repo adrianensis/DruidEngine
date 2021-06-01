@@ -35,7 +35,7 @@ private:
 public:
 
 	GameObject();
-	virtual ~GameObject() override;
+	~GameObject() override;
 
 	virtual void init();
 

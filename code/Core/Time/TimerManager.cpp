@@ -10,17 +10,17 @@ void Timer::init(f32 duration, TimerDurationType durationType, std::function<voi
 TimerManager::~TimerManager(){
 	TRACE()
 	if(mTimers){
-		delete mTimers;
+		DELETE(mTimers);
 	}
 }
 
 void TimerManager::init(){
-	mTimers = new std::list<Timer*>;
+	mTimers = NEW(std::list<Timer*>);
 }
 
 void TimerManager::endTimer(Timer* timer){
 	mTimers->remove(timer);
-	delete timer;
+	DELETE(timer);
 }
 
 void TimerManager::step(){
@@ -46,7 +46,7 @@ void TimerManager::step(){
 
 TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback){
 
-	Timer* timer = new Timer;
+	Timer* timer = NEW(Timer);
 	timer->init(duration, durationType, callback);
 
 	TimerHandle timerHandler;

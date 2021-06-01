@@ -121,7 +121,7 @@ byte* Texture::readPNG() {
 	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 	
 	// Allocate the image_data as a big block, to be given to opengl
-	png_byte *image_data = new png_byte[rowbytes * mHeight];
+	png_byte *image_data = NEW(png_byte[rowbytes * mHeight]);
 	if (!image_data) {
 		//clean up memory and close stuff
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -130,7 +130,7 @@ byte* Texture::readPNG() {
 	}
 	
 	//row_pointers is for pointing to image_data for reading the png with libpng
-	png_bytep *row_pointers = new png_bytep[mHeight];
+	png_bytep *row_pointers = NEW(png_bytep[mHeight]);
 	if (!row_pointers) {
 		//clean up memory and close stuff
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

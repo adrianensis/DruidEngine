@@ -19,7 +19,7 @@ CLASS(Chunk, ObjectBase) {
 
 public:
 
-	virtual ~Chunk() override;
+	~Chunk() override;
 	void init();
 	void set(const Vector3 &leftTop, f32 size);
 	void load();

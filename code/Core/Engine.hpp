@@ -8,7 +8,7 @@ CLASS(Engine, ObjectBase), SINGLETON(Engine){
 
 public:
 
-	virtual ~Engine() override;
+	~Engine() override;
 	void init();
 	void initSubsystems();
 	void terminateSubSystems();

@@ -24,7 +24,7 @@ CLASS(LineRenderer, ObjectBase) {
 public:
 	
 	LineRenderer();
-	virtual ~LineRenderer() override;
+	~LineRenderer() override;
 
 	void init();
 	void add(const Vector3 &start, const Vector3 &end);

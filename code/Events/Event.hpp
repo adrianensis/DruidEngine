@@ -8,7 +8,7 @@
 #define EVENT_DECLARATION_BEGIN(EventClassName) CLASS(EventClassName, Event) { \
 public: \
 	EventClassName() {}; \
-	virtual ~EventClassName() override {}; \
+	~EventClassName() override {}; \
 
 #define EVENT_DECLARATION_END(EventClassName) };
 

@@ -23,7 +23,7 @@ CLASS(ScenesManager, ObjectBase) , SINGLETON(ScenesManager) {
 public:
 
 	ScenesManager();
-	virtual ~ScenesManager() override;
+	~ScenesManager() override;
 	
 	void init();
 	void step();

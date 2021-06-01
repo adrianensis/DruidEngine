@@ -20,44 +20,44 @@ Scene::~Scene() {
 
 	destroyGameObjects();
 
-	delete mGameObjects;
-	delete mNewGameObjects;
-	delete mLoadSceneConfigMap;
+	DELETE(mGameObjects);
+	DELETE(mNewGameObjects);
+	DELETE(mLoadSceneConfigMap);
 }
 
 void Scene::destroyGameObjects() {
 	FOR_LIST(it, *mGameObjects) {
 		if (!(*it)->getIsDestroyed()) {
 			(*it)->destroy();
-			delete (*it);
+			DELETE((*it));
 		}
 	}
 
 	if(mCameraGameObject){
-		//delete mCameraGameObject->getFirstComponent<Camera>();
+		//DELETE(mCameraGameObject->getFirstComponent<Camera>());
 		mCameraGameObject->destroy();
-		delete mCameraGameObject;
+		DELETE(mCameraGameObject);
 	}
 }
 
 void Scene::init() {
 	TRACE()
 
-	mGameObjects = new std::list<GameObject*>;
+	mGameObjects = NEW(std::list<GameObject*>);
 
-	mNewGameObjects = new std::list<GameObject*>;
+	mNewGameObjects = NEW(std::list<GameObject*>);
 
 	mSize = 0;
 
 	mPath = "config/sceneTmp.json";
 
 	// CAMERA
-	GameObject* cameraGameObject = new GameObject;
+	GameObject* cameraGameObject = NEW(GameObject);
 	cameraGameObject->init();
 
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
-	Camera* cameraComponent = new Camera;
+	Camera* cameraComponent = NEW(Camera);
 	cameraGameObject->addComponent<Camera>(cameraComponent);
 
 	f32 size = RenderContext::getWindowSize().y;
@@ -75,7 +75,7 @@ void Scene::init() {
 void Scene::loadScene(const std::string& path) {
 
 	if(!mLoadSceneConfigMap){
-		mLoadSceneConfigMap = new ConfigObject;
+		mLoadSceneConfigMap = NEW(ConfigObject);
 		mLoadSceneConfigMap->init();
 	}
 	else {
@@ -189,7 +189,7 @@ void Scene::removeGameObject(GameObject *gameObject) {
 
 		gameObject->destroy();
 		gameObject->finallyDestroy();
-		delete gameObject;
+		DELETE(gameObject);
 	}
 }
 
@@ -203,7 +203,7 @@ void Scene::step() {
 
 			std::string className = mLoadSceneConfigMap->getString(objectName + ".class");
 			
-			GameObject* gameObject = new GameObject;//Memory::fromClassName<GameObject>(className);
+			GameObject* gameObject = NEW(GameObject);//Memory::fromClassName<GameObject>(className));
 			gameObject->init();
 			gameObject->deserialize(JSON());
 			addGameObject(gameObject);

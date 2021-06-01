@@ -13,7 +13,7 @@ Camera::Camera() {
 }
 
 Camera::~Camera() {
-	delete mFrustum;
+	DELETE(mFrustum);
 }
 
 void Camera::init() {
@@ -23,7 +23,7 @@ void Camera::init() {
 
 	mInversePVMatrix.identity();
 
-	mFrustum = new Frustum;
+	mFrustum = NEW(Frustum);
 	mFrustum->init(this);
 };
 
@@ -36,8 +36,8 @@ void Camera::init() {
 // };
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far) {
 	mIsOrtho = true;
-	// delete mProjectionMatrix;
-	// mProjectionMatrix = new Matrix4;
+	// DELETE(mProjectionMatrix);
+	// mProjectionMatrix = NEW(Matrix4);
 
 	mLeft = left;
 	mRight = right;
@@ -55,8 +55,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov) {
 	mIsOrtho = false;
-	// delete mProjectionMatrix;
-	// mProjectionMatrix = new Matrix4;
+	// DELETE(mProjectionMatrix);
+	// mProjectionMatrix = NEW(Matrix4);
 	mProjectionMatrix.perspective(near, far, aspect, fov);
 
 	calculateInverseMatrix(true);

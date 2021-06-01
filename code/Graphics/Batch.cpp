@@ -24,12 +24,12 @@ Batch::~Batch() {
 			FOR_LIST(itRenderer, *rendereresList) {
 				if (!(*itRenderer)->getIsDestroyed()) {
 					(*itRenderer)->finallyDestroy();
-					delete (*itRenderer);
+					DELETE((*itRenderer));
 					remainingInBatch--;
 				}
 			}
 
-			delete rendereresList;
+			DELETE(rendereresList);
 		}
 	}
 
@@ -212,7 +212,7 @@ void Batch::addRenderer(Renderer *renderer) {
 	std::list<Renderer*>* renderers = mRenderers[layer];
 
 	if (!renderers) {
-		renderers = new std::list<Renderer*>;
+		renderers = NEW(std::list<Renderer*>);
 
 		MAP_INSERT(mRenderers, layer, renderers);
 	}
@@ -244,7 +244,7 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, s
 		// NOTE: UI CASE
 		// UI is not deleted in Chunk so it has to be deleted here.
 		renderer->finallyDestroy();
-		delete renderer;
+		DELETE(renderer);
 	}
 
 	it = list->erase(it);

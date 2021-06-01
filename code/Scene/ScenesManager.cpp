@@ -13,13 +13,11 @@ ScenesManager::ScenesManager() {
 }
 
 ScenesManager::~ScenesManager() {
-
-	FOR_LIST (it, mScenes) {
-		delete *it;
-	}
+	
+	LIST_DELETE_CONTENT(mScenes)
 
 	mGameObjectController->destroy();
-	delete mGameObjectController;
+	DELETE(mGameObjectController);
 }
 
 void ScenesManager::internalLoadScene() {
@@ -49,7 +47,7 @@ void ScenesManager::init() {
 	}
 
 	FOR_RANGE(i, 0, scenesCount) {
-		Scene* scene = new Scene;
+		Scene* scene = NEW(Scene);
 		scene->init();
 		addScene(scene);
 	}

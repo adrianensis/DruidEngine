@@ -71,7 +71,7 @@ void Mesh::clear() {
 
 Mesh* Mesh::getRectangle() {
 	if (!smRectangle) {
-		smRectangle = new Mesh;
+		smRectangle = NEW(Mesh);
 		smRectangle->init(4, 2);
 
 		smRectangle->addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
@@ -91,6 +91,6 @@ Mesh* Mesh::getRectangle() {
 }
 
 void Mesh::freeRectangle() {
-	delete smRectangle;
+	DELETE(smRectangle);
 	smRectangle = nullptr;
 }

@@ -29,7 +29,7 @@ CLASS(Camera, Component) {
 public:
 
 	Camera();
-	virtual ~Camera() override;
+	~Camera() override;
 	
 	void init() override;
 

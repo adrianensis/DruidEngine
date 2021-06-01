@@ -15,13 +15,13 @@ GameObject::GameObject() {
 }
 
 GameObject::~GameObject() {
-	delete mComponentsMap;
-	delete mTransform;
+	DELETE(mComponentsMap);
+	DELETE(mTransform);
 }
 
 void GameObject::addComponent(Component *component, ClassId classId) {
 	if (! MAP_CONTAINS(*mComponentsMap, classId)) {
-		MAP_INSERT(*mComponentsMap, classId, new std::list<Component*>);
+		MAP_INSERT(*mComponentsMap, classId, NEW(std::list<Component*>));
 	}
 
 	mComponentsMap->at(classId)->push_back(component);
@@ -41,9 +41,9 @@ void GameObject::removeComponent(Component *component, ClassId classId) {
 void GameObject::init() {
 	// TRACE();
 
-	mComponentsMap = new std::map<ClassId, std::list<Component*>*>;
+	mComponentsMap = NEW(std::map<ClassId, std::list<Component*>*>);
 
-	mTransform = new Transform;
+	mTransform = NEW(Transform);
 	addComponent(mTransform);
 
 	mTag = "";
@@ -103,7 +103,7 @@ void GameObject::destroy() {
 			(*itComponent)->destroy();
 		}
 
-		delete list;
+		DELETE(list);
 	}
 
 	mComponentsMap->clear();
@@ -166,15 +166,15 @@ void GameObject::deserialize(const JSON& jsonObject) {
 	getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
 	getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = new Renderer;
+	Renderer* renderer = NEW(Renderer);
 	addComponent<Renderer>(renderer);
 	renderer->deserialize(configMap, objectName);
 
 	if(configMap->getBool(objectName + ".hasCollider")) {
-		RigidBody* rigidBody = new RigidBody;
+		RigidBody* rigidBody = NEW(RigidBody);
 		addComponent<RigidBody>(rigidBody);
 
-		Collider* collider = new Collider;
+		Collider* collider = NEW(Collider);
 		addComponent<Collider>(collider);
 		collider->deserialize(configMap, objectName);
 	}*/
