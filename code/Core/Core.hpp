@@ -4,4 +4,5 @@
 #include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 #include "Core/Assert/Assert.hpp"
+#include "Core/Memory.hpp"
 

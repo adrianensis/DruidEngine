@@ -22,7 +22,10 @@ Scene::~Scene() {
 
 	DELETE(mGameObjects);
 	DELETE(mNewGameObjects);
-	DELETE(mLoadSceneConfigMap);
+	
+	if(mLoadSceneConfigMap) {
+		DELETE(mLoadSceneConfigMap);
+	}
 }
 
 void Scene::destroyGameObjects() {
@@ -34,7 +37,9 @@ void Scene::destroyGameObjects() {
 	}
 
 	if(mCameraGameObject){
-		//DELETE(mCameraGameObject->getFirstComponent<Camera>());
+		Camera* cameraComponent = mCameraGameObject->getFirstComponent<Camera>();
+		mCameraGameObject->removeComponent<Camera>(cameraComponent);
+		DELETE(cameraComponent);
 		mCameraGameObject->destroy();
 		DELETE(mCameraGameObject);
 	}

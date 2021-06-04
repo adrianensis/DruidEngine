@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Memory.hpp"
+
 template<class T>
 class Singleton {
 
@@ -17,7 +19,7 @@ public:
 
 	static T* getInstance(){
 		if (!existsInstance()){
-			mInstance = NEW(T);
+			mInstance = new T;
 		}
 
 		return mInstance;
@@ -25,7 +27,7 @@ public:
 
 	static void deleteInstance(){
 		if(mInstance){
-			DELETE(mInstance);
+			delete mInstance;
 			mInstance = nullptr;
 		}
 	}	

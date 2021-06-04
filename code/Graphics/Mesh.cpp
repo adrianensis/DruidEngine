@@ -1,4 +1,5 @@
 #include "Graphics/Mesh.hpp"
+#include "Core/Memory.hpp"
 #include <algorithm>
 
 Mesh* Mesh::smRectangle = nullptr;
@@ -91,6 +92,9 @@ Mesh* Mesh::getRectangle() {
 }
 
 void Mesh::freeRectangle() {
-	DELETE(smRectangle);
+	if(smRectangle) {
+		DELETE(smRectangle);
+	}
+	
 	smRectangle = nullptr;
 }

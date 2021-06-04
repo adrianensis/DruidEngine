@@ -34,13 +34,13 @@ void Playground::createPlayer(const Vector2& position) {
 
 	// Material* material = MaterialManager::getInstance()->loadMaterial("resources/mage.png");
 
-	mPlayer = new GameObject;
+	mPlayer = NEW(GameObject);
 	mPlayer->init();
 
 	mPlayer->getTransform()->setLocalPosition(position);
 	mPlayer->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = new Renderer;
+	Renderer* renderer = NEW(Renderer);
 	mPlayer->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));

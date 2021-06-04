@@ -8,7 +8,9 @@ MaterialManager::~MaterialManager() {
 	MAP_DELETE_CONTENT(mTexturesMap)
 	MAP_DELETE_CONTENT(mMaterialsMap)
 
-	DELETE(mNoTextureMaterial);
+	if(mNoTextureMaterial) {
+		DELETE(mNoTextureMaterial);
+	}
 
 	Shader::freeStaticShaders();
 }

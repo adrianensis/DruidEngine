@@ -5,12 +5,20 @@
 
 #define NONE(...)
 
+#define REMOVE_REF(Class) std::remove_reference<Class>::type
+#define REMOVE_POINTER(Class) std::remove_pointer<Class>::type
+#define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
+#define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
+#define IS_ENUM(Class) std::is_enum<Class>::value
+#define ADD_CONST(Class) std::add_const<Class>::type
+#define ADD_POINTER(Class) std::add_pointer<Class>::type
+
 // --------------------------------------------------------
 // NEW - DELETE
 // --------------------------------------------------------
 
-#define NEW(...) new __VA_ARGS__
-#define DELETE(Var) delete Var
+#define NEW(...) Memory::newObject< __VA_ARGS__ >()
+#define DELETE(...) Memory::deleteObject< REMOVE_POINTER(REMOVE_REF(decltype(__VA_ARGS__))) >(__VA_ARGS__);
 
 // --------------------------------------------------------
 // CLASS - METADATA MACROS
@@ -81,14 +89,6 @@ class ClassName: public ClassName ## _PARENT< Template >\
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
-
-#define REMOVE_REF(Class) std::remove_reference<Class>::type
-#define REMOVE_POINTER(Class) std::remove_pointer<Class>::type
-#define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
-#define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
-#define IS_ENUM(Class) std::is_enum<Class>::value
-#define ADD_CONST(Class) std::add_const<Class>::type
-#define ADD_POINTER(Class) std::add_pointer<Class>::type
 
 #define COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type
 
@@ -171,5 +171,5 @@ for (auto it = (map).begin(); it != (map).end(); ++it)
 
 #define MAP_CONTAINS(map, key) ((map).find(key) != (map).end())
 #define MAP_INSERT(map, key, value) (map).insert_or_assign((key), (value));
-#define MAP_DELETE_CONTENT(map) FOR_MAP(_internal_it, map) { DELETE(_internal_it->second); }
-#define LIST_DELETE_CONTENT(list) FOR_LIST(_internal_it, list) { DELETE(*_internal_it); }
+#define MAP_DELETE_CONTENT(map) FOR_MAP(_internal_it, map) { DELETE(_internal_it->second); } (map).clear();
+#define LIST_DELETE_CONTENT(list) FOR_LIST(_internal_it, list) { DELETE(*_internal_it); } (list).clear();

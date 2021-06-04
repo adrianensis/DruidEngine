@@ -185,12 +185,15 @@ void RenderEngine::stepDebug() {
 void RenderEngine::terminate() {
 	TRACE()
 
-	DELETE(mLineRenderer);
-	DELETE(mLineRendererScreenSpace);
-
-	FOR_ARRAY(i, mChunks) {
-		DELETE(mChunks.at(i));
+	if(mLineRenderer) {
+		DELETE(mLineRenderer);
 	}
+	
+	if(mLineRendererScreenSpace) {
+		DELETE(mLineRendererScreenSpace);
+	}
+
+	LIST_DELETE_CONTENT(mChunks);
 
 	if(mBatchesMap){
 		DELETE(mBatchesMap);

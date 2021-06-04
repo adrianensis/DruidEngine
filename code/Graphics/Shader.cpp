@@ -1,6 +1,7 @@
 #include "Graphics/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Maths/Matrix4.hpp"
+#include "Core/Memory.hpp"
 #include <fstream> // std::ifstream
 #include <string>
 #include <iostream>

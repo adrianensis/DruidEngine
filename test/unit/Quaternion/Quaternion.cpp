@@ -67,7 +67,7 @@ int main(){
 	test_show(f.toEuler());
 	test_expected_bool(f.toEuler().eq(Vector3(-180, 10, 10), 0.1f), true);*/
 
-	Matrix4* m = new Matrix4();
+	Matrix4* m = NEW(Matrix4);
 	m->zeros();
 
 	Quaternion i(0, 0, 0, 1);
@@ -92,7 +92,7 @@ int main(){
 
 	Quaternion ii(0, 0, 0, 1);
 
-	/*Matrix4* mRot = new Matrix4;
+	/*Matrix4* mRot = NEW(Matrix4);
 	mRot->rotation(Vector3(0, 0, 0));
 
 	ii.fromMatrix(*mRot);

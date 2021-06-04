@@ -1,5 +1,6 @@
 #include "Core/Time/TimeUtils.hpp"
 #include "Core/Time/TimerManager.hpp"
+#include "Core/Memory.hpp"
 #include "Core/Engine.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Core/Singleton.hpp"
@@ -26,6 +27,8 @@ Engine::~Engine(){
 
 void Engine::init(){
 	mFPS = 60;
+
+	Memory::init();
 
 	EngineConfig::getInstance()->init();
 
@@ -96,10 +99,19 @@ void Engine::terminate(){
 	TRACE();
 
 	ScenesManager::deleteInstance();
+	
+	terminateSubSystems();
+
+	MaterialManager::deleteInstance();
+
+	ScriptEngine::deleteInstance();
 	RenderEngine::deleteInstance();
+	EventsManager::getInstance()->terminate();
 	EventsManager::deleteInstance();
 	TimerManager::deleteInstance();
 	Time::deleteInstance();
 	Input::deleteInstance();
 	RenderContext::terminate();
+
+	Memory::terminate();
 }
