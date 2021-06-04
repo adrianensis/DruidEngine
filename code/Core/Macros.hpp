@@ -171,5 +171,5 @@ for (auto it = (map).begin(); it != (map).end(); ++it)
 
 #define MAP_CONTAINS(map, key) ((map).find(key) != (map).end())
 #define MAP_INSERT(map, key, value) (map).insert_or_assign((key), (value));
-#define MAP_DELETE_CONTENT(map) FOR_MAP(_internal_it, map) { DELETE(_internal_it->second); } (map).clear();
+#define MAP_DELETE_CONTENT(map) FOR_MAP(_internal_it, map) { if(_internal_it->second) DELETE(_internal_it->second); } (map).clear();
 #define LIST_DELETE_CONTENT(list) FOR_LIST(_internal_it, list) { DELETE(*_internal_it); } (list).clear();

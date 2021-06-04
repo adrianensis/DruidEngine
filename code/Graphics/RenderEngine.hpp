@@ -48,9 +48,7 @@ private:
 	PRI(MaxLayersUsed, NONE, u32)
 
 	PRI(MinChunkDrawDistance, GET, f32)
-	//PRI(Chunks, NONE, std::vector<Chunk*>)
-
-	std::vector<Chunk*> mChunks;
+	PRI(Chunks, NONE, std::vector<Chunk*>)
 
 	PRI(RenderersToFree, NONE, std::list<Renderer*>)
 
@@ -60,9 +58,6 @@ private:
 	void swap();
 
 public:
-
-	RenderEngine();
-	~RenderEngine() override;
 
 	void init(f32 sceneSize);
 	void step(); // render

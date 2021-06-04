@@ -17,7 +17,10 @@
 #include "Graphics/Chunk.hpp"
 
 Batch::~Batch() {
-	FOR_MAP(itList, mRenderers) {
+
+	// TODO : Is this needed if !WorldSpace??
+
+	/*FOR_MAP(itList, mRenderers) {
 		if (itList->second) {
 			std::list<Renderer*>* rendereresList = itList->second;
 			u32 remainingInBatch = rendereresList->size();
@@ -31,7 +34,9 @@ Batch::~Batch() {
 
 			DELETE(rendereresList);
 		}
-	}
+	}*/
+
+	MAP_DELETE_CONTENT(mRenderers)
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);

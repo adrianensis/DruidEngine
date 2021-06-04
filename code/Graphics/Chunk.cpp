@@ -14,10 +14,8 @@
 Chunk::~Chunk() {
 
 	FOR_LIST(it, *mRenderers) {
-		//if(!it.get()->isDestroyed()){
-			(*it)->finallyDestroy();
-			DELETE((*it));
-		//}
+		(*it)->finallyDestroy();
+		DELETE((*it));
 	}
 
 	DELETE(mRenderers);

@@ -26,17 +26,10 @@ RenderEngine::LayerData::LayerData(){
 	mVisible = true;
 }
 
-
-RenderEngine::RenderEngine() {
-	mCamera = nullptr;
-	mBatchesMap = nullptr;
-	mCameraDirtyTranslation = true;
-}
-
-RenderEngine::~RenderEngine() = default;
-
 void RenderEngine::init(f32 sceneSize) {
 	TRACE()
+
+	mCameraDirtyTranslation = true;
 
 	mLineRenderer = NEW(LineRenderer);
 	mLineRenderer->init();
