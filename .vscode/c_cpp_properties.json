@@ -7,7 +7,8 @@
                 "${workspaceFolder}/code",
                 "${workspaceFolder}/test",
                 "${workspaceFolder}/tools",
-                "${workspaceFolder}/tools/**"
+                "${workspaceFolder}/tools/**",
+                "/usr/include/freetype2"
                 //"/usr/include/python3.8"
             ],
             "defines": [],
