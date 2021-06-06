@@ -33,7 +33,7 @@ u32 Animation::getNumberOfFrames() const {
 Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 		f32 height, f32 speed) {
 
-	// TODO: check if coordinates are > 1 or < 0 !!!!!
+	// TODO: check if coordinates are > 1 and < 0 !!!!!
 
 	Animation* animation = NEW(Animation);
 	animation->init();

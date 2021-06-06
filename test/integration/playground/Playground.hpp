@@ -19,13 +19,11 @@ CLASS(Playground, Script) {
 
 	PRI(Transform, NONE, Transform*)
 
-	PUB(Player, NONE, GameObject*)
 	PUB(Material, NONE, Material*)
 
 public:
 
-	void createPlayer(const Vector2& position);
-	void processMovement();
+	void createSprite(const Vector2& position, u32 type = 0);
 
 	void init() override;
 	void firstStep() override;

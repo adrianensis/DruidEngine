@@ -33,7 +33,7 @@ Mesh* Mesh::addNormal(const Vector3 &vector) {
 	return this;
 }
 
-Mesh* Mesh::addTexCoord(u32 u, u32 v) {
+Mesh* Mesh::addTexCoord(f32 u, f32 v) {
 	mTextureCoordinates.push_back(u);
 	mTextureCoordinates.push_back(v);
 	return this;

@@ -125,7 +125,6 @@ void Batch::processRenderers(std::list<Renderer*>* renderers) {
 		} else if(renderer->isActive()) {
 			if (isChunkOk(renderer)) {
 				//if (!checkIsOutOfCamera(camera, renderer)) { }
-				renderer->updateAnimation();
 				addToVertexBuffer(renderer);
 			} else {
 				toRemove = true;
@@ -256,6 +255,8 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, s
 }
 
 void Batch::addToVertexBuffer(Renderer* renderer) {
+
+	renderer->updateAnimation();
 
 	Transform* t = renderer->getGameObject()->getTransform();
 
