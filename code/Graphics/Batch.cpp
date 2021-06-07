@@ -51,10 +51,8 @@ void Batch::init(const Mesh *mesh, Material *material) {
 	mMaterial = material;
 	mIsWorldSpace = true;
 
-	mMaxMeshes = 2000;
+	mMaxMeshesIncrement = 100;
 	mMeshesIndex = 0;
-
-	mMeshBuilder.init(mesh->getVertexCount() * mMaxMeshes, mesh->getFacesCount() * mMaxMeshes);
 
 	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()) {
 		MAP_INSERT(mRenderers, i, nullptr)
@@ -71,14 +69,6 @@ void Batch::bind() {
 	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
 	mEBO = RenderContext::createEBO();
 
-	FOR_RANGE(i, 0, mMaxMeshes) {
-		i32 offset = + (4*i);
-		mMeshBuilder.addFace(0 + offset, 1 + offset, 3 + offset)->
-		addFace(1 + offset, 2 + offset, 3 + offset);
-	}
-
-	RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
-
 	Texture* texture = mMaterial->getTexture();
 
 	if(texture) {
@@ -88,21 +78,17 @@ void Batch::bind() {
 	RenderContext::enableVAO(0);
 }
 
-void Batch::update() {
-
-}
-
 void Batch::render(u32 layer) {
-
-	clearVertexBuffer();
 
 	std::list<Renderer*>* renderers = mRenderers[layer];
 
 	if (renderers && !renderers->empty()) {
 
-		//bool isSortedLayer = mRenderEngine->getLayersData().at(layer)->mSorted;
-
 		RenderContext::enableVAO(mVAO);
+
+		resizeVertexBuffers(renderers->size());
+
+		//bool isSortedLayer = mRenderEngine->getLayersData().at(layer)->mSorted;
 
 		mMaterial->bind(mIsWorldSpace);
 
@@ -112,6 +98,29 @@ void Batch::render(u32 layer) {
 
 		RenderContext::enableVAO(0);
 	}
+}
+
+void Batch::resizeVertexBuffers(u32 newSize) {
+
+	if(newSize > mMaxMeshesThreshold) {
+		mMaxMeshesThreshold += mMaxMeshesIncrement;
+
+		mMeshBuilder.init(mMesh->getVertexCount() * mMaxMeshesThreshold, mMesh->getFacesCount() * mMaxMeshesThreshold);
+
+		// Create Faces once and send to GPU once.
+		FOR_RANGE(i, 0, mMaxMeshesThreshold) {
+			i32 offset = + (4*i);
+			mMeshBuilder.addFace(0 + offset, 1 + offset, 3 + offset)->
+			addFace(1 + offset, 2 + offset, 3 + offset);
+		}
+
+		// NOTE : VAO needs to be enabled before this line
+		RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
+	} else {
+		mMeshBuilder.clear();
+	}
+
+	mMeshesIndex = 0;
 }
 
 void Batch::processRenderers(std::list<Renderer*>* renderers) {
@@ -296,11 +305,4 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 	}
 
 	mMeshesIndex++;
-}
-
-void Batch::clearVertexBuffer() {
-
-	mMeshesIndex = 0;
-
-	mMeshBuilder.clear();
 }

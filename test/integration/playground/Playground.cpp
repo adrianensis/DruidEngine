@@ -81,11 +81,11 @@ void Playground::firstStep() {
 
 void Playground::step() {
 
-	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		createSprite(Input::getInstance()->getMousePosition() * 800, 0);
 	}
 
-	if (Input::getInstance()->isMouseButtonPressedOnce(GLFW_MOUSE_BUTTON_RIGHT)) {
+	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 		createSprite(Input::getInstance()->getMousePosition() * 800, 1);
 	}
 }

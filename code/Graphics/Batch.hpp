@@ -29,7 +29,8 @@ CLASS(Batch, ObjectBase) {
 	PRI(VBONormal, NONE, u32)
 	PRI(VAO, NONE, u32)
 
-	PRI(MaxMeshes, NONE, u32)
+	PRI(MaxMeshesThreshold, NONE, u32)
+	PRI(MaxMeshesIncrement, NONE, u32)
 	PRI(MeshesIndex, NONE, u32)
 
 	PRI(Binded, NONE, bool)
@@ -38,7 +39,7 @@ CLASS(Batch, ObjectBase) {
 private:
 
 	void addToVertexBuffer(Renderer* renderer);
-	void clearVertexBuffer();
+	void resizeVertexBuffers(u32 newSize);
 	bool isChunkOk(Renderer* renderer) const;
 
 	void processRenderers(std::list<Renderer*>* renderers);
@@ -55,7 +56,6 @@ public:
 
 	void init(const Mesh *mesh, Material *material);
 	void bind();
-	void update();
 
 	void render(u32 layer);
 

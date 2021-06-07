@@ -11,8 +11,6 @@ u32 Mesh::smVertexColorSize = 4;
 u32 Mesh::smFaceSize = 3;
 
 void Mesh::init(u32 vertexCount, u32 facesCount) {
-	TRACE()
-
 	mVertexCount = vertexCount;
 	mFacesCount = facesCount;
 

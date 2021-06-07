@@ -18,8 +18,6 @@ Animation::~Animation() {
 }
 
 void Animation::init() {
-	TRACE()
-
 	mFrames = NEW(std::vector<AnimationFrame*>);
 }
 
