@@ -7,7 +7,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Renderer.hpp"
-#include "Graphics/Camera.hpp"
+#include "Graphics/Camera/Camera.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Core/EngineConfig.hpp"
 #include <future>         // std::async, std::future

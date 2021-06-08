@@ -1,14 +1,14 @@
 #include "Graphics/Renderer.hpp"
 
 #include "Graphics/Animation/AnimationFrame.hpp"
-#include "Graphics/Shader.hpp"
+#include "Graphics/Material/Shader.hpp"
 #include "Log/Log.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Config/ConfigObject.hpp"
-#include "Graphics/Texture.hpp"
-#include "Graphics/Material.hpp"
-#include "Graphics/MaterialManager.hpp"
+#include "Graphics/Material/Texture.hpp"
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Material/MaterialManager.hpp"
 
 Renderer::Renderer() {
 	mMesh = nullptr;

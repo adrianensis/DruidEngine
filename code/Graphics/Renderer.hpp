@@ -5,10 +5,10 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
 #include "Maths/Matrix4.hpp"
-#include "Graphics/Material.hpp"
+#include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Animation/Animation.hpp"
-#include "Graphics/Chunk.hpp"
+#include "Graphics/Optimizations/Chunk.hpp"
 
 #include <vector>
 #include <array>

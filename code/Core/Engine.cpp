@@ -7,7 +7,7 @@
 #include "Input/Input.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
-#include "Graphics/MaterialManager.hpp"
+#include "Graphics/Material/MaterialManager.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Events/EventsManager.hpp"
 #include "Scene/Scene.hpp"

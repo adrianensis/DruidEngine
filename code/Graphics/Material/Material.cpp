@@ -1,8 +1,8 @@
-#include "Graphics/Material.hpp"
+#include "Graphics/Material/Material.hpp"
 
-#include "Graphics/Texture.hpp"
-#include "Graphics/Shader.hpp"
-#include "Graphics/Camera.hpp"
+#include "Graphics/Material/Texture.hpp"
+#include "Graphics/Material/Shader.hpp"
+#include "Graphics/Camera/Camera.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Core/Time/TimeUtils.hpp"

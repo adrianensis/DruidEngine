@@ -9,13 +9,13 @@
 //#include "Input/Input.hpp"
 #include "Graphics/Mesh.hpp"
 
-#include "Graphics/Material.hpp"
-#include "Graphics/Texture.hpp"
-#include "Graphics/MaterialManager.hpp"
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Material/Texture.hpp"
+#include "Graphics/Material/MaterialManager.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
-#include "Graphics/Camera.hpp"
+#include "Graphics/Camera/Camera.hpp"
 
 u32 ProjectileScript::smProjectileIndex = 0;
 

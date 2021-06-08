@@ -1,7 +1,7 @@
-#include "Graphics/MaterialManager.hpp"
-#include "Graphics/Texture.hpp"
-#include "Graphics/Material.hpp"
-#include "Graphics/Shader.hpp"
+#include "Graphics/Material/MaterialManager.hpp"
+#include "Graphics/Material/Texture.hpp"
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Material/Shader.hpp"
 
 MaterialManager::~MaterialManager() {
 

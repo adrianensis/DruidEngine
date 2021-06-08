@@ -1,8 +1,8 @@
-#include "Graphics/Camera.hpp"
+#include "Graphics/Camera/Camera.hpp"
 
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Graphics/Frustum.hpp"
+#include "Graphics/Camera/Frustum.hpp"
 #include "Graphics/RenderContext.hpp"
 
 Camera::Camera() {

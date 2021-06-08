@@ -1,8 +1,8 @@
 #include "Graphics/LineRenderer.hpp"
-#include "Graphics/Shader.hpp"
+#include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
-#include "Graphics/Camera.hpp"
+#include "Graphics/Camera/Camera.hpp"
 #include "Core/EngineConfig.hpp"
 
 LineRenderer::LineRenderer() {
