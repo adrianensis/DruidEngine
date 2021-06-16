@@ -269,11 +269,11 @@ void Batch::addToVertexBuffer(Renderer* renderer) {
 
 	Transform* t = renderer->getGameObject()->getTransform();
 
-	const std::vector<Vector2>* vertexPositions = renderer->getVertices();
+	const std::vector<Vector2>& vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i,0,mMesh->getVertexCount()) {
 
-		mMeshBuilder.addVertex(vertexPositions->at(i));
+		mMeshBuilder.addVertex(vertexPositions[i]);
 
 		Vector2 vertexTexture(
 		mMesh->getTextureCoordinates()[i*Mesh::smVertexTexCoordSize + 0],

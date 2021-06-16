@@ -12,6 +12,7 @@
 #include "Events/EventsManager.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/ScenesManager.hpp"
+#include "UI/UI.hpp"
 
 #include <string>
 #include <iostream>
@@ -40,7 +41,11 @@ void Engine::init(){
 	EventsManager::getInstance()->init();
 
 	MaterialManager::getInstance()->init();
+	
+	UI::getInstance()->init();
+
 	ScenesManager::getInstance()->init();
+
 }
 
 void Engine::initSubsystems(){
@@ -89,7 +94,7 @@ void Engine::run(){
 			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
-		std::cout << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
+		//std::cout << 1.0f/Time::getInstance()->getDeltaTimeSeconds() << std::endl;
 
 		Time::getInstance()->endFrame();
 	}
@@ -101,6 +106,8 @@ void Engine::terminate(){
 	ScenesManager::deleteInstance();
 	
 	terminateSubSystems();
+
+	UI::getInstance()->terminate();
 
 	MaterialManager::deleteInstance();
 

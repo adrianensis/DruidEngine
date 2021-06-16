@@ -121,7 +121,7 @@ bool Renderer::getIsWorldSpace() {
 	return mIsWorldSpace;
 }
 
-const std::vector<Vector2>* Renderer::getVertices(bool force /*= false*/) {
+const std::vector<Vector2>& Renderer::getVertices(bool force /*= false*/) {
 
 	if(mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices ){
 
@@ -144,7 +144,7 @@ const std::vector<Vector2>* Renderer::getVertices(bool force /*= false*/) {
 		mForceRecalculateVertices = false;
 	}
 
-	return &mVertices;
+	return mVertices;
 }
 
 void Renderer::forceRecalculateVertices() {

@@ -14,6 +14,7 @@
 #include "Maths/Vector4.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Input/Input.hpp"
+#include "UI/UI.hpp"
 
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Material.hpp"
@@ -76,17 +77,36 @@ void Playground::init() {
 
 void Playground::firstStep() {
 
-	
+	/*UI::getInstance()->getUIBuilder().
+	setLayout(UILayout::VERTICAL)->
+	setPosition(Vector2(0,0))->
+	setLayer(0)->
+	setAdjustSizeToText(false)->
+	setSize(Vector2(0.1f, 0.1f))->
+	create(UIElementType::PANEL)->
+	getUIElement();*/
+
+	mUIText = (UIText*) UI::getInstance()->getUIBuilder().
+	setLayout(UILayout::VERTICAL)->
+	setPosition(Vector2(0.5,0.5f))->
+	setLayer(0)->
+	setAdjustSizeToText(false)->
+	setSize(Vector2(0.1f, 0.1f))->
+	setText("hello")->
+	create(UIElementType::TEXT)->
+	getUIElement();
 }
 
 void Playground::step() {
 
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 		createSprite(Input::getInstance()->getMousePosition() * 800, 0);
+		mUIText->setText("left");
 	}
 
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
 		createSprite(Input::getInstance()->getMousePosition() * 800, 1);
+		mUIText->setText("right  123");
 	}
 }
 

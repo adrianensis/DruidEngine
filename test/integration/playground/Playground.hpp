@@ -19,6 +19,8 @@ CLASS(Playground, Script) {
 
 	PRI(Transform, NONE, Transform*)
 
+	PRI(UIText, NONE, UIText*)
+
 	PUB(Material, NONE, Material*)
 
 public:

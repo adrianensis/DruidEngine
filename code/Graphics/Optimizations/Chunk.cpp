@@ -99,12 +99,12 @@ void Chunk::addRenderer(Renderer *renderer) {
 
 bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
-	bool contains = MathUtils::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
+	bool contains = Geometry::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
 }
 
 bool Chunk::containsRendererSphere(const Renderer *renderer) const {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
-	return MathUtils::testSphereSphere(mCenter, rendererPosition, mRadius,
+	return Geometry::testSphereSphere(mCenter, rendererPosition, mRadius,
 			renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);
 }

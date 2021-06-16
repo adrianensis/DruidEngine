@@ -52,7 +52,7 @@ public:
 	void setRegion(f32 u, f32 v, f32 width, f32 height);
 	void setPositionOffset(Vector3 newPositionOffset);
 	bool getIsWorldSpace();
-	const std::vector<Vector2>* getVertices(bool force = false);
+	const std::vector<Vector2>& getVertices(bool force = false);
 	void forceRecalculateVertices();
 
 	//virtual void serialize(ConfigObject* configMap, std::string& objectName) override;
