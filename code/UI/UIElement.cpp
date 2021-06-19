@@ -19,7 +19,7 @@ void UIElement::init() {
 	mPressed = false;
 	mConsumeInput = true;
 
-	subscribeToMouseButtonEvents();
+	//subscribeToMouseButtonEvents();
 }
 
 void UIElement::onDestroy() {
@@ -125,7 +125,7 @@ void UIElement::onPressed() {
 
 	if (mRenderer->isActive()){
 
-		mRenderer->setColor(Vector4(1,0,0,0.7f));
+		//mRenderer->setColor(Vector4(1,0,0,0.7f));
 
 		Vector2 screenMousePosition(Input::getInstance()->getMousePosition());
 		Vector2 worldMousePosition = Vector2(

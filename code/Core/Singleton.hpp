@@ -19,7 +19,7 @@ public:
 
 	static T* getInstance(){
 		if (!existsInstance()){
-			mInstance = new T;
+			mInstance = Memory::newObject< T >();
 		}
 
 		return mInstance;
@@ -27,7 +27,7 @@ public:
 
 	static void deleteInstance(){
 		if(mInstance){
-			delete mInstance;
+			Memory::deleteObject< T >(mInstance);
 			mInstance = nullptr;
 		}
 	}	

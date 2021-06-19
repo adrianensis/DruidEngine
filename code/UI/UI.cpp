@@ -36,7 +36,7 @@ void UI::addToGroup(std::string &groupName, UIElement *uiElement)
 
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
-		UIGroup *group = new UIGroup;
+		UIGroup *group = NEW(UIGroup);
 		group->init();
 		group->mName = groupName;
 

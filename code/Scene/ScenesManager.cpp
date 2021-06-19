@@ -21,9 +21,10 @@ ScenesManager::~ScenesManager() {
 }
 
 void ScenesManager::internalLoadScene() {
-	if (EngineConfig::getInstance()->getConfig().getU32("scenes.length") > 0) {
-		std::string sceneName = EngineConfig::getInstance()->getConfig().getString(
-				"scenes[" + std::to_string(mCurrentSceneIndex) + "]");
+	if (EngineConfig::getInstance()->getConfig().at("scenes").size() > 0) {
+		std::string sceneName = EngineConfig::getInstance()->getConfig().
+		at("scenes")[mCurrentSceneIndex].get<std::string>();
+		
 		mCurrentScene->loadScene(sceneName);
 	}
 
@@ -40,10 +41,10 @@ void ScenesManager::init() {
 
 	mCurrentSceneIndex = 0;
 
-	u32 scenesCount = 1;
+	u32 scenesCount = EngineConfig::getInstance()->getConfig().at("scenes").size();
 
-	if (EngineConfig::getInstance()->getConfig().getU32("scenes.length") > 0) {
-		scenesCount = EngineConfig::getInstance()->getConfig().getU32("scenes.length");
+	if(scenesCount == 0) {
+		scenesCount = 1; // min 1 scene
 	}
 
 	FOR_RANGE(i, 0, scenesCount) {

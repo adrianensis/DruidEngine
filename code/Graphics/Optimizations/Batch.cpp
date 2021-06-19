@@ -20,23 +20,22 @@ Batch::~Batch() {
 
 	// TODO : Is this needed if !WorldSpace??
 
-	/*FOR_MAP(itList, mRenderers) {
-		if (itList->second) {
-			std::list<Renderer*>* rendereresList = itList->second;
-			u32 remainingInBatch = rendereresList->size();
-			FOR_LIST(itRenderer, *rendereresList) {
-				if (!(*itRenderer)->getIsDestroyed()) {
-					(*itRenderer)->finallyDestroy();
-					DELETE((*itRenderer));
-					remainingInBatch--;
+	if(!mIsWorldSpace) {
+		FOR_MAP(itList, mRenderers) {
+			if (itList->second) {
+				FOR_LIST(itRenderer, *itList->second) {
+					if (!(*itRenderer)->getIsDestroyed()) {
+						(*itRenderer)->finallyDestroy();
+						DELETE((*itRenderer));
+					}
 				}
+
+				DELETE(itList->second);
 			}
-
-			DELETE(rendereresList);
 		}
-	}*/
-
-	MAP_DELETE_CONTENT(mRenderers)
+	} else {
+		MAP_DELETE_CONTENT(mRenderers)
+	}
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);

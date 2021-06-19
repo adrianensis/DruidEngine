@@ -10,6 +10,8 @@ CLASS(UIText, UIElement) {
 	PRI(Size, NONE, Vector2)
 	PRI(String, NONE, std::string)
 
+	PRI(FontRenderers, NONE, std::vector<Renderer*>)
+
 public:
 	
 	virtual void init() override;

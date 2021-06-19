@@ -151,17 +151,17 @@ void GameObject::deserialize(const JSON& jsonObject) {
 //}
 
 //void GameObject::deserialize(ConfigObject* configMap, std::string& objectName) {
-	/*setIsStatic(configMap->getBool(objectName + ".isStatic"));
-	setShouldPersist(configMap->getBool(objectName + ".shouldPersist"));
+	/*setIsStatic(configMap->at(objectName + ".isStatic").get<bool>());
+	setShouldPersist(configMap->at(objectName + ".shouldPersist").get<bool>());
 
 	if(configMap->contains(objectName + ".tag")){
 		setTag(configMap->getString(objectName + ".tag"));
 	}
 
-	Vector2 worldPosition(configMap->getF32(objectName + ".worldPosition.x"),
-			configMap->getF32(objectName + ".worldPosition.y"));
+	Vector2 worldPosition(configMap->at(objectName + ".worldPosition.x").get<f32>(),
+			configMap->at(objectName + ".worldPosition.y").get<f32>());
 
-	Vector2 size(configMap->getF32(objectName + ".size.width"), configMap->getF32(objectName + ".size.height"));
+	Vector2 size(configMap->at(objectName + ".size.width").get<f32>(), configMap->at(objectName + ".size.height").get<f32>());
 	
 	getTransform()->setLocalPosition(Vector3(worldPosition.x, worldPosition.y, 0));
 	getTransform()->setScale(Vector3(size.x, size.y, 1));
@@ -170,7 +170,7 @@ void GameObject::deserialize(const JSON& jsonObject) {
 	addComponent<Renderer>(renderer);
 	renderer->deserialize(configMap, objectName);
 
-	if(configMap->getBool(objectName + ".hasCollider")) {
+	if(configMap->at(objectName + ".hasCollider").get<bool>()) {
 		RigidBody* rigidBody = NEW(RigidBody);
 		addComponent<RigidBody>(rigidBody);
 

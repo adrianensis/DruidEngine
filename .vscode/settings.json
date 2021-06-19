@@ -61,6 +61,16 @@
         "valarray": "cpp",
         "variant": "cpp",
         "hash_map": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "stop_token": "cpp",
+        "cfenv": "cpp"
     }
 }

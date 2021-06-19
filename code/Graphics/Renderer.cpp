@@ -164,12 +164,12 @@ void Renderer::forceRecalculateVertices() {
 
 void Renderer::deserialize(ConfigObject* configMap, std::string& objectName) {
 	Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectName + ".texture.path"));
-	Vector2 textureRegionPosition(configMap->getF32(objectName + ".texture.region.u"),
-			configMap->getF32(objectName + ".texture.region.v"));
-	Vector2 textureRegionSize(configMap->getF32(objectName + ".texture.region.width"),
-			configMap->getF32(objectName + ".texture.region.height"));
+	Vector2 textureRegionPosition(configMap->at(objectName + ".texture.region.u").get<f32>(),
+			configMap->at(objectName + ".texture.region.v").get<f32>());
+	Vector2 textureRegionSize(configMap->at(objectName + ".texture.region.width").get<f32>(),
+			configMap->at(objectName + ".texture.region.height").get<f32>());
 
-	setLayer(configMap->getU32(objectName + ".layer"));
+	setLayer(configMap->at(objectName + ".layer").get<u32>());
 	setMesh(Mesh::getRectangle());
 	setMaterial(material);
 	setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);

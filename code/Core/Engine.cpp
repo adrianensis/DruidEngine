@@ -108,6 +108,7 @@ void Engine::terminate(){
 	terminateSubSystems();
 
 	UI::getInstance()->terminate();
+	UI::deleteInstance();
 
 	MaterialManager::deleteInstance();
 
@@ -119,6 +120,8 @@ void Engine::terminate(){
 	Time::deleteInstance();
 	Input::deleteInstance();
 	RenderContext::terminate();
+
+	EngineConfig::deleteInstance();
 
 	Memory::terminate();
 }

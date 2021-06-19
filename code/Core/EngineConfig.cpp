@@ -1,5 +1,5 @@
 #include "Core/EngineConfig.hpp"
 
 void EngineConfig::init() {
-	mConfig.readConfigFile("config/engine.json");
+	mConfig.readFromJsonFile("config/engine.json");
 }

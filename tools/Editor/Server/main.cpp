@@ -15,10 +15,10 @@ int main(){
 
 	engine->init();
 
-	GameObject* controller = new GameObject;
+	GameObject* controller = NEW(GameObject);
 	controller->init();
 
-	Script* script = new Editor;
+	Script* script = NEW(Editor);
 	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);

@@ -16,7 +16,6 @@
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
 #include "Graphics/LineRenderer.hpp"
-#include "Graphics/Optimizations/BatchesMap.hpp"
 //#include "Profiler/Profiler.hpp"
 
 RenderEngine::LayerData::LayerData(){
@@ -40,9 +39,9 @@ void RenderEngine::init(f32 sceneSize) {
 
 	// Static Chunks grid
 
-	mMinChunkDrawDistance = EngineConfig::getInstance()->getConfig().getF32("scene.chunks.minChunkDrawDistance");
+	mMinChunkDrawDistance = EngineConfig::getInstance()->getConfig().at("scene").at("chunks").at("minChunkDrawDistance").get<f32>();
 
-	f32 chunksGridSize = EngineConfig::getInstance()->getConfig().getF32("scene.chunks.gridSize");
+	f32 chunksGridSize = EngineConfig::getInstance()->getConfig().at("scene").at("chunks").at("gridSize").get<f32>();
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f; // TODO : Make it power of 2!
 
 	mChunks.reserve(chunksGridSize * chunksGridSize);
@@ -59,19 +58,17 @@ void RenderEngine::init(f32 sceneSize) {
 		}
 	}
 
-	mBatchesMap = NEW(BatchesMap);
-	mBatchesMap->init();
+	mBatchesMap.init();
 
-	mBatchesMapScreenSpace = NEW(BatchesMap);
-	mBatchesMapScreenSpace->init();
-	mBatchesMapScreenSpace->setIsWorldSpace(false);
+	mBatchesMapScreenSpace.init();
+	mBatchesMapScreenSpace.setIsWorldSpace(false);
 
 	mMaxLayersUsed = 0;
 
-	mMaxLayers = EngineConfig::getInstance()->getConfig().getU32("scene.maxLayers");
+	mMaxLayers = EngineConfig::getInstance()->getConfig().at("scene").at("maxLayers").get<u32>();
 	FOR_RANGE(i, 0, mMaxLayers) {
 		LayerData* layerData = NEW(LayerData);
-		layerData->mSorted = EngineConfig::getInstance()->getConfig().getBool("scene.sortByYCoordinate");
+		layerData->mSorted = EngineConfig::getInstance()->getConfig().at("scene").at("sortByYCoordinate").get<bool>();
 		MAP_INSERT(mLayersData, i, layerData);
 	}
 }
@@ -120,13 +117,13 @@ void RenderEngine::renderBatches() {
 
 	FOR_RANGE(layer, 0, mMaxLayers) {
 		if(mLayersData.at(layer)->mVisible){
-			mBatchesMap->render(layer);
+			mBatchesMap.render(layer);
 		}
 	}
 
 	FOR_RANGE(layer, 0, mMaxLayers) {
 		//if(mLayersData->get(layer)->mVisible){
-			mBatchesMapScreenSpace->render(layer);
+			mBatchesMapScreenSpace.render(layer);
 		//}
 	}
 
@@ -149,7 +146,7 @@ void RenderEngine::checkChunks() {
 		}
 
 		//if (chunk->getIsLoaded()) {
-			chunk->update(mBatchesMap);
+			chunk->update(&mBatchesMap);
 		//}
 	}
 
@@ -188,14 +185,6 @@ void RenderEngine::terminate() {
 
 	LIST_DELETE_CONTENT(mChunks);
 
-	if(mBatchesMap){
-		DELETE(mBatchesMap);
-	}
-
-	if(mBatchesMapScreenSpace){
-		DELETE(mBatchesMapScreenSpace);
-	}
-
 	MAP_DELETE_CONTENT(mLayersData)
 
 	Mesh::freeRectangle();
@@ -214,7 +203,7 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 		}
 	} else {
 		// UI Case!
-		mBatchesMapScreenSpace->addRenderer(renderer);
+		mBatchesMapScreenSpace.addRenderer(renderer);
 	}
 
 	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);

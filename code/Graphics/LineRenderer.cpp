@@ -18,9 +18,7 @@ LineRenderer::~LineRenderer() {
 }
 
 void LineRenderer::init() {
-	//TRACE();
-
-	mMaxShapes = EngineConfig::getInstance()->getConfig().getF32("line.renderers.count");
+	mMaxShapes = EngineConfig::getInstance()->getConfig().at("line").at("count").get<f32>();
 
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 	mIndicesBuffer.reserve(mMaxShapes * 2); // 1 index per vertex

@@ -3,6 +3,7 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
+#include "Graphics/Optimizations/BatchesMap.hpp"
 
 #include <list>
 #include <vector>
@@ -34,8 +35,8 @@ private:
 
 	};
 
-	PRI(BatchesMap, NONE, BatchesMap*)
-	PRI(BatchesMapScreenSpace, NONE, BatchesMap*)
+	PRI(BatchesMap, NONE, BatchesMap)
+	PRI(BatchesMapScreenSpace, NONE, BatchesMap)
 
 	PRI(LineRenderer, NONE, LineRenderer*)
 	PRI(LineRendererScreenSpace, NONE, LineRenderer*)

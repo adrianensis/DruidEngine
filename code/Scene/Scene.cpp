@@ -72,7 +72,7 @@ void Scene::init() {
 	setCameraGameObject(cameraGameObject);
 
 	// SET DEFAULT SIZE
-	mSize = EngineConfig::getInstance()->getConfig().getF32("scene.defaultSize");
+	mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
 
 	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
@@ -89,17 +89,17 @@ void Scene::loadScene(const std::string& path) {
 
 	mPath = path;
 
-	//std::future<void> fut = std::async (&ConfigObject::readConfigFile,&mLoadSceneConfigMap,mPath); 
-	mLoadSceneConfigMap->readConfigFile(mPath); // TODO: do async / in other thread.
+	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath); 
+	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
 	//fut.wait();
 
-	mSize = mLoadSceneConfigMap->getF32("scene.size");
+	mSize = mLoadSceneConfigMap->at("scene").at("size").get<f32>();
 
 	if (mSize == 0) {
-		mSize = EngineConfig::getInstance()->getConfig().getF32("scene.defaultSize");
+		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
 	}
 
-	u32 length = mLoadSceneConfigMap->getU32("objects.length");
+	u32 length = mLoadSceneConfigMap->at("objects.length").get<u32>();
 
 	mGameObjectsToLoadTotal = length;
 	mGameObjectsToLoadIndex = 0;
@@ -107,8 +107,7 @@ void Scene::loadScene(const std::string& path) {
 
 void Scene::saveScene(const std::string& path) {
 
-	ConfigObject configMap;
-	configMap.init();
+	JSON json;
 
 	f32 maxSize = 0;
 	u32 counter = 0;
@@ -127,16 +126,20 @@ void Scene::saveScene(const std::string& path) {
 			maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale),
 							   std::abs(worldPosition.y) + maxObjectScale);
 
-			configMap.getJson()["objects"].push_back((*it)->serialize());
+			json["objects"].push_back((*it)->serialize());
 
 			counter++;
 		}
 	}
 
-	configMap.setU32("objects.length", counter);
-	configMap.setF32("scene.size", maxSize * 2.0f);
+	json["objects"]["length"] = counter;
+	json["scene"]["size"] = maxSize * 2.0f;
 
-	configMap.writeConfigFile(path);
+	ConfigObject configMap;
+	configMap.init();
+	configMap.setJson(json);
+
+	configMap.writeToJsonFile(path);
 }
 
 void Scene::unloadScene() {
@@ -206,7 +209,7 @@ void Scene::step() {
 			std::string indexStr = std::to_string(mGameObjectsToLoadIndex);
 			std::string objectName = "objects[" + indexStr + "]";
 
-			std::string className = mLoadSceneConfigMap->getString(objectName + ".class");
+			std::string className = mLoadSceneConfigMap->at(objectName + ".class").get<std::string>();
 			
 			GameObject* gameObject = NEW(GameObject);//Memory::fromClassName<GameObject>(className));
 			gameObject->init();
@@ -219,7 +222,7 @@ void Scene::step() {
 	if (thereAreNewGameObjects()) {
 
 		const std::list<GameObject*>* newGameObjects = getNewGameObjects();
-		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().getF32("scene.maxNewObjectsToSpawn");
+		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().at("scene.maxNewObjectsToSpawn").get<f32>();
 
 		// VAR(f32, newGameObjects->getLength());
 
