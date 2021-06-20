@@ -2,8 +2,8 @@
 #include "Maths/Vector3.hpp"
 #include <cmath>
 
-int main(){
-
+int main()
+{
 	test(Vector3);
 
 	Vector3 a(0, 1, 2);
@@ -75,28 +75,28 @@ int main(){
 	test_expected_float_eps(Vector3(1, 0, 0).angle(Vector3(1, 1, 0)) * (180 / MathUtils::PI), 45, 0.00001f);
 	test_expected_float_eps(Vector3(1, 0, 0).angle(Vector3(1, -1, 0)) * (180 / MathUtils::PI), 45, 0.00001f);
 	test_expected_float_eps(Vector3(-1, 0, 0).angle(Vector3(-1, -1, 0)) * (180 / MathUtils::PI), 45,
-			0.00001f);
+							0.00001f);
 	test_expected_float_eps(Vector3(1, 0, 0).angle(Vector3(-1, 0, 0)) * (180 / MathUtils::PI), 180, 0.00001f);
 	test_expected_float(Vector3(1, 0, 0).angle(Vector3(-1, 0, 1)) * (180 / MathUtils::PI), 135);
 	test_expected_float(Vector3(1, 0, 0).angle(Vector3(-1, 0, -1)) * (180 / MathUtils::PI), 135);
 
 	test_expected_float(a.angle(a, Vector3(0, 0, 1)), 0.0);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(0, 1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 90);
+		Vector3(1, 0, 0).angle(Vector3(0, 1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 90);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(0, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 270);
+		Vector3(1, 0, 0).angle(Vector3(0, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 270);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(1, 1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 45);
+		Vector3(1, 0, 0).angle(Vector3(1, 1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 45);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(1, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 315);
+		Vector3(1, 0, 0).angle(Vector3(1, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 315);
 	test_expected_float(
-			Vector3(-1, 0, 0).angle(Vector3(-1, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 45);
+		Vector3(-1, 0, 0).angle(Vector3(-1, -1, 0), Vector3(0, 0, 1)) * (180 / MathUtils::PI), 45);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(-1, 0, 0), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 180);
+		Vector3(1, 0, 0).angle(Vector3(-1, 0, 0), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 180);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(-1, 0, 1), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 225);
+		Vector3(1, 0, 0).angle(Vector3(-1, 0, 1), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 225);
 	test_expected_float(
-			Vector3(1, 0, 0).angle(Vector3(-1, 0, -1), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 135);
+		Vector3(1, 0, 0).angle(Vector3(-1, 0, -1), Vector3(0, 1, 0)) * (180 / MathUtils::PI), 135);
 
 	test_expected_float_eps(Vector3(a).clamp(0.1f).len(), 0.1f, 0.00001f);
 	test_expected_float_eps(Vector3(a).clamp(0.2f).len(), 0.2f, 0.00001f);

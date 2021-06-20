@@ -23,10 +23,10 @@
 using namespace std::chrono_literals;
 
 Engine::~Engine(){
-
 };
 
-void Engine::init(){
+void Engine::init()
+{
 	mFPS = 60;
 
 	Memory::init();
@@ -41,28 +41,29 @@ void Engine::init(){
 	EventsManager::getInstance()->init();
 
 	MaterialManager::getInstance()->init();
-	
+
 	UI::getInstance()->init();
 
 	ScenesManager::getInstance()->init();
-
 }
 
-void Engine::initSubsystems(){
+void Engine::initSubsystems()
+{
 	f32 sceneSize = ScenesManager::getInstance()->getCurrentScene()->getSize();
 	RenderEngine::getInstance()->init(sceneSize);
 	ScriptEngine::getInstance()->init();
 }
 
-void Engine::terminateSubSystems(){
-
+void Engine::terminateSubSystems()
+{
 	ScriptEngine::getInstance()->terminate();
 	RenderEngine::getInstance()->terminate();
 
 	TimerManager::getInstance()->terminate();
 }
 
-void Engine::run(){
+void Engine::run()
+{
 	Time::getInstance()->init();
 
 	f32 inverseFPS = 1.0f / mFPS;
@@ -70,11 +71,12 @@ void Engine::run(){
 
 	f32 diff = 0;
 
-	while (!RenderContext::isClosed()){
-
+	while (!RenderContext::isClosed())
+	{
 		Time::getInstance()->startFrame();
 
-		if (ScenesManager::getInstance()->getSceneHasChanged()) {
+		if (ScenesManager::getInstance()->getSceneHasChanged())
+		{
 			terminateSubSystems();
 			ScenesManager::getInstance()->loadCurrentScene();
 			initSubsystems();
@@ -89,7 +91,8 @@ void Engine::run(){
 
 		f32 dtMillis = Time::getInstance()->getElapsedTimeMillis();
 
-		if(inverseFPSMillis > dtMillis){
+		if (inverseFPSMillis > dtMillis)
+		{
 			diff = inverseFPSMillis - dtMillis;
 			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
@@ -100,11 +103,12 @@ void Engine::run(){
 	}
 }
 
-void Engine::terminate(){
+void Engine::terminate()
+{
 	TRACE();
 
 	ScenesManager::deleteInstance();
-	
+
 	terminateSubSystems();
 
 	UI::getInstance()->terminate();

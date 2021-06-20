@@ -15,17 +15,16 @@ class UIText;
 class Texture;
 class Material;
 
-CLASS(Playground, Script) {
+CLASS(Playground, Script)
+{
+	PRI(Transform, NONE, Transform *)
 
-	PRI(Transform, NONE, Transform*)
+	PRI(UIText, NONE, UIText *)
 
-	PRI(UIText, NONE, UIText*)
-
-	PUB(Material, NONE, Material*)
+	PUB(Material, NONE, Material *)
 
 public:
-
-	void createSprite(const Vector2& position, u32 type = 0);
+	void createSprite(const Vector2 &position, u32 type = 0);
 
 	void init() override;
 	void firstStep() override;

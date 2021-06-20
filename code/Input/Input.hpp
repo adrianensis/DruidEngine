@@ -8,17 +8,15 @@
 
 #include "Input/InputEvents.hpp"
 
-CLASS(Input, ObjectBase),SINGLETON(Input) {
-
+CLASS(Input, ObjectBase), SINGLETON(Input)
+{
 private:
-
-	static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
-	static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
-	static void scrollCallback(GLFWwindow *window, double xoffset, double yoffset);
-	static void charCallback(GLFWwindow* window, unsigned int codepoint);
+	static void keyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
+	static void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
+	static void scrollCallback(GLFWwindow * window, double xoffset, double yoffset);
+	static void charCallback(GLFWwindow * window, unsigned int codepoint);
 
 public:
-
 	Vector2 smMouseCoordinates;
 	u32 smLastMouseButtonPressed;
 	u32 smLastKeyPressed;
@@ -27,7 +25,6 @@ public:
 	bool smButtonJustPressed;
 	f32 smScroll;
 
-	
 	void init();
 	void pollEvents();
 	bool isKeyPressedOnce(u32 key);

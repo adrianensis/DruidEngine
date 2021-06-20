@@ -6,30 +6,31 @@
 #include "Scene/Transform.hpp"
 #include "Maths/Vector3.hpp"
 
-void Script::init() {
+void Script::init()
+{
 	mFirstStepDone = false;
 }
 
-void Script::firstStep() {
-
+void Script::firstStep()
+{
 }
 
-void Script::step() {
-
+void Script::step()
+{
 }
 
-void Script::onEnterCollision(GameObject *otherGameObject) {
-
+void Script::onEnterCollision(GameObject *otherGameObject)
+{
 }
 
-void Script::onCollision(GameObject *otherGameObject) {
-
+void Script::onCollision(GameObject *otherGameObject)
+{
 }
 
-void Script::onExitCollision(GameObject *otherGameObject) {
-
+void Script::onExitCollision(GameObject *otherGameObject)
+{
 }
 
-void Script::terminate() {
-
+void Script::terminate()
+{
 }

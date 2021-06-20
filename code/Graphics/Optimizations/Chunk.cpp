@@ -11,9 +11,10 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Log/Log.hpp"
 
-Chunk::~Chunk() {
-
-	FOR_LIST(it, *mRenderers) {
+Chunk::~Chunk()
+{
+	FOR_LIST(it, *mRenderers)
+	{
 		(*it)->finallyDestroy();
 		DELETE((*it));
 	}
@@ -21,15 +22,17 @@ Chunk::~Chunk() {
 	DELETE(mRenderers);
 }
 
-void Chunk::init() {
+void Chunk::init()
+{
 	//TRACE();
 
-	mRenderers = NEW(std::list<Renderer*>);
+	mRenderers = NEW(std::list<Renderer *>);
 
 	mLeftTop.set(0, 0, 0);
 }
 
-void Chunk::set(const Vector3 &leftTop, f32 size) {
+void Chunk::set(const Vector3 &leftTop, f32 size)
+{
 	mLeftTop = leftTop;
 	mSize = size;
 	f32 halfSize = mSize / 2.0f;
@@ -38,73 +41,88 @@ void Chunk::set(const Vector3 &leftTop, f32 size) {
 	mRadius = mCenter.dst(mLeftTop);
 }
 
-void Chunk::update(BatchesMap *batchesMap) {
-
+void Chunk::update(BatchesMap *batchesMap)
+{
 	/*RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
 	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
 	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
 	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));*/
 
-	FOR_LIST(it, *mRenderers) {
-		Renderer* renderer = *it;
+	FOR_LIST(it, *mRenderers)
+	{
+		Renderer *renderer = *it;
 
 		bool removeFromList = false;
 
-		if(renderer->isActive()){
-			if (!renderer->getIsAlreadyInBatch()) {
+		if (renderer->isActive())
+		{
+			if (!renderer->getIsAlreadyInBatch())
+			{
 				batchesMap->addRenderer(renderer);
 			}
 
-			if (!renderer->isStatic() && ! containsRenderer(renderer)) {
-				Chunk* newChunk = RenderEngine::getInstance()->assignChunk(renderer);
+			if (!renderer->isStatic() && !containsRenderer(renderer))
+			{
+				Chunk *newChunk = RenderEngine::getInstance()->assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
 				// If not, keep the renderer here until a new chunk is found.
-				if (newChunk && newChunk != this) {
+				if (newChunk && newChunk != this)
+				{
 					newChunk->addRenderer(renderer);
 					removeFromList = true;
 				}
 			}
 		}
 
-		if(renderer->getIsPendingToBeDestroyed()) {
+		if (renderer->getIsPendingToBeDestroyed())
+		{
 			renderer->finallyDestroy();
 			RenderEngine::getInstance()->freeRenderer(renderer);
 		}
 
-		if(renderer->getIsDestroyed()) {
+		if (renderer->getIsDestroyed())
+		{
 			removeFromList = true;
 		}
 
-		if(removeFromList) {
+		if (removeFromList)
+		{
 			it = mRenderers->erase(it);
 		}
 	}
 }
 
-void Chunk::load() {
-	if (!mIsLoaded) {
+void Chunk::load()
+{
+	if (!mIsLoaded)
+	{
 		mIsLoaded = true; /*ECHO("load")*/
 	}
 }
-void Chunk::unload() {
-	if (mIsLoaded) {
+void Chunk::unload()
+{
+	if (mIsLoaded)
+	{
 		mIsLoaded = false; /*ECHO("unload")*/
 	}
 }
 
-void Chunk::addRenderer(Renderer *renderer) {
+void Chunk::addRenderer(Renderer *renderer)
+{
 	mRenderers->push_back(renderer);
 }
 
-bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const {
+bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const
+{
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	bool contains = Geometry::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
 }
 
-bool Chunk::containsRendererSphere(const Renderer *renderer) const {
+bool Chunk::containsRendererSphere(const Renderer *renderer) const
+{
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return Geometry::testSphereSphere(mCenter, rendererPosition, mRadius,
-			renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);
+									  renderer->getGameObject()->getTransform()->getScale().y * 2.0f, 0);
 }

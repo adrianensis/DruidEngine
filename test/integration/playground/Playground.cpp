@@ -30,18 +30,19 @@
 
 #include "ProjectileScript.hpp"
 
-void Playground::createSprite(const Vector2& position, u32 type/* = 0*/) {
+void Playground::createSprite(const Vector2 &position, u32 type /* = 0*/)
+{
 	Vector2 size(150, 150);
 
-	Material* material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
+	Material *material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
 
-	GameObject* sprite = NEW(GameObject);
+	GameObject *sprite = NEW(GameObject);
 	sprite->init();
 
 	sprite->getTransform()->setLocalPosition(position);
 	sprite->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
-	Renderer* renderer = NEW(Renderer);
+	Renderer *renderer = NEW(Renderer);
 	sprite->addComponent<Renderer>(renderer);
 
 	//renderer->setColor(Vector4(0,0,0,0.7f));
@@ -53,37 +54,37 @@ void Playground::createSprite(const Vector2& position, u32 type/* = 0*/) {
 	{
 	case 0:
 		renderer->setMaterial(material);
-		renderer->addAnimation("idle", Animation::create(10, true, false, Vector2(0, 0), 1.0f/16.0f, 1.0f/16.0f, 10));
+		renderer->addAnimation("idle", Animation::create(10, true, false, Vector2(0, 0), 1.0f / 16.0f, 1.0f / 16.0f, 10));
 		renderer->setAnimation("idle");
 		break;
 	case 1:
 		renderer->setMaterial(material);
-		renderer->addAnimation("idle", Animation::create(8, true, false, Vector2(8.0f/16.0f, 10.0f/16.0f), 1.0f/16.0f, 1.0f/16.0f, 3));
+		renderer->addAnimation("idle", Animation::create(8, true, false, Vector2(8.0f / 16.0f, 10.0f / 16.0f), 1.0f / 16.0f, 1.0f / 16.0f, 3));
 		renderer->setAnimation("idle");
 		break;
 	}
-
-	
 
 	//renderer->setIsLineMode(true);
 
 	getGameObject()->getScene()->addGameObject(sprite);
 }
 
-void Playground::init() {
+void Playground::init()
+{
 	mTransform = getGameObject()->getTransform();
 	mMaterial = nullptr;
 }
 
-void Playground::firstStep() {
-
+void Playground::firstStep()
+{
 	UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::VERTICAL)->
-	setPosition(Vector2(0,0))->
-	setLayer(0)->
-	setAdjustSizeToText(false)->
-	setSize(Vector2(0.1f, 0.1f))->
-	create(UIElementType::PANEL)->
+	setLayout(UILayout::VERTICAL).
+	setPosition(Vector2(0,0)).
+	setLayer(0).
+	setAdjustSizeToText(true).
+	setText("ABC").
+	setTextSize(Vector2(0.03f, 0.03f)).
+	create(UIElementType::BUTTON).
 	getUIElement();
 
 	/*mUIText = (UIText*) UI::getInstance()->getUIBuilder().
@@ -97,29 +98,54 @@ void Playground::firstStep() {
 	getUIElement();*/
 }
 
-void Playground::step() {
+void Playground::step()
+{
+	RenderEngine::getInstance()->drawLine(Vector3(-1000,0,0), Vector3(1000,0,0));
+	RenderEngine::getInstance()->drawLine(Vector3(0,-1000,0), Vector3(0,1000,0));
 
-	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+	{
 		//createSprite(Input::getInstance()->getMousePosition() * 800, 0);
 		//mUIText->setText("left");
 
-		(UIText*) UI::getInstance()->getUIBuilder().
-		setLayout(UILayout::VERTICAL)->
-		setPosition(Input::getInstance()->getMousePosition())->
-		setLayer(0)->
-		setAdjustSizeToText(false)->
-		setTextSize(Vector2(0.2f, 0.2f))->
-		setText("OpenGL")->
-		create(UIElementType::TEXT)->
+		/*UI::getInstance()->getUIBuilder().
+		setLayout(UILayout::VERTICAL).
+		setPosition(Input::getInstance()->getMousePosition()).
+		setLayer(0).
+		setAdjustSizeToText(false).
+		setTextSize(Vector2(0.2f, 0.2f)).
+		setText("OpenGL").
+		create(UIElementType::TEXT).
+		getUIElement();*/
+
+		UI::getInstance()->getUIBuilder().
+		setLayout(UILayout::VERTICAL).
+		setPosition(Input::getInstance()->getMousePosition()).
+		setLayer(0).
+		setAdjustSizeToText(true).
+		setText("Button!").
+		setTextSize(Vector2(0.1f, 0.1f)).
+		create(UIElementType::BUTTON).
 		getUIElement();
 	}
 
-	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
-		createSprite(Input::getInstance()->getMousePosition() * 800, 1);
+	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
+	{
+		//createSprite(Input::getInstance()->getMousePosition() * 800, 1);
 		//mUIText->setText("right  123");
+
+		UI::getInstance()->getUIBuilder().
+		setLayout(UILayout::VERTICAL).
+		setPosition(Input::getInstance()->getMousePosition()).
+		setLayer(0).
+		setAdjustSizeToText(true).
+		setText("Button-longer").
+		setTextSize(Vector2(0.2f, 0.2f)).
+		create(UIElementType::BUTTON).
+		getUIElement();
 	}
 }
 
-void Playground::terminate() {
-
+void Playground::terminate()
+{
 }

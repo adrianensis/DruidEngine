@@ -12,16 +12,16 @@
 /*#include <ft2build.h>
 #include FT_FREETYPE_H */
 
-int main(){
-
-	Engine* engine = Engine::getInstance();
+int main()
+{
+	Engine *engine = Engine::getInstance();
 
 	engine->init();
 
-	GameObject* controller = NEW(GameObject);
+	GameObject *controller = NEW(GameObject);
 	controller->init();
 
-	Script* script = NEW(Playground);
+	Script *script = NEW(Playground);
 	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);

@@ -2,28 +2,35 @@
 #include "Log/Log.hpp"
 #include "Events/EventsManager.hpp"
 
-void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
 	Input::getInstance()->smModifier = mods;
 
-	if (action == GLFW_PRESS) {
+	if (action == GLFW_PRESS)
+	{
 		Input::getInstance()->smLastKeyPressed = key;
 		Input::getInstance()->smKeyJustPressed = true;
 
-		if(key == GLFW_KEY_ENTER){
+		if (key == GLFW_KEY_ENTER)
+		{
 			InputEventKeyEnter event;
 			SEND_INPUT_EVENT(event);
-		} else if(key == GLFW_KEY_ESCAPE) {
+		}
+		else if (key == GLFW_KEY_ESCAPE)
+		{
 			InputEventKeyEsc event;
 			SEND_INPUT_EVENT(event);
-		} else {
+		}
+		else
+		{
 			InputEventKeyPressed event;
 			event.mKey = key;
 			event.mMods = mods;
 			SEND_INPUT_EVENT(event);
 		}
-
-	} else if (action == GLFW_RELEASE) {
-
+	}
+	else if (action == GLFW_RELEASE)
+	{
 		InputEventKeyReleased event;
 		event.mKey = key;
 		event.mMods = mods;
@@ -33,11 +40,12 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 	}
 }
 
-void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
+void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
+{
 	Input::getInstance()->smModifier = mods;
 
-	if (action == GLFW_PRESS) {
-
+	if (action == GLFW_PRESS)
+	{
 		Input::getInstance()->smLastMouseButtonPressed = button;
 		Input::getInstance()->smButtonJustPressed = true;
 
@@ -45,8 +53,9 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 		event.mButton = button;
 		event.mMods = mods;
 		SEND_INPUT_EVENT(event);
-	} else if (action == GLFW_RELEASE) {
-
+	}
+	else if (action == GLFW_RELEASE)
+	{
 		InputEventMouseButtonReleased event;
 		event.mButton = button;
 		event.mMods = mods;
@@ -56,7 +65,8 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 	}
 }
 
-void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
+void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset)
+{
 	Input::getInstance()->smScroll = yoffset;
 
 	InputEventScroll event;
@@ -64,13 +74,15 @@ void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
 	SEND_INPUT_EVENT(event);
 }
 
-void Input::charCallback(GLFWwindow* window, unsigned int codepoint) {
+void Input::charCallback(GLFWwindow *window, unsigned int codepoint)
+{
 	InputEventChar event;
-	event.mChar = (char) codepoint;
+	event.mChar = (char)codepoint;
 	SEND_INPUT_EVENT(event);
 }
 
-void Input::init() {
+void Input::init()
+{
 	TRACE()
 
 	smMouseCoordinates = Vector2();
@@ -87,8 +99,8 @@ void Input::init() {
 	glfwSetCharCallback(RenderContext::smWindow, charCallback);
 }
 
-void Input::pollEvents() {
-
+void Input::pollEvents()
+{
 	smKeyJustPressed = false;
 	smButtonJustPressed = false;
 	smScroll = 0;
@@ -106,7 +118,7 @@ void Input::pollEvents() {
 	bool moved = false;
 	Vector2 newMouseCoordinates(mouseCoordX / halfWindowSizeX, mouseCoordY / halfWindowSizeY);
 
-	if(!smMouseCoordinates.eq(newMouseCoordinates))
+	if (!smMouseCoordinates.eq(newMouseCoordinates))
 	{
 		smMouseCoordinates.set(newMouseCoordinates);
 
@@ -117,40 +129,48 @@ void Input::pollEvents() {
 	glfwPollEvents();
 }
 
-bool Input::isKeyPressedOnce(u32 key) {
+bool Input::isKeyPressedOnce(u32 key)
+{
 	return smKeyJustPressed && key == smLastKeyPressed;
 }
 
-bool Input::isKeyPressed(u32 key) {
+bool Input::isKeyPressed(u32 key)
+{
 	return key == smLastKeyPressed;
 }
 
-bool Input::isModifierPressed(u32 modifier) {
+bool Input::isModifierPressed(u32 modifier)
+{
 	return modifier == smModifier;
 }
 
-bool Input::isMouseButtonPressedOnce(u32 button) {
+bool Input::isMouseButtonPressedOnce(u32 button)
+{
 	return smButtonJustPressed && button == smLastMouseButtonPressed;
 }
 
-bool Input::isMouseButtonPressed(u32 button) {
+bool Input::isMouseButtonPressed(u32 button)
+{
 	return button == smLastMouseButtonPressed;
 }
 
-Vector2 Input::getMousePosition() {
-
+Vector2 Input::getMousePosition()
+{
 	return smMouseCoordinates;
 }
 
-f32 Input::getScroll() {
+f32 Input::getScroll()
+{
 	return smScroll;
 }
 
-void Input::clearMouseButton() {
+void Input::clearMouseButton()
+{
 	smLastMouseButtonPressed = -1;
 	smButtonJustPressed = false;
 }
-void Input::clearKey() {
+void Input::clearKey()
+{
 	smLastKeyPressed = -1;
 	smKeyJustPressed = false;
 }

@@ -7,11 +7,12 @@
 #include <fcntl.h>
 #include <string.h>
 
-void Server::init(u16 port){
+void Server::init(u16 port)
+{
 	TRACE()
 
 	mStatus = ServerStatus::UNINITIALIZED;
-		
+
 	// Creating socket file descriptor
 	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -21,28 +22,30 @@ void Server::init(u16 port){
 
 	int flags = fcntl(server_fd, F_GETFL);
 
-	if(flags < 0) {
+	if (flags < 0)
+	{
 		perror("could not get flags on TCP listening socket");
 	}
 
-	if(fcntl(server_fd, F_SETFL, flags | O_NONBLOCK) < 0) {
+	if (fcntl(server_fd, F_SETFL, flags | O_NONBLOCK) < 0)
+	{
 		perror("could not set TCP listening socket to be non-blocking");
 	}
-		
+
 	// Forcefully attaching socket to the port 8080
 	if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-													&opt, sizeof(opt)))
+				   &opt, sizeof(opt)))
 	{
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons( port );
-		
+	address.sin_port = htons(port);
+
 	// Forcefully attaching socket to the port 8080
-	if (bind(server_fd, (struct sockaddr *)&address, 
-									sizeof(address))<0)
+	if (bind(server_fd, (struct sockaddr *)&address,
+			 sizeof(address)) < 0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
@@ -66,20 +69,27 @@ void Server::init(u16 port){
 	printf("Hello message sent\n");*/
 }
 
-bool Server::checkConnectionRequest() {
-	new_socket = accept(server_fd, (struct sockaddr *)&address, 
-						(socklen_t*)&addrlen);
+bool Server::checkConnectionRequest()
+{
+	new_socket = accept(server_fd, (struct sockaddr *)&address,
+						(socklen_t *)&addrlen);
 
 	bool result = false;
-	if (new_socket < 0) {
-		if (errno == EWOULDBLOCK) {
+	if (new_socket < 0)
+	{
+		if (errno == EWOULDBLOCK)
+		{
 			//perror("No pending connections.\n");
-		} else {
+		}
+		else
+		{
 			perror("error when accepting connection");
 		}
 
 		result = false;
-	} else {
+	}
+	else
+	{
 		perror("NEW Connection accepted.\n");
 		mStatus = ServerStatus::CONNECTED;
 		result = true;
@@ -88,46 +98,55 @@ bool Server::checkConnectionRequest() {
 	return result;
 }
 
-void Server::writeData(const std::string& data) const {
-	int sent = send(new_socket , data.c_str() , data.size() , 0 );
+void Server::writeData(const std::string &data) const
+{
+	int sent = send(new_socket, data.c_str(), data.size(), 0);
 
-	if(sent < 0) {
-		perror("Error sending.\n");
-	} 
-}
-
-std::string Server::readData(u32 size/* = DEFAULT_SOCKET_READ_SIZE*/) const {
-	buffer.clear();
-	buffer.resize(size);
-	int readed = read( new_socket , &buffer[0], size);
-	
-	if(readed < 0) {
+	if (sent < 0)
+	{
 		perror("Error sending.\n");
 	}
-	
+}
+
+std::string Server::readData(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
+{
+	buffer.clear();
+	buffer.resize(size);
+	int readed = read(new_socket, &buffer[0], size);
+
+	if (readed < 0)
+	{
+		perror("Error sending.\n");
+	}
+
 	return buffer;
 }
 
-JSON Server::readJSON() const {
+JSON Server::readJSON() const
+{
 	JSON json = readSimpleJSON();
 
-	if(json.contains("__size")) {
+	if (json.contains("__size"))
+	{
 		json = readSimpleJSON(json["__size"]);
 	}
 
 	return json;
 }
 
-JSON Server::readSimpleJSON(u32 size/* = DEFAULT_SOCKET_READ_SIZE*/) const {
+JSON Server::readSimpleJSON(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
+{
 	JSON json;
 	std::string data = readData(size);
 
-	if(!data.empty()) {
+	if (!data.empty())
+	{
 		ECHO(data);
 
 		json = JSON::parse(data);
 
-		if(!json.empty()) {
+		if (!json.empty())
+		{
 			ECHO(json.dump());
 		}
 	}
@@ -135,6 +154,6 @@ JSON Server::readSimpleJSON(u32 size/* = DEFAULT_SOCKET_READ_SIZE*/) const {
 	return json;
 }
 
-void Server::writeJSON(JSON& json) const {
-
+void Server::writeJSON(JSON &json) const
+{
 }

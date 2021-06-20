@@ -4,8 +4,8 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
-CLASS(Transform, Component) {
-
+CLASS(Transform, Component)
+{
 	PRI(WorldPosition, NONE, Vector3)
 
 	PRI(ModelMatrix, NONE, mutable Matrix4)
@@ -22,7 +22,7 @@ CLASS(Transform, Component) {
 	PRI(ForceModelMatrixCalculation, NONE, bool)
 
 	//Transform* mParent;
-	PRI(Parent, GET_SET, Transform*);
+	PRI(Parent, GET_SET, Transform *);
 
 	PRI(LocalPosition, GET, Vector3)
 	PRI(Rotation, GET, Vector3)
@@ -30,7 +30,6 @@ CLASS(Transform, Component) {
 	PRI(AffectedByProjection, GET_SET, bool)
 
 public:
-
 	static const Vector3 smRight;
 	static const Vector3 smUp;
 	static const Vector3 smForward;
@@ -62,20 +61,19 @@ public:
 	void setRotation(const Vector3 &vector);
 	void setScale(const Vector3 &vector);
 
-	const Vector3& getWorldPosition();
+	const Vector3 &getWorldPosition();
 
-	const Matrix4& getTranslationMatrix();
-	const Matrix4& getRotationMatrix();
-	const Matrix4& getScaleMatrix();
+	const Matrix4 &getTranslationMatrix();
+	const Matrix4 &getRotationMatrix();
+	const Matrix4 &getScaleMatrix();
 
-	const Matrix4& getModelMatrix(bool force = false);
+	const Matrix4 &getModelMatrix(bool force = false);
 
 	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
 
-	void forceModelMatrixCalculation() {
+	void forceModelMatrixCalculation()
+	{
 		mForceModelMatrixCalculation = true;
 	}
-
-	
 };

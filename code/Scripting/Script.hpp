@@ -4,22 +4,22 @@
 
 class GameObject;
 
-CLASS(Script, Component) {
-
+CLASS(Script, Component)
+{
 	PRI(FirstStepDone, GET, bool)
 
 public:
-
 	virtual void init();
 	virtual void firstStep();
 	virtual void step();
 	virtual void terminate();
 
-	virtual void onEnterCollision(GameObject *otherGameObject);
-	virtual void onCollision(GameObject *otherGameObject);
-	virtual void onExitCollision(GameObject *otherGameObject);
+	virtual void onEnterCollision(GameObject * otherGameObject);
+	virtual void onCollision(GameObject * otherGameObject);
+	virtual void onExitCollision(GameObject * otherGameObject);
 
-	void firstStepDone() {
+	void firstStepDone()
+	{
 		mFirstStepDone = true;
 	}
 };

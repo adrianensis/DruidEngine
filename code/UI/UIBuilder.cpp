@@ -15,14 +15,16 @@
 #include "Graphics/RenderContext.hpp"
 #include "UI/UI.hpp"
 
-UIElementData::UIElementData() {
+UIElementData::UIElementData()
+{
 	mIsAffectedByLayout = true;
 }
 
-void UIElementData::init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text /*= std::string()*/){
+void UIElementData::init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text /*= std::string()*/)
+{
 	mElementType = UIElementType::PANEL;
 	mPosition = position;
-	mDisplayPosition = Vector2(0,0);
+	mDisplayPosition = Vector2(0, 0);
 	mSize = size;
 	mText = text;
 	mLayer = layer;
@@ -30,40 +32,45 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, u32 layer
 	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
 	mGroup = "";
+	mParent = nullptr;
 	mSeparatorSize = 0.01f;
-	mBackgroundColor = Vector4(0.5,0.5,0.5,1);
-	mBackgroundColor2 = Vector4(0.6,0.6,0.6,1);
-	mBackgroundColor3 = Vector4(0.2,0.2,0.2,1);
-	mBackgroundColor4 = Vector4(0.5,0.5,0.5,0.7);
+	mBackgroundColor = Vector4(0.5, 0.5, 0.5, 1);
+	mBackgroundColor2 = Vector4(0.6, 0.6, 0.6, 1);
+	mBackgroundColor3 = Vector4(0.2, 0.2, 0.2, 1);
+	mBackgroundColor4 = Vector4(0.5, 0.5, 0.5, 0.7);
 }
 
-UIBuilder::UIBuilder() {
+UIBuilder::UIBuilder()
+{
 	mButtonMaterial = nullptr;
 	mCurrentLayout = UILayout::VERTICAL;
 	mMakeRelativeToLastData = false;
 	mCurrentUIElement = nullptr;
 
-	mData.init(Vector2(0,0), Vector2(0,0), 0);
+	mData.init(Vector2(0, 0), Vector2(0, 0), 0);
 	//mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
 }
 
-void UIBuilder::registerUIElement(UIElement* uiElement) {
+void UIBuilder::registerUIElement(UIElement *uiElement)
+{
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(uiElement);
 
-	if(mData.mGroup.length() > 0) {
+	if (mData.mGroup.length() > 0)
+	{
 		UI::getInstance()->addToGroup(mData.mGroup, uiElement);
 	}
 }
 
-void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
-
+void UIBuilder::registerCurrentUIElement(UIElement *uiElement)
+{
 	registerUIElement(uiElement);
 
 	mCurrentUIElement = uiElement;
 
-	if(mData.mIsAffectedByLayout) {
-
-		if(mNewRowOrColumn) {
+	if (mData.mIsAffectedByLayout)
+	{
+		if (mNewRowOrColumn)
+		{
 			mNewRowOrColumn = false;
 			mLayoutFirstUIElementData = mData;
 		}
@@ -74,80 +81,93 @@ void UIBuilder::registerCurrentUIElement(UIElement* uiElement) {
 	}
 }
 
-UILayout UIBuilder::getOppositeLayout(UILayout layout) {
+UILayout UIBuilder::getOppositeLayout(UILayout layout)
+{
 	return (UILayout)(((int)mCurrentLayout + 1) % (int)UILayout::MAX);
 }
 
-Vector2 UIBuilder::calculateNextElementOffset(UILayout layout) {
-	Vector2 offset = Vector2(0,0);
+Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)
+{
+	Vector2 offset = Vector2(0, 0);
 
-	switch (layout) {
-		case UILayout::HORIZONTAL: {
-			offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
-			break;
-		}
-		case UILayout::VERTICAL: {
-			offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
-			break;
-		}
+	switch (layout)
+	{
+	case UILayout::HORIZONTAL:
+	{
+		offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
+		break;
+	}
+	case UILayout::VERTICAL:
+	{
+		offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
+		break;
+	}
 	}
 
 	return offset;
 }
 
-void UIBuilder::calculateData() {
-
-	if(mData.mAdjustSizeToText) {
+void UIBuilder::calculateData()
+{
+	if (mData.mAdjustSizeToText)
+	{
 		f32 offset = mData.mTextSize.x;
 		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) /*+ offset*/;
 		mData.mSize.y = mData.mTextSize.y;
 	}
 
-	if(mData.mIsAffectedByLayout && mMakeRelativeToLastData) {
+	if (mData.mIsAffectedByLayout && mMakeRelativeToLastData)
+	{
 		Vector2 offset = calculateNextElementOffset(mNewRowOrColumn ? getOppositeLayout(mCurrentLayout) : mCurrentLayout);
 		mData.mPosition = mLastData.mPosition + offset;
 	}
 
 	// Offset the UI Element so its Top-Left corner is the origin.
 	mData.mDisplayPosition = mData.mPosition;
-	switch (mData.mElementType) {
-		case UIElementType::TEXT:
-		case UIElementType::TEXTEDITABLE:
-			mData.mDisplayPosition.x += mData.mTextSize.x/2.0f;
-			mData.mDisplayPosition.y -= mData.mTextSize.y/2.0f;
-			break;
-		default:
-			mData.mDisplayPosition.x += mData.mSize.x/2.0f;
-			mData.mDisplayPosition.y -= mData.mSize.y/2.0f;
-			break;
+	switch (mData.mElementType)
+	{
+	case UIElementType::TEXT:
+	case UIElementType::TEXTEDITABLE:
+		mData.mDisplayPosition.x += mData.mTextSize.x / 2.0f;
+		mData.mDisplayPosition.y -= mData.mTextSize.y / 2.0f;
+		break;
+	default:
+		mData.mDisplayPosition.x += mData.mSize.x / 2.0f;
+		mData.mDisplayPosition.y -= mData.mSize.y / 2.0f;
+		break;
 	}
 }
 
-UIBuilder* const UIBuilder::nextRow() {
+UIBuilder &UIBuilder::nextRow()
+{
 	mLastData = mLayoutFirstUIElementData;
 	mNewRowOrColumn = true;
-	return this;
+	return *this;
 }
 
-UIBuilder* const UIBuilder::nextColumn() {
+UIBuilder &UIBuilder::nextColumn()
+{
 	return nextRow(); // NOTE : exactly the same code.
 }
 
-UIBuilder* const UIBuilder::saveData() {
+UIBuilder &UIBuilder::saveData()
+{
 	mDataStack.push_front(mData);
-	return this;
+	return *this;
 }
 
-UIBuilder* const UIBuilder::restoreData() {
+UIBuilder &UIBuilder::restoreData()
+{
 	mData = mDataStack.front();
 	mDataStack.pop_front();
-	return this;
+	return *this;
 }
 
-UIPanel* UIBuilder::internalCreatePanel() {
+UIPanel *UIBuilder::internalCreatePanel()
+{
 	calculateData();
 
-	UIPanel* uiPanel = NEW(UIPanel);
+	UIPanel *uiPanel = NEW(UIPanel);
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
@@ -157,7 +177,7 @@ UIPanel* UIBuilder::internalCreatePanel() {
 	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 	uiPanel->getTransform()->setAffectedByProjection(false);
 
-	Renderer* renderer = NEW(Renderer);
+	Renderer *renderer = NEW(Renderer);
 	uiPanel->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -172,11 +192,11 @@ UIPanel* UIBuilder::internalCreatePanel() {
 	return uiPanel;
 }
 
-/*UIButton* UIBuilder::internalCreateButton() {
-
+UIButton *UIBuilder::internalCreateButton()
+{
 	calculateData();
 
-	UIButton* uiButton = NEW(UIButton);
+	UIButton *uiButton = NEW(UIButton);
 	uiButton->init();
 	uiButton->setIsStatic(true);
 
@@ -190,7 +210,7 @@ UIPanel* UIBuilder::internalCreatePanel() {
 	uiButton->getTransform()->setScale(size);
 	uiButton->getTransform()->setAffectedByProjection(false);
 
-	Renderer* renderer = NEW(Renderer);
+	Renderer *renderer = NEW(Renderer);
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
@@ -199,27 +219,27 @@ UIPanel* UIBuilder::internalCreatePanel() {
 	renderer->setColor(mData.mBackgroundColor);
 	//renderer->setHasBorder(true);
 
-	RigidBody* rigidBody = NEW(RigidBody);
+	/*RigidBody* rigidBody = NEW(RigidBody);
 	uiButton->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
 	Collider* collider = NEW(Collider);
 	uiButton->addComponent<Collider>(collider);
 	collider->setSize(size.x, size.y);
-	collider->getBoundingBox();
+	collider->getBoundingBox();*/
 
 	uiButton->setComponentsCache();
 
 	uiButton->setText(mData.mText);
 
 	return uiButton;
-}*/
+}
 
-UIText* UIBuilder::internalCreateText() {
-
+UIText *UIBuilder::internalCreateText()
+{
 	calculateData();
 
-	UIText* uiText = NEW(UIText);
+	UIText *uiText = NEW(UIText);
 	uiText->init();
 	uiText->setIsStatic(true);
 
@@ -232,6 +252,12 @@ UIText* UIBuilder::internalCreateText() {
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
+
+	if (mData.mParent)
+	{
+		uiText->getTransform()->setParent(mData.mParent->getTransform());
+		uiText->getTransform()->setLocalPosition(Vector2(-textSize.x * mData.mText.length() / 2.0f + textSize.x,0));
+	}
 
 	uiText->setSize(mData.mTextSize);
 	uiText->setLayer(mData.mLayer);
@@ -252,7 +278,6 @@ UIText* UIBuilder::internalCreateText() {
 }
 
 /*UITextEditable* UIBuilder::internalCreateTextEditable() {
-
 	calculateData();
 
 	UITextEditable* uiText = NEW(UITextEditable);
@@ -318,7 +343,6 @@ UIText* UIBuilder::internalCreateText() {
 }
 
 UIDropdown* UIBuilder::internalCreateDropdown() {
-
 	calculateData();
 
 	UIDropdown* uiDropdown = NEW(UIDropdown);
@@ -360,37 +384,39 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	return uiDropdown;
 }*/
 
-UIBuilder* const UIBuilder::create(UIElementType type) {
-
+UIBuilder &UIBuilder::create(UIElementType type)
+{
 	mData.mElementType = type;
 
-	UIElement* newElement = nullptr;
+	UIElement *newElement = nullptr;
 
-	switch (type) {
-		case UIElementType::PANEL:
-			newElement = internalCreatePanel();
-			break;
-		/*case UIElementType::BUTTON:
-			newElement = internalCreateButton();
-			break;*/
-		case UIElementType::TEXT:
-			newElement = internalCreateText();
-			break;
-		/*case UIElementType::TEXTEDITABLE:
+	switch (type)
+	{
+	case UIElementType::PANEL:
+		newElement = internalCreatePanel();
+		break;
+	case UIElementType::BUTTON:
+		newElement = internalCreateButton();
+		break;
+	case UIElementType::TEXT:
+		newElement = internalCreateText();
+		break;
+	/*case UIElementType::TEXTEDITABLE:
 			newElement = internalCreateTextEditable();
 			break;
 		case UIElementType::DROPDOWN:
 			newElement = internalCreateDropdown();
 			break;*/
-		default:
-			break;
+	default:
+		break;
 	}
 
 	registerCurrentUIElement(newElement);
 
-	return this;
+	return *this;
 }
 
-UIElement* UIBuilder::getUIElement() {
+UIElement *UIBuilder::getUIElement()
+{
 	return mCurrentUIElement;
 }

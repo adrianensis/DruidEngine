@@ -1,8 +1,8 @@
 #include "Core/Time/TimeUtils.hpp"
 #include "Test/Test.hpp"
 
-int main(){
-
+int main()
+{
 	test(Time);
 
 	/*Time::init();

@@ -1,16 +1,17 @@
 #include "Core/Assert/Assert.hpp"
-#include <string>   // std::string
-#include <cstdlib>  // abort
-#include <iostream>  // abort
+#include <string>	// std::string
+#include <cstdlib>	// abort
+#include <iostream> // abort
 
 //#include <experimental/filesystem>
 
-
-void assert_msg(const bool condition, const std::string& file, u32 line, const std::string& function,
-		const std::string& message){
-	if (!condition){
+void assert_msg(const bool condition, const std::string &file, u32 line, const std::string &function,
+				const std::string &message)
+{
+	if (!condition)
+	{
 		std::cout << "ASSERT > [" << function << ":"
-				<< std::to_string(line) << "] > " << message << std::endl;
+				  << std::to_string(line) << "] > " << message << std::endl;
 		throw;
 		//abort();
 	}

@@ -2,36 +2,41 @@
 
 #include "Core/Memory.hpp"
 
-template<class T>
-class Singleton {
-
+template <class T>
+class Singleton
+{
 protected:
-	static T* mInstance;
+	static T *mInstance;
 
 public:
 	Singleton() = default;
 
 	~Singleton() = default;
 
-	static bool existsInstance(){
+	static bool existsInstance()
+	{
 		return mInstance != nullptr;
-	}	
+	}
 
-	static T* getInstance(){
-		if (!existsInstance()){
-			mInstance = Memory::newObject< T >();
+	static T *getInstance()
+	{
+		if (!existsInstance())
+		{
+			mInstance = Memory::newObject<T>();
 		}
 
 		return mInstance;
 	}
 
-	static void deleteInstance(){
-		if(mInstance){
-			Memory::deleteObject< T >(mInstance);
+	static void deleteInstance()
+	{
+		if (mInstance)
+		{
+			Memory::deleteObject<T>(mInstance);
 			mInstance = nullptr;
 		}
-	}	
+	}
 };
 
-template<class T>
-T* Singleton<T>::mInstance = nullptr;
+template <class T>
+T *Singleton<T>::mInstance = nullptr;

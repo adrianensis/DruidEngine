@@ -5,9 +5,9 @@
 
 class Renderer;
 
-CLASS(ProjectileScript, Script) {
-
-	PRI(Renderer, NONE, Renderer*)
+CLASS(ProjectileScript, Script)
+{
+	PRI(Renderer, NONE, Renderer *)
 
 	PRI(ExplosionTime, NONE, f32)
 	PRI(ExplosionTimeCounter, NONE, f32)
@@ -17,15 +17,14 @@ private:
 	static u32 smProjectileIndex;
 
 public:
-
 	void init() override;
 	void firstStep() override;
 	void step() override;
 	void terminate() override;
 
 	void explode();
-	bool isExploded() const {
+	bool isExploded() const
+	{
 		return mIsExploding;
 	}
-
 };

@@ -1,5 +1,6 @@
 #include "Core/EngineConfig.hpp"
 
-void EngineConfig::init() {
+void EngineConfig::init()
+{
 	mConfig.readFromJsonFile("config/engine.json");
 }

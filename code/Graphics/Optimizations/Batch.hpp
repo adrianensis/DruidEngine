@@ -13,12 +13,12 @@ class Renderer;
 class RenderEngine;
 class Camera;
 
-CLASS(Batch, ObjectBase) {
-
-	PRI(RenderEngine, NONE, RenderEngine*)
-	PRI(Renderers, NONE, std::map<u32, std::list<Renderer*>*>)
-	PRI(Material, GET, Material*)
-	PRI(Mesh, GET, const Mesh*)
+CLASS(Batch, ObjectBase)
+{
+	PRI(RenderEngine, NONE, RenderEngine *)
+	PRI(Renderers, NONE, std::map<u32, std::list<Renderer *> *>)
+	PRI(Material, GET, Material *)
+	PRI(Mesh, GET, const Mesh *)
 
 	PRI(MeshBuilder, NONE, Mesh)
 
@@ -37,21 +37,19 @@ CLASS(Batch, ObjectBase) {
 	PRI(IsWorldSpace, GET_SET, bool)
 
 private:
-
-	void addToVertexBuffer(Renderer* renderer);
+	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
-	bool isChunkOk(Renderer* renderer) const;
+	bool isChunkOk(Renderer * renderer) const;
 
-	void processRenderers(std::list<Renderer*>* renderers);
+	void processRenderers(std::list<Renderer *> * renderers);
 
 	void drawCall() const;
 
-	void internalRemoveRendererFromList(std::list<Renderer*>::iterator &it, std::list<Renderer*> *list);
+	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *> * list);
 
-	void insertSorted(Renderer *renderer, std::list<Renderer*> *renderers);
+	void insertSorted(Renderer * renderer, std::list<Renderer *> * renderers);
 
 public:
-
 	~Batch() override;
 
 	void init(const Mesh *mesh, Material *material);
@@ -59,5 +57,5 @@ public:
 
 	void render(u32 layer);
 
-	void addRenderer(Renderer *renderer);
+	void addRenderer(Renderer * renderer);
 };

@@ -7,30 +7,32 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Core/Time/TimeUtils.hpp"
 
-Material::Material() {
+Material::Material()
+{
 	mShader = nullptr;
 	mTexture = nullptr;
 	mAlphaEnabled = true;
 	mHasBorder = false;
 }
 
-void Material::init() {
-
+void Material::init()
+{
 }
 
-void Material::bind(bool isWorldSpace) {
-
+void Material::bind(bool isWorldSpace)
+{
 	mShader->use();
-	
-	if(mTexture) {
+
+	if (mTexture)
+	{
 		mTexture->bind();
 	}
 
-	Camera* camera = RenderEngine::getInstance()->getCamera();
+	Camera *camera = RenderEngine::getInstance()->getCamera();
 
-	const Matrix4& projectionMatrix = camera->getProjectionMatrix();
-	const Matrix4& viewTranslationMatrix = camera->getViewTranslationMatrix();
-	const Matrix4& viewRotationMatrix = camera->getViewRotationMatrix();
+	const Matrix4 &projectionMatrix = camera->getProjectionMatrix();
+	const Matrix4 &viewTranslationMatrix = camera->getViewTranslationMatrix();
+	const Matrix4 &viewRotationMatrix = camera->getViewRotationMatrix();
 
 	mShader->addMatrix(projectionMatrix, "projectionMatrix");
 	mShader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");

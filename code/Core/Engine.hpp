@@ -2,12 +2,11 @@
 
 #include "Core/Core.hpp"
 
-CLASS(Engine, ObjectBase), SINGLETON(Engine){
-
+CLASS(Engine, ObjectBase), SINGLETON(Engine)
+{
 	PRI(FPS, NONE, f32)
 
 public:
-
 	~Engine() override;
 	void init();
 	void initSubsystems();

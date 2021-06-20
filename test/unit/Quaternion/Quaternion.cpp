@@ -2,14 +2,15 @@
 #include "Maths/Quaternion.hpp"
 #include <cmath>
 
-Quaternion mul(Quaternion q1, Quaternion q2){
+Quaternion mul(Quaternion q1, Quaternion q2)
+{
 	float w = (q1.w * q2.w) - (q1.v.dot(q2.v));
 	Vector3 v(q2.v * q1.w + q1.v * q1.w + Vector3(q1.v).cross(q2.v));
 	return Quaternion(v, w);
 }
 
-int main(){
-
+int main()
+{
 	test(Quaternion);
 
 	Quaternion a(0, 1, 2, 3);
@@ -67,7 +68,7 @@ int main(){
 	test_show(f.toEuler());
 	test_expected_bool(f.toEuler().eq(Vector3(-180, 10, 10), 0.1f), true);*/
 
-	Matrix4* m = NEW(Matrix4);
+	Matrix4 *m = NEW(Matrix4);
 	m->zeros();
 
 	Quaternion i(0, 0, 0, 1);
@@ -133,7 +134,7 @@ int main(){
 	test_expected_float_eps(euler.z, 10.0f, 0.00001f);*/
 
 	delete m;
-	
+
 	summary();
 
 	return 0;

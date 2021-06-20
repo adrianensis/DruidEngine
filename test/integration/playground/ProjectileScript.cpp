@@ -19,11 +19,12 @@
 
 u32 ProjectileScript::smProjectileIndex = 0;
 
-void ProjectileScript::init() {
-
+void ProjectileScript::init()
+{
 }
 
-void ProjectileScript::firstStep() {
+void ProjectileScript::firstStep()
+{
 	getGameObject()->setTag("projectile" + std::to_string(smProjectileIndex));
 	++smProjectileIndex;
 	mRenderer = getGameObject()->getFirstComponent<Renderer>();
@@ -33,10 +34,10 @@ void ProjectileScript::firstStep() {
 	mIsExploding = false;
 }
 
-void ProjectileScript::step() {
-
+void ProjectileScript::step()
+{
 }
 
-void ProjectileScript::terminate() {
-
+void ProjectileScript::terminate()
+{
 }

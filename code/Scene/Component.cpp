@@ -2,23 +2,27 @@
 #include "Config/ConfigObject.hpp"
 #include "Scene/GameObject.hpp"
 
-Component::Component() {
+Component::Component()
+{
 	mIsActive = true;
 	mIsDestroyed = false;
 	mIsStatic = false;
 }
 
-bool Component::isStatic() {
-
-	if(mGameObject){
+bool Component::isStatic()
+{
+	if (mGameObject)
+	{
 		mIsStatic = mGameObject->getIsStatic();
 	}
 
 	return mIsStatic;
 }
 
-void Component::destroy() {
-	if (!(getIsDestroyed() || getIsPendingToBeDestroyed())) {
+void Component::destroy()
+{
+	if (!(getIsDestroyed() || getIsPendingToBeDestroyed()))
+	{
 		mIsPendingToBeDestroyed = true;
 		mIsActive = false;
 		onDestroy();
@@ -30,5 +34,4 @@ void Component::destroy() {
 }
 
 void Component::deserialize(ConfigObject* configMap, std::string& objectName) {
-
 }*/

@@ -8,10 +8,9 @@
 #include "Maths/Geometry.hpp"
 #include <limits>
 
-
-class MathUtils {
+class MathUtils
+{
 public:
-
 	static f32 FLOAT_EPSILON;
 
 	static f32 PI;
@@ -40,6 +39,4 @@ public:
 	static bool eqf(f32 a, f32 b); // default epsilon
 
 	static f32 clamp(f32 n, f32 lower, f32 upper);
-
 };
-

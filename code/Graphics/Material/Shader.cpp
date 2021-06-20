@@ -6,10 +6,11 @@
 #include <string>
 #include <iostream>
 
-Shader* Shader::msShaderDefault = nullptr;
-Shader* Shader::msShaderDebug = nullptr;
+Shader *Shader::msShaderDefault = nullptr;
+Shader *Shader::msShaderDebug = nullptr;
 
-Shader::Shader(){
+Shader::Shader()
+{
 	mVertexShader = -1;
 	mFragmentShader = -1;
 	mProgram = -1;
@@ -17,33 +18,41 @@ Shader::Shader(){
 
 Shader::~Shader() = default;
 
-Shader* Shader::getDefaultShader() {
-	if (!msShaderDefault) {
+Shader *Shader::getDefaultShader()
+{
+	if (!msShaderDefault)
+	{
 		msShaderDefault = NEW(Shader);
 		msShaderDefault->init();
 	}
 	return msShaderDefault;
 }
 
-Shader* Shader::getDebugShader() {
-	if (!msShaderDebug) {
+Shader *Shader::getDebugShader()
+{
+	if (!msShaderDebug)
+	{
 		msShaderDebug = NEW(Shader);
 		msShaderDebug->initDebug();
 	}
 	return msShaderDebug;
 }
 
-void Shader::freeStaticShaders() {
-	if (msShaderDefault) {
+void Shader::freeStaticShaders()
+{
+	if (msShaderDefault)
+	{
 		DELETE(msShaderDefault);
 	}
 
-	if (msShaderDebug) {
+	if (msShaderDebug)
+	{
 		DELETE(msShaderDebug);
 	}
 }
 
-void Shader::initInternal(const std::string& vertex, const std::string& fragment) {
+void Shader::initInternal(const std::string &vertex, const std::string &fragment)
+{
 	TRACE()
 
 	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -52,7 +61,7 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 	vertex_ifs.open(vertex.c_str(), std::ifstream::in);
 	std::string vertexShaderSource((std::istreambuf_iterator<char>(vertex_ifs)), (std::istreambuf_iterator<char>()));
 
-	const char* c_str_vertex = vertexShaderSource.c_str();
+	const char *c_str_vertex = vertexShaderSource.c_str();
 
 	glShaderSource(mVertexShader, 1, &c_str_vertex, nullptr);
 	glCompileShader(mVertexShader);
@@ -61,10 +70,13 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 	char infoLog[512];
 	glGetShaderiv(mVertexShader, GL_COMPILE_STATUS, &success);
 
-	if (!success) {
+	if (!success)
+	{
 		glGetShaderInfoLog(mVertexShader, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl << vertexShaderSource
-				<< std::endl;
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+				  << infoLog << std::endl
+				  << vertexShaderSource
+				  << std::endl;
 	}
 
 	mFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -72,18 +84,21 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 	std::ifstream fragment_ifs;
 	fragment_ifs.open(fragment.c_str(), std::ifstream::in);
 	std::string fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)),
-			(std::istreambuf_iterator<char>()));
-	const char* c_str_fragment = fragmentShaderSource.c_str();
+									 (std::istreambuf_iterator<char>()));
+	const char *c_str_fragment = fragmentShaderSource.c_str();
 
 	glShaderSource(mFragmentShader, 1, &c_str_fragment, nullptr);
 	glCompileShader(mFragmentShader);
 
 	glGetShaderiv(mFragmentShader, GL_COMPILE_STATUS, &success);
 
-	if (!success) {
+	if (!success)
+	{
 		glGetShaderInfoLog(mVertexShader, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl << fragmentShaderSource
-				<< std::endl;
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
+				  << infoLog << std::endl
+				  << fragmentShaderSource
+				  << std::endl;
 	}
 
 	mProgram = glCreateProgram();
@@ -93,63 +108,75 @@ void Shader::initInternal(const std::string& vertex, const std::string& fragment
 	glLinkProgram(mProgram);
 
 	glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
-	if (!success) {
+	if (!success)
+	{
 		glGetProgramInfoLog(mProgram, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
+		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n"
+				  << infoLog << std::endl;
 	}
 
 	glDeleteShader(mVertexShader);
 	glDeleteShader(mFragmentShader);
 }
 
-void Shader::init() {
+void Shader::init()
+{
 	TRACE()
 
 	initInternal("resources/shaders/vertex.shader", "resources/shaders/fragment.shader");
 }
 
-void Shader::initDebug() {
+void Shader::initDebug()
+{
 	TRACE()
 
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }
 
-void Shader::use() {
+void Shader::use()
+{
 	glUseProgram(mProgram);
 };
 
-void Shader::addMatrix(const Matrix4 &matrix, const std::string& name) {
+void Shader::addMatrix(const Matrix4 &matrix, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
 };
 
-void Shader::addInt(i32 value, const std::string& name) {
+void Shader::addInt(i32 value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1i(location, value);
 };
 
-void Shader::addUInt(u32 value, const std::string& name) {
+void Shader::addUInt(u32 value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };
 
-void Shader::addFloat(f32 value, const std::string& name) {
+void Shader::addFloat(f32 value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1f(location, value);
 };
 
-void Shader::addVector4(std::vector<f32>* value, const std::string& name) {
+void Shader::addVector4(std::vector<f32> *value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform4fv(location, 1, value->data());
 };
 
-void Shader::addVector3(std::vector<f32>* value, const std::string& name) {
+void Shader::addVector3(std::vector<f32> *value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform3fv(location, 1, value->data());
 };
 
-void Shader::addBool(bool value, const std::string& name) {
+void Shader::addBool(bool value, const std::string &name)
+{
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };

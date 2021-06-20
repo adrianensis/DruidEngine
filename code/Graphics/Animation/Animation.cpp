@@ -4,36 +4,41 @@
 #include "Graphics/Animation/AnimationFrame.hpp"
 #include "Log/Log.hpp"
 
-Animation::Animation() {
+Animation::Animation()
+{
 	mFrames = nullptr;
 	mCurrentFrameNumber = 0;
 	mSpeed = 1.0f;
 	mTimeAccumulator = 0.0f;
 }
 
-Animation::~Animation() {
+Animation::~Animation()
+{
 	LIST_DELETE_CONTENT(*mFrames)
 
 	DELETE(mFrames);
 }
 
-void Animation::init() {
-	mFrames = NEW(std::vector<AnimationFrame*>);
+void Animation::init()
+{
+	mFrames = NEW(std::vector<AnimationFrame *>);
 }
 
-void Animation::addFrame(AnimationFrame *frame) {
+void Animation::addFrame(AnimationFrame *frame)
+{
 	mFrames->push_back(frame);
 }
-u32 Animation::getNumberOfFrames() const {
+u32 Animation::getNumberOfFrames() const
+{
 	return mFrames->size();
 }
 
-Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
-		f32 height, f32 speed) {
-
+Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+							 f32 height, f32 speed)
+{
 	// TODO: check if coordinates are > 1 and < 0 !!!!!
 
-	Animation* animation = NEW(Animation);
+	Animation *animation = NEW(Animation);
 	animation->init();
 	animation->setSpeed(speed);
 
@@ -45,7 +50,8 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 	else
 		verticalDir = 1;
 
-	if (reverse) {
+	if (reverse)
+	{
 		horizontalDir *= -1;
 		verticalDir *= -1;
 	}
@@ -54,14 +60,15 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 	i32 end = frameCount;
 	i32 delta = 1;
 
-	if (reverse) {
+	if (reverse)
+	{
 		start = frameCount - 1;
 		end = 0;
 		delta = -1;
 	}
 
-	for (i32 i = start; i != end; i += delta) {
-
+	for (i32 i = start; i != end; i += delta)
+	{
 		Vector2 pos(0, 0);
 		pos.add(startPosition);
 
@@ -71,20 +78,20 @@ Animation* Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame* frame = NEW(AnimationFrame);
+		AnimationFrame *frame = NEW(AnimationFrame);
 		frame->init(pos, width, height);
 		animation->addFrame(frame);
-
 	}
 
 	return animation;
 }
 
-const AnimationFrame* Animation::getNextFrame() {
+const AnimationFrame *Animation::getNextFrame()
+{
+	const AnimationFrame *frame = nullptr;
 
-	const AnimationFrame* frame = nullptr;
-
-	if (mFrames->size() > 0) {
+	if (mFrames->size() > 0)
+	{
 		// speed -> frame/second.
 		// time -> time of one frame.
 
@@ -97,7 +104,8 @@ const AnimationFrame* Animation::getNextFrame() {
 
 		// if delta time is greater than 'one frame time'
 		// then -> change to the next frame.
-		if (mTimeAccumulator >= time) {
+		if (mTimeAccumulator >= time)
+		{
 			mTimeAccumulator = 0.0f;
 			mCurrentFrameNumber = (mCurrentFrameNumber + 1) % mFrames->size();
 		}
@@ -108,6 +116,7 @@ const AnimationFrame* Animation::getNextFrame() {
 	return frame;
 }
 
-const AnimationFrame* Animation::getCurrentFrame() const {
+const AnimationFrame *Animation::getCurrentFrame() const
+{
 	return mFrames->at(mCurrentFrameNumber);
 }

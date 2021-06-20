@@ -10,34 +10,40 @@
 #include "Graphics/Camera/Camera.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Core/EngineConfig.hpp"
-#include <future>         // std::async, std::future
+#include <future> // std::async, std::future
 
-Scene::Scene() {
+Scene::Scene()
+{
 	mGameObjects = nullptr;
 }
 
-Scene::~Scene() {
-
+Scene::~Scene()
+{
 	destroyGameObjects();
 
 	DELETE(mGameObjects);
 	DELETE(mNewGameObjects);
-	
-	if(mLoadSceneConfigMap) {
+
+	if (mLoadSceneConfigMap)
+	{
 		DELETE(mLoadSceneConfigMap);
 	}
 }
 
-void Scene::destroyGameObjects() {
-	FOR_LIST(it, *mGameObjects) {
-		if (!(*it)->getIsDestroyed()) {
+void Scene::destroyGameObjects()
+{
+	FOR_LIST(it, *mGameObjects)
+	{
+		if (!(*it)->getIsDestroyed())
+		{
 			(*it)->destroy();
 			DELETE((*it));
 		}
 	}
 
-	if(mCameraGameObject){
-		Camera* cameraComponent = mCameraGameObject->getFirstComponent<Camera>();
+	if (mCameraGameObject)
+	{
+		Camera *cameraComponent = mCameraGameObject->getFirstComponent<Camera>();
 		mCameraGameObject->removeComponent<Camera>(cameraComponent);
 		DELETE(cameraComponent);
 		mCameraGameObject->destroy();
@@ -45,24 +51,25 @@ void Scene::destroyGameObjects() {
 	}
 }
 
-void Scene::init() {
+void Scene::init()
+{
 	TRACE()
 
-	mGameObjects = NEW(std::list<GameObject*>);
+	mGameObjects = NEW(std::list<GameObject *>);
 
-	mNewGameObjects = NEW(std::list<GameObject*>);
+	mNewGameObjects = NEW(std::list<GameObject *>);
 
 	mSize = 0;
 
 	mPath = "config/sceneTmp.json";
 
 	// CAMERA
-	GameObject* cameraGameObject = NEW(GameObject);
+	GameObject *cameraGameObject = NEW(GameObject);
 	cameraGameObject->init();
 
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
-	Camera* cameraComponent = NEW(Camera);
+	Camera *cameraComponent = NEW(Camera);
 	cameraGameObject->addComponent<Camera>(cameraComponent);
 
 	f32 size = RenderContext::getWindowSize().y;
@@ -77,25 +84,28 @@ void Scene::init() {
 	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
 
-void Scene::loadScene(const std::string& path) {
-
-	if(!mLoadSceneConfigMap){
+void Scene::loadScene(const std::string &path)
+{
+	if (!mLoadSceneConfigMap)
+	{
 		mLoadSceneConfigMap = NEW(ConfigObject);
 		mLoadSceneConfigMap->init();
 	}
-	else {
+	else
+	{
 		mLoadSceneConfigMap->clear();
 	}
 
 	mPath = path;
 
-	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath); 
+	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
 	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
 	//fut.wait();
 
 	mSize = mLoadSceneConfigMap->at("scene").at("size").get<f32>();
 
-	if (mSize == 0) {
+	if (mSize == 0)
+	{
 		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
 	}
 
@@ -105,15 +115,17 @@ void Scene::loadScene(const std::string& path) {
 	mGameObjectsToLoadIndex = 0;
 }
 
-void Scene::saveScene(const std::string& path) {
-
+void Scene::saveScene(const std::string &path)
+{
 	JSON json;
 
 	f32 maxSize = 0;
 	u32 counter = 0;
 
-	FOR_LIST(it, *mGameObjects) {
-		if ((*it)->getShouldPersist()) {
+	FOR_LIST(it, *mGameObjects)
+	{
+		if ((*it)->getShouldPersist())
+		{
 			// ECHO("SAVE")
 			std::string indexStr = std::to_string(counter);
 			std::string objectName = "objects[" + indexStr + "]";
@@ -142,21 +154,25 @@ void Scene::saveScene(const std::string& path) {
 	configMap.writeToJsonFile(path);
 }
 
-void Scene::unloadScene() {
+void Scene::unloadScene()
+{
 	destroyGameObjects();
 }
 
-bool Scene::isLoadFinished() const {
+bool Scene::isLoadFinished() const
+{
 	return mGameObjectsToLoadIndex == mGameObjectsToLoadTotal;
 }
 
-void Scene::addGameObject(GameObject *gameObject) {
+void Scene::addGameObject(GameObject *gameObject)
+{
 	gameObject->setScene(this);
 	mNewGameObjects->push_back(gameObject);
 }
 
-void Scene::updateComponents(GameObject *gameObject) {
-	const std::list<Renderer*>* rendererList = gameObject->getComponents<Renderer>();
+void Scene::updateComponents(GameObject *gameObject)
+{
+	const std::list<Renderer *> *rendererList = gameObject->getComponents<Renderer>();
 
 	/*Script* script = gameObject->getFirstComponent<Script>();
 	RigidBody* rigidBody = gameObject->getFirstComponent<RigidBody>();
@@ -166,9 +182,12 @@ void Scene::updateComponents(GameObject *gameObject) {
 		script->setAlreadyAddedToEngine(true);
 	}*/
 
-	if (rendererList) {
-		FOR_LIST (it, *rendererList) {
-			if (!(*it)->getAlreadyAddedToEngine()) {
+	if (rendererList)
+	{
+		FOR_LIST(it, *rendererList)
+		{
+			if (!(*it)->getAlreadyAddedToEngine())
+			{
 				RenderEngine::getInstance()->addRenderer((*it));
 				(*it)->setAlreadyAddedToEngine(true);
 			}
@@ -190,9 +209,10 @@ void Scene::updateComponents(GameObject *gameObject) {
 	}*/
 }
 
-void Scene::removeGameObject(GameObject *gameObject) {
-
-	if (!(gameObject->getIsDestroyed() || gameObject->getIsPendingToBeDestroyed())) {
+void Scene::removeGameObject(GameObject *gameObject)
+{
+	if (!(gameObject->getIsDestroyed() || gameObject->getIsPendingToBeDestroyed()))
+	{
 		mGameObjects->remove(gameObject);
 
 		gameObject->destroy();
@@ -201,17 +221,19 @@ void Scene::removeGameObject(GameObject *gameObject) {
 	}
 }
 
-void Scene::step() {
-
+void Scene::step()
+{
 	// TODO : refactor into a private method
-	if(mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
-		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal){
+	if (mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
+	{
+		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
+		{
 			std::string indexStr = std::to_string(mGameObjectsToLoadIndex);
 			std::string objectName = "objects[" + indexStr + "]";
 
 			std::string className = mLoadSceneConfigMap->at(objectName + ".class").get<std::string>();
-			
-			GameObject* gameObject = NEW(GameObject);//Memory::fromClassName<GameObject>(className));
+
+			GameObject *gameObject = NEW(GameObject); //Memory::fromClassName<GameObject>(className));
 			gameObject->init();
 			gameObject->deserialize(JSON());
 			addGameObject(gameObject);
@@ -219,16 +241,16 @@ void Scene::step() {
 		}
 	}
 
-	if (thereAreNewGameObjects()) {
-
-		const std::list<GameObject*>* newGameObjects = getNewGameObjects();
+	if (thereAreNewGameObjects())
+	{
+		const std::list<GameObject *> *newGameObjects = getNewGameObjects();
 		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().at("scene.maxNewObjectsToSpawn").get<f32>();
 
 		// VAR(f32, newGameObjects->getLength());
 
-		FOR_LIST (itGameObjects, *newGameObjects)
+		FOR_LIST(itGameObjects, *newGameObjects)
 		{
-			GameObject* gameObject = (*itGameObjects);
+			GameObject *gameObject = (*itGameObjects);
 
 			updateComponents(gameObject);
 		}
@@ -237,14 +259,17 @@ void Scene::step() {
 	}
 }
 
-void Scene::flushNewGameObjects() {
-	FOR_LIST (itGameObjects, *mNewGameObjects) {
+void Scene::flushNewGameObjects()
+{
+	FOR_LIST(itGameObjects, *mNewGameObjects)
+	{
 		mGameObjects->push_back(*itGameObjects);
 	}
 
 	mNewGameObjects->clear();
 }
 
-bool Scene::thereAreNewGameObjects() const {
+bool Scene::thereAreNewGameObjects() const
+{
 	return mNewGameObjects->size() > 0;
 }

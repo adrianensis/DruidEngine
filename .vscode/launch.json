@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Debug) MapEditor",
+            "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/binaries/test_integration_playground",
@@ -25,7 +25,7 @@
             "preLaunchTask": "druid build debug"
         },
         {
-            "name": "(Release) MapEditor",
+            "name": "Release",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/binaries/test_integration_playground",

@@ -3,21 +3,20 @@
 #include "Core/Core.hpp"
 #include <string>
 
-CLASS(Texture, ObjectBase) {
-
+CLASS(Texture, ObjectBase)
+{
 	PRI(TextureId, GET, u32)
-	PRI(Data, GET, byte*)
+	PRI(Data, GET, byte *)
 	PRI(Width, GET, u32)
 	PRI(Height, GET, u32)
 	PRI(Path, GETREF_CONST, std::string)
 
-	byte* readPNG();
+	byte *readPNG();
 
 public:
-
 	Texture();
 	~Texture() override;
 
-	void init(const std::string& path);
+	void init(const std::string &path);
 	void bind();
 };

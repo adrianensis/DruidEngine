@@ -10,15 +10,14 @@
 
 class Camera;
 
-CLASS(Frustum, ObjectBase) {
-
+CLASS(Frustum, ObjectBase)
+{
 	PRI(VPmatrix, NONE, Matrix4)
-	PRI(Camera, NONE, Camera*)
+	PRI(Camera, NONE, Camera *)
 	PRI(Planes, NONE, std::array<Vector4, 6>);
 
 public:
-
-	void init(Camera *camera);
+	void init(Camera * camera);
 
 	/**
 	* Builds the frustum planes.

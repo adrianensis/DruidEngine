@@ -10,7 +10,8 @@
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
 
-Renderer::Renderer() {
+Renderer::Renderer()
+{
 	mMesh = nullptr;
 	mMaterial = nullptr;
 	mCurrentAnimation = nullptr;
@@ -39,29 +40,31 @@ Renderer::Renderer() {
 	mForceRecalculateVertices = false;
 }
 
-Renderer::~Renderer() {
+Renderer::~Renderer()
+{
 	MAP_DELETE_CONTENT(mAnimations)
 }
 
-void Renderer::init() {
+void Renderer::init()
+{
 	// TRACE();
 
 	setColor(Vector4(0, 0, 0, 1));
 
 	mVertices.reserve(4);
 
-	mVertices.push_back(Vector2(0,0)); // LEFT TOP VERTEX
-	mVertices.push_back(Vector2(0,0)); // LEFT BOTTOM
-	mVertices.push_back(Vector2(0,0)); // RIGHT BOTTOM
-	mVertices.push_back(Vector2(0,0)); // RIGHT TOP
+	mVertices.push_back(Vector2(0, 0)); // LEFT TOP VERTEX
+	mVertices.push_back(Vector2(0, 0)); // LEFT BOTTOM
+	mVertices.push_back(Vector2(0, 0)); // RIGHT BOTTOM
+	mVertices.push_back(Vector2(0, 0)); // RIGHT TOP
 
 	mForceRecalculateVertices = false;
-
 }
 
-bool Renderer::hasAnimations() const { return mAnimations.size() > 0; } ;
+bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
 
-void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
+void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
+{
 	mRegionPosition.x = u;
 	mRegionPosition.y = v;
 
@@ -73,10 +76,12 @@ void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height) {
  * Set the animation, by name.
  * \param string name The name.
  */
-void Renderer::setAnimation(const std::string& name) {
-	if (MAP_CONTAINS(mAnimations, name)) {
-			mCurrentAnimation = mAnimations[name];
-		}
+void Renderer::setAnimation(const std::string &name)
+{
+	if (MAP_CONTAINS(mAnimations, name))
+	{
+		mCurrentAnimation = mAnimations[name];
+	}
 };
 
 //----------------------------------------------------------------------
@@ -86,57 +91,65 @@ void Renderer::setAnimation(const std::string& name) {
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const std::string& name, Animation *animation) {
+void Renderer::addAnimation(const std::string &name, Animation *animation)
+{
 	MAP_INSERT(mAnimations, name, animation);
 };
 
-void Renderer::updateAnimation() {
-	if (mMaterial) {
-		if (hasAnimations()) {
-			const AnimationFrame* frame = mCurrentAnimation->getNextFrame();
+void Renderer::updateAnimation()
+{
+	if (mMaterial)
+	{
+		if (hasAnimations())
+		{
+			const AnimationFrame *frame = mCurrentAnimation->getNextFrame();
 			mRegionPosition = frame->getPosition();
 			mRegionSize = Vector2(frame->getWidth(), frame->getHeight());
 		}
 	}
 };
 
-void Renderer::setPositionOffset(Vector3 newPositionOffset) {
+void Renderer::setPositionOffset(Vector3 newPositionOffset)
+{
 	mPositionOffset = newPositionOffset;
 	mPositionOffsetDirty = true;
 };
 
-void Renderer::setColor(const Vector4 &color) {
+void Renderer::setColor(const Vector4 &color)
+{
 	mColor[0] = color.x;
 	mColor[1] = color.y;
 	mColor[2] = color.z;
 	mColor[3] = color.w;
 };
 
-bool Renderer::getIsWorldSpace() {
-
-	if(getGameObject()){
+bool Renderer::getIsWorldSpace()
+{
+	if (getGameObject())
+	{
 		mIsWorldSpace = getGameObject()->getTransform()->getAffectedByProjection();
 	}
 
 	return mIsWorldSpace;
 }
 
-const std::vector<Vector2>& Renderer::getVertices(bool force /*= false*/) {
-
-	if(mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices ){
-
+const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
+{
+	if (mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices)
+	{
 		mRenderereModelMatrix.translation(mPositionOffset);
 
 		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
 		mPositionOffsetDirty = false;
 
-		FOR_ARRAY(i, mVertices) {
+		FOR_ARRAY(i, mVertices)
+		{
 			Vector3 vertexPosition(
-			mMesh->getVertices()[i*3 + 0],
-			mMesh->getVertices()[i*3 + 1],
-			mMesh->getVertices()[i*3 + 2]);
+				mMesh->getVertices()[i * 3 + 0],
+				mMesh->getVertices()[i * 3 + 1],
+				mMesh->getVertices()[i * 3 + 2]);
 
-			vertexPosition = mRenderereModelMatrix.mulVector(Vector4(vertexPosition,1));
+			vertexPosition = mRenderereModelMatrix.mulVector(Vector4(vertexPosition, 1));
 
 			mVertices[i] = vertexPosition;
 		}
@@ -147,7 +160,8 @@ const std::vector<Vector2>& Renderer::getVertices(bool force /*= false*/) {
 	return mVertices;
 }
 
-void Renderer::forceRecalculateVertices() {
+void Renderer::forceRecalculateVertices()
+{
 	getGameObject()->getTransform()->forceModelMatrixCalculation();
 	mForceRecalculateVertices = true;
 }

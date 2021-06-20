@@ -9,16 +9,16 @@
 
 #include <iostream>
 
-int main(){
-
-	Engine* engine = Engine::getInstance();
+int main()
+{
+	Engine *engine = Engine::getInstance();
 
 	engine->init();
 
-	GameObject* controller = NEW(GameObject);
+	GameObject *controller = NEW(GameObject);
 	controller->init();
 
-	Script* script = NEW(Editor);
+	Script *script = NEW(Editor);
 	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);

@@ -2,8 +2,8 @@
 #include "Maths/Vector4.hpp"
 #include <cmath>
 
-int main(){
-
+int main()
+{
 	test(Vector4);
 
 	Vector4 a(0, 1, 2, 3);

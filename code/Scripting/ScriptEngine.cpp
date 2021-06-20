@@ -6,20 +6,24 @@
 
 #include "Log/Log.hpp"
 
-void ScriptEngine::init() {
+void ScriptEngine::init()
+{
 	TRACE()
 
 	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
 }
 
-void ScriptEngine::addScript(Script *newScript) {
+void ScriptEngine::addScript(Script *newScript)
+{
 	mScripts.push_back(newScript);
 }
 
-void ScriptEngine::step() {
-
-	if (mController) {
-		if (!mController->getFirstStepDone()) {
+void ScriptEngine::step()
+{
+	if (mController)
+	{
+		if (!mController->getFirstStepDone())
+		{
 			mController->firstStep();
 			mController->firstStepDone();
 		}
@@ -27,26 +31,31 @@ void ScriptEngine::step() {
 		mController->step();
 	}
 
-	FOR_LIST (it, mScripts) {
-		Script* script = *it;
+	FOR_LIST(it, mScripts)
+	{
+		Script *script = *it;
 
-		if (script->isActive()) {
-			if (!script->getFirstStepDone()) {
+		if (script->isActive())
+		{
+			if (!script->getFirstStepDone())
+			{
 				script->firstStep();
 				script->firstStepDone();
 			}
 
 			script->step();
-		} else if (script->getIsPendingToBeDestroyed()) {
+		}
+		else if (script->getIsPendingToBeDestroyed())
+		{
 			internalRemoveScript(it);
 		}
-
 	}
 }
 
-void ScriptEngine::internalRemoveScript(std::list<Script*>::iterator& it) {
-	Script* script = *it;
-	
+void ScriptEngine::internalRemoveScript(std::list<Script *>::iterator &it)
+{
+	Script *script = *it;
+
 	script->terminate();
 	script->finallyDestroy();
 	DELETE(script);
@@ -54,16 +63,19 @@ void ScriptEngine::internalRemoveScript(std::list<Script*>::iterator& it) {
 	it = mScripts.erase(it);
 }
 
-void ScriptEngine::terminate() {
+void ScriptEngine::terminate()
+{
 	TRACE()
 
-	if(mController){
+	if (mController)
+	{
 		mController->terminate();
 		DELETE(mController);
 	}
 
-	FOR_LIST (it, mScripts) {
-		Script* script = *it;
+	FOR_LIST(it, mScripts)
+	{
+		Script *script = *it;
 		script->terminate();
 		DELETE(script);
 	}

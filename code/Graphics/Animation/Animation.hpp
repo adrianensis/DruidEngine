@@ -8,15 +8,14 @@
 
 class AnimationFrame;
 
-CLASS(Animation, ObjectBase) {
-
-	PRI(Frames, NONE, std::vector<AnimationFrame*>*);
+CLASS(Animation, ObjectBase)
+{
+	PRI(Frames, NONE, std::vector<AnimationFrame *> *);
 	PRI(CurrentFrameNumber, NONE, u32)
 	PRI(TimeAccumulator, NONE, f32)
 	PRI(Speed, NONE, f32)
 
 public:
-
 	Animation();
 	~Animation() override;
 
@@ -35,11 +34,11 @@ public:
 	* /param speed The speed of the animation.
 	* /returns The animation.
 	*/
-	static Animation* create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
-			f32 height, f32 speed);
+	static Animation *create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+							 f32 height, f32 speed);
 
-	void addFrame(AnimationFrame *frame);
+	void addFrame(AnimationFrame * frame);
 	u32 getNumberOfFrames() const;
-	const AnimationFrame* getNextFrame();
-	const AnimationFrame* getCurrentFrame() const;
+	const AnimationFrame *getNextFrame();
+	const AnimationFrame *getCurrentFrame() const;
 };

@@ -5,9 +5,10 @@
 
 class Shader;
 
-CLASS(LineRenderer, ObjectBase) {
-	PRI(ShaderLine, NONE, Shader*)
-		
+CLASS(LineRenderer, ObjectBase)
+{
+	PRI(ShaderLine, NONE, Shader *)
+
 	PRI(MaxShapes, NONE, u32)
 	PRI(ShapesCounter, NONE, u32)
 
@@ -20,9 +21,8 @@ CLASS(LineRenderer, ObjectBase) {
 	PRI(Size, NONE, f32)
 
 	PUB(IsWorldSpace, NONE, bool)
-	
+
 public:
-	
 	LineRenderer();
 	~LineRenderer() override;
 

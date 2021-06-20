@@ -7,8 +7,8 @@
 
 class Frustum;
 
-CLASS(Camera, Component) {
-
+CLASS(Camera, Component)
+{
 	PRI(ProjectionMatrix, NONE, Matrix4)
 	PRI(ViewTranslationMatrix, NONE, Matrix4)
 	PRI(InversePVMatrix, NONE, Matrix4) // used in screen to world calculations.
@@ -19,23 +19,22 @@ CLASS(Camera, Component) {
 	PRI(Top, NONE, f32)
 	PRI(Near, NONE, f32)
 	PRI(Far, NONE, f32)
-	
+
 	PRI(Fov, NONE, f32)
 	PRI(IsOrtho, NONE, bool)
 
-	PRI(Frustum, GET, Frustum*)
+	PRI(Frustum, GET, Frustum *)
 	PRI(Zoom, GET, f32)
 
 public:
-
 	Camera();
 	~Camera() override;
-	
+
 	void init() override;
 
-	const Matrix4& getProjectionMatrix() const;
-	const Matrix4& getViewTranslationMatrix();
-	const Matrix4& getViewRotationMatrix();
+	const Matrix4 &getProjectionMatrix() const;
+	const Matrix4 &getViewTranslationMatrix();
+	const Matrix4 &getViewRotationMatrix();
 
 	void setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
@@ -44,7 +43,8 @@ public:
 	void calculateInverseMatrix(bool forceCalculate = false);
 
 	void setZoom(f32 zoom);
-	void resetZoom() {
+	void resetZoom()
+	{
 		mZoom = 1;
 		setZoom(mZoom);
 	};

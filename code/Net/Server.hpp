@@ -7,7 +7,8 @@
 #include <functional>
 #include <string>
 
-enum class ServerStatus {
+enum class ServerStatus
+{
 	UNINITIALIZED,
 	LISTENING,
 	CONNECTED
@@ -15,12 +16,11 @@ enum class ServerStatus {
 
 #define DEFAULT_SOCKET_READ_SIZE 1024
 
-CLASS(Server, ObjectBase){
-
+CLASS(Server, ObjectBase)
+{
 	PRI(Status, GET, ServerStatus);
 
 private:
-
 	int server_fd, new_socket;
 	struct sockaddr_in address;
 	int opt = 1;
@@ -35,9 +35,9 @@ public:
 
 	bool checkConnectionRequest();
 
-	void writeData(const std::string& data) const;
+	void writeData(const std::string &data) const;
 	std::string readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
 	JSON readJSON() const;
-	void writeJSON(JSON& json) const;
+	void writeJSON(JSON & json) const;
 };

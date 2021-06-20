@@ -6,7 +6,8 @@
 #include "Events/EventsManager.hpp"
 #include "Config/ConfigObject.hpp"
 
-GameObject::GameObject() {
+GameObject::GameObject()
+{
 	mComponentsMap = nullptr;
 	mTransform = nullptr;
 	mScene = nullptr;
@@ -14,14 +15,17 @@ GameObject::GameObject() {
 	mShouldPersist = false;
 }
 
-GameObject::~GameObject() {
+GameObject::~GameObject()
+{
 	DELETE(mComponentsMap);
 	DELETE(mTransform);
 }
 
-void GameObject::addComponent(Component *component, ClassId classId) {
-	if (! MAP_CONTAINS(*mComponentsMap, classId)) {
-		MAP_INSERT(*mComponentsMap, classId, NEW(std::list<Component*>));
+void GameObject::addComponent(Component *component, ClassId classId)
+{
+	if (!MAP_CONTAINS(*mComponentsMap, classId))
+	{
+		MAP_INSERT(*mComponentsMap, classId, NEW(std::list<Component *>));
 	}
 
 	mComponentsMap->at(classId)->push_back(component);
@@ -30,18 +34,21 @@ void GameObject::addComponent(Component *component, ClassId classId) {
 	component->init();
 }
 
-void GameObject::removeComponent(Component *component, ClassId classId) {
-	if (MAP_CONTAINS(*mComponentsMap, classId) && ! component->getIsPendingToBeDestroyed() && ! component->getIsDestroyed()) {
-		std::list<Component*>* list = mComponentsMap->at(classId);
+void GameObject::removeComponent(Component *component, ClassId classId)
+{
+	if (MAP_CONTAINS(*mComponentsMap, classId) && !component->getIsPendingToBeDestroyed() && !component->getIsDestroyed())
+	{
+		std::list<Component *> *list = mComponentsMap->at(classId);
 		list->remove(component);
 		component->destroy();
 	}
 }
 
-void GameObject::init() {
+void GameObject::init()
+{
 	// TRACE();
 
-	mComponentsMap = NEW(std::map<ClassId, std::list<Component*>*>);
+	mComponentsMap = NEW(std::map<ClassId, std::list<Component *> *>);
 
 	mTransform = NEW(Transform);
 	addComponent(mTransform);
@@ -49,13 +56,16 @@ void GameObject::init() {
 	mTag = "";
 }
 
-const std::list<Component*>* GameObject::getComponents(ClassId classId) const {
-	std::list<Component*>* components = nullptr;
+const std::list<Component *> *GameObject::getComponents(ClassId classId) const
+{
+	std::list<Component *> *components = nullptr;
 
-	if(MAP_CONTAINS(*mComponentsMap, classId)) {
+	if (MAP_CONTAINS(*mComponentsMap, classId))
+	{
 		components = mComponentsMap->at(classId);
 
-		if(components->empty()){
+		if (components->empty())
+		{
 			components = nullptr;
 		}
 	}
@@ -63,28 +73,34 @@ const std::list<Component*>* GameObject::getComponents(ClassId classId) const {
 	return components;
 }
 
-Component* GameObject::getFirstComponent(ClassId classId) const {
-	Component* component = nullptr;
-	const std::list<Component*>* components = getComponents(classId);
+Component *GameObject::getFirstComponent(ClassId classId) const
+{
+	Component *component = nullptr;
+	const std::list<Component *> *components = getComponents(classId);
 
-	if(components && !components->empty()) {
+	if (components && !components->empty())
+	{
 		component = components->front();
 	}
 
 	return component;
 }
 
-void GameObject::setIsActive(bool isActive) {
+void GameObject::setIsActive(bool isActive)
+{
 	mIsActive = mIsDestroyed || mIsPendingToBeDestroyed ? false : isActive;
 
-	FOR_MAP(it, *mComponentsMap) {
-		FOR_LIST(itComponent, *it->second) {
+	FOR_MAP(it, *mComponentsMap)
+	{
+		FOR_LIST(itComponent, *it->second)
+		{
 			(*itComponent)->setIsActive(isActive);
 		}
 	}
 }
 
-void GameObject::destroy() {
+void GameObject::destroy()
+{
 	mIsPendingToBeDestroyed = true;
 	mIsActive = false;
 
@@ -93,8 +109,8 @@ void GameObject::destroy() {
 
 	onDestroy();
 
-	FOR_MAP(it, *mComponentsMap) {
-
+	FOR_MAP(it, *mComponentsMap)
+	{
 		auto list = it->second;
 
 		FOR_LIST(itComponent, *list)
@@ -109,18 +125,17 @@ void GameObject::destroy() {
 	mComponentsMap->clear();
 }
 
-JSON GameObject::serialize() const {
-
+JSON GameObject::serialize() const
+{
 	return JSON();
 }
 
-void GameObject::deserialize(const JSON& jsonObject) {
-
+void GameObject::deserialize(const JSON &jsonObject)
+{
 }
 
 //void GameObject::serialize(ConfigObject* configMap, std::string& objectName) {
-
-	/*configMap->setString(objectName + ".class", getClassName());
+/*configMap->setString(objectName + ".class", getClassName());
 
 	configMap->setBool(objectName + ".isStatic", getIsStatic());
 	configMap->setBool(objectName + ".shouldPersist", getShouldPersist());
@@ -141,7 +156,6 @@ void GameObject::deserialize(const JSON& jsonObject) {
 	configMap->setBool(objectName + ".hasCollider", collider ? true : false);
 
 	FOR_LIST(it, mComponentsMap->getKeys()) {
-
 		ClassId id = it.get();
 		FOR_LIST(itComponent, mComponentsMap->get(id))
 		{
@@ -151,7 +165,7 @@ void GameObject::deserialize(const JSON& jsonObject) {
 //}
 
 //void GameObject::deserialize(ConfigObject* configMap, std::string& objectName) {
-	/*setIsStatic(configMap->at(objectName + ".isStatic").get<bool>());
+/*setIsStatic(configMap->at(objectName + ".isStatic").get<bool>());
 	setShouldPersist(configMap->at(objectName + ".shouldPersist").get<bool>());
 
 	if(configMap->contains(objectName + ".tag")){

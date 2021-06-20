@@ -18,14 +18,16 @@
 #include "Graphics/LineRenderer.hpp"
 //#include "Profiler/Profiler.hpp"
 
-RenderEngine::LayerData::LayerData(){
+RenderEngine::LayerData::LayerData()
+{
 	mSorted = false;
 	mDynamicObjectsCount = 0;
 	mSortCounter = 0;
 	mVisible = true;
 }
 
-void RenderEngine::init(f32 sceneSize) {
+void RenderEngine::init(f32 sceneSize)
+{
 	TRACE()
 
 	mCameraDirtyTranslation = true;
@@ -46,11 +48,13 @@ void RenderEngine::init(f32 sceneSize) {
 
 	mChunks.reserve(chunksGridSize * chunksGridSize);
 
-	f32 chunkSize = sceneSize / ((f32) chunksGridSize);
+	f32 chunkSize = sceneSize / ((f32)chunksGridSize);
 
-	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i) {
-		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j) {
-			Chunk* chunk = NEW(Chunk);
+	for (i32 i = -chunksGridSizeHalf; i < chunksGridSizeHalf; ++i)
+	{
+		for (i32 j = chunksGridSizeHalf; j > -chunksGridSizeHalf; --j)
+		{
+			Chunk *chunk = NEW(Chunk);
 			chunk->init();
 			chunk->set(Vector2(i * chunkSize, j * chunkSize), chunkSize);
 
@@ -66,29 +70,34 @@ void RenderEngine::init(f32 sceneSize) {
 	mMaxLayersUsed = 0;
 
 	mMaxLayers = EngineConfig::getInstance()->getConfig().at("scene").at("maxLayers").get<u32>();
-	FOR_RANGE(i, 0, mMaxLayers) {
-		LayerData* layerData = NEW(LayerData);
+	FOR_RANGE(i, 0, mMaxLayers)
+	{
+		LayerData *layerData = NEW(LayerData);
 		layerData->mSorted = EngineConfig::getInstance()->getConfig().at("scene").at("sortByYCoordinate").get<bool>();
 		MAP_INSERT(mLayersData, i, layerData);
 	}
 }
 
-void RenderEngine::freeRenderer(Renderer *renderer) {
+void RenderEngine::freeRenderer(Renderer *renderer)
+{
 	//if(mRenderersToFree->find(renderer).isNull()){
-		mRenderersToFree.push_back(renderer);
+	mRenderersToFree.push_back(renderer);
 	//}
 }
 
-bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius) {
+bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
+{
 	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
 
-void RenderEngine::step() {
-
+void RenderEngine::step()
+{
 	//PROFILER_TIMEMARK_START()
 
-	if (mCamera) {
-		if (mCamera->getFrustum()) {
+	if (mCamera)
+	{
+		if (mCamera->getFrustum())
+		{
 			mCamera->getFrustum()->build();
 		}
 
@@ -101,10 +110,10 @@ void RenderEngine::step() {
 	checkChunks();
 	freeRenderersPendingtoFree();
 	//PROFILER_TIMEMARK_END()
-
 }
 
-void RenderEngine::swap() {
+void RenderEngine::swap()
+{
 	//PROFILER_TIMEMARK_START()
 
 	RenderContext::swap();
@@ -112,48 +121,58 @@ void RenderEngine::swap() {
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::renderBatches() {
+void RenderEngine::renderBatches()
+{
 	//PROFILER_TIMEMARK_START()
 
-	FOR_RANGE(layer, 0, mMaxLayers) {
-		if(mLayersData.at(layer)->mVisible){
+	FOR_RANGE(layer, 0, mMaxLayers)
+	{
+		if (mLayersData.at(layer)->mVisible)
+		{
 			mBatchesMap.render(layer);
 		}
 	}
 
-	FOR_RANGE(layer, 0, mMaxLayers) {
+	FOR_RANGE(layer, 0, mMaxLayers)
+	{
 		//if(mLayersData->get(layer)->mVisible){
-			mBatchesMapScreenSpace.render(layer);
+		mBatchesMapScreenSpace.render(layer);
 		//}
 	}
 
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::checkChunks() {
+void RenderEngine::checkChunks()
+{
 	//PROFILER_TIMEMARK_START()
 
-	FOR_ARRAY(i, mChunks) {
-		Chunk* chunk = mChunks.at(i);
+	FOR_ARRAY(i, mChunks)
+	{
+		Chunk *chunk = mChunks.at(i);
 
 		f32 chunkToCameraDistance = chunk->getCenter().dst(mCamera->getGameObject()->getTransform()->getWorldPosition());
 		bool chunkInDistance = chunkToCameraDistance <= mMinChunkDrawDistance; //chunkMinDrawDistance;
 
-		if (chunkInDistance) {
+		if (chunkInDistance)
+		{
 			chunk->load();
-		} else {
+		}
+		else
+		{
 			chunk->unload();
 		}
 
 		//if (chunk->getIsLoaded()) {
-			chunk->update(&mBatchesMap);
+		chunk->update(&mBatchesMap);
 		//}
 	}
 
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::freeRenderersPendingtoFree() {
+void RenderEngine::freeRenderersPendingtoFree()
+{
 	//PROFILER_TIMEMARK_START()
 
 	LIST_DELETE_CONTENT(mRenderersToFree)
@@ -163,7 +182,8 @@ void RenderEngine::freeRenderersPendingtoFree() {
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::stepDebug() {
+void RenderEngine::stepDebug()
+{
 	//PROFILER_TIMEMARK_START()
 
 	mLineRenderer->render();
@@ -172,14 +192,17 @@ void RenderEngine::stepDebug() {
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::terminate() {
+void RenderEngine::terminate()
+{
 	TRACE()
 
-	if(mLineRenderer) {
+	if (mLineRenderer)
+	{
 		DELETE(mLineRenderer);
 	}
-	
-	if(mLineRendererScreenSpace) {
+
+	if (mLineRendererScreenSpace)
+	{
 		DELETE(mLineRendererScreenSpace);
 	}
 
@@ -192,16 +215,22 @@ void RenderEngine::terminate() {
 	LIST_DELETE_CONTENT(mRenderersToFree)
 }
 
-void RenderEngine::addRenderer(Renderer *renderer) {
-
-	if (renderer->getIsWorldSpace()) {
-		Chunk* chunk = assignChunk(renderer);
-		if(chunk){
+void RenderEngine::addRenderer(Renderer *renderer)
+{
+	if (renderer->getIsWorldSpace())
+	{
+		Chunk *chunk = assignChunk(renderer);
+		if (chunk)
+		{
 			chunk->addRenderer(renderer);
-		} else {
+		}
+		else
+		{
 			ASSERT_MSG(false, "Renderer can't find a chunk.")
 		}
-	} else {
+	}
+	else
+	{
 		// UI Case!
 		mBatchesMapScreenSpace.addRenderer(renderer);
 	}
@@ -209,16 +238,19 @@ void RenderEngine::addRenderer(Renderer *renderer) {
 	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
 }
 
-Chunk* RenderEngine::assignChunk(Renderer *renderer) {
+Chunk *RenderEngine::assignChunk(Renderer *renderer)
+{
 	//TRACE();
 	bool found = false;
-	Chunk* chunkTmp = nullptr;
-	Chunk* chunkFound = nullptr;
+	Chunk *chunkTmp = nullptr;
+	Chunk *chunkFound = nullptr;
 	// FOR_ARRAY_COND(i, mChunks, !found) {
-	for (i32 i = 0; (i < (i32)(mChunks.size())) && (!found); ++i) {
+	for (i32 i = 0; (i < (i32)(mChunks.size())) && (!found); ++i)
+	{
 		// FOR_ARRAY(i, mChunks){
 		chunkTmp = mChunks.at(i);
-		if (chunkTmp->containsRenderer/*Sphere*/(renderer)) {
+		if (chunkTmp->containsRenderer /*Sphere*/ (renderer))
+		{
 			renderer->setChunk(chunkTmp);
 
 			// if(! renderer->isStatic()){
@@ -232,11 +264,14 @@ Chunk* RenderEngine::assignChunk(Renderer *renderer) {
 }
 
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
-		bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/) {
-	
-	if(isWorldSpace){
+							bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
+{
+	if (isWorldSpace)
+	{
 		mLineRenderer->add(start, end);
-	} else{
+	}
+	else
+	{
 		mLineRendererScreenSpace->add(start, end);
 	}
 }

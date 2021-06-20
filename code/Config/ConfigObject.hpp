@@ -11,18 +11,17 @@
 	conf.setF32("key", 1.0f);
 */
 
-CLASS(ConfigObject, ObjectBase){
-
+CLASS(ConfigObject, ObjectBase)
+{
 	PRI(Json, GETREF_CONST_SET, JSON);
 
 public:
-
 	void init();
 	void clear();
-	bool contains(std::string& key) const;
+	bool contains(std::string & key) const;
 
-	void readFromJsonFile(const std::string& path);
-	void writeToJsonFile(const std::string& path);
-	
-	const JSON& at(const std::string& key) const { mJson.at(key); }
+	void readFromJsonFile(const std::string &path);
+	void writeToJsonFile(const std::string &path);
+
+	const JSON &at(const std::string &key) const { return mJson.at(key); }
 };

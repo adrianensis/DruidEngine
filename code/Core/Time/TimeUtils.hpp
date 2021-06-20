@@ -3,8 +3,8 @@
 #include "Core/Core.hpp"
 #include <chrono>
 
-CLASS(TimeMark, ObjectBase){
-
+CLASS(TimeMark, ObjectBase)
+{
 	PRI(DeltaTimeMillis, NONE, f32)
 	PRI(DeltaTimeSeconds, NONE, f32)
 	PRI(DeltaTimeChronoDuration, NONE, std::chrono::milliseconds);
@@ -13,7 +13,6 @@ CLASS(TimeMark, ObjectBase){
 	PRI(IsStarted, GET, bool)
 
 public:
-
 	void init();
 	void start();
 	void end();
@@ -21,24 +20,27 @@ public:
 	f32 getDeltaTimeMillis();
 	f32 getDeltaTimeSeconds();
 
-	COPY(TimeMark){
+	COPY(TimeMark)
+	{
 		DO_COPY(DeltaTimeMillis)
 		DO_COPY(DeltaTimeSeconds)
 		DO_COPY(DeltaTimeChronoDuration)
 		DO_COPY(StartTime)
-		DO_COPY(LastTime)		
+		DO_COPY(LastTime)
 	}
 };
 
 CLASS(Time, ObjectBase), SINGLETON(Time){
 	PRI(InternalTimeMark, NONE, TimeMark)
 
-public:
+		public :
 
-	void init(){ mInternalTimeMark.init(); }
-	void startFrame(){ mInternalTimeMark.start(); }
-	void endFrame(){ mInternalTimeMark.end(); }
-	f32 getElapsedTimeMillis(){ return mInternalTimeMark.getElapsedTimeMillis(); }
-	f32 getDeltaTimeMillis(){ return mInternalTimeMark.getDeltaTimeMillis(); }
-	f32 getDeltaTimeSeconds(){ return mInternalTimeMark.getDeltaTimeSeconds(); }
-};
+			void init(){mInternalTimeMark.init();
+}
+void startFrame() { mInternalTimeMark.start(); }
+void endFrame() { mInternalTimeMark.end(); }
+f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis(); }
+f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
+f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
+}
+;

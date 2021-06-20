@@ -33,7 +33,6 @@ Material *UI::getFontMaterial()
 
 void UI::addToGroup(std::string &groupName, UIElement *uiElement)
 {
-
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
 		UIGroup *group = NEW(UIGroup);

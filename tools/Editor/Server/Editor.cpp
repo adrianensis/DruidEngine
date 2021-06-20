@@ -31,29 +31,32 @@
 
 #include "Core/Serialization.hpp"
 
-void Editor::init() {
+void Editor::init()
+{
 	mServer = new Server();
 }
 
-void Editor::firstStep() {
-	
+void Editor::firstStep()
+{
 	mServer->init(8080);
 
 	mMessageSent = false;
 }
 
-void Editor::step() {
-
-	if(mServer->getStatus() == ServerStatus::LISTENING) {
+void Editor::step()
+{
+	if (mServer->getStatus() == ServerStatus::LISTENING)
+	{
 		mServer->checkConnectionRequest();
 	}
 
-	if(mServer->getStatus() == ServerStatus::CONNECTED) {
+	if (mServer->getStatus() == ServerStatus::CONNECTED)
+	{
 		//mServer->writeData("hello from server");
 		JSON json = mServer->readJSON();
 	}
 }
 
-void Editor::terminate() {
-
+void Editor::terminate()
+{
 }
