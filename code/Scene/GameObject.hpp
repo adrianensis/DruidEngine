@@ -11,8 +11,7 @@
 class Transform;
 class Scene;
 
-EVENT_DECLARATION_BEGIN(EventOnDestroy)
-EVENT_DECLARATION_END(EventOnDestroy)
+CLASS_EVENT(EventOnDestroy) {};
 
 CLASS(GameObject, ObjectBase), public ISerializable
 {

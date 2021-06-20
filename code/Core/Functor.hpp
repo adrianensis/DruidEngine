@@ -27,10 +27,12 @@ public:
 };
 
 CLASS(FunctorVoid, Functor<std::function<void()>>){
-	public :
-		virtual void execute() override{
-			if (mCallback)
-				mCallback();
-}
-}
-;
+public :
+	virtual void execute() override
+	{
+		if (mCallback)
+		{
+			mCallback();
+		}
+	}
+};

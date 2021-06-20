@@ -41,7 +41,6 @@
 #define CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, ...) \
 	template <class Template>                               \
 	class ClassName;                                        \
-	template <class Template>                               \
 	class ClassName##_PARENT : public __VA_ARGS__           \
 	{                                                       \
 		GENERATE_METADATA(ClassName)                        \
@@ -49,7 +48,7 @@
 		CLASS_MACRO_CONSTRUCTOR(ClassName)                  \
 	};                                                      \
 	template <class Template>                               \
-	class ClassName : public ClassName##_PARENT<Template>
+	class ClassName : public ClassName##_PARENT
 
 #define SINGLETON(...) \
 public                 \
@@ -127,12 +126,9 @@ private:
 #define SET(BaseName) \
 	void set##BaseName(SETTER_TYPE(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
 
-#define GET_SET(BaseName) GET(BaseName) \
-SET(BaseName)
-#define GETREF_SET(BaseName) GETREF(BaseName) \
-SET(BaseName)
-#define GETREF_CONST_SET(BaseName) GETREF_CONST(BaseName) \
-SET(BaseName)
+#define GET_SET(BaseName) GET(BaseName) SET(BaseName)
+#define GETREF_SET(BaseName) GETREF(BaseName) SET(BaseName)
+#define GETREF_CONST_SET(BaseName) GETREF_CONST(BaseName) SET(BaseName)
 
 #define MEMBER_BASE(BaseName, ...) \
 	__VA_ARGS__ m##BaseName = {};

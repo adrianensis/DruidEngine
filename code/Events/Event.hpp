@@ -5,15 +5,7 @@
 #include "Core/Functor.hpp"
 #include "Core/Time/TimerManager.hpp"
 
-#define EVENT_DECLARATION_BEGIN(EventClassName) \
-	CLASS(EventClassName, Event)                \
-	{                                           \
-	public:                                     \
-		EventClassName(){};                     \
-		~EventClassName() override{};
-
-#define EVENT_DECLARATION_END(EventClassName) \
-	};
+#define CLASS_EVENT(EventClassName) CLASS(EventClassName, Event)
 
 CLASS(Event, ObjectBase){
 	PUB(DelayAmount, NONE, f32)
@@ -32,8 +24,7 @@ CLASS(Event, ObjectBase){
 
 using EventCallback = std::function<void(const Event *)>;
 
-template <class E>
-class EventFunctor : public Functor<EventCallback>
+CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
 {
 	PUB(Event, NONE, E *)
 	PUB(EventClassId, NONE, ClassId)
@@ -51,7 +42,7 @@ public:
 	// NOTE : Override in children!
 	COPY(EventFunctor)
 	{
-		Functor::operator=(*other);
+		Functor<EventCallback>::operator=(*other);
 		DO_COPY(Event)
 		DO_COPY(EventClassId)
 		DO_COPY(EventReceiver)
