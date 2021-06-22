@@ -1,19 +1,15 @@
 #pragma once
 
 #include "Core/ObjectBase.hpp"
+#include "Assert/Assert.hpp"
 #include <functional>
 
 CLASS_TEMPLATE(Functor, T, ObjectBase)
 {
-	PRO(Callback, NONE, T)
+	PRO(Callback, SET, T)
 
 public:
 	virtual void execute() = 0;
-
-	void setCallback(T newCallback)
-	{
-		mCallback = newCallback;
-	};
 
 	// NOTE : Override in children if needed!
 	COPY(Functor<T>)
@@ -27,9 +23,11 @@ public:
 };
 
 CLASS(FunctorVoid, Functor<std::function<void()>>){
-public :
+public:	
 	virtual void execute() override
 	{
+		ASSERT_MSG(mCallback != nullptr, "Callback is null.");
+
 		if (mCallback)
 		{
 			mCallback();

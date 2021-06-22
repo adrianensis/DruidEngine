@@ -5,13 +5,15 @@
 
 #define NONE(...)
 
-#define REMOVE_REF(Class) std::remove_reference<Class>::type
-#define REMOVE_POINTER(Class) std::remove_pointer<Class>::type
+#define REMOVE_REF(Class) typename std::remove_reference<Class>::type
+#define REMOVE_POINTER(Class) typename std::remove_pointer<Class>::type
 #define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
 #define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
 #define IS_ENUM(Class) std::is_enum<Class>::value
-#define ADD_CONST(Class) std::add_const<Class>::type
-#define ADD_POINTER(Class) std::add_pointer<Class>::type
+#define ADD_CONST(Class) typename std::add_const<Class>::type
+#define ADD_POINTER(Class) typename std::add_pointer<Class>::type
+
+#define COND_TYPE(Bool, T1, T2) typename std::conditional<Bool, T1, T2>::type
 
 // --------------------------------------------------------
 // NEW - DELETE
@@ -99,8 +101,6 @@ private:
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
-
-#define COND_TYPE(Bool, T1, T2) std::conditional<Bool, T1, T2>::type
 
 #define GETTER_TYPE(Var)                                            \
 	COND_TYPE(                                                      \

@@ -82,7 +82,7 @@ void Playground::firstStep()
 	setPosition(Vector2(0,0)).
 	setLayer(0).
 	setAdjustSizeToText(true).
-	setText("ABC").
+	setText("ABC-qwertyuiopasdfghjkl").
 	setTextSize(Vector2(0.03f, 0.03f)).
 	create(UIElementType::BUTTON).
 	getUIElement();
@@ -131,10 +131,10 @@ void Playground::step()
 
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
 	{
-		//createSprite(Input::getInstance()->getMousePosition() * 800, 1);
+		createSprite(Input::getInstance()->getMousePosition() * 800, 1);
 		//mUIText->setText("right  123");
 
-		UI::getInstance()->getUIBuilder().
+		/*UI::getInstance()->getUIBuilder().
 		setLayout(UILayout::VERTICAL).
 		setPosition(Input::getInstance()->getMousePosition()).
 		setLayer(0).
@@ -142,7 +142,7 @@ void Playground::step()
 		setText("Button-longer").
 		setTextSize(Vector2(0.2f, 0.2f)).
 		create(UIElementType::BUTTON).
-		getUIElement();
+		getUIElement();*/
 	}
 }
 

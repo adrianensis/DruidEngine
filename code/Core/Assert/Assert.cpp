@@ -5,7 +5,7 @@
 
 //#include <experimental/filesystem>
 
-void assert_msg(const bool condition, const std::string &file, u32 line, const std::string &function,
+void assert_msg(bool condition, const std::string &file, u32 line, const std::string &function,
 				const std::string &message)
 {
 	if (!condition)
