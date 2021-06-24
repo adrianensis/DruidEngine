@@ -42,6 +42,7 @@ void main()
         FragColor.g = vColor.g;
         FragColor.b = vColor.b;
         FragColor.a = vColor.a;
+
       /*if((hasBorder && (t.x >= 0.01 && t.x <= 0.99 && t.y >= 0.01 && t.y <= 0.99)) || !hasBorder) {
         FragColor.r = vColor.r;
         FragColor.g = vColor.g;
@@ -51,4 +52,8 @@ void main()
         FragColor = vec4(0,0,0,1);
       }*/
     }
+
+    /*if(gl_FragCoord.x < 300) {
+      FragColor = vec4(0,0,0,0);
+    }*/
 }

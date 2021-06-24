@@ -15,6 +15,7 @@
 #include "Maths/Matrix4.hpp"
 #include "Input/Input.hpp"
 #include "UI/UI.hpp"
+#include "UI/UIDropdown.hpp"
 
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Material.hpp"
@@ -81,11 +82,40 @@ void Playground::firstStep()
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(0,0)).
 	setLayer(0).
+	setSize(Vector2(0.5f, 0.1f)).
+	create(UIElementType::PANEL).
+	getUIElement();
+
+	UI::getInstance()->getUIBuilder().
+	setAdjustSizeToText(false).
+	setText("Text").
+	setTextSize(Vector2(0.1f, 0.1f)).
+	create(UIElementType::TEXT).
+	getUIElement();
+
+	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
-	setText("ABC-qwertyuiopasdfghjkl").
-	setTextSize(Vector2(0.03f, 0.03f)).
+	setText("Button").
+	setTextSize(Vector2(0.1f, 0.1f)).
 	create(UIElementType::BUTTON).
 	getUIElement();
+
+	UIDropdown* dropdown = (UIDropdown*) UI::getInstance()->getUIBuilder().
+	setAdjustSizeToText(true).
+	setText("Dropdown").
+	setTextSize(Vector2(0.1f, 0.1f)).
+	create(UIElementType::DROPDOWN).
+	getUIElement();
+	
+	dropdown->addOption("Option 1", [](UIElement *uiElement)
+	{
+
+	});
+
+	dropdown->addOption("Option 2", [](UIElement *uiElement)
+	{
+
+	});
 
 	/*mUIText = (UIText*) UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL)->
@@ -102,7 +132,7 @@ void Playground::step()
 {
 	RenderEngine::getInstance()->drawLine(Vector3(-1000,0,0), Vector3(1000,0,0));
 	RenderEngine::getInstance()->drawLine(Vector3(0,-1000,0), Vector3(0,1000,0));
-
+	
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{
 		//createSprite(Input::getInstance()->getMousePosition() * 800, 0);
@@ -118,7 +148,7 @@ void Playground::step()
 		create(UIElementType::TEXT).
 		getUIElement();*/
 
-		UI::getInstance()->getUIBuilder().
+		/*UI::getInstance()->getUIBuilder().
 		setLayout(UILayout::VERTICAL).
 		setPosition(Input::getInstance()->getMousePosition()).
 		setLayer(0).
@@ -126,7 +156,7 @@ void Playground::step()
 		setText("Button!").
 		setTextSize(Vector2(0.1f, 0.1f)).
 		create(UIElementType::BUTTON).
-		getUIElement();
+		getUIElement();*/
 	}
 
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))

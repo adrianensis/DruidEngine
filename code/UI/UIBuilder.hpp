@@ -6,8 +6,8 @@
 #include "Maths/Vector4.hpp"
 #include "UI/UIElement.hpp"
 #include "UI/UIButton.hpp"
-/*#include "UI/UITextEditable.hpp"
-#include "UI/UIDropdown.hpp"*/
+/*#include "UI/UITextEditable.hpp"*/
+#include "UI/UIDropdown.hpp"
 #include "UI/UIText.hpp"
 #include "UI/UIPanel.hpp"
 
@@ -47,10 +47,6 @@ CLASS(UIElementData, ObjectBase)
 	PUB(Group, NONE, std::string)
 	PUB(Parent, NONE, GameObject*)
 	PUB(SeparatorSize, NONE, f32)
-	PUB(BackgroundColor, NONE, Vector4)
-	PUB(BackgroundColor2, NONE, Vector4);
-	PUB(BackgroundColor3, NONE, Vector4);
-	PUB(BackgroundColor4, NONE, Vector4);
 
 public:
 	UIElementData();
@@ -69,10 +65,6 @@ public:
 		DO_COPY(IsAffectedByLayout)
 		DO_COPY(SeparatorSize)
 		DO_COPY(Parent)
-		DO_COPY(BackgroundColor)
-		DO_COPY(BackgroundColor2)
-		DO_COPY(BackgroundColor3)
-		DO_COPY(BackgroundColor4)
 
 		if (!other->mText.empty())
 		{
@@ -113,8 +105,8 @@ private:
 	UIPanel *internalCreatePanel();
 	UIText *internalCreateText();
 	UIButton* internalCreateButton();
-	/*UITextEditable* internalCreateTextEditable();
-	UIDropdown* internalCreateDropdown();*/
+	/*UITextEditable* internalCreateTextEditable();*/
+	UIDropdown* internalCreateDropdown();
 
 public:
 	UIBuilder();
@@ -144,16 +136,11 @@ public:
 	UI_BUILDER_DATA_SETTER(Vector2, TextSize)
 	UI_BUILDER_DATA_SETTER(bool, AdjustSizeToText)
 	UI_BUILDER_DATA_SETTER(std::string, Group)
-	UI_BUILDER_DATA_SETTER(const Vector4 &, BackgroundColor)
 	UI_BUILDER_DATA_SETTER(f32, SeparatorSize)
 	UI_BUILDER_DATA_SETTER(GameObject*, Parent)
 
 	UIBuilder &restoreColors()
 	{
-		mData.mBackgroundColor = Vector4(0.5, 0.5, 0.5, 1);
-		mData.mBackgroundColor2 = Vector4(0.6, 0.6, 0.6, 1);
-		mData.mBackgroundColor3 = Vector4(0.4, 0.4, 0.4, 1);
-		mData.mBackgroundColor4 = Vector4(0.5, 0.5, 0.5, 0.7);
 		return *this;
 	}
 

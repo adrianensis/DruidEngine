@@ -12,16 +12,7 @@
 
 class Material;
 class Scene;
-
-CLASS(UIGroup, ObjectBase)
-{
-	PUB(Name, NONE, std::string)
-	PUB(Visible, NONE, bool)
-	PUB(UIElements, NONE, std::list<UIElement *>);
-
-public:
-	void init();
-};
+class UIGroup;
 
 CLASS(UI, ObjectBase), SINGLETON(UI)
 {

@@ -180,11 +180,34 @@ void Batch::drawCall() const
 {
 	if (mMeshesIndex > 0)
 	{
+		/*glEnable(GL_STENCIL_TEST);
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+		glDepthMask(GL_FALSE);
+		glStencilFunc(GL_NEVER, 1, 0xFF);
+		glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
+
+		// draw stencil pattern
+		glStencilMask(0xFF);
+		glClear(GL_STENCIL_BUFFER_BIT); // needs mask=0xFF
+
+		// mask->draw()
+
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		glDepthMask(GL_TRUE);
+		glStencilMask(0x00);
+		// draw where stencil's value is 0
+		glStencilFunc(GL_EQUAL, 0, 0xFF);
+		// (nothing to draw)
+		// draw only where stencil's value is 1
+		glStencilFunc(GL_EQUAL, 1, 0xFF);*/
+
 		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
 		RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
 		RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
 
 		RenderContext::drawRectangles(mMeshesIndex);
+
+		//glDisable(GL_STENCIL_TEST );
 	}
 }
 

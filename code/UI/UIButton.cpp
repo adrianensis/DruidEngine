@@ -12,7 +12,7 @@ void UIButton::init()
 {
 	UIElement::init();
 
-	subscribeToMouseButtonEvents();
+	subscribeToMouseEvents();
 }
 
 void UIButton::onDestroy()

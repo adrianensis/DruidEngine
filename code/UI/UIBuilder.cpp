@@ -14,6 +14,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "UI/UI.hpp"
+#include "UI/UIStyle.hpp"
 
 UIElementData::UIElementData()
 {
@@ -34,10 +35,6 @@ void UIElementData::init(const Vector2 &position, const Vector2 &size, u32 layer
 	mGroup = "";
 	mParent = nullptr;
 	mSeparatorSize = 0.01f;
-	mBackgroundColor = Vector4(0.5, 0.5, 0.5, 1);
-	mBackgroundColor2 = Vector4(0.6, 0.6, 0.6, 1);
-	mBackgroundColor3 = Vector4(0.2, 0.2, 0.2, 1);
-	mBackgroundColor4 = Vector4(0.5, 0.5, 0.5, 0.7);
 }
 
 UIBuilder::UIBuilder()
@@ -128,7 +125,7 @@ void UIBuilder::calculateData()
 	{
 	case UIElementType::TEXT:
 	case UIElementType::TEXTEDITABLE:
-		mData.mDisplayPosition.x += mData.mTextSize.x / 2.0f;
+		mData.mDisplayPosition.x += mData.mTextSize.x;
 		mData.mDisplayPosition.y -= mData.mTextSize.y / 2.0f;
 		break;
 	default:
@@ -183,7 +180,7 @@ UIPanel *UIBuilder::internalCreatePanel()
 	renderer->setMesh(Mesh::getRectangle());
 	//renderer->setMaterial(mButtonMaterial);
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor4);
+	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 	renderer->setLayer(mData.mLayer);
 	//renderer->setHasBorder(true);
 
@@ -216,7 +213,7 @@ UIButton *UIBuilder::internalCreateButton()
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setLayer(mData.mLayer);
-	renderer->setColor(mData.mBackgroundColor);
+	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 	//renderer->setHasBorder(true);
 
 	/*RigidBody* rigidBody = NEW(RigidBody);
@@ -340,7 +337,7 @@ UIText *UIBuilder::internalCreateText()
 	registerUIElement(uiPanel);
 		
 	return uiText;
-}
+}*/
 
 UIDropdown* UIBuilder::internalCreateDropdown() {
 	calculateData();
@@ -360,18 +357,18 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor2);
+	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 	renderer->setLayer(mData.mLayer);
 	//renderer->setHasBorder(true);
 
-	RigidBody* rigidBody = NEW(RigidBody);
+	/*RigidBody* rigidBody = NEW(RigidBody);
 	uiDropdown->addComponent<RigidBody>(rigidBody);
 	rigidBody->setSimulate(false);
 
 	Collider* collider = NEW(Collider);
 	uiDropdown->addComponent<Collider>(collider);
 	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
-	collider->getBoundingBox();
+	collider->getBoundingBox();*/
 
 	uiDropdown->setComponentsCache();
 
@@ -382,7 +379,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	uiDropdown->setText(mData.mText);
 
 	return uiDropdown;
-}*/
+}
 
 UIBuilder &UIBuilder::create(UIElementType type)
 {
@@ -403,10 +400,10 @@ UIBuilder &UIBuilder::create(UIElementType type)
 		break;
 	/*case UIElementType::TEXTEDITABLE:
 			newElement = internalCreateTextEditable();
-			break;
-		case UIElementType::DROPDOWN:
-			newElement = internalCreateDropdown();
 			break;*/
+	case UIElementType::DROPDOWN:
+		newElement = internalCreateDropdown();
+		break;
 	default:
 		break;
 	}

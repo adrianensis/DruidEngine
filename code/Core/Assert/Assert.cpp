@@ -1,7 +1,7 @@
 #include "Core/Assert/Assert.hpp"
 #include <string>	// std::string
 #include <cstdlib>	// abort
-#include <iostream> // abort
+#include <iostream>
 
 //#include <experimental/filesystem>
 

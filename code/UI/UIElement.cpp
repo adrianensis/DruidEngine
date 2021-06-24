@@ -12,6 +12,7 @@
 #include "Scene/Transform.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "UI/UI.hpp"
+#include "UI/UIStyle.hpp"
 
 void UIElement::init()
 {
@@ -41,76 +42,89 @@ void UIElement::onDestroy()
 void UIElement::subscribeToKeyEvents()
 {
 	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-						   }
-					   });
+	{
+		if (isActive())
+		{
+		}
+	});
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-						   }
-					   });
+	{
+		if (isActive())
+		{
+		}
+	});
 }
 
 void UIElement::subscribeToCharEvents()
 {
 	SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-							   // TODO : boolean to enable or disable : can receive char input?
-							   onChar(((const InputEventChar *)event)->mChar);
-						   }
-					   });
+	{
+		if (isActive())
+		{
+			// TODO : boolean to enable or disable : can receive char input?
+			onChar(((const InputEventChar *)event)->mChar);
+		}
+	});
 }
 
-void UIElement::subscribeToMouseButtonEvents()
+void UIElement::subscribeToMouseEvents()
 {
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-							   //ECHO("InputEventMouseButtonPressed")
-							   const InputEventMouseButtonPressed *e = (const InputEventMouseButtonPressed *)event;
+	{
+		if (isActive())
+		{
+			const InputEventMouseButtonPressed *e = (const InputEventMouseButtonPressed *)event;
 
-							   if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
-							   {
-								   onPressed();
-							   }
-						   }
-					   });
+			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
+			{
+				onPressed();
+			}
+		}
+	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-						   }
-					   });
+	{
+		if (isActive())
+		{
+			const InputEventMouseButtonReleased *e = (const InputEventMouseButtonReleased *)event;
+			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
+			{
+				onReleased();
+			}
+		}
+	});
+
+	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [this](const Event *event)
+	{
+		if (isActive())
+		{
+			//const InputEventMouseMoved *e = (const InputEventMouseMoved *)event;
+			onMouseOver();
+		}
+	});
 }
 
 void UIElement::subscribeToEnterEvent()
 {
 	SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-							   onFocusLost(); // TODO : call something more generic
-						   }
-					   });
+	{
+		if (isActive())
+		{
+			onFocusLost(); // TODO : call something more generic
+		}
+	});
 }
 
 void UIElement::subscribeToEscEvent()
 {
 	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
-					   {
-						   if (isActive())
-						   {
-							   onFocusLost(); // TODO : call something more generic
-						   }
-					   });
+	{
+		if (isActive())
+		{
+			onFocusLost(); // TODO : call something more generic
+		}
+	});
 }
 
 bool UIElement::hasFocus() const
@@ -143,30 +157,14 @@ void UIElement::onFocus()
 void UIElement::onPressed()
 {
 	//Collider* collider = getCollider();
-	// TODO : boolean to enable or disable : can be pressed?
 
 	if (mRenderer->isActive())
 	{
-		Vector2 screenMousePosition(Input::getInstance()->getMousePosition());
-		Vector2 worldMousePosition = Vector2(
-			RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
-
-		//collider->getBoundingBox(true); // force regenerate bounding box
-		Vector2 mousePosition = getTransform()->getAffectedByProjection() ? worldMousePosition : screenMousePosition;
-
-		bool clickOk = Geometry::testRectanglePoint(
-			mRenderer->getVertices()[0],
-			getTransform()->getScale().x,
-			getTransform()->getScale().y,
-			mousePosition, 0);
-
-		if (clickOk)
+		if (isMouseCursorInsideElement())
 		{
-			mRenderer->setColor(Vector4(1,0,0,0.7f));
+			mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorSelected);
 			
 			mPressed = true;
-			//mRenderer->setColor(Vector4(1.0f,1.0f,0.0f,1.0f));
-			mOnPressedFunctor.execute();
 
 			if (!hasFocus())
 			{
@@ -186,25 +184,64 @@ void UIElement::onPressed()
 				Input::getInstance()->clearMouseButton();
 			}
 		}
-		/*else {
-			UIElement* lastFocusedElement = UI::getInstance()->getFocusedElement();
-
-			if(lastFocusedElement) {
-				lastFocusedElement->onFocusLost();
-			}
-
-			UI::getInstance()->setFocusedElement(nullptr);
-		}*/
 	}
 }
 
 void UIElement::onReleased()
 {
-	// TODO : boolean to enable or disable : can be pressed?
+	if(mPressed)
+	{
+		if (mRenderer->isActive())
+		{
+			if (hasFocus())
+			{
+				bool cursorInside = isMouseCursorInsideElement();
 
-	mPressed = false;
-	//mRenderer->setColor(Vector4(0.0f,0.0f,0.0f,1.0f));
-	mOnReleasedFunctor.execute();
+				if (cursorInside)
+				{
+					mOnPressedFunctor.execute();
+				}
+
+				mPressed = false;
+
+				mOnReleasedFunctor.execute();
+
+				onFocusLost();
+
+				if (getConsumeInput())
+				{
+					Input::getInstance()->clearMouseButton();
+				}
+
+				if(cursorInside)
+				{
+					mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorHovered);
+				}
+				else
+				{
+					mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+				}
+			}
+		}
+	}
+}
+
+void UIElement::onMouseOver()
+{
+	if(!mPressed)
+	{
+		if (mRenderer->isActive())
+		{
+			if (isMouseCursorInsideElement())
+			{
+				mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorHovered);
+			}
+			else
+			{
+				mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+			}
+		}
+	}
 }
 
 void UIElement::setComponentsCache()
@@ -221,4 +258,26 @@ void UIElement::setVisibility(bool visibility)
 bool UIElement::isVisible()
 {
 	return isActive();
+}
+
+bool UIElement::isMouseCursorInsideElement()
+{
+	Vector2 screenMousePosition(Input::getInstance()->getMousePosition());
+	
+	//collider->getBoundingBox(true); // force regenerate bounding box
+	Vector2 mousePosition = screenMousePosition;
+
+	if(getTransform()->getAffectedByProjection())
+	{
+		Vector2 worldMousePosition = Vector2(
+			RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
+
+		mousePosition = worldMousePosition;
+	}
+
+	return Geometry::testRectanglePoint(
+		mRenderer->getVertices()[0],
+		getTransform()->getScale().x,
+		getTransform()->getScale().y,
+		mousePosition, 0);
 }

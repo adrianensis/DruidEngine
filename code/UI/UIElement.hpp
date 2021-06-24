@@ -12,23 +12,26 @@ class UIElement;
 
 using UIElementCallback = std::function<void(UIElement *uiElement)>;
 
-CLASS(FunctorUIElement, Functor<UIElementCallback>){
+CLASS(FunctorUIElement, Functor<UIElementCallback>)
+{
 	PUB(UIElement, NONE, UIElement *)
 
-		public :
+public:
 
-			virtual void execute() override{
-				if (mCallback)
-					mCallback(mUIElement);
-}
+	virtual void execute() override
+	{
+		if (mCallback)
+		{
+			mCallback(mUIElement);
+		}
+	}
 
-COPY(FunctorUIElement)
-{
-	DO_COPY(UIElement)
-	Functor<UIElementCallback>::operator=(*other);
-}
-}
-;
+	COPY(FunctorUIElement)
+	{
+		DO_COPY(UIElement)
+		Functor<UIElementCallback>::operator=(*other);
+	}
+};
 
 CLASS(UIElement, GameObject)
 {
@@ -45,13 +48,16 @@ CLASS(UIElement, GameObject)
 	PRI(Group, GET_SET, UIGroup *)
 	PRO(Pressed, GET, bool)
 
+private:
+	bool isMouseCursorInsideElement();
+
 public:
 	virtual void init() override;
 	virtual void onDestroy();
 
 	void subscribeToKeyEvents();
 	void subscribeToCharEvents();
-	void subscribeToMouseButtonEvents();
+	void subscribeToMouseEvents();
 	void subscribeToEnterEvent();
 	void subscribeToEscEvent();
 
@@ -63,6 +69,8 @@ public:
 
 	void onPressed();
 	void onReleased();
+
+	void onMouseOver();
 
 	virtual void onFocusLost();
 	void onFocus();

@@ -1,4 +1,6 @@
 #include "UI/UI.hpp"
+#include "UI/UIGroup.hpp"
+#include "UI/UIStyle.hpp"
 #include "Graphics/Material/Texture.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
 #include "Graphics/Material/Material.hpp"
@@ -16,11 +18,6 @@
 #include "Scene/GameObject.hpp"
 
 Vector2 UI::smDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
-
-void UIGroup::init()
-{
-	mName = "";
-}
 
 Material *UI::getFontMaterial()
 {
@@ -86,8 +83,7 @@ void UI::setGroupVisibility(std::string &groupName, bool visibility)
 
 void UI::init()
 {
-	/*mUIElements = new List<UIElement*>;
-	mUIElements->init();*/
+	UIStyleManager::getInstance()->init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);
 	mFontTileTextureSize = Vector2(1.0f / mFontTilesCount.x, 1.0f / mFontTilesCount.y);
@@ -209,4 +205,6 @@ void UI::terminate()
 	TRACE()
 
 	MAP_DELETE_CONTENT(mGroups)
+
+	UIStyleManager::deleteInstance();
 }
