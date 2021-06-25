@@ -6,7 +6,7 @@ class UIText;
 
 CLASS(UIButton, UIElement)
 {
-	PRI(Label, NONE, UIText *)
+	PRI(Text, GET, UIText *)
 
 public:
 	virtual void init() override;

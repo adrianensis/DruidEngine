@@ -17,9 +17,9 @@ void UIButton::init()
 
 void UIButton::onDestroy()
 {
-	if (mLabel)
+	if (mText)
 	{
-		getScene()->removeGameObject(mLabel);
+		getScene()->removeGameObject(mText);
 	}
 
 	UIElement::onDestroy();
@@ -27,7 +27,7 @@ void UIButton::onDestroy()
 
 void UIButton::onLabelDestroy()
 {
-	mLabel = nullptr;
+	mText = nullptr;
 }
 
 void UIButton::setText(const std::string &text)
@@ -37,9 +37,9 @@ void UIButton::setText(const std::string &text)
 		f32 fontOffset = UI::getInstance()->getDefaultFontSize().x;
 		Vector3 buttonScale = getTransform()->getScale();
 
-		if (!mLabel)
+		if (!mText)
 		{
-			mLabel = (UIText *)UI::getInstance()->getUIBuilder().
+			mText = (UIText *)UI::getInstance()->getUIBuilder().
 			saveData().
 			setPosition(Vector2(0, 0)).
 			setText(text).
@@ -50,13 +50,13 @@ void UIButton::setText(const std::string &text)
 
 			UI::getInstance()->getUIBuilder().restoreData();
 
-			SUBSCRIBE_TO_EVENT(EventOnDestroy, mLabel, this, [&](const Event *event)
+			SUBSCRIBE_TO_EVENT(EventOnDestroy, mText, this, [&](const Event *event)
 			{
 				onLabelDestroy();
 			});
 		}
 
-		mLabel->setText(text);
+		mText->setText(text);
 	}
 }
 
@@ -64,8 +64,8 @@ void UIButton::setVisibility(bool visibility)
 {
 	UIElement::setVisibility(visibility);
 
-	if (mLabel)
+	if (mText)
 	{
-		mLabel->setVisibility(visibility);
+		mText->setVisibility(visibility);
 	}
 }

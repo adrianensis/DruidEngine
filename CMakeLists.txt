@@ -86,8 +86,8 @@ link_directories("${DEPENDENCIES_DIR}/libpng-1.6.37/build/lib")
 # message(${Python3_LIBRARIES})
 
 # FreeType
-find_package(Freetype REQUIRED)
-include_directories(${FREETYPE_INCLUDE_DIRS})
+#find_package(Freetype REQUIRED)
+#include_directories(${FREETYPE_INCLUDE_DIRS})
 
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
@@ -148,8 +148,8 @@ target_link_libraries(${DRUID} ${OPENGL_glu_LIBRARY})
 target_link_libraries(${DRUID} glfw)
 target_link_libraries(${DRUID} nlohmann_json)
 target_link_libraries(${DRUID} libpng.so)
-target_link_libraries(${DRUID} ${FREETYPE_LIBRARIES})
-target_include_directories(${DRUID} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+#target_link_libraries(${DRUID} ${FREETYPE_LIBRARIES})
+#target_include_directories(${DRUID} PRIVATE ${FREETYPE_INCLUDE_DIRS})
 # target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
 
 # SOIL

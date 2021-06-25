@@ -247,7 +247,7 @@ UIText *UIBuilder::internalCreateText()
 	textSize.x = textSize.x / RenderContext::getAspectRatio();
 
 	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(Vector3(mData.mTextSize.x / RenderContext::getAspectRatio(), mData.mTextSize.y, 1));
+	uiText->getTransform()->setScale(Vector3(textSize.x, textSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
 
 	if (mData.mParent)

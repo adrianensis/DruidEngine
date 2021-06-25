@@ -100,12 +100,12 @@ void Playground::firstStep()
 	create(UIElementType::BUTTON).
 	getUIElement();
 
-	UIDropdown* dropdown = (UIDropdown*) UI::getInstance()->getUIBuilder().
+	UIDropdown* dropdown = UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
 	setText("Dropdown").
 	setTextSize(Vector2(0.1f, 0.1f)).
 	create(UIElementType::DROPDOWN).
-	getUIElement();
+	getUIElement<UIDropdown>();
 	
 	dropdown->addOption("Option 1", [](UIElement *uiElement)
 	{
@@ -135,7 +135,7 @@ void Playground::step()
 	
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{
-		//createSprite(Input::getInstance()->getMousePosition() * 800, 0);
+		createSprite(Input::getInstance()->getMousePosition() * 800, 0);
 		//mUIText->setText("left");
 
 		/*UI::getInstance()->getUIBuilder().

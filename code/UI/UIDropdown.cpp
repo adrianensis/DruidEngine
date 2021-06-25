@@ -3,6 +3,7 @@
 #include "UI/UIBuilder.hpp"
 #include "UI/UIText.hpp"
 #include "Graphics/Renderer.hpp"
+#include "Graphics/RenderContext.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 
@@ -40,12 +41,14 @@ void UIDropdown::toggle()
 	{
 		Vector3 scale = getTransform()->getScale();
 		scale.x = scale.x * RenderContext::getAspectRatio();
+
+		Vector3 textScale = getText()->getTransform()->getScale();
 		
 		UI::getInstance()->getUIBuilder().saveData().
 			setLayout(UILayout::VERTICAL).
 			//setSize(scale).
 			setPosition(Vector2(-scale.x / 2.0f, -scale.y / 2.0f)).
-			setTextSize(Vector2(0.065f,0.065f)).
+			setTextSize(Vector2(textScale.x * RenderContext::getAspectRatio() ,textScale.y)).
 			setAdjustSizeToText(true).
 			setLayer(getRenderer()->getLayer() + 1);
 

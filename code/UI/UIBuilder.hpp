@@ -156,4 +156,10 @@ public:
 	UIBuilder &restoreData();
 
 	UIElement *getUIElement();
+
+	template<class T, typename = std::enable_if_t<std::is_base_of<UIElement, T>::value> >
+	T *getUIElement()
+	{
+		return dynamic_cast<T *>(mCurrentUIElement);
+	}
 };
