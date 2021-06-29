@@ -102,7 +102,7 @@ void Batch::render(u32 layer)
 
 		processRenderers(renderers);
 
-		drawCall();
+		//drawCall();
 
 		RenderContext::enableVAO(0);
 	}
@@ -136,37 +136,64 @@ void Batch::resizeVertexBuffers(u32 newSize)
 
 void Batch::processRenderers(std::list<Renderer *> *renderers)
 {
+	bool pendingDrawCall = false;
+	
 	FOR_LIST(it, *renderers)
 	{
 		Renderer *renderer = *it;
 
 		bool toRemove = false;
 
-		if (renderer->getIsPendingToBeDestroyed())
-		{
-			toRemove = true;
-		}
-		else if (renderer->isActive())
+		if (renderer->isActive())
 		{
 			if (isChunkOk(renderer))
 			{
 				//if (!checkIsOutOfCamera(camera, renderer)) { }
-				addToVertexBuffer(renderer);
+
+				if(renderer->hasClipRectangle())
+				{
+					if(pendingDrawCall)
+					{
+						drawCall(); // flush all the previous rendereres
+						resizeVertexBuffers(renderers->size()); // TODO : resize to the correct remaining size
+					}
+
+					addToVertexBuffer(renderer);
+
+					mMaterial->getShader()->addVector2(renderer->getClipRectangle().getLeftTop(), "clipRegionLeftTop");
+					mMaterial->getShader()->addVector2(renderer->getClipRectangle().getSize(), "clipRegionSize");
+
+					drawCall();
+					resizeVertexBuffers(renderers->size());
+
+					mMaterial->getShader()->addVector2(Vector2(), "clipRegionLeftTop");
+					mMaterial->getShader()->addVector2(Vector2(), "clipRegionSize");
+				}
+				else
+				{
+					addToVertexBuffer(renderer);
+					pendingDrawCall = true;
+				}
 			}
 			else
 			{
 				toRemove = true;
 			}
-
-			/*if (isSortedLayer && mIsWorldSpace && !renderer->isStatic()) {
-				toRemove = true;
-			}*/
+		}
+		else if (renderer->getIsPendingToBeDestroyed())
+		{
+			toRemove = true;
 		}
 
 		if (toRemove)
 		{
 			internalRemoveRendererFromList(it, renderers);
 		}
+	}
+
+	if(pendingDrawCall)
+	{
+		drawCall(); // flush all the previous rendereres
 	}
 }
 
@@ -332,8 +359,8 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 			mMesh->getTextureCoordinates()[i * Mesh::smVertexTexCoordSize + 0],
 			mMesh->getTextureCoordinates()[i * Mesh::smVertexTexCoordSize + 1]);
 
-		Vector2 regionSize = renderer->getRegionSize();
-		Vector2 regionPosition = renderer->getRegionPosition();
+		Vector2 regionSize = renderer->getRegion().getSize();
+		Vector2 regionPosition = renderer->getRegion().getLeftTop();
 
 		Vector2 textureCoord(vertexTexture.x * regionSize.x + regionPosition.x, vertexTexture.y * regionSize.y + regionPosition.y);
 

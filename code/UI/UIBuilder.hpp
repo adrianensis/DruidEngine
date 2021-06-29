@@ -102,6 +102,7 @@ private:
 	UILayout getOppositeLayout(UILayout layout);
 	Vector2 calculateNextElementOffset(UILayout layout);
 	void calculateData();
+	Vector2 calculateAspectRatioCorrectedPosition() const;
 	UIPanel *internalCreatePanel();
 	UIText *internalCreateText();
 	UIButton* internalCreateButton();

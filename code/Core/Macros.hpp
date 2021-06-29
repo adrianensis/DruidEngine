@@ -114,8 +114,7 @@ private:
 #define SETTER_TYPE(Var) GETTER_TYPE(Var) // same
 
 #define GET(BaseName)        \
-	GETTER_TYPE(m##BaseName) \
-	get##BaseName() const { return m##BaseName; };
+	GETTER_TYPE(m##BaseName) get##BaseName() const { return m##BaseName; };
 
 #define GETREF(BaseName) \
 	std::add_lvalue_reference<GETTER_TYPE(m##BaseName)>::type get##BaseName() { return m##BaseName; };

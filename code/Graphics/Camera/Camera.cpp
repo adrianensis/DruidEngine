@@ -40,9 +40,7 @@ void Camera::init()
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
 {
 	mIsOrtho = true;
-	// DELETE(mProjectionMatrix);
-	// mProjectionMatrix = NEW(Matrix4);
-
+	
 	mLeft = left;
 	mRight = right;
 	mBottom = bottom;
@@ -53,6 +51,13 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio(), mRight * RenderContext::getAspectRatio(), mBottom,
 							mTop, mNear, mFar);
 
+	VAR(f32, mLeft * RenderContext::getAspectRatio())
+	VAR(f32, mRight * RenderContext::getAspectRatio())
+	VAR(f32, mBottom)
+	VAR(f32, mTop)
+	VAR(f32, mNear)
+	VAR(f32, mFar)
+
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
 };
@@ -60,8 +65,6 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 {
 	mIsOrtho = false;
-	// DELETE(mProjectionMatrix);
-	// mProjectionMatrix = NEW(Matrix4);
 	mProjectionMatrix.perspective(near, far, aspect, fov);
 
 	calculateInverseMatrix(true);

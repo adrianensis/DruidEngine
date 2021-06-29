@@ -9,6 +9,7 @@
 #include "Input/Input.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Maths/Vector2.hpp"
+#include "Maths/Geometry.hpp"
 #include "Scene/Transform.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "UI/UI.hpp"

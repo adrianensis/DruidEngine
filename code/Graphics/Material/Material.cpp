@@ -45,4 +45,6 @@ void Material::bind(bool isWorldSpace)
 	mShader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
 
 	mShader->addBool(isWorldSpace, "isWorldSpace");
+
+	mShader->addVector2(RenderContext::getWindowSize(), "windowSize");
 }

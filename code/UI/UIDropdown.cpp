@@ -47,7 +47,7 @@ void UIDropdown::toggle()
 		UI::getInstance()->getUIBuilder().saveData().
 			setLayout(UILayout::VERTICAL).
 			//setSize(scale).
-			setPosition(Vector2(-scale.x / 2.0f, -scale.y / 2.0f)).
+			setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
 			setTextSize(Vector2(textScale.x * RenderContext::getAspectRatio() ,textScale.y)).
 			setAdjustSizeToText(true).
 			setLayer(getRenderer()->getLayer() + 1);

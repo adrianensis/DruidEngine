@@ -6,7 +6,6 @@
 
 #include "Core/BasicTypes.hpp"
 #include "Core/Assert/Assert.hpp"
-#include "Maths/MathUtils.hpp"
 
 class Vector2;
 class Vector3;

@@ -4,6 +4,8 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
+#include "Maths/Geometry.hpp"
+#include "Maths/MathUtils.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
@@ -26,8 +28,8 @@ CLASS(Renderer, Component)
 	PRI(CurrentAnimation, GET, Animation *)
 	PRI(Color, GETREF_CONST, std::array<f32, 4>)
 	PRI(PositionOffset, GET, Vector3)
-	PRI(RegionPosition, GET, Vector2)
-	PRI(RegionSize, GET, Vector2)
+	PRI(Region, GETREF_CONST_SET, Rectangle)
+	PRI(ClipRectangle, GETREF_CONST_SET, Rectangle)
 	PRI(Mesh, GET_SET, Mesh *)
 	PRI(Material, GET_SET, Material *)
 	PRI(InvertAxisX, GET_SET, bool)
@@ -48,11 +50,11 @@ public:
 	bool hasAnimations() const;
 	void updateAnimation();
 	void setColor(const Vector4 &color);
-	void setRegion(f32 u, f32 v, f32 width, f32 height);
 	void setPositionOffset(Vector3 newPositionOffset);
 	bool getIsWorldSpace();
 	const std::vector<Vector2> &getVertices(bool force = false);
 	void forceRecalculateVertices();
+	bool hasClipRectangle() const {return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON; };
 
 	//virtual void serialize(ConfigObject* configMap, std::string& objectName) override;
 	//virtual void deserialize(ConfigObject* configMap, std::string& objectName) override;

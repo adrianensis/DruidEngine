@@ -80,30 +80,30 @@ void Playground::firstStep()
 {
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL).
-	setPosition(Vector2(0,0)).
+	setPosition(Vector2(-1,0)).
 	setLayer(0).
-	setSize(Vector2(0.5f, 0.1f)).
+	setSize(Vector2(0.5f, 0.05f)).
 	create(UIElementType::PANEL).
 	getUIElement();
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).
 	setText("Text").
-	setTextSize(Vector2(0.1f, 0.1f)).
+	setTextSize(Vector2(0.05f, 0.05f)).
 	create(UIElementType::TEXT).
 	getUIElement();
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
 	setText("Button").
-	setTextSize(Vector2(0.1f, 0.1f)).
+	setTextSize(Vector2(0.05f, 0.05f)).
 	create(UIElementType::BUTTON).
 	getUIElement();
 
 	UIDropdown* dropdown = UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
 	setText("Dropdown").
-	setTextSize(Vector2(0.1f, 0.1f)).
+	setTextSize(Vector2(0.05f, 0.05f)).
 	create(UIElementType::DROPDOWN).
 	getUIElement<UIDropdown>();
 	
@@ -130,8 +130,8 @@ void Playground::firstStep()
 
 void Playground::step()
 {
-	RenderEngine::getInstance()->drawLine(Vector3(-1000,0,0), Vector3(1000,0,0));
-	RenderEngine::getInstance()->drawLine(Vector3(0,-1000,0), Vector3(0,1000,0));
+	//RenderEngine::getInstance()->drawLine(Vector3(-1000,0,0), Vector3(1000,0,0));
+	//RenderEngine::getInstance()->drawLine(Vector3(0,-1000,0), Vector3(0,1000,0));
 	
 	if (Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{

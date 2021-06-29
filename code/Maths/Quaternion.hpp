@@ -6,7 +6,6 @@
 
 #include "Core/BasicTypes.hpp"
 #include "Core/Assert/Assert.hpp"
-#include "Maths/MathUtils.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 

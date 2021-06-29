@@ -20,8 +20,8 @@ Renderer::Renderer()
 	mPositionOffsetDirty = true;
 
 	// texture region
-	mRegionPosition = Vector2(0.0, 0.0);
-	mRegionSize = Vector2(1.0, 1.0);
+	mRegion.setLeftTop(Vector2(0.0, 0.0));
+	mRegion.setSize(Vector2(1.0, 1.0));
 
 	mInvertAxisX = false;
 
@@ -63,15 +63,6 @@ void Renderer::init()
 
 bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
 
-void Renderer::setRegion(f32 u, f32 v, f32 width, f32 height)
-{
-	mRegionPosition.x = u;
-	mRegionPosition.y = v;
-
-	mRegionSize.x = width;
-	mRegionSize.y = height;
-}
-
 /**
  * Set the animation, by name.
  * \param string name The name.
@@ -103,8 +94,8 @@ void Renderer::updateAnimation()
 		if (hasAnimations())
 		{
 			const AnimationFrame *frame = mCurrentAnimation->getNextFrame();
-			mRegionPosition = frame->getPosition();
-			mRegionSize = Vector2(frame->getWidth(), frame->getHeight());
+			mRegion.setLeftTop(frame->getPosition());
+			mRegion.setSize(Vector2(frame->getWidth(), frame->getHeight()));
 		}
 	}
 };

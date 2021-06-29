@@ -2,13 +2,26 @@
 
 #include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
-#include "Maths/Vector3.hpp"
 
 CLASS(Shape, ObjectBase){};
 
-CLASS(Rectangle, Shape){
-    public :
+CLASS(Rectangle, Shape)
+{
+    PRO(LeftTop, GETREF_CONST_SET, Vector2)
+    PRO(Size, GETREF_CONST_SET, Vector2)
 
+public:
+
+    Rectangle();
+    Rectangle(f32 x, f32 y, f32 w, f32 h);
+    Rectangle(const Vector2 &leftTop, f32 w, f32 h);
+    Rectangle(const Vector2 &leftTop, const Vector2 &size);
+
+    COPY(Rectangle)
+    {
+        DO_COPY(LeftTop)
+        DO_COPY(Size)
+    }
 };
 
 class Geometry

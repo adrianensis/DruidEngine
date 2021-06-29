@@ -163,16 +163,25 @@ void Shader::addFloat(f32 value, const std::string &name)
 	glUniform1f(location, value);
 };
 
-void Shader::addVector4(std::vector<f32> *value, const std::string &name)
+void Shader::addVector4(const Vector4 &value, const std::string &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
-	glUniform4fv(location, 1, value->data());
+	f32 vector[4] = {value.x, value.y, value.z, value.w};
+	glUniform4fv(location, 1, vector);
 };
 
-void Shader::addVector3(std::vector<f32> *value, const std::string &name)
+void Shader::addVector3(const Vector3 &value, const std::string &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
-	glUniform3fv(location, 1, value->data());
+	f32 vector[3] = {value.x, value.y, value.z};
+	glUniform3fv(location, 1, vector);
+};
+
+void Shader::addVector2(const Vector2 &value, const std::string &name)
+{
+	u32 location = glGetUniformLocation(mProgram, name.c_str());
+	f32 vector[2] = {value.x, value.y};
+	glUniform2fv(location, 1, vector);
 };
 
 void Shader::addBool(bool value, const std::string &name)

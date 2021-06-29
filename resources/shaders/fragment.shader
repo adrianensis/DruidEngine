@@ -16,6 +16,9 @@ uniform sampler2D uSampler;
 
 uniform bool hasTexture;
 uniform bool hasBorder;
+uniform vec2 clipRegionLeftTop;
+uniform vec2 clipRegionSize;
+uniform vec2 windowSize;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -23,6 +26,7 @@ float rand(vec2 co){
 
 void main()
 {
+    float aspect = windowSize.x / windowSize.y;
     vec2 t = vTexcoord;
 
     if(hasTexture) {
@@ -53,7 +57,16 @@ void main()
       }*/
     }
 
-    /*if(gl_FragCoord.x < 300) {
-      FragColor = vec4(0,0,0,0);
-    }*/
+    if(clipRegionSize.x > 0.0000001 && clipRegionSize.y > 0.0000001)
+    {
+      bool isInClipRectangle = gl_FragCoord.x > clipRegionLeftTop.x*(windowSize.x/2.0)/aspect + (windowSize.x/2.0) &&
+      gl_FragCoord.x < clipRegionLeftTop.x*(windowSize.x/2.0)/aspect + (windowSize.x/2.0) + clipRegionSize.x*(windowSize.x/2.0)/aspect &&
+      gl_FragCoord.y > clipRegionLeftTop.y*(windowSize.y/2.0) - clipRegionSize.y*(windowSize.y/2.0) + (windowSize.y/2.0) &&
+      gl_FragCoord.y < clipRegionLeftTop.y*(windowSize.y/2.0) - clipRegionSize.y*(windowSize.y/2.0) + (windowSize.y/2.0) + clipRegionSize.y*(windowSize.y/2.0);
+      
+      if(!isInClipRectangle)
+      {
+        FragColor = vec4(0,0,0,0);
+      }
+    }
 }

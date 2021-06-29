@@ -125,14 +125,19 @@ void UIBuilder::calculateData()
 	{
 	case UIElementType::TEXT:
 	case UIElementType::TEXTEDITABLE:
-		mData.mDisplayPosition.x += mData.mTextSize.x;
+		mData.mDisplayPosition.x += mData.mTextSize.x/RenderContext::getAspectRatio();
 		mData.mDisplayPosition.y -= mData.mTextSize.y / 2.0f;
 		break;
 	default:
-		mData.mDisplayPosition.x += mData.mSize.x / 2.0f;
+		mData.mDisplayPosition.x += (mData.mSize.x/RenderContext::getAspectRatio()) / 2.0f;
 		mData.mDisplayPosition.y -= mData.mSize.y / 2.0f;
 		break;
 	}
+}
+
+Vector2 UIBuilder::calculateAspectRatioCorrectedPosition() const
+{
+	
 }
 
 UIBuilder &UIBuilder::nextRow()
@@ -168,9 +173,7 @@ UIPanel *UIBuilder::internalCreatePanel()
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
-
-	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiPanel->getTransform()->setLocalPosition(mData.mDisplayPosition);
 	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 	uiPanel->getTransform()->setAffectedByProjection(false);
 
@@ -183,6 +186,8 @@ UIPanel *UIBuilder::internalCreatePanel()
 	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 	renderer->setLayer(mData.mLayer);
 	//renderer->setHasBorder(true);
+
+	//renderer->setClipRectangle(Rectangle(mData.mPosition,mData.mSize));
 
 	uiPanel->setComponentsCache();
 
@@ -197,13 +202,11 @@ UIButton *UIBuilder::internalCreateButton()
 	uiButton->init();
 	uiButton->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
-
 	Vector3 size = mData.mSize;
 	size.z = 1;
 	size.x = size.x / RenderContext::getAspectRatio();
 
-	uiButton->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiButton->getTransform()->setLocalPosition(mData.mDisplayPosition);
 	uiButton->getTransform()->setScale(size);
 	uiButton->getTransform()->setAffectedByProjection(false);
 
@@ -240,13 +243,11 @@ UIText *UIBuilder::internalCreateText()
 	uiText->init();
 	uiText->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
-
 	Vector3 textSize = mData.mTextSize;
 	textSize.z = 1;
 	textSize.x = textSize.x / RenderContext::getAspectRatio();
 
-	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiText->getTransform()->setLocalPosition(mData.mDisplayPosition);
 	uiText->getTransform()->setScale(Vector3(textSize.x, textSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
 
@@ -281,7 +282,7 @@ UIText *UIBuilder::internalCreateText()
 	uiText->init();
 	uiText->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2((mData.mDisplayPosition.x / RenderContext::getAspectRatio()), mData.mDisplayPosition.y);
 
 	Vector3 size = mData.mSize;
 	size.z = 1;
@@ -317,7 +318,7 @@ UIText *UIBuilder::internalCreateText()
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
-	aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
+	aspectRatioCorrectedPosition = Vector2((mData.mDisplayPosition.x / RenderContext::getAspectRatio()), mData.mDisplayPosition.y);
 
 	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiPanel->getTransform()->setScale(Vector3(size.x, size.y, 1));
@@ -346,9 +347,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	uiDropdown->init();
 	uiDropdown->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2(mData.mDisplayPosition.x / RenderContext::getAspectRatio(), mData.mDisplayPosition.y);
-
-	uiDropdown->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
+	uiDropdown->getTransform()->setLocalPosition(mData.mDisplayPosition);
 	uiDropdown->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
 	uiDropdown->getTransform()->setAffectedByProjection(false);
 

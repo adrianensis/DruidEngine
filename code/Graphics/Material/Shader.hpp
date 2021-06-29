@@ -3,8 +3,8 @@
 #include "Core/ObjectBase.hpp"
 #include "Core/BasicTypes.hpp"
 #include "Maths/Vector4.hpp"
-
-#include <vector>
+#include "Maths/Vector3.hpp"
+#include "Maths/Vector2.hpp"
 
 class Matrix4;
 
@@ -37,7 +37,8 @@ public:
 	void addInt(i32 value, const std::string &name);
 	void addUInt(u32 value, const std::string &name);
 	void addFloat(f32 value, const std::string &name);
-	void addVector4(std::vector<f32> * value, const std::string &name);
-	void addVector3(std::vector<f32> * value, const std::string &name);
+	void addVector4(const Vector4 &value, const std::string &name);
+	void addVector3(const Vector3 &value, const std::string &name);
+	void addVector2(const Vector2 &value, const std::string &name);
 	void addBool(bool value, const std::string &name);
 };
