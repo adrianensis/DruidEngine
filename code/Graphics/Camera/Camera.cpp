@@ -51,13 +51,6 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio(), mRight * RenderContext::getAspectRatio(), mBottom,
 							mTop, mNear, mFar);
 
-	VAR(f32, mLeft * RenderContext::getAspectRatio())
-	VAR(f32, mRight * RenderContext::getAspectRatio())
-	VAR(f32, mBottom)
-	VAR(f32, mTop)
-	VAR(f32, mNear)
-	VAR(f32, mFar)
-
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
 };

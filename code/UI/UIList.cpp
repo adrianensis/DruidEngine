@@ -1,4 +1,4 @@
-#include "UI/UIDropdown.hpp"
+#include "UI/UIList.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIBuilder.hpp"
 #include "UI/UIText.hpp"
@@ -7,45 +7,48 @@
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry(const std::string& label, UIElementCallback callback)
+UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
 }
 
-void UIDropdown::init()
+void UIList::init()
 {
-	UIButton::init();
+	UIElement::init();
 
 	setOnFocusLostCallback([this](UIElement *uiElement)
 	{ 
 		//setEntriesVisibility(false); 
 	});
+
+	subscribeToScrollEvents();
 }
 
-void UIDropdown::onDestroy()
+void UIList::onDestroy()
 {
-	UIButton::onDestroy();
+	UIElement::onDestroy();
 }
 
-UIDropdown &UIDropdown::addOption(const std::string &label, UIElementCallback onPressedCallback)
+UIList &UIList::addOption(const std::string &label, UIElementCallback onPressedCallback)
 {
-	mEntries.push_back(UIDropdownEntry(label, onPressedCallback));
+	mEntries.push_back(UIListEntry(label, onPressedCallback));
 	return *this;
 }
 
-void UIDropdown::toggle()
+void UIList::toggle()
 {
 	// TODO : Temporary
 	if (mButtons.empty())
 	{
 		Vector3 scale = getTransform()->getScale();
 		scale.x = scale.x * RenderContext::getAspectRatio();
+
 		
 		UI::getInstance()->getUIBuilder().saveData().
 			setLayout(UILayout::VERTICAL).
 			//setSize(scale).
-			setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
+			setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), scale.y/2.0f)).
 			setTextSize(mConfig.mTextSize).
 			setAdjustSizeToText(true).
 			setLayer(mConfig.mLayer);
@@ -66,6 +69,18 @@ void UIDropdown::toggle()
 			Transform *t = button->getTransform();
 			t->setParent(getTransform());
 
+			Rectangle clipRectangle(
+						Vector2(mConfig.mPosition.x, mConfig.mPosition.y),
+						Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y));
+
+			button->getRenderer()->setClipRectangle(clipRectangle);
+
+			// Set clip rectangle for UIText label also
+			FOR_LIST(itRenderer, *button->getText()->getComponents<Renderer>())
+			{
+				(*itRenderer)->setClipRectangle(clipRectangle);
+			}
+
 			mButtons.push_back(button);
 		}
 
@@ -83,7 +98,7 @@ void UIDropdown::toggle()
 	//setEntriesVisibility(mButtons->isEmpty());
 }
 
-void UIDropdown::setEntriesVisibility(bool visible)
+void UIList::setEntriesVisibility(bool visible)
 {
 	/*if(visible){
 		FOR_LIST(it, mEntries) {
@@ -128,5 +143,21 @@ void UIDropdown::setEntriesVisibility(bool visible)
 	FOR_LIST(it, mButtons)
 	{
 		(*it)->setVisibility(visible);
+	}
+}
+
+void UIList::onScroll(f32 scroll)
+{
+	UIElement::onScroll(scroll);
+
+	if (mRenderer->isActive())
+	{
+		if (isMouseCursorInsideElement())
+		{
+			FOR_LIST(it, mButtons)
+			{
+				(*it)->getTransform()->translate(Vector2(0,0.005f * -scroll));
+			}
+		}
 	}
 }

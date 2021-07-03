@@ -59,14 +59,14 @@ void main()
 
     if(clipRegionSize.x > 0.0000001 && clipRegionSize.y > 0.0000001)
     {
-      bool isInClipRectangle = gl_FragCoord.x > clipRegionLeftTop.x*(windowSize.x/2.0)/aspect + (windowSize.x/2.0) &&
-      gl_FragCoord.x < clipRegionLeftTop.x*(windowSize.x/2.0)/aspect + (windowSize.x/2.0) + clipRegionSize.x*(windowSize.x/2.0)/aspect &&
+      bool isInClipRectangle = gl_FragCoord.x > ((clipRegionLeftTop.x*(windowSize.x/2.0)) + (windowSize.x/2.0)) &&
+      gl_FragCoord.x < ((clipRegionLeftTop.x*(windowSize.x/2.0)) + (windowSize.x/2.0) + (clipRegionSize.x)*(windowSize.x/2.0)) &&
       gl_FragCoord.y > clipRegionLeftTop.y*(windowSize.y/2.0) - clipRegionSize.y*(windowSize.y/2.0) + (windowSize.y/2.0) &&
       gl_FragCoord.y < clipRegionLeftTop.y*(windowSize.y/2.0) - clipRegionSize.y*(windowSize.y/2.0) + (windowSize.y/2.0) + clipRegionSize.y*(windowSize.y/2.0);
       
       if(!isInClipRectangle)
       {
-        FragColor = vec4(0,0,0,0);
+        discard;
       }
     }
 }

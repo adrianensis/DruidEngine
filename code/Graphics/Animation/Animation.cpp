@@ -100,7 +100,6 @@ const AnimationFrame *Animation::getNextFrame()
 		mTimeAccumulator += Time::getInstance()->getDeltaTimeMillis();
 
 		//ECHO("RENDERER NUM")
-		//VAL(f32,mTimeAccumulator)
 
 		// if delta time is greater than 'one frame time'
 		// then -> change to the next frame.

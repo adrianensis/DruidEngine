@@ -41,8 +41,6 @@ void TimerManager::step()
 
 			timer->setTimeCounter(timer->getTimeCounter() + deltaTime);
 
-			//VAR(f32, timer->mTimeCounter);
-
 			if (timer->getTimeCounter() >= timer->getDuration())
 			{
 				timer->mFunctor.execute();

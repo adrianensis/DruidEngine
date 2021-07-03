@@ -16,35 +16,14 @@
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
 
-UIElementData::UIElementData()
-{
-	mIsAffectedByLayout = true;
-}
-
-void UIElementData::init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text /*= std::string()*/)
-{
-	mElementType = UIElementType::PANEL;
-	mPosition = position;
-	mDisplayPosition = Vector2(0, 0);
-	mSize = size;
-	mText = text;
-	mLayer = layer;
-	mTextSize = UI::getDefaultFontSize(); // TODO : move to config?
-	mAdjustSizeToText = false;
-	mIsAffectedByLayout = true;
-	mGroup = "";
-	mParent = nullptr;
-	mSeparatorSize = 0.01f;
-}
-
 UIBuilder::UIBuilder()
 {
 	mButtonMaterial = nullptr;
 	mCurrentLayout = UILayout::VERTICAL;
-	mMakeRelativeToLastData = false;
+	mMakeRelativeToLastConfig = false;
 	mCurrentUIElement = nullptr;
 
-	mData.init(Vector2(0, 0), Vector2(0, 0), 0);
+	mConfig.init(Vector2(0, 0), Vector2(0, 0), 0);
 	//mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
 }
 
@@ -52,29 +31,31 @@ void UIBuilder::registerUIElement(UIElement *uiElement)
 {
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(uiElement);
 
-	if (mData.mGroup.length() > 0)
+	if (mConfig.mGroup.length() > 0)
 	{
-		UI::getInstance()->addToGroup(mData.mGroup, uiElement);
+		UI::getInstance()->addToGroup(mConfig.mGroup, uiElement);
 	}
 }
 
 void UIBuilder::registerCurrentUIElement(UIElement *uiElement)
 {
+	uiElement->setConfig(mConfig);
+
 	registerUIElement(uiElement);
 
 	mCurrentUIElement = uiElement;
 
-	if (mData.mIsAffectedByLayout)
+	if (mConfig.mIsAffectedByLayout)
 	{
 		if (mNewRowOrColumn)
 		{
 			mNewRowOrColumn = false;
-			mLayoutFirstUIElementData = mData;
+			mLayoutFirstUIElementConfig = mConfig;
 		}
 
-		mMakeRelativeToLastData = true;
+		mMakeRelativeToLastConfig = true;
 
-		mLastData = mData;
+		mLastConfig = mConfig;
 	}
 }
 
@@ -91,12 +72,12 @@ Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)
 	{
 	case UILayout::HORIZONTAL:
 	{
-		offset = Vector2(mLastData.mSize.x + mData.mSeparatorSize, 0);
+		offset = Vector2(mLastConfig.mSize.x + mConfig.mSeparatorSize, 0);
 		break;
 	}
 	case UILayout::VERTICAL:
 	{
-		offset = Vector2(0, -(mLastData.mSize.y + mData.mSeparatorSize));
+		offset = Vector2(0, -(mLastConfig.mSize.y + mConfig.mSeparatorSize));
 		break;
 	}
 	}
@@ -104,45 +85,40 @@ Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)
 	return offset;
 }
 
-void UIBuilder::calculateData()
+void UIBuilder::calculateConfig()
 {
-	if (mData.mAdjustSizeToText)
+	if (mConfig.mAdjustSizeToText)
 	{
-		f32 offset = mData.mTextSize.x;
-		mData.mSize.x = (mData.mTextSize.x * mData.mText.length()) /*+ offset*/;
-		mData.mSize.y = mData.mTextSize.y;
+		f32 offset = mConfig.mTextSize.x;
+		mConfig.mSize.x = (mConfig.mTextSize.x * mConfig.mText.length()) /*+ offset*/;
+		mConfig.mSize.y = mConfig.mTextSize.y;
 	}
 
-	if (mData.mIsAffectedByLayout && mMakeRelativeToLastData)
+	if (mConfig.mIsAffectedByLayout && mMakeRelativeToLastConfig)
 	{
 		Vector2 offset = calculateNextElementOffset(mNewRowOrColumn ? getOppositeLayout(mCurrentLayout) : mCurrentLayout);
-		mData.mPosition = mLastData.mPosition + offset;
+		mConfig.mPosition = mLastConfig.mPosition + offset;
 	}
 
 	// Offset the UI Element so its Top-Left corner is the origin.
-	mData.mDisplayPosition = mData.mPosition;
-	switch (mData.mElementType)
+	mConfig.mDisplayPosition = mConfig.mPosition;
+	switch (mConfig.mElementType)
 	{
 	case UIElementType::TEXT:
 	case UIElementType::TEXTEDITABLE:
-		mData.mDisplayPosition.x += mData.mTextSize.x/RenderContext::getAspectRatio();
-		mData.mDisplayPosition.y -= mData.mTextSize.y / 2.0f;
+		mConfig.mDisplayPosition.x += mConfig.mTextSize.x/RenderContext::getAspectRatio();
+		mConfig.mDisplayPosition.y -= mConfig.mTextSize.y / 2.0f;
 		break;
 	default:
-		mData.mDisplayPosition.x += (mData.mSize.x/RenderContext::getAspectRatio()) / 2.0f;
-		mData.mDisplayPosition.y -= mData.mSize.y / 2.0f;
+		mConfig.mDisplayPosition.x += (mConfig.mSize.x/RenderContext::getAspectRatio()) / 2.0f;
+		mConfig.mDisplayPosition.y -= mConfig.mSize.y / 2.0f;
 		break;
 	}
-}
-
-Vector2 UIBuilder::calculateAspectRatioCorrectedPosition() const
-{
-	
 }
 
 UIBuilder &UIBuilder::nextRow()
 {
-	mLastData = mLayoutFirstUIElementData;
+	mLastConfig = mLayoutFirstUIElementConfig;
 	mNewRowOrColumn = true;
 	return *this;
 }
@@ -154,27 +130,27 @@ UIBuilder &UIBuilder::nextColumn()
 
 UIBuilder &UIBuilder::saveData()
 {
-	mDataStack.push_front(mData);
+	mConfigStack.push_front(mConfig);
 	return *this;
 }
 
 UIBuilder &UIBuilder::restoreData()
 {
-	mData = mDataStack.front();
-	mDataStack.pop_front();
+	mConfig = mConfigStack.front();
+	mConfigStack.pop_front();
 	return *this;
 }
 
 UIPanel *UIBuilder::internalCreatePanel()
 {
-	calculateData();
+	calculateConfig();
 
 	UIPanel *uiPanel = NEW(UIPanel);
 	uiPanel->init();
-	uiPanel->setIsStatic(true);
+	//uiPanel->setIsStatic(true);
 
-	uiPanel->getTransform()->setLocalPosition(mData.mDisplayPosition);
-	uiPanel->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiPanel->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	uiPanel->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
 	uiPanel->getTransform()->setAffectedByProjection(false);
 
 	Renderer *renderer = NEW(Renderer);
@@ -184,10 +160,8 @@ UIPanel *UIBuilder::internalCreatePanel()
 	//renderer->setMaterial(mButtonMaterial);
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
-	renderer->setLayer(mData.mLayer);
+	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
-
-	//renderer->setClipRectangle(Rectangle(mData.mPosition,mData.mSize));
 
 	uiPanel->setComponentsCache();
 
@@ -196,17 +170,17 @@ UIPanel *UIBuilder::internalCreatePanel()
 
 UIButton *UIBuilder::internalCreateButton()
 {
-	calculateData();
+	calculateConfig();
 
 	UIButton *uiButton = NEW(UIButton);
 	uiButton->init();
-	uiButton->setIsStatic(true);
+	//uiButton->setIsStatic(true);
 
-	Vector3 size = mData.mSize;
+	Vector3 size = mConfig.mSize;
 	size.z = 1;
 	size.x = size.x / RenderContext::getAspectRatio();
 
-	uiButton->getTransform()->setLocalPosition(mData.mDisplayPosition);
+	uiButton->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
 	uiButton->getTransform()->setScale(size);
 	uiButton->getTransform()->setAffectedByProjection(false);
 
@@ -215,7 +189,7 @@ UIButton *UIBuilder::internalCreateButton()
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setLayer(mData.mLayer);
+	renderer->setLayer(mConfig.mLayer);
 	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 	//renderer->setHasBorder(true);
 
@@ -230,36 +204,36 @@ UIButton *UIBuilder::internalCreateButton()
 
 	uiButton->setComponentsCache();
 
-	uiButton->setText(mData.mText);
+	uiButton->setText(mConfig.mText);
 
 	return uiButton;
 }
 
 UIText *UIBuilder::internalCreateText()
 {
-	calculateData();
+	calculateConfig();
 
 	UIText *uiText = NEW(UIText);
 	uiText->init();
-	uiText->setIsStatic(true);
+	//uiText->setIsStatic(true);
 
-	Vector3 textSize = mData.mTextSize;
+	Vector3 textSize = mConfig.mTextSize;
 	textSize.z = 1;
 	textSize.x = textSize.x / RenderContext::getAspectRatio();
 
-	uiText->getTransform()->setLocalPosition(mData.mDisplayPosition);
+	uiText->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
 	uiText->getTransform()->setScale(Vector3(textSize.x, textSize.y, 1));
 	uiText->getTransform()->setAffectedByProjection(false);
 
-	if (mData.mParent)
+	if (mConfig.mParent)
 	{
-		uiText->getTransform()->setParent(mData.mParent->getTransform());
-		uiText->getTransform()->setLocalPosition(Vector2(-textSize.x * mData.mText.length() / 2.0f + textSize.x,0));
+		uiText->getTransform()->setParent(mConfig.mParent->getTransform());
+		uiText->getTransform()->setLocalPosition(Vector2(-textSize.x * mConfig.mText.length() / 2.0f + textSize.x,0));
 	}
 
-	uiText->setSize(mData.mTextSize);
-	uiText->setLayer(mData.mLayer);
-	uiText->setText(mData.mText);
+	uiText->setSize(mConfig.mTextSize);
+	uiText->setLayer(mConfig.mLayer);
+	uiText->setText(mConfig.mText);
 
 	// RigidBody* rigidBody = NEW(RigidBody);
 	// uiText->addComponent<RigidBody>(rigidBody);
@@ -276,21 +250,21 @@ UIText *UIBuilder::internalCreateText()
 }
 
 /*UITextEditable* UIBuilder::internalCreateTextEditable() {
-	calculateData();
+	calculateConfig();
 
 	UITextEditable* uiText = NEW(UITextEditable);
 	uiText->init();
-	uiText->setIsStatic(true);
+	//uiText->setIsStatic(true);
 
-	Vector2 aspectRatioCorrectedPosition = Vector2((mData.mDisplayPosition.x / RenderContext::getAspectRatio()), mData.mDisplayPosition.y);
+	Vector2 aspectRatioCorrectedPosition = Vector2((mConfig.mDisplayPosition.x / RenderContext::getAspectRatio()), mConfig.mDisplayPosition.y);
 
-	Vector3 size = mData.mSize;
+	Vector3 size = mConfig.mSize;
 	size.z = 1;
 	size.x = size.x / RenderContext::getAspectRatio();
 
 	f32 halfSizeX = size.x/2.0f;
 
-	Vector3 textSize = mData.mTextSize;
+	Vector3 textSize = mConfig.mTextSize;
 	textSize.z = 1;
 	textSize.x = textSize.x / RenderContext::getAspectRatio();
 
@@ -308,9 +282,9 @@ UIText *UIBuilder::internalCreateText()
 	collider->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
 	collider->getBoundingBox();
 
-	uiText->setSize(mData.mTextSize);
-	uiText->setLayer(mData.mLayer);
-	uiText->setText(mData.mText);
+	uiText->setSize(mConfig.mTextSize);
+	uiText->setLayer(mConfig.mLayer);
+	uiText->setText(mConfig.mText);
 
 	uiText->setComponentsCache();
 
@@ -318,7 +292,7 @@ UIText *UIBuilder::internalCreateText()
 	uiPanel->init();
 	uiPanel->setIsStatic(true);
 
-	aspectRatioCorrectedPosition = Vector2((mData.mDisplayPosition.x / RenderContext::getAspectRatio()), mData.mDisplayPosition.y);
+	aspectRatioCorrectedPosition = Vector2((mConfig.mDisplayPosition.x / RenderContext::getAspectRatio()), mConfig.mDisplayPosition.y);
 
 	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
 	uiPanel->getTransform()->setScale(Vector3(size.x, size.y, 1));
@@ -329,8 +303,8 @@ UIText *UIBuilder::internalCreateText()
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mData.mBackgroundColor4);
-	renderer->setLayer(mData.mLayer);
+	renderer->setColor(mConfig.mBackgroundColor4);
+	renderer->setLayer(mConfig.mLayer);
 	renderer->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
 
 	uiPanel->setComponentsCache();
@@ -341,14 +315,14 @@ UIText *UIBuilder::internalCreateText()
 }*/
 
 UIDropdown* UIBuilder::internalCreateDropdown() {
-	calculateData();
+	calculateConfig();
 
 	UIDropdown* uiDropdown = NEW(UIDropdown);
 	uiDropdown->init();
-	uiDropdown->setIsStatic(true);
+	//uiDropdown->setIsStatic(true);
 
-	uiDropdown->getTransform()->setLocalPosition(mData.mDisplayPosition);
-	uiDropdown->getTransform()->setScale(Vector3(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y, 1));
+	uiDropdown->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	uiDropdown->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
 	uiDropdown->getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = NEW(Renderer);
@@ -357,7 +331,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
-	renderer->setLayer(mData.mLayer);
+	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
 	/*RigidBody* rigidBody = NEW(RigidBody);
@@ -366,7 +340,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	Collider* collider = NEW(Collider);
 	uiDropdown->addComponent<Collider>(collider);
-	collider->setSize(mData.mSize.x / RenderContext::getAspectRatio(), mData.mSize.y);
+	collider->setSize(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y);
 	collider->getBoundingBox();*/
 
 	uiDropdown->setComponentsCache();
@@ -375,14 +349,46 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 		self->toggle();
 	});
 
-	uiDropdown->setText(mData.mText);
+	uiDropdown->setText(mConfig.mText);
 
 	return uiDropdown;
 }
 
+UIList* UIBuilder::internalCreateList()
+{
+	calculateConfig();
+
+	UIList* uiList = NEW(UIList);
+	uiList->init();
+	//uiList->setIsStatic(true);
+
+	uiList->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	uiList->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
+	uiList->getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = NEW(Renderer);
+	uiList->addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+	renderer->setLayer(mConfig.mLayer);
+	//renderer->setHasBorder(true);
+
+	uiList->setComponentsCache();
+
+	uiList->setOnPressedCallback([self = uiList](UIElement* uiElement) {
+		self->toggle();
+	});
+
+	//renderer->setClipRectangle(Rectangle(Vector2(mConfig.mPosition.x, mConfig.mPosition.y), Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y)));
+
+	return uiList;
+}
+
 UIBuilder &UIBuilder::create(UIElementType type)
 {
-	mData.mElementType = type;
+	mConfig.mElementType = type;
 
 	UIElement *newElement = nullptr;
 
@@ -402,6 +408,9 @@ UIBuilder &UIBuilder::create(UIElementType type)
 			break;*/
 	case UIElementType::DROPDOWN:
 		newElement = internalCreateDropdown();
+		break;
+	case UIElementType::LIST:
+		newElement = internalCreateList();
 		break;
 	default:
 		break;

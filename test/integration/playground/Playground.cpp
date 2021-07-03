@@ -16,6 +16,7 @@
 #include "Input/Input.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIDropdown.hpp"
+#include "UI/UIList.hpp"
 
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Material.hpp"
@@ -80,7 +81,7 @@ void Playground::firstStep()
 {
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL).
-	setPosition(Vector2(-1,0)).
+	setPosition(Vector2(-0.8f,0)).
 	setLayer(0).
 	setSize(Vector2(0.5f, 0.05f)).
 	create(UIElementType::PANEL).
@@ -116,6 +117,35 @@ void Playground::firstStep()
 	{
 
 	});
+
+	UIList* list = UI::getInstance()->getUIBuilder().
+	setAdjustSizeToText(false).
+	setTextSize(Vector2(0.05f, 0.05f)).
+	setSize(Vector2(0.5f, 0.2f)).
+	create(UIElementType::LIST).
+	getUIElement<UIList>();
+
+	list->addOption("Option 1", [](UIElement *uiElement)
+	{
+
+	});
+
+	list->addOption("Option 2", [](UIElement *uiElement)
+	{
+
+	});
+
+	list->addOption("Option 3", [](UIElement *uiElement)
+	{
+
+	});
+
+	list->addOption("Option 4", [](UIElement *uiElement)
+	{
+
+	});
+
+	list->toggle();
 
 	/*mUIText = (UIText*) UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL)->

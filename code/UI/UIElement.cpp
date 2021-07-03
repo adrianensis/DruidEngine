@@ -30,6 +30,7 @@ void UIElement::onDestroy()
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
@@ -102,6 +103,18 @@ void UIElement::subscribeToMouseEvents()
 		{
 			//const InputEventMouseMoved *e = (const InputEventMouseMoved *)event;
 			onMouseOver();
+		}
+	});
+}
+
+void UIElement::subscribeToScrollEvents()
+{
+	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [this](const Event *event)
+	{
+		if (isActive())
+		{
+			const InputEventScroll *e = (const InputEventScroll *)event;
+			onScroll(e->mScroll);
 		}
 	});
 }
@@ -241,6 +254,17 @@ void UIElement::onMouseOver()
 			{
 				mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
 			}
+		}
+	}
+}
+
+void UIElement::onScroll(f32 scroll)
+{
+	if (mRenderer->isActive())
+	{
+		if (isMouseCursorInsideElement())
+		{
+			mOnScrollFunctor.execute();
 		}
 	}
 }

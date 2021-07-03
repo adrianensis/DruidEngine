@@ -40,7 +40,7 @@ CLASS_EVENT(InputEventKeyReleased)
 
 CLASS_EVENT(InputEventScroll)
 {
-    PUB(Scroll, NONE, u32)
+    PUB(Scroll, NONE, f32)
 };
 
 CLASS_EVENT(InputEventChar)

@@ -11,6 +11,7 @@
 #define IS_ARITHMETIC(Class) std::is_arithmetic<REMOVE_REF(Class)>::value
 #define IS_ENUM(Class) std::is_enum<Class>::value
 #define ADD_CONST(Class) typename std::add_const<Class>::type
+#define ADD_REFERENCE(Class) typename std::add_lvalue_reference<Class>::type
 #define ADD_POINTER(Class) typename std::add_pointer<Class>::type
 
 #define COND_TYPE(Bool, T1, T2) typename std::conditional<Bool, T1, T2>::type
@@ -111,16 +112,23 @@ private:
 			REMOVE_REF(decltype(Var)),                              \
 			decltype(Var)))
 
-#define SETTER_TYPE(Var) GETTER_TYPE(Var) // same
+#define SETTER_TYPE(Var) \
+	COND_TYPE(                                                      \
+		IS_POINTER(decltype(Var)),                                  \
+		ADD_CONST(decltype(Var)),                                   \
+		COND_TYPE(                                                  \
+			IS_ARITHMETIC(decltype(Var)) || IS_ENUM(decltype(Var)), \
+			REMOVE_REF(decltype(Var)),                              \
+			ADD_REFERENCE(ADD_CONST(decltype(Var)))))
 
 #define GET(BaseName)        \
 	GETTER_TYPE(m##BaseName) get##BaseName() const { return m##BaseName; };
 
 #define GETREF(BaseName) \
-	std::add_lvalue_reference<GETTER_TYPE(m##BaseName)>::type get##BaseName() { return m##BaseName; };
+	ADD_REFERENCE(GETTER_TYPE(m##BaseName)) get##BaseName() { return m##BaseName; };
 
 #define GETREF_CONST(BaseName) \
-	std::add_lvalue_reference<ADD_CONST(GETTER_TYPE(m##BaseName))>::type get##BaseName() const { return m##BaseName; };
+	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() const { return m##BaseName; };
 
 #define SET(BaseName) \
 	void set##BaseName(SETTER_TYPE(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };

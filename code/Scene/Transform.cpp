@@ -121,12 +121,6 @@ void Transform::lookAt(const Vector3 &targetPosition)
 
 const Matrix4 &Transform::getTranslationMatrix()
 {
-	// Vector3 wPos = getWorldPosition();
-	//
-	// VAR(f32, wPos.x);
-	// VAR(f32, wPos.y);
-	// VAR(f32, wPos.z);
-
 	if (mIsDirtyTranslation || mParent)
 	{
 		mTranslationMatrix.translation(getWorldPosition());

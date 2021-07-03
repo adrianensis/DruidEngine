@@ -3,6 +3,7 @@
 #include "Scene/GameObject.hpp"
 #include "Core/Functor.hpp"
 #include "Graphics/RenderContext.hpp"
+#include "UI/UIElementConfig.hpp"
 #include <string>
 
 class Renderer;
@@ -35,21 +36,22 @@ public:
 
 CLASS(UIElement, GameObject)
 {
+	PRO(Config, GETREF_CONST_SET, UIElementConfig)
+
 	PRO(OnPressedFunctor, NONE, FunctorUIElement)
 	PRO(OnReleasedFunctor, NONE, FunctorUIElement)
+
+	PRO(OnScrollFunctor, NONE, FunctorUIElement)
 
 	PRO(OnTextChangedFunctor, NONE, FunctorUIElement)
 	PRO(OnFocusLostFunctor, NONE, FunctorUIElement)
 
-	PRI(Renderer, GET, Renderer *)
+	PRO(Renderer, GET, Renderer *)
 	//PRI(Collider, GET, Collider*)
 	PRO(InputString, GET, std::string)
 	PRO(ConsumeInput, GET_SET, bool)
 	PRI(Group, GET_SET, UIGroup *)
 	PRO(Pressed, GET, bool)
-
-private:
-	bool isMouseCursorInsideElement();
 
 public:
 	virtual void init() override;
@@ -58,19 +60,24 @@ public:
 	void subscribeToKeyEvents();
 	void subscribeToCharEvents();
 	void subscribeToMouseEvents();
+	void subscribeToScrollEvents();
 	void subscribeToEnterEvent();
 	void subscribeToEscEvent();
 
 	bool hasFocus() const;
 
+	bool isMouseCursorInsideElement();
+
 	void onChar(char character);
 
-	virtual void setText(const std::string &text) = 0;
+	virtual void setText(const std::string &text) { };
 
 	void onPressed();
 	void onReleased();
 
 	void onMouseOver();
+
+	virtual void onScroll(f32 scroll);
 
 	virtual void onFocusLost();
 	void onFocus();

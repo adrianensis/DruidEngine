@@ -246,8 +246,6 @@ void Scene::step()
 		const std::list<GameObject *> *newGameObjects = getNewGameObjects();
 		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().at("scene.maxNewObjectsToSpawn").get<f32>();
 
-		// VAR(f32, newGameObjects->getLength());
-
 		FOR_LIST(itGameObjects, *newGameObjects)
 		{
 			GameObject *gameObject = (*itGameObjects);

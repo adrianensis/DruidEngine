@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include "Core/BasicTypes.hpp"
+#include "Core/Macros.hpp"
 
 class Log
 {
@@ -27,7 +28,6 @@ public:
 	template <class T>
 	static void var(const std::string &varname, T var)
 	{
-		// std::cout << "VAR > " << varname << " : " << var << std::endl;
 		std::string varStr;
 		if constexpr (std::is_same<T, std::string>::value)
 		{
@@ -44,7 +44,6 @@ public:
 	template <class T>
 	static void val(const T &var)
 	{
-		// std::cout << "VAL > " << var << std::endl;
 		log("VAL > " + std::to_string(var));
 	};
 
@@ -57,16 +56,16 @@ public:
 #define TRACE() Log::trace(__FILE__, __LINE__, __PRETTY_FUNCTION__);
 #define TO_STR(s) #s
 #define ECHO(x) Log::echo(x);
-#define VAR(T, x) Log::var<T>(#x, x);
-#define VAL(T, x) Log::val<T>(x);
+#define VAR(x) Log::var<REMOVE_POINTER(REMOVE_REF(decltype(x)))>(#x, x);
+#define VAL(x) Log::val<REMOVE_POINTER(REMOVE_REF(decltype(x)))>(x);
 #define ERROR(x) Log::error(x);
 #define BRLINE() Log::brline();
 #else
 #define TRACE()
 #define TO_STR(s)
 #define ECHO(x)
-#define VAR(T, x)
-#define VAL(T, x)
+#define VAR(x)
+#define VAL(x)
 #define ERROR(x)
 #define BRLINE()
 #endif
