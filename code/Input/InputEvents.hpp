@@ -7,8 +7,14 @@
 #define SEND_INPUT_EVENT(event) SEND_EVENT(nullptr, Input::getInstance(), event);
 
 CLASS_EVENT(InputEventKeyEnter) {};
-
 CLASS_EVENT(InputEventKeyEsc) {};
+CLASS_EVENT(InputEventKeyDelete) {};
+CLASS_EVENT(InputEventKeyBackspace) {};
+
+CLASS_EVENT(InputEventKeyArrow)
+{
+    PUB(ArrowButton, NONE, u32)
+};
 
 CLASS_EVENT(InputEventMouseMoved) {};
 

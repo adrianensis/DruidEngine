@@ -13,6 +13,7 @@
 #include "Scene/Scene.hpp"
 #include "Scene/ScenesManager.hpp"
 #include "UI/UI.hpp"
+#include "Command/CommandLine.hpp"
 
 #include <string>
 #include <iostream>
@@ -22,9 +23,6 @@
 
 using namespace std::chrono_literals;
 
-Engine::~Engine(){
-};
-
 void Engine::init()
 {
 	mFPS = 60;
@@ -32,19 +30,15 @@ void Engine::init()
 	Memory::init();
 
 	EngineConfig::getInstance()->init();
-
 	RenderContext::init();
-
 	Input::getInstance()->init();
-
 	TimerManager::getInstance()->init();
 	EventsManager::getInstance()->init();
-
 	MaterialManager::getInstance()->init();
-
 	UI::getInstance()->init();
-
 	ScenesManager::getInstance()->init();
+
+	CommandLine::getInstance()->init();
 }
 
 void Engine::initSubsystems()
@@ -84,6 +78,8 @@ void Engine::run()
 
 		Input::getInstance()->pollEvents();
 
+		CommandLine::getInstance()->step();
+
 		ScenesManager::getInstance()->step();
 		TimerManager::getInstance()->step();
 		ScriptEngine::getInstance()->step();
@@ -106,6 +102,8 @@ void Engine::run()
 void Engine::terminate()
 {
 	TRACE();
+	
+	CommandLine::getInstance()->terminate();
 
 	ScenesManager::deleteInstance();
 

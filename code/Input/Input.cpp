@@ -6,37 +6,70 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 {
 	Input::getInstance()->smModifier = mods;
 
-	if (action == GLFW_PRESS)
+	switch (action)
 	{
-		Input::getInstance()->smLastKeyPressed = key;
-		Input::getInstance()->smKeyJustPressed = true;
+		case GLFW_PRESS:
+		{
+			Input::getInstance()->smLastKeyPressed = key;
+			Input::getInstance()->smKeyJustPressed = true;
 
-		if (key == GLFW_KEY_ENTER)
-		{
-			InputEventKeyEnter event;
-			SEND_INPUT_EVENT(event);
+			switch (key)
+			{
+				case GLFW_KEY_ENTER:
+				{
+					InputEventKeyEnter event;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+				case GLFW_KEY_ESCAPE:
+				{
+					InputEventKeyEsc event;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+				case GLFW_KEY_DELETE:
+				{
+					InputEventKeyDelete event;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+				case GLFW_KEY_BACKSPACE:
+				{
+					InputEventKeyBackspace event;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+				case GLFW_KEY_UP:
+				case GLFW_KEY_DOWN:
+				case GLFW_KEY_LEFT:
+				case GLFW_KEY_RIGHT:
+				{
+					InputEventKeyArrow event;
+					event.mArrowButton = key;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+				default:
+				{
+					InputEventKeyPressed event;
+					event.mKey = key;
+					event.mMods = mods;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
+			}
+			break;
 		}
-		else if (key == GLFW_KEY_ESCAPE)
+		case GLFW_RELEASE:
 		{
-			InputEventKeyEsc event;
-			SEND_INPUT_EVENT(event);
-		}
-		else
-		{
-			InputEventKeyPressed event;
+			InputEventKeyReleased event;
 			event.mKey = key;
 			event.mMods = mods;
 			SEND_INPUT_EVENT(event);
-		}
-	}
-	else if (action == GLFW_RELEASE)
-	{
-		InputEventKeyReleased event;
-		event.mKey = key;
-		event.mMods = mods;
-		SEND_INPUT_EVENT(event);
 
-		Input::getInstance()->clearKey();
+			Input::getInstance()->clearKey();
+			break;
+		}
 	}
 }
 
@@ -44,24 +77,29 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 {
 	Input::getInstance()->smModifier = mods;
 
-	if (action == GLFW_PRESS)
+	switch (action)
 	{
-		Input::getInstance()->smLastMouseButtonPressed = button;
-		Input::getInstance()->smButtonJustPressed = true;
+		case GLFW_PRESS:
+		{
+			Input::getInstance()->smLastMouseButtonPressed = button;
+			Input::getInstance()->smButtonJustPressed = true;
 
-		InputEventMouseButtonPressed event;
-		event.mButton = button;
-		event.mMods = mods;
-		SEND_INPUT_EVENT(event);
-	}
-	else if (action == GLFW_RELEASE)
-	{
-		InputEventMouseButtonReleased event;
-		event.mButton = button;
-		event.mMods = mods;
-		SEND_INPUT_EVENT(event);
+			InputEventMouseButtonPressed event;
+			event.mButton = button;
+			event.mMods = mods;
+			SEND_INPUT_EVENT(event);
+			break;
+		}
+		case GLFW_RELEASE:
+		{
+			InputEventMouseButtonReleased event;
+			event.mButton = button;
+			event.mMods = mods;
+			SEND_INPUT_EVENT(event);
 
-		Input::getInstance()->clearMouseButton();
+			Input::getInstance()->clearMouseButton();
+			break;
+		}
 	}
 }
 

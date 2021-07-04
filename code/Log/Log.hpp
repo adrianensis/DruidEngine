@@ -28,23 +28,33 @@ public:
 	template <class T>
 	static void var(const std::string &varname, T var)
 	{
-		std::string varStr;
+		std::string valueStr;
 		if constexpr (std::is_same<T, std::string>::value)
 		{
-			varStr = var;
+			valueStr = var;
 		}
 		else
 		{
-			varStr = std::to_string(var);
+			valueStr = std::to_string(var);
 		}
 
-		log("VAR > " + varname + " : " + varStr);
+		log("VAR > " + varname + " : " + valueStr);
 	};
 
 	template <class T>
 	static void val(const T &var)
 	{
-		log("VAL > " + std::to_string(var));
+		std::string valueStr;
+		if constexpr (std::is_same<T, std::string>::value)
+		{
+			valueStr = var;
+		}
+		else
+		{
+			valueStr = std::to_string(var);
+		}
+
+		log("VAL > " + valueStr);
 	};
 
 	static void error(const std::string &message);

@@ -6,7 +6,6 @@
 #include <fstream>
 #include <string>
 #include <functional>
-#include <regex>
 
 CLASS(File, ObjectBase)
 {

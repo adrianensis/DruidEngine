@@ -18,7 +18,7 @@ class Material;
 CLASS(Playground, Script)
 {
 	PRI(Transform, NONE, Transform *)
-	PUB(Material, NONE, Material *)
+	PRI(Material, NONE, Material *)
 
 public:
 	void createSprite(const Vector2 &position, u32 type = 0);

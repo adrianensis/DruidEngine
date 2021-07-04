@@ -32,6 +32,8 @@
 
 #include "ProjectileScript.hpp"
 
+#include "Command/CommandLine.hpp"
+
 void Playground::createSprite(const Vector2 &position, u32 type /* = 0*/)
 {
 	Vector2 size(150, 150);
@@ -79,6 +81,25 @@ void Playground::init()
 
 void Playground::firstStep()
 {
+	CommandLine::getInstance()->registerCommand("create_sprite", [&](const Command& command)
+	{		
+		/*FOR_LIST(it, command.getArgs())
+		{
+			const CommandArgument& arg = *it;
+			VAR("" + arg.getName())
+			VAR("" + arg.getValue())
+		}*/
+
+		if(command.getArgs().size() == 2)
+		{
+			Vector2 position(
+				std::stof(command.getArgs()[0].getName()),
+				std::stof(command.getArgs()[1].getName())
+			);
+			createSprite(position, 0);
+		}
+	});
+
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(-0.8f,0)).
@@ -156,6 +177,8 @@ void Playground::firstStep()
 	setText("hello")->
 	create(UIElementType::TEXT)->
 	getUIElement();*/
+
+	CommandLine::getInstance()->open();
 }
 
 void Playground::step()
