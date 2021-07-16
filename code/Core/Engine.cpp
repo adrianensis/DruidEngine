@@ -104,6 +104,7 @@ void Engine::terminate()
 	TRACE();
 	
 	CommandLine::getInstance()->terminate();
+	CommandLine::deleteInstance();
 
 	ScenesManager::deleteInstance();
 
