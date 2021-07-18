@@ -39,6 +39,8 @@ public:
 	void setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
 
+	void onResize();
+
 	Vector3 screenToWorld(Vector2 screenPosition);
 	void calculateInverseMatrix(bool forceCalculate = false);
 

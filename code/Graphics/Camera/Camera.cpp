@@ -64,6 +64,18 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 	mFrustum->build(true);
 };
 
+void Camera::onResize()
+{
+	if(mIsOrtho)
+	{
+		setOrtho(mLeft, mRight, mBottom, mTop, mNear, mFar);
+	}
+	else
+	{
+		
+	}
+}
+
 const Matrix4 &Camera::getProjectionMatrix() const
 {
 	return mProjectionMatrix;

@@ -1,4 +1,6 @@
 #include "Graphics/RenderContext.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Camera/Camera.hpp"
 
 //#include <gl/gl.h>
 //#include <gl/glext.h>
@@ -25,6 +27,7 @@ void RenderContext::onResize(GLFWwindow *window, int width, int height)
 {
 	smWindowSize.set(width, height);
 	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
+	RenderEngine::getInstance()->getCamera()->onResize();
 }
 
 void RenderContext::init()
