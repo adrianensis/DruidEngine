@@ -2,15 +2,34 @@
 
 #include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
+#include "Maths/Geometry.hpp"
 
-class Grid;
 class GameObject;
+class EditorController;
+class Material;
+
+enum class BrushMode
+{
+	NONE, // just do nothing
+	SELECT,
+	PAINT,
+	ERASE
+};
+
+CLASS(BrushPaintData, ObjectBase)
+{
+	PUB(Region, NONE, Rectangle)
+	PUB(Material, NONE, Material *)
+};
 
 CLASS(Brush, ObjectBase)
 {
-	PRI(Grid, NONE, Grid *)
+	PRI(EditorController, NONE, EditorController*)
 	PRI(Selector, NONE, GameObject *)
 	PRI(BrushPreview, NONE, GameObject *)
+	PRI(Mode, NONE, BrushMode)
+
+	PRI(PaintData, GETREF, BrushPaintData)
 
 private:
 
@@ -18,11 +37,10 @@ private:
 	void setSelectorVisibility(bool visible);
 	void createBrushPreview();
 	void removeBrushPreview();
-	GameObject* createSprite(const Vector2 &position, const Vector2 &size);
 
 public:
 
-	void init();
+	void init(EditorController* editorController);
 	void onPressed(const Vector2& position);
-	void setGrid(Grid* grid);
+	void onTileSelectedFromAtlas(GameObject* tile);
 };

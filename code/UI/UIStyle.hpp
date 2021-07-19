@@ -35,6 +35,8 @@ CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
 
 public:
 
+	virtual ~UIStyleManager() override;
+	
 	void init();
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIStyle, T>::value> >

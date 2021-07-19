@@ -1,4 +1,5 @@
 #include "Brush.hpp"
+#include "EditorController.hpp"
 
 #include "Input/Input.hpp"
 #include "Input/InputEvents.hpp"
@@ -20,12 +21,13 @@
 
 #include "Grid.hpp"
 
-void Brush::init()
+void Brush::init(EditorController* editorController)
 {
+	mEditorController = editorController;
+	createSelector();
+
     SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event *event)
 	{
-		ECHO("BRUSH PRESSED");
-
 		Vector2 mouse = Input::getInstance()->getMousePosition();
 		Vector3 world = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
 		getFirstComponent<Camera>()->screenToWorld(mouse);
@@ -44,9 +46,9 @@ void Brush::init()
 		Vector3 world = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
 		getFirstComponent<Camera>()->screenToWorld(mouse);
 
-		mSelector->getTransform()->setLocalPosition(mGrid->calculateClampedPosition(world));
+		mSelector->getTransform()->setLocalPosition(mEditorController->getGrid().calculateClampedPosition(world));
 
-		if(mGrid->isInGrid(world))
+		if(mEditorController->getGrid().isInGrid(world))
 		{
 			mSelector->getFirstComponent<Renderer>()->setColor(Vector4(0,1,0,1));
 		}
@@ -59,66 +61,81 @@ void Brush::init()
 
 void Brush::onPressed(const Vector2& position)
 {
-	if(mGrid->isInGrid(position))
+	if(mEditorController->getGrid().isInGrid(position))
 	{
-		Vector2 gridPosition = mGrid->calculateGridPosition(position);
-		if(!mGrid->hasTile(gridPosition))
+		Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(position);
+		
+		switch (mMode)
 		{
-			mGrid->setCell(gridPosition, createSprite(mGrid->calculateClampedPosition(position), mGrid->getTileSize()));
+			case BrushMode::NONE:
+			{
+
+				break;
+			}
+			case BrushMode::SELECT:
+			{
+
+				break;
+			}
+			case BrushMode::PAINT:
+			{
+				if(!mEditorController->getGrid().hasTile(gridPosition))
+				{
+					mEditorController->getGrid().setCell(gridPosition, 
+						mEditorController->createTile(
+							mEditorController->getGrid().calculateClampedPosition(position),
+							mEditorController->getGrid().getTileSize(),
+							mPaintData.mMaterial,
+							mPaintData.mRegion
+						)
+					);
+				}
+				break;
+			}
+			case BrushMode::ERASE:
+			{
+				if(!mEditorController->getGrid().hasTile(gridPosition))
+				{
+					CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
+					ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
+					cell.mGameObject = nullptr;
+				}
+				break;
+			}
 		}
 	}
 }
 
-GameObject* Brush::createSprite(const Vector2 &position, const Vector2 &size)
+void Brush::onTileSelectedFromAtlas(GameObject* tile)
 {
-	Material *material = MaterialManager::getInstance()->loadMaterial("resources/terrain.png");
+	mMode = BrushMode::PAINT;
 
-	GameObject *sprite = NEW(GameObject);
-	sprite->init();
-
-	sprite->getTransform()->setLocalPosition(position);
-	sprite->getTransform()->setScale(Vector3(size.x, size.y, 1));
-
-	Renderer *renderer = NEW(Renderer);
-	sprite->addComponent<Renderer>(renderer);
-
-	//renderer->setColor(Vector4(0,0,0,0.7f));
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setLayer(0);
-
-	renderer->setMaterial(material);
-	renderer->addAnimation("idle", Animation::create(10, true, false, Vector2(0, 0), 1.0f / 16.0f, 1.0f / 16.0f, 10));
-	renderer->setAnimation("idle");
-
-	//renderer->setIsLineMode(true);
-
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(sprite);
-
-	return sprite;
+	Renderer* tileRenderer = tile->getFirstComponent<Renderer>();
+	mPaintData.mRegion = tileRenderer->getRegion();
+	mPaintData.mMaterial = tileRenderer->getMaterial();
 }
 
 void Brush::createSelector()
 {
 	Material *material = MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Selector.png");
 
-	GameObject *sprite = NEW(GameObject);
-	sprite->init();
+	GameObject *selector = NEW(GameObject);
+	selector->init();
 
-	sprite->getTransform()->setLocalPosition(Vector2(0,0));
-	sprite->getTransform()->setScale(Vector3(mGrid->getTileSize(), 1));
+	selector->getTransform()->setLocalPosition(Vector2(0,0));
+	selector->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
 
 	Renderer *renderer = NEW(Renderer);
-	sprite->addComponent<Renderer>(renderer);
+	selector->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setLayer(0);
 
 	renderer->setMaterial(material);
 
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(sprite);
+	ScenesManager::getInstance()->getCurrentScene()->addGameObject(selector);
 
-	mSelector = sprite;
+	mSelector = selector;
 }
 
 void Brush::setSelectorVisibility(bool visible)
@@ -135,33 +152,26 @@ void Brush::createBrushPreview()
 
 	Material *material = MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Selector.png");
 
-	GameObject *sprite = NEW(GameObject);
-	sprite->init();
+	GameObject *brushPreview = NEW(GameObject);
+	brushPreview->init();
 
-	sprite->getTransform()->setLocalPosition(Vector2(0,0));
-	sprite->getTransform()->setScale(Vector3(mGrid->getTileSize(), 1));
+	brushPreview->getTransform()->setLocalPosition(Vector2(0,0));
+	brushPreview->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
 
 	Renderer *renderer = NEW(Renderer);
-	sprite->addComponent<Renderer>(renderer);
+	brushPreview->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setLayer(0);
 
 	renderer->setMaterial(material);
 
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(sprite);
+	ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
 
-	mBrushPreview = sprite;
+	mBrushPreview = brushPreview;
 }
 
 void Brush::removeBrushPreview()
 {
 	ScenesManager::getInstance()->getCurrentScene()->removeGameObject(mBrushPreview);
-}
-
-void Brush::setGrid(Grid* grid)
-{
-	mGrid = grid;
-
-	createSelector();
 }

@@ -1,9 +1,12 @@
 #include "Grid.hpp"
+#include "EditorController.hpp"
 
 #include "Maths/MathUtils.hpp"
 
-void Grid::init()
+void Grid::init(EditorController* editorController)
 {
+    mEditorController = editorController;
+    
     mGridSize.set(20, 20);
     mTileSize.set(50, 50);
 

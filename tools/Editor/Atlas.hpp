@@ -10,7 +10,7 @@ class GameObject;
 class UIButton;
 class Material;
 
-class MapEditor;
+class EditorController;
 
 CLASS(UIStyleAtlasButton, UIStyle)
 {
@@ -25,6 +25,7 @@ public:
 
 CLASS(Atlas, ObjectBase)
 {
+	PRI(EditorController, NONE, EditorController*)
 	PRI(AtlasSelectorUIGroup, NONE, std::string);
 	PRI(AtlasUIGroup, NONE, std::string);
 	PRI(IsAtlasShow, NONE, bool)
@@ -38,6 +39,6 @@ public:
 	Atlas();
 	virtual ~Atlas() override;
 
-	void init();
+	void init(EditorController* editorController);
 	void toggle();
 };

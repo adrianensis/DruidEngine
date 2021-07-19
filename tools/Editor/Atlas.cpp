@@ -1,4 +1,5 @@
 #include "Atlas.hpp"
+#include "EditorController.hpp"
 
 #include "Maths/Vector3.hpp"
 
@@ -37,8 +38,10 @@ Atlas::~Atlas()
 
 }
 
-void Atlas::init()
+void Atlas::init(EditorController* editorController)
 {
+	mEditorController = editorController;
+
 	createAtlas(MaterialManager::getInstance()->loadMaterial("resources/tiles.png"));
 
 	toggle();
@@ -73,9 +76,10 @@ void Atlas::createAtlas(Material* material)
 		setLayer(0).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleAtlasButton>());
 
-	FOR_RANGE(i, 0, atlasSize.y){
-		FOR_RANGE(j, 0, atlasSize.x){
-
+	FOR_RANGE(i, 0, atlasSize.y)
+	{
+		FOR_RANGE(j, 0, atlasSize.x)
+		{
 			UIButton* tile = (UIButton*) UI::getInstance()->getUIBuilder().
 					create<UIButton>().
 					getUIElement();
@@ -84,8 +88,9 @@ void Atlas::createAtlas(Material* material)
 			renderer->setMaterial(material);
 			renderer->setRegion(Rectangle(j / atlasSize.x, (atlasSize.y - i - 1) / atlasSize.y, atlasTextureSize.x, atlasTextureSize.y));
 
-			tile->setOnPressedCallback([&](UIElement* uiElement) {
-
+			tile->setOnPressedCallback([&](UIElement* uiElement)
+			{
+				this->mEditorController->getBrush().onTileSelectedFromAtlas(uiElement);
 			});
 		}
 

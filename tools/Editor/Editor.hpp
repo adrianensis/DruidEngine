@@ -1,18 +1,11 @@
 #pragma once
 
 #include "Scripting/Script.hpp"
-#include "Maths/Vector2.hpp"
-#include <string>
-
-#include "Brush.hpp"
-#include "Grid.hpp"
-#include "Atlas.hpp"
+#include "EditorController.hpp"
 
 CLASS(Editor, Script)
 {
-	PRI(Brush, NONE, Brush)
-	PRI(Grid, NONE, Grid)
-	PRI(Atlas, NONE, Atlas)
+	PRI(EditorController, GET, EditorController)
 
 public:
 	void init() override;

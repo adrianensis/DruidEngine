@@ -6,6 +6,7 @@
 #include <vector>
 
 class GameObject;
+class EditorController;
 
 CLASS(CellGrid, ObjectBase)
 {
@@ -16,13 +17,14 @@ public:
 
 CLASS(Grid, ObjectBase)
 {
+	PRI(EditorController, NONE, EditorController*)
 	PRI(CellsGrid, NONE, std::vector<std::vector<CellGrid>>)
 	PRI(GridSize, GETREF_CONST, Vector2)
 	PRI(TileSize, GETREF_CONST, Vector2)
 
 public:
 
-	void init();
+	void init(EditorController* editorController);
 	void setCell(const Vector2& gridPosition, GameObject* tile);
 	CellGrid& getCell(const Vector2& gridPosition);
 
