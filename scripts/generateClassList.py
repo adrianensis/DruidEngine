@@ -37,13 +37,17 @@ for folder in folders:
 print(class_list)
 print(includes)
 
-generated_code_path = cwd+"/generated-code/"
+generated_code_dirname = "generated-code"
 
-with open(generated_code_path+"ClassManager.generated", "w") as class_list_file:
+os.mkdir(generated_code_dirname)
+
+generated_code_path = os.path.join(cwd, generated_code_dirname)
+
+with open(os.path.join(generated_code_path, "ClassManager.generated"), "w") as class_list_file:
     for class_name in class_list:
         class_list_file.write("REGISTER_CLASS_BY_NAME("+class_name+")\n")
 
-with open(generated_code_path+"ClassManager.includes.generated", "w") as includes_list_file:
+with open(os.path.join(generated_code_path, "ClassManager.includes.generated"), "w") as includes_list_file:
     for include_path in includes:
         includes_list_file.write("#include \""+include_path+"\"\n")
 

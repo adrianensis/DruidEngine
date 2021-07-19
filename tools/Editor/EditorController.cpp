@@ -42,8 +42,6 @@ void EditorController::init()
 	mBrush.init(this);
 	mAtlas.init(this);
 
-	auto* x = (Atlas*) INSTANCE_BY_NAME("Atlas");
-
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1,1)).
