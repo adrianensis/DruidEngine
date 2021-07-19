@@ -58,6 +58,8 @@ done
 
 # sh clean.sh
 
+python ./scripts/generateClassList.py
+
 mkdir $buildDir 2> /dev/null
 cd $buildDir 2> /dev/null
 # -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++

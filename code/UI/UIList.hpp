@@ -8,7 +8,7 @@ CLASS(UIList, UIElement)
 {
 
 private:
-	CLASS(UIListEntry, ObjectBase)
+	CLASS_NESTED(UIListEntry, ObjectBase)
 	{
 		PUB(Label, NONE, std::string)
 		PUB(Callback, NONE, UIElementCallback)

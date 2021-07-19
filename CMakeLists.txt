@@ -107,6 +107,10 @@ endforeach()
 
 include_directories("code")
 
+# needed for generated code
+include_directories(".")
+include_directories("generated-code")
+
 # file(GLOB INCLUDE_PATHS "code/*")
 #
 # foreach(INCLUDE_PATH ${INCLUDE_PATHS})

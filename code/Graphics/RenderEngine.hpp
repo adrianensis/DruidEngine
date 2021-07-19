@@ -23,7 +23,7 @@ class LineRenderer;
 CLASS(RenderEngine, ObjectBase), SINGLETON(RenderEngine)
 {
 private:
-	CLASS(LayerData, ObjectBase)
+	CLASS_NESTED(LayerData, ObjectBase)
 	{
 		PUB(Sorted, NONE, bool)
 		PUB(DynamicObjectsCount, NONE, u32) // Non static objects count

@@ -8,7 +8,7 @@
 #include <string>
 #include <any>
 
-CLASS(Memory, ObjectBase)
+class Memory
 {
 public:
 	static std::map<std::string, i32> mAllocationsCounter;

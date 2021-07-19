@@ -21,6 +21,7 @@
 // --------------------------------------------------------
 
 #define NEW(...) Memory::newObject<__VA_ARGS__>()
+#define INSTANCE_BY_NAME(ClassNameString) ClassManager::getInstance()->instanceByName(ClassNameString)
 #define DELETE(...) Memory::deleteObject<REMOVE_POINTER(REMOVE_REF(decltype(__VA_ARGS__)))>(__VA_ARGS__);
 
 // --------------------------------------------------------
@@ -58,6 +59,8 @@ public                 \
 	Singleton<__VA_ARGS__>
 
 #define CLASS(ClassName, ...) CLASS_MACRO_BASE(ClassName, __VA_ARGS__)
+
+#define CLASS_NESTED(ClassName, ...) CLASS(ClassName, __VA_ARGS__) // needed so generated code script can ignore nested classes
 
 #define CLASS_TEMPLATE(ClassName, Template, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, __VA_ARGS__)
 

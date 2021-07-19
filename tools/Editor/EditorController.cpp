@@ -34,11 +34,15 @@
 
 #include "Command/CommandLine.hpp"
 
+#include "Core/ClassManager.hpp"
+
 void EditorController::init()
 {
 	mGrid.init(this);
 	mBrush.init(this);
 	mAtlas.init(this);
+
+	auto* x = (Atlas*) INSTANCE_BY_NAME("Atlas");
 
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::HORIZONTAL).

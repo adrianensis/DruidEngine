@@ -1,5 +1,6 @@
 build/
 doc/
+generated-code/
 compiledLibs/
 binaries/
 dependencies/

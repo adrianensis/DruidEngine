@@ -3,11 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
+                "${workspaceFolder}",
                 "${workspaceFolder}/dependencies/**",
                 "${workspaceFolder}/code",
                 "${workspaceFolder}/test",
                 "${workspaceFolder}/tools",
                 "${workspaceFolder}/tools/**",
+                "${workspaceFolder}/generated-code",
                 "/usr/include/freetype2"
                 //"/usr/include/python3.8"
             ],

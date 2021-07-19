@@ -8,7 +8,7 @@ CLASS(UIDropdown, UIButton)
 {
 
 private:
-	CLASS(UIDropdownEntry, ObjectBase)
+	CLASS_NESTED(UIDropdownEntry, ObjectBase)
 	{
 		PUB(Label, NONE, std::string)
 		PUB(Callback, NONE, UIElementCallback)
