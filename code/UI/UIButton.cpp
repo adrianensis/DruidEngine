@@ -45,7 +45,7 @@ void UIButton::setText(const std::string &text)
 			setText(text).
 			setIsAffectedByLayout(false).
 			setParent(this).
-			create(UIElementType::TEXT).
+			create<UIText>().
 			getUIElement();
 
 			UI::getInstance()->getUIBuilder().restoreData();

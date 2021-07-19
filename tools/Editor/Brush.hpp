@@ -3,22 +3,26 @@
 #include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 
+class Grid;
+class GameObject;
+
 CLASS(Brush, ObjectBase)
 {
-	private:
+	PRI(Grid, NONE, Grid *)
+	PRI(Selector, NONE, GameObject *)
+	PRI(BrushPreview, NONE, GameObject *)
 
-		void createSprite(const Vector2 &position);
+private:
 
-	public:
+	void createSelector();
+	void setSelectorVisibility(bool visible);
+	void createBrushPreview();
+	void removeBrushPreview();
+	GameObject* createSprite(const Vector2 &position, const Vector2 &size);
 
-		/*
-		*	BRUSH MODE:
+public:
 
-			- Free: it can create/select objects on every point
-			- Grid: only can create/select objects in a grid
-
-			Both use raycast.
-		*/
-		void init();
-		void onPressed(const Vector2& position);
+	void init();
+	void onPressed(const Vector2& position);
+	void setGrid(Grid* grid);
 };

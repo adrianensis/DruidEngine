@@ -325,8 +325,6 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 {
 	renderer->updateAnimation();
 
-	Transform *t = renderer->getGameObject()->getTransform();
-
 	const std::vector<Vector2> &vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())

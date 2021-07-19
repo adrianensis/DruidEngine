@@ -12,6 +12,7 @@
 #include "UI/UIPanel.hpp"
 #include "UI/UIList.hpp"
 #include "UI/UIElementConfig.hpp"
+#include "UI/UIStyle.hpp"
 
 #include <string>
 #include <list>
@@ -81,11 +82,7 @@ public:
 	UI_BUILDER_CONFIG_SETTER(std::string, Group)
 	UI_BUILDER_CONFIG_SETTER(f32, SeparatorSize)
 	UI_BUILDER_CONFIG_SETTER(GameObject*, Parent)
-
-	UIBuilder &restoreColors()
-	{
-		return *this;
-	}
+	UI_BUILDER_CONFIG_SETTER(const UIStyle*, Style)
 
 	UIBuilder &restoreSeparatorSize()
 	{
@@ -93,7 +90,19 @@ public:
 		return *this;
 	}
 
-	UIBuilder &create(UIElementType type);
+	UIBuilder &restoreStyle()
+	{
+		mConfig.mStyle = &UIStyleManager::getInstance()->getDefaultStyle();
+		return *this;
+	}
+
+	template<class T, typename = std::enable_if_t<std::is_base_of<UIElement, T>::value> >
+	UIBuilder &create()
+	{
+		return create(T::getClassIdStatic());
+	}
+
+	UIBuilder &create(ClassId classId);
 
 	UIBuilder &saveData();
 	UIBuilder &restoreData();

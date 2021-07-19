@@ -39,6 +39,12 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 					SEND_INPUT_EVENT(event);
 					break;
 				}
+				case GLFW_KEY_TAB:
+				{
+					InputEventKeyTab event;
+					SEND_INPUT_EVENT(event);
+					break;
+				}
 				case GLFW_KEY_UP:
 				case GLFW_KEY_DOWN:
 				case GLFW_KEY_LEFT:

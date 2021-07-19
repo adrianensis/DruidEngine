@@ -268,10 +268,10 @@ void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /
 {
 	if (isWorldSpace)
 	{
-		mLineRenderer->add(start, end);
+		mLineRenderer->add(start, end, color);
 	}
 	else
 	{
-		mLineRendererScreenSpace->add(start, end);
+		mLineRendererScreenSpace->add(start, end, color);
 	}
 }

@@ -10,16 +10,7 @@
 class Material;
 class Scene;
 class GameObject;
-
-enum class UIElementType
-{
-	PANEL,
-	BUTTON,
-	TEXT,
-	TEXTEDITABLE,
-	DROPDOWN,
-	LIST
-};
+class UIStyle;
 
 enum class UILayout
 {
@@ -30,7 +21,8 @@ enum class UILayout
 
 CLASS(UIElementConfig, ObjectBase)
 {
-	PUB(ElementType, NONE, UIElementType)
+	PUB(Style, NONE, const UIStyle*)
+	PUB(UIElementClassId, NONE, ClassId)
 	PUB(Position, NONE, Vector2)
 	PUB(DisplayPosition, NONE, Vector2)
 	PUB(Size, NONE, Vector2)
@@ -50,7 +42,8 @@ public:
 
 	COPY(UIElementConfig)
 	{
-		DO_COPY(ElementType)
+		DO_COPY(Style)
+		DO_COPY(UIElementClassId)
 		DO_COPY(Position)
 		DO_COPY(DisplayPosition)
 		DO_COPY(Size)

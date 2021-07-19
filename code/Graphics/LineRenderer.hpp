@@ -14,8 +14,10 @@ CLASS(LineRenderer, ObjectBase)
 
 	PRI(VAO, NONE, u32)
 	PRI(VBOPosition, NONE, u32)
+	PRI(VBOColor, NONE, u32)
 	PRI(EBO, NONE, u32)
 	PRI(PositionBuffer, NONE, std::vector<f32>)
+	PRI(ColorBuffer, NONE, std::vector<f32>)
 	PRI(IndicesBuffer, NONE, std::vector<u32>)
 
 	PRI(Size, NONE, f32)
@@ -27,7 +29,7 @@ public:
 	~LineRenderer() override;
 
 	void init();
-	void add(const Vector3 &start, const Vector3 &end);
+	void add(const Vector3 &start, const Vector3 &end, const Vector4 &color);
 	void bind();
 	void render();
 };

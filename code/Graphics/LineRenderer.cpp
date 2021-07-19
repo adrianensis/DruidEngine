@@ -24,6 +24,7 @@ void LineRenderer::init()
 	mMaxShapes = EngineConfig::getInstance()->getConfig().at("line").at("count").get<f32>();
 
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
+	mColorBuffer.reserve(mMaxShapes * 2 * 4); // 2 vertex per line * 4 floats per vertex
 	mIndicesBuffer.reserve(mMaxShapes * 2);		 // 1 index per vertex
 
 	mShaderLine = NEW(Shader);
@@ -32,7 +33,7 @@ void LineRenderer::init()
 	bind();
 }
 
-void LineRenderer::add(const Vector3 &start, const Vector3 &end)
+void LineRenderer::add(const Vector3 &start, const Vector3 &end, const Vector4 &color)
 {
 	if (mShapesCounter < mMaxShapes)
 	{
@@ -43,6 +44,15 @@ void LineRenderer::add(const Vector3 &start, const Vector3 &end)
 		mPositionBuffer.push_back(end.y);
 		mPositionBuffer.push_back(end.z);
 
+		mColorBuffer.push_back(color.x);
+		mColorBuffer.push_back(color.y);
+		mColorBuffer.push_back(color.z);
+		mColorBuffer.push_back(color.w);
+		mColorBuffer.push_back(color.x);
+		mColorBuffer.push_back(color.y);
+		mColorBuffer.push_back(color.z);
+		mColorBuffer.push_back(color.w);
+
 		mShapesCounter++;
 	}
 }
@@ -51,6 +61,7 @@ void LineRenderer::bind()
 {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(3, 0);
+	mVBOColor = RenderContext::createVBO(4, 1);
 	mEBO = RenderContext::createEBO();
 
 	FOR_RANGE(i, 0, mMaxShapes * 2)
@@ -88,11 +99,13 @@ void LineRenderer::render()
 		}
 
 		RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
+		RenderContext::setDataVBO(mVBOColor, mColorBuffer);
 		RenderContext::drawLines(mShapesCounter);
 
 		RenderContext::enableVAO(0);
 
 		mPositionBuffer.clear();
+		mColorBuffer.clear();
 		mShapesCounter = 0;
 	}
 }

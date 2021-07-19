@@ -105,28 +105,28 @@ void Playground::firstStep()
 	setPosition(Vector2(-0.8f,0)).
 	setLayer(0).
 	setSize(Vector2(0.5f, 0.05f)).
-	create(UIElementType::PANEL).
+	create<UIPanel>().
 	getUIElement();
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).
 	setText("Text").
 	setTextSize(Vector2(0.05f, 0.05f)).
-	create(UIElementType::TEXT).
+	create<UIText>().
 	getUIElement();
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
 	setText("Button").
 	setTextSize(Vector2(0.05f, 0.05f)).
-	create(UIElementType::BUTTON).
+	create<UIButton>().
 	getUIElement();
 
 	UIDropdown* dropdown = UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(true).
 	setText("Dropdown").
 	setTextSize(Vector2(0.05f, 0.05f)).
-	create(UIElementType::DROPDOWN).
+	create<UIDropdown>().
 	getUIElement<UIDropdown>();
 	
 	dropdown->addOption("Option 1", [](UIElement *uiElement)
@@ -143,7 +143,7 @@ void Playground::firstStep()
 	setAdjustSizeToText(false).
 	setTextSize(Vector2(0.05f, 0.05f)).
 	setSize(Vector2(0.5f, 0.2f)).
-	create(UIElementType::LIST).
+	create<UIList>().
 	getUIElement<UIList>();
 
 	list->addOption("Option 1", [](UIElement *uiElement)
@@ -175,7 +175,7 @@ void Playground::firstStep()
 	setAdjustSizeToText(false)->
 	setTextSize(Vector2(0.1f, 0.1f))->
 	setText("hello")->
-	create(UIElementType::TEXT)->
+	create<UIText>()->
 	getUIElement();*/
 
 	CommandLine::getInstance()->open();
@@ -198,7 +198,7 @@ void Playground::step()
 		setAdjustSizeToText(false).
 		setTextSize(Vector2(0.2f, 0.2f)).
 		setText("OpenGL").
-		create(UIElementType::TEXT).
+		create<UIText>().
 		getUIElement();*/
 
 		/*UI::getInstance()->getUIBuilder().
@@ -208,7 +208,7 @@ void Playground::step()
 		setAdjustSizeToText(true).
 		setText("Button!").
 		setTextSize(Vector2(0.1f, 0.1f)).
-		create(UIElementType::BUTTON).
+		create<UIButton>().
 		getUIElement();*/
 	}
 
@@ -224,7 +224,7 @@ void Playground::step()
 		setAdjustSizeToText(true).
 		setText("Button-longer").
 		setTextSize(Vector2(0.2f, 0.2f)).
-		create(UIElementType::BUTTON).
+		create<UIButton>().
 		getUIElement();*/
 	}
 }

@@ -206,7 +206,7 @@ void CommandLine::open()
         setLayer(0).
         setAdjustSizeToText(false).
         setTextSize(Vector2(0.04f, 0.04f)).
-        create(UIElementType::TEXT).
+        create<UIText>().
         getUIElement<UIText>();
     }
 

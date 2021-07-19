@@ -57,7 +57,7 @@ void UIDropdown::toggle()
 
 			UI::getInstance()->getUIBuilder().
 			setText(label).
-			create(UIElementType::BUTTON);
+			create<UIButton>();
 
 			UIButton *button = (UIButton *)UI::getInstance()->getUIBuilder().getUIElement();
 			button->setOnPressedCallback(onPressedCallback);
@@ -101,7 +101,7 @@ void UIDropdown::setEntriesVisibility(bool visible)
 				setAdjustSizeToText(true)->
 				setLayer(getRenderer()->getLayer() + 1)->
 				setIsAffectedByLayout(false)->
-				create(UIElementType::BUTTON);
+				create<UIButton>();
 
 			UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
 			button->setOnPressedCallback(onPressedCallback);

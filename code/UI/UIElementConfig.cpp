@@ -1,5 +1,6 @@
 #include "UI/UIElementConfig.hpp"
 #include "UI/UI.hpp"
+#include "UI/UIStyle.hpp"
 
 UIElementConfig::UIElementConfig()
 {
@@ -8,7 +9,8 @@ UIElementConfig::UIElementConfig()
 
 void UIElementConfig::init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text /*= std::string()*/)
 {
-	mElementType = UIElementType::PANEL;
+	mStyle = &UIStyleManager::getInstance()->getDefaultStyle();
+	mUIElementClassId = 0;
 	mPosition = position;
 	mDisplayPosition = Vector2(0, 0);
 	mSize = size;

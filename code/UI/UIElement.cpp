@@ -176,7 +176,7 @@ void UIElement::onPressed()
 	{
 		if (isMouseCursorInsideElement())
 		{
-			mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorSelected);
+			mRenderer->setColor(mConfig.mStyle->mColorSelected);
 			
 			mPressed = true;
 
@@ -229,11 +229,11 @@ void UIElement::onReleased()
 
 				if(cursorInside)
 				{
-					mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorHovered);
+					mRenderer->setColor(mConfig.mStyle->mColorHovered);
 				}
 				else
 				{
-					mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+					mRenderer->setColor(mConfig.mStyle->mColor);
 				}
 			}
 		}
@@ -248,11 +248,11 @@ void UIElement::onMouseOver()
 		{
 			if (isMouseCursorInsideElement())
 			{
-				mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColorHovered);
+				mRenderer->setColor(mConfig.mStyle->mColorHovered);
 			}
 			else
 			{
-				mRenderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+				mRenderer->setColor(mConfig.mStyle->mColor);
 			}
 		}
 	}

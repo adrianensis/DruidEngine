@@ -102,17 +102,16 @@ void UIBuilder::calculateConfig()
 
 	// Offset the UI Element so its Top-Left corner is the origin.
 	mConfig.mDisplayPosition = mConfig.mPosition;
-	switch (mConfig.mElementType)
+
+	if(mConfig.mUIElementClassId == UIText::getClassIdStatic() /* || UITextEditable*/)
 	{
-	case UIElementType::TEXT:
-	case UIElementType::TEXTEDITABLE:
 		mConfig.mDisplayPosition.x += mConfig.mTextSize.x/RenderContext::getAspectRatio();
 		mConfig.mDisplayPosition.y -= mConfig.mTextSize.y / 2.0f;
-		break;
-	default:
+	}
+	else
+	{
 		mConfig.mDisplayPosition.x += (mConfig.mSize.x/RenderContext::getAspectRatio()) / 2.0f;
 		mConfig.mDisplayPosition.y -= mConfig.mSize.y / 2.0f;
-		break;
 	}
 }
 
@@ -159,7 +158,7 @@ UIPanel *UIBuilder::internalCreatePanel()
 	renderer->setMesh(Mesh::getRectangle());
 	//renderer->setMaterial(mButtonMaterial);
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
@@ -190,7 +189,7 @@ UIButton *UIBuilder::internalCreateButton()
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
 	renderer->setLayer(mConfig.mLayer);
-	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+	renderer->setColor(mConfig.mStyle->mColor);
 	//renderer->setHasBorder(true);
 
 	/*RigidBody* rigidBody = NEW(RigidBody);
@@ -330,7 +329,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
@@ -371,7 +370,7 @@ UIList* UIBuilder::internalCreateList()
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(UIStyleManager::getInstance()->getDefaultStyle().mColor);
+	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
@@ -386,34 +385,33 @@ UIList* UIBuilder::internalCreateList()
 	return uiList;
 }
 
-UIBuilder &UIBuilder::create(UIElementType type)
+UIBuilder &UIBuilder::create(ClassId classId)
 {
-	mConfig.mElementType = type;
-
 	UIElement *newElement = nullptr;
 
-	switch (type)
+
+	if(classId == UIPanel::getClassIdStatic())
 	{
-	case UIElementType::PANEL:
 		newElement = internalCreatePanel();
-		break;
-	case UIElementType::BUTTON:
+	}
+	else if(classId == UIButton::getClassIdStatic())
+	{
 		newElement = internalCreateButton();
-		break;
-	case UIElementType::TEXT:
+	}
+	else if(classId == UIText::getClassIdStatic())
+	{
 		newElement = internalCreateText();
-		break;
-	/*case UIElementType::TEXTEDITABLE:
+	}
+	else /*case UIElementType::TEXTEDITABLE:
 			newElement = internalCreateTextEditable();
 			break;*/
-	case UIElementType::DROPDOWN:
+	if(classId == UIDropdown::getClassIdStatic())
+	{
 		newElement = internalCreateDropdown();
-		break;
-	case UIElementType::LIST:
+	}
+	else if(classId == UIList::getClassIdStatic())
+	{
 		newElement = internalCreateList();
-		break;
-	default:
-		break;
 	}
 
 	registerCurrentUIElement(newElement);
