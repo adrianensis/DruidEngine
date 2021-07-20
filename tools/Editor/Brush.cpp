@@ -26,29 +26,104 @@ void Brush::init(EditorController* editorController)
 	mEditorController = editorController;
 	createSelector();
 
-    SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](const Event *event)
 	{
-		Vector2 mouse = Input::getInstance()->getMousePosition();
-		Vector3 world = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
-		getFirstComponent<Camera>()->screenToWorld(mouse);
-
-		onPressed(world);
+		mMode = BrushMode::SELECT;
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [&](const Event *event)
 	{
+		InputEventMouseButtonPressed* e = (InputEventMouseButtonPressed*) event;
 
+		if(e->mButton == GLFW_MOUSE_BUTTON_RIGHT)
+		{
+			mPaintMode = BrushPaintMode::ERASE;
+		}
+		else
+		{
+			mPaintMode = BrushPaintMode::PAINT;
+		}
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
+	{
+		onPressed();
+	});
+
+	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [&](const Event *event)
+	{
+		onMouseMoved();
+	});
+}
+
+void Brush::onPressed()
+{
+	if(mEditorController->canUseBrush())
 	{
 		Vector2 mouse = Input::getInstance()->getMousePosition();
-		Vector3 world = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
+		Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
 		getFirstComponent<Camera>()->screenToWorld(mouse);
 
-		mSelector->getTransform()->setLocalPosition(mEditorController->getGrid().calculateClampedPosition(world));
+		if(mEditorController->getGrid().isInGrid(worldPosition))
+		{
+			Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
+			
+			switch (mMode)
+			{
+				case BrushMode::SELECT:
+				{
 
-		if(mEditorController->getGrid().isInGrid(world))
+					break;
+				}
+				case BrushMode::PAINT:
+				{
+					switch (mPaintMode)
+					{
+						case BrushPaintMode::PAINT:
+						{
+							if(!mEditorController->getGrid().hasTile(gridPosition))
+							{
+								mEditorController->getGrid().setCell(gridPosition, 
+									mEditorController->createTile(
+										mEditorController->getGrid().calculateClampedPosition(worldPosition),
+										mEditorController->getGrid().getTileSize(),
+										mPaintData.mMaterial,
+										mPaintData.mRegion
+									)
+								);
+							}
+							break;
+						}
+						case BrushPaintMode::ERASE:
+						{
+							if(mEditorController->getGrid().hasTile(gridPosition))
+							{
+								CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
+								ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
+								cell.mGameObject = nullptr;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void Brush::onMouseMoved()
+{
+	if(mEditorController->canUseBrush())
+	{
+		setSelectorVisibility(true);
+
+		Vector2 mouse = Input::getInstance()->getMousePosition();
+		Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
+		getFirstComponent<Camera>()->screenToWorld(mouse);
+
+		mSelector->getTransform()->setLocalPosition(mEditorController->getGrid().calculateClampedPosition(worldPosition));
+
+		if(mEditorController->getGrid().isInGrid(worldPosition))
 		{
 			mSelector->getFirstComponent<Renderer>()->setColor(Vector4(0,1,0,1));
 		}
@@ -56,53 +131,10 @@ void Brush::init(EditorController* editorController)
 		{
 			mSelector->getFirstComponent<Renderer>()->setColor(Vector4(1,0,0,1));
 		}
-	});
-}
-
-void Brush::onPressed(const Vector2& position)
-{
-	if(mEditorController->getGrid().isInGrid(position))
+	}
+	else
 	{
-		Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(position);
-		
-		switch (mMode)
-		{
-			case BrushMode::NONE:
-			{
-
-				break;
-			}
-			case BrushMode::SELECT:
-			{
-
-				break;
-			}
-			case BrushMode::PAINT:
-			{
-				if(!mEditorController->getGrid().hasTile(gridPosition))
-				{
-					mEditorController->getGrid().setCell(gridPosition, 
-						mEditorController->createTile(
-							mEditorController->getGrid().calculateClampedPosition(position),
-							mEditorController->getGrid().getTileSize(),
-							mPaintData.mMaterial,
-							mPaintData.mRegion
-						)
-					);
-				}
-				break;
-			}
-			case BrushMode::ERASE:
-			{
-				if(!mEditorController->getGrid().hasTile(gridPosition))
-				{
-					CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
-					ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
-					cell.mGameObject = nullptr;
-				}
-				break;
-			}
-		}
+		setSelectorVisibility(false);
 	}
 }
 

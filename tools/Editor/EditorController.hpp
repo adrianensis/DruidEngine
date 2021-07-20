@@ -21,4 +21,6 @@ public:
 	void init();
 	void drawGrid() const;
 	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region);
+
+	bool canUseBrush() const;
 };

@@ -3,10 +3,6 @@
 
 #include "Maths/Vector3.hpp"
 
-#include "Input/Input.hpp"
-#include "Input/InputEvents.hpp"
-#include "Events/EventsManager.hpp"
-
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Mesh.hpp"
@@ -30,7 +26,7 @@ Atlas::Atlas()
 {
 	mAtlasSelectorUIGroup = "atlasSelector";
 	mAtlasUIGroup = "atlas";
-	mIsAtlasShow = true;
+	mIsVisible = true;
 }
 
 Atlas::~Atlas()
@@ -45,11 +41,6 @@ void Atlas::init(EditorController* editorController)
 	createAtlas(MaterialManager::getInstance()->loadMaterial("resources/tiles.png"));
 
 	toggle();
-
-	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [this](const Event *event)
-	{
-		toggle();
-	});
 }
 
 void Atlas::createAtlas(Material* material)
@@ -105,9 +96,9 @@ void Atlas::createAtlas(Material* material)
 
 void Atlas::toggle()
 {
-	mIsAtlasShow = !mIsAtlasShow;
+	mIsVisible = !mIsVisible;
 
-	UI::getInstance()->setGroupVisibility(mAtlasUIGroup, mIsAtlasShow);
-	UI::getInstance()->setGroupVisibility(mAtlasSelectorUIGroup, mIsAtlasShow);
-	//UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsAtlasShow);
+	UI::getInstance()->setGroupVisibility(mAtlasUIGroup, mIsVisible);
+	UI::getInstance()->setGroupVisibility(mAtlasSelectorUIGroup, mIsVisible);
+	//UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsVisible);
 }

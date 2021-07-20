@@ -36,11 +36,20 @@
 
 #include "Core/ClassManager.hpp"
 
+#include "Input/Input.hpp"
+#include "Input/InputEvents.hpp"
+#include "Events/EventsManager.hpp"
+
 void EditorController::init()
 {
 	mGrid.init(this);
 	mBrush.init(this);
 	mAtlas.init(this);
+
+	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
+	{
+		mAtlas.toggle();
+	});
 
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::HORIZONTAL).
@@ -130,4 +139,9 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(tile);
 
 	return tile;
+}
+
+bool EditorController::canUseBrush() const
+{
+	return !mAtlas.getIsVisible();
 }

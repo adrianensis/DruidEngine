@@ -76,6 +76,15 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 			Input::getInstance()->clearKey();
 			break;
 		}
+		case GLFW_REPEAT:
+		{
+			InputEventKeyHold event;
+			event.mKey = key;
+			event.mMods = mods;
+			SEND_INPUT_EVENT(event);
+
+			break;
+		}
 	}
 }
 
@@ -167,6 +176,23 @@ void Input::pollEvents()
 		smMouseCoordinates.set(newMouseCoordinates);
 
 		InputEventMouseMoved event;
+		SEND_INPUT_EVENT(event);
+	}
+
+	// HACK: implement Hold event since GLFW_REPEAT awaits a small time after GLFW_PRESS there's no GLFW_REPEAT for mouse
+	if(smLastMouseButtonPressed != -1)
+	{
+		InputEventMouseButtonHold event;
+		event.mButton = smLastMouseButtonPressed;
+		event.mMods = smModifier;
+		SEND_INPUT_EVENT(event);
+	}
+
+	if(smLastKeyPressed != -1)
+	{
+		InputEventKeyHold event;
+		event.mKey = smLastKeyPressed;
+		event.mMods = smModifier;
 		SEND_INPUT_EVENT(event);
 	}
 

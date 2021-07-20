@@ -27,15 +27,25 @@ CLASS_EVENT(InputEventMouseButtonPressed)
     PUB(Mods, NONE, u32)
 };
 
+CLASS_EVENT(InputEventMouseButtonHold)
+{
+    PUB(Button, NONE, u32)
+    PUB(Mods, NONE, u32)
+};
+
 CLASS_EVENT(InputEventMouseButtonReleased)
 {
     PUB(Button, NONE, u32)
     PUB(Mods, NONE, u32)
 };
 
-// TODO : Make mouse repeat event?
-
 CLASS_EVENT(InputEventKeyPressed)
+{
+    PUB(Key, NONE, u32)
+    PUB(Mods, NONE, u32)
+};
+
+CLASS_EVENT(InputEventKeyHold)
 {
     PUB(Key, NONE, u32)
     PUB(Mods, NONE, u32)

@@ -10,8 +10,12 @@ class Material;
 
 enum class BrushMode
 {
-	NONE, // just do nothing
 	SELECT,
+	PAINT
+};
+
+enum class BrushPaintMode
+{
 	PAINT,
 	ERASE
 };
@@ -28,6 +32,7 @@ CLASS(Brush, ObjectBase)
 	PRI(Selector, NONE, GameObject *)
 	PRI(BrushPreview, NONE, GameObject *)
 	PRI(Mode, NONE, BrushMode)
+	PRI(PaintMode, NONE, BrushPaintMode)
 
 	PRI(PaintData, GETREF, BrushPaintData)
 
@@ -41,6 +46,7 @@ private:
 public:
 
 	void init(EditorController* editorController);
-	void onPressed(const Vector2& position);
+	void onPressed();
+	void onMouseMoved();
 	void onTileSelectedFromAtlas(GameObject* tile);
 };
