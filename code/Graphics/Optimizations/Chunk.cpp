@@ -89,6 +89,7 @@ void Chunk::update(BatchesMap *batchesMap)
 		if (removeFromList)
 		{
 			it = mRenderers->erase(it);
+			--it;
 		}
 	}
 }

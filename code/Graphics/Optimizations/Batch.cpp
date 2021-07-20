@@ -319,6 +319,7 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 	}
 
 	it = list->erase(it);
+	--it; // go back to the previous it, so the FOR LOOP can do ++it with no problem
 }
 
 void Batch::addToVertexBuffer(Renderer *renderer)

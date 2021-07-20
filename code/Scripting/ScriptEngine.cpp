@@ -61,6 +61,7 @@ void ScriptEngine::internalRemoveScript(std::list<Script *>::iterator &it)
 	DELETE(script);
 
 	it = mScripts.erase(it);
+	--it;
 }
 
 void ScriptEngine::terminate()
