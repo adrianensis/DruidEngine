@@ -21,6 +21,15 @@
 
 #include "Grid.hpp"
 
+Vector2 Brush::getMouseWorldPosition() const
+{
+	Vector2 mouse = Input::getInstance()->getMousePosition();
+	Vector2 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
+	getFirstComponent<Camera>()->screenToWorld(mouse);
+
+	return worldPosition;
+}
+
 void Brush::init(EditorController* editorController)
 {
 	mEditorController = editorController;
@@ -29,25 +38,17 @@ void Brush::init(EditorController* editorController)
 	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](const Event *event)
 	{
 		mMode = BrushMode::SELECT;
+		removeBrushPreview();
 	});
 
     SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [&](const Event *event)
 	{
-		InputEventMouseButtonPressed* e = (InputEventMouseButtonPressed*) event;
-
-		if(e->mButton == GLFW_MOUSE_BUTTON_RIGHT)
-		{
-			mPaintMode = BrushPaintMode::ERASE;
-		}
-		else
-		{
-			mPaintMode = BrushPaintMode::PAINT;
-		}
+		onPressed();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
 	{
-		onPressed();
+		onHold();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [&](const Event *event)
@@ -56,22 +57,40 @@ void Brush::init(EditorController* editorController)
 	});
 }
 
-void Brush::onPressed()
+void Brush::onHold()
 {
 	if(mEditorController->canUseBrush())
 	{
-		Vector2 mouse = Input::getInstance()->getMousePosition();
-		Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
-		getFirstComponent<Camera>()->screenToWorld(mouse);
+		Vector2 worldPosition = getMouseWorldPosition();
 
 		if(mEditorController->getGrid().isInGrid(worldPosition))
 		{
 			Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
-			
+						
 			switch (mMode)
 			{
 				case BrushMode::SELECT:
 				{
+					const UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
+
+					if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
+					{
+						mEditorController->forEachSelectedTile([&](GameObject* tile)
+						{
+							tile->getFirstComponent<Renderer>()->setColor(style.mColor);
+						});
+
+						mEditorController->getSelectedTiles().clear();
+					}
+
+					if(mEditorController->getGrid().hasTile(gridPosition))
+					{
+						GameObject* tile = mEditorController->getGrid().getCell(gridPosition).mGameObject;
+
+						tile->getFirstComponent<Renderer>()->setColor(style.mColorSelected);
+
+						mEditorController->getSelectedTiles().push_back(tile);
+					}
 
 					break;
 				}
@@ -81,27 +100,12 @@ void Brush::onPressed()
 					{
 						case BrushPaintMode::PAINT:
 						{
-							if(!mEditorController->getGrid().hasTile(gridPosition))
-							{
-								mEditorController->getGrid().setCell(gridPosition, 
-									mEditorController->createTile(
-										mEditorController->getGrid().calculateClampedPosition(worldPosition),
-										mEditorController->getGrid().getTileSize(),
-										mPaintData.mMaterial,
-										mPaintData.mRegion
-									)
-								);
-							}
+							paintTile(worldPosition, gridPosition);
 							break;
 						}
 						case BrushPaintMode::ERASE:
 						{
-							if(mEditorController->getGrid().hasTile(gridPosition))
-							{
-								CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
-								ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
-								cell.mGameObject = nullptr;
-							}
+							removeTile(gridPosition);
 							break;
 						}
 					}
@@ -111,30 +115,66 @@ void Brush::onPressed()
 	}
 }
 
+void Brush::onPressed()
+{
+	if(mEditorController->canUseBrush())
+	{
+		if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
+		{
+			mPaintMode = BrushPaintMode::ERASE;
+		}
+		else
+		{
+			mPaintMode = BrushPaintMode::PAINT;
+		}
+	}
+}
+
 void Brush::onMouseMoved()
 {
 	if(mEditorController->canUseBrush())
 	{
-		setSelectorVisibility(true);
+		Vector2 worldPosition = getMouseWorldPosition();
 
-		Vector2 mouse = Input::getInstance()->getMousePosition();
-		Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
-		getFirstComponent<Camera>()->screenToWorld(mouse);
+		Vector2 clampedPosition = mEditorController->getGrid().calculateClampedPosition(worldPosition);
 
-		mSelector->getTransform()->setLocalPosition(mEditorController->getGrid().calculateClampedPosition(worldPosition));
-
-		if(mEditorController->getGrid().isInGrid(worldPosition))
+		if(mBrushPreview)
 		{
-			mSelector->getFirstComponent<Renderer>()->setColor(Vector4(0,1,0,1));
+			mBrushPreview->getTransform()->setLocalPosition(clampedPosition);
+			setBrushPreviewVisibility(true);
+			setSelectorVisibility(false);
+
+			const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+
+			if(mEditorController->getGrid().isInGrid(worldPosition))
+			{
+				mBrushPreview->getFirstComponent<Renderer>()->setColor(style.mColor);
+			}
+			else
+			{
+				mBrushPreview->getFirstComponent<Renderer>()->setColor(style.mColor + Vector4(1,0,0,0));
+			}
 		}
 		else
 		{
-			mSelector->getFirstComponent<Renderer>()->setColor(Vector4(1,0,0,1));
+			mSelector->getTransform()->setLocalPosition(clampedPosition);
+
+			if(mEditorController->getGrid().isInGrid(worldPosition))
+			{
+				mSelector->getFirstComponent<Renderer>()->setColor(Vector4(0,1,0,1));
+			}
+			else
+			{
+				mSelector->getFirstComponent<Renderer>()->setColor(Vector4(1,0,0,1));
+			}
+			
+			setSelectorVisibility(true);
 		}
 	}
 	else
 	{
 		setSelectorVisibility(false);
+		setBrushPreviewVisibility(false);
 	}
 }
 
@@ -145,6 +185,8 @@ void Brush::onTileSelectedFromAtlas(GameObject* tile)
 	Renderer* tileRenderer = tile->getFirstComponent<Renderer>();
 	mPaintData.mRegion = tileRenderer->getRegion();
 	mPaintData.mMaterial = tileRenderer->getMaterial();
+
+	createBrushPreview();
 }
 
 void Brush::createSelector()
@@ -175,14 +217,20 @@ void Brush::setSelectorVisibility(bool visible)
 	mSelector->setIsActive(visible);
 }
 
+void Brush::setBrushPreviewVisibility(bool visible)
+{
+	if(mBrushPreview)
+	{
+		mBrushPreview->setIsActive(visible);
+	}
+}
+
 void Brush::createBrushPreview()
 {
 	if(mBrushPreview)
 	{
 		removeBrushPreview();
 	}
-
-	Material *material = MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Selector.png");
 
 	GameObject *brushPreview = NEW(GameObject);
 	brushPreview->init();
@@ -196,14 +244,52 @@ void Brush::createBrushPreview()
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setLayer(0);
 
-	renderer->setMaterial(material);
+	renderer->setMaterial(mPaintData.mMaterial);
+	renderer->setRegion(mPaintData.mRegion);
+
+	const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+
+	renderer->setColor(style.mColor);
 
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
 
 	mBrushPreview = brushPreview;
+
+	setBrushPreviewVisibility(mEditorController->canUseBrush());
 }
 
 void Brush::removeBrushPreview()
 {
-	ScenesManager::getInstance()->getCurrentScene()->removeGameObject(mBrushPreview);
+	if(mBrushPreview)
+	{
+		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(mBrushPreview);
+		mBrushPreview = nullptr;
+	}
+}
+
+void Brush::paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition)
+{
+	if(mEditorController->getGrid().hasTile(gridPosition))
+	{
+		removeTile(gridPosition);
+	}
+
+	mEditorController->getGrid().setCell(gridPosition, 
+		mEditorController->createTile(
+			mEditorController->getGrid().calculateClampedPosition(worldPosition),
+			mEditorController->getGrid().getTileSize(),
+			mPaintData.mMaterial,
+			mPaintData.mRegion
+		)
+	);
+}
+
+void Brush::removeTile(const Vector2 &gridPosition)
+{
+	if(mEditorController->getGrid().hasTile(gridPosition))
+	{
+		CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
+		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
+		cell.mGameObject = nullptr;
+	}
 }

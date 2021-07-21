@@ -20,9 +20,9 @@ void Grid::init(EditorController* editorController)
     }
 }
 
-Vector2 Grid::calculateGridPosition(const Vector2& position) const
+Vector2 Grid::calculateGridPosition(const Vector2& worldPosition) const
 {
-    Vector3 clampedPosition(calculateClampedPosition(position));
+    Vector3 clampedPosition(calculateClampedPosition(worldPosition));
 
     Vector2 gridPosition(
         (clampedPosition.x / mTileSize.x) + (mGridSize.x / 2.0f),
@@ -31,9 +31,9 @@ Vector2 Grid::calculateGridPosition(const Vector2& position) const
     return gridPosition;
 }
 
-Vector2 Grid::calculateClampedPosition(const Vector2& position) const
+Vector2 Grid::calculateClampedPosition(const Vector2& worldPosition) const
 {
-    Vector3 clampedPosition(std::roundf(position.x / mTileSize.x) * mTileSize.x, std::roundf(position.y / mTileSize.y) * mTileSize.y, 0);
+    Vector3 clampedPosition(std::roundf(worldPosition.x / mTileSize.x) * mTileSize.x, std::roundf(worldPosition.y / mTileSize.y) * mTileSize.y, 0);
 
     return clampedPosition;
 }
@@ -48,9 +48,9 @@ CellGrid& Grid::getCell(const Vector2& gridPosition)
     return mCellsGrid[gridPosition.x][gridPosition.y];
 }
 
-bool Grid::isInGrid(const Vector2& position) const 
+bool Grid::isInGrid(const Vector2& worldPosition) const 
 {
-    Vector2 gridPosition = calculateGridPosition(position);
+    Vector2 gridPosition = calculateGridPosition(worldPosition);
 
     return gridPosition.x >= 0 && gridPosition.x < (mGridSize.x) && gridPosition.y >= 0 && gridPosition.y < (mGridSize.y);
 }

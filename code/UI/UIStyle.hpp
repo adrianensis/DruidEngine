@@ -17,7 +17,9 @@ public:
 
 	UIStyle()
 	{
-		
+		mColor = Vector4(0, 0, 0, 1);
+		mColorSelected = Vector4(0.3f, 0.3f, 0.3f, 1);
+		mColorHovered = Vector4(0.7f, 0.7f, 0.7f, 1);
 	}
 
 	COPY(UIStyle)

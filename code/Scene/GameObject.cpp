@@ -130,7 +130,7 @@ JSON GameObject::serialize() const
 	return JSON();
 }
 
-void GameObject::deserialize(const JSON &jsonObject)
+void GameObject::deserialize(const JSON &json)
 {
 }
 

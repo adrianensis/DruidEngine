@@ -8,5 +8,5 @@ class ISerializable
 {
 public:
 	virtual JSON serialize() const = 0;
-	virtual void deserialize(const JSON &jsonObject) = 0;
+	virtual void deserialize(const JSON &json) = 0;
 };

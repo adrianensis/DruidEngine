@@ -1,5 +1,6 @@
 import os  
 import re
+import shutil
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 cwd = cwd + "/.."
@@ -39,6 +40,7 @@ print(includes)
 
 generated_code_dirname = "generated-code"
 
+shutil.rmtree(generated_code_dirname)
 os.mkdir(generated_code_dirname)
 
 generated_code_path = os.path.join(cwd, generated_code_dirname)

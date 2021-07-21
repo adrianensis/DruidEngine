@@ -237,10 +237,12 @@ f32 Input::getScroll()
 void Input::clearMouseButton()
 {
 	smLastMouseButtonPressed = -1;
+	smModifier = -1;
 	smButtonJustPressed = false;
 }
 void Input::clearKey()
 {
 	smLastKeyPressed = -1;
+	smModifier = -1;
 	smKeyJustPressed = false;
 }

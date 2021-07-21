@@ -31,6 +31,7 @@ CLASS(Brush, ObjectBase)
 	PRI(EditorController, NONE, EditorController*)
 	PRI(Selector, NONE, GameObject *)
 	PRI(BrushPreview, NONE, GameObject *)
+
 	PRI(Mode, NONE, BrushMode)
 	PRI(PaintMode, NONE, BrushPaintMode)
 
@@ -38,15 +39,20 @@ CLASS(Brush, ObjectBase)
 
 private:
 
+	Vector2 getMouseWorldPosition() const;
+	void onHold();
+	void onPressed();
+	void onMouseMoved();
 	void createSelector();
 	void setSelectorVisibility(bool visible);
+	void setBrushPreviewVisibility(bool visible);
 	void createBrushPreview();
 	void removeBrushPreview();
+	void paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition);
+	void removeTile(const Vector2 &gridPosition);
 
 public:
 
 	void init(EditorController* editorController);
-	void onPressed();
-	void onMouseMoved();
 	void onTileSelectedFromAtlas(GameObject* tile);
 };

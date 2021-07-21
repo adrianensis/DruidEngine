@@ -65,7 +65,7 @@ void Atlas::createAtlas(Material* material)
 		setText("").
 		setSize(Vector2(tileSize, tileSize)).
 		setLayer(0).
-		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleAtlasButton>());
+		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
 
 	FOR_RANGE(i, 0, atlasSize.y)
 	{

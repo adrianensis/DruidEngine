@@ -84,38 +84,12 @@ void Scene::init()
 	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
 
-void Scene::loadScene(const std::string &path)
+void Scene::deserialize(const JSON &json)
 {
-	if (!mLoadSceneConfigMap)
-	{
-		mLoadSceneConfigMap = NEW(ConfigObject);
-		mLoadSceneConfigMap->init();
-	}
-	else
-	{
-		mLoadSceneConfigMap->clear();
-	}
 
-	mPath = path;
-
-	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
-	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
-	//fut.wait();
-
-	mSize = mLoadSceneConfigMap->at("scene").at("size").get<f32>();
-
-	if (mSize == 0)
-	{
-		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
-	}
-
-	u32 length = mLoadSceneConfigMap->at("objects.length").get<u32>();
-
-	mGameObjectsToLoadTotal = length;
-	mGameObjectsToLoadIndex = 0;
 }
 
-void Scene::saveScene(const std::string &path)
+JSON Scene::serialize() const
 {
 	JSON json;
 
@@ -126,10 +100,6 @@ void Scene::saveScene(const std::string &path)
 	{
 		if ((*it)->getShouldPersist())
 		{
-			// ECHO("SAVE")
-			std::string indexStr = std::to_string(counter);
-			std::string objectName = "objects[" + indexStr + "]";
-
 			Transform *t = (*it)->getTransform();
 			Vector3 worldPosition = t->getWorldPosition();
 			Vector3 scale = t->getScale();
@@ -147,9 +117,49 @@ void Scene::saveScene(const std::string &path)
 	json["objects"]["length"] = counter;
 	json["scene"]["size"] = maxSize * 2.0f;
 
+	return json;
+}
+
+void Scene::loadScene(const std::string &path)
+{
+	mPath = path;
+
+	if (!mLoadSceneConfigMap)
+	{
+		mLoadSceneConfigMap = NEW(ConfigObject);
+		mLoadSceneConfigMap->init();
+	}
+	else
+	{
+		mLoadSceneConfigMap->clear();
+	}
+
+	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
+	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
+	//fut.wait();
+
+	mSize = mLoadSceneConfigMap->at("scene").at("size").get<f32>();
+
+	if (mSize == 0)
+	{
+		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
+	}
+
+	u32 length = mLoadSceneConfigMap->at("objects.length").get<u32>();
+
+	mGameObjectsToLoadTotal = length;
+	mGameObjectsToLoadIndex = 0;
+
+	deserialize(mLoadSceneConfigMap->getJson());
+}
+
+void Scene::saveScene(const std::string &path)
+{
+	mPath = path;
+
 	ConfigObject configMap;
 	configMap.init();
-	configMap.setJson(json);
+	configMap.setJson(serialize());
 
 	configMap.writeToJsonFile(path);
 }

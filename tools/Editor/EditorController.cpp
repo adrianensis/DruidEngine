@@ -73,7 +73,7 @@ void EditorController::init()
 	}).
 	addOption("Save", [](UIElement *uiElement)
 	{
-
+		ScenesManager::getInstance()->getCurrentScene()->saveScene("config/tmp.json");
 	});
 
 	UI::getInstance()->getUIBuilder().
@@ -144,4 +144,12 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 bool EditorController::canUseBrush() const
 {
 	return !mAtlas.getIsVisible();
+}
+
+void EditorController::forEachSelectedTile(TileCallback tileCallback)
+{
+	FOR_LIST(it, mSelectedTiles)
+	{
+		tileCallback(*it);
+	}
 }

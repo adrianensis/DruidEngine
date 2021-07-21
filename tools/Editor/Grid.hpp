@@ -11,6 +11,7 @@ class EditorController;
 CLASS(CellGrid, ObjectBase)
 {
 	PUB(GameObject, NONE, GameObject *)
+	PUB(WorldPosition, NONE, Vector2)
 public:
 
 };
@@ -29,8 +30,8 @@ public:
 	CellGrid& getCell(const Vector2& gridPosition);
 
 	bool hasTile(const Vector2& gridPosition) const;
-	bool isInGrid(const Vector2& position) const;
+	bool isInGrid(const Vector2& worldPosition) const;
 	
-	Vector2 calculateGridPosition(const Vector2& position) const;
-	Vector2 calculateClampedPosition(const Vector2& position) const;
+	Vector2 calculateGridPosition(const Vector2& worldPosition) const;
+	Vector2 calculateClampedPosition(const Vector2& worldPosition) const;
 };
