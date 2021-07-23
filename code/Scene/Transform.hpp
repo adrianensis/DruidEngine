@@ -29,6 +29,10 @@ CLASS(Transform, Component)
 	PRI(Scale, GET, Vector3)
 	PRI(AffectedByProjection, GET_SET, bool)
 
+private:
+
+	Vector3 calculateWorldPosition() const;
+
 public:
 	static const Vector3 smRight;
 	static const Vector3 smUp;
@@ -76,4 +80,7 @@ public:
 	{
 		mForceModelMatrixCalculation = true;
 	}
+
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };

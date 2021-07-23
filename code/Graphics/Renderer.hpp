@@ -56,6 +56,6 @@ public:
 	void forceRecalculateVertices();
 	bool hasClipRectangle() const {return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON; };
 
-	//virtual void serialize(ConfigObject* configMap, std::string& objectName) override;
-	//virtual void deserialize(ConfigObject* configMap, std::string& objectName) override;
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };

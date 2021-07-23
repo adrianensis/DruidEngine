@@ -4,6 +4,7 @@
 
 #include "Core/Macros.hpp"
 #include "Log/Log.hpp"
+#include "Core/Serialization.hpp"
 
 namespace Hash
 {
@@ -18,12 +19,12 @@ namespace Hash
 /*!
  \brief Base class.
  */
-class ObjectBase
+class ObjectBase: public ISerializable
 {
+	PRI(ObjectId, GET, ObjectId);
+
 protected:
 	static ObjectId smObjectIdCounter;
-
-	PRI(ObjectId, GET, ObjectId);
 
 public:
 	static std::string getClassNameStatic()

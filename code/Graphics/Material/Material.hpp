@@ -18,4 +18,7 @@ public:
 	Material();
 	void init();
 	void bind(bool isWorldSpace);
+
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };

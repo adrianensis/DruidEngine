@@ -13,7 +13,8 @@ void ConfigObject::writeToJsonFile(const std::string &path)
 {
 	File::writeFile(path, [&](std::ofstream &file)
 	{
-		file << mJson;
+		file << mJson.dump(4);
+		// TODO : use dump(4) only for debug and release? but dump() for ship version?
 	});
 }
 

@@ -214,3 +214,20 @@ Vector4 &Vector4::clamp(f32 maxLength)
 
 	return *this;
 }
+
+SERIALIZE(Vector4)
+{
+	DO_SERIALIZE("x", x)
+	DO_SERIALIZE("y", y)
+	DO_SERIALIZE("z", z)
+	DO_SERIALIZE("w", w)
+
+}
+
+void Vector4::deserialize(const JSON &json)
+{
+	x = json["x"];
+	y = json["y"];
+	z = json["z"];
+	w = json["w"];
+}

@@ -3,7 +3,19 @@
 #include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 
-CLASS(Shape, ObjectBase){};
+CLASS(Shape, ObjectBase)
+{
+public:
+    virtual void serialize(JSON &json) const override
+    {
+        
+    }
+
+	virtual void deserialize(const JSON &json) override
+    {
+
+    }
+};
 
 CLASS(Rectangle, Shape)
 {
@@ -21,6 +33,18 @@ public:
     {
         DO_COPY(LeftTop)
         DO_COPY(Size)
+    }
+
+    virtual void serialize(JSON &json) const override
+    {
+        DO_SERIALIZE("left_top", mLeftTop)
+        DO_SERIALIZE("size", mSize)
+    }
+
+	virtual void deserialize(const JSON &json) override
+    {
+        mLeftTop.deserialize(json["left_top"]);
+        mSize.deserialize(json["size"]);
     }
 };
 

@@ -39,11 +39,12 @@ print(class_list)
 print(includes)
 
 generated_code_dirname = "generated-code"
-
-shutil.rmtree(generated_code_dirname)
-os.mkdir(generated_code_dirname)
-
 generated_code_path = os.path.join(cwd, generated_code_dirname)
+
+if os.path.isdir(generated_code_path):
+    shutil.rmtree(generated_code_dirname)
+
+os.mkdir(generated_code_dirname)
 
 with open(os.path.join(generated_code_path, "ClassManager.generated"), "w") as class_list_file:
     for class_name in class_list:

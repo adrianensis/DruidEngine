@@ -29,9 +29,9 @@ void Component::destroy()
 	}
 };
 
-/*void Component::serialize(ConfigObject* configMap, std::string& objectName) {
-	
-}
+SERIALIZE(Component)
+{
+	DO_SERIALIZE("class", getClassName())
+};
 
-void Component::deserialize(ConfigObject* configMap, std::string& objectName) {
-}*/
+void Component::deserialize(const JSON &json) { };

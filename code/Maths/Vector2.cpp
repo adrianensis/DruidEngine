@@ -178,3 +178,15 @@ Vector2 &Vector2::clamp(f32 maxLength)
 
 	return *this;
 }
+
+SERIALIZE(Vector2)
+{
+	DO_SERIALIZE("x", x)
+	DO_SERIALIZE("y", y)
+}
+
+void Vector2::deserialize(const JSON &json)
+{
+	x = json["x"];
+	y = json["y"];
+}

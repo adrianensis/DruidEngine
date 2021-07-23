@@ -89,35 +89,30 @@ void Scene::deserialize(const JSON &json)
 
 }
 
-JSON Scene::serialize() const
+SERIALIZE(Scene)
 {
-	JSON json;
-
 	f32 maxSize = 0;
-	u32 counter = 0;
-
+	
 	FOR_LIST(it, *mGameObjects)
 	{
-		if ((*it)->getShouldPersist())
+		GameObject* obj = *it;
+		if(obj)
 		{
-			Transform *t = (*it)->getTransform();
-			Vector3 worldPosition = t->getWorldPosition();
-			Vector3 scale = t->getScale();
+			if (obj->getShouldPersist())
+			{
+				Transform *t = obj->getTransform();
+				Vector3 worldPosition = t->getWorldPosition();
+				Vector3 scale = t->getScale();
 
-			f32 maxObjectScale = std::max(std::abs(scale.x), std::abs(scale.y));
-			maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale),
-							   std::abs(worldPosition.y) + maxObjectScale);
-
-			json["objects"].push_back((*it)->serialize());
-
-			counter++;
+				f32 maxObjectScale = std::max(std::abs(scale.x), std::abs(scale.y));
+				maxSize = std::max(std::max(maxSize, std::abs(worldPosition.x) + maxObjectScale),
+								std::abs(worldPosition.y) + maxObjectScale);
+			}
 		}
 	}
 
-	json["objects"]["length"] = counter;
-	json["scene"]["size"] = maxSize * 2.0f;
-
-	return json;
+	DO_SERIALIZE_COLLECTION_IF((*it)->getShouldPersist(), "objects", FOR_LIST, it, *mGameObjects)
+	DO_SERIALIZE("size", maxSize * 2.0f)
 }
 
 void Scene::loadScene(const std::string &path)
@@ -159,7 +154,11 @@ void Scene::saveScene(const std::string &path)
 
 	ConfigObject configMap;
 	configMap.init();
-	configMap.setJson(serialize());
+
+	JSON json;
+	serialize(json);
+
+	configMap.setJson(json);
 
 	configMap.writeToJsonFile(path);
 }

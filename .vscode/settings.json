@@ -71,6 +71,7 @@
         "future": "cpp",
         "mutex": "cpp",
         "stop_token": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "*.generated": "cpp"
     }
 }

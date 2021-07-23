@@ -13,9 +13,9 @@ class Scene;
 
 CLASS_EVENT(EventOnDestroy) {};
 
-CLASS(GameObject, ObjectBase), public ISerializable
+CLASS(GameObject, ObjectBase)
 {
-	PRI(ComponentsMap, NONE, std::map<ClassId, std::list<Component *> *> *)
+	PRI(ComponentsMap, NONE, std::map<ClassId, std::list<Component *> *>)
 	PRI(IsActive, NONE, bool)
 
 	PRI(Scene, GET_SET, Scene *)
@@ -80,6 +80,6 @@ public:
 
 	virtual void onDestroy(){/*TODO: call script onDestroy here??*/};
 
-	virtual JSON serialize() const override;
+	virtual void serialize(JSON &json) const override;
 	virtual void deserialize(const JSON &json) override;
 };

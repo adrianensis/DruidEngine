@@ -48,3 +48,13 @@ void Material::bind(bool isWorldSpace)
 
 	mShader->addVector2(RenderContext::getWindowSize(), "windowSize");
 }
+
+SERIALIZE(Material)
+{
+	DO_SERIALIZE("texture", mTexture)
+}
+
+void Material::deserialize(const JSON &json)
+{
+
+}

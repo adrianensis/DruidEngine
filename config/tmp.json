@@ -1,1 +1,2205 @@
-{"objects":{"length":0},"scene":{"size":0.0}}
+{
+    "objects": [
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -350.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -300.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 150.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 150.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 150.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 100.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 100.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -50.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -100.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 300.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -100.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -50.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 250.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -250.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -100.0,
+                        "y": 200.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -250.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -350.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -300.0,
+                        "y": 150.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -250.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -100.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -50.0,
+                        "y": 100.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": 50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -50.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 100.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 150.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 100.0,
+                        "y": 50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": 50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -100.0,
+                        "y": 50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -200.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -250.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -300.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -300.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -250.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -150.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": -50.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 0.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "isStatic": false,
+            "shouldPersist": true,
+            "tag": "",
+            "components": [
+                {
+                    "class": "Transform",
+                    "world_position": {
+                        "x": 50.0,
+                        "y": -50.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 50.0,
+                        "y": 50.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "class": "Renderer",
+                    "material": {
+                        "texture": {
+                            "path": "resources/tiles.png"
+                        }
+                    },
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.625
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        }
+    ],
+    "size": 800.0
+}

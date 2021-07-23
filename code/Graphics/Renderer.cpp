@@ -157,26 +157,16 @@ void Renderer::forceRecalculateVertices()
 	mForceRecalculateVertices = true;
 }
 
-/*void Renderer::serialize(ConfigObject* configMap, std::string& objectName) {
-	Texture *texture = getMaterial()->getTexture();
-	configMap->setString(objectName + ".texture.path", texture->getPath());
-	configMap->setF32(objectName + ".texture.region.u", getRegionPosition().x);
-	configMap->setF32(objectName + ".texture.region.v", getRegionPosition().y);
-	configMap->setF32(objectName + ".texture.region.width", getRegionSize().x);
-	configMap->setF32(objectName + ".texture.region.height", getRegionSize().y);
-	configMap->setU32(objectName + ".layer", getLayer());
+SERIALIZE(Renderer)
+{
+	Super::serialize(json);
+
+	DO_SERIALIZE("material", mMaterial)
+	DO_SERIALIZE("region", mRegion)
+	DO_SERIALIZE("layer", mLayer)
 }
 
-void Renderer::deserialize(ConfigObject* configMap, std::string& objectName) {
-	Material* material = MaterialManager::getInstance()->loadMaterial(configMap->getString(objectName + ".texture.path"));
-	Vector2 textureRegionPosition(configMap->at(objectName + ".texture.region.u").get<f32>(),
-			configMap->at(objectName + ".texture.region.v").get<f32>());
-	Vector2 textureRegionSize(configMap->at(objectName + ".texture.region.width").get<f32>(),
-			configMap->at(objectName + ".texture.region.height").get<f32>());
+void Renderer::deserialize(const JSON &json)
+{
 
-	setLayer(configMap->at(objectName + ".layer").get<u32>());
-	setMesh(Mesh::getRectangle());
-	setMaterial(material);
-	setRegion(textureRegionPosition.x, textureRegionPosition.y, textureRegionSize.x, textureRegionSize.y);
-
-}*/
+}

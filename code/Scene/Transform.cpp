@@ -61,20 +61,26 @@ void Transform::setScale(const Vector3 &vector)
 	mScale = vector;
 };
 
-const Vector3 &Transform::getWorldPosition()
+Vector3 Transform::calculateWorldPosition() const
 {
-	mWorldPosition = mLocalPosition;
+	Vector3 worldPosition = mLocalPosition;
 
 	if (mParent)
 	{
-		mWorldPosition.add(mParent->getWorldPosition());
+		worldPosition.add(mParent->getWorldPosition());
 
 		Matrix4 rotationMatrix;
 		rotationMatrix.init(mParent->getRotationMatrix());
 
-		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
+		worldPosition = Vector3(rotationMatrix.mulVector(Vector4(worldPosition, 1.0f)));
 	}
 
+	return worldPosition;
+}
+
+const Vector3 &Transform::getWorldPosition()
+{
+	mWorldPosition = calculateWorldPosition();
 	return mWorldPosition;
 };
 
@@ -172,4 +178,17 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 	}
 
 	return mModelMatrix;
+}
+
+SERIALIZE(Transform)
+{
+	Component::serialize(json);
+
+	DO_SERIALIZE("world_position", calculateWorldPosition());
+	DO_SERIALIZE("scale", mScale);
+}
+
+void Transform::deserialize(const JSON &json)
+{
+	// TODO : deserialize transform
 }

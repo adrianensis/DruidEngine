@@ -190,4 +190,7 @@ public:
 		out << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
 		return out;
 	}
+
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };

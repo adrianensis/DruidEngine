@@ -9,7 +9,7 @@
 class GameObject;
 class ConfigObject;
 
-CLASS(Scene, ObjectBase), public ISerializable
+CLASS(Scene, ObjectBase)
 {
 private:
 	PRI(GameObjects, GET, std::list<GameObject *> *);
@@ -33,7 +33,7 @@ public:
 
 	void init();
 
-	virtual JSON serialize() const override;
+	virtual void serialize(JSON &json) const override;
 	virtual void deserialize(const JSON &json) override;
 	void loadScene(const std::string &path);
 	void saveScene(const std::string &path);

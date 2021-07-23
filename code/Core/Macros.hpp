@@ -14,6 +14,8 @@
 #define ADD_REFERENCE(Class) typename std::add_lvalue_reference<Class>::type
 #define ADD_POINTER(Class) typename std::add_pointer<Class>::type
 
+#define IS_BASE_OF(BaseClass, DerivedClass) std::is_base_of<BaseClass, DerivedClass>::value
+
 #define COND_TYPE(Bool, T1, T2) typename std::conditional<Bool, T1, T2>::type
 
 // --------------------------------------------------------
@@ -39,6 +41,8 @@
 		GENERATE_METADATA(ClassName)              \
 	public:                                       \
 		CLASS_MACRO_CONSTRUCTOR(ClassName)        \
+	protected:                                    \
+		using Super = __VA_ARGS__;                \
 	};                                            \
 	class ClassName : public ClassName##_PARENT
 
@@ -50,6 +54,8 @@
 		GENERATE_METADATA(ClassName)                        \
 	public:                                                 \
 		CLASS_MACRO_CONSTRUCTOR(ClassName)                  \
+	protected:                                              \
+		using Super = __VA_ARGS__;                          \
 	};                                                      \
 	template <class Template>                               \
 	class ClassName : public ClassName##_PARENT
@@ -146,8 +152,9 @@ private:
 #define MEMBER(BaseName, AccessorMacroName, Visibility, ...) \
 	Visibility:                                              \
 	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
-	public : AccessorMacroName(BaseName) Visibility:
-
+	public : AccessorMacroName(BaseName)                     \
+	Visibility:
+	
 #define PUB(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)
 #define PRO(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, protected, __VA_ARGS__)
 #define PRI(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, private, __VA_ARGS__)
@@ -171,6 +178,38 @@ private:
 	void specificCopy(const __VA_ARGS__ *other)
 
 #define DO_COPY(BaseName) m##BaseName = other->m##BaseName;
+
+// --------------------------------------------------------
+// SERIALIZATION
+// --------------------------------------------------------
+
+// This macro must be used in .cpp
+#define SERIALIZE(...)\
+void __VA_ARGS__::serialize(JSON &json) const
+
+#define DO_SERIALIZE(Name, Var)\
+json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);
+
+#define DO_SERIALIZE_IF(Condition, Name, Var)\
+if((Condition))\
+{\
+	json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);\
+}
+
+#define DO_SERIALIZE_COLLECTION(Name, LoopMacro, it, ...)\
+LoopMacro(it, __VA_ARGS__)\
+{\
+	json[Name].push_back(SerializationUtils::serializeTemplated<decltype(*it)>(*it));\
+}\
+
+#define DO_SERIALIZE_COLLECTION_IF(Condition, Name, LoopMacro, it, ...)\
+LoopMacro(it, __VA_ARGS__)\
+{\
+	if((Condition))\
+	{\
+		json[Name].push_back(SerializationUtils::serializeTemplated<decltype(*it)>(*it));\
+	}\
+}\
 
 // --------------------------------------------------------
 // FOR LOOPS

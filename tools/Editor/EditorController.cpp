@@ -124,6 +124,8 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	GameObject *tile = NEW(GameObject);
 	tile->init();
 
+	tile->setShouldPersist(true);
+
 	tile->getTransform()->setLocalPosition(position);
 	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 

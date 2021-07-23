@@ -254,3 +254,17 @@ Vector3 &Vector3::clamp(f32 maxLength)
 
 	return *this;
 }
+
+SERIALIZE(Vector3)
+{
+	DO_SERIALIZE("x", x)
+	DO_SERIALIZE("y", y)
+	DO_SERIALIZE("z", z)
+}
+
+void Vector3::deserialize(const JSON &json)
+{
+	x = json["x"];
+	y = json["y"];
+	z = json["z"];
+}

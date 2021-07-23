@@ -43,7 +43,7 @@ public:
 
 CLASS(TimerManager, ObjectBase), SINGLETON(TimerManager)
 {
-	PRI(Timers, NONE, std::list<Timer *> *);
+	PRI(Timers, NONE, std::list<Timer *>);
 
 	void endTimer(Timer * timer);
 
