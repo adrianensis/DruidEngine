@@ -20,9 +20,6 @@ private:
 	PRI(Path, GET, std::string)
 
 	PRI(LoadSceneConfigMap, NONE, ConfigObject *)
-	PRI(MaxGameObjectsToLoadPerFrame, NONE, u32)
-	PRI(GameObjectsToLoadTotal, NONE, u32)
-	PRI(GameObjectsToLoadIndex, NONE, u32)
 
 private:
 	void destroyGameObjects();
@@ -39,7 +36,6 @@ public:
 	void saveScene(const std::string &path);
 
 	void unloadScene();
-	bool isLoadFinished() const;
 
 	void addGameObject(GameObject * gameObject);
 	void updateComponents(GameObject * gameObject);

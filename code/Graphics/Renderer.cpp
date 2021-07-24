@@ -161,12 +161,27 @@ SERIALIZE(Renderer)
 {
 	Super::serialize(json);
 
-	DO_SERIALIZE("material", mMaterial)
+	std::string materialPath = "";
+
+	if(mMaterial->getTexture())
+	{
+		materialPath = mMaterial->getTexture()->getPath();
+	}
+
+	DO_SERIALIZE("material", materialPath)
 	DO_SERIALIZE("region", mRegion)
 	DO_SERIALIZE("layer", mLayer)
 }
 
-void Renderer::deserialize(const JSON &json)
+DESERIALIZE(Renderer)
 {
+	std::string materialPath = "";
+	DO_DESERIALIZE("material", materialPath)
 
+	mMaterial = MaterialManager::getInstance()->loadMaterial(materialPath);
+
+	DO_DESERIALIZE("region", mRegion)
+	DO_DESERIALIZE("layer", mLayer)
+
+	mMesh = Mesh::getRectangle();
 }

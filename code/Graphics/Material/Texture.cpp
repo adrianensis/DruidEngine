@@ -169,12 +169,10 @@ byte *Texture::readPNG()
 
 SERIALIZE(Texture)
 {
-	DO_SERIALIZE("path", mPath)
+	//DO_SERIALIZE("path", mPath)
 }
 
 void Texture::deserialize(const JSON &json)
 {
-	mPath = json["path"];
-
-	init(mPath);
+	//mPath = json["path"];
 }

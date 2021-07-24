@@ -184,11 +184,12 @@ SERIALIZE(Transform)
 {
 	Component::serialize(json);
 
-	DO_SERIALIZE("world_position", calculateWorldPosition());
+	DO_SERIALIZE("local_position", mLocalPosition);
 	DO_SERIALIZE("scale", mScale);
 }
 
 void Transform::deserialize(const JSON &json)
 {
-	// TODO : deserialize transform
+	DO_DESERIALIZE("local_position", mLocalPosition);
+	DO_DESERIALIZE("scale", mScale);
 }

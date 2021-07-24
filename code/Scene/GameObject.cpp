@@ -5,6 +5,7 @@
 
 #include "Events/EventsManager.hpp"
 #include "Config/ConfigObject.hpp"
+#include "Core/ClassManager.hpp"
 
 GameObject::GameObject()
 {
@@ -126,17 +127,41 @@ SERIALIZE(GameObject)
 	//json["id"] = getObjectId();
 	DO_SERIALIZE("class", getClassName())
 
-	DO_SERIALIZE("is_static", getIsStatic())
-	DO_SERIALIZE("should_persist", getShouldPersist())
+	DO_SERIALIZE("is_static", mIsStatic)
+	DO_SERIALIZE("should_persist", mShouldPersist)
 
-	DO_SERIALIZE("tag", getTag())
+	DO_SERIALIZE("tag", mTag)
+
+	DO_SERIALIZE("transform", mTransform)
 
 	FOR_MAP(it, mComponentsMap)
 	{
-		DO_SERIALIZE_COLLECTION("components", FOR_LIST, itComponent, *(it->second))
+		DO_SERIALIZE_LIST_IF("components", *(it->second), [](Component* component)
+		{
+			return component->getClassId() != Transform::getClassIdStatic();
+		})
 	}
 }
 
 void GameObject::deserialize(const JSON &json)
 {
+	DO_DESERIALIZE("is_static", mIsStatic)
+	DO_DESERIALIZE("should_persist", mShouldPersist)
+
+	DO_DESERIALIZE("tag", mTag)
+
+	DO_DESERIALIZE("transform", mTransform)
+
+	std::list<Component *> tmpList;
+	DO_DESERIALIZE_LIST("components", tmpList, [](const JSON &json)
+	{
+		Component *component = (Component*) INSTANCE_BY_NAME(json["class"]);
+		component->init();
+		return component;
+	})
+
+	FOR_LIST(it, tmpList)
+	{
+		addComponent(*it, (*it)->getClassId());
+	}
 }

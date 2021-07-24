@@ -11,6 +11,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Core/EngineConfig.hpp"
 #include <future> // std::async, std::future
+#include "Core/ClassManager.hpp"
 
 Scene::Scene()
 {
@@ -80,13 +81,49 @@ void Scene::init()
 
 	// SET DEFAULT SIZE
 	mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
-
-	mMaxGameObjectsToLoadPerFrame = 10; // TODO : move to settings
 }
 
-void Scene::deserialize(const JSON &json)
+void Scene::saveScene(const std::string &path)
 {
+	mPath = path;
 
+	ConfigObject configMap;
+	configMap.init();
+
+	JSON json;
+	serialize(json);
+
+	configMap.setJson(json);
+
+	configMap.writeToJsonFile(path);
+}
+
+void Scene::loadScene(const std::string &path)
+{
+	mPath = path;
+
+	if (!mLoadSceneConfigMap)
+	{
+		mLoadSceneConfigMap = NEW(ConfigObject);
+		mLoadSceneConfigMap->init();
+	}
+	else
+	{
+		mLoadSceneConfigMap->clear();
+	}
+
+	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
+	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
+	//fut.wait();
+
+	mSize = mLoadSceneConfigMap->at("size").get<f32>();
+
+	if (mSize == 0)
+	{
+		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
+	}
+
+	deserialize(mLoadSceneConfigMap->getJson());
 }
 
 SERIALIZE(Scene)
@@ -111,66 +148,35 @@ SERIALIZE(Scene)
 		}
 	}
 
-	DO_SERIALIZE_COLLECTION_IF((*it)->getShouldPersist(), "objects", FOR_LIST, it, *mGameObjects)
+	DO_SERIALIZE_LIST_IF("objects", *mGameObjects, [](GameObject* gameObject)
+	{
+		return gameObject->getShouldPersist();
+	})
+
 	DO_SERIALIZE("size", maxSize * 2.0f)
 }
 
-void Scene::loadScene(const std::string &path)
+DESERIALIZE(Scene)
 {
-	mPath = path;
+	DO_DESERIALIZE("size", mSize)
 
-	if (!mLoadSceneConfigMap)
+	std::list<GameObject *> tmpList;
+	DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
 	{
-		mLoadSceneConfigMap = NEW(ConfigObject);
-		mLoadSceneConfigMap->init();
-	}
-	else
+		GameObject *gameObject = (GameObject*) INSTANCE_BY_NAME(json["class"]);
+		gameObject->init();
+		return gameObject;
+	})
+
+	FOR_LIST(it, tmpList)
 	{
-		mLoadSceneConfigMap->clear();
+		addGameObject(*it);
 	}
-
-	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
-	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
-	//fut.wait();
-
-	mSize = mLoadSceneConfigMap->at("scene").at("size").get<f32>();
-
-	if (mSize == 0)
-	{
-		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
-	}
-
-	u32 length = mLoadSceneConfigMap->at("objects.length").get<u32>();
-
-	mGameObjectsToLoadTotal = length;
-	mGameObjectsToLoadIndex = 0;
-
-	deserialize(mLoadSceneConfigMap->getJson());
-}
-
-void Scene::saveScene(const std::string &path)
-{
-	mPath = path;
-
-	ConfigObject configMap;
-	configMap.init();
-
-	JSON json;
-	serialize(json);
-
-	configMap.setJson(json);
-
-	configMap.writeToJsonFile(path);
 }
 
 void Scene::unloadScene()
 {
 	destroyGameObjects();
-}
-
-bool Scene::isLoadFinished() const
-{
-	return mGameObjectsToLoadIndex == mGameObjectsToLoadTotal;
 }
 
 void Scene::addGameObject(GameObject *gameObject)
@@ -233,29 +239,23 @@ void Scene::removeGameObject(GameObject *gameObject)
 void Scene::step()
 {
 	// TODO : refactor into a private method
-	if (mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
+	/*if (mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
 	{
 		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
 		{
-			std::string indexStr = std::to_string(mGameObjectsToLoadIndex);
-			std::string objectName = "objects[" + indexStr + "]";
+			std::string className = "GameObject"; //mLoadSceneConfigMap->at("class").get<std::string>();
 
-			std::string className = mLoadSceneConfigMap->at(objectName + ".class").get<std::string>();
-
-			GameObject *gameObject = NEW(GameObject); //Memory::fromClassName<GameObject>(className));
+			GameObject *gameObject = (GameObject*) INSTANCE_BY_NAME(className); //Memory::fromClassName<GameObject>(className));
 			gameObject->init();
 			gameObject->deserialize(JSON());
 			addGameObject(gameObject);
 			mGameObjectsToLoadIndex += 1;
 		}
-	}
+	}*/
 
 	if (thereAreNewGameObjects())
 	{
-		const std::list<GameObject *> *newGameObjects = getNewGameObjects();
-		//u32 maxToSpawn = EngineConfig::getInstance()->getConfig().at("scene.maxNewObjectsToSpawn").get<f32>();
-
-		FOR_LIST(itGameObjects, *newGameObjects)
+		FOR_LIST(itGameObjects, *mNewGameObjects)
 		{
 			GameObject *gameObject = (*itGameObjects);
 

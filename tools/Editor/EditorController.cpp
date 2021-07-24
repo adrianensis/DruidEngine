@@ -69,7 +69,7 @@ void EditorController::init()
 	}).
 	addOption("Open", [](UIElement *uiElement)
 	{
-
+		ScenesManager::getInstance()->getCurrentScene()->loadScene("config/tmp.json");
 	}).
 	addOption("Save", [](UIElement *uiElement)
 	{

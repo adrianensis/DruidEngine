@@ -183,6 +183,8 @@ private:
 // SERIALIZATION
 // --------------------------------------------------------
 
+// SERIALIZE
+
 // This macro must be used in .cpp
 #define SERIALIZE(...)\
 void __VA_ARGS__::serialize(JSON &json) const
@@ -193,23 +195,51 @@ json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);
 #define DO_SERIALIZE_IF(Condition, Name, Var)\
 if((Condition))\
 {\
-	json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);\
+	DO_SERIALIZE(Name, Var)\
 }
 
-#define DO_SERIALIZE_COLLECTION(Name, LoopMacro, it, ...)\
-LoopMacro(it, __VA_ARGS__)\
+#define DO_SERIALIZE_LIST_ELEMENT(Name, Var)\
+json[Name].push_back(SerializationUtils::serializeTemplated<decltype(Var)>(Var));\
+
+#define DO_SERIALIZE_LIST(Name, Var)\
+FOR_LIST(__it, Var)\
 {\
-	json[Name].push_back(SerializationUtils::serializeTemplated<decltype(*it)>(*it));\
+	DO_SERIALIZE_LIST_ELEMENT(Name, (*__it))\
 }\
 
-#define DO_SERIALIZE_COLLECTION_IF(Condition, Name, LoopMacro, it, ...)\
-LoopMacro(it, __VA_ARGS__)\
+#define DO_SERIALIZE_LIST_IF(Name, Var, ConditionLambda)\
+FOR_LIST(__it, Var)\
 {\
-	if((Condition))\
+	if((ConditionLambda(*__it)))\
 	{\
-		json[Name].push_back(SerializationUtils::serializeTemplated<decltype(*it)>(*it));\
+		DO_SERIALIZE_LIST_ELEMENT(Name, (*__it))\
 	}\
 }\
+
+// DESERIALIZE
+
+#define DESERIALIZE(...)\
+void __VA_ARGS__::deserialize(const JSON &json)
+
+#define DO_DESERIALIZE(Name, Var)\
+SerializationUtils::deserializeTemplated<decltype(Var)>(Var, json[Name]);
+
+#define DO_DESERIALIZE_LIST(Name, Var, ConstructionLambda)\
+FOR_LIST(__it, json[Name])\
+{\
+	auto object = ConstructionLambda(*__it);\
+	SerializationUtils::deserializeTemplated<decltype(object)>(object, (*__it));\
+	(Var).push_back(object);\
+}\
+
+/*
+	using ElementType = REMOVE_REF(decltype((Var).front()));\
+	ElementType object = {};\
+	if(IS_POINTER(ElementType))\
+	{\
+		object = NEW(REMOVE_POINTER(REMOVE_REF(ElementType)));\
+	}\
+*/
 
 // --------------------------------------------------------
 // FOR LOOPS
