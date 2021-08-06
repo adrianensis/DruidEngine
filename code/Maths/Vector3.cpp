@@ -262,9 +262,9 @@ SERIALIZE(Vector3)
 	DO_SERIALIZE("z", z)
 }
 
-void Vector3::deserialize(const JSON &json)
+DESERIALIZE(Vector3)
 {
-	x = json["x"];
-	y = json["y"];
-	z = json["z"];
+	DO_DESERIALIZE("x", x);
+	DO_DESERIALIZE("y", y);
+	DO_DESERIALIZE("z", z);
 }

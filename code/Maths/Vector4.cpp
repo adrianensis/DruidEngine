@@ -221,13 +221,12 @@ SERIALIZE(Vector4)
 	DO_SERIALIZE("y", y)
 	DO_SERIALIZE("z", z)
 	DO_SERIALIZE("w", w)
-
 }
 
-void Vector4::deserialize(const JSON &json)
+DESERIALIZE(Vector4)
 {
-	x = json["x"];
-	y = json["y"];
-	z = json["z"];
-	w = json["w"];
+	DO_DESERIALIZE("x", x);
+	DO_DESERIALIZE("y", y);
+	DO_DESERIALIZE("z", z);
+	DO_DESERIALIZE("w", w);
 }

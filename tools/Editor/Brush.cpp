@@ -76,8 +76,12 @@ void Brush::onHold()
 					if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
 					{
 						mEditorController->forEachSelectedTile([&](GameObject* tile)
-						{
-							tile->getFirstComponent<Renderer>()->setColor(style.mColor);
+						{	
+							if(tile->isActive())
+							{
+								Renderer* renderer = tile->getFirstComponent<Renderer>();
+								renderer->setColor(style.mColor);
+							}
 						});
 
 						mEditorController->getSelectedTiles().clear();
@@ -86,10 +90,14 @@ void Brush::onHold()
 					if(mEditorController->getGrid().hasTile(gridPosition))
 					{
 						GameObject* tile = mEditorController->getGrid().getCell(gridPosition).mGameObject;
+						
+						if(tile->isActive())
+						{
+							Renderer* renderer = tile->getFirstComponent<Renderer>();
+							renderer->setColor(style.mColorSelected);
 
-						tile->getFirstComponent<Renderer>()->setColor(style.mColorSelected);
-
-						mEditorController->getSelectedTiles().push_back(tile);
+							mEditorController->getSelectedTiles().push_back(tile);
+						}
 					}
 
 					break;

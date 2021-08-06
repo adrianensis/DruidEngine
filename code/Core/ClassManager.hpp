@@ -27,6 +27,12 @@ public:
 
     ClassManager();
 
+    template<class T, typename = std::enable_if_t<std::is_base_of<ObjectBase, T>::value> >
+    T* instanceByName(const std::string &className)
+    {
+        return static_cast<T*>(instanceByName(className));
+    }
+
     ObjectBase* instanceByName(const std::string &className)
     {
         if(MAP_CONTAINS(mInstanceByNameMap, className))

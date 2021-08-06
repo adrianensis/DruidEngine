@@ -50,45 +50,6 @@ void EditorController::init()
 	{
 		mAtlas.toggle();
 	});
-
-	UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::HORIZONTAL).
-	setPosition(Vector2(-1,1)).
-	setLayer(0).
-	setSize(Vector2(0.5f, 0.05f));
-
-	UI::getInstance()->getUIBuilder().
-	setAdjustSizeToText(true).
-	setText("File").
-	setTextSize(Vector2(0.025f, 0.05f)).
-	create<UIDropdown>().
-	getUIElement<UIDropdown>()->
-	addOption("New", [](UIElement *uiElement)
-	{
-
-	}).
-	addOption("Open", [](UIElement *uiElement)
-	{
-		ScenesManager::getInstance()->getCurrentScene()->loadScene("config/tmp.json");
-	}).
-	addOption("Save", [](UIElement *uiElement)
-	{
-		ScenesManager::getInstance()->getCurrentScene()->saveScene("config/tmp.json");
-	});
-
-	UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::VERTICAL).
-	setPosition(Vector2(-1,0.8)).
-	setLayer(0).
-	setSize(Vector2(0.5f, 0.05f));
-
-	UI::getInstance()->getUIBuilder().
-	setText("Atlas").
-	create<UIButton>().
-	getUIElement<UIButton>()->
-	setOnPressedCallback([&](UIElement* uiElement){
-		this->mAtlas.toggle();
-	});
 }
 
 void EditorController::drawGrid() const
@@ -101,11 +62,11 @@ void EditorController::drawGrid() const
 	FOR_RANGE(i, -halfGridSize.x - 1, halfGridSize.x)
 	{
 		RenderEngine::getInstance()->drawLine(
-				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0), 
-				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0),
-				1,
-				true,
-				Vector4(1,1,1,0.25f));
+			Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0), 
+			Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0),
+			1,
+			true,
+			Vector4(1,1,1,0.25f));
 	}
 
 	FOR_RANGE(j, -halfGridSize.y, halfGridSize.y + 1)
@@ -125,6 +86,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	tile->init();
 
 	tile->setShouldPersist(true);
+	tile->setIsStatic(true);
 
 	tile->getTransform()->setLocalPosition(position);
 	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
@@ -153,5 +115,25 @@ void EditorController::forEachSelectedTile(TileCallback tileCallback)
 	FOR_LIST(it, mSelectedTiles)
 	{
 		tileCallback(*it);
+	}
+}
+
+void EditorController::saveScene()
+{
+	ScenesManager::getInstance()->getCurrentScene()->saveScene("config/tmp.json");
+}
+
+void EditorController::loadScene()
+{
+	Scene *scene = ScenesManager::getInstance()->getCurrentScene();
+	scene->loadScene("config/tmp.json");
+
+	std::list<GameObject *> tmpList = scene->getNewGameObjects();
+	FOR_LIST(it, tmpList)
+	{
+		GameObject* gameObject = (*it);
+		mGrid.setCell(mGrid.calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
+			gameObject
+		);
 	}
 }

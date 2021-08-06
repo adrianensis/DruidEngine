@@ -155,7 +155,7 @@ void GameObject::deserialize(const JSON &json)
 	std::list<Component *> tmpList;
 	DO_DESERIALIZE_LIST("components", tmpList, [](const JSON &json)
 	{
-		Component *component = (Component*) INSTANCE_BY_NAME(json["class"]);
+		Component *component = INSTANCE_BY_NAME(json["class"], Component);
 		component->init();
 		return component;
 	})

@@ -14,8 +14,8 @@ class EditorController;
 CLASS(Atlas, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*)
-	PRI(AtlasSelectorUIGroup, NONE, std::string);
-	PRI(AtlasUIGroup, NONE, std::string);
+	PRI(AtlasSelectorUIGroup, NONE, std::string)
+	PRI(AtlasUIGroup, NONE, std::string)
 	PRI(IsVisible, GET, bool)
 
 private:

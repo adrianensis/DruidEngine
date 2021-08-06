@@ -20,9 +20,7 @@ void Transform::init()
 {
 	// TRACE();
 	mTranslationMatrix.identity();
-
 	mRotationMatrix.identity();
-
 	mScaleMatrix.identity();
 
 	mWorldPosition = Vector3(0.0f, 0.0f, 0.0f);
@@ -38,6 +36,7 @@ bool Transform::isDirtyTranslation() const
 {
 	return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation());
 }
+
 void Transform::setDirtyTranslation(bool dirty)
 {
 	mIsDirtyTranslation = dirty;
@@ -53,13 +52,13 @@ void Transform::setRotation(const Vector3 &vector)
 {
 	mIsDirtyRotation = true;
 	mRotation = vector;
-};
+}
 
 void Transform::setScale(const Vector3 &vector)
 {
 	mIsDirtyScale = true;
 	mScale = vector;
-};
+}
 
 Vector3 Transform::calculateWorldPosition() const
 {
@@ -82,7 +81,7 @@ const Vector3 &Transform::getWorldPosition()
 {
 	mWorldPosition = calculateWorldPosition();
 	return mWorldPosition;
-};
+}
 
 void Transform::translate(const Vector3 &vector)
 {
@@ -91,7 +90,7 @@ void Transform::translate(const Vector3 &vector)
 		mIsDirtyTranslation = true;
 		mLocalPosition.add(vector);
 	}
-};
+}
 
 void Transform::rotate(const Vector3 &vector)
 {
@@ -100,7 +99,7 @@ void Transform::rotate(const Vector3 &vector)
 		mIsDirtyRotation = true;
 		mRotation.add(vector);
 	}
-};
+}
 
 void Transform::lookAt(const Vector3 &targetPosition)
 {
@@ -182,14 +181,22 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 
 SERIALIZE(Transform)
 {
-	Component::serialize(json);
+	Super::serialize(json);
 
 	DO_SERIALIZE("local_position", mLocalPosition);
 	DO_SERIALIZE("scale", mScale);
+	DO_SERIALIZE("rotation", mRotation);
 }
 
-void Transform::deserialize(const JSON &json)
+DESERIALIZE(Transform)
 {
+	Super::deserialize(json);
+
 	DO_DESERIALIZE("local_position", mLocalPosition);
 	DO_DESERIALIZE("scale", mScale);
+	DO_DESERIALIZE("rotation", mRotation);
+
+	mIsDirtyTranslation = true;
+	mIsDirtyRotation = true;
+	mIsDirtyScale = true;
 }

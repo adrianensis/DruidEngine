@@ -31,4 +31,7 @@ public:
 	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region);
 
 	void forEachSelectedTile(TileCallback tileCallback);
+
+	void saveScene();
+	void loadScene();
 };

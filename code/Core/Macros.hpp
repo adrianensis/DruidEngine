@@ -23,7 +23,7 @@
 // --------------------------------------------------------
 
 #define NEW(...) Memory::newObject<__VA_ARGS__>()
-#define INSTANCE_BY_NAME(ClassNameString) ClassManager::getInstance()->instanceByName(ClassNameString)
+#define INSTANCE_BY_NAME(ClassNameString, ...) ClassManager::getInstance()->instanceByName<__VA_ARGS__>(ClassNameString)
 #define DELETE(...) Memory::deleteObject<REMOVE_POINTER(REMOVE_REF(decltype(__VA_ARGS__)))>(__VA_ARGS__);
 
 // --------------------------------------------------------

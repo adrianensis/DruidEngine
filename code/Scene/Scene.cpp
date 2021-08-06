@@ -3,7 +3,6 @@
 #include "Scene/Transform.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
-#include "Config/ConfigObject.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Renderer.hpp"
@@ -15,25 +14,17 @@
 
 Scene::Scene()
 {
-	mGameObjects = nullptr;
+
 }
 
 Scene::~Scene()
 {
 	destroyGameObjects();
-
-	DELETE(mGameObjects);
-	DELETE(mNewGameObjects);
-
-	if (mLoadSceneConfigMap)
-	{
-		DELETE(mLoadSceneConfigMap);
-	}
 }
 
 void Scene::destroyGameObjects()
 {
-	FOR_LIST(it, *mGameObjects)
+	FOR_LIST(it, mGameObjects)
 	{
 		if (!(*it)->getIsDestroyed())
 		{
@@ -56,10 +47,6 @@ void Scene::init()
 {
 	TRACE()
 
-	mGameObjects = NEW(std::list<GameObject *>);
-
-	mNewGameObjects = NEW(std::list<GameObject *>);
-
 	mSize = 0;
 
 	mPath = "config/sceneTmp.json";
@@ -81,6 +68,8 @@ void Scene::init()
 
 	// SET DEFAULT SIZE
 	mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
+
+	mLoadSceneConfig.init();
 }
 
 void Scene::saveScene(const std::string &path)
@@ -102,35 +91,27 @@ void Scene::loadScene(const std::string &path)
 {
 	mPath = path;
 
-	if (!mLoadSceneConfigMap)
-	{
-		mLoadSceneConfigMap = NEW(ConfigObject);
-		mLoadSceneConfigMap->init();
-	}
-	else
-	{
-		mLoadSceneConfigMap->clear();
-	}
+	mLoadSceneConfig.clear();
 
-	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfigMap,mPath);
-	mLoadSceneConfigMap->readFromJsonFile(mPath); // TODO: do async / in other thread.
+	//std::future<void> fut = std::async (&ConfigObject::readFromJsonFile,&mLoadSceneConfig,mPath);
+	mLoadSceneConfig.readFromJsonFile(mPath); // TODO: do async / in other thread.
 	//fut.wait();
 
-	mSize = mLoadSceneConfigMap->at("size").get<f32>();
+	mSize = mLoadSceneConfig.at("size").get<f32>();
 
 	if (mSize == 0)
 	{
 		mSize = EngineConfig::getInstance()->getConfig().at("scene").at("defaultSize").get<f32>();
 	}
 
-	deserialize(mLoadSceneConfigMap->getJson());
+	deserialize(mLoadSceneConfig.getJson());
 }
 
 SERIALIZE(Scene)
 {
 	f32 maxSize = 0;
-	
-	FOR_LIST(it, *mGameObjects)
+
+	FOR_LIST(it, mGameObjects)
 	{
 		GameObject* obj = *it;
 		if(obj)
@@ -148,7 +129,7 @@ SERIALIZE(Scene)
 		}
 	}
 
-	DO_SERIALIZE_LIST_IF("objects", *mGameObjects, [](GameObject* gameObject)
+	DO_SERIALIZE_LIST_IF("objects", mGameObjects, [](GameObject* gameObject)
 	{
 		return gameObject->getShouldPersist();
 	})
@@ -160,17 +141,20 @@ DESERIALIZE(Scene)
 {
 	DO_DESERIALIZE("size", mSize)
 
-	std::list<GameObject *> tmpList;
-	DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
+	if(json.contains("objects"))
 	{
-		GameObject *gameObject = (GameObject*) INSTANCE_BY_NAME(json["class"]);
-		gameObject->init();
-		return gameObject;
-	})
+		std::list<GameObject *> tmpList;
+		DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
+		{
+			GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);
+			gameObject->init();
+			return gameObject;
+		})
 
-	FOR_LIST(it, tmpList)
-	{
-		addGameObject(*it);
+		FOR_LIST(it, tmpList)
+		{
+			addGameObject(*it);
+		}
 	}
 }
 
@@ -182,7 +166,7 @@ void Scene::unloadScene()
 void Scene::addGameObject(GameObject *gameObject)
 {
 	gameObject->setScene(this);
-	mNewGameObjects->push_back(gameObject);
+	mNewGameObjects.push_back(gameObject);
 }
 
 void Scene::updateComponents(GameObject *gameObject)
@@ -228,7 +212,7 @@ void Scene::removeGameObject(GameObject *gameObject)
 {
 	if (!(gameObject->getIsDestroyed() || gameObject->getIsPendingToBeDestroyed()))
 	{
-		mGameObjects->remove(gameObject);
+		mGameObjects.remove(gameObject);
 
 		gameObject->destroy();
 		gameObject->finallyDestroy();
@@ -243,7 +227,7 @@ void Scene::step()
 	{
 		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
 		{
-			std::string className = "GameObject"; //mLoadSceneConfigMap->at("class").get<std::string>();
+			std::string className = "GameObject"; //mLoadSceneConfig->at("class").get<std::string>();
 
 			GameObject *gameObject = (GameObject*) INSTANCE_BY_NAME(className); //Memory::fromClassName<GameObject>(className));
 			gameObject->init();
@@ -255,11 +239,9 @@ void Scene::step()
 
 	if (thereAreNewGameObjects())
 	{
-		FOR_LIST(itGameObjects, *mNewGameObjects)
+		FOR_LIST(it, mNewGameObjects)
 		{
-			GameObject *gameObject = (*itGameObjects);
-
-			updateComponents(gameObject);
+			updateComponents(*it);
 		}
 
 		flushNewGameObjects();
@@ -268,15 +250,15 @@ void Scene::step()
 
 void Scene::flushNewGameObjects()
 {
-	FOR_LIST(itGameObjects, *mNewGameObjects)
+	FOR_LIST(it, mNewGameObjects)
 	{
-		mGameObjects->push_back(*itGameObjects);
+		mGameObjects.push_back(*it);
 	}
 
-	mNewGameObjects->clear();
+	mNewGameObjects.clear();
 }
 
 bool Scene::thereAreNewGameObjects() const
 {
-	return mNewGameObjects->size() > 0;
+	return mNewGameObjects.size() > 0;
 }

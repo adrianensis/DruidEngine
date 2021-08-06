@@ -37,14 +37,18 @@ public:
 
     virtual void serialize(JSON &json) const override
     {
+        Super::serialize(json);
+
         DO_SERIALIZE("left_top", mLeftTop)
         DO_SERIALIZE("size", mSize)
     }
 
 	virtual void deserialize(const JSON &json) override
     {
-        mLeftTop.deserialize(json["left_top"]);
-        mSize.deserialize(json["size"]);
+        Super::deserialize(json);
+
+        DO_DESERIALIZE("left_top", mLeftTop);
+        DO_DESERIALIZE("size", mSize);
     }
 };
 

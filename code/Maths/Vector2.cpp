@@ -185,8 +185,8 @@ SERIALIZE(Vector2)
 	DO_SERIALIZE("y", y)
 }
 
-void Vector2::deserialize(const JSON &json)
+DESERIALIZE(Vector2)
 {
-	x = json["x"];
-	y = json["y"];
+	DO_DESERIALIZE("x", x);
+	DO_DESERIALIZE("y", y);
 }

@@ -3,23 +3,22 @@
 #include "Core/ObjectBase.hpp"
 #include "File/File.hpp"
 #include "Core/Serialization.hpp"
+#include "Config/ConfigObject.hpp"
 
 #include <list>
 
 class GameObject;
-class ConfigObject;
 
 CLASS(Scene, ObjectBase)
 {
-private:
-	PRI(GameObjects, GET, std::list<GameObject *> *);
-	PRI(NewGameObjects, GET, std::list<GameObject *> *);
+	PRI(GameObjects, GET, std::list<GameObject *>);
+	PRI(NewGameObjects, GET, std::list<GameObject *>);
 	PRI(CameraGameObject, GET_SET, GameObject *)
 
 	PRI(Size, GET, f32)
 	PRI(Path, GET, std::string)
 
-	PRI(LoadSceneConfigMap, NONE, ConfigObject *)
+	PRI(LoadSceneConfig, NONE, ConfigObject)
 
 private:
 	void destroyGameObjects();

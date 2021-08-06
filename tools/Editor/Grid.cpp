@@ -10,12 +10,10 @@ void Grid::init(EditorController* editorController)
     mGridSize.set(20, 20);
     mTileSize.set(50, 50);
 
-    mCellsGrid.reserve(mGridSize.x);
     mCellsGrid.resize(mGridSize.x);
 
     FOR_ARRAY(i, mCellsGrid)
     {
-        mCellsGrid[i].reserve(mGridSize.y);
         mCellsGrid[i].resize(mGridSize.y);
     }
 }
