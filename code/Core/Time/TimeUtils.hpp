@@ -30,17 +30,16 @@ public:
 	}
 };
 
-CLASS(Time, ObjectBase), SINGLETON(Time){
+CLASS(Time, ObjectBase), SINGLETON(Time)
+{	
 	PRI(InternalTimeMark, NONE, TimeMark)
 
-		public :
+public :
 
-			void init(){mInternalTimeMark.init();
-}
-void startFrame() { mInternalTimeMark.start(); }
-void endFrame() { mInternalTimeMark.end(); }
-f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis(); }
-f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
-f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
-}
-;
+	void init(){mInternalTimeMark.init();}
+	void startFrame() { mInternalTimeMark.start(); }
+	void endFrame() { mInternalTimeMark.end(); }
+	f32 getElapsedTimeMillis() { return mInternalTimeMark.getElapsedTimeMillis(); }
+	f32 getDeltaTimeMillis() { return mInternalTimeMark.getDeltaTimeMillis(); }
+	f32 getDeltaTimeSeconds() { return mInternalTimeMark.getDeltaTimeSeconds(); }
+};

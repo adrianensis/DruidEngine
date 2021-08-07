@@ -42,9 +42,17 @@
 
 void EditorController::init()
 {
-	mGrid.init(this);
+	mGrids.resize(10); // TODO : engine max layers
+	
+	FOR_ARRAY(i, mGrids)
+    {
+        mGrids[i].init(this);
+    }
+
 	mBrush.init(this);
 	mAtlas.init(this);
+	mMenuBar.init(this);
+	mToolsBar.init(this);
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
@@ -52,11 +60,16 @@ void EditorController::init()
 	});
 }
 
-void EditorController::drawGrid() const
+Grid& EditorController::getGrid()
 {
-	Vector2 gridSize = mGrid.getGridSize();
+	return mGrids[mLayer];
+}
+
+void EditorController::drawGrid()
+{
+	Vector2 gridSize = getGrid().getGridSize();
 	Vector2 halfGridSize = gridSize / 2.0f;
-	Vector2 tileSize = mGrid.getTileSize();
+	Vector2 tileSize = getGrid().getTileSize();
 	Vector2 halfTileSize = tileSize / 2.0f;
 
 	FOR_RANGE(i, -halfGridSize.x - 1, halfGridSize.x)
@@ -132,7 +145,7 @@ void EditorController::loadScene()
 	FOR_LIST(it, tmpList)
 	{
 		GameObject* gameObject = (*it);
-		mGrid.setCell(mGrid.calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
+		getGrid().setCell(getGrid().calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
 			gameObject
 		);
 	}

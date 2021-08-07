@@ -30,7 +30,7 @@ public:
 	COPY(FunctorUIElement)
 	{
 		DO_COPY(UIElement)
-		Functor<UIElementCallback>::operator=(*other);
+		Functor<UIElementCallback>::copy(other);
 	}
 };
 
@@ -68,14 +68,14 @@ public:
 
 	bool isMouseCursorInsideElement();
 
-	void onChar(char character);
+	virtual void onChar(char character);
 
 	virtual void setText(const std::string &text) { };
 
-	void onPressed();
-	void onReleased();
+	virtual void onPressed();
+	virtual void onReleased();
 
-	void onMouseOver();
+	virtual void onMouseOver();
 
 	virtual void onScroll(f32 scroll);
 

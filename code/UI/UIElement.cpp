@@ -34,6 +34,7 @@ void UIElement::onDestroy()
 	UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
+	UNSUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this);
 
 	if (hasFocus())
 	{
@@ -184,7 +185,7 @@ void UIElement::onPressed()
 			{
 				UIElement *lastFocusedElement = UI::getInstance()->getFocusedElement();
 
-				if (lastFocusedElement)
+				if (lastFocusedElement && lastFocusedElement->isActive())
 				{
 					lastFocusedElement->onFocusLost();
 				}
@@ -220,8 +221,6 @@ void UIElement::onReleased()
 
 				mOnReleasedFunctor.execute();
 
-				onFocusLost();
-
 				if (getConsumeInput())
 				{
 					Input::getInstance()->clearMouseButton();
@@ -235,6 +234,8 @@ void UIElement::onReleased()
 				{
 					mRenderer->setColor(mConfig.mStyle->mColor);
 				}
+
+				onFocusLost();
 			}
 		}
 	}

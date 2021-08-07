@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Maths/Vector3.hpp"
+#include "Core/ObjectBase.hpp"
 #include <vector>
 
 class Shader;
+class Vector3;
+class Vector4;
 
 CLASS(LineRenderer, ObjectBase)
 {

@@ -4,8 +4,18 @@
 
 #include <list>
 
+class UIDropdown;
+
+CLASS(UIDropdownButton, UIButton)
+{
+	PRI(ParentDropdown, GET_SET, UIDropdown *)
+public:
+	virtual void onReleased() override;
+};
+
 CLASS(UIDropdown, UIButton)
 {
+friend UIDropdownButton;
 
 private:
 	CLASS_NESTED(UIDropdownEntry, ObjectBase)
@@ -23,7 +33,7 @@ private:
 		}
 	};
 
-	std::list<UIButton *> mButtons;
+	std::list<UIDropdownButton *> mButtons;
 	std::list<UIDropdownEntry> mEntries;
 
 	void setEntriesVisibility(bool visible);
@@ -31,6 +41,8 @@ private:
 public:
 	virtual void init() override;
 	virtual void onDestroy() override;
+
+	virtual void onReleased() override;
 
 	UIDropdown& addOption(const std::string & label, UIElementCallback onPressedCallback);
 

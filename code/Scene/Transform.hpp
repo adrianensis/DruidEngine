@@ -39,6 +39,7 @@ public:
 	static const Vector3 smForward;
 
 	Transform();
+	~Transform();
 
 	void init() override;
 

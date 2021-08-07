@@ -210,7 +210,7 @@ void Scene::updateComponents(GameObject *gameObject)
 
 void Scene::removeGameObject(GameObject *gameObject)
 {
-	if (!(gameObject->getIsDestroyed() || gameObject->getIsPendingToBeDestroyed()))
+	if (!gameObject->getIsDestroyed() && !gameObject->getIsPendingToBeDestroyed())
 	{
 		mGameObjects.remove(gameObject);
 

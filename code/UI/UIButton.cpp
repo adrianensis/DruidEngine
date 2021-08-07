@@ -10,7 +10,7 @@
 
 void UIButton::init()
 {
-	UIElement::init();
+	Super::init();
 
 	subscribeToMouseEvents();
 }
@@ -20,9 +20,10 @@ void UIButton::onDestroy()
 	if (mText)
 	{
 		getScene()->removeGameObject(mText);
+		mText = nullptr;
 	}
 
-	UIElement::onDestroy();
+	Super::onDestroy();
 }
 
 void UIButton::onLabelDestroy()
@@ -34,7 +35,6 @@ void UIButton::setText(const std::string &text)
 {
 	if (text.length() > 0)
 	{
-		f32 fontOffset = UI::getInstance()->getDefaultFontSize().x;
 		Vector3 buttonScale = getTransform()->getScale();
 
 		if (!mText)
@@ -50,10 +50,10 @@ void UIButton::setText(const std::string &text)
 
 			UI::getInstance()->getUIBuilder().restoreData();
 
-			SUBSCRIBE_TO_EVENT(EventOnDestroy, mText, this, [&](const Event *event)
+			/*SUBSCRIBE_TO_EVENT(EventOnDestroy, mText, this, [&](const Event *event)
 			{
 				onLabelDestroy();
-			});
+			});*/
 		}
 
 		mText->setText(text);
@@ -62,7 +62,7 @@ void UIButton::setText(const std::string &text)
 
 void UIButton::setVisibility(bool visibility)
 {
-	UIElement::setVisibility(visibility);
+	Super::setVisibility(visibility);
 
 	if (mText)
 	{

@@ -42,7 +42,7 @@ public:
 	// NOTE : Override in children!
 	COPY(EventFunctor)
 	{
-		Functor<EventCallback>::operator=(*other);
+		Functor<EventCallback>::copy(other);
 		DO_COPY(Event)
 		DO_COPY(EventClassId)
 		DO_COPY(EventReceiver)

@@ -30,7 +30,7 @@ public:
 	// NOTE : Override in children!
 	COPY(CommandFunctor)
 	{
-		Functor<CommandCallback>::operator=(*other);
+		Functor<CommandCallback>::copy(other);
         DO_COPY(Command)
 	}
 

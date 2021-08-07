@@ -40,45 +40,6 @@ void Editor::init()
 void Editor::firstStep()
 {
 	mEditorController.init();
-
-	UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::HORIZONTAL).
-	setPosition(Vector2(-1,1)).
-	setLayer(0).
-	setSize(Vector2(0.5f, 0.05f));
-
-	UI::getInstance()->getUIBuilder().
-	setAdjustSizeToText(true).
-	setText("File").
-	setTextSize(Vector2(0.025f, 0.05f)).
-	create<UIDropdown>().
-	getUIElement<UIDropdown>()->
-	addOption("New", [](UIElement *uiElement)
-	{
-
-	}).
-	addOption("Open", [&](UIElement *uiElement)
-	{
-		mEditorController.loadScene();
-	}).
-	addOption("Save", [&](UIElement *uiElement)
-	{
-		mEditorController.saveScene();
-	});
-
-	UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::VERTICAL).
-	setPosition(Vector2(-1,0.8)).
-	setLayer(0).
-	setSize(Vector2(0.5f, 0.05f));
-
-	UI::getInstance()->getUIBuilder().
-	setText("Atlas").
-	create<UIButton>().
-	getUIElement<UIButton>()->
-	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController.getAtlas().toggle();
-	});
 }
 
 void Editor::step()

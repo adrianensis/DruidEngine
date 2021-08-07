@@ -181,9 +181,12 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 				toRemove = true;
 			}
 		}
-		else if (renderer->getIsPendingToBeDestroyed())
+		else
 		{
-			toRemove = true;
+			if (renderer->getIsPendingToBeDestroyed())
+			{
+				toRemove = true;
+			}
 		}
 
 		if (toRemove)

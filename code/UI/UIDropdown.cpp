@@ -13,19 +13,34 @@ UIDropdown::UIDropdownEntry::UIDropdownEntry(const std::string& label, UIElement
 	mCallback = callback;
 }
 
+void UIDropdownButton::onReleased()
+{
+	Super::onReleased();
+
+	if (isMouseCursorInsideElement())
+	{
+		mParentDropdown->setEntriesVisibility(false);
+	}
+}
+
 void UIDropdown::init()
 {
-	UIButton::init();
-
-	setOnFocusLostCallback([this](UIElement *uiElement)
-	{ 
-		//setEntriesVisibility(false); 
-	});
+	Super::init();
 }
 
 void UIDropdown::onDestroy()
 {
-	UIButton::onDestroy();
+	Super::onDestroy();
+}
+
+void UIDropdown::onReleased()
+{
+	Super::onReleased();
+
+	if (isMouseCursorInsideElement())
+	{
+		toggle();
+	}
 }
 
 UIDropdown &UIDropdown::addOption(const std::string &label, UIElementCallback onPressedCallback)
@@ -36,97 +51,65 @@ UIDropdown &UIDropdown::addOption(const std::string &label, UIElementCallback on
 
 void UIDropdown::toggle()
 {
-	// TODO : Temporary
-	if (mButtons.empty())
-	{
-		Vector3 scale = getTransform()->getScale();
-		scale.x = scale.x * RenderContext::getAspectRatio();
-		
-		UI::getInstance()->getUIBuilder().saveData().
-			setLayout(UILayout::VERTICAL).
-			//setSize(scale).
-			setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
-			setTextSize(mConfig.mTextSize).
-			setAdjustSizeToText(true).
-			setLayer(mConfig.mLayer);
-
-		FOR_LIST(it, mEntries)
-		{
-			std::string &label = (*it).mLabel;
-			UIElementCallback onPressedCallback = (*it).mCallback;
-
-			UI::getInstance()->getUIBuilder().
-			setText(label).
-			create<UIButton>();
-
-			UIButton *button = (UIButton *)UI::getInstance()->getUIBuilder().getUIElement();
-			button->setOnPressedCallback(onPressedCallback);
-			button->setVisibility(false);
-
-			Transform *t = button->getTransform();
-			t->setParent(getTransform());
-
-			mButtons.push_back(button);
-		}
-
-		UI::getInstance()->getUIBuilder().restoreData();
-
-		//setEntriesVisibility(false);
-	}
-
-	FOR_LIST(it, mButtons)
-	{
-		(*it)->setVisibility(!(*it)->isVisible());
-	}
-
 	// TODO : If I want to create-remove buttons, I have to implement TIMER NEXT FRAME!
-	//setEntriesVisibility(mButtons->isEmpty());
+	setEntriesVisibility(mButtons.empty() ? true : !mButtons.front()->isActive());
 }
 
 void UIDropdown::setEntriesVisibility(bool visible)
 {
-	/*if(visible){
-		FOR_LIST(it, mEntries) {
-
-			std::string& label = it.get().mLabel;
-			UIElementCallback onPressedCallback = it.get().mCallback;
-
+	if(visible)
+	{
+		if (mButtons.empty())
+		{
 			Vector3 scale = getTransform()->getScale();
 			scale.x = scale.x * RenderContext::getAspectRatio();
+			
+			UI::getInstance()->getUIBuilder().saveData().
+				setLayout(UILayout::VERTICAL).
+				//setSize(scale).
+				setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
+				setTextSize(mConfig.mTextSize).
+				setAdjustSizeToText(true).
+				setLayer(mConfig.mLayer);
 
-			UI::getInstance()->getBuilder()->saveData()->
-				setPosition(Vector2(-scale.x/2.0f,-scale.y * mButtons->getLength() - scale.y/2.0f))->
-				setSize(scale)->
-				setText(label)->
-				setAdjustSizeToText(true)->
-				setLayer(getRenderer()->getLayer() + 1)->
-				setIsAffectedByLayout(false)->
-				create<UIButton>();
+			FOR_LIST(it, mEntries)
+			{
+				std::string &label = (*it).mLabel;
+				UIElementCallback onPressedCallback = (*it).mCallback;
 
-			UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
-			button->setOnPressedCallback(onPressedCallback);
-			//button->setVisibility(false);
+				UI::getInstance()->getUIBuilder().
+				setText(label).
+				create<UIDropdownButton>();
 
-			Transform* t = button->getTransform();
-			t->setParent(getTransform());
+				UIDropdownButton *button = UI::getInstance()->getUIBuilder().getUIElement<UIDropdownButton>();
+				button->setOnPressedCallback(onPressedCallback);
 
-			UI::getInstance()->getBuilder()->restoreData();
+				Transform *t = button->getTransform();
+				t->setParent(getTransform());
 
-			mButtons->pushBack(button);
-		}
-	}
-	else {
-		if(!mButtons->isEmpty()){
-			FOR_LIST(it, mButtons){
-				getScene()->removeGameObject(it.get());
+				button->setParentDropdown(this);
+
+				mButtons.push_back(button);
 			}
 
-			mButtons->clear();
-		} 
-	}*/
-
-	FOR_LIST(it, mButtons)
+			UI::getInstance()->getUIBuilder().restoreData();
+		}
+		
+		FOR_LIST(it, mButtons)
+		{
+			(*it)->setVisibility(true);
+		}
+	}
+	else
 	{
-		(*it)->setVisibility(visible);
+		if(!mButtons.empty())
+		{
+			FOR_LIST(it, mButtons)
+			{
+				getScene()->removeGameObject(*it);
+			}
+
+			mButtons.clear();
+		}
 	}
 }

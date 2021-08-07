@@ -16,6 +16,11 @@ Transform::Transform()
 	mForceModelMatrixCalculation = false;
 }
 
+Transform::~Transform()
+{
+	mParent = nullptr;
+}
+
 void Transform::init()
 {
 	// TRACE();

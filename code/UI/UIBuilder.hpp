@@ -50,6 +50,7 @@ private:
 	UIButton* internalCreateButton();
 	/*UITextEditable* internalCreateTextEditable();*/
 	UIDropdown* internalCreateDropdown();
+	UIDropdownButton* internalCreateDropdownButton();
 	UIList* internalCreateList();
 
 public:

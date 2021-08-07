@@ -17,7 +17,7 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-	DELETE(mTransform);
+	//DELETE(mTransform);
 }
 
 void GameObject::addComponent(Component *component, ClassId classId)
@@ -120,6 +120,8 @@ void GameObject::destroy()
 	}
 
 	mComponentsMap.clear();
+
+	DELETE(mTransform);
 }
 
 SERIALIZE(GameObject)

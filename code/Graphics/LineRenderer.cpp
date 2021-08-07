@@ -4,6 +4,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Core/EngineConfig.hpp"
+#include "Maths/Vector3.hpp"
 
 LineRenderer::LineRenderer()
 {
