@@ -53,6 +53,7 @@ void EditorController::init()
 	mAtlas.init(this);
 	mMenuBar.init(this);
 	mToolsBar.init(this);
+	mInfoBar.init(this);
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
@@ -108,7 +109,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	tile->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setLayer(0);
+	renderer->setLayer(mLayer);
 
 	renderer->setMaterial(material);
 	renderer->setRegion(region);
@@ -145,7 +146,10 @@ void EditorController::loadScene()
 	FOR_LIST(it, tmpList)
 	{
 		GameObject* gameObject = (*it);
-		getGrid().setCell(getGrid().calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
+
+		Renderer *renderer = gameObject->getFirstComponent<Renderer>();
+
+		mGrids[renderer->getLayer()].setCell(mGrids[renderer->getLayer()].calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
 			gameObject
 		);
 	}

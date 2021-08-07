@@ -85,6 +85,12 @@ Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)
 	return offset;
 }
 
+UIBuilder &UIBuilder::restoreMaterial()
+{
+	mConfig.mMaterial = MaterialManager::getInstance()->loadNoTextureMaterial();
+	return *this;
+}
+
 void UIBuilder::calculateConfig()
 {
 	if (mConfig.mAdjustSizeToText)
@@ -157,7 +163,7 @@ UIPanel *UIBuilder::internalCreatePanel()
 
 	renderer->setMesh(Mesh::getRectangle());
 	//renderer->setMaterial(mButtonMaterial);
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
@@ -187,7 +193,7 @@ UIButton *UIBuilder::internalCreateButton()
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setLayer(mConfig.mLayer);
 	renderer->setColor(mConfig.mStyle->mColor);
 	//renderer->setHasBorder(true);
@@ -228,7 +234,7 @@ UIDropdownButton *UIBuilder::internalCreateDropdownButton()
 	uiButton->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setLayer(mConfig.mLayer);
 	renderer->setColor(mConfig.mStyle->mColor);
 	//renderer->setHasBorder(true);
@@ -369,7 +375,7 @@ UIDropdown* UIBuilder::internalCreateDropdown() {
 	uiDropdown->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
@@ -410,7 +416,7 @@ UIList* UIBuilder::internalCreateList()
 	uiList->addComponent<Renderer>(renderer);
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
+	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
@@ -430,6 +436,7 @@ UIBuilder &UIBuilder::create(ClassId classId)
 {
 	UIElement *newElement = nullptr;
 
+	mConfig.mUIElementClassId = classId;
 
 	if(classId == UIPanel::getClassIdStatic())
 	{

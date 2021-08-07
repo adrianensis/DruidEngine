@@ -20,8 +20,8 @@
 class Material;
 class Scene;
 
-#define UI_BUILDER_CONFIG_SETTER(ObjectBase, Name)   \
-	UIBuilder &set##Name(ObjectBase _##Name) \
+#define UI_BUILDER_CONFIG_SETTER(Name, ...)   \
+	UIBuilder &set##Name(__VA_ARGS__ _##Name) \
 	{                                              \
 		mConfig.m##Name = _##Name;                   \
 		return *this;                               \
@@ -73,17 +73,18 @@ public:
 		return *this;
 	}
 
-	UI_BUILDER_CONFIG_SETTER(bool, IsAffectedByLayout)
-	UI_BUILDER_CONFIG_SETTER(const Vector2 &, Position)
-	UI_BUILDER_CONFIG_SETTER(const Vector2 &, Size)
-	UI_BUILDER_CONFIG_SETTER(u32, Layer)
-	UI_BUILDER_CONFIG_SETTER(const std::string &, Text)
-	UI_BUILDER_CONFIG_SETTER(Vector2, TextSize)
-	UI_BUILDER_CONFIG_SETTER(bool, AdjustSizeToText)
-	UI_BUILDER_CONFIG_SETTER(std::string, Group)
-	UI_BUILDER_CONFIG_SETTER(f32, SeparatorSize)
-	UI_BUILDER_CONFIG_SETTER(GameObject*, Parent)
-	UI_BUILDER_CONFIG_SETTER(const UIStyle*, Style)
+	UI_BUILDER_CONFIG_SETTER(IsAffectedByLayout, bool)
+	UI_BUILDER_CONFIG_SETTER(Position, const Vector2 &)
+	UI_BUILDER_CONFIG_SETTER(Size, const Vector2 &)
+	UI_BUILDER_CONFIG_SETTER(Layer, u32)
+	UI_BUILDER_CONFIG_SETTER(Text, const std::string &)
+	UI_BUILDER_CONFIG_SETTER(TextSize, Vector2)
+	UI_BUILDER_CONFIG_SETTER(AdjustSizeToText, bool)
+	UI_BUILDER_CONFIG_SETTER(Group, std::string)
+	UI_BUILDER_CONFIG_SETTER(SeparatorSize, f32)
+	UI_BUILDER_CONFIG_SETTER(Parent, GameObject*)
+	UI_BUILDER_CONFIG_SETTER(Style, const UIStyle*)
+	UI_BUILDER_CONFIG_SETTER(Material, Material*)
 
 	UIBuilder &restoreSeparatorSize()
 	{
@@ -96,6 +97,8 @@ public:
 		mConfig.mStyle = &UIStyleManager::getInstance()->getDefaultStyle();
 		return *this;
 	}
+
+	UIBuilder &restoreMaterial();
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIElement, T>::value> >
 	UIBuilder &create()

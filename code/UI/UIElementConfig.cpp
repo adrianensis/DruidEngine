@@ -1,6 +1,7 @@
 #include "UI/UIElementConfig.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
+#include "Graphics/Material/MaterialManager.hpp"
 
 UIElementConfig::UIElementConfig()
 {
@@ -19,6 +20,7 @@ void UIElementConfig::init(const Vector2 &position, const Vector2 &size, u32 lay
 	mTextSize = UI::getDefaultFontSize(); // TODO : move to config?
 	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
+	mMaterial = MaterialManager::getInstance()->loadNoTextureMaterial();
 	mGroup = "";
 	mParent = nullptr;
 	mSeparatorSize = 0.01f;

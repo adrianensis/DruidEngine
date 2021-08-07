@@ -5,6 +5,7 @@
 #include "Grid.hpp"
 #include "Atlas.hpp"
 #include "MenuBar.hpp"
+#include "InfoBar.hpp"
 #include "ToolsBar.hpp"
 #include "EditorStyles.hpp"
 
@@ -23,10 +24,11 @@ CLASS(EditorController, ObjectBase)
 	PRI(Brush, GETREF, Brush)
 	PRI(Atlas, GETREF, Atlas)
 	PRI(MenuBar, GETREF, MenuBar)
+	PRI(InfoBar, GETREF, InfoBar)
 	PRI(ToolsBar, GETREF, ToolsBar)
 	PRI(SelectedTiles, GETREF, std::list<GameObject*>)
 
-	PRI(Layer, GET, u32)
+	PRI(Layer, GET_SET, u32)
 	PRI(Grids, NONE, std::vector<Grid>)
 
 public:

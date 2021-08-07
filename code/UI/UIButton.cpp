@@ -49,11 +49,6 @@ void UIButton::setText(const std::string &text)
 			getUIElement();
 
 			UI::getInstance()->getUIBuilder().restoreData();
-
-			/*SUBSCRIBE_TO_EVENT(EventOnDestroy, mText, this, [&](const Event *event)
-			{
-				onLabelDestroy();
-			});*/
 		}
 
 		mText->setText(text);

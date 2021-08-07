@@ -1,4 +1,5 @@
 #include "MenuBar.hpp"
+#include "InfoBar.hpp"
 
 #include "UI/UI.hpp"
 #include "UI/UIDropdown.hpp"
@@ -36,19 +37,20 @@ void MenuBar::init(EditorController* editorController)
 	});
 
 	UIDropdown* layerDropdown = UI::getInstance()->getUIBuilder().
-	setText("Layer 0").
+	setText("Layer").
 	create<UIDropdown>().
 	getUIElement<UIDropdown>();
 
 
 	FOR_RANGE(i, 0, 10)
 	{
-		std::string layerStr = std::to_string(i);
+		u32 layer = i;
+		std::string layerStr = "Layer " + std::to_string(layer);
 
-		layerDropdown->addOption(layerStr, [&, layerDropdown, layerStr](UIElement *uiElement)
+		layerDropdown->addOption(layerStr, [&, this, layer](UIElement *uiElement)
 		{
-			layerDropdown->setText(std::string("Layer ") + layerStr);
-			ECHO("AHHHHHHHH " + layerStr)
+			mEditorController->setLayer(layer);
+			mEditorController->getInfoBar().setLayer(mEditorController->getLayer());
 		});
 	}
 }

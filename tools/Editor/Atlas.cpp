@@ -81,7 +81,7 @@ void Atlas::createAtlas(Material* material)
 
 			tile->setOnPressedCallback([&](UIElement* uiElement)
 			{
-				//this->mEditorController->getBrush().onTileSelectedFromAtlas(uiElement);
+				this->mEditorController->getBrush().onTileSelectedFromAtlas(uiElement);
 			});
 		}
 
