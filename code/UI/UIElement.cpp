@@ -228,6 +228,7 @@ void UIElement::onReleased()
 
 						if(mCanToggle)
 						{
+							// Release other UIToggleButtons
 							const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
 							FOR_LIST(it, group.getUIElements())
 							{
@@ -248,7 +249,15 @@ void UIElement::onReleased()
 					}
 				}
 
-				release();
+				/*
+					NOTE:
+					UIToggleButtons cannot be released by user,
+					only by other UIToggleButtons.
+				*/
+				if(!mCanToggle)
+				{
+					release();
+				}
 			}
 		}
 	}

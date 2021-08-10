@@ -6,7 +6,7 @@
 
 class EditorController;
 
-CLASS(ToolsBar, ObjectBase)
+CLASS(LayersBar, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*);
 

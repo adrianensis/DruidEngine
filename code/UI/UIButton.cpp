@@ -43,6 +43,7 @@ void UIButton::setText(const std::string &text)
 			saveData().
 			setPosition(Vector2(0, 0)).
 			setText(text).
+			setLayer(mConfig.mLayer + 1).
 			setIsAffectedByLayout(false).
 			setParent(this).
 			create<UIText>().

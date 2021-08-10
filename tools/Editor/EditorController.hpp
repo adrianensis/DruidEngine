@@ -7,6 +7,7 @@
 #include "MenuBar.hpp"
 #include "InfoBar.hpp"
 #include "ToolsBar.hpp"
+#include "LayersBar.hpp"
 #include "EditorStyles.hpp"
 
 #include "Maths/Vector2.hpp"
@@ -26,6 +27,7 @@ CLASS(EditorController, ObjectBase)
 	PRI(MenuBar, GETREF, MenuBar)
 	PRI(InfoBar, GETREF, InfoBar)
 	PRI(ToolsBar, GETREF, ToolsBar)
+	PRI(LayersBar, GETREF, LayersBar)
 	PRI(SelectedTiles, GETREF, std::list<GameObject*>)
 
 	PRI(Layer, GET_SET, u32)

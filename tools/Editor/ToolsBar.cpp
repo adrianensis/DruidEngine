@@ -10,15 +10,6 @@
 
 #include "EditorController.hpp"
 
-void ToolsBar::addButton(const std::string &name, UIElementCallback callback) const
-{
-	UI::getInstance()->getUIBuilder().
-	setText(name).
-	create<UIButton>().
-	getUIElement<UIButton>()->
-	setOnPressedCallback(callback);
-}
-
 void ToolsBar::init(EditorController* editorController)
 {
     mEditorController = editorController;
@@ -30,10 +21,6 @@ void ToolsBar::init(EditorController* editorController)
 	setGroup("ToolsBar").
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.15f, 0.15f));
-
-	/*addButton("Atlas", [&](UIElement* uiElement){
-		mEditorController->getAtlas().toggle();
-	});*/
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).
