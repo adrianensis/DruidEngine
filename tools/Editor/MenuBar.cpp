@@ -53,4 +53,12 @@ void MenuBar::init(EditorController* editorController)
 			mEditorController->getInfoBar().setLayer(mEditorController->getLayer());
 		});
 	}
+
+	UI::getInstance()->getUIBuilder().
+	setText("Grid").
+	create<UIButton>().
+	getUIElement<UIButton>()->
+	setOnPressedCallback([&, this](UIElement *uiElement){
+		mEditorController->setDrawGrid(!mEditorController->getDrawGrid());
+	});
 }

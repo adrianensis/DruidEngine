@@ -41,7 +41,6 @@ private:
 
 	Vector2 getMouseWorldPosition() const;
 	void onHold();
-	void onPressed();
 	void onMouseMoved();
 	void createSelector();
 	void setSelectorVisibility(bool visible);
@@ -55,4 +54,8 @@ public:
 
 	void init(EditorController* editorController);
 	void onTileSelectedFromAtlas(GameObject* tile);
+
+	void setModeSelect();
+	void setModePaint();
+	void setModeErase();
 };

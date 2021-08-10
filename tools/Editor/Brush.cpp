@@ -37,13 +37,7 @@ void Brush::init(EditorController* editorController)
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](const Event *event)
 	{
-		mMode = BrushMode::SELECT;
-		removeBrushPreview();
-	});
-
-    SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [&](const Event *event)
-	{
-		onPressed();
+		setModeSelect();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
@@ -59,81 +53,69 @@ void Brush::init(EditorController* editorController)
 
 void Brush::onHold()
 {
-	if(mEditorController->canUseBrush())
+	if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{
-		Vector2 worldPosition = getMouseWorldPosition();
-
-		if(mEditorController->getGrid().isInGrid(worldPosition))
+		if(mEditorController->canUseBrush())
 		{
-			Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
-						
-			switch (mMode)
-			{
-				case BrushMode::SELECT:
-				{
-					const UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
+			Vector2 worldPosition = getMouseWorldPosition();
 
-					if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
+			if(mEditorController->getGrid().isInGrid(worldPosition))
+			{
+				Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
+							
+				switch (mMode)
+				{
+					case BrushMode::SELECT:
 					{
-						mEditorController->forEachSelectedTile([&](GameObject* tile)
-						{	
+						const UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
+
+						if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
+						{
+							mEditorController->forEachSelectedTile([&](GameObject* tile)
+							{	
+								if(tile->isActive())
+								{
+									Renderer* renderer = tile->getFirstComponent<Renderer>();
+									renderer->setColor(style.mColor);
+								}
+							});
+
+							mEditorController->getSelectedTiles().clear();
+						}
+
+						if(mEditorController->getGrid().hasTile(gridPosition))
+						{
+							GameObject* tile = mEditorController->getGrid().getCell(gridPosition).mGameObject;
+							
 							if(tile->isActive())
 							{
 								Renderer* renderer = tile->getFirstComponent<Renderer>();
-								renderer->setColor(style.mColor);
+								renderer->setColor(style.mColorSelected);
+
+								mEditorController->getSelectedTiles().push_back(tile);
 							}
-						});
-
-						mEditorController->getSelectedTiles().clear();
-					}
-
-					if(mEditorController->getGrid().hasTile(gridPosition))
-					{
-						GameObject* tile = mEditorController->getGrid().getCell(gridPosition).mGameObject;
-						
-						if(tile->isActive())
-						{
-							Renderer* renderer = tile->getFirstComponent<Renderer>();
-							renderer->setColor(style.mColorSelected);
-
-							mEditorController->getSelectedTiles().push_back(tile);
 						}
-					}
 
-					break;
-				}
-				case BrushMode::PAINT:
-				{
-					switch (mPaintMode)
+						break;
+					}
+					case BrushMode::PAINT:
 					{
-						case BrushPaintMode::PAINT:
+						switch (mPaintMode)
 						{
-							paintTile(worldPosition, gridPosition);
-							break;
-						}
-						case BrushPaintMode::ERASE:
-						{
-							removeTile(gridPosition);
-							break;
+							case BrushPaintMode::PAINT:
+							{
+								paintTile(worldPosition, gridPosition);
+								break;
+							}
+							case BrushPaintMode::ERASE:
+							{
+								removeTile(gridPosition);
+								break;
+							}
 						}
 					}
 				}
 			}
-		}
-	}
-}
-
-void Brush::onPressed()
-{
-	if(mEditorController->canUseBrush())
-	{
-		if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
-		{
-			mPaintMode = BrushPaintMode::ERASE;
-		}
-		else
-		{
-			mPaintMode = BrushPaintMode::PAINT;
 		}
 	}
 }
@@ -188,13 +170,11 @@ void Brush::onMouseMoved()
 
 void Brush::onTileSelectedFromAtlas(GameObject* tile)
 {
-	mMode = BrushMode::PAINT;
-
 	Renderer* tileRenderer = tile->getFirstComponent<Renderer>();
 	mPaintData.mRegion = tileRenderer->getRegion();
 	mPaintData.mMaterial = tileRenderer->getMaterial();
 
-	createBrushPreview();
+	setModePaint();
 }
 
 void Brush::createSelector()
@@ -240,30 +220,33 @@ void Brush::createBrushPreview()
 		removeBrushPreview();
 	}
 
-	GameObject *brushPreview = NEW(GameObject);
-	brushPreview->init();
+	if(mPaintData.mMaterial)
+	{
+		GameObject *brushPreview = NEW(GameObject);
+		brushPreview->init();
 
-	brushPreview->getTransform()->setLocalPosition(Vector2(0,0));
-	brushPreview->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
+		brushPreview->getTransform()->setLocalPosition(Vector2(0,0));
+		brushPreview->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
 
-	Renderer *renderer = NEW(Renderer);
-	brushPreview->addComponent<Renderer>(renderer);
+		Renderer *renderer = NEW(Renderer);
+		brushPreview->addComponent<Renderer>(renderer);
 
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setLayer(0);
+		renderer->setMesh(Mesh::getRectangle());
+		renderer->setLayer(0);
 
-	renderer->setMaterial(mPaintData.mMaterial);
-	renderer->setRegion(mPaintData.mRegion);
+		renderer->setMaterial(mPaintData.mMaterial);
+		renderer->setRegion(mPaintData.mRegion);
 
-	const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
-	renderer->setColor(style.mColor);
+		renderer->setColor(style.mColor);
 
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
+		ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
 
-	mBrushPreview = brushPreview;
+		mBrushPreview = brushPreview;
 
-	setBrushPreviewVisibility(mEditorController->canUseBrush());
+		setBrushPreviewVisibility(mEditorController->canUseBrush());
+	}
 }
 
 void Brush::removeBrushPreview()
@@ -300,4 +283,23 @@ void Brush::removeTile(const Vector2 &gridPosition)
 		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
 		cell.mGameObject = nullptr;
 	}
+}
+
+void Brush::setModeSelect()
+{
+	mMode = BrushMode::SELECT;
+	removeBrushPreview();
+}
+
+void Brush::setModePaint()
+{
+	mMode = BrushMode::PAINT;
+	mPaintMode = BrushPaintMode::PAINT;
+	createBrushPreview();
+}
+
+void Brush::setModeErase()
+{
+	mMode = BrushMode::PAINT;
+	mPaintMode = BrushPaintMode::ERASE;
 }

@@ -30,6 +30,7 @@ CLASS(EditorController, ObjectBase)
 
 	PRI(Layer, GET_SET, u32)
 	PRI(Grids, NONE, std::vector<Grid>)
+	PRI(DrawGrid, GET_SET, bool)
 
 public:
 

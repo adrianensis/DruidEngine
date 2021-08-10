@@ -28,7 +28,7 @@ void ToolsBar::init(EditorController* editorController)
 	setPosition(Vector2(-1,0.8)).
 	setLayer(0).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
-	setSize(Vector2(0.1f, 0.1f));
+	setSize(Vector2(0.15f, 0.15f));
 
 	/*addButton("Atlas", [&](UIElement* uiElement){
 		mEditorController->getAtlas().toggle();
@@ -51,7 +51,7 @@ void ToolsBar::init(EditorController* editorController)
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getAtlas().toggle();
+		mEditorController->getBrush().setModeSelect();
 	});
 
 	UI::getInstance()->getUIBuilder().
@@ -64,7 +64,7 @@ void ToolsBar::init(EditorController* editorController)
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getAtlas().toggle();
+		mEditorController->getBrush().setModePaint();
 	});
 
 	UI::getInstance()->getUIBuilder().
@@ -74,7 +74,7 @@ void ToolsBar::init(EditorController* editorController)
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getAtlas().toggle();
+		mEditorController->getBrush().setModeErase();
 	});
 
 	UI::getInstance()->getUIBuilder().

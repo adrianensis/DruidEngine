@@ -59,6 +59,8 @@ void EditorController::init()
 	{
 		mAtlas.toggle();
 	});
+
+	mDrawGrid = true;
 }
 
 Grid& EditorController::getGrid()
@@ -68,29 +70,32 @@ Grid& EditorController::getGrid()
 
 void EditorController::drawGrid()
 {
-	Vector2 gridSize = getGrid().getGridSize();
-	Vector2 halfGridSize = gridSize / 2.0f;
-	Vector2 tileSize = getGrid().getTileSize();
-	Vector2 halfTileSize = tileSize / 2.0f;
-
-	FOR_RANGE(i, -halfGridSize.x - 1, halfGridSize.x)
+	if(mDrawGrid)
 	{
-		RenderEngine::getInstance()->drawLine(
-			Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0), 
-			Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0),
-			1,
-			true,
-			Vector4(1,1,1,0.25f));
-	}
+		Vector2 gridSize = getGrid().getGridSize();
+		Vector2 halfGridSize = gridSize / 2.0f;
+		Vector2 tileSize = getGrid().getTileSize();
+		Vector2 halfTileSize = tileSize / 2.0f;
 
-	FOR_RANGE(j, -halfGridSize.y, halfGridSize.y + 1)
-	{
-		RenderEngine::getInstance()->drawLine(
-			Vector3(j * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
-			Vector3(j * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
-			1,
-			true,
-			Vector4(1,1,1,0.25f));
+		FOR_RANGE(i, -halfGridSize.x - 1, halfGridSize.x)
+		{
+			RenderEngine::getInstance()->drawLine(
+				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0), 
+				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0),
+				1,
+				true,
+				Vector4(1,1,1,0.25f));
+		}
+
+		FOR_RANGE(j, -halfGridSize.y, halfGridSize.y + 1)
+		{
+			RenderEngine::getInstance()->drawLine(
+				Vector3(j * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
+				Vector3(j * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
+				1,
+				true,
+				Vector4(1,1,1,0.25f));
+		}
 	}
 }
 
