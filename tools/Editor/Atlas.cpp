@@ -98,7 +98,12 @@ void Atlas::toggle()
 {
 	mIsVisible = !mIsVisible;
 
+	setVisible(mIsVisible);
+}
+
+void Atlas::setVisible(bool visible)
+{
+	mIsVisible = visible;
 	UI::getInstance()->setGroupVisibility(mAtlasUIGroup, mIsVisible);
 	UI::getInstance()->setGroupVisibility(mAtlasSelectorUIGroup, mIsVisible);
-	//UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsVisible);
 }

@@ -28,7 +28,12 @@ Material *UI::getFontMaterial()
 	return mFontMaterial;
 };
 
-void UI::addToGroup(std::string &groupName, UIElement *uiElement)
+const UIGroup& UI::getGroup(const std::string & groupName) const
+{
+	return *(mGroups.at(groupName));
+}
+
+void UI::addToGroup(const std::string &groupName, UIElement *uiElement)
 {
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
@@ -42,7 +47,7 @@ void UI::addToGroup(std::string &groupName, UIElement *uiElement)
 	mGroups.at(groupName)->mUIElements.push_back(uiElement);
 }
 
-void UI::removeFromGroup(std::string &groupName, UIElement *uiElement)
+void UI::removeFromGroup(const std::string &groupName, UIElement *uiElement)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{
@@ -50,7 +55,7 @@ void UI::removeFromGroup(std::string &groupName, UIElement *uiElement)
 	}
 }
 
-void UI::removeElementsFromGroup(std::string &groupName)
+void UI::removeElementsFromGroup(const std::string &groupName)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{
@@ -67,7 +72,7 @@ void UI::removeElementsFromGroup(std::string &groupName)
 	}
 }
 
-void UI::setGroupVisibility(std::string &groupName, bool visibility)
+void UI::setGroupVisibility(const std::string &groupName, bool visibility)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{

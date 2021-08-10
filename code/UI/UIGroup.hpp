@@ -9,9 +9,9 @@ class UIElement;
 
 CLASS(UIGroup, ObjectBase)
 {
-	PUB(Name, NONE, std::string)
-	PUB(Visible, NONE, bool)
-	PUB(UIElements, NONE, std::list<UIElement *>);
+	PUB(Name, GETREF_CONST, std::string)
+	PUB(Visible, GET, bool)
+	PUB(UIElements, GETREF_CONST, std::list<UIElement *>);
 
 public:
 	void init();

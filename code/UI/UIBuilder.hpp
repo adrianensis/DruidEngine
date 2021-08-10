@@ -48,6 +48,7 @@ private:
 	UIPanel *internalCreatePanel();
 	UIText *internalCreateText();
 	UIButton* internalCreateButton();
+	UIToggleButton* internalCreateToggleButton();
 	/*UITextEditable* internalCreateTextEditable();*/
 	UIDropdown* internalCreateDropdown();
 	UIDropdownButton* internalCreateDropdownButton();

@@ -17,3 +17,9 @@ public:
 	virtual void setText(const std::string &text) override;
 	virtual void setVisibility(bool visibility) override;
 };
+
+CLASS(UIToggleButton, UIButton)
+{
+public:
+	virtual void init() override;
+};

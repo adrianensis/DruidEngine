@@ -14,6 +14,7 @@
 #include "Graphics/Camera/Camera.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
+#include "UI/UIGroup.hpp"
 
 void UIElement::init()
 {
@@ -177,8 +178,8 @@ void UIElement::onPressed()
 	{
 		if (isMouseCursorInsideElement())
 		{
-			mRenderer->setColor(mConfig.mStyle->mColorSelected);
-			
+			mRenderer->setColor(mConfig.mStyle->mColorPressed);
+
 			mPressed = true;
 
 			if (!hasFocus())
@@ -211,33 +212,77 @@ void UIElement::onReleased()
 			if (hasFocus())
 			{
 				bool cursorInside = isMouseCursorInsideElement();
-
-				if (cursorInside)
+				
+				if(mCanToggle && cursorInside)
 				{
-					mOnPressedFunctor.execute();
+					mToggled = !mToggled;
 				}
 
-				mPressed = false;
+				bool canExecutePress = !mCanToggle || (mCanToggle && mToggled);
 
-				mOnReleasedFunctor.execute();
-
-				if (getConsumeInput())
+				if(canExecutePress)
 				{
-					Input::getInstance()->clearMouseButton();
+					if (cursorInside)
+					{
+						mOnPressedFunctor.execute();
+
+						if(mCanToggle)
+						{
+							const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
+							FOR_LIST(it, group.getUIElements())
+							{
+								UIElement* other = *it;
+								if(other != this)
+								{
+									if(other->getCanToggle() &&
+									other->getToggled() &&
+									other->getReleaseOnSameGroupPressed() &&
+									!other->getConfig().mGroup.empty() &&
+									other->getConfig().mGroup == mConfig.mGroup)
+									{
+										other->release(true);
+									}
+								}
+							}
+						}
+					}
 				}
 
-				if(cursorInside)
-				{
-					mRenderer->setColor(mConfig.mStyle->mColorHovered);
-				}
-				else
-				{
-					mRenderer->setColor(mConfig.mStyle->mColor);
-				}
-
-				onFocusLost();
+				release();
 			}
 		}
+	}
+}
+
+void UIElement::release(bool forceRelease /*= false*/)
+{
+	bool cursorInside = isMouseCursorInsideElement();
+
+	bool canExecuteRelease = !mCanToggle || (mCanToggle && !mToggled) || forceRelease;
+
+	if(canExecuteRelease)
+	{
+		mPressed = false;
+
+		mToggled = false;
+
+		mOnReleasedFunctor.execute();
+
+		if (getConsumeInput())
+		{
+			Input::getInstance()->clearMouseButton();
+		}
+
+		if(cursorInside)
+		{
+			mRenderer->setColor(mConfig.mStyle->mColorHovered);
+		}
+		else
+		{
+			mRenderer->setColor(mConfig.mStyle->mColor);
+		}
+
+		onFocusLost();
 	}
 }
 

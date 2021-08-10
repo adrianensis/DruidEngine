@@ -10,7 +10,7 @@
 CLASS(UIStyle, ObjectBase)
 {
 	PUB(Color, NONE, Vector4);
-	PUB(ColorSelected, NONE, Vector4);
+	PUB(ColorPressed, NONE, Vector4);
 	PUB(ColorHovered, NONE, Vector4);
 
 public:
@@ -18,14 +18,14 @@ public:
 	UIStyle()
 	{
 		mColor = Vector4(0, 0, 0, 1);
-		mColorSelected = Vector4(0.3f, 0.3f, 0.3f, 1);
+		mColorPressed = Vector4(0.3f, 0.3f, 0.3f, 1);
 		mColorHovered = Vector4(0.7f, 0.7f, 0.7f, 1);
 	}
 
 	COPY(UIStyle)
 	{
 		DO_COPY(Color)
-		DO_COPY(ColorSelected)
+		DO_COPY(ColorPressed)
 		DO_COPY(ColorHovered)
 	}
 };

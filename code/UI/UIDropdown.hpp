@@ -45,6 +45,5 @@ public:
 	virtual void onReleased() override;
 
 	UIDropdown& addOption(const std::string & label, UIElementCallback onPressedCallback);
-
-	virtual void toggle() override;
+	void toggle();
 };

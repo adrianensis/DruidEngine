@@ -90,7 +90,7 @@ void Brush::onHold()
 							if(tile->isActive())
 							{
 								Renderer* renderer = tile->getFirstComponent<Renderer>();
-								renderer->setColor(style.mColorSelected);
+								renderer->setColor(style.mColorPressed);
 
 								mEditorController->getSelectedTiles().push_back(tile);
 							}
@@ -293,9 +293,12 @@ void Brush::setModeSelect()
 
 void Brush::setModePaint()
 {
-	mMode = BrushMode::PAINT;
-	mPaintMode = BrushPaintMode::PAINT;
-	createBrushPreview();
+	if(mPaintData.mMaterial)
+	{
+		mMode = BrushMode::PAINT;
+		mPaintMode = BrushPaintMode::PAINT;
+		createBrushPreview();
+	}
 }
 
 void Brush::setModeErase()

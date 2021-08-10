@@ -214,6 +214,47 @@ UIButton *UIBuilder::internalCreateButton()
 	return uiButton;
 }
 
+UIToggleButton *UIBuilder::internalCreateToggleButton()
+{
+	calculateConfig();
+
+	UIToggleButton *uiButton = NEW(UIToggleButton);
+	uiButton->init();
+	//uiButton->setIsStatic(true);
+
+	Vector3 size = mConfig.mSize;
+	size.z = 1;
+	size.x = size.x / RenderContext::getAspectRatio();
+
+	uiButton->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	uiButton->getTransform()->setScale(size);
+	uiButton->getTransform()->setAffectedByProjection(false);
+
+	Renderer *renderer = NEW(Renderer);
+	uiButton->addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(mConfig.mMaterial);
+	renderer->setLayer(mConfig.mLayer);
+	renderer->setColor(mConfig.mStyle->mColor);
+	//renderer->setHasBorder(true);
+
+	/*RigidBody* rigidBody = NEW(RigidBody);
+	uiButton->addComponent<RigidBody>(rigidBody);
+	rigidBody->setSimulate(false);
+
+	Collider* collider = NEW(Collider);
+	uiButton->addComponent<Collider>(collider);
+	collider->setSize(size.x, size.y);
+	collider->getBoundingBox();*/
+
+	uiButton->setComponentsCache();
+
+	uiButton->setText(mConfig.mText);
+
+	return uiButton;
+}
+
 UIDropdownButton *UIBuilder::internalCreateDropdownButton()
 {
 	calculateConfig();
@@ -445,6 +486,10 @@ UIBuilder &UIBuilder::create(ClassId classId)
 	else if(classId == UIButton::getClassIdStatic())
 	{
 		newElement = internalCreateButton();
+	}
+	if(classId == UIToggleButton::getClassIdStatic())
+	{
+		newElement = internalCreateToggleButton();
 	}
 	if(classId == UIDropdownButton::getClassIdStatic())
 	{

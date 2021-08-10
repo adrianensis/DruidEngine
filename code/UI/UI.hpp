@@ -41,10 +41,11 @@ public:
 
 	// groups
 
-	void addToGroup(std::string & groupName, UIElement * uiElement);
-	void removeFromGroup(std::string & groupName, UIElement * uiElement);
-	void removeElementsFromGroup(std::string & groupName);
-	void setGroupVisibility(std::string & groupName, bool visibility);
+	const UIGroup& getGroup(const std::string & groupName) const;
+	void addToGroup(const std::string & groupName, UIElement * uiElement);
+	void removeFromGroup(const std::string & groupName, UIElement * uiElement);
+	void removeElementsFromGroup(const std::string & groupName);
+	void setGroupVisibility(const std::string & groupName, bool visibility);
 
 	// focus
 

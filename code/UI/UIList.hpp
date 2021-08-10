@@ -34,6 +34,6 @@ public:
 
 	UIList& addOption(const std::string & label, UIElementCallback onPressedCallback);
 
-	virtual void toggle() override;
+	void toggle();
 	virtual void onScroll(f32 scroll) override;
 };

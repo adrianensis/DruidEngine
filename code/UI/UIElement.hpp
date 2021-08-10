@@ -50,8 +50,12 @@ CLASS(UIElement, GameObject)
 	//PRI(Collider, GET, Collider*)
 	PRO(InputString, GET, std::string)
 	PRO(ConsumeInput, GET_SET, bool)
-	PRI(Group, GET_SET, UIGroup *)
 	PRO(Pressed, GET, bool)
+	PRO(CanToggle, GET, bool)
+	PRO(ReleaseOnSameGroupPressed, GET, bool)
+	PRO(Toggled, GET, bool)
+
+	void release(bool forceRelease = false);
 
 public:
 	virtual void init() override;
@@ -110,6 +114,4 @@ public:
 
 	virtual void setVisibility(bool visibility);
 	bool isVisible();
-
-	virtual void toggle(){};
 };

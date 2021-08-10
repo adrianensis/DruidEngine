@@ -29,4 +29,5 @@ public:
 
 	void init(EditorController* editorController);
 	void toggle();
+	void setVisible(bool visible);
 };
