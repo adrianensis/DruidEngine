@@ -178,8 +178,6 @@ void UIElement::onFocus()
 
 void UIElement::onPressed()
 {
-	//Collider* collider = getCollider();
-
 	if (mRenderer->isActive())
 	{
 		if (isMouseCursorInsideElement())
@@ -218,13 +216,15 @@ void UIElement::onReleased()
 			if (hasFocus())
 			{
 				bool cursorInside = isMouseCursorInsideElement();
+
+				bool toggleRequest = false;
 				
 				if(mCanToggle && cursorInside)
 				{
-					mToggled = !mToggled;
+					toggleRequest = mToggled ? false : true;
 				}
 
-				bool canExecutePress = !mCanToggle || (mCanToggle && mToggled);
+				bool canExecutePress = !mCanToggle || (mCanToggle && toggleRequest);
 
 				if(canExecutePress)
 				{
@@ -260,10 +260,20 @@ void UIElement::onReleased()
 					UIToggleButtons cannot be released by user,
 					only by other UIToggleButtons.
 				*/
-				if(!mCanToggle)
+				if(!mCanToggle || (mCanToggle && mToggled && !mReleaseOnSameGroupPressed))
 				{
 					release();
 				}
+
+				if(mCanToggle && !toggleRequest && mReleaseOnSameGroupPressed)
+				{
+					mToggled = true;
+				}
+				else
+				{
+					mToggled = toggleRequest;
+				}
+				
 			}
 		}
 	}
@@ -273,7 +283,7 @@ void UIElement::release(bool forceRelease /*= false*/)
 {
 	bool cursorInside = isMouseCursorInsideElement();
 
-	bool canExecuteRelease = !mCanToggle || (mCanToggle && !mToggled) || forceRelease;
+	bool canExecuteRelease = !mCanToggle || (mCanToggle && mToggled) || forceRelease;
 
 	if(canExecuteRelease)
 	{

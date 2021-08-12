@@ -303,6 +303,10 @@ void Brush::setModePaint()
 
 void Brush::setModeErase()
 {
-	mMode = BrushMode::PAINT;
-	mPaintMode = BrushPaintMode::ERASE;
+	if(mPaintData.mMaterial)
+	{
+		mMode = BrushMode::PAINT;
+		mPaintMode = BrushPaintMode::ERASE;
+		createBrushPreview();
+	}
 }
