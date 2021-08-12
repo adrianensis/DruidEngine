@@ -10,6 +10,7 @@ CLASS(UIButton, UIElement)
 
 public:
 	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;
 
 	void onLabelDestroy();

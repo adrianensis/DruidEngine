@@ -15,6 +15,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
+#include "Core/ClassManager.hpp"
 
 UIBuilder::UIBuilder()
 {
@@ -23,27 +24,21 @@ UIBuilder::UIBuilder()
 	mMakeRelativeToLastConfig = false;
 	mCurrentUIElement = nullptr;
 
-	mConfig.init(Vector2(0, 0), Vector2(0, 0), 0);
+	mDefaultConfig.init(Vector2(0, 0), Vector2(0, 0), 0);
+	mConfig = mDefaultConfig;
 	//mSavedData.init(Vector2(0,0), Vector2(0,0), "", 0);
 }
 
 void UIBuilder::registerUIElement(UIElement *uiElement)
 {
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(uiElement);
+	mCurrentUIElement = uiElement;
+
+	ScenesManager::getInstance()->getCurrentScene()->addGameObject(mCurrentUIElement);
 
 	if (mConfig.mGroup.length() > 0)
 	{
-		UI::getInstance()->addToGroup(mConfig.mGroup, uiElement);
+		UI::getInstance()->addToGroup(mConfig.mGroup, mCurrentUIElement);
 	}
-}
-
-void UIBuilder::registerCurrentUIElement(UIElement *uiElement)
-{
-	uiElement->setConfig(mConfig);
-
-	registerUIElement(uiElement);
-
-	mCurrentUIElement = uiElement;
 
 	if (mConfig.mIsAffectedByLayout)
 	{
@@ -70,33 +65,26 @@ Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)
 
 	switch (layout)
 	{
-	case UILayout::HORIZONTAL:
-	{
-		offset = Vector2(mLastConfig.mSize.x / RenderContext::getAspectRatio() + mConfig.mSeparatorSize, 0);
-		break;
-	}
-	case UILayout::VERTICAL:
-	{
-		offset = Vector2(0, -(mLastConfig.mSize.y + mConfig.mSeparatorSize));
-		break;
-	}
+		case UILayout::HORIZONTAL:
+		{
+			offset = Vector2(mLastConfig.mSize.x / RenderContext::getAspectRatio() + mConfig.mSeparatorSize, 0);
+			break;
+		}
+		case UILayout::VERTICAL:
+		{
+			offset = Vector2(0, -(mLastConfig.mSize.y + mConfig.mSeparatorSize));
+			break;
+		}
 	}
 
 	return offset;
-}
-
-UIBuilder &UIBuilder::restoreMaterial()
-{
-	mConfig.mMaterial = MaterialManager::getInstance()->loadNoTextureMaterial();
-	return *this;
 }
 
 void UIBuilder::calculateConfig()
 {
 	if (mConfig.mAdjustSizeToText)
 	{
-		f32 offset = mConfig.mTextSize.x;
-		mConfig.mSize.x = (mConfig.mTextSize.x * mConfig.mText.length()) /*+ offset*/;
+		mConfig.mSize.x = (mConfig.mTextSize.x * mConfig.mText.length());
 		mConfig.mSize.y = mConfig.mTextSize.y;
 	}
 
@@ -146,377 +134,15 @@ UIBuilder &UIBuilder::restoreData()
 	return *this;
 }
 
-UIPanel *UIBuilder::internalCreatePanel()
+UIBuilder &UIBuilder::create(const std::string &className)
 {
+	UIElement* uiElement = INSTANCE_BY_NAME(className, UIElement);
+	mConfig.mUIElementClassId = uiElement->getClassId();
+
 	calculateConfig();
+	uiElement->initFromConfig(mConfig);
 
-	UIPanel *uiPanel = NEW(UIPanel);
-	uiPanel->init();
-	//uiPanel->setIsStatic(true);
-
-	uiPanel->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiPanel->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
-	uiPanel->getTransform()->setAffectedByProjection(false);
-
-	Renderer *renderer = NEW(Renderer);
-	uiPanel->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	//renderer->setMaterial(mButtonMaterial);
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setColor(mConfig.mStyle->mColor);
-	renderer->setLayer(mConfig.mLayer);
-	//renderer->setHasBorder(true);
-
-	uiPanel->setComponentsCache();
-
-	return uiPanel;
-}
-
-UIButton *UIBuilder::internalCreateButton()
-{
-	calculateConfig();
-
-	UIButton *uiButton = NEW(UIButton);
-	uiButton->init();
-	//uiButton->setIsStatic(true);
-
-	Vector3 size = mConfig.mSize;
-	size.z = 1;
-	size.x = size.x / RenderContext::getAspectRatio();
-
-	uiButton->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiButton->getTransform()->setScale(size);
-	uiButton->getTransform()->setAffectedByProjection(false);
-
-	Renderer *renderer = NEW(Renderer);
-	uiButton->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setLayer(mConfig.mLayer);
-	renderer->setColor(mConfig.mStyle->mColor);
-	//renderer->setHasBorder(true);
-
-	/*RigidBody* rigidBody = NEW(RigidBody);
-	uiButton->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = NEW(Collider);
-	uiButton->addComponent<Collider>(collider);
-	collider->setSize(size.x, size.y);
-	collider->getBoundingBox();*/
-
-	uiButton->setComponentsCache();
-
-	uiButton->setText(mConfig.mText);
-
-	return uiButton;
-}
-
-UIToggleButton *UIBuilder::internalCreateToggleButton()
-{
-	calculateConfig();
-
-	UIToggleButton *uiButton = NEW(UIToggleButton);
-	uiButton->init();
-	//uiButton->setIsStatic(true);
-
-	Vector3 size = mConfig.mSize;
-	size.z = 1;
-	size.x = size.x / RenderContext::getAspectRatio();
-
-	uiButton->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiButton->getTransform()->setScale(size);
-	uiButton->getTransform()->setAffectedByProjection(false);
-
-	Renderer *renderer = NEW(Renderer);
-	uiButton->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setLayer(mConfig.mLayer);
-	renderer->setColor(mConfig.mStyle->mColor);
-	//renderer->setHasBorder(true);
-
-	/*RigidBody* rigidBody = NEW(RigidBody);
-	uiButton->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = NEW(Collider);
-	uiButton->addComponent<Collider>(collider);
-	collider->setSize(size.x, size.y);
-	collider->getBoundingBox();*/
-
-	uiButton->setComponentsCache();
-
-	uiButton->setText(mConfig.mText);
-
-	return uiButton;
-}
-
-UIDropdownButton *UIBuilder::internalCreateDropdownButton()
-{
-	calculateConfig();
-
-	UIDropdownButton *uiButton = NEW(UIDropdownButton);
-	uiButton->init();
-	//uiButton->setIsStatic(true);
-
-	Vector3 size = mConfig.mSize;
-	size.z = 1;
-	size.x = size.x / RenderContext::getAspectRatio();
-
-	uiButton->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiButton->getTransform()->setScale(size);
-	uiButton->getTransform()->setAffectedByProjection(false);
-
-	Renderer *renderer = NEW(Renderer);
-	uiButton->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setLayer(mConfig.mLayer);
-	renderer->setColor(mConfig.mStyle->mColor);
-	//renderer->setHasBorder(true);
-
-	/*RigidBody* rigidBody = NEW(RigidBody);
-	uiButton->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = NEW(Collider);
-	uiButton->addComponent<Collider>(collider);
-	collider->setSize(size.x, size.y);
-	collider->getBoundingBox();*/
-
-	uiButton->setComponentsCache();
-
-	uiButton->setText(mConfig.mText);
-
-	return uiButton;
-}
-
-UIText *UIBuilder::internalCreateText()
-{
-	calculateConfig();
-
-	UIText *uiText = NEW(UIText);
-	uiText->init();
-	//uiText->setIsStatic(true);
-
-	Vector3 textSize = mConfig.mTextSize;
-	textSize.z = 1;
-	textSize.x = textSize.x / RenderContext::getAspectRatio();
-
-	uiText->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiText->getTransform()->setScale(Vector3(textSize.x, textSize.y, 1));
-	uiText->getTransform()->setAffectedByProjection(false);
-
-	if (mConfig.mParent)
-	{
-		uiText->getTransform()->setParent(mConfig.mParent->getTransform());
-		uiText->getTransform()->setLocalPosition(Vector2(-textSize.x * mConfig.mText.length() / 2.0f + textSize.x,0));
-	}
-
-	uiText->setSize(mConfig.mTextSize);
-	uiText->setLayer(mConfig.mLayer);
-	uiText->setText(mConfig.mText);
-
-	// RigidBody* rigidBody = NEW(RigidBody);
-	// uiText->addComponent<RigidBody>(rigidBody);
-	// rigidBody->setSimulate(false);
-
-	// Collider* collider = NEW(Collider);
-	// uiText->addComponent<Collider>(collider);
-	// collider->setSize(textSize.x, textSize.y);
-	// collider->getBoundingBox();
-
-	uiText->setComponentsCache();
-
-	return uiText;
-}
-
-/*UITextEditable* UIBuilder::internalCreateTextEditable() {
-	calculateConfig();
-
-	UITextEditable* uiText = NEW(UITextEditable);
-	uiText->init();
-	//uiText->setIsStatic(true);
-
-	Vector2 aspectRatioCorrectedPosition = Vector2((mConfig.mDisplayPosition.x / RenderContext::getAspectRatio()), mConfig.mDisplayPosition.y);
-
-	Vector3 size = mConfig.mSize;
-	size.z = 1;
-	size.x = size.x / RenderContext::getAspectRatio();
-
-	f32 halfSizeX = size.x/2.0f;
-
-	Vector3 textSize = mConfig.mTextSize;
-	textSize.z = 1;
-	textSize.x = textSize.x / RenderContext::getAspectRatio();
-
-	uiText->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiText->getTransform()->setScale(textSize);
-	uiText->getTransform()->setAffectedByProjection(false);
-
-	RigidBody* rigidBody = NEW(RigidBody);
-	uiText->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = NEW(Collider);
-	uiText->addComponent<Collider>(collider);
-	collider->setSize(size.x, size.y);
-	collider->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
-	collider->getBoundingBox();
-
-	uiText->setSize(mConfig.mTextSize);
-	uiText->setLayer(mConfig.mLayer);
-	uiText->setText(mConfig.mText);
-
-	uiText->setComponentsCache();
-
-	UIElement* uiPanel = NEW(UIButton);
-	uiPanel->init();
-	uiPanel->setIsStatic(true);
-
-	aspectRatioCorrectedPosition = Vector2((mConfig.mDisplayPosition.x / RenderContext::getAspectRatio()), mConfig.mDisplayPosition.y);
-
-	uiPanel->getTransform()->setLocalPosition(aspectRatioCorrectedPosition);
-	uiPanel->getTransform()->setScale(Vector3(size.x, size.y, 1));
-	uiPanel->getTransform()->setAffectedByProjection(false);
-
-	Renderer* renderer = NEW(Renderer);
-	uiPanel->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(MaterialManager::getInstance()->loadNoTextureMaterial());
-	renderer->setColor(mConfig.mBackgroundColor4);
-	renderer->setLayer(mConfig.mLayer);
-	renderer->setPositionOffset(Vector3(halfSizeX - (textSize.x),0,0));
-
-	uiPanel->setComponentsCache();
-
-	registerUIElement(uiPanel);
-		
-	return uiText;
-}*/
-
-UIDropdown* UIBuilder::internalCreateDropdown() {
-	calculateConfig();
-
-	UIDropdown* uiDropdown = NEW(UIDropdown);
-	uiDropdown->init();
-	//uiDropdown->setIsStatic(true);
-
-	uiDropdown->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiDropdown->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
-	uiDropdown->getTransform()->setAffectedByProjection(false);
-
-	Renderer* renderer = NEW(Renderer);
-	uiDropdown->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setColor(mConfig.mStyle->mColor);
-	renderer->setLayer(mConfig.mLayer);
-	//renderer->setHasBorder(true);
-
-	/*RigidBody* rigidBody = NEW(RigidBody);
-	uiDropdown->addComponent<RigidBody>(rigidBody);
-	rigidBody->setSimulate(false);
-
-	Collider* collider = NEW(Collider);
-	uiDropdown->addComponent<Collider>(collider);
-	collider->setSize(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y);
-	collider->getBoundingBox();*/
-
-	uiDropdown->setComponentsCache();
-
-	/*uiDropdown->setOnPressedCallback([self = uiDropdown](UIElement* uiElement) {
-		self->toggle();
-	});*/
-
-	uiDropdown->setText(mConfig.mText);
-
-	return uiDropdown;
-}
-
-UIList* UIBuilder::internalCreateList()
-{
-	calculateConfig();
-
-	UIList* uiList = NEW(UIList);
-	uiList->init();
-	//uiList->setIsStatic(true);
-
-	uiList->getTransform()->setLocalPosition(mConfig.mDisplayPosition);
-	uiList->getTransform()->setScale(Vector3(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y, 1));
-	uiList->getTransform()->setAffectedByProjection(false);
-
-	Renderer* renderer = NEW(Renderer);
-	uiList->addComponent<Renderer>(renderer);
-
-	renderer->setMesh(Mesh::getRectangle());
-	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setColor(mConfig.mStyle->mColor);
-	renderer->setLayer(mConfig.mLayer);
-	//renderer->setHasBorder(true);
-
-	uiList->setComponentsCache();
-
-	uiList->setOnPressedCallback([self = uiList](UIElement* uiElement) {
-		self->toggle();
-	});
-
-	//renderer->setClipRectangle(Rectangle(Vector2(mConfig.mPosition.x, mConfig.mPosition.y), Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y)));
-
-	return uiList;
-}
-
-UIBuilder &UIBuilder::create(ClassId classId)
-{
-	UIElement *newElement = nullptr;
-
-	mConfig.mUIElementClassId = classId;
-
-	if(classId == UIPanel::getClassIdStatic())
-	{
-		newElement = internalCreatePanel();
-	}
-	else if(classId == UIButton::getClassIdStatic())
-	{
-		newElement = internalCreateButton();
-	}
-	if(classId == UIToggleButton::getClassIdStatic())
-	{
-		newElement = internalCreateToggleButton();
-	}
-	if(classId == UIDropdownButton::getClassIdStatic())
-	{
-		newElement = internalCreateDropdownButton();
-	}
-	else if(classId == UIText::getClassIdStatic())
-	{
-		newElement = internalCreateText();
-	}
-	else /*case UIElementType::TEXTEDITABLE:
-			newElement = internalCreateTextEditable();
-			break;*/
-	if(classId == UIDropdown::getClassIdStatic())
-	{
-		newElement = internalCreateDropdown();
-	}
-	else if(classId == UIList::getClassIdStatic())
-	{
-		newElement = internalCreateList();
-	}
-
-	registerCurrentUIElement(newElement);
+	registerUIElement(uiElement);
 
 	return *this;
-}
-
-UIElement *UIBuilder::getUIElement()
-{
-	return mCurrentUIElement;
 }

@@ -10,12 +10,35 @@
 
 void UIText::init()
 {
-	UIElement::init();
+	Super::init();
+}
+
+void UIText::initFromConfig(const UIElementConfig& config)
+{
+	Super::initFromConfig(config);
+
+	Vector3 textSize = Vector3(UIUtils::correctAspectRatio_X(mConfig.mTextSize), 1);
+
+	getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	getTransform()->setScale(textSize);
+	getTransform()->setAffectedByProjection(false);
+
+	if (mConfig.mParent)
+	{
+		getTransform()->setParent(mConfig.mParent->getTransform());
+		getTransform()->setLocalPosition(Vector2(-textSize.x * mConfig.mText.length() / 2.0f + textSize.x,0));
+	}
+
+	setSize(mConfig.mTextSize);
+	setLayer(mConfig.mLayer);
+	setText(mConfig.mText);
+
+	setComponentsCache();
 }
 
 void UIText::onDestroy()
 {
-	UIElement::onDestroy();
+	Super::onDestroy();
 }
 
 void UIText::setText(const std::string &text)

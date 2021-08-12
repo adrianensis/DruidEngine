@@ -4,6 +4,7 @@
 #include "Core/Functor.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
+#include "UI/UIUtils.hpp"
 #include <string>
 
 class Renderer;
@@ -55,10 +56,12 @@ CLASS(UIElement, GameObject)
 	PRO(ReleaseOnSameGroupPressed, GET, bool)
 	PRO(Toggled, GET, bool)
 
+protected:
 	void release(bool forceRelease = false);
 
 public:
 	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config);
 	virtual void onDestroy();
 
 	void subscribeToKeyEvents();

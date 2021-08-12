@@ -15,6 +15,27 @@ void UIButton::init()
 	subscribeToMouseEvents();
 }
 
+void UIButton::initFromConfig(const UIElementConfig& config)
+{
+	Super::initFromConfig(config);
+
+	getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	getTransform()->setScale(Vector3(UIUtils::correctAspectRatio_X(mConfig.mSize), 1));
+	getTransform()->setAffectedByProjection(false);
+
+	Renderer *renderer = NEW(Renderer);
+	addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(mConfig.mMaterial);
+	renderer->setLayer(mConfig.mLayer);
+	renderer->setColor(mConfig.mStyle->mColor);
+
+	setComponentsCache();
+
+	setText(mConfig.mText);
+}
+
 void UIButton::onDestroy()
 {
 	if (mText)
@@ -39,7 +60,7 @@ void UIButton::setText(const std::string &text)
 
 		if (!mText)
 		{
-			mText = (UIText *)UI::getInstance()->getUIBuilder().
+			mText = UI::getInstance()->getUIBuilder().
 			saveData().
 			setPosition(Vector2(0, 0)).
 			setText(text).
@@ -47,7 +68,7 @@ void UIButton::setText(const std::string &text)
 			setIsAffectedByLayout(false).
 			setParent(this).
 			create<UIText>().
-			getUIElement();
+			getUIElement<UIText>();
 
 			UI::getInstance()->getUIBuilder().restoreData();
 		}

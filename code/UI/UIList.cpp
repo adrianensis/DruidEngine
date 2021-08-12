@@ -15,7 +15,7 @@ UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback cal
 
 void UIList::init()
 {
-	UIElement::init();
+	Super::init();
 
 	setOnFocusLostCallback([this](UIElement *uiElement)
 	{ 
@@ -25,9 +25,36 @@ void UIList::init()
 	subscribeToScrollEvents();
 }
 
+void UIList::initFromConfig(const UIElementConfig& config)
+{
+	Super::initFromConfig(config);
+
+	getTransform()->setLocalPosition(mConfig.mDisplayPosition);
+	getTransform()->setScale(Vector3(UIUtils::correctAspectRatio_X(mConfig.mSize), 1));
+	getTransform()->setAffectedByProjection(false);
+
+	Renderer* renderer = NEW(Renderer);
+	addComponent<Renderer>(renderer);
+
+	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMaterial(mConfig.mMaterial);
+	renderer->setColor(mConfig.mStyle->mColor);
+	renderer->setLayer(mConfig.mLayer);
+	//renderer->setHasBorder(true);
+
+	//renderer->setClipRectangle(Rectangle(Vector2(mConfig.mPosition.x, mConfig.mPosition.y), Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y)));
+	
+	setComponentsCache();
+
+	setOnPressedCallback([self = this](UIElement* uiElement) 
+	{
+		self->toggle();
+	});
+}
+
 void UIList::onDestroy()
 {
-	UIElement::onDestroy();
+	Super::onDestroy();
 }
 
 UIList &UIList::addOption(const std::string &label, UIElementCallback onPressedCallback)

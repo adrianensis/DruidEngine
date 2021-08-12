@@ -24,6 +24,12 @@ void UIElement::init()
 	mConsumeInput = true;
 }
 
+void UIElement::initFromConfig(const UIElementConfig& config)
+{
+	mConfig = config;
+	init();
+}
+
 void UIElement::onDestroy()
 {
 	GameObject::onDestroy();

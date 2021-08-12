@@ -30,6 +30,7 @@ private:
 
 public:
 	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;
 
 	UIList& addOption(const std::string & label, UIElementCallback onPressedCallback);
