@@ -44,7 +44,7 @@ void Editor::firstStep()
 
 void Editor::step()
 {
-	mEditorController.drawGrid();
+	mEditorController.update();
 }
 
 void Editor::terminate()

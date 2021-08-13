@@ -36,10 +36,14 @@ CLASS(EditorController, ObjectBase)
 	PRI(DrawGrid, GET_SET, bool)
 
 	PRI(Camera, GET, Camera*)
+	PRI(CameraSpeed, NONE, f32)
+	PRI(CameraDragStarted, NONE, bool)
+	PRI(CameraDragLastPosition, NONE, Vector3)
 
 public:
 
 	void init();
+	void update();
 	void drawGrid();
 	bool canUseBrush() const;
 
@@ -52,6 +56,8 @@ public:
 	void saveScene();
 	void loadScene();
 
-	void moveCamera();
+	void moveCameraKeys();
+	void moveCameraMouse();
+	void releaseCameraMouse();
 	void zoom();
 };

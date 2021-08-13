@@ -64,7 +64,7 @@ void EditorController::init()
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyHold, nullptr, this, [&](const Event *event)
 	{
-		moveCamera();
+		moveCameraKeys();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](const Event *event)
@@ -72,10 +72,36 @@ void EditorController::init()
 		zoom();
 	});
 
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
+	{
+		InputEventMouseButtonHold* e = (InputEventMouseButtonHold*) event;
+		if(e->mButton == GLFW_MOUSE_BUTTON_MIDDLE)
+		{
+			moveCameraMouse();
+		}
+	});
+
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [&](const Event *event)
+	{
+		InputEventMouseButtonReleased* e = (InputEventMouseButtonReleased*) event;
+		if(e->mButton == GLFW_MOUSE_BUTTON_MIDDLE)
+		{
+			releaseCameraMouse();
+		}
+	});
+
 	mDrawGrid = true;
 
 	mCamera = ScenesManager::getInstance()->getCurrentScene()->
 	getCameraGameObject()->getFirstComponent<Camera>();
+
+	mCameraSpeed = 1000;
+}
+
+void EditorController::update()
+{
+	drawGrid();
+	mInfoBar.setFPS(1.0f/Time::getInstance()->getDeltaTimeSeconds());
 }
 
 Grid& EditorController::getGrid()
@@ -175,11 +201,11 @@ void EditorController::loadScene()
 	}
 }
 
-void EditorController::moveCamera()
+void EditorController::moveCameraKeys()
 {
 	Transform* cameraTransform = mCamera->getGameObject()->getTransform();
 
-	f32 speed = 1000 * Time::getInstance()->getDeltaTimeSeconds();
+	f32 speed = mCameraSpeed * Time::getInstance()->getDeltaTimeSeconds();
 
 	if(Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT))
 	{
@@ -199,10 +225,42 @@ void EditorController::moveCamera()
 	}
 }
 
+void EditorController::moveCameraMouse()
+{
+	Vector2 mouse = Input::getInstance()->getMousePosition();
+	Vector2 worldPosition = mCamera->screenToWorld(mouse);
+
+	if(!mCameraDragStarted)
+	{
+		mCameraDragStarted = true;
+		mCameraDragLastPosition = worldPosition;
+	}
+
+	Transform* cameraTransform = mCamera->getGameObject()->getTransform();
+
+	Vector2 dirVector = worldPosition - mCameraDragLastPosition;
+
+	if(dirVector.len() > 0)
+	{
+		dirVector.nor();
+
+		f32 speed = mCameraSpeed * Time::getInstance()->getDeltaTimeSeconds();
+
+		cameraTransform->translate(dirVector * speed);
+	}
+
+	mCameraDragLastPosition = worldPosition;
+}
+
+void EditorController::releaseCameraMouse()
+{
+	mCameraDragStarted = false;
+	mCameraDragLastPosition.set(0,0,0);
+}
+
 void EditorController::zoom()
 {
 	f32 scroll = Input::getInstance()->getScroll();
-
 	f32 zoomDelta = 10.0f * Time::getInstance()->getDeltaTimeSeconds();
 
 	if(scroll > 0)

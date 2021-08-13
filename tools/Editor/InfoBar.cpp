@@ -16,7 +16,12 @@ void InfoBar::init(EditorController* editorController)
 	setLayer(0).
 	setAdjustSizeToText(false).
 	setTextSize(Vector2(0.025f, 0.05f)).
-	setSize(Vector2(0.5f, 0.05f));
+	setSize(Vector2(0.35f, 0.05f));
+
+	mFPS = UI::getInstance()->getUIBuilder().
+	setText("FPS 0").
+	create<UIText>().
+	getUIElement<UIText>();
 
 	mLayer = UI::getInstance()->getUIBuilder().
 	setText("Layer 0").
@@ -27,4 +32,9 @@ void InfoBar::init(EditorController* editorController)
 void InfoBar::setLayer(u32 layer)
 {
 	mLayer->setText("Layer " + std::to_string(layer));
+}
+
+void InfoBar::setFPS(f32 fps)
+{
+	mFPS->setText("FPS " + std::to_string(fps));
 }
