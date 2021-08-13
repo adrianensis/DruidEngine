@@ -17,6 +17,7 @@
 
 class Material;
 class GameObject;
+class Camera;
 
 using TileCallback = std::function<void(GameObject* tile)>;
 
@@ -34,6 +35,8 @@ CLASS(EditorController, ObjectBase)
 	PRI(Grids, NONE, std::vector<Grid>)
 	PRI(DrawGrid, GET_SET, bool)
 
+	PRI(Camera, GET, Camera*)
+
 public:
 
 	void init();
@@ -48,4 +51,7 @@ public:
 
 	void saveScene();
 	void loadScene();
+
+	void moveCamera();
+	void zoom();
 };

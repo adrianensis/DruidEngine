@@ -20,7 +20,9 @@ CLASS(Camera, Component)
 	PRI(Near, NONE, f32)
 	PRI(Far, NONE, f32)
 
+	PRI(Aspect, NONE, f32)
 	PRI(Fov, NONE, f32)
+	
 	PRI(IsOrtho, NONE, bool)
 
 	PRI(Frustum, GET, Frustum *)
@@ -31,6 +33,7 @@ public:
 	~Camera() override;
 
 	void init() override;
+	void recalculate();
 
 	const Matrix4 &getProjectionMatrix() const;
 	const Matrix4 &getViewTranslationMatrix();
@@ -45,6 +48,8 @@ public:
 	void calculateInverseMatrix(bool forceCalculate = false);
 
 	void setZoom(f32 zoom);
+	void zoomIn(f32 zoomDelta);
+	void zoomOut(f32 zoomDelta);
 	void resetZoom()
 	{
 		mZoom = 1;

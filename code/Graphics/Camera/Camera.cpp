@@ -30,6 +30,18 @@ void Camera::init()
 	mFrustum->init(this);
 };
 
+void Camera::recalculate()
+{
+	if (mIsOrtho)
+	{
+		setOrtho(mLeft, mRight, mBottom, mTop, mNear, mFar);
+	}
+	else
+	{
+		setPerspective(mNear, mFar, mAspect, mFov);
+	}
+}
+
 /**
  * Return the frustum.
  * @returns {Frustum} The frustum.
@@ -48,8 +60,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mNear = near;
 	mFar = far;
 
-	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio(), mRight * RenderContext::getAspectRatio(), mBottom,
-							mTop, mNear, mFar);
+	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio() * mZoom, mRight * RenderContext::getAspectRatio() * mZoom, mBottom * mZoom,
+							mTop * mZoom, mNear, mFar);
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
@@ -58,7 +70,13 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 {
 	mIsOrtho = false;
-	mProjectionMatrix.perspective(near, far, aspect, fov);
+
+	mNear = near;
+	mFar = far;
+	mAspect = aspect;
+	mFov = fov;
+	
+	mProjectionMatrix.perspective(mNear, mFar, mAspect, mFov);
 
 	calculateInverseMatrix(true);
 	mFrustum->build(true);
@@ -66,14 +84,7 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 
 void Camera::onResize()
 {
-	if(mIsOrtho)
-	{
-		setOrtho(mLeft, mRight, mBottom, mTop, mNear, mFar);
-	}
-	else
-	{
-		
-	}
+	recalculate();
 }
 
 const Matrix4 &Camera::getProjectionMatrix() const
@@ -134,13 +145,23 @@ void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/)
 void Camera::setZoom(f32 zoom)
 {
 	mZoom = zoom;
+	recalculate();
+}
 
-	if (mIsOrtho)
+void Camera::zoomIn(f32 zoomDelta)
+{
+	f32 newZoom = mZoom - zoomDelta;
+
+	if(newZoom < 0)
 	{
-		setOrtho(mLeft * mZoom, mRight * mZoom, mBottom * mZoom, mTop * mZoom, mNear, mFar);
+		newZoom = 0;
 	}
-	else
-	{
-		// setPerspective
-	}
+
+	setZoom(newZoom);
+}
+
+void Camera::zoomOut(f32 zoomDelta)
+{
+	f32 newZoom = mZoom + zoomDelta;
+	setZoom(newZoom);
 }

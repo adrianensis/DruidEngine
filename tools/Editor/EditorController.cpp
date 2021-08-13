@@ -8,6 +8,7 @@
 #include "Scene/Transform.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Renderer.hpp"
+#include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Material/Shader.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
@@ -61,7 +62,20 @@ void EditorController::init()
 		mAtlas.toggle();
 	});
 
+	SUBSCRIBE_TO_EVENT(InputEventKeyHold, nullptr, this, [&](const Event *event)
+	{
+		moveCamera();
+	});
+
+	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](const Event *event)
+	{
+		zoom();
+	});
+
 	mDrawGrid = true;
+
+	mCamera = ScenesManager::getInstance()->getCurrentScene()->
+	getCameraGameObject()->getFirstComponent<Camera>();
 }
 
 Grid& EditorController::getGrid()
@@ -158,5 +172,45 @@ void EditorController::loadScene()
 		mGrids[renderer->getLayer()].setCell(mGrids[renderer->getLayer()].calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
 			gameObject
 		);
+	}
+}
+
+void EditorController::moveCamera()
+{
+	Transform* cameraTransform = mCamera->getGameObject()->getTransform();
+
+	f32 speed = 1000 * Time::getInstance()->getDeltaTimeSeconds();
+
+	if(Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT))
+	{
+		cameraTransform->translate(Vector2(-speed,0));
+	}
+	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT))
+	{
+		cameraTransform->translate(Vector2(speed,0));
+	}
+	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP))
+	{
+		cameraTransform->translate(Vector2(0,speed));
+	}
+	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_DOWN))
+	{
+		cameraTransform->translate(Vector2(0,-speed));
+	}
+}
+
+void EditorController::zoom()
+{
+	f32 scroll = Input::getInstance()->getScroll();
+
+	f32 zoomDelta = 10.0f * Time::getInstance()->getDeltaTimeSeconds();
+
+	if(scroll > 0)
+	{
+		mCamera->zoomIn(zoomDelta);
+	}
+	else
+	{
+		mCamera->zoomOut(zoomDelta);
 	}
 }
