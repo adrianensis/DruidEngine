@@ -62,14 +62,19 @@ void EditorController::init()
 		mAtlas.toggle();
 	});
 
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](const Event *event)
+	{
+		handlePressedKeys();
+	});
+
 	SUBSCRIBE_TO_EVENT(InputEventKeyHold, nullptr, this, [&](const Event *event)
 	{
-		moveCameraKeys();
+		handleHoldKeys();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](const Event *event)
 	{
-		zoom();
+		zoom(Input::getInstance()->getScroll());
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
@@ -113,29 +118,31 @@ void EditorController::drawGrid()
 {
 	if(mDrawGrid)
 	{
+		Vector4 gridColor = Vector4(1,1,1,0.25f);
+
 		Vector2 gridSize = getGrid().getGridSize();
 		Vector2 halfGridSize = gridSize / 2.0f;
 		Vector2 tileSize = getGrid().getTileSize();
 		Vector2 halfTileSize = tileSize / 2.0f;
 
-		FOR_RANGE(i, -halfGridSize.x - 1, halfGridSize.x)
+		FOR_RANGE(i, -halfGridSize.x, halfGridSize.x + 1)
 		{
 			RenderEngine::getInstance()->drawLine(
-				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0), 
-				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, i * tileSize.y + halfTileSize.y ,0),
+				Vector3(i * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
+				Vector3(i * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
 				1,
 				true,
-				Vector4(1,1,1,0.25f));
+				gridColor);
 		}
 
-		FOR_RANGE(j, -halfGridSize.y, halfGridSize.y + 1)
+		FOR_RANGE(j, -halfGridSize.y - 1, halfGridSize.y)
 		{
 			RenderEngine::getInstance()->drawLine(
-				Vector3(j * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
-				Vector3(j * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
+				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0), 
+				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0),
 				1,
 				true,
-				Vector4(1,1,1,0.25f));
+				gridColor);
 		}
 	}
 }
@@ -258,9 +265,8 @@ void EditorController::releaseCameraMouse()
 	mCameraDragLastPosition.set(0,0,0);
 }
 
-void EditorController::zoom()
+void EditorController::zoom(f32 scroll)
 {
-	f32 scroll = Input::getInstance()->getScroll();
 	f32 zoomDelta = 10.0f * Time::getInstance()->getDeltaTimeSeconds();
 
 	if(scroll > 0)
@@ -270,5 +276,49 @@ void EditorController::zoom()
 	else
 	{
 		mCamera->zoomOut(zoomDelta);
+	}
+}
+
+void EditorController::handlePressedKeys()
+{
+	if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD))
+	{
+		if(Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+		{
+			mBrush.setBrushSize(mBrush.getBrushSize() + 1);
+			mInfoBar.setBrushSize(mBrush.getBrushSize());
+		}
+	}
+
+	if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT))
+	{
+		if(Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+		{
+			mBrush.setBrushSize(mBrush.getBrushSize() - 1);
+			mInfoBar.setBrushSize(mBrush.getBrushSize());
+		}
+	}
+}
+
+void EditorController::handleHoldKeys()
+{
+	moveCameraKeys();
+
+	if(!Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD) &&
+		!Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+	{
+		if(Input::getInstance()->isKeyPressed(GLFW_KEY_KP_ADD))
+		{
+			zoom(1);
+		}
+	}
+
+	if(!Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT) &&
+		!Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+	{
+		if(Input::getInstance()->isKeyPressed(GLFW_KEY_KP_SUBTRACT))
+		{
+			zoom(-1);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 {
     "scene" :
     {
-        "defaultSize" : 4000,
+        "defaultSize" : 6000,
         "quadTreeMinSize" : 500,
         "maxNewObjectsToSpawn" : 20,
         "sortByYCoordinate" : true,

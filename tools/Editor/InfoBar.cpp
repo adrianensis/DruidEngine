@@ -1,10 +1,11 @@
 #include "InfoBar.hpp"
 
 #include "UI/UI.hpp"
-#include "UI/UIDropdown.hpp"
-#include "UI/UIList.hpp"
 
 #include "EditorController.hpp"
+
+#define CREATE_INFO_FIELD(BaseName)\
+m##BaseName = createInfoField(#BaseName);
 
 void InfoBar::init(EditorController* editorController)
 {
@@ -16,25 +17,17 @@ void InfoBar::init(EditorController* editorController)
 	setLayer(0).
 	setAdjustSizeToText(false).
 	setTextSize(Vector2(0.025f, 0.05f)).
-	setSize(Vector2(0.35f, 0.05f));
+	setSize(Vector2(0.25f, 0.05f));
 
-	mFPS = UI::getInstance()->getUIBuilder().
-	setText("FPS 0").
-	create<UIText>().
-	getUIElement<UIText>();
-
-	mLayer = UI::getInstance()->getUIBuilder().
-	setText("Layer 0").
-	create<UIText>().
-	getUIElement<UIText>();
+	CREATE_INFO_FIELD(FPS)
+	CREATE_INFO_FIELD(Layer)
+	CREATE_INFO_FIELD(BrushSize)
 }
 
-void InfoBar::setLayer(u32 layer)
+UIText* InfoBar::createInfoField(const std::string &name)
 {
-	mLayer->setText("Layer " + std::to_string(layer));
-}
-
-void InfoBar::setFPS(f32 fps)
-{
-	mFPS->setText("FPS " + std::to_string(fps));
+	return UI::getInstance()->getUIBuilder().
+	setText(name).
+	create<UIText>().
+	getUIElement<UIText>();
 }

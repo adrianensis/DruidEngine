@@ -59,5 +59,7 @@ public:
 	void moveCameraKeys();
 	void moveCameraMouse();
 	void releaseCameraMouse();
-	void zoom();
+	void zoom(f32 scroll);
+	void handleHoldKeys();
+	void handlePressedKeys();
 };

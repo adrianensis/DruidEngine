@@ -7,7 +7,7 @@ void Grid::init(EditorController* editorController)
 {
     mEditorController = editorController;
     
-    mGridSize.set(50, 50);
+    mGridSize.set(50, 100);
     mTileSize.set(50, 50);
 
     mCellsGrid.resize(mGridSize.x);
