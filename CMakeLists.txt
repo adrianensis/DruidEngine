@@ -4,6 +4,50 @@
 
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
+# ----------------------------------------------------------------------------
+# FUNCTIONS
+# ----------------------------------------------------------------------------
+
+function(build_programs path prefix)
+  
+  message("BUILD PROGRAMS (${prefix}): " ${path})
+
+  # file(GLOB PROGRAM_PATHS ${path})
+
+  # foreach(PROGRAM_PATH ${PROGRAMPATHS})
+
+  #   file(GLOB_RECURSE PROGRAM_SOURCES "${PROGRAM_PATH}/*.cpp")
+
+  #   foreach(PROGRAM_PATH ${PROGRAM_SOURCES})
+
+  #     get_filename_component(PROGRAM_NAME ${PROGRAM_PATH} NAME_WE) # NAME_WE = name with extension
+
+  #     set(PROGRAM_FINAL_NAME "${prefix}_${PROGRAM_NAME}" )
+  #     add_executable( ${PROGRAM_FINAL_NAME} ${PROGRAM_SOURCES} )
+  #     target_link_libraries( ${PROGRAM_FINAL_NAME} ${DRUID})
+  #     install(TARGETS ${PROGRAM_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+  #   endforeach()
+
+  # endforeach()
+
+  file(GLOB PROGRAM_PATHS ${path})
+
+  foreach(PROGRAM_PATH ${PROGRAM_PATHS})
+
+    file(GLOB_RECURSE PROGRAM_SOURCES "${PROGRAM_PATH}/*.cpp" "${PROGRAM_PATH}/*.hpp")
+
+    include_directories("${PROGRAM_PATH}")
+
+    get_filename_component(PROGRAM_NAME ${PROGRAM_PATH} NAME_WE) # NAME_WE = name with extension
+
+    set(PROGRAM_FINAL_NAME "${prefix}_${PROGRAM_NAME}" )
+    add_executable( ${PROGRAM_FINAL_NAME} ${PROGRAM_SOURCES} )
+    target_link_libraries( ${PROGRAM_FINAL_NAME} ${DRUID})
+    install(TARGETS ${PROGRAM_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+
+  endforeach()
+endfunction()
+
 # project name
 set(DRUID druid)
 project(${DRUID})
@@ -164,52 +208,11 @@ target_link_libraries(${DRUID} libpng.so)
 # ----------------------------------------------------------------------------
 
 if(BUILD_UNIT_TESTS)
-
-# UNIT TESTS
-
-file(GLOB TEST_PATHS "test/unit/*")
-
-foreach(TEST_PATH ${TEST_PATHS})
-
-	file(GLOB_RECURSE TEST_SOURCES "${TEST_PATH}/*.cpp")
-
-	foreach(TEST_PATH ${TEST_SOURCES})
-
-	  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
-
-	  set(TEST_FINAL_NAME "test_unit_${TEST_NAME}" )
-	  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
-	  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
-	  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-	endforeach()
-
-endforeach()
-
+  build_programs("test/unit/*" "test_unit")
 endif(BUILD_UNIT_TESTS)
 
-# ----------------------------------------------------------------------------
-
 if(BUILD_INTEGRATION_TESTS)
-
-# INTEGRATION TESTS
-
-file(GLOB TEST_PATHS "test/integration/*")
-
-foreach(TEST_PATH ${TEST_PATHS})
-
-	file(GLOB_RECURSE TEST_SOURCES "${TEST_PATH}/*.cpp" "${TEST_PATH}/*.hpp")
-
-  include_directories("${TEST_PATH}")
-
-  get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE) # NAME_WE = name with extension
-
-  set(TEST_FINAL_NAME "test_integration_${TEST_NAME}" )
-  add_executable( ${TEST_FINAL_NAME} ${TEST_SOURCES} )
-  target_link_libraries( ${TEST_FINAL_NAME} ${DRUID})
-  install(TARGETS ${TEST_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-
-endforeach()
-
+  build_programs("test/integration/*" "test_integration")
 endif(BUILD_INTEGRATION_TESTS)
 
 # ----------------------------------------------------------------------------
@@ -217,22 +220,11 @@ endif(BUILD_INTEGRATION_TESTS)
 # ----------------------------------------------------------------------------
 
 if(BUILD_TOOLS)
-
-file(GLOB TOOL_PATHS "tools/*")
-
-foreach(TOOL_PATH ${TOOL_PATHS})
-
-  file(GLOB_RECURSE TOOL_SOURCES "${TOOL_PATH}/*.cpp" "${TOOL_PATH}/*.hpp")
-
-  include_directories("${TOOL_PATH}")
-
-  get_filename_component(TOOL_NAME ${TOOL_PATH} NAME_WE) # NAME_WE = name with extension
-
-  set(TOOL_FINAL_NAME "tool_${TOOL_NAME}" )
-  add_executable( ${TOOL_FINAL_NAME} ${TOOL_SOURCES} )
-  target_link_libraries( ${TOOL_FINAL_NAME} ${DRUID})
-  install(TARGETS ${TOOL_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-
-endforeach()
-
+  build_programs("tools/*" "tool")
 endif(BUILD_TOOLS)
+
+# ----------------------------------------------------------------------------
+# GAMES
+# ----------------------------------------------------------------------------
+
+build_programs("games/*" "games")

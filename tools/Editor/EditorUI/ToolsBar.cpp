@@ -8,7 +8,7 @@
 
 #include "Graphics/Material/MaterialManager.hpp"
 
-#include "EditorController.hpp"
+#include "../EditorController.hpp"
 
 void ToolsBar::init(EditorController* editorController)
 {

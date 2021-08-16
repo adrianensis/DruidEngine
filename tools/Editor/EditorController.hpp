@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Core/ObjectBase.hpp"
-#include "Brush.hpp"
-#include "Grid.hpp"
-#include "Atlas.hpp"
-#include "MenuBar.hpp"
-#include "InfoBar.hpp"
-#include "ToolsBar.hpp"
-#include "LayersBar.hpp"
-#include "EditorStyles.hpp"
+#include "EditorUI/Brush.hpp"
+#include "EditorUI/Grid.hpp"
+#include "EditorUI/Atlas.hpp"
+#include "EditorUI/MenuBar.hpp"
+#include "EditorUI/InfoBar.hpp"
+#include "EditorUI/ToolsBar.hpp"
+#include "EditorUI/LayersBar.hpp"
+#include "EditorUI/EditorStyles.hpp"
 
 #include "Maths/Vector2.hpp"
 #include "Maths/Geometry.hpp"

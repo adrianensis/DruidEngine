@@ -4,8 +4,9 @@
 		{
 			"type": "shell",
 			"label": "druid build debug",
-			"command": "./scripts/build.sh",
+			"command": "python",
 			"args": [
+				"./scripts/build.py",
 				"-x",
 				"-i",
 				"-l"
@@ -21,8 +22,9 @@
 		{
 			"type": "shell",
 			"label": "druid build release",
-			"command": "./scripts/build.sh",
+			"command": "python",
 			"args": [
+				"./scripts/build.py",
 				"-x",
 				"-i",
 				"-l",

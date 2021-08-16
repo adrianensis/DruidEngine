@@ -1,5 +1,6 @@
 #include "Test/Test.hpp"
 #include "Maths/Vector2.hpp"
+#include "Maths/MathUtils.hpp"
 #include <cmath>
 
 int main()

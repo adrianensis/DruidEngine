@@ -1,5 +1,5 @@
 #include "Atlas.hpp"
-#include "EditorController.hpp"
+#include "../EditorController.hpp"
 
 #include "Maths/Vector3.hpp"
 

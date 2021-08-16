@@ -19,9 +19,5 @@
     "scenes" :
     [
         
-    ],
-    "scenes2" :
-    [
-        "config/sceneTmp.conf"
     ]
 }

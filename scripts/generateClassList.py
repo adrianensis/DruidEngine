@@ -5,13 +5,11 @@ import filecmp
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 cwd = cwd + "/.."
-#print(cwd) 
-
 os.chdir(cwd)
+#print(cwd)
 
 # folders to find classes
-
-folders = ["code", "tools"]
+folders = ["code", "tools", "games"]
 
 class_list = []
 includes = []

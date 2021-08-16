@@ -1,5 +1,5 @@
 #include "Brush.hpp"
-#include "EditorController.hpp"
+#include "../EditorController.hpp"
 
 #include "Input/Input.hpp"
 #include "Input/InputEvents.hpp"

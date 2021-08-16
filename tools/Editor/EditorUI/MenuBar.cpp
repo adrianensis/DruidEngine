@@ -5,7 +5,7 @@
 #include "UI/UIDropdown.hpp"
 #include "UI/UIList.hpp"
 
-#include "EditorController.hpp"
+#include "../EditorController.hpp"
 
 void MenuBar::init(EditorController* editorController)
 {
