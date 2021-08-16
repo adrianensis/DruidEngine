@@ -18,7 +18,7 @@
 
 void UIElement::init()
 {
-	GameObject::init();
+	Super::init();
 
 	mPressed = false;
 	mConsumeInput = true;
@@ -32,7 +32,7 @@ void UIElement::initFromConfig(const UIElementConfig& config)
 
 void UIElement::onDestroy()
 {
-	GameObject::onDestroy();
+	Super::onDestroy();
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this);
