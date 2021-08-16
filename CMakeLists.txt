@@ -12,24 +12,6 @@ function(build_programs path prefix)
   
   message("BUILD PROGRAMS (${prefix}): " ${path})
 
-  # file(GLOB PROGRAM_PATHS ${path})
-
-  # foreach(PROGRAM_PATH ${PROGRAMPATHS})
-
-  #   file(GLOB_RECURSE PROGRAM_SOURCES "${PROGRAM_PATH}/*.cpp")
-
-  #   foreach(PROGRAM_PATH ${PROGRAM_SOURCES})
-
-  #     get_filename_component(PROGRAM_NAME ${PROGRAM_PATH} NAME_WE) # NAME_WE = name with extension
-
-  #     set(PROGRAM_FINAL_NAME "${prefix}_${PROGRAM_NAME}" )
-  #     add_executable( ${PROGRAM_FINAL_NAME} ${PROGRAM_SOURCES} )
-  #     target_link_libraries( ${PROGRAM_FINAL_NAME} ${DRUID})
-  #     install(TARGETS ${PROGRAM_FINAL_NAME} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-  #   endforeach()
-
-  # endforeach()
-
   file(GLOB PROGRAM_PATHS ${path})
 
   foreach(PROGRAM_PATH ${PROGRAM_PATHS})

@@ -49,6 +49,9 @@ void ToolsBar::init(EditorController* editorController)
 	});
 
 	UI::getInstance()->getUIBuilder().
+	getUIElement<UIToggleButton>()->simulateClick();
+
+	UI::getInstance()->getUIBuilder().
 	nextRow();
 
 	UI::getInstance()->getUIBuilder().

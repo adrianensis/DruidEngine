@@ -180,30 +180,37 @@ void UIElement::onPressed()
 {
 	if (mRenderer->isActive())
 	{
-		if (isMouseCursorInsideElement())
+		bool cursorInside = isMouseCursorInsideElement();
+		
+		if (cursorInside)
 		{
-			mRenderer->setColor(mConfig.mStyle->mColorPressed);
-
-			mPressed = true;
-
-			if (!hasFocus())
-			{
-				UIElement *lastFocusedElement = UI::getInstance()->getFocusedElement();
-
-				if (lastFocusedElement && lastFocusedElement->isActive())
-				{
-					lastFocusedElement->onFocusLost();
-				}
-
-				UI::getInstance()->setFocusedElement(this);
-				onFocus();
-			}
-
-			if (getConsumeInput())
-			{
-				Input::getInstance()->clearMouseButton();
-			}
+			press();
 		}
+	}
+}
+
+void UIElement::press()
+{
+	mRenderer->setColor(mConfig.mStyle->mColorPressed);
+
+	mPressed = true;
+
+	if (!hasFocus())
+	{
+		UIElement *lastFocusedElement = UI::getInstance()->getFocusedElement();
+
+		if (lastFocusedElement && lastFocusedElement->isActive())
+		{
+			lastFocusedElement->onFocusLost();
+		}
+
+		UI::getInstance()->setFocusedElement(this);
+		onFocus();
+	}
+
+	if (getConsumeInput())
+	{
+		Input::getInstance()->clearMouseButton();
 	}
 }
 
@@ -215,75 +222,79 @@ void UIElement::onReleased()
 		{
 			if (hasFocus())
 			{
-				bool cursorInside = isMouseCursorInsideElement();
-
-				bool toggleRequest = false;
-				
-				if(mCanToggle && cursorInside)
-				{
-					toggleRequest = mToggled ? false : true;
-				}
-
-				bool canExecutePress = !mCanToggle || (mCanToggle && toggleRequest);
-
-				if(canExecutePress)
-				{
-					if (cursorInside)
-					{
-						mOnPressedFunctor.execute();
-
-						if(mCanToggle)
-						{
-							// Release other UIToggleButtons
-							const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
-							FOR_LIST(it, group.getUIElements())
-							{
-								UIElement* other = *it;
-								if(other != this)
-								{
-									if(other->getCanToggle() &&
-									other->getToggled() &&
-									other->getReleaseOnSameGroupPressed() &&
-									!other->getConfig().mGroup.empty() &&
-									other->getConfig().mGroup == mConfig.mGroup)
-									{
-										other->release(true);
-									}
-								}
-							}
-						}
-					}
-				}
-
-				/*
-					NOTE:
-					UIToggleButtons cannot be released by user,
-					only by other UIToggleButtons.
-				*/
-				if(!mCanToggle || (mCanToggle && mToggled && !mReleaseOnSameGroupPressed))
-				{
-					release();
-				}
-
-				if(mCanToggle && !toggleRequest && mReleaseOnSameGroupPressed)
-				{
-					mToggled = true;
-				}
-				else
-				{
-					mToggled = toggleRequest;
-				}
-				
+				executePressAndRelease();
 			}
 		}
 	}
 }
 
-void UIElement::release(bool forceRelease /*= false*/)
+void UIElement::executePressAndRelease(bool force /*= false*/)
+{
+	bool cursorInside = isMouseCursorInsideElement() || force;
+
+	bool toggleRequest = false;
+	
+	if(mCanToggle && cursorInside)
+	{
+		toggleRequest = mToggled ? false : true;
+	}
+
+	bool canExecutePress = !mCanToggle || (mCanToggle && toggleRequest);
+
+	if(canExecutePress)
+	{
+		if (cursorInside)
+		{
+			mOnPressedFunctor.execute();
+
+			if(mCanToggle)
+			{
+				// Release other UIToggleButtons
+				const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
+				FOR_LIST(it, group.getUIElements())
+				{
+					UIElement* other = *it;
+					if(other != this)
+					{
+						if(other->getCanToggle() &&
+						other->getToggled() &&
+						other->getReleaseOnSameGroupPressed() &&
+						!other->getConfig().mGroup.empty() &&
+						other->getConfig().mGroup == mConfig.mGroup)
+						{
+							other->release(true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/*
+		NOTE:
+		UIToggleButtons cannot be released by user,
+		only by other UIToggleButtons.
+	*/
+	if(!mCanToggle || (mCanToggle && mToggled && !mReleaseOnSameGroupPressed))
+	{
+		release(force);
+	}
+
+	if(mCanToggle && !toggleRequest && mReleaseOnSameGroupPressed)
+	{
+		mToggled = true;
+	}
+	else
+	{
+		mToggled = toggleRequest;
+	}
+}
+
+void UIElement::release(bool force /*= false*/)
 {
 	bool cursorInside = isMouseCursorInsideElement();
 
-	bool canExecuteRelease = !mCanToggle || (mCanToggle && mToggled) || forceRelease;
+	bool canExecuteRelease = !mCanToggle || (mCanToggle && mToggled) || force;
 
 	if(canExecuteRelease)
 	{
@@ -309,6 +320,12 @@ void UIElement::release(bool forceRelease /*= false*/)
 
 		onFocusLost();
 	}
+}
+
+void UIElement::simulateClick()
+{
+	press();
+	executePressAndRelease(true);
 }
 
 void UIElement::onMouseOver()

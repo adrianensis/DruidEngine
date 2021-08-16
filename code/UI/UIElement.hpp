@@ -56,8 +56,9 @@ CLASS(UIElement, GameObject)
 	PRO(ReleaseOnSameGroupPressed, GET, bool)
 	PRO(Toggled, GET, bool)
 
-protected:
-	void release(bool forceRelease = false);
+	void press();
+	void executePressAndRelease(bool force = false);
+	void release(bool force = false);
 
 public:
 	virtual void init() override;
@@ -81,6 +82,8 @@ public:
 
 	virtual void onPressed();
 	virtual void onReleased();
+
+	void simulateClick();
 
 	virtual void onMouseOver();
 

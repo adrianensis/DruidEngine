@@ -54,8 +54,8 @@ void EditorController::init()
 	mAtlas.init(this);
 	mMenuBar.init(this);
 	mToolsBar.init(this);
-	mLayersBar.init(this);
 	mInfoBar.init(this);
+	mLayersBar.init(this);
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{

@@ -39,6 +39,12 @@ void LayersBar::init(EditorController* editorController)
 			mEditorController->setLayer(layer);
 			mEditorController->getInfoBar().setLayer(mEditorController->getLayer());
 		});
+
+		if(i == 0)
+		{
+			UI::getInstance()->getUIBuilder().
+			getUIElement<UIToggleButton>()->simulateClick();
+		}
 	}
 
 	UI::getInstance()->getUIBuilder().
