@@ -20,23 +20,7 @@ void ToolsBar::init(EditorController* editorController)
 	setLayer(0).
 	setGroup("ToolsBar").
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
-	setSize(Vector2(0.15f, 0.15f));
-
-	UI::getInstance()->getUIBuilder().
-	setAdjustSizeToText(false).
-	setText("").
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Atlas.png")).
-	create<UIToggleButton>().
-	getUIElement<UIToggleButton>()->
-	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getAtlas().setVisible(true);
-	});
-
-	UI::getInstance()->getUIBuilder().
-	getUIElement<UIToggleButton>()->
-	setOnReleasedCallback([&](UIElement* uiElement){
-		mEditorController->getAtlas().setVisible(false);
-	});
+	setSize(Vector2(0.1f, 0.1f));
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).
@@ -52,9 +36,6 @@ void ToolsBar::init(EditorController* editorController)
 	getUIElement<UIToggleButton>()->simulateClick();
 
 	UI::getInstance()->getUIBuilder().
-	nextRow();
-
-	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).
 	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Pencil.png")).
@@ -63,6 +44,9 @@ void ToolsBar::init(EditorController* editorController)
 	setOnPressedCallback([&](UIElement* uiElement){
 		mEditorController->getBrush().setModePaint();
 	});
+
+	UI::getInstance()->getUIBuilder().
+	nextRow();
 
 	UI::getInstance()->getUIBuilder().
 	setAdjustSizeToText(false).

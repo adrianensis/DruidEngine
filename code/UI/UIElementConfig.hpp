@@ -15,8 +15,7 @@ class UIStyle;
 enum class UILayout
 {
 	HORIZONTAL,
-	VERTICAL,
-	MAX
+	VERTICAL
 };
 
 CLASS(UIElementConfig, ObjectBase)

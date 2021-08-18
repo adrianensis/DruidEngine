@@ -3,12 +3,13 @@
 #include "Core/ObjectBase.hpp"
 #include "EditorUI/Brush.hpp"
 #include "EditorUI/Grid.hpp"
-#include "EditorUI/Atlas.hpp"
 #include "EditorUI/MenuBar.hpp"
 #include "EditorUI/InfoBar.hpp"
 #include "EditorUI/ToolsBar.hpp"
 #include "EditorUI/LayersBar.hpp"
+#include "EditorUI/Sprites.hpp"
 #include "EditorUI/EditorStyles.hpp"
+#include "Config/ConfigObject.hpp"
 
 #include "Maths/Vector2.hpp"
 #include "Maths/Geometry.hpp"
@@ -23,12 +24,15 @@ using TileCallback = std::function<void(GameObject* tile)>;
 
 CLASS(EditorController, ObjectBase)
 {
+	PRI(EditorConfig, GETREF_CONST, ConfigObject)
+
 	PRI(Brush, GETREF, Brush)
-	PRI(Atlas, GETREF, Atlas)
 	PRI(MenuBar, GETREF, MenuBar)
 	PRI(InfoBar, GETREF, InfoBar)
 	PRI(ToolsBar, GETREF, ToolsBar)
 	PRI(LayersBar, GETREF, LayersBar)
+	PRI(Sprites, GETREF, Sprites)
+
 	PRI(SelectedTiles, GETREF, std::list<GameObject*>)
 
 	PRI(Layer, GET_SET, u32)

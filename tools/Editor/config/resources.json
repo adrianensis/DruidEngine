@@ -1,0 +1,10 @@
+{
+    "atlases" :
+    [
+        "resources/tiles.png",
+        "resources/tiles2.png",
+        "resources/mage.png",
+        "resources/mage2.png",
+        "resources/terrain.png"
+    ]
+}

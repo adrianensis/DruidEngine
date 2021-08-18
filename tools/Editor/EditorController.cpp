@@ -43,6 +43,8 @@
 
 void EditorController::init()
 {
+	mEditorConfig.readFromJsonFile("tools/Editor/config/resources.json");
+
 	mGrids.resize(10); // TODO : engine max layers
 	
 	FOR_ARRAY(i, mGrids)
@@ -51,15 +53,15 @@ void EditorController::init()
     }
 
 	mBrush.init(this);
-	mAtlas.init(this);
 	mMenuBar.init(this);
 	mToolsBar.init(this);
 	mInfoBar.init(this);
 	mLayersBar.init(this);
+	mSprites.init(this);
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
-		mAtlas.toggle();
+		mSprites.toggle();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](const Event *event)
@@ -174,7 +176,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 
 bool EditorController::canUseBrush() const
 {
-	return !mAtlas.getIsVisible();
+	return !mSprites.getIsVisible();
 }
 
 void EditorController::forEachSelectedTile(TileCallback tileCallback)

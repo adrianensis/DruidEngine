@@ -56,7 +56,7 @@ void UIBuilder::registerUIElement(UIElement *uiElement)
 
 UILayout UIBuilder::getOppositeLayout(UILayout layout)
 {
-	return (UILayout)(((int)mCurrentLayout + 1) % (int)UILayout::MAX);
+	return (UILayout)(((int)mCurrentLayout + 1) % 2);
 }
 
 Vector2 UIBuilder::calculateNextElementOffset(UILayout layout)

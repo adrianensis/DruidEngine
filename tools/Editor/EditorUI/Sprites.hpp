@@ -11,21 +11,21 @@ class Material;
 
 class EditorController;
 
-CLASS(Atlas, ObjectBase)
+CLASS(Sprites, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*)
-	PRI(AtlasSelectorUIGroup, NONE, std::string)
-	PRI(AtlasUIGroup, NONE, std::string)
+	PRI(SpritesSelectorUIGroup, NONE, std::string)
+	PRI(SpritesUIGroup, NONE, std::string)
 	PRI(IsVisible, GET, bool)
 
 private:
 
-	void createAtlas(Material* material);
+	void createSprites(Material* material);
+	void createSpritesSelectors();
 
 public:
 
-	Atlas();
-	virtual ~Atlas() override;
+	Sprites();
 
 	void init(EditorController* editorController);
 	void toggle();

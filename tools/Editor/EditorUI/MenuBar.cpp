@@ -36,29 +36,19 @@ void MenuBar::init(EditorController* editorController)
 		mEditorController->saveScene();
 	});
 
-	UIDropdown* layerDropdown = UI::getInstance()->getUIBuilder().
-	setText("Layer").
-	create<UIDropdown>().
-	getUIElement<UIDropdown>();
-
-
-	FOR_RANGE(i, 0, 10)
-	{
-		u32 layer = i;
-		std::string layerStr = "Layer " + std::to_string(layer);
-
-		layerDropdown->addOption(layerStr, [&, this, layer](UIElement *uiElement)
-		{
-			mEditorController->setLayer(layer);
-			mEditorController->getInfoBar().setLayer(mEditorController->getLayer());
-		});
-	}
-
 	UI::getInstance()->getUIBuilder().
 	setText("Grid").
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&, this](UIElement *uiElement){
 		mEditorController->setDrawGrid(!mEditorController->getDrawGrid());
+	});
+
+	UI::getInstance()->getUIBuilder().
+	setText("Sprites").
+	create<UIButton>().
+	getUIElement<UIButton>()->
+	setOnPressedCallback([&, this](UIElement *uiElement){
+		mEditorController->getSprites().toggle();
 	});
 }
