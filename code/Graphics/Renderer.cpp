@@ -7,8 +7,11 @@
 #include "Scene/Transform.hpp"
 #include "Config/ConfigObject.hpp"
 #include "Graphics/Material/Texture.hpp"
-#include "Graphics/Material/Material.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Graphics/Animation/Animation.hpp"
+#include "Graphics/Optimizations/Chunk.hpp"
 
 Renderer::Renderer()
 {

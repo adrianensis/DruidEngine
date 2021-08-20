@@ -4,6 +4,7 @@
 #include "Scene/Transform.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIStyle.hpp"
+#include "Graphics/Mesh.hpp"
 
 void UIPanel::initFromConfig(const UIElementConfig& config)
 {

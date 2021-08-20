@@ -7,6 +7,7 @@
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 #include "Events/EventsManager.hpp"
+#include "Graphics/Mesh.hpp"
 
 void UIButton::init()
 {

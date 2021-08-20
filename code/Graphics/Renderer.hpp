@@ -7,14 +7,15 @@
 #include "Maths/Geometry.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Maths/Matrix4.hpp"
-#include "Graphics/Material/Material.hpp"
-#include "Graphics/Mesh.hpp"
-#include "Graphics/Animation/Animation.hpp"
-#include "Graphics/Optimizations/Chunk.hpp"
 
 #include <vector>
 #include <array>
 #include <map>
+
+class Material;
+class Mesh;
+class Animation;
+class Chunk;
 
 CLASS(Renderer, Component)
 {

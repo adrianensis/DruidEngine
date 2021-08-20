@@ -155,7 +155,6 @@ void Brush::onMouseMoved()
 
 					u32 index = j + i*mBrushSize;
 					mBrushPreview[index]->getTransform()->setLocalPosition(singleTileClampedPosition);
-
 					const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
 					if(mEditorController->getGrid().isInGrid(singleTileClampedPosition))

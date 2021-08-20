@@ -199,13 +199,13 @@ if((Condition))\
 }
 
 #define DO_SERIALIZE_LIST_ELEMENT(Name, Var)\
-json[Name].push_back(SerializationUtils::serializeTemplated<decltype(Var)>(Var));\
+json[Name].push_back(SerializationUtils::serializeTemplated<decltype(Var)>(Var));
 
 #define DO_SERIALIZE_LIST(Name, Var)\
 FOR_LIST(__it, Var)\
 {\
 	DO_SERIALIZE_LIST_ELEMENT(Name, (*__it))\
-}\
+}
 
 #define DO_SERIALIZE_LIST_IF(Name, Var, ConditionLambda)\
 FOR_LIST(__it, Var)\
@@ -214,7 +214,7 @@ FOR_LIST(__it, Var)\
 	{\
 		DO_SERIALIZE_LIST_ELEMENT(Name, (*__it))\
 	}\
-}\
+}
 
 // DESERIALIZE
 
@@ -230,16 +230,7 @@ FOR_LIST(__it, json[Name])\
 	auto object = ConstructionLambda(*__it);\
 	SerializationUtils::deserializeTemplated<decltype(object)>(object, (*__it));\
 	(Var).push_back(object);\
-}\
-
-/*
-	using ElementType = REMOVE_REF(decltype((Var).front()));\
-	ElementType object = {};\
-	if(IS_POINTER(ElementType))\
-	{\
-		object = NEW(REMOVE_POINTER(REMOVE_REF(ElementType)));\
-	}\
-*/
+}
 
 // --------------------------------------------------------
 // FOR LOOPS

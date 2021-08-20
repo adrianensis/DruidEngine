@@ -127,14 +127,14 @@ void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/)
 		Matrix4 viewRotationMatrix;
 
 		inverseProjectionMatrix.init(getProjectionMatrix());
+		inverseProjectionMatrix.invert();
 		viewTranslationMatrix.init(getViewTranslationMatrix());
 		viewRotationMatrix.init(getViewRotationMatrix());
 
 		viewTranslationMatrix.mul(viewRotationMatrix);
+
 		inverseProjectionMatrix.mul(viewTranslationMatrix);
-
-		inverseProjectionMatrix.invert();
-
+		
 		mInversePVMatrix.init(inverseProjectionMatrix);
 
 		// HACK: set the dirty value again
