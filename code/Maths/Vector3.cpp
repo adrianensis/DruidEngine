@@ -31,9 +31,6 @@ Vector3::Vector3(const Vector4 &other) : x(other.x), y(other.y), z(other.z)
 
 Vector3 &Vector3::set(f32 x, f32 y, f32 z)
 {
-	if (this->x == x && this->y == y && this->z == z)
-		return *this; // handle self assignment
-	//assignment operator
 	this->x = x;
 	this->y = y;
 	this->z = z;
@@ -42,9 +39,6 @@ Vector3 &Vector3::set(f32 x, f32 y, f32 z)
 
 Vector3 &Vector3::set(const Vector3 &rhs)
 {
-	if (this == &rhs)
-		return *this; // handle self assignment
-	//assignment operator
 	this->set(rhs.x, rhs.y, rhs.z);
 	return *this;
 }

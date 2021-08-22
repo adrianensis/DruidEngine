@@ -30,8 +30,6 @@ Quaternion::Quaternion(const Quaternion &other) : v(other.v), w(other.w)
 
 Quaternion &Quaternion::set(f32 x, f32 y, f32 z, f32 w)
 {
-	//if (this->w == w ) return *this; // handle self assignment
-	//assignment operator
 	v.set(x, y, z);
 	this->w = w;
 	return *this;
@@ -39,8 +37,6 @@ Quaternion &Quaternion::set(f32 x, f32 y, f32 z, f32 w)
 
 Quaternion &Quaternion::set(const Vector3 &v, f32 w)
 {
-	//if (this->w == w ) return *this; // handle self assignment
-	//assignment operator
 	this->v.set(v);
 	this->w = w;
 	return *this;
@@ -48,8 +44,6 @@ Quaternion &Quaternion::set(const Vector3 &v, f32 w)
 
 Quaternion &Quaternion::set(const Quaternion &rhs)
 {
-	//if (this == &rhs) return *this; // handle self assignment
-	//assignment operator
 	set(rhs.v, rhs.w);
 	return *this;
 }

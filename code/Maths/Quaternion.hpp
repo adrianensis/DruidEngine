@@ -2,7 +2,6 @@
 
 #include "Core/ObjectBase.hpp"
 
-#include <ostream>
 
 #include "Core/BasicTypes.hpp"
 #include "Core/Assert/Assert.hpp"
@@ -78,10 +77,7 @@ public:
 
 	Quaternion &operator=(const Quaternion &rhs)
 	{
-		if (this == &rhs)
-			return *this; // handle self assignment
-		//assignment operator
-		return this->set(rhs);
+			return this->set(rhs);
 	}
 
 	Quaternion &operator+=(const Quaternion &rhs)
@@ -191,11 +187,5 @@ public:
 		if (index == 3)
 			return w;
 		return v[index];
-	}
-
-	friend std::ostream &operator<<(std::ostream &out, const Quaternion &q)
-	{
-		out << "[(" << q.v.x << ", " << q.v.y << ", " << q.v.z << "), " << q.w << "]";
-		return out;
 	}
 };

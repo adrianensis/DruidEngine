@@ -22,9 +22,6 @@ Vector2::Vector2(const Vector3 &other) : x(other.x), y(other.y)
 
 Vector2 &Vector2::set(f32 x, f32 y)
 {
-	if (this->x == x && this->y == y)
-		return *this; // handle self assignment
-	//assignment operator
 	this->x = x;
 	this->y = y;
 	return *this;
@@ -32,9 +29,6 @@ Vector2 &Vector2::set(f32 x, f32 y)
 
 Vector2 &Vector2::set(const Vector2 &rhs)
 {
-	if (this == &rhs)
-		return *this; // handle self assignment
-	//assignment operator
 	this->set(rhs.x, rhs.y);
 	return *this;
 }

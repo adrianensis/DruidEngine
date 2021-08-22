@@ -319,28 +319,13 @@ void Matrix4::ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
 
 void Matrix4::perspective(f32 near, f32 far, f32 aspect, f32 fov)
 {
-    f32 zRange = near - far;
+    f32 zRange = far - near;
     f32 tanHalfFOV = tanf(MathUtils::rad(fov / 2.0f));
 
 	this->zeros();
-	
 	this->set(0, 0, 1.0f / (tanHalfFOV * aspect));
-    this->set(0, 1, 0.0f);
-    this->set(0, 2, 0.0f);
-    this->set(0, 3, 0.0f);
-
-    this->set(1, 0, 0.0f);
     this->set(1, 1, 1.0f / tanHalfFOV);
-    this->set(1, 2, 0.0f);
-    this->set(1, 3, 0.0f);
-
-    this->set(2, 0, 0.0f);
-    this->set(2, 1, 0.0f);
-    this->set(2, 2, (-near - far) / zRange);
-    this->set(2, 3, 1.0f);
-
-    this->set(3, 0, 0.0f);
-    this->set(3, 1, 0.0f);
+    this->set(2, 2, -((near + far) / zRange));
+    this->set(2, 3, -1.0f);
     this->set(3, 2, (2.0f * far * near) / zRange);
-    this->set(3, 3, 0.0f);
 };

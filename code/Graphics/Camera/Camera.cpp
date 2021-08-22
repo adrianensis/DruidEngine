@@ -106,7 +106,7 @@ const Matrix4 &Camera::getViewRotationMatrix()
 };
 
 Vector3 Camera::screenToWorld(Vector2 screenPosition)
-{
+{	
 	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
 	v.x = v.x / v.w;

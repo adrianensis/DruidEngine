@@ -24,7 +24,7 @@
 Vector2 Brush::getMouseWorldPosition() const
 {
 	Vector2 mouse = Input::getInstance()->getMousePosition();
-	Vector2 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
+	Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
 	getFirstComponent<Camera>()->screenToWorld(mouse);
 
 	return worldPosition;

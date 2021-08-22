@@ -55,6 +55,7 @@ void Scene::init()
 	GameObject *cameraGameObject = NEW(GameObject);
 	cameraGameObject->init();
 
+	// cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, -100.0f));
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
 	Camera *cameraComponent = NEW(Camera);
@@ -63,7 +64,7 @@ void Scene::init()
 	f32 size = RenderContext::getWindowSize().y;
 	// TODO : use RenderContext::getWindowSize().x also? To keep the scaleproportions?
 	cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
-	//cameraComponent->setPerspective(1, -1, RenderContext::getAspectRatio(), 90);
+	// cameraComponent->setPerspective(1, 1000, RenderContext::getAspectRatio(), 90);
 
 	setCameraGameObject(cameraGameObject);
 
@@ -139,7 +140,7 @@ SERIALIZE(Scene)
 }
 
 DESERIALIZE(Scene)
-{
+{ 
 	DO_DESERIALIZE("size", mSize)
 
 	if(json.contains("objects"))

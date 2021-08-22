@@ -33,9 +33,6 @@ Vector4::Vector4(const Vector2 &other, f32 z, f32 w) : x(other.x), y(other.y), z
 
 Vector4 &Vector4::set(f32 x, f32 y, f32 z, f32 w)
 {
-	if (this->x == x && this->y == y && this->z == z && this->w == w)
-		return *this; // handle self assignment
-	//assignment operator
 	this->x = x;
 	this->y = y;
 	this->z = z;
@@ -45,9 +42,6 @@ Vector4 &Vector4::set(f32 x, f32 y, f32 z, f32 w)
 
 Vector4 &Vector4::set(const Vector4 &rhs)
 {
-	if (this == &rhs)
-		return *this; // handle self assignment
-	//assignment operator
 	this->set(rhs.x, rhs.y, rhs.z, rhs.w);
 	return *this;
 }
