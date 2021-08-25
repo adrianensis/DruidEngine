@@ -9,8 +9,8 @@ CLASS(Editor, Script)
 
 public:
 	void init() override;
-	void firstStep() override;
-	void step() override;
+	void firstUpdate() override;
+	void update() override;
 	void terminate() override;
 
 	void drawGrid() const;

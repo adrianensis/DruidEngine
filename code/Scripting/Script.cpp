@@ -8,14 +8,14 @@
 
 void Script::init()
 {
-	mFirstStepDone = false;
+	mFirstUpdateDone = false;
 }
 
-void Script::firstStep()
+void Script::firstUpdate()
 {
 }
 
-void Script::step()
+void Script::update()
 {
 }
 

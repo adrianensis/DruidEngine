@@ -60,9 +60,9 @@ void ScenesManager::init()
 	mCurrentScene = *mScenes.begin();
 }
 
-void ScenesManager::step()
+void ScenesManager::update()
 {
-	mCurrentScene->step();
+	mCurrentScene->update();
 }
 
 void ScenesManager::loadCurrentScene()

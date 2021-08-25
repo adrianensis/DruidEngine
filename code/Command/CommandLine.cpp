@@ -102,7 +102,7 @@ void CommandLine::init()
 	});
 }
 
-void CommandLine::step()
+void CommandLine::update()
 {
     if(mUIText && mUIText->isActive())
     {

@@ -25,7 +25,7 @@ public:
 	~ScenesManager() override;
 
 	void init();
-	void step();
+	void update();
 	void loadCurrentScene();
 	void setScene(u32 i);
 };

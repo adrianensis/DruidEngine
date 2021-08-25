@@ -24,7 +24,7 @@ void TimerManager::endTimer(Timer *timer)
 	DELETE(timer);
 }
 
-void TimerManager::step()
+void TimerManager::update()
 {
 	if (!mTimers.empty())
 	{

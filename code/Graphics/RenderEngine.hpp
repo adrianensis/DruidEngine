@@ -59,8 +59,8 @@ private:
 
 public:
 	void init(f32 sceneSize);
-	void step();	  // render
-	void stepDebug(); // debug render
+	void update();	  // render
+	void updateDebug(); // debug render
 	void terminate();
 
 	void addRenderer(Renderer * renderer);

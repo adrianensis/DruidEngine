@@ -16,6 +16,6 @@ CLASS(ScriptEngine, ObjectBase), SINGLETON(ScriptEngine)
 public:
 	void init();
 	void addScript(Script * newScript);
-	void step();
+	void update();
 	void terminate();
 };

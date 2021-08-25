@@ -78,12 +78,12 @@ void Engine::run()
 
 		Input::getInstance()->pollEvents();
 
-		CommandLine::getInstance()->step();
+		CommandLine::getInstance()->update();
 
-		ScenesManager::getInstance()->step();
-		TimerManager::getInstance()->step();
-		ScriptEngine::getInstance()->step();
-		RenderEngine::getInstance()->step();
+		ScenesManager::getInstance()->update();
+		TimerManager::getInstance()->update();
+		ScriptEngine::getInstance()->update();
+		RenderEngine::getInstance()->update();
 
 		f32 dtMillis = Time::getInstance()->getElapsedTimeMillis();
 

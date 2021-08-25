@@ -222,7 +222,7 @@ void Scene::removeGameObject(GameObject *gameObject)
 	}
 }
 
-void Scene::step()
+void Scene::update()
 {
 	// TODO : refactor into a private method
 	/*if (mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)

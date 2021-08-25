@@ -48,7 +48,7 @@ CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
 
 public:
     void init();
-	void step();
+	void update();
     void terminate();
 
     void execute(const std::string &commandLine);

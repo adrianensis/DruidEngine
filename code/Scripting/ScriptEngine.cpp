@@ -18,17 +18,17 @@ void ScriptEngine::addScript(Script *newScript)
 	mScripts.push_back(newScript);
 }
 
-void ScriptEngine::step()
+void ScriptEngine::update()
 {
 	if (mController)
 	{
-		if (!mController->getFirstStepDone())
+		if (!mController->getFirstUpdateDone())
 		{
-			mController->firstStep();
-			mController->firstStepDone();
+			mController->firstUpdate();
+			mController->firstUpdateDone();
 		}
 
-		mController->step();
+		mController->update();
 	}
 
 	FOR_LIST(it, mScripts)
@@ -37,13 +37,13 @@ void ScriptEngine::step()
 
 		if (script->isActive())
 		{
-			if (!script->getFirstStepDone())
+			if (!script->getFirstUpdateDone())
 			{
-				script->firstStep();
-				script->firstStepDone();
+				script->firstUpdate();
+				script->firstUpdateDone();
 			}
 
-			script->step();
+			script->update();
 		}
 		else if (script->getIsPendingToBeDestroyed())
 		{

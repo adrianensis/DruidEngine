@@ -40,7 +40,7 @@ public:
 	void updateComponents(GameObject * gameObject);
 	void removeGameObject(GameObject * gameObject);
 
-	void step();
+	void update();
 
 	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();

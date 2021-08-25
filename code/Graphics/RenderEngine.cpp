@@ -90,7 +90,7 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
 
-void RenderEngine::step()
+void RenderEngine::update()
 {
 	//PROFILER_TIMEMARK_START()
 
@@ -105,7 +105,7 @@ void RenderEngine::step()
 	}
 
 	renderBatches();
-	stepDebug();
+	updateDebug();
 	swap();
 	checkChunks();
 	freeRenderersPendingtoFree();
@@ -182,7 +182,7 @@ void RenderEngine::freeRenderersPendingtoFree()
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::stepDebug()
+void RenderEngine::updateDebug()
 {
 	//PROFILER_TIMEMARK_START()
 

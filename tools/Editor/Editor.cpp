@@ -37,12 +37,12 @@ void Editor::init()
 	
 }
 
-void Editor::firstStep()
+void Editor::firstUpdate()
 {
 	mEditorController.init();
 }
 
-void Editor::step()
+void Editor::update()
 {
 	mEditorController.update();
 }
