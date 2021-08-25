@@ -34,21 +34,7 @@
 	ClassName##_PARENT() = default;        \
 	~ClassName##_PARENT() override = default;
 
-#define CLASS_MACRO_BASE(ClassName, ...)          \
-	class ClassName;                              \
-	class ClassName##_PARENT : public __VA_ARGS__ \
-	{                                             \
-		GENERATE_METADATA(ClassName)              \
-	public:                                       \
-		CLASS_MACRO_CONSTRUCTOR(ClassName)        \
-	protected:                                    \
-		using Super = __VA_ARGS__;                \
-	};                                            \
-	class ClassName : public ClassName##_PARENT
-
-#define CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, ...) \
-	template <class Template>                               \
-	class ClassName;                                        \
+#define CLASS_MACRO_COMMON(ClassName, ...) \
 	class ClassName##_PARENT : public __VA_ARGS__           \
 	{                                                       \
 		GENERATE_METADATA(ClassName)                        \
@@ -56,19 +42,24 @@
 		CLASS_MACRO_CONSTRUCTOR(ClassName)                  \
 	protected:                                              \
 		using Super = __VA_ARGS__;                          \
-	};                                                      \
-	template <class Template>                               \
+	};    
+
+#define TEMPLATE_MACRO(Template)\
+template<class Template>
+
+#define CLASS_TEMPLATE_MACRO_BASE(ClassName, TemplateMacro, Template, ...) \
+	TemplateMacro(Template)                               \
+	class ClassName;                                        \
+	CLASS_MACRO_COMMON(ClassName, __VA_ARGS__)              \
+	TemplateMacro(Template)                               \
 	class ClassName : public ClassName##_PARENT
 
+#define CLASS(ClassName, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, NONE, NONE, __VA_ARGS__)
+#define CLASS_NESTED(ClassName, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, NONE, NONE, __VA_ARGS__) // needed so generated code script can ignore nested classes
+#define CLASS_TEMPLATE(ClassName, Template, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, TEMPLATE_MACRO, Template, __VA_ARGS__)
+
 #define SINGLETON(...) \
-public                 \
-	Singleton<__VA_ARGS__>
-
-#define CLASS(ClassName, ...) CLASS_MACRO_BASE(ClassName, __VA_ARGS__)
-
-#define CLASS_NESTED(ClassName, ...) CLASS(ClassName, __VA_ARGS__) // needed so generated code script can ignore nested classes
-
-#define CLASS_TEMPLATE(ClassName, Template, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, Template, __VA_ARGS__)
+public Singleton<__VA_ARGS__>
 
 #define GENERATE_ID_STATIC(...)                                  \
 	static ClassId getClassIdStatic()                            \
