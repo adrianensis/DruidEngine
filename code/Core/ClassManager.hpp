@@ -13,7 +13,10 @@
         {\
             object = NEW(__VA_ARGS__);\
         }\
-        \
+        else\
+        {\
+            ASSERT_MSG(false, "Cannot instantiate Abstract Class object " + std::string(#__VA_ARGS__));\
+        }\
         return object;\
     });
 
