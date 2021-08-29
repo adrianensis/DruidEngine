@@ -11,11 +11,6 @@ int main()
 	Vector4 c(1, 2, 2, 3);
 	Vector4 d;
 
-	test_show(a);
-	test_show(b);
-	test_show(c);
-	test_show(d);
-
 	test_title("OPERATORS");
 
 	test_expected(a + a, Vector4(0 + 0, 1 + 1, 2 + 2, 3 + 3));
@@ -49,7 +44,6 @@ int main()
 	test_expected(Vector4(a).mul(2), Vector4(0 * 2, 1 * 2, 2 * 2, 3 * 2));
 	test_expected(Vector4(a).div(2), Vector4(0 / 2.0f, 1 / 2.0f, 2 / 2.0f, 3 / 2.0f));
 
-	test_show(c.div(2));
 	test_expected(c, Vector4(1 / 2.0f, 2 / 2.0f, 2 / 2.0f, 3 / 2.0f));
 
 	test_expected(Vector4(b).lerp(a, 0.5f), Vector4(b) += (a - b) * 0.5f);

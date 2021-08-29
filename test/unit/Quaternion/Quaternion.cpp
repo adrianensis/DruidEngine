@@ -22,15 +22,6 @@ int main()
 	Quaternion g(f);
 	Quaternion h;
 
-	test_show(a);
-	test_show(b);
-	test_show(c);
-	test_show(d);
-	test_show(e);
-	test_show(f);
-	test_show(g);
-	test_show(h);
-
 	test_title("OPERATORS");
 
 	test_expected(a + a, Quaternion(0 + 0, 1 + 1, 2 + 2, 3 + 3));

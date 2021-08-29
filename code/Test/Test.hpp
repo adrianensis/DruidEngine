@@ -40,8 +40,6 @@
     __test__totaltime += elapsed.count();
 
 #define test_blank() __test__output << std::endl;
-#define test_show(x) __test__output << #x << " = " << (x) << std::endl \
-                                    << std::endl;
 
 #define __PRECISION std::setprecision(10)
 
@@ -57,9 +55,7 @@
     }                                                                                \
     __test__output << (__test__b ? "[ OK ]" : "[ FAIL ]") << "\t" << #x << std::endl \
                    << "\t"                                                           \
-                   << "result: " << __PRECISION << aux << std::endl                  \
-                   << "\t"                                                           \
-                   << "test_expected: " << __PRECISION << (exp) << std::endl         \
+                   << "test_expected: " << __PRECISION << #exp << std::endl         \
                    << std::endl;
 
 #define test_expected_bool(x, exp) test_expected_any(__test__bool, x, exp)
@@ -79,9 +75,7 @@
     }                                                                                              \
     __test__output << (__test__b ? "[ OK ]" : "[ FAIL ]") << "\t" << #x << std::endl               \
                    << "\t"                                                                         \
-                   << "result: " << __PRECISION << __test__float_precision << std::endl            \
-                   << "\t"                                                                         \
-                   << "test_expected: " << __PRECISION << (exp) << std::endl                       \
+                   << "test_expected: " << __PRECISION << #exp << std::endl                       \
                    << "\t"                                                                         \
                    << "epsilon: " << __PRECISION << (eps) << std::endl                             \
                    << std::endl;

@@ -30,15 +30,15 @@
 // --------------------------------------------------------
 
 #define CLASS_MACRO_CONSTRUCTOR(ClassName) \
-	ClassName##_PARENT() = default;        \
-	~ClassName##_PARENT() override = default;
+	ClassName() = default;        \
+	~ClassName() override = default;
 
 #define CLASS_MACRO_COMMON(ClassName, ...) \
 	class ClassName##_PARENT : public __VA_ARGS__           \
 	{                                                       \
-		GENERATE_METADATA(ClassName)                        \
+		GENERATE_METADATA(ClassName)               \
 	public:                                                 \
-		CLASS_MACRO_CONSTRUCTOR(ClassName)                  \
+		CLASS_MACRO_CONSTRUCTOR(ClassName##_PARENT)                  \
 	protected:                                              \
 		using Super = __VA_ARGS__;                          \
 	};    

@@ -12,11 +12,6 @@ int main()
 	Vector3 c(1, 2, 2);
 	Vector3 d;
 
-	test_show(a);
-	test_show(b);
-	test_show(c);
-	test_show(d);
-
 	test_title("OPERATORS");
 
 	test_expected(a + a, Vector3(0 + 0, 1 + 1, 2 + 2));
@@ -49,7 +44,6 @@ int main()
 	test_expected(Vector3(a).mul(2), Vector3(0 * 2, 1 * 2, 2 * 2));
 	test_expected(Vector3(a).div(2), Vector3(0 / 2.0f, 1 / 2.0f, 2 / 2.0f));
 
-	test_show(c.div(2));
 	test_expected(c, Vector3(1 / 2.0f, 2 / 2.0f, 2 / 2.0f));
 
 	test_expected(Vector3(b).lerp(a, 0.5f), Vector3(b) += (a - b) * 0.5f);
