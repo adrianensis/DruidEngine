@@ -36,7 +36,7 @@ for opt, arg in opts:
       enableLogs=True
 
 # -B : prevents from writing .pyc or .pyo files
-os.system('python -B ./scripts/generateInstanceByName.py')
+# os.system('python -B ./scripts/generateInstanceByName.py')
 
 if not os.path.isdir(buildDir):
       os.mkdir(buildDir)

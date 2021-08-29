@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/BasicTypes.hpp"
-
 #define NONE(...)
 
 #define REMOVE_REF(Class) typename std::remove_reference<Class>::type

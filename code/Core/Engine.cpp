@@ -1,5 +1,6 @@
 #include "Core/Time/TimeUtils.hpp"
 #include "Core/Time/TimerManager.hpp"
+#include "Core/ClassManager.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Engine.hpp"
 #include "Core/EngineConfig.hpp"
@@ -26,6 +27,8 @@ void Engine::init()
 	mFPS = 60;
 
 	Memory::init();
+
+	ClassManager::getInstance()->init();
 
 	EngineConfig::getInstance()->init();
 	RenderContext::init();
