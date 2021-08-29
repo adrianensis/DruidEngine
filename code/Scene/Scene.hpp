@@ -37,7 +37,10 @@ public:
 	void unloadScene();
 
 	void addGameObject(GameObject * gameObject);
+
+	// TODO: updateComponents is too slow and ugly, make it more faster and automatic
 	void updateComponents(GameObject * gameObject);
+
 	void removeGameObject(GameObject * gameObject);
 
 	void update();

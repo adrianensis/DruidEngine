@@ -145,7 +145,7 @@ SERIALIZE(GameObject)
 	}
 }
 
-void GameObject::deserialize(const JSON &json)
+DESERIALIZE(GameObject)
 {
 	DO_DESERIALIZE("is_static", mIsStatic)
 	DO_DESERIALIZE("should_persist", mShouldPersist)

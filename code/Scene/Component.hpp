@@ -3,7 +3,6 @@
 #include "Core/ObjectBase.hpp"
 
 class GameObject;
-class ConfigObject;
 
 CLASS(Component, ObjectBase)
 {

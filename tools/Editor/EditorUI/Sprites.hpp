@@ -3,7 +3,6 @@
 #include "Core/ObjectBase.hpp"
 #include "Maths/Vector2.hpp"
 #include <string>
-#include "UI/UIElement.hpp"
 
 class GameObject;
 class UIButton;
