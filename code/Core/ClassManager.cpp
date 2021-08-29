@@ -7,3 +7,8 @@ ClassManager::ClassManager()
 {
     #include "../../generated-code/ClassManager.generated"
 }
+
+void ClassManager::registerClassByName(const std::string &className, std::function<ObjectBase*()> callback)
+{
+    MAP_INSERT(mInstanceByNameMap, className, callback);
+}

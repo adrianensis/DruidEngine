@@ -11,7 +11,8 @@ os.chdir(cwd)
 #print(cwd)
 
 # folders to find classes
-folders = ["code", "tools", "games"]
+#folders = ["code", "tools", "games"]
+folders = ["code"]
 
 class_map = getClassList(cwd, folders)
 
@@ -39,7 +40,7 @@ os.mkdir(generated_code_dirname_tmp)
 
 with open(class_manager_generated_file_path_tmp, "w") as file:
     for key, class_def in class_map.items():
-        file.write("REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
+        file.write("INTERNAL_REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
 
 with open(class_manager_includes_generated_file_path_tmp, "w") as file:
     for key, class_def in class_map.items():

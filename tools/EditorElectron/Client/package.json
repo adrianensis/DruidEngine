@@ -1,0 +1,19 @@
+{
+  "name": "NewEngine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "./scripts/start.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.6"
+  },
+  "dependencies": {
+    "jshint": "^2.12.0"
+  }
+}
