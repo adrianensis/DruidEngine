@@ -5,8 +5,6 @@
 //#include <gl/gl.h>
 //#include <gl/glext.h>
 #include <stddef.h>
-#include <iostream>
-#include <string>
 
 //#include "Input/Input.hpp"
 

@@ -3,7 +3,6 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector3.hpp"
 
-#include <list>
 
 class Renderer;
 class BatchesMap;

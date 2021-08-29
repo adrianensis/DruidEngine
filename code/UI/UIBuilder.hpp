@@ -15,8 +15,6 @@
 #include "UI/UIStyle.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
 
-#include <string>
-#include <list>
 
 class Material;
 class Scene;

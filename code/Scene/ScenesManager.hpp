@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 
-#include <vector>
 
 class Scene;
 class Script;

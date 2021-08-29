@@ -1,10 +1,19 @@
 #pragma once
 
 #include <cstdint> // std::uintptr_t
-#include <string>
+
 #include <vector>
+#include <list>
 #include <array>
 #include <map>
+
+#include <string>
+#include <iostream>
+#include <fstream>
+
+#include <type_traits>
+
+#include <functional>
 
 using ptr = std::uintptr_t;
 using ptrdiff = std::ptrdiff_t;

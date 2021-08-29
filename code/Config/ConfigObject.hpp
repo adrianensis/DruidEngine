@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 #include "Core/Serialization.hpp"
-#include <map>
 
 /*
 	example for constant config object:

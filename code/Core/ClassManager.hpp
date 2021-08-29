@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <map>
-#include <functional>
 #include "Core/Singleton.hpp"
 #include "Core/Core.hpp"
 

@@ -2,8 +2,6 @@
 
 #include "Core/Core.hpp"
 
-#include <string>
-#include <list>
 
 class UIElement;
 

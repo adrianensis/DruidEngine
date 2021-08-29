@@ -5,7 +5,6 @@
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIUtils.hpp"
-#include <string>
 
 class Renderer;
 class UIGroup;

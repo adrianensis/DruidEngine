@@ -7,7 +7,6 @@
 
 #include "Config/ConfigObject.hpp"
 
-#include <iostream>
 
 /*#include <ft2build.h>
 #include FT_FREETYPE_H */

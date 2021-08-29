@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 #include "Assert/Assert.hpp"
-#include <functional>
 
 CLASS_TEMPLATE(Functor, T, ObjectBase)
 {

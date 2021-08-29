@@ -1,6 +1,5 @@
 #include "Test/Test.hpp"
 #include "Maths/Matrix4.hpp"
-#include <array>
 
 int main()
 {

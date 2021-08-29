@@ -5,7 +5,6 @@
 
 #include "Maths/Vector4.hpp"
 
-#include <map>
 
 CLASS(UIStyle, ObjectBase)
 {

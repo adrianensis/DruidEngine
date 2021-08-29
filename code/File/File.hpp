@@ -2,10 +2,6 @@
 
 #include "Core/Core.hpp"
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <functional>
 
 CLASS(File, ObjectBase)
 {

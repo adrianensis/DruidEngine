@@ -4,7 +4,6 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Geometry.hpp"
 
-#include <vector>
 
 class GameObject;
 class EditorController;

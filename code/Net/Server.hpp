@@ -4,8 +4,6 @@
 #include "Core/Serialization.hpp"
 
 #include <netinet/in.h>
-#include <functional>
-#include <string>
 
 enum class ServerStatus
 {

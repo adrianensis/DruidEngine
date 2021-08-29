@@ -5,9 +5,6 @@
 #include "Maths/Vector4.hpp"
 #include "Graphics/Optimizations/BatchesMap.hpp"
 
-#include <list>
-#include <vector>
-#include <map>
 
 class Batch;
 class Texture;

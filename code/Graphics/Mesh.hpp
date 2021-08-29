@@ -4,7 +4,6 @@
 
 class Vector3;
 
-#include <vector>
 
 CLASS(Mesh, ObjectBase)
 {

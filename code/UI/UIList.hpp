@@ -2,7 +2,6 @@
 
 #include "UI/UIButton.hpp"
 
-#include <list>
 
 CLASS(UIList, UIElement)
 {

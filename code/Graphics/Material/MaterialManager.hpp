@@ -3,7 +3,6 @@
 #include "Core/Core.hpp"
 #include "Core/Singleton.hpp"
 
-#include <map>
 
 class Material;
 class Texture;

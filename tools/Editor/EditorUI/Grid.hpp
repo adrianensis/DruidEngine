@@ -3,7 +3,6 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
 
-#include <vector>
 
 class GameObject;
 class EditorController;

@@ -4,8 +4,6 @@
 #include "Core/ObjectBase.hpp"
 #include "Core/Assert/Assert.hpp"
 
-#include <map>
-#include <string>
 
 class Memory
 {

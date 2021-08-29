@@ -15,8 +15,6 @@
 #include "UI/UI.hpp"
 #include "Command/CommandLine.hpp"
 
-#include <string>
-#include <iostream>
 
 #include <thread>
 #include <chrono>

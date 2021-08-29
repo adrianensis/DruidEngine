@@ -2,7 +2,6 @@
 
 #include "UI/UIElement.hpp"
 #include "Maths/Vector2.hpp"
-#include <string>
 
 CLASS(UIText, UIElement)
 {

@@ -13,8 +13,6 @@
 
 #include "Maths/Vector2.hpp"
 #include "Maths/Geometry.hpp"
-#include <list>
-#include <vector>
 
 class Material;
 class GameObject;

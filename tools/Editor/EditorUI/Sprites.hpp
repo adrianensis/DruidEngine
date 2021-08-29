@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
-#include <string>
 
 class GameObject;
 class UIButton;

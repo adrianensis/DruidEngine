@@ -6,7 +6,6 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Matrix4.hpp"
 
-#include <array>
 
 class Camera;
 

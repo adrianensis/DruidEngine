@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/BasicTypes.hpp"
-#include <type_traits>
 
 #define NONE(...)
 

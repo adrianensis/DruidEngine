@@ -5,7 +5,6 @@
 #include "Core/Serialization.hpp"
 #include "Config/ConfigObject.hpp"
 
-#include <list>
 
 class GameObject;
 

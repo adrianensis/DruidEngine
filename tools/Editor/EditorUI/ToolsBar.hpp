@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 #include "UI/UIElement.hpp"
-#include <string>
 
 class EditorController;
 

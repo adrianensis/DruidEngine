@@ -5,7 +5,6 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Core/EngineConfig.hpp"
 //#include "Scripting/Script.hpp"
-#include <string>
 
 ScenesManager::ScenesManager()
 {

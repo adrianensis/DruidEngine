@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 #include "Core/Singleton.hpp"
-#include <list>
 
 class Script;
 

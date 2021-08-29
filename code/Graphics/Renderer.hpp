@@ -8,9 +8,6 @@
 #include "Maths/MathUtils.hpp"
 #include "Maths/Matrix4.hpp"
 
-#include <vector>
-#include <array>
-#include <map>
 
 class Material;
 class Mesh;

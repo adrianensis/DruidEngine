@@ -5,7 +5,6 @@
 #include "Core/Assert/Assert.hpp"
 #include "Core/Singleton.hpp"
 
-#include <map>
 
 /*
   Macros for (un)susbscribing and sending events.

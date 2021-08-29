@@ -5,9 +5,6 @@
 #include "Command/Command.hpp"
 #include "Core/Functor.hpp"
 
-#include <string>
-#include <map>
-#include <list>
 
 class UIText;
 

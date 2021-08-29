@@ -3,8 +3,6 @@
 #include "Maths/Matrix4.hpp"
 #include "Core/Memory.hpp"
 #include <fstream> // std::ifstream
-#include <string>
-#include <iostream>
 
 Shader *Shader::msShaderDefault = nullptr;
 Shader *Shader::msShaderDebug = nullptr;

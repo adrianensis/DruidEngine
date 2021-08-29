@@ -6,9 +6,6 @@
 #include "UI/UIElement.hpp"
 #include "UI/UIBuilder.hpp"
 
-#include <string>
-#include <map>
-#include <list>
 
 class Material;
 class Scene;

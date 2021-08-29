@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 
-#include <map>
 
 class Texture;
 class Renderer;

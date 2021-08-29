@@ -4,9 +4,6 @@
 #include "Maths/Matrix4.hpp"
 #include "Graphics/Mesh.hpp"
 
-#include <vector>
-#include <map>
-#include <list>
 
 class Material;
 class Renderer;

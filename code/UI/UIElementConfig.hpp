@@ -4,8 +4,6 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector4.hpp"
 
-#include <string>
-#include <list>
 
 class Material;
 class Scene;
