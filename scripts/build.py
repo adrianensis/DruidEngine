@@ -35,7 +35,8 @@ for opt, arg in opts:
     elif opt in ['-l']:
       enableLogs=True
 
-os.system('python ./scripts/generateClassList.py')
+# -B : prevents from writing .pyc or .pyo files
+os.system('python -B ./scripts/generateInstanceByName.py')
 
 if not os.path.isdir(buildDir):
       os.mkdir(buildDir)
