@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
-
-#include <string>
-#include <vector>
+#include "Core/Core.hpp"
 
 CLASS(CommandArgument, ObjectBase)
 {

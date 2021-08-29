@@ -2,6 +2,9 @@
 
 #include <cstdint> // std::uintptr_t
 #include <string>
+#include <vector>
+#include <array>
+#include <map>
 
 using ptr = std::uintptr_t;
 using ptrdiff = std::ptrdiff_t;

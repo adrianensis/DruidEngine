@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "Events/Event.hpp"
 #include "Core/Assert/Assert.hpp"
 #include "Core/Singleton.hpp"

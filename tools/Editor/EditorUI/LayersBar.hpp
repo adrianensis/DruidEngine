@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "UI/UIElement.hpp"
 #include <string>
 

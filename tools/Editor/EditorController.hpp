@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "EditorUI/Brush.hpp"
 #include "EditorUI/Grid.hpp"
 #include "EditorUI/MenuBar.hpp"

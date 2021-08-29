@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "Core/Singleton.hpp"
 
 #include "Maths/Vector4.hpp"

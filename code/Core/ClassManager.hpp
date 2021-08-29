@@ -4,7 +4,7 @@
 #include <map>
 #include <functional>
 #include "Core/Singleton.hpp"
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 
 #define REGISTER_CLASS_BY_NAME(...) \
     MAP_INSERT(mInstanceByNameMap, #__VA_ARGS__, []() { \

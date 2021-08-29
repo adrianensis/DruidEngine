@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
 
 #include <vector>

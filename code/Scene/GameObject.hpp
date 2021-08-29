@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
 #include "Core/Serialization.hpp"

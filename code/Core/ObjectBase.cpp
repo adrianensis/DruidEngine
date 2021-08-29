@@ -1,3 +1,3 @@
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 
 ObjectId ObjectBase::smObjectIdCounter = 0;

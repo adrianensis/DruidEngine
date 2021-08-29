@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "File/File.hpp"
 #include "Core/Serialization.hpp"
 #include "Config/ConfigObject.hpp"

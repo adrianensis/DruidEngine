@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/Core.hpp"
 #include "Core/BasicTypes.hpp"
 #include "Core/Functor.hpp"
 #include "Core/Time/TimerManager.hpp"
