@@ -22,8 +22,12 @@
 
 using namespace std::chrono_literals;
 
+#include "generated-code/code.generated.class.hpp"
+
 void Engine::init()
 {
+	REGISTER_CLASSES_BY_NAME();
+
 	mFPS = 60;
 
 	Memory::init();

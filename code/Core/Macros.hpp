@@ -24,6 +24,32 @@
 #define DELETE(...) Memory::deleteObject<REMOVE_POINTER(REMOVE_REF(decltype(__VA_ARGS__)))>(__VA_ARGS__);
 
 // --------------------------------------------------------
+// MAIN
+// --------------------------------------------------------
+
+#define ENGINE_MAIN() \
+void __customMain();\
+void __initMain()\
+{\
+	Engine::getInstance()->init();\
+}\
+void __runMain()\
+{\
+	Engine::getInstance()->run();\
+	Engine::getInstance()->terminate();\
+	Engine::deleteInstance();\
+}\
+int main()\
+{\
+	REGISTER_CLASSES_BY_NAME();\
+	__initMain();\
+	__customMain();\
+	__runMain();\
+	return 0;\
+}\
+void __customMain()
+
+// --------------------------------------------------------
 // CLASS - METADATA MACROS
 // --------------------------------------------------------
 

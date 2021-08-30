@@ -11,50 +11,79 @@ os.chdir(cwd)
 #print(cwd)
 
 # folders to find classes
-#folders = ["code", "tools", "games"]
-folders = ["code"]
+foldersMap = {}
 
-class_map = getClassList(cwd, folders)
+foldersMap["code"] = "code"
+foldersMap["Editor"] = "tools/Editor"
+foldersMap["EditorElectron"] = "tools/EditorElectron"
+foldersMap["games"] = "games"
 
-#print(class_list)
-#print(include_list)
+for key, folder in foldersMap.items():
 
-generated_code_dirname = "generated-code"
-generated_code_dirname_tmp = os.path.join(generated_code_dirname, "tmp")
-generated_code_path = os.path.join(cwd, generated_code_dirname)
-generated_code_path_tmp = os.path.join(generated_code_path, "tmp")
-class_manager_generated = "ClassManager.generated"
-class_manager_includes_generated = "ClassManager.includes.generated"
-class_manager_generated_file_path = os.path.join(generated_code_path, class_manager_generated)
-class_manager_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_generated)
-class_manager_includes_generated_file_path = os.path.join(generated_code_path, class_manager_includes_generated)
-class_manager_includes_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_includes_generated)
+    class_map = getClassList(cwd, [folder])
 
-if os.path.isdir(generated_code_path):
-    if os.path.isdir(generated_code_path_tmp):
-        shutil.rmtree(generated_code_dirname_tmp)
-else:
-    os.mkdir(generated_code_dirname)
+    generated_code_dirname = "generated-code"
+    generated_code_dirname_tmp = os.path.join(generated_code_dirname, "tmp")
 
-os.mkdir(generated_code_dirname_tmp)
+    generated_code_path = os.path.join(cwd, generated_code_dirname)
+    generated_code_path_tmp = os.path.join(generated_code_path, "tmp")
 
-with open(class_manager_generated_file_path_tmp, "w") as file:
-    for key, class_def in class_map.items():
-        file.write("INTERNAL_REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
+    class_manager_generated = key.replace("/", ".") + ".generated"
+    class_manager_includes_generated = key.replace("/", ".") + ".includes.generated"
 
-with open(class_manager_includes_generated_file_path_tmp, "w") as file:
-    for key, class_def in class_map.items():
-        file.write("#include \""+class_def.include+"\"\n")
+    class_manager_generated_file_path = os.path.join(generated_code_path, class_manager_generated)
+    class_manager_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_generated)
 
+    class_manager_generated_class = class_manager_generated_file_path + ".class.hpp"
+    class_manager_generated_class_tmp = class_manager_generated_file_path_tmp + ".class.hpp"
 
-overwrite = True
-if os.path.isfile(class_manager_generated_file_path) and os.path.isfile(class_manager_includes_generated_file_path):
-    if filecmp.cmp(class_manager_generated_file_path, class_manager_generated_file_path_tmp, shallow=True) and filecmp.cmp(class_manager_includes_generated_file_path, class_manager_includes_generated_file_path_tmp, shallow=True):
-        print(class_manager_generated + " and " + class_manager_includes_generated_file_path + " have no changes!")
-        overwrite = False
+    class_manager_includes_generated_file_path = os.path.join(generated_code_path, class_manager_includes_generated)
+    class_manager_includes_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_includes_generated)
 
-if overwrite:
-    print(class_manager_generated + " and " + class_manager_includes_generated_file_path + " have changes!")
+    if os.path.isdir(generated_code_path):
+        if os.path.isdir(generated_code_path_tmp):
+            shutil.rmtree(generated_code_dirname_tmp)
+    else:
+        os.mkdir(generated_code_dirname)
 
-    shutil.move(class_manager_generated_file_path_tmp, class_manager_generated_file_path)
-    shutil.move(class_manager_includes_generated_file_path_tmp, class_manager_includes_generated_file_path)
+    os.mkdir(generated_code_dirname_tmp)
+
+    with open(class_manager_generated_file_path_tmp, "w") as file:
+        for key, class_def in class_map.items():
+            file.write("REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
+
+    with open(class_manager_includes_generated_file_path_tmp, "w") as file:
+        for key, class_def in class_map.items():
+            file.write("#include \""+class_def.include+"\"\n")
+
+    with open(class_manager_generated_class_tmp, "w") as file:
+
+        classManagerName = "ClassManager_"+ key.replace("/", "_")
+
+        file.write("#pragma once\n")
+        relative_include = class_manager_includes_generated_file_path.replace(cwd+"/", '')
+        file.write("#include \""+relative_include+"\"\n")
+        file.write("class " + classManagerName +"\n")
+        file.write("{\n")
+        file.write("public:\n")
+        file.write(classManagerName +"()")
+        file.write("{\n")
+        relative_include = class_manager_generated_file_path.replace(cwd+"/", '')
+        file.write("#include \""+relative_include+"\"\n")
+        file.write("}\n")
+        file.write("};\n")
+        file.write("#define REGISTER_CLASSES_BY_NAME() " + classManagerName + "();")
+        file.write("\n")
+
+    overwrite = True
+    if os.path.isfile(class_manager_generated_file_path) and os.path.isfile(class_manager_includes_generated_file_path):
+        if filecmp.cmp(class_manager_generated_file_path, class_manager_generated_file_path_tmp, shallow=True) and filecmp.cmp(class_manager_includes_generated_file_path, class_manager_includes_generated_file_path_tmp, shallow=True):
+            print(class_manager_generated + " and " + class_manager_includes_generated_file_path + " have no changes!")
+            overwrite = False
+
+    if overwrite:
+        print(class_manager_generated + " and " + class_manager_includes_generated_file_path + " have changes!")
+
+        shutil.move(class_manager_generated_file_path_tmp, class_manager_generated_file_path)
+        shutil.move(class_manager_includes_generated_file_path_tmp, class_manager_includes_generated_file_path)
+        shutil.move(class_manager_generated_class_tmp, class_manager_generated_class)

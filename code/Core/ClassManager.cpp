@@ -3,21 +3,18 @@
 
 std::map<std::string, ClassRegisterCallback> ClassManager::smRegisters;
 
-//#include "../../generated-code/ClassManager.includes.generated"
+//#include "../../generated-code/code.includes.generated"
 
 ClassRegister::ClassRegister(const std::string &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(ClassManager::smRegisters, className, callback);
 }
 
-ClassManager::ClassManager()
-{
-    //#include "../../generated-code/ClassManager.generated"
-}
-
 void ClassManager::init()
 {
     TRACE()
+
+    //#include "../../generated-code/code.generated"
     
     FOR_MAP(it, smRegisters)
     {

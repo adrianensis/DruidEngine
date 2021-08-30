@@ -6,21 +6,8 @@
 #include "Core/Assert/Assert.hpp"
 #include "Core/Memory.hpp"
 
-#define INTERNAL_REGISTER_CLASS_BY_NAME(...) \
-    MAP_INSERT(mInstanceByNameMap, #__VA_ARGS__, []() { \
-        __VA_ARGS__ *object = nullptr;\
-        if constexpr (! std::is_abstract<__VA_ARGS__>::value)\
-        {\
-            object = NEW(__VA_ARGS__);\
-        }\
-        else\
-        {\
-            ASSERT_MSG(false, "Cannot instantiate Abstract Class object " + std::string(#__VA_ARGS__));\
-        }\
-        return object;\
-    });
-
-#define REGISTER_CLASS_BY_NAME(...) ClassRegister __classRegister = ClassRegister(#__VA_ARGS__, []() { \
+#define REGISTER_CLASS_BY_NAME(...) \
+    ClassRegister __classRegister ## _ ## __VA_ARGS__ = ClassRegister(#__VA_ARGS__, []() { \
         __VA_ARGS__ *object = nullptr;\
         if constexpr (! std::is_abstract<__VA_ARGS__>::value)\
         {\
@@ -43,7 +30,7 @@ class ClassRegister
     public:
         ClassRegister(const std::string &className, ClassRegisterCallback callback);
 };
-    
+
 class ClassManager: public Singleton<ClassManager>
 {
 friend ClassRegister;
@@ -54,8 +41,6 @@ private:
     std::map<std::string, ClassRegisterCallback> mInstanceByNameMap;
 
 public:
-
-    ClassManager();
 
     void init();
 

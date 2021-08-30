@@ -7,16 +7,13 @@
 
 #include "Config/ConfigObject.hpp"
 
+#include "generated-code/Editor.generated.class.hpp"
 
 /*#include <ft2build.h>
 #include FT_FREETYPE_H */
 
-int main()
+ENGINE_MAIN()
 {
-	Engine *engine = Engine::getInstance();
-
-	engine->init();
-
 	GameObject *controller = NEW(GameObject);
 	controller->init();
 
@@ -24,12 +21,4 @@ int main()
 	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);
-
-	engine->run();
-
-	engine->terminate();
-
-	Engine::deleteInstance();
-
-	return 0;
 }
