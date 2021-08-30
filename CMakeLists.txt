@@ -101,8 +101,15 @@ include_directories("${DEPENDENCIES_DIR}/json-3.9.1/single_include/nlohmann")
 add_subdirectory("${DEPENDENCIES_DIR}/json-3.9.1")
 
 # libpng
+set(PNG_SHARED ON CACHE BOOL "" FORCE)
+set(PNG_STATIC OFF CACHE BOOL "" FORCE)
+set(PNG_EXECUTABLES OFF CACHE BOOL "" FORCE) # we only want lib
+set(PNG_TESTS OFF CACHE BOOL "" FORCE) # we only want lib
+set(SKIP_INSTALL_ALL OFF CACHE BOOL "" FORCE) # we only want lib
+
 include_directories("${DEPENDENCIES_DIR}/libpng-1.6.37/build/include")
 link_directories("${DEPENDENCIES_DIR}/libpng-1.6.37/build/lib")
+add_subdirectory("${DEPENDENCIES_DIR}/libpng-1.6.37")
 
 # Pyhon
 # find_package (Python3 COMPONENTS Interpreter Development)
