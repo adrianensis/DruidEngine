@@ -7,7 +7,7 @@ from zipfile import ZipFile
 import tarfile
 
 if not platform.python_version().startswith('3'):
-    print("Plase use python3 to run this script")
+    print("Please use python3 to run this script")
     exit()
 
 def extract(file_path, destinty_path):

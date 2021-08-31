@@ -1,7 +1,12 @@
-#! /bin/bash
+import os
+
+cwd = os.path.dirname(os.path.realpath(__file__))
+cwd = cwd + "/.."
+os.chdir(cwd)
+#print(cwd)
 
 # ------------------------------------------------------------------------
 
-sudo apt install npm
+os.system("sudo apt install npm")
 
 # ------------------------------------------------------------------------
