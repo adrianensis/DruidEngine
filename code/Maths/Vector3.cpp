@@ -249,14 +249,14 @@ Vector3 &Vector3::clamp(f32 maxLength)
 	return *this;
 }
 
-SERIALIZE(Vector3)
+SERIALIZE_IMPL(Vector3)
 {
 	DO_SERIALIZE("x", x)
 	DO_SERIALIZE("y", y)
 	DO_SERIALIZE("z", z)
 }
 
-DESERIALIZE(Vector3)
+DESERIALIZE_IMPL(Vector3)
 {
 	DO_DESERIALIZE("x", x);
 	DO_DESERIALIZE("y", y);

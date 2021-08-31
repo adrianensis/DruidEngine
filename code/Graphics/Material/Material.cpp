@@ -49,7 +49,7 @@ void Material::bind(bool isWorldSpace)
 	mShader->addVector2(RenderContext::getWindowSize(), "windowSize");
 }
 
-SERIALIZE(Material)
+SERIALIZE_IMPL(Material)
 {
 	//DO_SERIALIZE("texture", mTexture)
 }

@@ -199,8 +199,14 @@ private:
 
 // SERIALIZE
 
+#define SERIALIZE()\
+virtual void serialize(JSON &json) const override
+
+#define SUPER_SERIALIZE()\
+Super::serialize(json);
+
 // This macro must be used in .cpp
-#define SERIALIZE(...)\
+#define SERIALIZE_IMPL(...)\
 void __VA_ARGS__::serialize(JSON &json) const
 
 #define DO_SERIALIZE(Name, Var)\
@@ -232,7 +238,13 @@ FOR_LIST(__it, Var)\
 
 // DESERIALIZE
 
-#define DESERIALIZE(...)\
+#define DESERIALIZE()\
+virtual void deserialize(const JSON &json) override
+
+#define SUPER_DESERIALIZE()\
+Super::deserialize(json);
+
+#define DESERIALIZE_IMPL(...)\
 void __VA_ARGS__::deserialize(const JSON &json)
 
 #define DO_DESERIALIZE(Name, Var)\

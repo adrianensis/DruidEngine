@@ -173,13 +173,13 @@ Vector2 &Vector2::clamp(f32 maxLength)
 	return *this;
 }
 
-SERIALIZE(Vector2)
+SERIALIZE_IMPL(Vector2)
 {
 	DO_SERIALIZE("x", x)
 	DO_SERIALIZE("y", y)
 }
 
-DESERIALIZE(Vector2)
+DESERIALIZE_IMPL(Vector2)
 {
 	DO_DESERIALIZE("x", x);
 	DO_DESERIALIZE("y", y);

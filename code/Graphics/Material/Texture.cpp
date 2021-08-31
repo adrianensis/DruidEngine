@@ -167,7 +167,7 @@ byte *Texture::readPNG()
 	return image_data;
 }
 
-SERIALIZE(Texture)
+SERIALIZE_IMPL(Texture)
 {
 	//DO_SERIALIZE("path", mPath)
 }

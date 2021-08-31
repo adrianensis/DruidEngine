@@ -109,7 +109,7 @@ void Scene::loadScene(const std::string &path)
 	deserialize(mLoadSceneConfig.getJson());
 }
 
-SERIALIZE(Scene)
+SERIALIZE_IMPL(Scene)
 {
 	f32 maxSize = 0;
 
@@ -139,7 +139,7 @@ SERIALIZE(Scene)
 	DO_SERIALIZE("size", maxSize * 2.0f)
 }
 
-DESERIALIZE(Scene)
+DESERIALIZE_IMPL(Scene)
 { 
 	DO_DESERIALIZE("size", mSize)
 

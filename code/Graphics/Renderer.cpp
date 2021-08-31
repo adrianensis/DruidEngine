@@ -160,7 +160,7 @@ void Renderer::forceRecalculateVertices()
 	mForceRecalculateVertices = true;
 }
 
-SERIALIZE(Renderer)
+SERIALIZE_IMPL(Renderer)
 {
 	Super::serialize(json);
 
@@ -176,7 +176,7 @@ SERIALIZE(Renderer)
 	DO_SERIALIZE("layer", mLayer)
 }
 
-DESERIALIZE(Renderer)
+DESERIALIZE_IMPL(Renderer)
 {
 	std::string materialPath = "";
 	DO_DESERIALIZE("material", materialPath)

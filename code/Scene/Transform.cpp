@@ -184,18 +184,18 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 	return mModelMatrix;
 }
 
-SERIALIZE(Transform)
+SERIALIZE_IMPL(Transform)
 {
-	Super::serialize(json);
+	SUPER_SERIALIZE()
 
 	DO_SERIALIZE("local_position", mLocalPosition);
 	DO_SERIALIZE("scale", mScale);
 	DO_SERIALIZE("rotation", mRotation);
 }
 
-DESERIALIZE(Transform)
+DESERIALIZE_IMPL(Transform)
 {
-	Super::deserialize(json);
+	SUPER_DESERIALIZE()
 
 	DO_DESERIALIZE("local_position", mLocalPosition);
 	DO_DESERIALIZE("scale", mScale);

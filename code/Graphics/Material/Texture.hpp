@@ -19,6 +19,6 @@ public:
 	void init(const std::string &path);
 	void bind();
 
-	virtual void serialize(JSON &json) const override;
-	virtual void deserialize(const JSON &json) override;
+	SERIALIZE();
+	DESERIALIZE();
 };

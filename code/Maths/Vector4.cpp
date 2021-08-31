@@ -209,7 +209,7 @@ Vector4 &Vector4::clamp(f32 maxLength)
 	return *this;
 }
 
-SERIALIZE(Vector4)
+SERIALIZE_IMPL(Vector4)
 {
 	DO_SERIALIZE("x", x)
 	DO_SERIALIZE("y", y)
@@ -217,7 +217,7 @@ SERIALIZE(Vector4)
 	DO_SERIALIZE("w", w)
 }
 
-DESERIALIZE(Vector4)
+DESERIALIZE_IMPL(Vector4)
 {
 	DO_DESERIALIZE("x", x);
 	DO_DESERIALIZE("y", y);

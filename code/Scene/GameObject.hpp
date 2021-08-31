@@ -78,6 +78,6 @@ public:
 
 	virtual void onDestroy(){/*TODO: call script onDestroy here??*/};
 
-	virtual void serialize(JSON &json) const override;
-	virtual void deserialize(const JSON &json) override;
+	SERIALIZE();
+	DESERIALIZE();
 };

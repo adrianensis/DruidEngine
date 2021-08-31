@@ -66,5 +66,5 @@ Vector##vectorLength operator*(f32 rhs) const {return Vector##vectorLength(*this
 Vector##vectorLength operator/(f32 rhs) const {return Vector##vectorLength(*this) /= rhs; }\
 f32 &operator[](const size_t index) { return get(index); }\
 f32 operator[](const size_t index) const { return get(index); }\
-virtual void serialize(JSON &json) const override;\
-virtual void deserialize(const JSON &json) override;
+SERIALIZE();\
+DESERIALIZE();

@@ -29,7 +29,7 @@ void Component::destroy()
 	}
 };
 
-SERIALIZE(Component)
+SERIALIZE_IMPL(Component)
 {
 	DO_SERIALIZE("class", getClassName())
 };

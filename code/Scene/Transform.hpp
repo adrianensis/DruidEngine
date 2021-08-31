@@ -82,6 +82,6 @@ public:
 		mForceModelMatrixCalculation = true;
 	}
 
-	virtual void serialize(JSON &json) const override;
-	virtual void deserialize(const JSON &json) override;
+	SERIALIZE();
+	DESERIALIZE();
 };
