@@ -3,6 +3,7 @@
 #include "Core/BasicTypes.hpp"
 
 class ObjectBase;
+class AttributeBase;
 
 class AttributeRegisterStatic
 {
