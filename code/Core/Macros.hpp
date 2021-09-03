@@ -65,6 +65,8 @@ void __customMain()
 		CLASS_MACRO_CONSTRUCTOR(ClassName##_PARENT)                  \
 	protected:                                              \
 		using Super = __VA_ARGS__;                          \
+	private:\
+		std::string ____className = getClassNameStatic();\
 	};
 
 #define TEMPLATE_MACRO(Template)\

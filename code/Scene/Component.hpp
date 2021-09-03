@@ -19,6 +19,8 @@ public:
 
 	virtual void init() = 0;
 
+	virtual void onComponentAdded() { };
+
 	bool isStatic();
 
 	bool isActive() const

@@ -59,12 +59,14 @@ void Scene::init()
 	cameraGameObject->getTransform()->setLocalPosition(Vector3(0, 0, 0));
 
 	Camera *cameraComponent = NEW(Camera);
-	cameraGameObject->addComponent<Camera>(cameraComponent);
+	cameraComponent->init();
 
 	f32 size = RenderContext::getWindowSize().y;
 	// TODO : use RenderContext::getWindowSize().x also? To keep the scaleproportions?
 	cameraComponent->setOrtho(-size, size, -size, size, 1, -1);
 	// cameraComponent->setPerspective(1, 1000, RenderContext::getAspectRatio(), 90);
+
+	cameraGameObject->addComponent<Camera>(cameraComponent);
 
 	setCameraGameObject(cameraGameObject);
 
@@ -171,45 +173,6 @@ void Scene::addGameObject(GameObject *gameObject)
 	mNewGameObjects.push_back(gameObject);
 }
 
-void Scene::updateComponents(GameObject *gameObject)
-{
-	const std::list<Renderer *> *rendererList = gameObject->getComponents<Renderer>();
-
-	/*Script* script = gameObject->getFirstComponent<Script>();
-	RigidBody* rigidBody = gameObject->getFirstComponent<RigidBody>();
-
-	if (script && !script->getAlreadyAddedToEngine()) {
-		ScriptEngine::getInstance()->addScript(script);
-		script->setAlreadyAddedToEngine(true);
-	}*/
-
-	if (rendererList)
-	{
-		FOR_LIST(it, *rendererList)
-		{
-			if (!(*it)->getAlreadyAddedToEngine())
-			{
-				RenderEngine::getInstance()->addRenderer((*it));
-				(*it)->setAlreadyAddedToEngine(true);
-			}
-		}
-	}
-
-	/*if (rigidBody) {
-		if (!rigidBody->getAlreadyAddedToEngine()) {
-			PhysicsEngine::getInstance()->addRigidBody(rigidBody);
-			rigidBody->setAlreadyAddedToEngine(true);
-		}
-
-		Collider* collider = gameObject->getFirstComponent<Collider>();
-
-		if (collider && !collider->getAlreadyAddedToEngine()) {
-			PhysicsEngine::getInstance()->addCollider(rigidBody, collider);
-			collider->setAlreadyAddedToEngine(true);
-		}
-	}*/
-}
-
 void Scene::removeGameObject(GameObject *gameObject)
 {
 	if (!gameObject->getIsDestroyed() && !gameObject->getIsPendingToBeDestroyed())
@@ -241,10 +204,10 @@ void Scene::update()
 
 	if (thereAreNewGameObjects())
 	{
-		FOR_LIST(it, mNewGameObjects)
+		/*FOR_LIST(it, mNewGameObjects)
 		{
 			updateComponents(*it);
-		}
+		}*/
 
 		flushNewGameObjects();
 	}

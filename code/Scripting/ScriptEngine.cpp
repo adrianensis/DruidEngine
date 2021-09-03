@@ -10,12 +10,18 @@ void ScriptEngine::init()
 {
 	TRACE()
 
+	REGISTER_COMPONENT_CLASS_IN_SUBSYSTEM(Script);
+
 	mController = ScenesManager::getInstance()->getGameObjectController()->getFirstComponent<Script>();
 }
 
-void ScriptEngine::addScript(Script *newScript)
+void ScriptEngine::addComponent(Component *component)
 {
-	mScripts.push_back(newScript);
+	if(component->getClassId() == Script::getClassIdStatic())
+	{
+		Script* script = static_cast<Script*>(component);
+		mScripts.push_back(script);
+	}
 }
 
 void ScriptEngine::update()

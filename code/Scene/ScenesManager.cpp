@@ -22,6 +22,8 @@ ScenesManager::~ScenesManager()
 
 void ScenesManager::internalLoadScene()
 {
+	mCurrentScene->init();
+
 	if (EngineConfig::getInstance()->getConfig().at("scenes").size() > 0)
 	{
 		std::string sceneName = EngineConfig::getInstance()->getConfig().at("scenes")[mCurrentSceneIndex].get<std::string>();
@@ -52,7 +54,6 @@ void ScenesManager::init()
 	FOR_RANGE(i, 0, scenesCount)
 	{
 		Scene *scene = NEW(Scene);
-		scene->init();
 		addScene(scene);
 	}
 

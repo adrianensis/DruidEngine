@@ -28,7 +28,14 @@ void Camera::init()
 
 	mFrustum = NEW(Frustum);
 	mFrustum->init(this);
-};
+}
+
+void Camera::onComponentAdded()
+{
+	// TODO: do this also in setOrtho and setPerspective
+	calculateInverseMatrix(true);
+	mFrustum->build(true);
+}
 
 void Camera::recalculate()
 {
@@ -42,13 +49,6 @@ void Camera::recalculate()
 	}
 }
 
-/**
- * Return the frustum.
- * @returns {Frustum} The frustum.
- */
-// const Frustum* Camera::getFrustum(){
-// 	return mFrustum;
-// };
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
 {
 	mIsOrtho = true;
@@ -62,9 +62,6 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 
 	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio() * mZoom, mRight * RenderContext::getAspectRatio() * mZoom, mBottom * mZoom,
 							mTop * mZoom, mNear, mFar);
-
-	calculateInverseMatrix(true);
-	mFrustum->build(true);
 };
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
@@ -77,9 +74,6 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 	mFov = fov;
 	
 	mProjectionMatrix.perspective(mNear, mFar, mAspect, mFov);
-
-	calculateInverseMatrix(true);
-	mFrustum->build(true);
 };
 
 void Camera::onResize()

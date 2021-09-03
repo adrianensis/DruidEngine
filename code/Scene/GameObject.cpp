@@ -6,6 +6,7 @@
 #include "Events/EventsManager.hpp"
 #include "Config/ConfigObject.hpp"
 #include "Core/ClassManager.hpp"
+#include "Graphics/Renderer.hpp"
 
 GameObject::GameObject()
 {
@@ -30,7 +31,9 @@ void GameObject::addComponent(Component *component, ClassId classId)
 	mComponentsMap.at(classId)->push_back(component);
 
 	component->setGameObject(this);
-	component->init();
+	component->onComponentAdded();
+
+	ADD_COMPONENT_TO_SUBSYSTEM(component);
 }
 
 void GameObject::removeComponent(Component *component, ClassId classId)

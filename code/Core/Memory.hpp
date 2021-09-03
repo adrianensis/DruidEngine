@@ -26,7 +26,7 @@ public:
 		}
 		else
 		{
-			className = "others";
+			className = typeid(T).name();
 		}
 
 		if (MAP_CONTAINS(mAllocationsCounter, className))
@@ -53,7 +53,7 @@ public:
 		}
 		else
 		{
-			className = "others";
+			className = typeid(T).name();
 		}
 
 		if (MAP_CONTAINS(mAllocationsCounter, className))

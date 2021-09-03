@@ -33,6 +33,7 @@ public:
 	~Camera() override;
 
 	void init() override;
+	void onComponentAdded() override;
 	void recalculate();
 
 	const Matrix4 &getProjectionMatrix() const;

@@ -30,6 +30,10 @@ void RenderEngine::init(f32 sceneSize)
 {
 	TRACE()
 
+	Super::init();
+
+	REGISTER_COMPONENT_CLASS_IN_SUBSYSTEM(Renderer)
+
 	mCameraDirtyTranslation = true;
 
 	mLineRenderer = NEW(LineRenderer);
@@ -215,27 +219,34 @@ void RenderEngine::terminate()
 	LIST_DELETE_CONTENT(mRenderersToFree)
 }
 
-void RenderEngine::addRenderer(Renderer *renderer)
+void RenderEngine::addComponent(Component *component)
 {
-	if (renderer->getIsWorldSpace())
+	Super::addComponent(component);
+
+	if(component->getClassId() == Renderer::getClassIdStatic())
 	{
-		Chunk *chunk = assignChunk(renderer);
-		if (chunk)
+		Renderer *renderer = static_cast<Renderer*>(component);
+
+		if (renderer->getIsWorldSpace())
 		{
-			chunk->addRenderer(renderer);
+			Chunk *chunk = assignChunk(renderer);
+			if (chunk)
+			{
+				chunk->addRenderer(renderer);
+			}
+			else
+			{
+				ASSERT_MSG(false, "Renderer can't find a chunk.")
+			}
 		}
 		else
 		{
-			ASSERT_MSG(false, "Renderer can't find a chunk.")
+			// UI Case!
+			mBatchesMapScreenSpace.addRenderer(renderer);
 		}
-	}
-	else
-	{
-		// UI Case!
-		mBatchesMapScreenSpace.addRenderer(renderer);
-	}
 
-	mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
+		mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
+	}
 }
 
 Chunk *RenderEngine::assignChunk(Renderer *renderer)

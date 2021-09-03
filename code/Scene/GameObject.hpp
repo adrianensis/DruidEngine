@@ -28,6 +28,8 @@ private:
 	const std::list<Component *> *getComponents(ClassId classId) const;
 	Component *getFirstComponent(ClassId classId) const;
 
+	void addComponentToSubsystem(Component* component);
+
 public:
 	GameObject();
 	~GameObject() override;

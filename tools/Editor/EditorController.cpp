@@ -161,7 +161,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	tile->getTransform()->setScale(Vector3(size.x, size.y, 1));
 
 	Renderer *renderer = NEW(Renderer);
-	tile->addComponent<Renderer>(renderer);
+	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setLayer(mLayer);
@@ -169,6 +169,8 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	renderer->setMaterial(material);
 	renderer->setRegion(region);
 
+	tile->addComponent<Renderer>(renderer);
+	
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(tile);
 
 	return tile;

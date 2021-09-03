@@ -25,13 +25,15 @@ void UIButton::initFromConfig(const UIElementConfig& config)
 	getTransform()->setAffectedByProjection(false);
 
 	Renderer *renderer = NEW(Renderer);
-	addComponent<Renderer>(renderer);
+	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setLayer(mConfig.mLayer);
 	renderer->setColor(mConfig.mStyle->mColor);
 
+	addComponent<Renderer>(renderer);
+	
 	setComponentsCache();
 
 	setText(mConfig.mText);

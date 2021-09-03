@@ -20,6 +20,7 @@ ENGINE_MAIN()
 	controller->init();
 
 	Script *script = NEW(EditorServer);
+	script->init();
 	controller->addComponent<Script>(script);
 
 	ScenesManager::getInstance()->setGameObjectController(controller);

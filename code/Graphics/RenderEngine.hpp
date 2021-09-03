@@ -17,7 +17,7 @@ class Chunk;
 class Vector3;
 class LineRenderer;
 
-CLASS(RenderEngine, ObjectBase), SINGLETON(RenderEngine)
+CLASS(RenderEngine, ISubsystem), SINGLETON(RenderEngine)
 {
 private:
 	CLASS_NESTED(LayerData, ObjectBase)
@@ -60,7 +60,7 @@ public:
 	void updateDebug(); // debug render
 	void terminate();
 
-	void addRenderer(Renderer * renderer);
+	virtual void addComponent(Component *component);
 	Chunk *assignChunk(Renderer * renderer);
 	void freeRenderer(Renderer * renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));

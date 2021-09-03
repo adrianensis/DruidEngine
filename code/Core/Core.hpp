@@ -6,3 +6,4 @@
 #include "Core/Assert/Assert.hpp"
 #include "Core/Memory.hpp"
 #include "Core/ClassManager.hpp"
+#include "Core/Subsystem.hpp"

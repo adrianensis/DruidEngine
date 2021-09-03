@@ -25,6 +25,8 @@
 #include "Graphics/Animation/Animation.hpp"
 
 #include "Scene/Scene.hpp"
+#include "Scene/ScenesManager.hpp"
+
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/RenderContext.hpp"
 

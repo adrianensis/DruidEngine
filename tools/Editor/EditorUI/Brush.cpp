@@ -214,13 +214,15 @@ void Brush::createSelector()
 	selector->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
 
 	Renderer *renderer = NEW(Renderer);
-	selector->addComponent<Renderer>(renderer);
+	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setLayer(0);
 
 	renderer->setMaterial(material);
 
+	selector->addComponent<Renderer>(renderer);
+	
 	ScenesManager::getInstance()->getCurrentScene()->addGameObject(selector);
 
 	mSelector = selector;
@@ -265,7 +267,7 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 		brushPreview->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
 
 		Renderer *renderer = NEW(Renderer);
-		brushPreview->addComponent<Renderer>(renderer);
+		renderer->init();
 
 		renderer->setMesh(Mesh::getRectangle());
 		renderer->setLayer(0);
@@ -276,6 +278,8 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
 		renderer->setColor(style.mColor);
+
+		brushPreview->addComponent<Renderer>(renderer);
 
 		ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
 

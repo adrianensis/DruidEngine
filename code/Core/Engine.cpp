@@ -77,8 +77,8 @@ void Engine::run()
 		if (ScenesManager::getInstance()->getSceneHasChanged())
 		{
 			terminateSubSystems();
-			ScenesManager::getInstance()->loadCurrentScene();
 			initSubsystems();
+			ScenesManager::getInstance()->loadCurrentScene();
 		}
 
 		Input::getInstance()->pollEvents();
@@ -130,6 +130,9 @@ void Engine::terminate()
 	RenderContext::terminate();
 
 	EngineConfig::deleteInstance();
+
+	SubsystemsManager::deleteInstance();
+	ClassManager::deleteInstance();
 
 	Memory::terminate();
 }

@@ -19,7 +19,7 @@ void UIPanel::initFromConfig(const UIElementConfig& config)
 	getTransform()->setAffectedByProjection(false);
 
 	Renderer *renderer = NEW(Renderer);
-	addComponent<Renderer>(renderer);
+	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
 	//renderer->setMaterial(mButtonMaterial);
@@ -28,5 +28,7 @@ void UIPanel::initFromConfig(const UIElementConfig& config)
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
+	addComponent<Renderer>(renderer);
+	
     setComponentsCache();
 }

@@ -92,11 +92,13 @@ void UIText::setText(const std::string &text)
 				else
 				{
 					renderer = NEW(Renderer);
-					addComponent<Renderer>(renderer);
+					renderer->init();
 
 					renderer->setMesh(Mesh::getRectangle());
 					renderer->setMaterial(UI::getInstance()->getFontMaterial());
 					renderer->setLayer(mLayer /*+ 1*/);
+					
+					addComponent<Renderer>(renderer);
 
 					mFontRenderers.push_back(renderer);
 
@@ -108,10 +110,10 @@ void UIText::setText(const std::string &text)
 			}
 		}
 
-		if (newRenderersCreated)
+		/*if (newRenderersCreated)
 		{
 			getScene()->updateComponents(this);
-		}
+		}*/
 
 		mString = text;
 

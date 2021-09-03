@@ -35,7 +35,7 @@ void UIList::initFromConfig(const UIElementConfig& config)
 	getTransform()->setAffectedByProjection(false);
 
 	Renderer* renderer = NEW(Renderer);
-	addComponent<Renderer>(renderer);
+	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
@@ -44,6 +44,8 @@ void UIList::initFromConfig(const UIElementConfig& config)
 	//renderer->setHasBorder(true);
 
 	//renderer->setClipRectangle(Rectangle(Vector2(mConfig.mPosition.x, mConfig.mPosition.y), Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y)));
+	
+	addComponent<Renderer>(renderer);
 	
 	setComponentsCache();
 

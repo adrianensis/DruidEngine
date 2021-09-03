@@ -5,7 +5,7 @@
 
 class Script;
 
-CLASS(ScriptEngine, ObjectBase), SINGLETON(ScriptEngine)
+CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
 {
 	PRI(Scripts, NONE, std::list<Script *>);
 	PRI(Controller, NONE, Script *)
@@ -14,7 +14,7 @@ CLASS(ScriptEngine, ObjectBase), SINGLETON(ScriptEngine)
 
 public:
 	void init();
-	void addScript(Script * newScript);
+	void addComponent(Component *component);
 	void update();
 	void terminate();
 };
