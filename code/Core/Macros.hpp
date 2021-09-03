@@ -65,7 +65,7 @@ void __customMain()
 		CLASS_MACRO_CONSTRUCTOR(ClassName##_PARENT)                  \
 	protected:                                              \
 		using Super = __VA_ARGS__;                          \
-	};    
+	};
 
 #define TEMPLATE_MACRO(Template)\
 template<class Template>
@@ -110,15 +110,31 @@ public Singleton<__VA_ARGS__>
 		return __VA_ARGS__##_PARENT::getClassNameStatic(); \
 	};
 
+#define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
+	static std::list<AttributeBase> &__getClassAttributesNamesStatic()          \
+	{                                                                          \
+		static std::list<AttributeBase> attributesNames = {};\
+		return attributesNames;                                                   \
+	};
+
+#define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
+	static const std::list<AttributeBase> &getClassAttributesNamesStatic()          \
+	{                                                                          \
+		return __getClassAttributesNamesStatic();                               \
+	};
+
 #define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...) \
 	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
 
 #define GENERATE_METADATA(...)          \
+protected:\
+	GENERATE_ATTRIBUTES_NAMES_STATIC(__VA_ARGS__);  \
 public:                                 \
 	GENERATE_NAME_STATIC(__VA_ARGS__);  \
 	GENERATE_NAME_VIRTUAL(__VA_ARGS__); \
 	GENERATE_ID_STATIC(__VA_ARGS__);    \
 	GENERATE_ID_VIRTUAL(__VA_ARGS__);   \
+	GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(__VA_ARGS__);  \
                                         \
 private:
 
@@ -167,6 +183,9 @@ private:
 	Visibility:                                              \
 	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
 	public : AccessorMacroName(BaseName)                     \
+	private : \
+	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
+	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
 	Visibility:
 	
 #define PUB(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)

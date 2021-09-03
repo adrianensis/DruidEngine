@@ -18,7 +18,6 @@ void ClassManager::init()
     
     FOR_MAP(it, smRegisters)
     {
-        std::cout << it->first << std::endl;
         registerClassByName(it->first, it->second);
     }
 }

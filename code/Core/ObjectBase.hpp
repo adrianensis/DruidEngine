@@ -5,6 +5,7 @@
 #include "Core/Macros.hpp"
 #include "Log/Log.hpp"
 #include "Core/Serialization.hpp"
+#include "Core/AttributeBase.hpp"
 
 namespace Hash
 {
@@ -16,15 +17,22 @@ namespace Hash
 	}
 }
 
-/*!
- \brief Base class.
- */
 class ObjectBase: public ISerializable
 {
-	PRI(ObjectId, GET, ObjectId);
+	friend AttributeRegister;
+
+private:
+
+	ObjectId mObjectId = 0;
+
+	std::map<std::string, AttributeBase> mAttributes; // runtime attributes
 
 protected:
-	static ObjectId smObjectIdCounter;
+	inline static ObjectId smObjectIdCounter = 0;
+
+private:
+
+	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
 public:
 	static std::string getClassNameStatic()
@@ -39,6 +47,8 @@ public:
 		return classId;
 	}
 
+	GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(ObjectBase)
+
 	ObjectBase()
 	{
 		if (mObjectId == 0)
@@ -46,7 +56,13 @@ public:
 			mObjectId = smObjectIdCounter++;
 		}
 	};
+
 	virtual ~ObjectBase(){};
+
+	ObjectId getObjectId()
+	{
+		return mObjectId;
+	}
 
 	virtual ClassId getClassId() const
 	{
@@ -56,6 +72,11 @@ public:
 	virtual std::string getClassName() const
 	{
 		return ObjectBase::getClassNameStatic();
+	}
+
+	const std::map<std::string, AttributeBase> &getAttributes()
+	{
+		return mAttributes;
 	}
 
 	template <class T>
