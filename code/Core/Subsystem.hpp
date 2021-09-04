@@ -6,54 +6,51 @@
 class Component;
 
 #define REGISTER_COMPONENT_CLASS_IN_SUBSYSTEM(...) \
-        registerComponentClass(__VA_ARGS__::getClassIdStatic());
+    registerComponentClass(__VA_ARGS__::getClassIdStatic());
 
 #define REGISTER_SUBSYSTEM(subsystem) \
-        SubsystemsManager::getInstance()->registerSubsystem(subsystem);
+    SubsystemsManager::getInstance()->registerSubsystem(subsystem);
 
 #define ADD_COMPONENT_TO_SUBSYSTEM(component) \
-        SubsystemsManager::getInstance()->addComponentToSubsystem(component);
+    SubsystemsManager::getInstance()->addComponentToSubsystem(component);
 
 CLASS(ISubsystem, ObjectBase)
 {
-        private:
+private:
+    std::set<ClassId> mAcceptedComponentClasses;
 
-                std::set<ClassId> mAcceptedComponentClasses;
+public:
+    void registerComponentClass(ClassId classId)
+    {
+        mAcceptedComponentClasses.insert(classId);
+    }
 
-	public:
+    bool isComponentClassAccepted(ClassId classId)
+    {
+        return mAcceptedComponentClasses.find(classId) != mAcceptedComponentClasses.end();
+        ;
+    }
 
-                void registerComponentClass(ClassId classId)
-                {
-                        mAcceptedComponentClasses.insert(classId);
-                }
+    virtual void init();
 
-                bool isComponentClassAccepted(ClassId classId)
-                {
-                        return mAcceptedComponentClasses.find(classId) != mAcceptedComponentClasses.end();;
-                }
-
-                virtual void init();
-
-                virtual void addComponent(Component* component);
+    virtual void addComponent(Component * component);
 };
 
 class SubsystemsManager : SINGLETON(SubsystemsManager)
 {
-        private:
+private:
+    std::list<ISubsystem *> mSubsystems;
 
-                std::list<ISubsystem*> mSubsystems;
+public:
+    void addComponentToSubsystem(Component *component);
 
-        public:
+    void registerSubsystem(ISubsystem *subsystem)
+    {
+        mSubsystems.push_back(subsystem);
+    }
 
-                void addComponentToSubsystem(Component* component);
-
-                void registerSubsystem(ISubsystem* subsystem)
-                {
-                        mSubsystems.push_back(subsystem);
-                }
-
-                const std::list<ISubsystem*> &getSubsystems() const
-                {
-                        return mSubsystems;
-                }
+    const std::list<ISubsystem *> &getSubsystems() const
+    {
+        return mSubsystems;
+    }
 };

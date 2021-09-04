@@ -7,25 +7,22 @@ class AttributeBase;
 
 class AttributeRegisterStatic
 {
-	public:
-
-        AttributeRegisterStatic(const std::string& classname, const std::string& name, std::list<AttributeBase>& outList);
+public:
+    AttributeRegisterStatic(const std::string &classname, const std::string &name, std::list<AttributeBase> &outList);
 };
 
 class AttributeRegister
 {
-	public:
-
-        AttributeRegister(const std::string& name, void* pointer, ObjectBase* owner);
+public:
+    AttributeRegister(const std::string &name, void *pointer, ObjectBase *owner);
 };
 
 class AttributeBase
 {
-	public:
+public:
+    AttributeBase(const std::string &name, void *pointer);
 
-        AttributeBase(const std::string& name, void* pointer);
-
-        void* mPointer = nullptr;
-        std::string mName = "";
-        AttributeBase* mNext = nullptr;
+    void *mPointer = nullptr;
+    std::string mName = "";
+    AttributeBase *mNext = nullptr;
 };

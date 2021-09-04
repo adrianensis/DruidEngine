@@ -2,45 +2,6 @@
 
 #include "Maths/MathUtils.hpp"
 
-Rectangle::Rectangle()
-{
-
-}
-
-Rectangle::Rectangle(f32 x, f32 y, f32 w, f32 h)
-{
-	mLeftTop.set(x,y);
-	mSize.set(w, h);
-}
-
-Rectangle::Rectangle(const Vector2 &leftTop, f32 w, f32 h)
-{
-	mLeftTop.set(leftTop);
-	mSize.set(w, h);
-}
-
-Rectangle::Rectangle(const Vector2 &leftTop, const Vector2 &size)
-{
-	mLeftTop.set(leftTop);
-	mSize.set(size);
-}
-
-SERIALIZE_IMPL(Rectangle)
-{
-	SUPER_SERIALIZE()
-
-	DO_SERIALIZE("left_top", mLeftTop)
-	DO_SERIALIZE("size", mSize)
-}
-
-DESERIALIZE_IMPL(Rectangle)
-{
-	SUPER_DESERIALIZE()
-
-	DO_DESERIALIZE("left_top", mLeftTop);
-	DO_DESERIALIZE("size", mSize);
-}
-
 bool Geometry::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps)
 {
 	return (leftTop.x - eps <= point.x && leftTop.y + eps >= point.y && leftTop.x + width + eps >= point.x && leftTop.y - height - eps <= point.y);
