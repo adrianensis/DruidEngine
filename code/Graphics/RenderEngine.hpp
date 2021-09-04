@@ -60,7 +60,7 @@ public:
 	void updateDebug(); // debug render
 	void terminate();
 
-	virtual void addComponent(Component *component);
+	virtual void addComponent(Component *component) override;
 	Chunk *assignChunk(Renderer * renderer);
 	void freeRenderer(Renderer * renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));

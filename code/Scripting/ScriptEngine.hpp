@@ -14,7 +14,7 @@ CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
 
 public:
 	void init();
-	void addComponent(Component *component);
+	virtual void addComponent(Component *component) override;
 	void update();
 	void terminate();
 };
