@@ -296,6 +296,12 @@ FOR_LIST(__it, json[Name])\
 #define FOR_LIST_COND(it, list, condition) for (auto it = (list).begin(); (it != (list).end()) && (condition); ++it)
 
 // --------------------------------------------------------
+// PREPROCESOR FOR EACH
+// --------------------------------------------------------
+
+#include "generated-code/for_each.generated.hpp"
+
+// --------------------------------------------------------
 // STD CONTAINERS
 // --------------------------------------------------------
 

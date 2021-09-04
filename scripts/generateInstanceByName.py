@@ -18,7 +18,7 @@ foldersMap["Editor"] = "tools/Editor"
 foldersMap["EditorElectron"] = "tools/EditorElectron"
 foldersMap["games"] = "games"
 
-for key, folder in foldersMap.items():
+for keyFolder, folder in foldersMap.items():
 
     class_map = getClassList(cwd, [folder])
 
@@ -28,8 +28,8 @@ for key, folder in foldersMap.items():
     generated_code_path = os.path.join(cwd, generated_code_dirname)
     generated_code_path_tmp = os.path.join(generated_code_path, "tmp")
 
-    class_manager_generated = key.replace("/", ".") + ".generated"
-    class_manager_includes_generated = key.replace("/", ".") + ".includes.generated"
+    class_manager_generated = keyFolder.replace("/", ".") + ".generated"
+    class_manager_includes_generated = keyFolder.replace("/", ".") + ".includes.generated"
 
     class_manager_generated_file_path = os.path.join(generated_code_path, class_manager_generated)
     class_manager_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_generated)
@@ -43,22 +43,20 @@ for key, folder in foldersMap.items():
     if os.path.isdir(generated_code_path):
         if os.path.isdir(generated_code_path_tmp):
             shutil.rmtree(generated_code_dirname_tmp)
-    else:
-        os.mkdir(generated_code_dirname)
 
     os.mkdir(generated_code_dirname_tmp)
 
     with open(class_manager_generated_file_path_tmp, "w") as file:
-        for key, class_def in class_map.items():
+        for _, class_def in class_map.items():
             file.write("REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
 
     with open(class_manager_includes_generated_file_path_tmp, "w") as file:
-        for key, class_def in class_map.items():
+        for _, class_def in class_map.items():
             file.write("#include \""+class_def.include+"\"\n")
 
     with open(class_manager_generated_class_tmp, "w") as file:
 
-        classManagerName = "ClassManager_"+ key.replace("/", "_")
+        classManagerName = "ClassManager_"+ keyFolder.replace("/", "_")
 
         file.write("#pragma once\n")
         relative_include = class_manager_includes_generated_file_path.replace(cwd+"/", '')

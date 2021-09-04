@@ -2,6 +2,8 @@ import sys
 import os
 import getopt
 
+import generateCode
+
 cwd = os.path.dirname(os.path.realpath(__file__))
 cwd = cwd + "/.."
 os.chdir(cwd)
@@ -35,8 +37,7 @@ for opt, arg in opts:
     elif opt in ['-l']:
       enableLogs=True
 
-# -B : prevents from writing .pyc or .pyo files
-os.system('python3 -B ./scripts/generateInstanceByName.py')
+generateCode.generateCode()
 
 if not os.path.isdir(buildDir):
       os.mkdir(buildDir)
