@@ -151,12 +151,12 @@ DESERIALIZE_IMPL(Scene)
 		DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
 		{
 			GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);
-			gameObject->init();
 			return gameObject;
 		})
 
 		FOR_LIST(it, tmpList)
 		{
+			(*it)->init();
 			addGameObject(*it);
 		}
 	}

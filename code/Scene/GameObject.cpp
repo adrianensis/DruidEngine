@@ -161,12 +161,12 @@ DESERIALIZE_IMPL(GameObject)
 	DO_DESERIALIZE_LIST("components", tmpList, [](const JSON &json)
 	{
 		Component *component = INSTANCE_BY_NAME(json["class"], Component);
-		component->init();
 		return component;
 	})
 
 	FOR_LIST(it, tmpList)
 	{
+		(*it)->init();
 		addComponent(*it, (*it)->getClassId());
 	}
 }
