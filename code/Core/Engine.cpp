@@ -77,8 +77,8 @@ void Engine::run()
 		if (ScenesManager::getInstance()->getSceneHasChanged())
 		{
 			terminateSubSystems();
-			initSubsystems();
 			ScenesManager::getInstance()->loadCurrentScene();
+			initSubsystems();
 		}
 
 		Input::getInstance()->pollEvents();
