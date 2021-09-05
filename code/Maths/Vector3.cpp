@@ -37,7 +37,19 @@ Vector3 &Vector3::set(f32 x, f32 y, f32 z)
 	return *this;
 }
 
+Vector3 &Vector3::set(const Vector2 &rhs)
+{
+	this->set(rhs.x, rhs.y, 0);
+	return *this;
+}
+
 Vector3 &Vector3::set(const Vector3 &rhs)
+{
+	this->set(rhs.x, rhs.y, rhs.z);
+	return *this;
+}
+
+Vector3 &Vector3::set(const Vector4 &rhs)
 {
 	this->set(rhs.x, rhs.y, rhs.z);
 	return *this;

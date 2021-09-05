@@ -99,7 +99,7 @@ const Matrix4 &Camera::getViewRotationMatrix()
 	return getGameObject()->getTransform()->getRotationMatrix();
 };
 
-Vector3 Camera::screenToWorld(Vector2 screenPosition)
+Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 {	
 	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
@@ -107,7 +107,7 @@ Vector3 Camera::screenToWorld(Vector2 screenPosition)
 	v.y = v.y / v.w;
 	v.z = v.z / v.w;
 
-	return Vector3(v.x, v.y, v.z);
+	return v;
 }
 
 void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/)

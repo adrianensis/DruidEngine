@@ -2,6 +2,12 @@
 
 #include "Core/Macros.hpp"
 
+#define VECTOR_PARAMETERS_PACK(vectorLength, objectName) VECTOR_PARAMETERS_PACK_##vectorLength(objectName)
+
+#define VECTOR_PARAMETERS_PACK_2(objectName) objectName.x, objectName.y
+#define VECTOR_PARAMETERS_PACK_3(objectName) objectName.x, objectName.y, objectName.z
+#define VECTOR_PARAMETERS_PACK_4(objectName) objectName.x, objectName.y, objectName.z, objectName.w
+
 #define VECTOR_BASE_DEFINITION(vectorLength) \
 private:\
     void checkBoundaries(u32 index) const\

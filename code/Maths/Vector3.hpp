@@ -23,6 +23,9 @@ public:
 	Vector3(const Vector4 &other);
 
 	Vector3 &set(f32 x, f32 y, f32 z);
+    Vector3 &set(const Vector2 &other);
+    Vector3 &set(const Vector4 &other);
+
 	Vector3 &cross(const Vector3 &v);
 	Vector3 &nlerp(const Vector3 &target, f32 t);
 	Vector3 &slerp(const Vector3 &target, f32 t);

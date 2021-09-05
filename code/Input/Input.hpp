@@ -32,7 +32,7 @@ public:
 	bool isModifierPressed(u32 modifier);
 	bool isMouseButtonPressedOnce(u32 button);
 	bool isMouseButtonPressed(u32 button);
-	Vector2 getMousePosition();
+	const Vector2& getMousePosition();
 
 	f32 getScroll();
 

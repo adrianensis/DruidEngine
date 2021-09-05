@@ -1,5 +1,6 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Vector3.hpp"
+#include "Maths/Vector4.hpp"
 #include "Maths/MathUtils.hpp"
 
 #include <algorithm> // std::max
@@ -20,6 +21,10 @@ Vector2::Vector2(const Vector3 &other) : x(other.x), y(other.y)
 {
 }
 
+Vector2::Vector2(const Vector4 &other) : x(other.x), y(other.y)
+{
+}
+
 Vector2 &Vector2::set(f32 x, f32 y)
 {
 	this->x = x;
@@ -28,6 +33,18 @@ Vector2 &Vector2::set(f32 x, f32 y)
 }
 
 Vector2 &Vector2::set(const Vector2 &rhs)
+{
+	this->set(rhs.x, rhs.y);
+	return *this;
+}
+
+Vector2 &Vector2::set(const Vector3 &rhs)
+{
+	this->set(rhs.x, rhs.y);
+	return *this;
+}
+
+Vector2 &Vector2::set(const Vector4 &rhs)
 {
 	this->set(rhs.x, rhs.y);
 	return *this;

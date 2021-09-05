@@ -375,17 +375,12 @@ bool UIElement::isVisible()
 
 bool UIElement::isMouseCursorInsideElement()
 {
-	Vector2 screenMousePosition(Input::getInstance()->getMousePosition());
-	
 	//collider->getBoundingBox(true); // force regenerate bounding box
-	Vector2 mousePosition = screenMousePosition;
+	Vector2 mousePosition = Input::getInstance()->getMousePosition();
 
 	if(getTransform()->getAffectedByProjection())
 	{
-		Vector2 worldMousePosition = Vector2(
-			RenderEngine::getInstance()->getCamera()->screenToWorld(screenMousePosition));
-
-		mousePosition = worldMousePosition;
+		mousePosition = RenderEngine::getInstance()->getCamera()->screenToWorld(Input::getInstance()->getMousePosition());
 	}
 
 	return Geometry::testRectanglePoint(

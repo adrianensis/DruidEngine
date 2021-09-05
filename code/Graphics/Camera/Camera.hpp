@@ -45,7 +45,7 @@ public:
 
 	void onResize();
 
-	Vector3 screenToWorld(Vector2 screenPosition);
+	Vector3 screenToWorld(const Vector2& screenPosition);
 	void calculateInverseMatrix(bool forceCalculate = false);
 
 	void setZoom(f32 zoom);

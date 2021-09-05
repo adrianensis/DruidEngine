@@ -224,7 +224,7 @@ bool Input::isMouseButtonPressed(u32 button)
 	return button == smLastMouseButtonPressed;
 }
 
-Vector2 Input::getMousePosition()
+const Vector2& Input::getMousePosition()
 {
 	return smMouseCoordinates;
 }

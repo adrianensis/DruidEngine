@@ -40,6 +40,18 @@ Vector4 &Vector4::set(f32 x, f32 y, f32 z, f32 w)
 	return *this;
 }
 
+Vector4 &Vector4::set(const Vector2 &rhs)
+{
+	this->set(rhs.x, rhs.y, 0, 0);
+	return *this;
+}
+
+Vector4 &Vector4::set(const Vector3 &rhs)
+{
+	this->set(rhs.x, rhs.y, rhs.z, 0);
+	return *this;
+}
+
 Vector4 &Vector4::set(const Vector4 &rhs)
 {
 	this->set(rhs.x, rhs.y, rhs.z, rhs.w);
