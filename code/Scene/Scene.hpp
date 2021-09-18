@@ -10,12 +10,12 @@ class GameObject;
 
 CLASS(Scene, ObjectBase)
 {
-	PRI(GameObjects, GET, std::list<GameObject *>);
-	PRI(NewGameObjects, GET, std::list<GameObject *>);
+	PRI(GameObjects, GET, SLst<GameObject *>);
+	PRI(NewGameObjects, GET, SLst<GameObject *>);
 	PRI(CameraGameObject, GET_SET, GameObject *)
 
 	PRI(Size, GET, f32)
-	PRI(Path, GET, std::string)
+	PRI(Path, GET, SStr)
 
 	PRI(LoadSceneConfig, NONE, ConfigObject)
 
@@ -24,14 +24,14 @@ private:
 
 public:
 	Scene();
-	~Scene() override;
+	~Scene() OVR;
 
 	void init();
 
 	SERIALIZE();
 	DESERIALIZE();
-	void loadScene(const std::string &path);
-	void saveScene(const std::string &path);
+	void loadScene(CNS SStr &path);
+	void saveScene(CNS SStr &path);
 
 	void unloadScene();
 
@@ -41,6 +41,6 @@ public:
 
 	void update();
 
-	bool thereAreNewGameObjects() const;
+	bool thereAreNewGameObjects() CNS;
 	void flushNewGameObjects();
 };

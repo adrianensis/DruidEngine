@@ -6,7 +6,7 @@
 CLASS(File, ObjectBase)
 {
 public:
-	static void init();
-	static void readFile(const std::string &path, std::function<void(std::ifstream & file)> callback);
-	static void writeFile(const std::string &path, std::function<void(std::ofstream & file)> callback);
+	STC void init();
+	STC void readFile(CNS SStr &path, SFun<void(std::ifstream & file)> callback);
+	STC void writeFile(CNS SStr &path, SFun<void(std::ofstream & file)> callback);
 };

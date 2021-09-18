@@ -8,17 +8,17 @@
 class Memory
 {
 public:
-	static std::map<std::string, i32> mAllocationsCounter;
+	STC SMap<SStr, i32> mAllocationsCounter;
 
-	static void init();
-	static void terminate();
+	STC void init();
+	STC void terminate();
 
 	template <class T>
-	static T *newObject()
+	STC T *newObject()
 	{
 		T *object = new T;
 
-		std::string className;
+		SStr className;
 
 		if constexpr (std::is_base_of<ObjectBase, T>::value)
 		{
@@ -42,11 +42,11 @@ public:
 	}
 
 	template <class T>
-	static void deleteObject(T * pointer)
+	STC void deleteObject(T * pointer)
 	{
 		ASSERT_MSG(pointer != nullptr, "pointer is nullptr");
 
-		std::string className;
+		SStr className;
 		if constexpr (std::is_base_of<ObjectBase, T>::value)
 		{
 			className = pointer->getClassName();

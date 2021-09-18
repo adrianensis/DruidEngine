@@ -21,19 +21,19 @@ Animation::~Animation()
 
 void Animation::init()
 {
-	mFrames = NEW(std::vector<AnimationFrame *>);
+	mFrames = NEW(SVec<AnimationFrame *>);
 }
 
 void Animation::addFrame(AnimationFrame *frame)
 {
 	mFrames->push_back(frame);
 }
-u32 Animation::getNumberOfFrames() const
+u32 Animation::getNumberOfFrames() CNS
 {
 	return mFrames->size();
 }
 
-Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, CNS Vector2 &startPosition, f32 width,
 							 f32 height, f32 speed)
 {
 	// TODO: check if coordinates are > 1 and < 0 !!!!!
@@ -86,9 +86,9 @@ Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 	return animation;
 }
 
-const AnimationFrame *Animation::getNextFrame()
+CNS AnimationFrame *Animation::getNextFrame()
 {
-	const AnimationFrame *frame = nullptr;
+	CNS AnimationFrame *frame = nullptr;
 
 	if (mFrames->size() > 0)
 	{
@@ -115,7 +115,7 @@ const AnimationFrame *Animation::getNextFrame()
 	return frame;
 }
 
-const AnimationFrame *Animation::getCurrentFrame() const
+CNS AnimationFrame *Animation::getCurrentFrame() CNS
 {
 	return mFrames->at(mCurrentFrameNumber);
 }

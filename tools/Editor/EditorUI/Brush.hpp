@@ -31,7 +31,7 @@ CLASS(Brush, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*)
 	PRI(Selector, NONE, GameObject *)
-	PRI(BrushPreview, NONE, std::vector<GameObject *>)
+	PRI(BrushPreview, NONE, SVec<GameObject *>)
 
 	PRI(Mode, NONE, BrushMode)
 	PRI(PaintMode, NONE, BrushPaintMode)
@@ -43,18 +43,18 @@ CLASS(Brush, ObjectBase)
 
 private:
 
-	Vector2 getMouseWorldPosition() const;
+	Vector2 getMouseWorldPosition() CNS;
 	void onHold();
-	void applyOneTile(const Vector2 &worldPosition);
+	void applyOneTile(CNS Vector2 &worldPosition);
 	void onMouseMoved();
 	void createSelector();
 	void setSelectorVisibility(bool visible);
 	void setBrushPreviewVisibility(bool visible);
-	void createBrushPreviewOneTile(const Vector2 &brushPreviewIndex);
+	void createBrushPreviewOneTile(CNS Vector2 &brushPreviewIndex);
 	void createBrushPreview();
 	void removeBrushPreview();
-	void paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition);
-	void removeTile(const Vector2 &gridPosition);
+	void paintTile(CNS Vector2 &worldPosition, CNS Vector2 &gridPosition);
+	void removeTile(CNS Vector2 &gridPosition);
 
 public:
 

@@ -1,11 +1,11 @@
 #include "ClassManager.hpp"
 #include "Assert/Assert.hpp"
 
-std::map<std::string, ClassRegisterCallback> ClassManager::smRegisters;
+SMap<SStr, ClassRegisterCallback> ClassManager::smRegisters;
 
 //#include "../../generated-code/code.includes.generated"
 
-ClassRegister::ClassRegister(const std::string &className, ClassRegisterCallback callback)
+ClassRegister::ClassRegister(CNS SStr &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(ClassManager::smRegisters, className, callback);
 }
@@ -22,7 +22,7 @@ void ClassManager::init()
     }
 }
 
-void ClassManager::registerClassByName(const std::string &className, ClassRegisterCallback callback)
+void ClassManager::registerClassByName(CNS SStr &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(mInstanceByNameMap, className, callback);
 }

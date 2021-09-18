@@ -49,7 +49,7 @@ void Shader::freeStaticShaders()
 	}
 }
 
-void Shader::initInternal(const std::string &vertex, const std::string &fragment)
+void Shader::initInternal(CNS SStr &vertex, CNS SStr &fragment)
 {
 	TRACE()
 
@@ -57,9 +57,9 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 
 	std::ifstream vertex_ifs;
 	vertex_ifs.open(vertex.c_str(), std::ifstream::in);
-	std::string vertexShaderSource((std::istreambuf_iterator<char>(vertex_ifs)), (std::istreambuf_iterator<char>()));
+	SStr vertexShaderSource((std::istreambuf_iterator<char>(vertex_ifs)), (std::istreambuf_iterator<char>()));
 
-	const char *c_str_vertex = vertexShaderSource.c_str();
+	CNS char *c_str_vertex = vertexShaderSource.c_str();
 
 	glShaderSource(mVertexShader, 1, &c_str_vertex, nullptr);
 	glCompileShader(mVertexShader);
@@ -81,9 +81,9 @@ void Shader::initInternal(const std::string &vertex, const std::string &fragment
 
 	std::ifstream fragment_ifs;
 	fragment_ifs.open(fragment.c_str(), std::ifstream::in);
-	std::string fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)),
+	SStr fragmentShaderSource((std::istreambuf_iterator<char>(fragment_ifs)),
 									 (std::istreambuf_iterator<char>()));
-	const char *c_str_fragment = fragmentShaderSource.c_str();
+	CNS char *c_str_fragment = fragmentShaderSource.c_str();
 
 	glShaderSource(mFragmentShader, 1, &c_str_fragment, nullptr);
 	glCompileShader(mFragmentShader);
@@ -136,53 +136,53 @@ void Shader::use()
 	glUseProgram(mProgram);
 };
 
-void Shader::addMatrix(const Matrix4 &matrix, const std::string &name)
+void Shader::addMatrix(CNS Matrix4 &matrix, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	//std::cout << "MATRIX LOCATION\n" << matrixLocation << std::endl;
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix.getData());
 };
 
-void Shader::addInt(i32 value, const std::string &name)
+void Shader::addInt(i32 value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1i(location, value);
 };
 
-void Shader::addUInt(u32 value, const std::string &name)
+void Shader::addUInt(u32 value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);
 };
 
-void Shader::addFloat(f32 value, const std::string &name)
+void Shader::addFloat(f32 value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1f(location, value);
 };
 
-void Shader::addVector4(const Vector4 &value, const std::string &name)
+void Shader::addVector4(CNS Vector4 &value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	f32 vector[4] = {value.x, value.y, value.z, value.w};
 	glUniform4fv(location, 1, vector);
 };
 
-void Shader::addVector3(const Vector3 &value, const std::string &name)
+void Shader::addVector3(CNS Vector3 &value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	f32 vector[3] = {value.x, value.y, value.z};
 	glUniform3fv(location, 1, vector);
 };
 
-void Shader::addVector2(const Vector2 &value, const std::string &name)
+void Shader::addVector2(CNS Vector2 &value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	f32 vector[2] = {value.x, value.y};
 	glUniform2fv(location, 1, vector);
 };
 
-void Shader::addBool(bool value, const std::string &name)
+void Shader::addBool(bool value, CNS SStr &name)
 {
 	u32 location = glGetUniformLocation(mProgram, name.c_str());
 	glUniform1ui(location, value);

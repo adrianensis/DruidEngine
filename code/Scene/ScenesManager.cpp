@@ -26,7 +26,7 @@ void ScenesManager::internalLoadScene()
 
 	if (EngineConfig::getInstance()->getConfig().at("scenes").size() > 0)
 	{
-		std::string sceneName = EngineConfig::getInstance()->getConfig().at("scenes")[mCurrentSceneIndex].get<std::string>();
+		SStr sceneName = EngineConfig::getInstance()->getConfig().at("scenes")[mCurrentSceneIndex].get<SStr>();
 
 		mCurrentScene->loadScene(sceneName);
 	}

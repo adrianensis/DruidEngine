@@ -4,8 +4,8 @@
 
 CLASS(CommandArgument, ObjectBase)
 {
-    PRI(Name, GETREF_CONST_SET, std::string);
-    PRI(Value, GETREF_CONST_SET, std::string);
+    PRI(Name, GETREF_CONST_SET, SStr);
+    PRI(Value, GETREF_CONST_SET, SStr);
 
 public:
 
@@ -18,13 +18,13 @@ public:
 
 CLASS(Command, ObjectBase)
 {
-    PRI(Name, GETREF_CONST_SET, std::string);
-    PRI(Args, GETREF_CONST_SET, std::vector<CommandArgument>);
+    PRI(Name, GETREF_CONST_SET, SStr);
+    PRI(Args, GETREF_CONST_SET, SVec<CommandArgument>);
 
 public:
 
     void clearArgs() { mArgs.clear(); };
-    void addArg(const CommandArgument& arg) { mArgs.push_back(arg); };
+    void addArg(CNS CommandArgument& arg) { mArgs.push_back(arg); };
 
     COPY(Command)
     {

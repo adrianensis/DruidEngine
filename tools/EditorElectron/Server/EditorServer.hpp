@@ -11,8 +11,8 @@ CLASS(EditorServer, Script)
 
 public:
 
-	void init() override;
-	void firstUpdate() override;
-	void update() override;
-	void terminate() override;
+	void init() OVR;
+	void firstUpdate() OVR;
+	void update() OVR;
+	void terminate() OVR;
 };

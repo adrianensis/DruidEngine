@@ -55,7 +55,7 @@ void __customMain()
 
 #define CLASS_MACRO_CONSTRUCTOR(ClassName) \
 	ClassName() = default;        \
-	~ClassName() override = default;
+	~ClassName() OVR = default;
 
 #define CLASS_MACRO_COMMON(ClassName, ...) \
 	class ClassName##_PARENT : public __VA_ARGS__           \
@@ -66,7 +66,7 @@ void __customMain()
 	protected:                                              \
 		using Super = __VA_ARGS__;                          \
 	private:\
-		std::string ____className = getClassNameStatic();\
+		SStr ____className = getClassNameStatic();\
 	};
 
 #define TEMPLATE_MACRO(Template)\
@@ -87,46 +87,46 @@ template<class Template>
 public Singleton<__VA_ARGS__>
 
 #define GENERATE_ID_STATIC(...)                                  \
-	static ClassId getClassIdStatic()                            \
+	STC ClassId getClassIdStatic()                            \
 	{                                                            \
-		static ClassId classId = Hash::hashString(#__VA_ARGS__); \
+		STC ClassId classId = Hash::hashString(#__VA_ARGS__); \
 		return classId;                                          \
 	};
 
 #define GENERATE_ID_VIRTUAL(...)                         \
-	ClassId getClassId() const override                  \
+	ClassId getClassId() CNS OVR                  \
 	{                                                    \
 		return __VA_ARGS__##_PARENT::getClassIdStatic(); \
 	};
 
 #define GENERATE_NAME_STATIC(...)                                 \
-	static std::string getClassNameStatic()                       \
+	STC SStr getClassNameStatic()                       \
 	{                                                             \
-		static std::string className = std::string(#__VA_ARGS__); \
+		STC SStr className = SStr(#__VA_ARGS__); \
 		return className;                                         \
 	};
 
 #define GENERATE_NAME_VIRTUAL(...)                         \
-	std::string getClassName() const override              \
+	SStr getClassName() CNS OVR              \
 	{                                                      \
 		return __VA_ARGS__##_PARENT::getClassNameStatic(); \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
-	static std::list<AttributeBase> &__getClassAttributesNamesStatic()          \
+	STC SLst<AttributeBase> &__getClassAttributesNamesStatic()          \
 	{                                                                          \
-		static std::list<AttributeBase> attributesNames = {};\
+		STC SLst<AttributeBase> attributesNames = {};\
 		return attributesNames;                                                   \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
-	static const std::list<AttributeBase> &getClassAttributesNamesStatic()          \
+	STC CNS SLst<AttributeBase> &getClassAttributesNamesStatic()          \
 	{                                                                          \
 		return __getClassAttributesNamesStatic();                               \
 	};
 
 #define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...) \
-	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
+	VIR void dynamicDestructor() OVR { this->~__VA_ARGS__(); };
 
 #define GENERATE_METADATA(...)          \
 protected:\
@@ -143,6 +143,11 @@ private:
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
+
+#define OVR override
+#define VIR virtual
+#define STC static
+#define CNS const
 
 #define GETTER_TYPE(Var)                                            \
 	COND_TYPE(                                                      \
@@ -163,13 +168,13 @@ private:
 			ADD_REFERENCE(ADD_CONST(decltype(Var)))))
 
 #define GET(BaseName)        \
-	GETTER_TYPE(m##BaseName) get##BaseName() const { return m##BaseName; };
+	GETTER_TYPE(m##BaseName) get##BaseName() CNS { return m##BaseName; };
 
 #define GETREF(BaseName) \
 	ADD_REFERENCE(GETTER_TYPE(m##BaseName)) get##BaseName() { return m##BaseName; };
 
 #define GETREF_CONST(BaseName) \
-	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() const { return m##BaseName; };
+	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() CNS { return m##BaseName; };
 
 #define SET(BaseName) \
 	void set##BaseName(SETTER_TYPE(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
@@ -186,7 +191,7 @@ private:
 	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
 	public : AccessorMacroName(BaseName)                     \
 	private : \
-	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
+	inline STC AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
 	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
 	Visibility:
 	
@@ -199,18 +204,18 @@ private:
 // --------------------------------------------------------
 
 #define COPY(...)                                                                        \
-	virtual void copy(const ObjectBase *other) override                                  \
+	VIR void copy(CNS ObjectBase *other) OVR                                  \
 	{                                                                                    \
 		if (this != other)                                                               \
 		{                                                                                \
-			if (const __VA_ARGS__ *otherCast = dynamic_cast<const __VA_ARGS__ *>(other)) \
+			if (CNS __VA_ARGS__ *otherCast = dynamic_cast<CNS __VA_ARGS__ *>(other)) \
 			{                                                                            \
 				specificCopy(otherCast);                                                 \
 			}                                                                            \
 		}                                                                                \
 	}                                                                                    \
                                                                                          \
-	void specificCopy(const __VA_ARGS__ *other)
+	void specificCopy(CNS __VA_ARGS__ *other)
 
 #define DO_COPY(BaseName) m##BaseName = other->m##BaseName;
 
@@ -221,14 +226,14 @@ private:
 // SERIALIZE
 
 #define SERIALIZE()\
-virtual void serialize(JSON &json) const override
+VIR void serialize(JSON &json) CNS OVR
 
 #define SUPER_SERIALIZE()\
 Super::serialize(json);
 
 // This macro must be used in .cpp
 #define SERIALIZE_IMPL(...)\
-void __VA_ARGS__::serialize(JSON &json) const
+void __VA_ARGS__::serialize(JSON &json) CNS
 
 #define DO_SERIALIZE(Name, Var)\
 json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);
@@ -260,13 +265,13 @@ FOR_LIST(__it, Var)\
 // DESERIALIZE
 
 #define DESERIALIZE()\
-virtual void deserialize(const JSON &json) override
+VIR void deserialize(CNS JSON &json) OVR
 
 #define SUPER_DESERIALIZE()\
 Super::deserialize(json);
 
 #define DESERIALIZE_IMPL(...)\
-void __VA_ARGS__::deserialize(const JSON &json)
+void __VA_ARGS__::deserialize(CNS JSON &json)
 
 #define DO_DESERIALIZE(Name, Var)\
 SerializationUtils::deserializeTemplated<decltype(Var)>(Var, json[Name]);

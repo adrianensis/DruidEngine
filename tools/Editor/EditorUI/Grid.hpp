@@ -18,19 +18,19 @@ public:
 CLASS(Grid, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*)
-	PRI(CellsGrid, NONE, std::vector<std::vector<CellGrid>>)
+	PRI(CellsGrid, NONE, SVec<SVec<CellGrid>>)
 	PRI(GridSize, GETREF_CONST, Vector2)
 	PRI(TileSize, GETREF_CONST, Vector2)
 
 public:
 
 	void init(EditorController* editorController);
-	void setCell(const Vector2& gridPosition, GameObject* tile);
-	CellGrid& getCell(const Vector2& gridPosition);
+	void setCell(CNS Vector2& gridPosition, GameObject* tile);
+	CellGrid& getCell(CNS Vector2& gridPosition);
 
-	bool hasTile(const Vector2& gridPosition) const;
-	bool isInGrid(const Vector2& worldPosition) const;
+	bool hasTile(CNS Vector2& gridPosition) CNS;
+	bool isInGrid(CNS Vector2& worldPosition) CNS;
 	
-	Vector2 calculateGridPosition(const Vector2& worldPosition) const;
-	Vector2 calculateClampedPosition(const Vector2& worldPosition) const;
+	Vector2 calculateGridPosition(CNS Vector2& worldPosition) CNS;
+	Vector2 calculateClampedPosition(CNS Vector2& worldPosition) CNS;
 };

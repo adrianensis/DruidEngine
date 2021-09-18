@@ -8,7 +8,7 @@ CLASS_TEMPLATE(Functor, T, ObjectBase)
 	PRO(Callback, SET, T)
 
 public:
-	virtual void execute() = 0;
+	VIR void execute() = 0;
 
 	// NOTE : Override in children if needed!
 	COPY(Functor<T>)
@@ -16,14 +16,14 @@ public:
 		DO_COPY(Callback)
 	}
 
-	/*bool operator== (const Functor& functor) const{
+	/*bool operator== (CNS Functor& functor) CNS{
 	   return this == &functor;
 	}*/
 };
 
-CLASS(FunctorVoid, Functor<std::function<void()>>){
+CLASS(FunctorVoid, Functor<SFun<void()>>){
 public:	
-	virtual void execute() override
+	VIR void execute() OVR
 	{
 		ASSERT_MSG(mCallback != nullptr, "Callback is null.");
 

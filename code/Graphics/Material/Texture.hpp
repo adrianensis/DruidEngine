@@ -8,15 +8,15 @@ CLASS(Texture, ObjectBase)
 	PRI(Data, GET, byte *)
 	PRI(Width, GET, u32)
 	PRI(Height, GET, u32)
-	PRI(Path, GETREF_CONST, std::string)
+	PRI(Path, GETREF_CONST, SStr)
 
 	byte *readPNG();
 
 public:
 	Texture();
-	~Texture() override;
+	~Texture() OVR;
 
-	void init(const std::string &path);
+	void init(CNS SStr &path);
 	void bind();
 
 	SERIALIZE();

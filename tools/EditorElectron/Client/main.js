@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+CNS { app, BrowserWindow } = require('electron')
 
 app.disableHardwareAcceleration()
 

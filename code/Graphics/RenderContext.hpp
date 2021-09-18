@@ -12,36 +12,36 @@ class Camera;
 class RenderContext
 {
 private:
-	static GLFWwindow *smWindow;
+	STC GLFWwindow *smWindow;
 
-	static Vector2 smWindowSize;
+	STC Vector2 smWindowSize;
 
-	static Camera *mCamera;
+	STC Camera *mCamera;
 
-	static void onResize(GLFWwindow *window, int width, int height);
+	STC void onResize(GLFWwindow *window, int width, int height);
 
 public:
 	friend class Input;
 
-	static Vector2 getWindowSize();
-	static f32 getAspectRatio();
+	STC Vector2 getWindowSize();
+	STC f32 getAspectRatio();
 
-	static void init();
-	static bool isClosed();
-	static void swap();
-	static void clear();
-	static void terminate();
+	STC void init();
+	STC bool isClosed();
+	STC void swap();
+	STC void clear();
+	STC void terminate();
 
-	static GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
-	static GLuint createEBO();
-	static GLuint createVAO();
-	static void setDataVBO(u32 VBO, const std::vector<f32> &data);
-	static void setDataEBO(u32 EBO, const std::vector<u32> &data);
+	STC GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
+	STC GLuint createEBO();
+	STC GLuint createVAO();
+	STC void setDataVBO(u32 VBO, CNS SVec<f32> &data);
+	STC void setDataEBO(u32 EBO, CNS SVec<u32> &data);
 
-	static void enableProperty(u32 propertyArrayIndex);
-	static void disableProperty(u32 propertyArrayIndex);
-	static void enableVAO(u32 VAO);
+	STC void enableProperty(u32 propertyArrayIndex);
+	STC void disableProperty(u32 propertyArrayIndex);
+	STC void enableVAO(u32 VAO);
 
-	static void drawRectangles(u32 rectanglesCount);
-	static void drawLines(u32 linesCount);
+	STC void drawRectangles(u32 rectanglesCount);
+	STC void drawLines(u32 linesCount);
 };

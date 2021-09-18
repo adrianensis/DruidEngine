@@ -11,5 +11,5 @@ CLASS(AnimationFrame, ObjectBase)
 	PRI(Height, GET, f32)
 
 public:
-	void init(const Vector2 &position, f32 width, f32 height);
+	void init(CNS Vector2 &position, f32 width, f32 height);
 };

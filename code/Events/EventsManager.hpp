@@ -17,15 +17,15 @@
 CLASS(EventsManager, ObjectBase), SINGLETON(EventsManager)
 {
 private:
-	using ReceiversFunctorMap = std::map<ObjectBase *, EventFunctor<Event>>;
-	using EventReceiversMap = std::map<ClassId, ReceiversFunctorMap>;
-	using OwnersMap = std::map<ObjectBase *, EventReceiversMap>;
+	using ReceiversFunctorMap = SMap<ObjectBase *, EventFunctor<Event>>;
+	using EventReceiversMap = SMap<ClassId, ReceiversFunctorMap>;
+	using OwnersMap = SMap<ObjectBase *, EventReceiversMap>;
 
 	PRI(OwnersMap, NONE, OwnersMap)
 
-	bool ownerExists(ObjectBase * eventOwner) const;
-	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) const;
-	bool eventTypeHasReceiver(ObjectBase * eventOwner, ClassId eventClassId, ObjectBase * eventReceiver) const;
+	bool ownerExists(ObjectBase * eventOwner) CNS;
+	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) CNS;
+	bool eventTypeHasReceiver(ObjectBase * eventOwner, ClassId eventClassId, ObjectBase * eventReceiver) CNS;
 	void insertEventCallback(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver, EventCallback eventCallback);
 	void removeEventCallback(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver);
 

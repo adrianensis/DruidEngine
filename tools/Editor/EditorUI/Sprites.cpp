@@ -55,7 +55,7 @@ void Sprites::createSpritesSelectors()
 
 	FOR_LIST(it, mEditorController->getEditorConfig().at("atlases"))
 	{
-		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<std::string>());
+		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<SStr>());
 
 		UIButton* atlasSelector = UI::getInstance()->getUIBuilder().
 			setMaterial(material).

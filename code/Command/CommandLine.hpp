@@ -8,7 +8,7 @@
 
 class UIText;
 
-using CommandCallback = std::function<void(const Command& command)>;
+using CommandCallback = SFun<void(CNS Command& command)>;
 
 CLASS(CommandFunctor, Functor<CommandCallback>)
 {
@@ -16,7 +16,7 @@ CLASS(CommandFunctor, Functor<CommandCallback>)
 
 public:
 
-	void execute() override
+	void execute() OVR
 	{
 		if (mCallback)
 		{
@@ -35,11 +35,11 @@ public:
 
 CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
 {
-    PRI(CommandsMap, NONE, std::map<std::string, CommandFunctor>)
-	PRI(Buffer, GETREF_CONST, std::string)
+    PRI(CommandsMap, NONE, SMap<SStr, CommandFunctor>)
+	PRI(Buffer, GETREF_CONST, SStr)
 
-	PRI(History, NONE, std::list<std::string>)
-	PRI(HistoryIterator, NONE, std::list<std::string>::iterator)
+	PRI(History, NONE, SLst<SStr>)
+	PRI(HistoryIterator, NONE, SLst<SStr>::iterator)
 
 	PRI(UIText, NONE, UIText*);
 
@@ -48,9 +48,9 @@ public:
 	void update();
     void terminate();
 
-    void execute(const std::string &commandLine);
-    std::string autocomplete(const std::string &commandLine);
-    void registerCommand(const std::string &commandName, CommandCallback callback);
+    void execute(CNS SStr &commandLine);
+    SStr autocomplete(CNS SStr &commandLine);
+    void registerCommand(CNS SStr &commandName, CommandCallback callback);
 
 	// UI
 	void open();

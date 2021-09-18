@@ -9,14 +9,14 @@ CLASS(Script, Component)
 	PRI(FirstUpdateDone, GET, bool)
 
 public:
-	virtual void init();
-	virtual void firstUpdate();
-	virtual void update();
-	virtual void terminate();
+	VIR void init();
+	VIR void firstUpdate();
+	VIR void update();
+	VIR void terminate();
 
-	virtual void onEnterCollision(GameObject * otherGameObject);
-	virtual void onCollision(GameObject * otherGameObject);
-	virtual void onExitCollision(GameObject * otherGameObject);
+	VIR void onEnterCollision(GameObject * otherGameObject);
+	VIR void onCollision(GameObject * otherGameObject);
+	VIR void onExitCollision(GameObject * otherGameObject);
 
 	void firstUpdateDone()
 	{

@@ -37,7 +37,7 @@ void Transform::init()
 	mForceModelMatrixCalculation = false;
 }
 
-bool Transform::isDirtyTranslation() const
+bool Transform::isDirtyTranslation() CNS
 {
 	return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation());
 }
@@ -47,25 +47,25 @@ void Transform::setDirtyTranslation(bool dirty)
 	mIsDirtyTranslation = dirty;
 }
 
-void Transform::setLocalPosition(const Vector3 &vector)
+void Transform::setLocalPosition(CNS Vector3 &vector)
 {
 	mIsDirtyTranslation = true;
 	mLocalPosition = vector;
 }
 
-void Transform::setRotation(const Vector3 &vector)
+void Transform::setRotation(CNS Vector3 &vector)
 {
 	mIsDirtyRotation = true;
 	mRotation = vector;
 }
 
-void Transform::setScale(const Vector3 &vector)
+void Transform::setScale(CNS Vector3 &vector)
 {
 	mIsDirtyScale = true;
 	mScale = vector;
 }
 
-Vector3 Transform::calculateWorldPosition() const
+Vector3 Transform::calculateWorldPosition() CNS
 {
 	Vector3 worldPosition = mLocalPosition;
 
@@ -82,13 +82,13 @@ Vector3 Transform::calculateWorldPosition() const
 	return worldPosition;
 }
 
-const Vector3 &Transform::getWorldPosition()
+CNS Vector3 &Transform::getWorldPosition()
 {
 	mWorldPosition = calculateWorldPosition();
 	return mWorldPosition;
 }
 
-void Transform::translate(const Vector3 &vector)
+void Transform::translate(CNS Vector3 &vector)
 {
 	if (vector.len() > 0.0f)
 	{
@@ -97,7 +97,7 @@ void Transform::translate(const Vector3 &vector)
 	}
 }
 
-void Transform::rotate(const Vector3 &vector)
+void Transform::rotate(CNS Vector3 &vector)
 {
 	if (vector.len() > 0.0f)
 	{
@@ -106,7 +106,7 @@ void Transform::rotate(const Vector3 &vector)
 	}
 }
 
-void Transform::lookAt(const Vector3 &targetPosition)
+void Transform::lookAt(CNS Vector3 &targetPosition)
 {
 	/*mIsDirtyRotation = true;
 
@@ -129,7 +129,7 @@ void Transform::lookAt(const Vector3 &targetPosition)
 	mRotation = q.toEuler();*/
 }
 
-const Matrix4 &Transform::getTranslationMatrix()
+CNS Matrix4 &Transform::getTranslationMatrix()
 {
 	if (mIsDirtyTranslation || mParent)
 	{
@@ -144,7 +144,7 @@ const Matrix4 &Transform::getTranslationMatrix()
 	return mTranslationMatrix;
 }
 
-const Matrix4 &Transform::getRotationMatrix()
+CNS Matrix4 &Transform::getRotationMatrix()
 {
 	if (mIsDirtyRotation)
 	{
@@ -155,7 +155,7 @@ const Matrix4 &Transform::getRotationMatrix()
 	return mRotationMatrix;
 }
 
-const Matrix4 &Transform::getScaleMatrix()
+CNS Matrix4 &Transform::getScaleMatrix()
 {
 	if (mIsDirtyScale)
 	{
@@ -166,7 +166,7 @@ const Matrix4 &Transform::getScaleMatrix()
 	return mScaleMatrix;
 }
 
-const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
+CNS Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 {
 	if (!isStatic() || (isStatic() && !mModelMatrixGenerated) || force || mForceModelMatrixCalculation)
 	{

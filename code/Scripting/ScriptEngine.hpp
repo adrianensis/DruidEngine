@@ -7,14 +7,14 @@ class Script;
 
 CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
 {
-	PRI(Scripts, NONE, std::list<Script *>);
+	PRI(Scripts, NONE, SLst<Script *>);
 	PRI(Controller, NONE, Script *)
 
-	void internalRemoveScript(std::list<Script *>::iterator & it);
+	void internalRemoveScript(SLst<Script *>::iterator & it);
 
 public:
 	void init();
-	virtual void addComponent(Component *component) override;
+	VIR void addComponent(Component *component) OVR;
 	void update();
 	void terminate();
 };

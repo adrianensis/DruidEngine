@@ -13,28 +13,28 @@ CLASS_EVENT(EventOnDestroy) {};
 
 CLASS(GameObject, ObjectBase)
 {
-	PRI(ComponentsMap, NONE, std::map<ClassId, std::list<Component *> *>)
+	PRI(ComponentsMap, NONE, SMap<ClassId, SLst<Component *> *>)
 	PRI(IsActive, NONE, bool)
 
 	PRI(Scene, GET_SET, Scene *)
 	PRI(IsStatic, GET_SET, bool)
 	PRI(Transform, GET, Transform *)
-	PRI(Tag, GET_SET, std::string)
+	PRI(Tag, GET_SET, SStr)
 	PRI(IsPendingToBeDestroyed, GET, bool)
 	PRI(IsDestroyed, GET, bool)
 	PRI(ShouldPersist, GET_SET, bool)
 
 private:
-	const std::list<Component *> *getComponents(ClassId classId) const;
-	Component *getFirstComponent(ClassId classId) const;
+	CNS SLst<Component *> *getComponents(ClassId classId) CNS;
+	Component *getFirstComponent(ClassId classId) CNS;
 
 	void addComponentToSubsystem(Component* component);
 
 public:
 	GameObject();
-	~GameObject() override;
+	~GameObject() OVR;
 
-	virtual void init();
+	VIR void init();
 
 	void addComponent(Component * component, ClassId classId);
 	void removeComponent(Component * component, ClassId classId);
@@ -52,18 +52,18 @@ public:
 	}
 
 	template <class T>
-	const std::list<T *> *getComponents() const
+	CNS SLst<T *> *getComponents() CNS
 	{
-		return reinterpret_cast<const std::list<T *> *>(GameObject::getComponents(T::getClassIdStatic()));
+		return reinterpret_cast<CNS SLst<T *> *>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
 	template <class T>
-	T *getFirstComponent() const
+	T *getFirstComponent() CNS
 	{
 		return dynamic_cast<T *>(GameObject::getFirstComponent(T::getClassIdStatic()));
 	}
 
-	bool isActive() const
+	bool isActive() CNS
 	{
 		return (mIsDestroyed || mIsPendingToBeDestroyed) ? false : mIsActive;
 	};
@@ -78,7 +78,7 @@ public:
 
 	void destroy();
 
-	virtual void onDestroy(){/*TODO: call script onDestroy here??*/};
+	VIR void onDestroy(){/*TODO: call script onDestroy here??*/};
 
 	SERIALIZE();
 	DESERIALIZE();

@@ -24,45 +24,45 @@ public:
 
 	Quaternion();
 	Quaternion(f32 x, f32 y, f32 z, f32 w);
-	Quaternion(const Vector3 &v, f32 w);
+	Quaternion(CNS Vector3 &v, f32 w);
 	Quaternion(f32 roll, f32 pitch, f32 yaw);
-	Quaternion(const Vector3 &v);
-	Quaternion(const Quaternion &other);
+	Quaternion(CNS Vector3 &v);
+	Quaternion(CNS Quaternion &other);
 
 	//-------------------------------------------------------------------
 	// METHODS
 	//-------------------------------------------------------------------
 
 	Quaternion &set(f32 x, f32 y, f32 z, f32 w);
-	Quaternion &set(const Vector3 &v, f32 w);
-	Quaternion &set(const Quaternion &rhs);
-	Quaternion &add(const Quaternion &rhs);
-	Quaternion &sub(const Quaternion &rhs);
-	Quaternion &mul(const Quaternion &rhs);
-	Quaternion &div(const Quaternion &rhs);
+	Quaternion &set(CNS Vector3 &v, f32 w);
+	Quaternion &set(CNS Quaternion &rhs);
+	Quaternion &add(CNS Quaternion &rhs);
+	Quaternion &sub(CNS Quaternion &rhs);
+	Quaternion &mul(CNS Quaternion &rhs);
+	Quaternion &div(CNS Quaternion &rhs);
 	Quaternion &add(f32 rhs);
 	Quaternion &sub(f32 rhs);
 	Quaternion &mul(f32 rhs);
 	Quaternion &div(f32 rhs);
 
-	f32 len() const;
-	f32 sqrlen() const;
-	f32 dot(const Quaternion &q) const;
+	f32 len() CNS;
+	f32 sqrlen() CNS;
+	f32 dot(CNS Quaternion &q) CNS;
 	Quaternion &nor();
-	bool eq(const Quaternion &q, f32 e) const; // epsilon equal
-	bool eq(const Quaternion &q) const;		   // equal
+	bool eq(CNS Quaternion &q, f32 e) CNS; // epsilon equal
+	bool eq(CNS Quaternion &q) CNS;		   // equal
 	Quaternion &conj();
 	Quaternion &inv();
-	f32 angle(const Quaternion &q) const;
-	Quaternion &lerp(const Quaternion &target, f32 t);
-	Quaternion &nlerp(const Quaternion &target, f32 t);
-	Quaternion &slerp(const Quaternion &target, f32 t);
+	f32 angle(CNS Quaternion &q) CNS;
+	Quaternion &lerp(CNS Quaternion &target, f32 t);
+	Quaternion &nlerp(CNS Quaternion &target, f32 t);
+	Quaternion &slerp(CNS Quaternion &target, f32 t);
 	Quaternion &squad(); // TODO: implement
 	void fromEuler(f32 roll, f32 pitch, f32 yaw);
-	void fromEuler(const Vector3 &v);
-	//Vector3 toEuler() const;
-	void toMatrix(Matrix4 * outMatrix) const;
-	//void fromMatrix(const Matrix4 &m);
+	void fromEuler(CNS Vector3 &v);
+	//Vector3 toEuler() CNS;
+	void toMatrix(Matrix4 * outMatrix) CNS;
+	//void fromMatrix(CNS Matrix4 &m);
 
 	//-------------------------------------------------------------------
 	// OPERATORS
@@ -71,32 +71,32 @@ public:
 	/*
 	* & -> it's a reference, not a full copy.
 	* Quaternion& -> it's a constant reference.
-	* operator=(...) const -> the method promises not to change *this. Non-member
+	* operator=(...) CNS -> the method promises not to change *this. Non-member
 	* functions can not have constant qualification.
 	*/
 
-	Quaternion &operator=(const Quaternion &rhs)
+	Quaternion &operator=(CNS Quaternion &rhs)
 	{
 			return this->set(rhs);
 	}
 
-	Quaternion &operator+=(const Quaternion &rhs)
+	Quaternion &operator+=(CNS Quaternion &rhs)
 	{
 		// can be parallelized with SIMD auto-vectorization
 		return this->add(rhs);
 	}
 
-	Quaternion &operator-=(const Quaternion &rhs)
+	Quaternion &operator-=(CNS Quaternion &rhs)
 	{
 		return this->sub(rhs);
 	}
 
-	Quaternion &operator*=(const Quaternion &rhs)
+	Quaternion &operator*=(CNS Quaternion &rhs)
 	{
 		return this->mul(rhs);
 	}
 
-	Quaternion &operator/=(const Quaternion &rhs)
+	Quaternion &operator/=(CNS Quaternion &rhs)
 	{
 		return this->div(rhs);
 	}
@@ -121,52 +121,52 @@ public:
 		return this->div(rhs);
 	}
 
-	bool operator==(const Quaternion &rhs) const
+	bool operator==(CNS Quaternion &rhs) CNS
 	{
 		return this->eq(rhs);
 	}
 
-	bool operator!=(const Quaternion &rhs) const
+	bool operator!=(CNS Quaternion &rhs) CNS
 	{
 		return !((*this) == rhs);
 	}
 
-	Quaternion operator+(const Quaternion &rhs) const
+	Quaternion operator+(CNS Quaternion &rhs) CNS
 	{
 		return Quaternion(*this) += rhs;
 	}
 
-	Quaternion operator-(const Quaternion &rhs) const
+	Quaternion operator-(CNS Quaternion &rhs) CNS
 	{
 		return Quaternion(*this) -= rhs;
 	}
 
-	Quaternion operator*(const Quaternion &rhs) const
+	Quaternion operator*(CNS Quaternion &rhs) CNS
 	{
 		return Quaternion(*this) *= rhs;
 	}
 
-	Quaternion operator/(const Quaternion &rhs) const
+	Quaternion operator/(CNS Quaternion &rhs) CNS
 	{
 		return Quaternion(*this) /= rhs;
 	}
 
-	Quaternion operator+(f32 rhs) const
+	Quaternion operator+(f32 rhs) CNS
 	{
 		return Quaternion(*this) += rhs;
 	}
 
-	Quaternion operator-(f32 rhs) const
+	Quaternion operator-(f32 rhs) CNS
 	{
 		return Quaternion(*this) -= rhs;
 	}
 
-	Quaternion operator*(f32 rhs) const
+	Quaternion operator*(f32 rhs) CNS
 	{
 		return Quaternion(*this) *= rhs;
 	}
 
-	Quaternion operator/(f32 rhs) const
+	Quaternion operator/(f32 rhs) CNS
 	{
 		return Quaternion(*this) /= rhs;
 	}
@@ -181,7 +181,7 @@ public:
 	}
 
 	// read only
-	f32 operator[](size_t index) const
+	f32 operator[](size_t index) CNS
 	{
 		ASSERT_MSG(index >= 0 && index < 4, "Index out of bounds.");
 		if (index == 3)

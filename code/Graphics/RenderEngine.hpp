@@ -23,7 +23,7 @@ private:
 	CLASS_NESTED(LayerData, ObjectBase)
 	{
 		PUB(Sorted, NONE, bool)
-		PUB(DynamicObjectsCount, NONE, u32) // Non static objects count
+		PUB(DynamicObjectsCount, NONE, u32) // Non STC objects count
 		PUB(SortCounter, NONE, u32)
 		PUB(Visible, NONE, bool)
 
@@ -40,14 +40,14 @@ private:
 	PRI(Camera, GET_SET, Camera *)
 	PRI(CameraDirtyTranslation, GET, bool)
 
-	PRI(LayersData, GETREF_CONST_SET, std::map<u32, LayerData *>);
+	PRI(LayersData, GETREF_CONST_SET, SMap<u32, LayerData *>);
 	PRI(MaxLayers, GET, u32)
 	PRI(MaxLayersUsed, NONE, u32)
 
 	PRI(MinChunkDrawDistance, GET, f32)
-	PRI(Chunks, NONE, std::vector<Chunk *>)
+	PRI(Chunks, NONE, SVec<Chunk *>)
 
-	PRI(RenderersToFree, NONE, std::list<Renderer *>)
+	PRI(RenderersToFree, NONE, SLst<Renderer *>)
 
 	void checkChunks();
 	void freeRenderersPendingtoFree();
@@ -60,9 +60,9 @@ public:
 	void updateDebug(); // debug render
 	void terminate();
 
-	virtual void addComponent(Component *component) override;
+	VIR void addComponent(Component *component) OVR;
 	Chunk *assignChunk(Renderer * renderer);
 	void freeRenderer(Renderer * renderer);
-	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
-	bool frustumTestSphere(const Vector3 &center, f32 radius);
+	void drawLine(CNS Vector3 &start, CNS Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	bool frustumTestSphere(CNS Vector3 &center, f32 radius);
 };

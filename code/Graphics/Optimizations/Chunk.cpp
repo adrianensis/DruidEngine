@@ -26,12 +26,12 @@ void Chunk::init()
 {
 	//TRACE();
 
-	mRenderers = NEW(std::list<Renderer *>);
+	mRenderers = NEW(SLst<Renderer *>);
 
 	mLeftTop.set(0, 0, 0);
 }
 
-void Chunk::set(const Vector3 &leftTop, f32 size)
+void Chunk::set(CNS Vector3 &leftTop, f32 size)
 {
 	mLeftTop = leftTop;
 	mSize = size;
@@ -114,14 +114,14 @@ void Chunk::addRenderer(Renderer *renderer)
 	mRenderers->push_back(renderer);
 }
 
-bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const
+bool Chunk::containsRenderer(CNS Renderer *renderer, f32 epsilon /*= 0.0f*/) CNS
 {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	bool contains = Geometry::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
 }
 
-bool Chunk::containsRendererSphere(const Renderer *renderer) const
+bool Chunk::containsRendererSphere(CNS Renderer *renderer) CNS
 {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return Geometry::testSphereSphere(mCenter, rendererPosition, mRadius,

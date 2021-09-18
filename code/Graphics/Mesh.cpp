@@ -20,7 +20,7 @@ void Mesh::init(u32 vertexCount, u32 facesCount)
 	clear();
 }
 
-Mesh *Mesh::addVertex(const Vector3 &vector)
+Mesh *Mesh::addVertex(CNS Vector3 &vector)
 {
 	mVertices.push_back(vector.x);
 	mVertices.push_back(vector.y);
@@ -28,7 +28,7 @@ Mesh *Mesh::addVertex(const Vector3 &vector)
 	return this;
 }
 
-Mesh *Mesh::addNormal(const Vector3 &vector)
+Mesh *Mesh::addNormal(CNS Vector3 &vector)
 {
 	mNormals.push_back(vector.x);
 	mNormals.push_back(vector.y);

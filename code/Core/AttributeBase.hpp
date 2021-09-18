@@ -8,21 +8,21 @@ class AttributeBase;
 class AttributeRegisterStatic
 {
 public:
-    AttributeRegisterStatic(const std::string &classname, const std::string &name, std::list<AttributeBase> &outList);
+    AttributeRegisterStatic(CNS SStr &classname, CNS SStr &name, SLst<AttributeBase> &outList);
 };
 
 class AttributeRegister
 {
 public:
-    AttributeRegister(const std::string &name, void *pointer, ObjectBase *owner);
+    AttributeRegister(CNS SStr &name, void *pointer, ObjectBase *owner);
 };
 
 class AttributeBase
 {
 public:
-    AttributeBase(const std::string &name, void *pointer);
+    AttributeBase(CNS SStr &name, void *pointer);
 
     void *mPointer = nullptr;
-    std::string mName = "";
+    SStr mName = "";
     AttributeBase *mNext = nullptr;
 };

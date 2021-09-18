@@ -16,7 +16,7 @@ void UIButton::init()
 	subscribeToMouseEvents();
 }
 
-void UIButton::initFromConfig(const UIElementConfig& config)
+void UIButton::initFromConfig(CNS UIElementConfig& config)
 {
 	Super::initFromConfig(config);
 
@@ -55,7 +55,7 @@ void UIButton::onLabelDestroy()
 	mText = nullptr;
 }
 
-void UIButton::setText(const std::string &text)
+void UIButton::setText(CNS SStr &text)
 {
 	if (text.length() > 0)
 	{

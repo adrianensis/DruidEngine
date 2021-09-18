@@ -9,7 +9,7 @@ class GameObject;
 
 CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
 {
-	PRI(Scenes, NONE, std::vector<Scene *>);
+	PRI(Scenes, NONE, SVec<Scene *>);
 	PRI(CurrentSceneIndex, NONE, u32)
 
 	PRI(CurrentScene, GET, Scene *)
@@ -21,7 +21,7 @@ CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
 
 public:
 	ScenesManager();
-	~ScenesManager() override;
+	~ScenesManager() OVR;
 
 	void init();
 	void update();

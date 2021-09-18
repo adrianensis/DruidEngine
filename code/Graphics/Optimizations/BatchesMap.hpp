@@ -9,11 +9,11 @@ class Batch;
 
 CLASS(BatchesMap, ObjectBase)
 {
-	PRI(Batches, NONE, std::map<Texture *, Batch *>);
+	PRI(Batches, NONE, SMap<Texture *, Batch *>);
 	PRI(IsWorldSpace, GET, bool)
 
 public:
-	~BatchesMap() override;
+	~BatchesMap() OVR;
 
 	void init();
 	void render(u32 layer);

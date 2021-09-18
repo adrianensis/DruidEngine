@@ -9,7 +9,7 @@ CLASS(UIDropdownButton, UIButton)
 {
 	PRI(ParentDropdown, GET_SET, UIDropdown *)
 public:
-	virtual void onReleased() override;
+	VIR void onReleased() OVR;
 };
 
 CLASS(UIDropdown, UIButton)
@@ -19,11 +19,11 @@ friend UIDropdownButton;
 private:
 	CLASS_NESTED(UIDropdownEntry, ObjectBase)
 	{
-		PUB(Label, NONE, std::string)
+		PUB(Label, NONE, SStr)
 		PUB(Callback, NONE, UIElementCallback)
 
 	public:
-		UIDropdownEntry(const std::string& label, UIElementCallback callback);
+		UIDropdownEntry(CNS SStr& label, UIElementCallback callback);
 
 		COPY(UIDropdownEntry)
 		{
@@ -32,17 +32,17 @@ private:
 		}
 	};
 
-	std::list<UIDropdownButton *> mButtons;
-	std::list<UIDropdownEntry> mEntries;
+	SLst<UIDropdownButton *> mButtons;
+	SLst<UIDropdownEntry> mEntries;
 
 	void setEntriesVisibility(bool visible);
 
 public:
-	virtual void init() override;
-	virtual void onDestroy() override;
+	VIR void init() OVR;
+	VIR void onDestroy() OVR;
 
-	virtual void onReleased() override;
+	VIR void onReleased() OVR;
 
-	UIDropdown& addOption(const std::string & label, UIElementCallback onPressedCallback);
+	UIDropdown& addOption(CNS SStr & label, UIElementCallback onPressedCallback);
 	void toggle();
 };

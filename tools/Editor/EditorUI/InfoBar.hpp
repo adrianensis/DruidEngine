@@ -22,7 +22,7 @@ CLASS(InfoBar, ObjectBase)
 	INFO_BAR_MEMBER(BrushSize, u32)
 
 private:
-	UIText* createInfoField(const std::string &name);
+	UIText* createInfoField(CNS SStr &name);
 
 public:
 	void init(EditorController* editorController);

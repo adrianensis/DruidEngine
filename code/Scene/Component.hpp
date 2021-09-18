@@ -17,13 +17,13 @@ CLASS(Component, ObjectBase)
 public:
 	Component();
 
-	virtual void init() = 0;
+	VIR void init() = 0;
 
-	virtual void onComponentAdded() { };
+	VIR void onComponentAdded() { };
 
 	bool isStatic();
 
-	bool isActive() const
+	bool isActive() CNS
 	{
 		return (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : mIsActive;
 	};
@@ -41,7 +41,7 @@ public:
 
 	void destroy();
 
-	virtual void onDestroy(){};
+	VIR void onDestroy(){};
 
 	SERIALIZE();
 	DESERIALIZE();

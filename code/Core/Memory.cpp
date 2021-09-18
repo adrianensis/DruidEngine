@@ -1,6 +1,6 @@
 #include "Core/Memory.hpp"
 
-std::map<std::string, i32> Memory::mAllocationsCounter;
+SMap<SStr, i32> Memory::mAllocationsCounter;
 
 void Memory::init()
 {

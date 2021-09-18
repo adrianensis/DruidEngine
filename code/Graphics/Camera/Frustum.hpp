@@ -13,7 +13,7 @@ CLASS(Frustum, ObjectBase)
 {
 	PRI(VPmatrix, NONE, Matrix4)
 	PRI(Camera, NONE, Camera *)
-	PRI(Planes, NONE, std::array<Vector4, 6>);
+	PRI(Planes, NONE, SArr<Vector4, 6>);
 
 public:
 	void init(Camera * camera);
@@ -23,7 +23,7 @@ public:
 	*/
 	void build(bool forceBuild = false);
 
-	bool testSphere(const Vector3 &center, f32 radius) const;
-	bool testPoint(const Vector3 &point) const;
-	bool testRectangle(const Vector3 &leftTop, f32 width, f32 height) const;
+	bool testSphere(CNS Vector3 &center, f32 radius) CNS;
+	bool testPoint(CNS Vector3 &point) CNS;
+	bool testRectangle(CNS Vector3 &leftTop, f32 width, f32 height) CNS;
 };

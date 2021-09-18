@@ -34,4 +34,4 @@ SERIALIZE_IMPL(Component)
 	DO_SERIALIZE("class", getClassName())
 };
 
-void Component::deserialize(const JSON &json) { };
+void Component::deserialize(CNS JSON &json) { };

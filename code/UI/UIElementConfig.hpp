@@ -18,25 +18,25 @@ enum class UILayout
 
 CLASS(UIElementConfig, ObjectBase)
 {
-	PUB(Style, NONE, const UIStyle*)
+	PUB(Style, NONE, CNS UIStyle*)
 	PUB(UIElementClassId, NONE, ClassId)
 	PUB(Position, NONE, Vector2)
 	PUB(DisplayPosition, NONE, Vector2)
 	PUB(Size, NONE, Vector2)
 	PUB(TextSize, NONE, Vector2)
-	PUB(Text, NONE, std::string)
+	PUB(Text, NONE, SStr)
 	PUB(AdjustSizeToText, NONE, bool)
 	PUB(Layer, NONE, u32)
 	PUB(IsAffectedByLayout, NONE, bool)
 	PUB(Material, NONE, Material *)
-	PUB(Group, NONE, std::string)
+	PUB(Group, NONE, SStr)
 	PUB(Parent, NONE, GameObject*)
 	PUB(SeparatorSize, NONE, f32)
 
 public:
 	UIElementConfig();
 
-	void init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text = std::string());
+	void init(CNS Vector2 &position, CNS Vector2 &size, u32 layer, SStr text = SStr());
 
 	COPY(UIElementConfig)
 	{

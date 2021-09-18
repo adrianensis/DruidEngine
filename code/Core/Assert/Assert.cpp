@@ -1,11 +1,11 @@
 #include "Core/Assert/Assert.hpp"
-#include <string>	// std::string
+#include <string>	// SStr
 #include <cstdlib>	// abort
 
 //#include <experimental/filesystem>
 
-void assert_msg(bool condition, const std::string &file, u32 line, const std::string &function,
-				const std::string &message)
+void assert_msg(bool condition, CNS SStr &file, u32 line, CNS SStr &function,
+				CNS SStr &message)
 {
 	if (!condition)
 	{

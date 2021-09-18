@@ -19,7 +19,7 @@ CLASS(Timer, ObjectBase)
 	PUB(Functor, NONE, FunctorVoid)
 
 public:
-	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
+	void init(f32 duration, TimerDurationType durationType, SFun<void()> callback);
 };
 
 CLASS(TimerHandle, ObjectBase)
@@ -42,15 +42,15 @@ public:
 
 CLASS(TimerManager, ObjectBase), SINGLETON(TimerManager)
 {
-	PRI(Timers, NONE, std::list<Timer *>);
+	PRI(Timers, NONE, SLst<Timer *>);
 
 	void endTimer(Timer * timer);
 
 public:
-	~TimerManager() override;
+	~TimerManager() OVR;
 	void init();
-	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);
-	void cancelTimer(const TimerHandle &timerHandle);
+	TimerHandle setTimer(f32 duration, TimerDurationType durationType, SFun<void()> callback);
+	void cancelTimer(CNS TimerHandle &timerHandle);
 	void update();
 	void terminate();
 };

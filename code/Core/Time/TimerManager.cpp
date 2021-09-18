@@ -1,7 +1,7 @@
 #include "Core/Time/TimerManager.hpp"
 #include "Log/Log.hpp"
 
-void Timer::init(f32 duration, TimerDurationType durationType, std::function<void()> callback)
+void Timer::init(f32 duration, TimerDurationType durationType, SFun<void()> callback)
 {
 	mDurationType = durationType;
 	mDuration = duration;
@@ -29,7 +29,7 @@ void TimerManager::update()
 	if (!mTimers.empty())
 	{
 		f32 deltaTime = Time::getInstance()->getDeltaTimeSeconds(); // seconds
-		std::list<Timer *> timers(mTimers);
+		SLst<Timer *> timers(mTimers);
 
 		for (auto itTimer = timers.begin(); itTimer != timers.end(); ++itTimer)
 		{
@@ -46,7 +46,7 @@ void TimerManager::update()
 	}
 }
 
-TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback)
+TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, SFun<void()> callback)
 {
 	Timer *timer = NEW(Timer);
 	timer->init(duration, durationType, callback);
@@ -59,7 +59,7 @@ TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType,
 	return timerHandler;
 }
 
-void TimerManager::cancelTimer(const TimerHandle &timerHandle)
+void TimerManager::cancelTimer(CNS TimerHandle &timerHandle)
 {
 	endTimer(timerHandle.mTimerReference);
 }

@@ -30,9 +30,9 @@ void Material::bind(bool isWorldSpace)
 
 	Camera *camera = RenderEngine::getInstance()->getCamera();
 
-	const Matrix4 &projectionMatrix = camera->getProjectionMatrix();
-	const Matrix4 &viewTranslationMatrix = camera->getViewTranslationMatrix();
-	const Matrix4 &viewRotationMatrix = camera->getViewRotationMatrix();
+	CNS Matrix4 &projectionMatrix = camera->getProjectionMatrix();
+	CNS Matrix4 &viewTranslationMatrix = camera->getViewTranslationMatrix();
+	CNS Matrix4 &viewRotationMatrix = camera->getViewRotationMatrix();
 
 	mShader->addMatrix(projectionMatrix, "projectionMatrix");
 	mShader->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
@@ -54,7 +54,7 @@ SERIALIZE_IMPL(Material)
 	//DO_SERIALIZE("texture", mTexture)
 }
 
-void Material::deserialize(const JSON &json)
+void Material::deserialize(CNS JSON &json)
 {
 	//DO_DESERIALIZE("texture", mTexture)
 }

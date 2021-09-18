@@ -15,30 +15,30 @@ private:
 	PRI(FragmentShader, NONE, u32)
 	PRI(Program, NONE, u32)
 
-	static Shader *msShaderDefault;
-	static Shader *msShaderDebug;
+	STC Shader *msShaderDefault;
+	STC Shader *msShaderDebug;
 
-	void initInternal(const std::string &vertex, const std::string &fragment);
+	void initInternal(CNS SStr &vertex, CNS SStr &fragment);
 
 public:
 	Shader();
-	~Shader() override;
+	~Shader() OVR;
 
-	static Shader *getDefaultShader();
-	static Shader *getDebugShader();
+	STC Shader *getDefaultShader();
+	STC Shader *getDebugShader();
 
-	static void freeStaticShaders();
+	STC void freeStaticShaders();
 
 	void init();
 	void initDebug();
 	void use();
 
-	void addMatrix(const Matrix4 &matrix, const std::string &name);
-	void addInt(i32 value, const std::string &name);
-	void addUInt(u32 value, const std::string &name);
-	void addFloat(f32 value, const std::string &name);
-	void addVector4(const Vector4 &value, const std::string &name);
-	void addVector3(const Vector3 &value, const std::string &name);
-	void addVector2(const Vector2 &value, const std::string &name);
-	void addBool(bool value, const std::string &name);
+	void addMatrix(CNS Matrix4 &matrix, CNS SStr &name);
+	void addInt(i32 value, CNS SStr &name);
+	void addUInt(u32 value, CNS SStr &name);
+	void addFloat(f32 value, CNS SStr &name);
+	void addVector4(CNS Vector4 &value, CNS SStr &name);
+	void addVector3(CNS Vector3 &value, CNS SStr &name);
+	void addVector2(CNS Vector2 &value, CNS SStr &name);
+	void addBool(bool value, CNS SStr &name);
 };

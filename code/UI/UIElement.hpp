@@ -11,7 +11,7 @@ class UIGroup;
 
 class UIElement;
 
-using UIElementCallback = std::function<void(UIElement *uiElement)>;
+using UIElementCallback = SFun<void(UIElement *uiElement)>;
 
 CLASS(FunctorUIElement, Functor<UIElementCallback>)
 {
@@ -19,7 +19,7 @@ CLASS(FunctorUIElement, Functor<UIElementCallback>)
 
 public:
 
-	virtual void execute() override
+	VIR void execute() OVR
 	{
 		if (mCallback)
 		{
@@ -48,7 +48,7 @@ CLASS(UIElement, GameObject)
 
 	PRO(Renderer, GET, Renderer *)
 	//PRI(Collider, GET, Collider*)
-	PRO(InputString, GET, std::string)
+	PRO(InputString, GET, SStr)
 	PRO(ConsumeInput, GET_SET, bool)
 	PRO(Pressed, GET, bool)
 	PRO(CanToggle, GET, bool)
@@ -60,9 +60,9 @@ CLASS(UIElement, GameObject)
 	void release(bool force = false);
 
 public:
-	virtual void init() override;
-	virtual void initFromConfig(const UIElementConfig& config);
-	virtual void onDestroy();
+	VIR void init() OVR;
+	VIR void initFromConfig(CNS UIElementConfig& config);
+	VIR void onDestroy();
 
 	void subscribeToKeyEvents();
 	void subscribeToCharEvents();
@@ -71,24 +71,24 @@ public:
 	void subscribeToEnterEvent();
 	void subscribeToEscEvent();
 
-	bool hasFocus() const;
+	bool hasFocus() CNS;
 
 	bool isMouseCursorInsideElement();
 
-	virtual void onChar(char character);
+	VIR void onChar(char character);
 
-	virtual void setText(const std::string &text) { };
+	VIR void setText(CNS SStr &text) { };
 
-	virtual void onPressed();
-	virtual void onReleased();
+	VIR void onPressed();
+	VIR void onReleased();
 
 	void simulateClick();
 
-	virtual void onMouseOver();
+	VIR void onMouseOver();
 
-	virtual void onScroll(f32 scroll);
+	VIR void onScroll(f32 scroll);
 
-	virtual void onFocusLost();
+	VIR void onFocusLost();
 	void onFocus();
 
 	void setOnPressedCallback(UIElementCallback callback)
@@ -117,6 +117,6 @@ public:
 
 	void setComponentsCache();
 
-	virtual void setVisibility(bool visibility);
+	VIR void setVisibility(bool visibility);
 	bool isVisible();
 };

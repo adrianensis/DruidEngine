@@ -8,7 +8,7 @@
 #include "Scene/Scene.hpp"
 #include "Graphics/Mesh.hpp"
 
-UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback callback)
+UIList::UIListEntry::UIListEntry(CNS SStr& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
@@ -26,7 +26,7 @@ void UIList::init()
 	subscribeToScrollEvents();
 }
 
-void UIList::initFromConfig(const UIElementConfig& config)
+void UIList::initFromConfig(CNS UIElementConfig& config)
 {
 	Super::initFromConfig(config);
 
@@ -60,7 +60,7 @@ void UIList::onDestroy()
 	Super::onDestroy();
 }
 
-UIList &UIList::addOption(const std::string &label, UIElementCallback onPressedCallback)
+UIList &UIList::addOption(CNS SStr &label, UIElementCallback onPressedCallback)
 {
 	mEntries.push_back(UIListEntry(label, onPressedCallback));
 	return *this;
@@ -85,7 +85,7 @@ void UIList::toggle()
 
 		FOR_LIST(it, mEntries)
 		{
-			std::string &label = (*it).mLabel;
+			SStr &label = (*it).mLabel;
 			UIElementCallback onPressedCallback = (*it).mCallback;
 
 			UI::getInstance()->getUIBuilder().
@@ -133,7 +133,7 @@ void UIList::setEntriesVisibility(bool visible)
 	/*if(visible){
 		FOR_LIST(it, mEntries) {
 
-			std::string& label = it.get().mLabel;
+			SStr& label = it.get().mLabel;
 			UIElementCallback onPressedCallback = it.get().mCallback;
 
 			Vector3 scale = getTransform()->getScale();

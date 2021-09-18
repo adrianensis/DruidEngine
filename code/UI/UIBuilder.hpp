@@ -50,7 +50,7 @@ CLASS(UIBuilder, ObjectBase), SINGLETON(UIBuilder)
 	PRI(ButtonMaterial, NONE, Material *)
 	PRI(Config, NONE, UIElementConfig)
 	PRI(DefaultConfig, NONE, UIElementConfig)
-	PRI(ConfigStack, NONE, std::list<UIElementConfig>);
+	PRI(ConfigStack, NONE, SLst<UIElementConfig>);
 	PRI(LastConfig, NONE, UIElementConfig)
 	PRI(MakeRelativeToLastConfig, NONE, bool) // used for layouts
 	PRI(LayoutFirstUIElementConfig, NONE, UIElementConfig)
@@ -100,18 +100,18 @@ public:
 		return create(T::getClassNameStatic());
 	}
 
-	UIBuilder &create(const std::string &className);
+	UIBuilder &create(CNS SStr &className);
 
 	UIBuilder &saveData();
 	UIBuilder &restoreData();
 
-	UIElement *getUIElement() const
+	UIElement *getUIElement() CNS
 	{
 		return mCurrentUIElement;
 	}
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIElement, T>::value> >
-	T *getUIElement() const
+	T *getUIElement() CNS
 	{
 		return dynamic_cast<T *>(getUIElement());
 	}

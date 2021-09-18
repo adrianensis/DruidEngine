@@ -25,7 +25,7 @@ void GameObject::addComponent(Component *component, ClassId classId)
 {
 	if (!MAP_CONTAINS(mComponentsMap, classId))
 	{
-		MAP_INSERT(mComponentsMap, classId, NEW(std::list<Component *>));
+		MAP_INSERT(mComponentsMap, classId, NEW(SLst<Component *>));
 	}
 
 	mComponentsMap.at(classId)->push_back(component);
@@ -40,7 +40,7 @@ void GameObject::removeComponent(Component *component, ClassId classId)
 {
 	if (MAP_CONTAINS(mComponentsMap, classId) && !component->getIsPendingToBeDestroyed() && !component->getIsDestroyed())
 	{
-		std::list<Component *> *list = mComponentsMap.at(classId);
+		SLst<Component *> *list = mComponentsMap.at(classId);
 		list->remove(component);
 		component->destroy();
 	}
@@ -56,9 +56,9 @@ void GameObject::init()
 	mTag = "";
 }
 
-const std::list<Component *> *GameObject::getComponents(ClassId classId) const
+CNS SLst<Component *> *GameObject::getComponents(ClassId classId) CNS
 {
-	std::list<Component *> *components = nullptr;
+	SLst<Component *> *components = nullptr;
 
 	if (MAP_CONTAINS(mComponentsMap, classId))
 	{
@@ -73,10 +73,10 @@ const std::list<Component *> *GameObject::getComponents(ClassId classId) const
 	return components;
 }
 
-Component *GameObject::getFirstComponent(ClassId classId) const
+Component *GameObject::getFirstComponent(ClassId classId) CNS
 {
 	Component *component = nullptr;
-	const std::list<Component *> *components = getComponents(classId);
+	CNS SLst<Component *> *components = getComponents(classId);
 
 	if (components && !components->empty())
 	{
@@ -157,8 +157,8 @@ DESERIALIZE_IMPL(GameObject)
 
 	DO_DESERIALIZE("transform", mTransform)
 
-	std::list<Component *> tmpList;
-	DO_DESERIALIZE_LIST("components", tmpList, [](const JSON &json)
+	SLst<Component *> tmpList;
+	DO_DESERIALIZE_LIST("components", tmpList, [](CNS JSON &json)
 	{
 		Component *component = INSTANCE_BY_NAME(json["class"], Component);
 		return component;

@@ -9,9 +9,9 @@
 
 namespace Hash
 {
-	static u32 hashString(std::string key)
+	STC u32 hashString(SStr key)
 	{
-		std::hash<std::string> hash_fn;
+		std::hash<SStr> hash_fn;
 		u32 hashString = hash_fn(key);
 		return hashString;
 	}
@@ -25,25 +25,25 @@ private:
 
 	ObjectId mObjectId = 0;
 
-	std::map<std::string, AttributeBase> mAttributes; // runtime attributes
+	SMap<SStr, AttributeBase> mAttributes; // runtime attributes
 
 protected:
-	inline static ObjectId smObjectIdCounter = 0;
+	inline STC ObjectId smObjectIdCounter = 0;
 
 private:
 
 	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
 public:
-	static std::string getClassNameStatic()
+	STC SStr getClassNameStatic()
 	{
-		static std::string className = "ObjectBase";
+		STC SStr className = "ObjectBase";
 		return className;
 	}
 
-	static ClassId getClassIdStatic()
+	STC ClassId getClassIdStatic()
 	{
-		static ClassId classId = Hash::hashString("ObjectBase");
+		STC ClassId classId = Hash::hashString("ObjectBase");
 		return classId;
 	}
 
@@ -57,52 +57,52 @@ public:
 		}
 	};
 
-	virtual ~ObjectBase(){};
+	VIR ~ObjectBase(){};
 
 	ObjectId getObjectId()
 	{
 		return mObjectId;
 	}
 
-	virtual ClassId getClassId() const
+	VIR ClassId getClassId() CNS
 	{
 		return ObjectBase::getClassIdStatic();
 	}
 
-	virtual std::string getClassName() const
+	VIR SStr getClassName() CNS
 	{
 		return ObjectBase::getClassNameStatic();
 	}
 
-	const std::map<std::string, AttributeBase> &getAttributes()
+	CNS SMap<SStr, AttributeBase> &getAttributes()
 	{
 		return mAttributes;
 	}
 
 	template <class T>
-	bool isDerivedClass() const
+	bool isDerivedClass() CNS
 	{
-		return dynamic_cast<const T *>(this) != nullptr;
+		return dynamic_cast<CNS T *>(this) != nullptr;
 	}
 
 	template <class T>
-	bool isSameClass() const
+	bool isSameClass() CNS
 	{
 		return isDerivedClass<ObjectBase>() && (this->getClassId() == T::getClassIdStatic());
 	}
 
-	bool hasSameClass(ObjectBase *object) const
+	bool hasSameClass(ObjectBase *object) CNS
 	{
 		return this->getClassId() == object->getClassId();
 	}
 
 	// Assignment
 
-	virtual void copy(const ObjectBase *other)
+	VIR void copy(CNS ObjectBase *other)
 	{
 	}
 
-	ObjectBase &operator=(const ObjectBase &other)
+	ObjectBase &operator=(CNS ObjectBase &other)
 	{
 		copy(&other);
 		return *this;

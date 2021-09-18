@@ -17,15 +17,15 @@ public:
 
 	Vector4();
 	Vector4(f32 x, f32 y, f32 z, f32 w);
-	Vector4(const Vector4 &other);
-	Vector4(const Vector3 &other);
-	Vector4(const Vector2 &other);
-	Vector4(const Vector3 &other, f32 w);
-	Vector4(const Vector2 &other, f32 z, f32 w);
+	Vector4(CNS Vector4 &other);
+	Vector4(CNS Vector3 &other);
+	Vector4(CNS Vector2 &other);
+	Vector4(CNS Vector3 &other, f32 w);
+	Vector4(CNS Vector2 &other, f32 z, f32 w);
 
 	Vector4 &set(f32 x, f32 y, f32 z, f32 w);
-    Vector4 &set(const Vector2 &other);
-	Vector4 &set(const Vector3 &other);
+    Vector4 &set(CNS Vector2 &other);
+	Vector4 &set(CNS Vector3 &other);
 
 	VECTOR_BASE_DEFINITION(4)
 };

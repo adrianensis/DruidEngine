@@ -9,11 +9,11 @@ CLASS(UIList, UIElement)
 private:
 	CLASS_NESTED(UIListEntry, ObjectBase)
 	{
-		PUB(Label, NONE, std::string)
+		PUB(Label, NONE, SStr)
 		PUB(Callback, NONE, UIElementCallback)
 
 	public:
-		UIListEntry(const std::string& label, UIElementCallback callback);
+		UIListEntry(CNS SStr& label, UIElementCallback callback);
 
 		COPY(UIListEntry)
 		{
@@ -22,18 +22,18 @@ private:
 		}
 	};
 
-	std::list<UIButton *> mButtons;
-	std::list<UIListEntry> mEntries;
+	SLst<UIButton *> mButtons;
+	SLst<UIListEntry> mEntries;
 
 	void setEntriesVisibility(bool visible);
 
 public:
-	virtual void init() override;
-	virtual void initFromConfig(const UIElementConfig& config) override;
-	virtual void onDestroy() override;
+	VIR void init() OVR;
+	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void onDestroy() OVR;
 
-	UIList& addOption(const std::string & label, UIElementCallback onPressedCallback);
+	UIList& addOption(CNS SStr & label, UIElementCallback onPressedCallback);
 
 	void toggle();
-	virtual void onScroll(f32 scroll) override;
+	VIR void onScroll(f32 scroll) OVR;
 };

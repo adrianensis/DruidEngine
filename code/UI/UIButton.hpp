@@ -9,18 +9,18 @@ CLASS(UIButton, UIElement)
 	PRI(Text, GET, UIText *)
 
 public:
-	virtual void init() override;
-	virtual void initFromConfig(const UIElementConfig& config) override;
-	virtual void onDestroy() override;
+	VIR void init() OVR;
+	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void onDestroy() OVR;
 
 	void onLabelDestroy();
 
-	virtual void setText(const std::string &text) override;
-	virtual void setVisibility(bool visibility) override;
+	VIR void setText(CNS SStr &text) OVR;
+	VIR void setVisibility(bool visibility) OVR;
 };
 
 CLASS(UIToggleButton, UIButton)
 {
 public:
-	virtual void init() override;
+	VIR void init() OVR;
 };

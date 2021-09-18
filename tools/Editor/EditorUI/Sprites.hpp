@@ -12,8 +12,8 @@ class EditorController;
 CLASS(Sprites, ObjectBase)
 {
 	PRI(EditorController, NONE, EditorController*)
-	PRI(SpritesSelectorUIGroup, NONE, std::string)
-	PRI(SpritesUIGroup, NONE, std::string)
+	PRI(SpritesSelectorUIGroup, NONE, SStr)
+	PRI(SpritesUIGroup, NONE, SStr)
 	PRI(IsVisible, GET, bool)
 
 private:

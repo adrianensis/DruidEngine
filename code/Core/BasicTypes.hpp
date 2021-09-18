@@ -16,8 +16,7 @@
 
 #include <functional>
 
-using ptr = std::uintptr_t;
-using ptrdiff = std::ptrdiff_t;
+#include "Core/Macros.hpp"
 
 using f32 = float;
 using f64 = double;
@@ -35,3 +34,14 @@ using u64 = std::uint64_t;
 
 using ClassId = u32;
 using ObjectId = u32;
+
+// S for "std"
+#define SVec std::vector
+#define SLst std::list
+#define SArr std::array
+#define SMap std::map
+#define SSet std::set
+
+#define SStr std::string
+
+#define SFun std::function

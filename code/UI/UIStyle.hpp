@@ -32,11 +32,11 @@ public:
 CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
 {
 	PRI(DefaultStyle, GETREF_CONST, UIStyle);
-	PRI(Styles, NONE, std::map<ClassId, UIStyle*>);
+	PRI(Styles, NONE, SMap<ClassId, UIStyle*>);
 
 public:
 
-	virtual ~UIStyleManager() override;
+	VIR ~UIStyleManager() OVR;
 	
 	void init();
 
@@ -47,7 +47,7 @@ public:
 	}
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIStyle, T>::value> >
-	const T& getStyle()
+	CNS T& getStyle()
 	{
 		ASSERT_MSG(MAP_CONTAINS(mStyles, T::getClassIdStatic()), "Style not found");
 
@@ -55,7 +55,7 @@ public:
 	}
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIStyle, T>::value> >
-	const T& getOrAddStyle()
+	CNS T& getOrAddStyle()
 	{
 		if(!MAP_CONTAINS(mStyles, T::getClassIdStatic()))
 		{

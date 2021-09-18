@@ -98,7 +98,7 @@ bool Server::checkConnectionRequest()
 	return result;
 }
 
-void Server::writeData(const std::string &data) const
+void Server::writeData(CNS SStr &data) CNS
 {
 	int sent = send(new_socket, data.c_str(), data.size(), 0);
 
@@ -108,7 +108,7 @@ void Server::writeData(const std::string &data) const
 	}
 }
 
-std::string Server::readData(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
+SStr Server::readData(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) CNS
 {
 	buffer.clear();
 	buffer.resize(size);
@@ -122,7 +122,7 @@ std::string Server::readData(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
 	return buffer;
 }
 
-JSON Server::readJSON() const
+JSON Server::readJSON() CNS
 {
 	JSON json = readSimpleJSON();
 
@@ -134,10 +134,10 @@ JSON Server::readJSON() const
 	return json;
 }
 
-JSON Server::readSimpleJSON(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
+JSON Server::readSimpleJSON(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) CNS
 {
 	JSON json;
-	std::string data = readData(size);
+	SStr data = readData(size);
 
 	if (!data.empty())
 	{
@@ -154,6 +154,6 @@ JSON Server::readSimpleJSON(u32 size /* = DEFAULT_SOCKET_READ_SIZE*/) const
 	return json;
 }
 
-void Server::writeJSON(JSON &json) const
+void Server::writeJSON(JSON &json) CNS
 {
 }

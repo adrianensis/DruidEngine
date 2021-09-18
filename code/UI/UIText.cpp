@@ -13,7 +13,7 @@ void UIText::init()
 	Super::init();
 }
 
-void UIText::initFromConfig(const UIElementConfig& config)
+void UIText::initFromConfig(CNS UIElementConfig& config)
 {
 	Super::initFromConfig(config);
 
@@ -41,7 +41,7 @@ void UIText::onDestroy()
 	Super::onDestroy();
 }
 
-void UIText::setText(const std::string &text)
+void UIText::setText(CNS SStr &text)
 {
 	if (mString != text)
 	{
@@ -68,7 +68,7 @@ void UIText::setText(const std::string &text)
 						removeComponent(mFontRenderers[i]);
 					}
 
-					std::vector<Renderer *> copyVector = mFontRenderers;
+					SVec<Renderer *> copyVector = mFontRenderers;
 					mFontRenderers.clear();
 					std::copy(copyVector.begin(), copyVector.begin() + text.length(), std::back_inserter(mFontRenderers));
 				}

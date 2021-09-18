@@ -24,7 +24,7 @@ void InfoBar::init(EditorController* editorController)
 	CREATE_INFO_FIELD(BrushSize)
 }
 
-UIText* InfoBar::createInfoField(const std::string &name)
+UIText* InfoBar::createInfoField(CNS SStr &name)
 {
 	return UI::getInstance()->getUIBuilder().
 	setText(name).

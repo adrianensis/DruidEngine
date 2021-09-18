@@ -64,13 +64,13 @@ void Renderer::init()
 	mForceRecalculateVertices = false;
 }
 
-bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
+bool Renderer::hasAnimations() CNS { return mAnimations.size() > 0; };
 
 /**
  * Set the animation, by name.
  * \param string name The name.
  */
-void Renderer::setAnimation(const std::string &name)
+void Renderer::setAnimation(CNS SStr &name)
 {
 	if (MAP_CONTAINS(mAnimations, name))
 	{
@@ -85,7 +85,7 @@ void Renderer::setAnimation(const std::string &name)
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const std::string &name, Animation *animation)
+void Renderer::addAnimation(CNS SStr &name, Animation *animation)
 {
 	MAP_INSERT(mAnimations, name, animation);
 };
@@ -96,7 +96,7 @@ void Renderer::updateAnimation()
 	{
 		if (hasAnimations())
 		{
-			const AnimationFrame *frame = mCurrentAnimation->getNextFrame();
+			CNS AnimationFrame *frame = mCurrentAnimation->getNextFrame();
 			mRegion.setLeftTop(frame->getPosition());
 			mRegion.setSize(Vector2(frame->getWidth(), frame->getHeight()));
 		}
@@ -109,7 +109,7 @@ void Renderer::setPositionOffset(Vector3 newPositionOffset)
 	mPositionOffsetDirty = true;
 };
 
-void Renderer::setColor(const Vector4 &color)
+void Renderer::setColor(CNS Vector4 &color)
 {
 	mColor[0] = color.x;
 	mColor[1] = color.y;
@@ -127,7 +127,7 @@ bool Renderer::getIsWorldSpace()
 	return mIsWorldSpace;
 }
 
-const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
+CNS SVec<Vector2> &Renderer::getVertices(bool force /*= false*/)
 {
 	if (mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices)
 	{
@@ -164,7 +164,7 @@ SERIALIZE_IMPL(Renderer)
 {
 	Super::serialize(json);
 
-	std::string materialPath = "";
+	SStr materialPath = "";
 
 	if(mMaterial->getTexture())
 	{
@@ -178,7 +178,7 @@ SERIALIZE_IMPL(Renderer)
 
 DESERIALIZE_IMPL(Renderer)
 {
-	std::string materialPath = "";
+	SStr materialPath = "";
 	DO_DESERIALIZE("material", materialPath)
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial(materialPath);

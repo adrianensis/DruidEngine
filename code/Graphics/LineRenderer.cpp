@@ -34,7 +34,7 @@ void LineRenderer::init()
 	bind();
 }
 
-void LineRenderer::add(const Vector3 &start, const Vector3 &end, const Vector4 &color)
+void LineRenderer::add(CNS Vector3 &start, CNS Vector3 &end, CNS Vector4 &color)
 {
 	if (mShapesCounter < mMaxShapes)
 	{
@@ -82,9 +82,9 @@ void LineRenderer::render()
 		mShaderLine->use();
 		RenderContext::enableVAO(mVAO);
 
-		const Matrix4 &projectionMatrix = RenderEngine::getInstance()->getCamera()->getProjectionMatrix();
-		const Matrix4 &viewTranslationMatrix = RenderEngine::getInstance()->getCamera()->getViewTranslationMatrix();
-		const Matrix4 &viewRotationMatrix = RenderEngine::getInstance()->getCamera()->getViewRotationMatrix();
+		CNS Matrix4 &projectionMatrix = RenderEngine::getInstance()->getCamera()->getProjectionMatrix();
+		CNS Matrix4 &viewTranslationMatrix = RenderEngine::getInstance()->getCamera()->getViewTranslationMatrix();
+		CNS Matrix4 &viewRotationMatrix = RenderEngine::getInstance()->getCamera()->getViewRotationMatrix();
 
 		if (mIsWorldSpace)
 		{

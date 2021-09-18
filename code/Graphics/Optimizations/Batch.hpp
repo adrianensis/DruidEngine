@@ -13,9 +13,9 @@ class Camera;
 CLASS(Batch, ObjectBase)
 {
 	PRI(RenderEngine, NONE, RenderEngine *)
-	PRI(Renderers, NONE, std::map<u32, std::list<Renderer *> *>)
+	PRI(Renderers, NONE, SMap<u32, SLst<Renderer *> *>)
 	PRI(Material, GET, Material *)
-	PRI(Mesh, GET, const Mesh *)
+	PRI(Mesh, GET, CNS Mesh *)
 
 	PRI(MeshBuilder, NONE, Mesh)
 
@@ -36,20 +36,20 @@ CLASS(Batch, ObjectBase)
 private:
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
-	bool isChunkOk(Renderer * renderer) const;
+	bool isChunkOk(Renderer * renderer) CNS;
 
-	void processRenderers(std::list<Renderer *> * renderers);
+	void processRenderers(SLst<Renderer *> * renderers);
 
-	void drawCall() const;
+	void drawCall() CNS;
 
-	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *> * list);
+	void internalRemoveRendererFromList(SLst<Renderer *>::iterator & it, SLst<Renderer *> * list);
 
-	void insertSorted(Renderer * renderer, std::list<Renderer *> * renderers);
+	void insertSorted(Renderer * renderer, SLst<Renderer *> * renderers);
 
 public:
-	~Batch() override;
+	~Batch() OVR;
 
-	void init(const Mesh *mesh, Material *material);
+	void init(CNS Mesh *mesh, Material *material);
 	void bind();
 
 	void render(u32 layer);

@@ -9,17 +9,17 @@ void EventsManager::init()
 {
 }
 
-bool EventsManager::ownerExists(ObjectBase *eventOwner) const
+bool EventsManager::ownerExists(ObjectBase *eventOwner) CNS
 {
 	return MAP_CONTAINS(mOwnersMap, eventOwner);
 }
 
-bool EventsManager::ownerHasEventType(ObjectBase *eventOwner, ClassId eventClassId) const
+bool EventsManager::ownerHasEventType(ObjectBase *eventOwner, ClassId eventClassId) CNS
 {
 	return MAP_CONTAINS(mOwnersMap.at(eventOwner), eventClassId);
 }
 
-bool EventsManager::eventTypeHasReceiver(ObjectBase *eventOwner, ClassId eventClassId, ObjectBase *eventReceiver) const
+bool EventsManager::eventTypeHasReceiver(ObjectBase *eventOwner, ClassId eventClassId, ObjectBase *eventReceiver) CNS
 {
 	return MAP_CONTAINS(mOwnersMap.at(eventOwner).at(eventClassId), eventReceiver);
 }

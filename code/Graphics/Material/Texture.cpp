@@ -15,7 +15,7 @@ Texture::~Texture()
 	delete[] mData;
 }
 
-void Texture::init(const std::string &path)
+void Texture::init(CNS SStr &path)
 {
 	//TRACE()
 
@@ -172,7 +172,7 @@ SERIALIZE_IMPL(Texture)
 	//DO_SERIALIZE("path", mPath)
 }
 
-void Texture::deserialize(const JSON &json)
+void Texture::deserialize(CNS JSON &json)
 {
 	//mPath = json["path"];
 }

@@ -11,18 +11,18 @@ void CommandLine::init()
 {
     mBuffer = "";
 
-    SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](CNS Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
-            const InputEventChar *e = (InputEventChar*) event;
+            CNS InputEventChar *e = (InputEventChar*) event;
             char c = e->mChar;
             mBuffer.push_back(c);
             //VAR(mBuffer)
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](CNS Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -32,7 +32,7 @@ void CommandLine::init()
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](CNS Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -41,7 +41,7 @@ void CommandLine::init()
         }
 	});
 
-    /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](const Event *event)
+    /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](CNS Event *event)
 	{
         if(!mBuffer.empty())
         {
@@ -51,7 +51,7 @@ void CommandLine::init()
         VAR(mBuffer)
 	});*/
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](CNS Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -64,11 +64,11 @@ void CommandLine::init()
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyArrow, nullptr, this, [this](const Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyArrow, nullptr, this, [this](CNS Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
-            const InputEventKeyArrow *e = (InputEventKeyArrow*) event;
+            CNS InputEventKeyArrow *e = (InputEventKeyArrow*) event;
 
             switch (e->mArrowButton)
             {
@@ -115,16 +115,16 @@ void CommandLine::terminate()
 
 }
 
-void CommandLine::execute(const std::string &commandLine)
+void CommandLine::execute(CNS SStr &commandLine)
 {
-    std::string patternValidName("[-+]?[a-zA-Z_\\.0-9]+");
+    SStr patternValidName("[-+]?[a-zA-Z_\\.0-9]+");
     std::regex regexCommand("^\\s*(" + patternValidName + ")\\s*");
 
     std::smatch matchCommand;
     std::regex_search(commandLine, matchCommand, regexCommand);
     bool isCommand = !matchCommand.empty();
 
-    std::string commandName = matchCommand[1];
+    SStr commandName = matchCommand[1];
 
     if(isCommand && MAP_CONTAINS(mCommandsMap, commandName))
     {
@@ -133,7 +133,7 @@ void CommandLine::execute(const std::string &commandLine)
         CommandFunctor& functor = mCommandsMap.at(commandName);
         functor.getCommand().clearArgs();
 
-        std::string patternAssignation("\\s*=\\s*");
+        SStr patternAssignation("\\s*=\\s*");
         std::regex regexCommandWithArgumentList("^\\s*" + patternValidName + "\\s+((" + patternValidName + "(" + patternAssignation + patternValidName + ")?\\s*)+)\\s*");
 
         std::smatch matchCommandWithArgumentList;
@@ -142,7 +142,7 @@ void CommandLine::execute(const std::string &commandLine)
 
         if(isCommandWithArgumentList)
         {
-            std::string argumentList = matchCommandWithArgumentList[1].str();
+            SStr argumentList = matchCommandWithArgumentList[1].str();
 
             std::regex regexArgument("\\s*(" + patternValidName + "(" + patternAssignation + patternValidName + ")?)\\s*");
 
@@ -154,7 +154,7 @@ void CommandLine::execute(const std::string &commandLine)
         
             for (std::sregex_iterator i = argumentlistBegin; i != argumentlistEnd; ++i) {
                 std::smatch argumentMatch = *i;                                                 
-                std::string argumentStr = argumentMatch.str(); 
+                SStr argumentStr = argumentMatch.str(); 
 
                 std::regex regexPair("(" + patternValidName + ")(" + patternAssignation + "(" + patternValidName + "))?");
 
@@ -179,12 +179,12 @@ void CommandLine::execute(const std::string &commandLine)
     mHistoryIterator = mHistory.end();
 }
 
-std::string CommandLine::autocomplete(const std::string &commandLine)
+SStr CommandLine::autocomplete(CNS SStr &commandLine)
 {
-    return std::string(); // TODO : implement command autocomplete
+    return SStr(); // TODO : implement command autocomplete
 }
 
-void CommandLine::registerCommand(const std::string &commandName, CommandCallback callback)
+void CommandLine::registerCommand(CNS SStr &commandName, CommandCallback callback)
 {
     Command command;
     command.setName(commandName);

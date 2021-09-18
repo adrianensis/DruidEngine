@@ -24,7 +24,7 @@ void UIElement::init()
 	mConsumeInput = true;
 }
 
-void UIElement::initFromConfig(const UIElementConfig& config)
+void UIElement::initFromConfig(CNS UIElementConfig& config)
 {
 	mConfig = config;
 	init();
@@ -51,14 +51,14 @@ void UIElement::onDestroy()
 
 void UIElement::subscribeToKeyEvents()
 {
-	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
 		}
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyReleased, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
@@ -68,23 +68,23 @@ void UIElement::subscribeToKeyEvents()
 
 void UIElement::subscribeToCharEvents()
 {
-	SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
 			// TODO : boolean to enable or disable : can receive char input?
-			onChar(((const InputEventChar *)event)->mChar);
+			onChar(((CNS InputEventChar *)event)->mChar);
 		}
 	});
 }
 
 void UIElement::subscribeToMouseEvents()
 {
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
-			const InputEventMouseButtonPressed *e = (const InputEventMouseButtonPressed *)event;
+			CNS InputEventMouseButtonPressed *e = (CNS InputEventMouseButtonPressed *)event;
 
 			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
 			{
@@ -93,11 +93,11 @@ void UIElement::subscribeToMouseEvents()
 		}
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
-			const InputEventMouseButtonReleased *e = (const InputEventMouseButtonReleased *)event;
+			CNS InputEventMouseButtonReleased *e = (CNS InputEventMouseButtonReleased *)event;
 			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
 			{
 				onReleased();
@@ -105,11 +105,11 @@ void UIElement::subscribeToMouseEvents()
 		}
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
-			//const InputEventMouseMoved *e = (const InputEventMouseMoved *)event;
+			//CNS InputEventMouseMoved *e = (CNS InputEventMouseMoved *)event;
 			onMouseOver();
 		}
 	});
@@ -117,11 +117,11 @@ void UIElement::subscribeToMouseEvents()
 
 void UIElement::subscribeToScrollEvents()
 {
-	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
-			const InputEventScroll *e = (const InputEventScroll *)event;
+			CNS InputEventScroll *e = (CNS InputEventScroll *)event;
 			onScroll(e->mScroll);
 		}
 	});
@@ -129,7 +129,7 @@ void UIElement::subscribeToScrollEvents()
 
 void UIElement::subscribeToEnterEvent()
 {
-	SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
@@ -140,7 +140,7 @@ void UIElement::subscribeToEnterEvent()
 
 void UIElement::subscribeToEscEvent()
 {
-	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](CNS Event *event)
 	{
 		if (isActive())
 		{
@@ -149,7 +149,7 @@ void UIElement::subscribeToEscEvent()
 	});
 }
 
-bool UIElement::hasFocus() const
+bool UIElement::hasFocus() CNS
 {
 	return this == UI::getInstance()->getFocusedElement();
 }
@@ -250,7 +250,7 @@ void UIElement::executePressAndRelease(bool force /*= false*/)
 			if(mCanToggle)
 			{
 				// Release other UIToggleButtons
-				const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
+				CNS UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
 				FOR_LIST(it, group.getUIElements())
 				{
 					UIElement* other = *it;

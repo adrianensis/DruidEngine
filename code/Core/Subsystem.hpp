@@ -17,7 +17,7 @@ class Component;
 CLASS(ISubsystem, ObjectBase)
 {
 private:
-    std::set<ClassId> mAcceptedComponentClasses;
+    SSet<ClassId> mAcceptedComponentClasses;
 
 public:
     void registerComponentClass(ClassId classId)
@@ -31,15 +31,15 @@ public:
         ;
     }
 
-    virtual void init();
+    VIR void init();
 
-    virtual void addComponent(Component * component);
+    VIR void addComponent(Component * component);
 };
 
 class SubsystemsManager : SINGLETON(SubsystemsManager)
 {
 private:
-    std::list<ISubsystem *> mSubsystems;
+    SLst<ISubsystem *> mSubsystems;
 
 public:
     void addComponentToSubsystem(Component *component);
@@ -49,7 +49,7 @@ public:
         mSubsystems.push_back(subsystem);
     }
 
-    const std::list<ISubsystem *> &getSubsystems() const
+    CNS SLst<ISubsystem *> &getSubsystems() CNS
     {
         return mSubsystems;
     }

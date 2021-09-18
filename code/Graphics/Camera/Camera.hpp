@@ -30,22 +30,22 @@ CLASS(Camera, Component)
 
 public:
 	Camera();
-	~Camera() override;
+	~Camera() OVR;
 
-	void init() override;
-	void onComponentAdded() override;
+	void init() OVR;
+	void onComponentAdded() OVR;
 	void recalculate();
 
-	const Matrix4 &getProjectionMatrix() const;
-	const Matrix4 &getViewTranslationMatrix();
-	const Matrix4 &getViewRotationMatrix();
+	CNS Matrix4 &getProjectionMatrix() CNS;
+	CNS Matrix4 &getViewTranslationMatrix();
+	CNS Matrix4 &getViewRotationMatrix();
 
 	void setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void setPerspective(f32 near, f32 far, f32 aspect, f32 fov);
 
 	void onResize();
 
-	Vector3 screenToWorld(const Vector2& screenPosition);
+	Vector3 screenToWorld(CNS Vector2& screenPosition);
 	void calculateInverseMatrix(bool forceCalculate = false);
 
 	void setZoom(f32 zoom);

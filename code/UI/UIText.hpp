@@ -7,27 +7,27 @@ CLASS(UIText, UIElement)
 {
 	PRI(Layer, NONE, u32)
 	PRI(Size, NONE, Vector2)
-	PRI(String, NONE, std::string)
-	PRI(FontRenderers, NONE, std::vector<Renderer *>)
+	PRI(String, NONE, SStr)
+	PRI(FontRenderers, NONE, SVec<Renderer *>)
 
 public:
-	virtual void init() override;
-	virtual void initFromConfig(const UIElementConfig& config) override;
-	virtual void onDestroy() override;
+	VIR void init() OVR;
+	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void onDestroy() OVR;
 
-	virtual void setText(const std::string &text) override;
+	VIR void setText(CNS SStr &text) OVR;
 
 	void setLayer(u32 layer)
 	{
 		mLayer = layer;
 	};
 
-	void setSize(const Vector2 &size)
+	void setSize(CNS Vector2 &size)
 	{
 		mSize = size;
 	};
 
-	const std::string &getText() const
+	CNS SStr &getText() CNS
 	{
 		return mString;
 	};

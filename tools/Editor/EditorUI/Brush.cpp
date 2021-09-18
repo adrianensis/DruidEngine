@@ -21,7 +21,7 @@
 
 #include "Grid.hpp"
 
-Vector2 Brush::getMouseWorldPosition() const
+Vector2 Brush::getMouseWorldPosition() CNS
 {
 	Vector2 mouse = Input::getInstance()->getMousePosition();
 	Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
@@ -35,17 +35,17 @@ void Brush::init(EditorController* editorController)
 	mEditorController = editorController;
 	createSelector();
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](CNS Event *event)
 	{
 		setModeSelect();
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](CNS Event *event)
 	{
 		onHold();
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [&](const Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this, [&](CNS Event *event)
 	{
 		onMouseMoved();
 	});
@@ -79,7 +79,7 @@ void Brush::onHold()
 	}
 }
 
-void Brush::applyOneTile(const Vector2 &worldPosition)
+void Brush::applyOneTile(CNS Vector2 &worldPosition)
 {
 	Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
 				
@@ -87,7 +87,7 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 	{
 		case BrushMode::SELECT:
 		{
-			const UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
+			CNS UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
 
 			if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
 			{
@@ -155,7 +155,7 @@ void Brush::onMouseMoved()
 
 					u32 index = j + i*mBrushSize;
 					mBrushPreview[index]->getTransform()->setLocalPosition(singleTileClampedPosition);
-					const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+					CNS UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
 					if(mEditorController->getGrid().isInGrid(singleTileClampedPosition))
 					{
@@ -256,7 +256,7 @@ void Brush::createBrushPreview()
 	onMouseMoved();
 }
 
-void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
+void Brush::createBrushPreviewOneTile(CNS Vector2 &brushPreviewIndex)
 {
 	if(mPaintData.mMaterial)
 	{
@@ -275,7 +275,7 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 		renderer->setMaterial(mPaintData.mMaterial);
 		renderer->setRegion(mPaintData.mRegion);
 
-		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+		CNS UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
 		renderer->setColor(style.mColor);
 
@@ -299,7 +299,7 @@ void Brush::removeBrushPreview()
 	mBrushPreview.clear();
 }
 
-void Brush::paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition)
+void Brush::paintTile(CNS Vector2 &worldPosition, CNS Vector2 &gridPosition)
 {
 	if(mEditorController->getGrid().hasTile(gridPosition))
 	{
@@ -316,7 +316,7 @@ void Brush::paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition)
 	);
 }
 
-void Brush::removeTile(const Vector2 &gridPosition)
+void Brush::removeTile(CNS Vector2 &gridPosition)
 {
 	if(mEditorController->getGrid().hasTile(gridPosition))
 	{

@@ -18,7 +18,7 @@ class Material;
 class GameObject;
 class Camera;
 
-using TileCallback = std::function<void(GameObject* tile)>;
+using TileCallback = SFun<void(GameObject* tile)>;
 
 CLASS(EditorController, ObjectBase)
 {
@@ -31,10 +31,10 @@ CLASS(EditorController, ObjectBase)
 	PRI(LayersBar, GETREF, LayersBar)
 	PRI(Sprites, GETREF, Sprites)
 
-	PRI(SelectedTiles, GETREF, std::list<GameObject*>)
+	PRI(SelectedTiles, GETREF, SLst<GameObject*>)
 
 	PRI(Layer, GET_SET, u32)
-	PRI(Grids, NONE, std::vector<Grid>)
+	PRI(Grids, NONE, SVec<Grid>)
 	PRI(DrawGrid, GET_SET, bool)
 
 	PRI(Camera, GET, Camera*)
@@ -47,11 +47,11 @@ public:
 	void init();
 	void update();
 	void drawGrid();
-	bool canUseBrush() const;
+	bool canUseBrush() CNS;
 
 	Grid& getGrid();
 
-	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region);
+	GameObject* createTile(CNS Vector2 &position, CNS Vector2 &size, Material *material, CNS Rectangle &region);
 
 	void forEachSelectedTile(TileCallback tileCallback);
 

@@ -49,7 +49,7 @@ Batch::~Batch()
 	glDeleteBuffers(1, &mEBO);
 }
 
-void Batch::init(const Mesh *mesh, Material *material)
+void Batch::init(CNS Mesh *mesh, Material *material)
 {
 	// TRACE();
 
@@ -88,7 +88,7 @@ void Batch::bind()
 
 void Batch::render(u32 layer)
 {
-	std::list<Renderer *> *renderers = mRenderers[layer];
+	SLst<Renderer *> *renderers = mRenderers[layer];
 
 	if (renderers && !renderers->empty())
 	{
@@ -134,7 +134,7 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	mMeshesIndex = 0;
 }
 
-void Batch::processRenderers(std::list<Renderer *> *renderers)
+void Batch::processRenderers(SLst<Renderer *> *renderers)
 {
 	bool pendingDrawCall = false;
 	
@@ -201,13 +201,13 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 	}
 }
 
-bool Batch::isChunkOk(Renderer *renderer) const
+bool Batch::isChunkOk(Renderer *renderer) CNS
 {
-	const Chunk *chunk = renderer->getChunk();
+	CNS Chunk *chunk = renderer->getChunk();
 	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
 }
 
-void Batch::drawCall() const
+void Batch::drawCall() CNS
 {
 	if (mMeshesIndex > 0)
 	{
@@ -219,7 +219,7 @@ void Batch::drawCall() const
 	}
 }
 
-void Batch::insertSorted(Renderer *renderer, std::list<Renderer *> *renderers)
+void Batch::insertSorted(Renderer *renderer, SLst<Renderer *> *renderers)
 {
 	// INSERT SORTED
 
@@ -274,11 +274,11 @@ void Batch::addRenderer(Renderer *renderer)
 {
 	u32 layer = renderer->getLayer();
 
-	std::list<Renderer *> *renderers = mRenderers[layer];
+	SLst<Renderer *> *renderers = mRenderers[layer];
 
 	if (!renderers)
 	{
-		renderers = NEW(std::list<Renderer *>);
+		renderers = NEW(SLst<Renderer *>);
 
 		MAP_INSERT(mRenderers, layer, renderers);
 	}
@@ -300,7 +300,7 @@ void Batch::addRenderer(Renderer *renderer)
 	renderer->setIsAlreadyInBatch(true);
 }
 
-void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *> *list)
+void Batch::internalRemoveRendererFromList(SLst<Renderer *>::iterator &it, SLst<Renderer *> *list)
 {
 	Renderer *renderer = *it;
 
@@ -329,7 +329,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 {
 	renderer->updateAnimation();
 
-	const std::vector<Vector2> &vertexPositions = renderer->getVertices();
+	CNS SVec<Vector2> &vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())
 	{
@@ -348,7 +348,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 		{
 			textureCoord.x = 1.0f - textureCoord.x;
 
-			const Animation *animation = renderer->getCurrentAnimation();
+			CNS Animation *animation = renderer->getCurrentAnimation();
 
 			if (animation)
 			{

@@ -7,9 +7,9 @@ class UIElement;
 
 CLASS(UIGroup, ObjectBase)
 {
-	PUB(Name, GETREF_CONST, std::string)
+	PUB(Name, GETREF_CONST, SStr)
 	PUB(Visible, GET, bool)
-	PUB(UIElements, GETREF_CONST, std::list<UIElement *>);
+	PUB(UIElements, GETREF_CONST, SLst<UIElement *>);
 
 public:
 	void init();

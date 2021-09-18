@@ -24,18 +24,18 @@ private:
 	int opt = 1;
 	int addrlen = sizeof(address);
 
-	mutable std::string buffer;
+	mutable SStr buffer;
 
-	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
+	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) CNS;
 
 public:
 	void init(u16 port);
 
 	bool checkConnectionRequest();
 
-	void writeData(const std::string &data) const;
-	std::string readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
+	void writeData(CNS SStr &data) CNS;
+	SStr readData(u32 size = DEFAULT_SOCKET_READ_SIZE) CNS;
 
-	JSON readJSON() const;
-	void writeJSON(JSON & json) const;
+	JSON readJSON() CNS;
+	void writeJSON(JSON & json) CNS;
 };
