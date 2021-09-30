@@ -13,8 +13,8 @@ public:
 
 CLASS(Rectangle, Shape)
 {
-    PRO(LeftTop, GETREF_CONST_SET, Vector2)
-    PRO(Size, GETREF_CONST_SET, Vector2)
+    PRO(Vector2, LeftTop, GETREF_CONST_SET)
+    PRO(Vector2, Size, GETREF_CONST_SET)
 
 public:
 

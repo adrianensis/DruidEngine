@@ -5,7 +5,7 @@
 
 CLASS(Editor, Script)
 {
-	PRI(EditorController, GET, EditorController)
+	PRI(EditorController, EditorController, GET)
 
 public:
 	void init() OVR;

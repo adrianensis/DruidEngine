@@ -7,7 +7,7 @@ class EditorController;
 
 CLASS(LayersBar, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*);
+	PRI(EditorController*, EditorController, NONE);
 
 public:
 	void init(EditorController* editorController);

@@ -12,7 +12,7 @@ using CommandCallback = SFun<void(CNS Command& command)>;
 
 CLASS(CommandFunctor, Functor<CommandCallback>)
 {
-    PRI(Command, GETREF_SET, Command);
+    PRI(Command, Command, GETREF_SET);
 
 public:
 
@@ -35,13 +35,13 @@ public:
 
 CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
 {
-    PRI(CommandsMap, NONE, SMap<SStr, CommandFunctor>)
-	PRI(Buffer, GETREF_CONST, SStr)
+    PRI(SMap(SStr, CommandFunctor), CommandsMap, NONE)
+	PRI(SStr, Buffer, GETREF_CONST)
 
-	PRI(History, NONE, SLst<SStr>)
-	PRI(HistoryIterator, NONE, SLst<SStr>::iterator)
+	PRI(SLst(SStr), History, NONE)
+	PRI(SLst(SStr)::iterator, HistoryIterator, NONE)
 
-	PRI(UIText, NONE, UIText*);
+	PRI(UIText*, UIText, NONE);
 
 public:
     void init();

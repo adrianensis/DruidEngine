@@ -16,53 +16,53 @@ CLASS_EVENT_SPECIFIC_KEY(Backspace)
 
 CLASS_EVENT(InputEventKeyArrow)
 {
-    PUB(ArrowButton, NONE, u32)
+    PUB(u32, ArrowButton, NONE)
 };
 
 CLASS_EVENT(InputEventMouseMoved) {};
 
 CLASS_EVENT(InputEventMouseButtonPressed)
 {
-    PUB(Button, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Button, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventMouseButtonHold)
 {
-    PUB(Button, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Button, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventMouseButtonReleased)
 {
-    PUB(Button, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Button, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventKeyPressed)
 {
-    PUB(Key, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Key, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventKeyHold)
 {
-    PUB(Key, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Key, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventKeyReleased)
 {
-    PUB(Key, NONE, u32)
-    PUB(Mods, NONE, u32)
+    PUB(u32, Key, NONE)
+    PUB(u32, Mods, NONE)
 };
 
 CLASS_EVENT(InputEventScroll)
 {
-    PUB(Scroll, NONE, f32)
+    PUB(f32, Scroll, NONE)
 };
 
 CLASS_EVENT(InputEventChar)
 {
-    PUB(Char, NONE, char)
+    PUB(char, Char, NONE)
 };

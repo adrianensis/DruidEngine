@@ -4,11 +4,11 @@
 
 CLASS(Texture, ObjectBase)
 {
-	PRI(TextureId, GET, u32)
-	PRI(Data, GET, byte *)
-	PRI(Width, GET, u32)
-	PRI(Height, GET, u32)
-	PRI(Path, GETREF_CONST, SStr)
+	PRI(u32, TextureId, GET)
+	PRI(byte *, Data, GET)
+	PRI(u32, Width, GET)
+	PRI(u32, Height, GET)
+	PRI(SStr, Path, GETREF_CONST)
 
 	byte *readPNG();
 

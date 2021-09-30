@@ -17,7 +17,7 @@ class Component;
 CLASS(ISubsystem, ObjectBase)
 {
 private:
-    SSet<ClassId> mAcceptedComponentClasses;
+    SSet(ClassId) mAcceptedComponentClasses;
 
 public:
     void registerComponentClass(ClassId classId)
@@ -39,7 +39,7 @@ public:
 class SubsystemsManager : SINGLETON(SubsystemsManager)
 {
 private:
-    SLst<ISubsystem *> mSubsystems;
+    SLst(ISubsystem *) mSubsystems;
 
 public:
     void addComponentToSubsystem(Component *component);
@@ -49,7 +49,7 @@ public:
         mSubsystems.push_back(subsystem);
     }
 
-    CNS SLst<ISubsystem *> &getSubsystems() CNS
+    CNS SLst(ISubsystem *) &getSubsystems() CNS
     {
         return mSubsystems;
     }

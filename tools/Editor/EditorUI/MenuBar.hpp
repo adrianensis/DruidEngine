@@ -6,7 +6,7 @@ class EditorController;
 
 CLASS(MenuBar, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*)
+	PRI(EditorController*, EditorController, NONE)
 public:
 	void init(EditorController* editorController);
 };

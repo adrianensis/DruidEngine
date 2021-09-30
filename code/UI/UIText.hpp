@@ -5,10 +5,10 @@
 
 CLASS(UIText, UIElement)
 {
-	PRI(Layer, NONE, u32)
-	PRI(Size, NONE, Vector2)
-	PRI(String, NONE, SStr)
-	PRI(FontRenderers, NONE, SVec<Renderer *>)
+	PRI(u32, Layer, NONE)
+	PRI(Vector2, Size, NONE)
+	PRI(SStr, String, NONE)
+	PRI(SVec(Renderer *), FontRenderers, NONE)
 
 public:
 	VIR void init() OVR;

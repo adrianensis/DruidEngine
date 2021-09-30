@@ -25,7 +25,7 @@ private:
 
 	ObjectId mObjectId = 0;
 
-	SMap<SStr, AttributeBase> mAttributes; // runtime attributes
+	SMap(SStr, AttributeBase) mAttributes; // runtime attributes
 
 protected:
 	inline STC ObjectId smObjectIdCounter = 0;
@@ -74,7 +74,7 @@ public:
 		return ObjectBase::getClassNameStatic();
 	}
 
-	CNS SMap<SStr, AttributeBase> &getAttributes()
+	CNS SMap(SStr, AttributeBase) &getAttributes()
 	{
 		return mAttributes;
 	}

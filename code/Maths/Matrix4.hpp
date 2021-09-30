@@ -12,7 +12,7 @@ private:
 
 	f32 mData[16];
 
-	void setRows(CNS SArr<f32, 4> &row0, CNS SArr<f32, 4> &row1, CNS SArr<f32, 4> &row2, CNS SArr<f32, 4> &row3);
+	void setRows(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3);
 	void setRows(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3);
 	void setRows(u32 n);
 	void setRows(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3);
@@ -22,8 +22,8 @@ public:
 
 	void init(u32 n);
 	void init(CNS Matrix4 &other);
-	void init(SArr<f32, 16> & data);
-	void init(CNS SArr<f32, 4> &row0, CNS SArr<f32, 4> &row1, CNS SArr<f32, 4> &row2, CNS SArr<f32, 4> &row3);
+	void init(SArr(f32, 16) & data);
+	void init(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3);
 	void init(CNS f32 *data);
 	void init(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3);
 	void init(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3);

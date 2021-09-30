@@ -17,11 +17,11 @@
 CLASS(EventsManager, ObjectBase), SINGLETON(EventsManager)
 {
 private:
-	using ReceiversFunctorMap = SMap<ObjectBase *, EventFunctor<Event>>;
-	using EventReceiversMap = SMap<ClassId, ReceiversFunctorMap>;
-	using OwnersMap = SMap<ObjectBase *, EventReceiversMap>;
+	using ReceiversFunctorMap = SMap(ObjectBase *, EventFunctor<Event>);
+	using EventReceiversMap = SMap(ClassId, ReceiversFunctorMap);
+	using OwnersMap = SMap(ObjectBase *, EventReceiversMap);
 
-	PRI(OwnersMap, NONE, OwnersMap)
+	PRI(OwnersMap, OwnersMap, NONE)
 
 	bool ownerExists(ObjectBase * eventOwner) CNS;
 	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) CNS;

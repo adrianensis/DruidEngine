@@ -7,14 +7,14 @@ class Vector3;
 
 CLASS(Mesh, ObjectBase)
 {
-	PRI(Vertices, GETREF_CONST, SVec<f32>)
-	PRI(Normals, GETREF_CONST, SVec<f32>)
-	PRI(TextureCoordinates, GETREF_CONST, SVec<f32>)
-	PRI(Colors, GETREF_CONST, SVec<f32>)
-	PRI(Faces, GETREF_CONST, SVec<u32>)
+	PRI(SVec(f32), Vertices, GETREF_CONST)
+	PRI(SVec(f32), Normals, GETREF_CONST)
+	PRI(SVec(f32), TextureCoordinates, GETREF_CONST)
+	PRI(SVec(f32), Colors, GETREF_CONST)
+	PRI(SVec(u32), Faces, GETREF_CONST)
 
-	PRI(VertexCount, GET, u32)
-	PRI(FacesCount, GET, u32)
+	PRI(u32, VertexCount, GET)
+	PRI(u32, FacesCount, GET)
 
 private:
 	STC Mesh *smRectangle;

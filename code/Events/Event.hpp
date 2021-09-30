@@ -8,9 +8,9 @@
 #define CLASS_EVENT(EventClassName) CLASS(EventClassName, Event)
 
 CLASS(Event, ObjectBase){
-	PUB(DelayAmount, NONE, f32)
-	PUB(DelayType, NONE, TimerDurationType)
-	PUB(Instigator, NONE, ObjectBase *)
+	PUB(f32, DelayAmount, NONE)
+	PUB(TimerDurationType, DelayType, NONE)
+	PUB(ObjectBase *, Instigator, NONE)
 
 	public :
 		// NOTE : Override in children!
@@ -26,9 +26,9 @@ using EventCallback = SFun<void(CNS Event *)>;
 
 CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
 {
-	PUB(Event, NONE, E *)
-	PUB(EventClassId, NONE, ClassId)
-	PUB(EventReceiver, NONE, ObjectBase *)
+	PUB(E *, Event, NONE)
+	PUB(ClassId, EventClassId, NONE)
+	PUB(ObjectBase *, EventReceiver, NONE)
 
 public:
 	void execute() OVR

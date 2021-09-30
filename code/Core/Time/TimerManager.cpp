@@ -29,7 +29,7 @@ void TimerManager::update()
 	if (!mTimers.empty())
 	{
 		f32 deltaTime = Time::getInstance()->getDeltaTimeSeconds(); // seconds
-		SLst<Timer *> timers(mTimers);
+		SLst(Timer *) timers(mTimers);
 
 		for (auto itTimer = timers.begin(); itTimer != timers.end(); ++itTimer)
 		{

@@ -12,11 +12,11 @@ class EditorController;
 
 CLASS(Sprites, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*)
-	PRI(SpritesSelectorUIGroup, NONE, SStr)
-	PRI(SpritesUIGroup, NONE, SStr)
-	PRI(IsVisible, GET, bool)
-    PRI(Grid, NONE, Grid) // TODO: use this grid to create sprites
+	PRI(EditorController*, EditorController, NONE)
+	PRI(SStr, SpritesSelectorUIGroup, NONE)
+	PRI(SStr, SpritesUIGroup, NONE)
+	PRI(bool, IsVisible, GET)
+    PRI(Grid, Grid, NONE) // TODO: use this grid to create sprites
 
 private:
 

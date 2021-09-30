@@ -8,11 +8,11 @@ class Shader;
 
 CLASS(Material, ObjectBase)
 {
-	PRI(Color, GET_SET, Vector4)
-	PRI(Shader, GET_SET, Shader *);
-	PRI(Texture, GET_SET, Texture *);
-	PRI(AlphaEnabled, GET_SET, bool)
-	PRI(HasBorder, GET_SET, bool)
+	PRI(Vector4, Color, GET_SET)
+	PRI(Shader *, Shader, GET_SET);
+	PRI(Texture *, Texture, GET_SET);
+	PRI(bool, AlphaEnabled, GET_SET)
+	PRI(bool, HasBorder, GET_SET)
 
 public:
 	Material();

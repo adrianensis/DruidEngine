@@ -12,7 +12,7 @@
 
 CLASS(ConfigObject, ObjectBase)
 {
-	PRI(Json, GETREF_CONST_SET, JSON);
+	PRI(JSON, Json, GETREF_CONST_SET);
 
 public:
 	void init();

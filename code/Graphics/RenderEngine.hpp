@@ -22,32 +22,32 @@ CLASS(RenderEngine, ISubsystem), SINGLETON(RenderEngine)
 private:
 	CLASS_NESTED(LayerData, ObjectBase)
 	{
-		PUB(Sorted, NONE, bool)
-		PUB(DynamicObjectsCount, NONE, u32) // Non STC objects count
-		PUB(SortCounter, NONE, u32)
-		PUB(Visible, NONE, bool)
+		PUB(bool, Sorted, NONE)
+		PUB(u32, DynamicObjectsCount, NONE) // Non STC objects count
+		PUB(u32, SortCounter, NONE)
+		PUB(bool, Visible, NONE)
 
 	public:
 		LayerData();
 	};
 
-	PRI(BatchesMap, NONE, BatchesMap)
-	PRI(BatchesMapScreenSpace, NONE, BatchesMap)
+	PRI(BatchesMap, BatchesMap, NONE)
+	PRI(BatchesMap, BatchesMapScreenSpace, NONE)
 
-	PRI(LineRenderer, NONE, LineRenderer *)
-	PRI(LineRendererScreenSpace, NONE, LineRenderer *)
+	PRI(LineRenderer *, LineRenderer, NONE)
+	PRI(LineRenderer *, LineRendererScreenSpace, NONE)
 
-	PRI(Camera, GET_SET, Camera *)
-	PRI(CameraDirtyTranslation, GET, bool)
+	PRI(Camera *, Camera, GET_SET)
+	PRI(bool, CameraDirtyTranslation, GET)
 
-	PRI(LayersData, GETREF_CONST_SET, SMap<u32, LayerData *>);
-	PRI(MaxLayers, GET, u32)
-	PRI(MaxLayersUsed, NONE, u32)
+	PRI(SMap(u32, LayerData *), LayersData, GETREF_CONST_SET);
+	PRI(u32, MaxLayers, GET)
+	PRI(u32, MaxLayersUsed, NONE)
 
-	PRI(MinChunkDrawDistance, GET, f32)
-	PRI(Chunks, NONE, SVec<Chunk *>)
+	PRI(f32, MinChunkDrawDistance, GET)
+	PRI(SVec(Chunk *), Chunks, NONE)
 
-	PRI(RenderersToFree, NONE, SLst<Renderer *>)
+	PRI(SLst(Renderer *), RenderersToFree, NONE)
 
 	void checkChunks();
 	void freeRenderersPendingtoFree();

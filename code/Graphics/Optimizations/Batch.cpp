@@ -88,7 +88,7 @@ void Batch::bind()
 
 void Batch::render(u32 layer)
 {
-	SLst<Renderer *> *renderers = mRenderers[layer];
+	SLst(Renderer *) *renderers = mRenderers[layer];
 
 	if (renderers && !renderers->empty())
 	{
@@ -134,7 +134,7 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	mMeshesIndex = 0;
 }
 
-void Batch::processRenderers(SLst<Renderer *> *renderers)
+void Batch::processRenderers(SLst(Renderer *) *renderers)
 {
 	bool pendingDrawCall = false;
 	
@@ -219,7 +219,7 @@ void Batch::drawCall() CNS
 	}
 }
 
-void Batch::insertSorted(Renderer *renderer, SLst<Renderer *> *renderers)
+void Batch::insertSorted(Renderer *renderer, SLst(Renderer *) *renderers)
 {
 	// INSERT SORTED
 
@@ -274,11 +274,11 @@ void Batch::addRenderer(Renderer *renderer)
 {
 	u32 layer = renderer->getLayer();
 
-	SLst<Renderer *> *renderers = mRenderers[layer];
+	SLst(Renderer *) *renderers = mRenderers[layer];
 
 	if (!renderers)
 	{
-		renderers = NEW(SLst<Renderer *>);
+		renderers = NEW(SLst(Renderer *));
 
 		MAP_INSERT(mRenderers, layer, renderers);
 	}
@@ -300,7 +300,7 @@ void Batch::addRenderer(Renderer *renderer)
 	renderer->setIsAlreadyInBatch(true);
 }
 
-void Batch::internalRemoveRendererFromList(SLst<Renderer *>::iterator &it, SLst<Renderer *> *list)
+void Batch::internalRemoveRendererFromList(SLst(Renderer *)::iterator &it, SLst(Renderer *) *list)
 {
 	Renderer *renderer = *it;
 
@@ -329,7 +329,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 {
 	renderer->updateAnimation();
 
-	CNS SVec<Vector2> &vertexPositions = renderer->getVertices();
+	CNS SVec(Vector2) &vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())
 	{

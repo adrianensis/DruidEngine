@@ -36,9 +36,9 @@ class ClassManager: public Singleton<ClassManager>
 friend ClassRegister;
 private:
 
-    STC SMap<SStr, ClassRegisterCallback> smRegisters;
+    STC SMap(SStr, ClassRegisterCallback) smRegisters;
 
-    SMap<SStr, ClassRegisterCallback> mInstanceByNameMap;
+    SMap(SStr, ClassRegisterCallback) mInstanceByNameMap;
 
 public:
 

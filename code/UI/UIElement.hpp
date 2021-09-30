@@ -15,7 +15,7 @@ using UIElementCallback = SFun<void(UIElement *uiElement)>;
 
 CLASS(FunctorUIElement, Functor<UIElementCallback>)
 {
-	PUB(UIElement, NONE, UIElement *)
+	PUB(UIElement *, UIElement, NONE)
 
 public:
 
@@ -36,24 +36,24 @@ public:
 
 CLASS(UIElement, GameObject)
 {
-	PRO(Config, GETREF_CONST_SET, UIElementConfig)
+	PRO(UIElementConfig, Config, GETREF_CONST_SET)
 
-	PRO(OnPressedFunctor, NONE, FunctorUIElement)
-	PRO(OnReleasedFunctor, NONE, FunctorUIElement)
+	PRO(FunctorUIElement, OnPressedFunctor, NONE)
+	PRO(FunctorUIElement, OnReleasedFunctor, NONE)
 
-	PRO(OnScrollFunctor, NONE, FunctorUIElement)
+	PRO(FunctorUIElement, OnScrollFunctor, NONE)
 
-	PRO(OnTextChangedFunctor, NONE, FunctorUIElement)
-	PRO(OnFocusLostFunctor, NONE, FunctorUIElement)
+	PRO(FunctorUIElement, OnTextChangedFunctor, NONE)
+	PRO(FunctorUIElement, OnFocusLostFunctor, NONE)
 
-	PRO(Renderer, GET, Renderer *)
-	//PRI(Collider, GET, Collider*)
-	PRO(InputString, GET, SStr)
-	PRO(ConsumeInput, GET_SET, bool)
-	PRO(Pressed, GET, bool)
-	PRO(CanToggle, GET, bool)
-	PRO(ReleaseOnSameGroupPressed, GET, bool)
-	PRO(Toggled, GET, bool)
+	PRO(Renderer *, Renderer, GET)
+	//PRI(Collider*, Collider, GET)
+	PRO(SStr, InputString, GET)
+	PRO(bool, ConsumeInput, GET_SET)
+	PRO(bool, Pressed, GET)
+	PRO(bool, CanToggle, GET)
+	PRO(bool, ReleaseOnSameGroupPressed, GET)
+	PRO(bool, Toggled, GET)
 
 	void press();
 	void executePressAndRelease(bool force = false);

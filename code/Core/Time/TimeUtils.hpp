@@ -5,12 +5,12 @@
 
 CLASS(TimeMark, ObjectBase)
 {
-	PRI(DeltaTimeMillis, NONE, f32)
-	PRI(DeltaTimeSeconds, NONE, f32)
-	PRI(DeltaTimeChronoDuration, NONE, std::chrono::milliseconds);
-	PRI(StartTime, NONE, std::chrono::time_point<std::chrono::high_resolution_clock>);
-	PRI(LastTime, NONE, std::chrono::time_point<std::chrono::high_resolution_clock>);
-	PRI(IsStarted, GET, bool)
+	PRI(f32, DeltaTimeMillis, NONE)
+	PRI(f32, DeltaTimeSeconds, NONE)
+	PRI(std::chrono::milliseconds, DeltaTimeChronoDuration, NONE);
+	PRI(std::chrono::time_point<std::chrono::high_resolution_clock>, StartTime, NONE);
+	PRI(std::chrono::time_point<std::chrono::high_resolution_clock>, LastTime, NONE);
+	PRI(bool, IsStarted, GET)
 
 public:
 	void init();
@@ -32,7 +32,7 @@ public:
 
 CLASS(Time, ObjectBase), SINGLETON(Time)
 {	
-	PRI(InternalTimeMark, NONE, TimeMark)
+	PRI(TimeMark, InternalTimeMark, NONE)
 
 public :
 

@@ -13,17 +13,17 @@ class UIGroup;
 
 CLASS(UI, ObjectBase), SINGLETON(UI)
 {
-	PRI(Groups, NONE, SMap<SStr, UIGroup *>)
-	PRI(CharMap, NONE, SMap<char, Vector2>)
-	PRI(FontTilesCount, NONE, Vector2)
-	PRI(FontTileTextureSize, NONE, Vector2)
-	PRI(FontMaterial, NONE, Material *)
+	PRI(SMap(SStr, UIGroup *), Groups, NONE)
+	PRI(SMap(char, Vector2), CharMap, NONE)
+	PRI(Vector2, FontTilesCount, NONE)
+	PRI(Vector2, FontTileTextureSize, NONE)
+	PRI(Material *, FontMaterial, NONE)
 
 	STC Vector2 smDefaultFontSize;
 
-	PRI(UIBuilder, GETREF, UIBuilder)
+	PRI(UIBuilder, UIBuilder, GETREF)
 
-	PRI(FocusedElement, NONE, UIElement *);
+	PRI(UIElement *, FocusedElement, NONE);
 
 public:
 	void init();

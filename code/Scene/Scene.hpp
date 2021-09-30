@@ -10,14 +10,14 @@ class GameObject;
 
 CLASS(Scene, ObjectBase)
 {
-	PRI(GameObjects, GET, SLst<GameObject *>);
-	PRI(NewGameObjects, GET, SLst<GameObject *>);
-	PRI(CameraGameObject, GET_SET, GameObject *)
+	PRI(SLst(GameObject *), GameObjects, GET);
+	PRI(SLst(GameObject *), NewGameObjects, GET);
+	PRI(GameObject *, CameraGameObject, GET_SET)
 
-	PRI(Size, GET, f32)
-	PRI(Path, GET, SStr)
+	PRI(f32, Size, GET)
+	PRI(SStr, Path, GET)
 
-	PRI(LoadSceneConfig, NONE, ConfigObject)
+	PRI(ConfigObject, LoadSceneConfig, NONE)
 
 private:
 	void destroyGameObjects();

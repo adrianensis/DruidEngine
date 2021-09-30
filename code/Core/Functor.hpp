@@ -5,7 +5,7 @@
 
 CLASS_TEMPLATE(Functor, T, ObjectBase)
 {
-	PRO(Callback, SET, T)
+	PRO(T, Callback, SET)
 
 public:
 	VIR void execute() = 0;

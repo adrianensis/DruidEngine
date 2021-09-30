@@ -12,39 +12,39 @@ class Camera;
 
 CLASS(Batch, ObjectBase)
 {
-	PRI(RenderEngine, NONE, RenderEngine *)
-	PRI(Renderers, NONE, SMap<u32, SLst<Renderer *> *>)
-	PRI(Material, GET, Material *)
-	PRI(Mesh, GET, CNS Mesh *)
+	PRI(RenderEngine *, RenderEngine, NONE)
+	PRI(SMap(u32, SLst(Renderer *) *), Renderers, NONE)
+	PRI(Material *, Material, GET)
+	PRI(CNS Mesh *, Mesh, GET)
 
-	PRI(MeshBuilder, NONE, Mesh)
+	PRI(Mesh, MeshBuilder, NONE)
 
-	PRI(VBOPosition, NONE, u32) // TODO: change u32 for GLuint
-	PRI(EBO, NONE, u32)
-	PRI(VBOTexture, NONE, u32)
-	PRI(VBOColor, NONE, u32)
-	PRI(VBONormal, NONE, u32)
-	PRI(VAO, NONE, u32)
+	PRI(u32, VBOPosition, NONE) // TODO: change u32 for GLuint
+	PRI(u32, EBO, NONE)
+	PRI(u32, VBOTexture, NONE)
+	PRI(u32, VBOColor, NONE)
+	PRI(u32, VBONormal, NONE)
+	PRI(u32, VAO, NONE)
 
-	PRI(MaxMeshesThreshold, NONE, u32)
-	PRI(MaxMeshesIncrement, NONE, u32)
-	PRI(MeshesIndex, NONE, u32)
+	PRI(u32, MaxMeshesThreshold, NONE)
+	PRI(u32, MaxMeshesIncrement, NONE)
+	PRI(u32, MeshesIndex, NONE)
 
-	PRI(Binded, NONE, bool)
-	PRI(IsWorldSpace, GET_SET, bool)
+	PRI(bool, Binded, NONE)
+	PRI(bool, IsWorldSpace, GET_SET)
 
 private:
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
 	bool isChunkOk(Renderer * renderer) CNS;
 
-	void processRenderers(SLst<Renderer *> * renderers);
+	void processRenderers(SLst(Renderer *) * renderers);
 
 	void drawCall() CNS;
 
-	void internalRemoveRendererFromList(SLst<Renderer *>::iterator & it, SLst<Renderer *> * list);
+	void internalRemoveRendererFromList(SLst(Renderer *)::iterator & it, SLst(Renderer *) * list);
 
-	void insertSorted(Renderer * renderer, SLst<Renderer *> * renderers);
+	void insertSorted(Renderer * renderer, SLst(Renderer *) * renderers);
 
 public:
 	~Batch() OVR;

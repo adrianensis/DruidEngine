@@ -4,7 +4,7 @@
 
 CLASS(Engine, ObjectBase), SINGLETON(Engine)
 {
-	PRI(FPS, NONE, f32)
+	PRI(f32, FPS, NONE)
 
 public:
 	void init();

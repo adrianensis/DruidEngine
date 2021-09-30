@@ -6,7 +6,7 @@ class UIText;
 
 CLASS(UIButton, UIElement)
 {
-	PRI(Text, GET, UIText *)
+	PRI(UIText *, Text, GET)
 
 public:
 	VIR void init() OVR;

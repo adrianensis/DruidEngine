@@ -6,28 +6,28 @@
 
 CLASS(Transform, Component)
 {
-	PRI(WorldPosition, NONE, Vector3)
+	PRI(Vector3, WorldPosition, NONE)
 
-	PRI(ModelMatrix, NONE, mutable Matrix4)
-	PRI(TranslationMatrix, NONE, mutable Matrix4)
-	PRI(RotationMatrix, NONE, mutable Matrix4)
-	PRI(ScaleMatrix, NONE, mutable Matrix4)
+	PRI(mutable Matrix4, ModelMatrix, NONE)
+	PRI(mutable Matrix4, TranslationMatrix, NONE)
+	PRI(mutable Matrix4, RotationMatrix, NONE)
+	PRI(mutable Matrix4, ScaleMatrix, NONE)
 
-	PRI(ModelMatrixGenerated, NONE, bool)
+	PRI(bool, ModelMatrixGenerated, NONE)
 
-	PRI(IsDirtyTranslation, NONE, mutable bool)
-	PRI(IsDirtyRotation, NONE, mutable bool)
-	PRI(IsDirtyScale, NONE, mutable bool)
+	PRI(mutable bool, IsDirtyTranslation, NONE)
+	PRI(mutable bool, IsDirtyRotation, NONE)
+	PRI(mutable bool, IsDirtyScale, NONE)
 
-	PRI(ForceModelMatrixCalculation, NONE, bool)
+	PRI(bool, ForceModelMatrixCalculation, NONE)
 
 	//Transform* mParent;
-	PRI(Parent, GET_SET, Transform *);
+	PRI(Transform *, Parent, GET_SET);
 
-	PRI(LocalPosition, GET, Vector3)
-	PRI(Rotation, GET, Vector3)
-	PRI(Scale, GET, Vector3)
-	PRI(AffectedByProjection, GET_SET, bool)
+	PRI(Vector3, LocalPosition, GET)
+	PRI(Vector3, Rotation, GET)
+	PRI(Vector3, Scale, GET)
+	PRI(bool, AffectedByProjection, GET_SET)
 
 private:
 

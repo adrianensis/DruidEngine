@@ -9,18 +9,18 @@ class EditorController;
 
 CLASS(CellGrid, ObjectBase)
 {
-	PUB(GameObject, NONE, GameObject *)
-	PUB(WorldPosition, NONE, Vector2)
+	PUB(GameObject *, GameObject, NONE)
+	PUB(Vector2, WorldPosition, NONE)
 public:
 
 };
 
 CLASS(Grid, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*)
-	PRI(CellsGrid, NONE, SVec<SVec<CellGrid>>)
-	PRI(GridSize, GETREF_CONST, Vector2)
-	PRI(TileSize, GETREF_CONST, Vector2)
+	PRI(EditorController*, EditorController, NONE)
+	PRI(SVec(SVec(CellGrid)), CellsGrid, NONE)
+	PRI(Vector2, GridSize, GETREF_CONST)
+	PRI(Vector2, TileSize, GETREF_CONST)
 
 public:
 

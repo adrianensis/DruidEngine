@@ -9,24 +9,24 @@ class Frustum;
 
 CLASS(Camera, Component)
 {
-	PRI(ProjectionMatrix, NONE, Matrix4)
-	PRI(ViewTranslationMatrix, NONE, Matrix4)
-	PRI(InversePVMatrix, NONE, Matrix4) // used in screen to world calculations.
+	PRI(Matrix4, ProjectionMatrix, NONE)
+	PRI(Matrix4, ViewTranslationMatrix, NONE)
+	PRI(Matrix4, InversePVMatrix, NONE) // used in screen to world calculations.
 
-	PRI(Left, NONE, f32)
-	PRI(Right, NONE, f32)
-	PRI(Bottom, NONE, f32)
-	PRI(Top, NONE, f32)
-	PRI(Near, NONE, f32)
-	PRI(Far, NONE, f32)
+	PRI(f32, Left, NONE)
+	PRI(f32, Right, NONE)
+	PRI(f32, Bottom, NONE)
+	PRI(f32, Top, NONE)
+	PRI(f32, Near, NONE)
+	PRI(f32, Far, NONE)
 
-	PRI(Aspect, NONE, f32)
-	PRI(Fov, NONE, f32)
+	PRI(f32, Aspect, NONE)
+	PRI(f32, Fov, NONE)
 	
-	PRI(IsOrtho, NONE, bool)
+	PRI(bool, IsOrtho, NONE)
 
-	PRI(Frustum, GET, Frustum *)
-	PRI(Zoom, GET, f32)
+	PRI(Frustum *, Frustum, GET)
+	PRI(f32, Zoom, GET)
 
 public:
 	Camera();

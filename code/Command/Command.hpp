@@ -4,8 +4,8 @@
 
 CLASS(CommandArgument, ObjectBase)
 {
-    PRI(Name, GETREF_CONST_SET, SStr);
-    PRI(Value, GETREF_CONST_SET, SStr);
+    PRI(SStr, Name, GETREF_CONST_SET);
+    PRI(SStr, Value, GETREF_CONST_SET);
 
 public:
 
@@ -18,8 +18,8 @@ public:
 
 CLASS(Command, ObjectBase)
 {
-    PRI(Name, GETREF_CONST_SET, SStr);
-    PRI(Args, GETREF_CONST_SET, SVec<CommandArgument>);
+    PRI(SStr, Name, GETREF_CONST_SET);
+    PRI(SVec(CommandArgument), Args, GETREF_CONST_SET);
 
 public:
 

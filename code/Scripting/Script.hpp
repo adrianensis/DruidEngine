@@ -6,7 +6,7 @@ class GameObject;
 
 CLASS(Script, Component)
 {
-	PRI(FirstUpdateDone, GET, bool)
+	PRI(bool, FirstUpdateDone, GET)
 
 public:
 	VIR void init();

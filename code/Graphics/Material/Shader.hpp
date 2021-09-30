@@ -11,9 +11,9 @@ class Matrix4;
 CLASS(Shader, ObjectBase)
 {
 private:
-	PRI(VertexShader, NONE, u32)
-	PRI(FragmentShader, NONE, u32)
-	PRI(Program, NONE, u32)
+	PRI(u32, VertexShader, NONE)
+	PRI(u32, FragmentShader, NONE)
+	PRI(u32, Program, NONE)
 
 	STC Shader *msShaderDefault;
 	STC Shader *msShaderDebug;

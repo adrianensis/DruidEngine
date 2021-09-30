@@ -35,8 +35,8 @@ public:
 	STC GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
 	STC GLuint createEBO();
 	STC GLuint createVAO();
-	STC void setDataVBO(u32 VBO, CNS SVec<f32> &data);
-	STC void setDataEBO(u32 EBO, CNS SVec<u32> &data);
+	STC void setDataVBO(u32 VBO, CNS SVec(f32) &data);
+	STC void setDataEBO(u32 EBO, CNS SVec(u32) &data);
 
 	STC void enableProperty(u32 propertyArrayIndex);
 	STC void disableProperty(u32 propertyArrayIndex);

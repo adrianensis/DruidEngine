@@ -11,9 +11,9 @@ class Camera;
 
 CLASS(Frustum, ObjectBase)
 {
-	PRI(VPmatrix, NONE, Matrix4)
-	PRI(Camera, NONE, Camera *)
-	PRI(Planes, NONE, SArr<Vector4, 6>);
+	PRI(Matrix4, VPmatrix, NONE)
+	PRI(Camera *, Camera, NONE)
+	PRI(SArr(Vector4, 6), Planes, NONE);
 
 public:
 	void init(Camera * camera);

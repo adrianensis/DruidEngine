@@ -147,7 +147,7 @@ DESERIALIZE_IMPL(Scene)
 
 	if(json.contains("objects"))
 	{
-		SLst<GameObject *> tmpList;
+		SLst(GameObject *) tmpList;
 		DO_DESERIALIZE_LIST("objects", tmpList, [](CNS JSON &json)
 		{
 			GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);

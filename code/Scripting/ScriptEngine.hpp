@@ -7,10 +7,10 @@ class Script;
 
 CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
 {
-	PRI(Scripts, NONE, SLst<Script *>);
-	PRI(Controller, NONE, Script *)
+	PRI(SLst(Script *), Scripts, NONE);
+	PRI(Script *, Controller, NONE)
 
-	void internalRemoveScript(SLst<Script *>::iterator & it);
+	void internalRemoveScript(SLst(Script *)::iterator & it);
 
 public:
 	void init();

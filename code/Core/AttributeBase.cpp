@@ -1,7 +1,7 @@
 #include "Core/AttributeBase.hpp"
 #include "Core/ObjectBase.hpp"
 
-AttributeRegisterStatic::AttributeRegisterStatic(CNS SStr &classname, CNS SStr &name, SLst<AttributeBase> &outList)
+AttributeRegisterStatic::AttributeRegisterStatic(CNS SStr &classname, CNS SStr &name, SLst(AttributeBase) &outList)
 {
     //std::cout << "INSERTED " << classname << "::" << name << std::endl;
     outList.push_back(AttributeBase(name, nullptr));

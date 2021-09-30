@@ -36,11 +36,11 @@ using ClassId = u32;
 using ObjectId = u32;
 
 // S for "std"
-#define SVec std::vector
-#define SLst std::list
-#define SArr std::array
-#define SMap std::map
-#define SSet std::set
+#define SVec(...) std::vector<__VA_ARGS__>
+#define SLst(...) std::list<__VA_ARGS__>
+#define SArr(...) std::array<__VA_ARGS__>
+#define SMap(...) std::map<__VA_ARGS__>
+#define SSet(...) std::set<__VA_ARGS__>
 
 #define SStr std::string
 

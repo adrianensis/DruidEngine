@@ -7,7 +7,7 @@ class UIDropdown;
 
 CLASS(UIDropdownButton, UIButton)
 {
-	PRI(ParentDropdown, GET_SET, UIDropdown *)
+	PRI(UIDropdown *, ParentDropdown, GET_SET)
 public:
 	VIR void onReleased() OVR;
 };
@@ -19,8 +19,8 @@ friend UIDropdownButton;
 private:
 	CLASS_NESTED(UIDropdownEntry, ObjectBase)
 	{
-		PUB(Label, NONE, SStr)
-		PUB(Callback, NONE, UIElementCallback)
+		PUB(SStr, Label, NONE)
+		PUB(UIElementCallback, Callback, NONE)
 
 	public:
 		UIDropdownEntry(CNS SStr& label, UIElementCallback callback);
@@ -32,8 +32,8 @@ private:
 		}
 	};
 
-	SLst<UIDropdownButton *> mButtons;
-	SLst<UIDropdownEntry> mEntries;
+	SLst(UIDropdownButton *) mButtons;
+	SLst(UIDropdownEntry) mEntries;
 
 	void setEntriesVisibility(bool visible);
 

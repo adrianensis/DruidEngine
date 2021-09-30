@@ -16,7 +16,7 @@ enum class ServerStatus
 
 CLASS(Server, ObjectBase)
 {
-	PRI(Status, GET, ServerStatus);
+	PRI(ServerStatus, Status, GET);
 
 private:
 	int server_fd, new_socket;

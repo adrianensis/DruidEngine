@@ -9,8 +9,8 @@ CLASS(UIList, UIElement)
 private:
 	CLASS_NESTED(UIListEntry, ObjectBase)
 	{
-		PUB(Label, NONE, SStr)
-		PUB(Callback, NONE, UIElementCallback)
+		PUB(SStr, Label, NONE)
+		PUB(UIElementCallback, Callback, NONE)
 
 	public:
 		UIListEntry(CNS SStr& label, UIElementCallback callback);
@@ -22,8 +22,8 @@ private:
 		}
 	};
 
-	SLst<UIButton *> mButtons;
-	SLst<UIListEntry> mEntries;
+	SLst(UIButton *) mButtons;
+	SLst(UIListEntry) mEntries;
 
 	void setEntriesVisibility(bool visible);
 

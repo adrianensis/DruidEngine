@@ -25,7 +25,7 @@ void GameObject::addComponent(Component *component, ClassId classId)
 {
 	if (!MAP_CONTAINS(mComponentsMap, classId))
 	{
-		MAP_INSERT(mComponentsMap, classId, NEW(SLst<Component *>));
+		MAP_INSERT(mComponentsMap, classId, NEW(SLst(Component *)));
 	}
 
 	mComponentsMap.at(classId)->push_back(component);
@@ -40,7 +40,7 @@ void GameObject::removeComponent(Component *component, ClassId classId)
 {
 	if (MAP_CONTAINS(mComponentsMap, classId) && !component->getIsPendingToBeDestroyed() && !component->getIsDestroyed())
 	{
-		SLst<Component *> *list = mComponentsMap.at(classId);
+		SLst(Component *) *list = mComponentsMap.at(classId);
 		list->remove(component);
 		component->destroy();
 	}
@@ -56,9 +56,9 @@ void GameObject::init()
 	mTag = "";
 }
 
-CNS SLst<Component *> *GameObject::getComponents(ClassId classId) CNS
+CNS SLst(Component *) *GameObject::getComponents(ClassId classId) CNS
 {
-	SLst<Component *> *components = nullptr;
+	SLst(Component *) *components = nullptr;
 
 	if (MAP_CONTAINS(mComponentsMap, classId))
 	{
@@ -76,7 +76,7 @@ CNS SLst<Component *> *GameObject::getComponents(ClassId classId) CNS
 Component *GameObject::getFirstComponent(ClassId classId) CNS
 {
 	Component *component = nullptr;
-	CNS SLst<Component *> *components = getComponents(classId);
+	CNS SLst(Component *) *components = getComponents(classId);
 
 	if (components && !components->empty())
 	{
@@ -157,7 +157,7 @@ DESERIALIZE_IMPL(GameObject)
 
 	DO_DESERIALIZE("transform", mTransform)
 
-	SLst<Component *> tmpList;
+	SLst(Component *) tmpList;
 	DO_DESERIALIZE_LIST("components", tmpList, [](CNS JSON &json)
 	{
 		Component *component = INSTANCE_BY_NAME(json["class"], Component);

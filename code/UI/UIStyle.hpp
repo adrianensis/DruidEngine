@@ -8,9 +8,9 @@
 
 CLASS(UIStyle, ObjectBase)
 {
-	PUB(Color, NONE, Vector4);
-	PUB(ColorPressed, NONE, Vector4);
-	PUB(ColorHovered, NONE, Vector4);
+	PUB(Vector4, Color, NONE);
+	PUB(Vector4, ColorPressed, NONE);
+	PUB(Vector4, ColorHovered, NONE);
 
 public:
 
@@ -31,8 +31,8 @@ public:
 
 CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
 {
-	PRI(DefaultStyle, GETREF_CONST, UIStyle);
-	PRI(Styles, NONE, SMap<ClassId, UIStyle*>);
+	PRI(UIStyle, DefaultStyle, GETREF_CONST);
+	PRI(SMap(ClassId, UIStyle*), Styles, NONE);
 
 public:
 

@@ -8,7 +8,7 @@
 class Memory
 {
 public:
-	STC SMap<SStr, i32> mAllocationsCounter;
+	STC SMap(SStr, i32) mAllocationsCounter;
 
 	STC void init();
 	STC void terminate();

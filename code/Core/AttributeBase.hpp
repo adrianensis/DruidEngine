@@ -8,7 +8,7 @@ class AttributeBase;
 class AttributeRegisterStatic
 {
 public:
-    AttributeRegisterStatic(CNS SStr &classname, CNS SStr &name, SLst<AttributeBase> &outList);
+    AttributeRegisterStatic(CNS SStr &classname, CNS SStr &name, SLst(AttributeBase) &outList);
 };
 
 class AttributeRegister

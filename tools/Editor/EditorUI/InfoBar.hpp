@@ -6,7 +6,7 @@
 class EditorController;
 
 #define INFO_BAR_MEMBER(BaseName, ...)\
-PRI(BaseName, GET, UIText*)\
+PRI(UIText*, BaseName, GET)\
 public:\
 void set##BaseName(__VA_ARGS__ new##BaseName)\
 {\
@@ -15,7 +15,7 @@ void set##BaseName(__VA_ARGS__ new##BaseName)\
 
 CLASS(InfoBar, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*)
+	PRI(EditorController*, EditorController, NONE)
 	
 	INFO_BAR_MEMBER(Layer, u32)
 	INFO_BAR_MEMBER(FPS, u32)

@@ -8,22 +8,22 @@ class Vector4;
 
 CLASS(LineRenderer, ObjectBase)
 {
-	PRI(ShaderLine, NONE, Shader *)
+	PRI(Shader *, ShaderLine, NONE)
 
-	PRI(MaxShapes, NONE, u32)
-	PRI(ShapesCounter, NONE, u32)
+	PRI(u32, MaxShapes, NONE)
+	PRI(u32, ShapesCounter, NONE)
 
-	PRI(VAO, NONE, u32)
-	PRI(VBOPosition, NONE, u32)
-	PRI(VBOColor, NONE, u32)
-	PRI(EBO, NONE, u32)
-	PRI(PositionBuffer, NONE, SVec<f32>)
-	PRI(ColorBuffer, NONE, SVec<f32>)
-	PRI(IndicesBuffer, NONE, SVec<u32>)
+	PRI(u32, VAO, NONE)
+	PRI(u32, VBOPosition, NONE)
+	PRI(u32, VBOColor, NONE)
+	PRI(u32, EBO, NONE)
+	PRI(SVec(f32), PositionBuffer, NONE)
+	PRI(SVec(f32), ColorBuffer, NONE)
+	PRI(SVec(u32), IndicesBuffer, NONE)
 
-	PRI(Size, NONE, f32)
+	PRI(f32, Size, NONE)
 
-	PUB(IsWorldSpace, NONE, bool)
+	PUB(bool, IsWorldSpace, NONE)
 
 public:
 	LineRenderer();

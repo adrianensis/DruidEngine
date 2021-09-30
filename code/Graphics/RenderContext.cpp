@@ -125,13 +125,13 @@ GLuint RenderContext::createEBO()
 	return EBO;
 }
 
-void RenderContext::setDataVBO(u32 VBO, CNS SVec<f32> &data)
+void RenderContext::setDataVBO(u32 VBO, CNS SVec(f32) &data)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * data.size(), data.data(), GL_DYNAMIC_DRAW);
 }
 
-void RenderContext::setDataEBO(u32 EBO, CNS SVec<u32> &data)
+void RenderContext::setDataEBO(u32 EBO, CNS SVec(u32) &data)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(f32) * data.size(), data.data(), GL_DYNAMIC_DRAW);

@@ -127,7 +127,7 @@ bool Renderer::getIsWorldSpace()
 	return mIsWorldSpace;
 }
 
-CNS SVec<Vector2> &Renderer::getVertices(bool force /*= false*/)
+CNS SVec(Vector2) &Renderer::getVertices(bool force /*= false*/)
 {
 	if (mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices)
 	{

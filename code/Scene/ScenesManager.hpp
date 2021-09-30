@@ -9,12 +9,12 @@ class GameObject;
 
 CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
 {
-	PRI(Scenes, NONE, SVec<Scene *>);
-	PRI(CurrentSceneIndex, NONE, u32)
+	PRI(SVec(Scene *), Scenes, NONE);
+	PRI(u32, CurrentSceneIndex, NONE)
 
-	PRI(CurrentScene, GET, Scene *)
-	PRI(SceneHasChanged, GET, bool)
-	PRI(GameObjectController, GET_SET, GameObject *)
+	PRI(Scene *, CurrentScene, GET)
+	PRI(bool, SceneHasChanged, GET)
+	PRI(GameObject *, GameObjectController, GET_SET)
 
 	void internalLoadScene();
 	void addScene(Scene * newScene);

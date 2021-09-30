@@ -9,10 +9,10 @@ class AnimationFrame;
 
 CLASS(Animation, ObjectBase)
 {
-	PRI(Frames, NONE, SVec<AnimationFrame *> *);
-	PRI(CurrentFrameNumber, NONE, u32)
-	PRI(TimeAccumulator, NONE, f32)
-	PRI(Speed, NONE, f32)
+	PRI(SVec(AnimationFrame *) *, Frames, NONE);
+	PRI(u32, CurrentFrameNumber, NONE)
+	PRI(f32, TimeAccumulator, NONE)
+	PRI(f32, Speed, NONE)
 
 public:
 	Animation();

@@ -46,16 +46,16 @@ class Scene;
 
 CLASS(UIBuilder, ObjectBase), SINGLETON(UIBuilder)
 {
-	PRI(CurrentLayout, NONE, UILayout)
-	PRI(ButtonMaterial, NONE, Material *)
-	PRI(Config, NONE, UIElementConfig)
-	PRI(DefaultConfig, NONE, UIElementConfig)
-	PRI(ConfigStack, NONE, SLst<UIElementConfig>);
-	PRI(LastConfig, NONE, UIElementConfig)
-	PRI(MakeRelativeToLastConfig, NONE, bool) // used for layouts
-	PRI(LayoutFirstUIElementConfig, NONE, UIElementConfig)
-	PRI(NewRowOrColumn, NONE, bool)
-	PRI(CurrentUIElement, NONE, UIElement *)
+	PRI(UILayout, CurrentLayout, NONE)
+	PRI(Material *, ButtonMaterial, NONE)
+	PRI(UIElementConfig, Config, NONE)
+	PRI(UIElementConfig, DefaultConfig, NONE)
+	PRI(SLst(UIElementConfig), ConfigStack, NONE);
+	PRI(UIElementConfig, LastConfig, NONE)
+	PRI(bool, MakeRelativeToLastConfig, NONE) // used for layouts
+	PRI(UIElementConfig, LayoutFirstUIElementConfig, NONE)
+	PRI(bool, NewRowOrColumn, NONE)
+	PRI(UIElement *, CurrentUIElement, NONE)
 
 private:
 	void registerUIElement(UIElement * uiElement);

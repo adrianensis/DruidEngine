@@ -13,10 +13,10 @@ enum class TimerDurationType
 
 CLASS(Timer, ObjectBase)
 {
-	PRI(Duration, GET, f32)
-	PRI(TimeCounter, GET_SET, f32)
-	PRI(DurationType, GET, TimerDurationType)
-	PUB(Functor, NONE, FunctorVoid)
+	PRI(f32, Duration, GET)
+	PRI(f32, TimeCounter, GET_SET)
+	PRI(TimerDurationType, DurationType, GET)
+	PUB(FunctorVoid, Functor, NONE)
 
 public:
 	void init(f32 duration, TimerDurationType durationType, SFun<void()> callback);
@@ -26,7 +26,7 @@ CLASS(TimerHandle, ObjectBase)
 {
 	friend class TimerManager;
 
-	PRI(TimerReference, NONE, Timer *)
+	PRI(Timer *, TimerReference, NONE)
 
 public:
 	void init(Timer * timerReference)
@@ -42,7 +42,7 @@ public:
 
 CLASS(TimerManager, ObjectBase), SINGLETON(TimerManager)
 {
-	PRI(Timers, NONE, SLst<Timer *>);
+	PRI(SLst(Timer *), Timers, NONE);
 
 	void endTimer(Timer * timer);
 

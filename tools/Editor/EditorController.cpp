@@ -199,7 +199,7 @@ void EditorController::loadScene()
 	Scene *scene = ScenesManager::getInstance()->getCurrentScene();
 	scene->loadScene("config/tmp.json");
 
-	SLst<GameObject *> tmpList = scene->getNewGameObjects();
+	SLst(GameObject *) tmpList = scene->getNewGameObjects();
 	FOR_LIST(it, tmpList)
 	{
 		GameObject* gameObject = (*it);

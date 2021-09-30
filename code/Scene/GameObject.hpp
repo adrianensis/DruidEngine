@@ -13,19 +13,19 @@ CLASS_EVENT(EventOnDestroy) {};
 
 CLASS(GameObject, ObjectBase)
 {
-	PRI(ComponentsMap, NONE, SMap<ClassId, SLst<Component *> *>)
-	PRI(IsActive, NONE, bool)
+	PRI(SMap(ClassId, SLst(Component *) *), ComponentsMap, NONE)
+	PRI(bool, IsActive, NONE)
 
-	PRI(Scene, GET_SET, Scene *)
-	PRI(IsStatic, GET_SET, bool)
-	PRI(Transform, GET, Transform *)
-	PRI(Tag, GET_SET, SStr)
-	PRI(IsPendingToBeDestroyed, GET, bool)
-	PRI(IsDestroyed, GET, bool)
-	PRI(ShouldPersist, GET_SET, bool)
+	PRI(Scene *, Scene, GET_SET)
+	PRI(bool, IsStatic, GET_SET)
+	PRI(Transform *, Transform, GET)
+	PRI(SStr, Tag, GET_SET)
+	PRI(bool, IsPendingToBeDestroyed, GET)
+	PRI(bool, IsDestroyed, GET)
+	PRI(bool, ShouldPersist, GET_SET)
 
 private:
-	CNS SLst<Component *> *getComponents(ClassId classId) CNS;
+	CNS SLst(Component *) *getComponents(ClassId classId) CNS;
 	Component *getFirstComponent(ClassId classId) CNS;
 
 	void addComponentToSubsystem(Component* component);
@@ -52,9 +52,9 @@ public:
 	}
 
 	template <class T>
-	CNS SLst<T *> *getComponents() CNS
+	CNS SLst(T *) *getComponents() CNS
 	{
-		return reinterpret_cast<CNS SLst<T *> *>(GameObject::getComponents(T::getClassIdStatic()));
+		return reinterpret_cast<CNS SLst(T *> *)(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
 	template <class T>

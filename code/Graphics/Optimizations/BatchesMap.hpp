@@ -9,8 +9,8 @@ class Batch;
 
 CLASS(BatchesMap, ObjectBase)
 {
-	PRI(Batches, NONE, SMap<Texture *, Batch *>);
-	PRI(IsWorldSpace, GET, bool)
+	PRI(SMap(Texture *, Batch *), Batches, NONE);
+	PRI(bool, IsWorldSpace, GET)
 
 public:
 	~BatchesMap() OVR;

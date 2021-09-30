@@ -6,9 +6,9 @@
 
 CLASS(AnimationFrame, ObjectBase)
 {
-	PRI(Position, GET, Vector2)
-	PRI(Width, GET, f32)
-	PRI(Height, GET, f32)
+	PRI(Vector2, Position, GET)
+	PRI(f32, Width, GET)
+	PRI(f32, Height, GET)
 
 public:
 	void init(CNS Vector2 &position, f32 width, f32 height);

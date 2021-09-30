@@ -6,13 +6,13 @@ class GameObject;
 
 CLASS(Component, ObjectBase)
 {
-	PRI(IsActive, NONE, bool)
-	PRI(IsStatic, NONE, bool)
+	PRI(bool, IsActive, NONE)
+	PRI(bool, IsStatic, NONE)
 
-	PRI(GameObject, GET_SET, GameObject *)
-	PRI(AlreadyAddedToEngine, GET_SET, bool)
-	PRI(IsPendingToBeDestroyed, GET, bool)
-	PRI(IsDestroyed, GET, bool)
+	PRI(GameObject *, GameObject, GET_SET)
+	PRI(bool, AlreadyAddedToEngine, GET_SET)
+	PRI(bool, IsPendingToBeDestroyed, GET)
+	PRI(bool, IsDestroyed, GET)
 
 public:
 	Component();

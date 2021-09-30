@@ -68,7 +68,7 @@ void UIText::setText(CNS SStr &text)
 						removeComponent(mFontRenderers[i]);
 					}
 
-					SVec<Renderer *> copyVector = mFontRenderers;
+					SVec(Renderer *) copyVector = mFontRenderers;
 					mFontRenderers.clear();
 					std::copy(copyVector.begin(), copyVector.begin() + text.length(), std::back_inserter(mFontRenderers));
 				}

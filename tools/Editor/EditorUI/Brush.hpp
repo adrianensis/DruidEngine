@@ -23,23 +23,23 @@ enum class BrushPaintMode
 
 CLASS(BrushPaintData, ObjectBase)
 {
-	PUB(Region, NONE, Rectangle)
-	PUB(Material, NONE, Material *)
+	PUB(Rectangle, Region, NONE)
+	PUB(Material *, Material, NONE)
 };
 
 CLASS(Brush, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*)
-	PRI(Selector, NONE, GameObject *)
-	PRI(BrushPreview, NONE, SVec<GameObject *>)
+	PRI(EditorController*, EditorController, NONE)
+	PRI(GameObject *, Selector, NONE)
+	PRI(SVec(GameObject *), BrushPreview, NONE)
 
-	PRI(Mode, NONE, BrushMode)
-	PRI(PaintMode, NONE, BrushPaintMode)
+	PRI(BrushMode, Mode, NONE)
+	PRI(BrushPaintMode, PaintMode, NONE)
 
-	PRI(PaintData, GETREF, BrushPaintData)
+	PRI(BrushPaintData, PaintData, GETREF)
 
-	PRI(BrushSize, GET, u32)
-	PRI(MaxBrushSize, NONE, u32)
+	PRI(u32, BrushSize, GET)
+	PRI(u32, MaxBrushSize, NONE)
 
 private:
 

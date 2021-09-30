@@ -1,7 +1,7 @@
 #include "ClassManager.hpp"
 #include "Assert/Assert.hpp"
 
-SMap<SStr, ClassRegisterCallback> ClassManager::smRegisters;
+SMap(SStr, ClassRegisterCallback) ClassManager::smRegisters;
 
 //#include "../../generated-code/code.includes.generated"
 

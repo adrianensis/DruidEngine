@@ -113,14 +113,14 @@ public Singleton<__VA_ARGS__>
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
-	STC SLst<AttributeBase> &__getClassAttributesNamesStatic()          \
+	STC SLst(AttributeBase) &__getClassAttributesNamesStatic()          \
 	{                                                                          \
-		STC SLst<AttributeBase> attributesNames = {};\
+		STC SLst(AttributeBase) attributesNames = {};\
 		return attributesNames;                                                   \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
-	STC CNS SLst<AttributeBase> &getClassAttributesNamesStatic()          \
+	STC CNS SLst(AttributeBase) &getClassAttributesNamesStatic()          \
 	{                                                                          \
 		return __getClassAttributesNamesStatic();                               \
 	};
@@ -195,9 +195,9 @@ private:
 	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
 	Visibility:
 	
-#define PUB(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, public, __VA_ARGS__)
-#define PRO(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, protected, __VA_ARGS__)
-#define PRI(BaseName, AccessorMacroName, ...) MEMBER(BaseName, AccessorMacroName, private, __VA_ARGS__)
+#define PUB(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, public, ClassName)
+#define PRO(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, protected, ClassName)
+#define PRI(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, private, ClassName)
 
 // --------------------------------------------------------
 // COPY

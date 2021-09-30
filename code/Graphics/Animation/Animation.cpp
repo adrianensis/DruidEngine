@@ -21,7 +21,7 @@ Animation::~Animation()
 
 void Animation::init()
 {
-	mFrames = NEW(SVec<AnimationFrame *>);
+	mFrames = NEW(SVec(AnimationFrame *));
 }
 
 void Animation::addFrame(AnimationFrame *frame)

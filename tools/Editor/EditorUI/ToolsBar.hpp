@@ -7,7 +7,7 @@ class EditorController;
 
 CLASS(ToolsBar, ObjectBase)
 {
-	PRI(EditorController, NONE, EditorController*);
+	PRI(EditorController*, EditorController, NONE);
 
 public:
 	void init(EditorController* editorController);

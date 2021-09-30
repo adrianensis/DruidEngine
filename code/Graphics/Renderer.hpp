@@ -16,27 +16,27 @@ class Chunk;
 
 CLASS(Renderer, Component)
 {
-	PRI(Animations, NONE, SMap<SStr, Animation *>)
-	PRI(RenderereModelMatrix, NONE, Matrix4)
-	PRI(PositionOffsetDirty, NONE, bool)
-	PRI(ForceRecalculateVertices, NONE, bool)
-	PRI(Vertices, NONE, SVec<Vector2>)
-	PRI(IsWorldSpace, NONE, bool)
+	PRI(SMap(SStr, Animation *), Animations, NONE)
+	PRI(Matrix4, RenderereModelMatrix, NONE)
+	PRI(bool, PositionOffsetDirty, NONE)
+	PRI(bool, ForceRecalculateVertices, NONE)
+	PRI(SVec(Vector2), Vertices, NONE)
+	PRI(bool, IsWorldSpace, NONE)
 
-	PRI(CurrentAnimation, GET, Animation *)
-	PRI(Color, GETREF_CONST, SArr<f32, 4>)
-	PRI(PositionOffset, GET, Vector3)
-	PRI(Region, GETREF_CONST_SET, Rectangle)
-	PRI(ClipRectangle, GETREF_CONST_SET, Rectangle)
-	PRI(Mesh, GET_SET, Mesh *)
-	PRI(Material, GET_SET, Material *)
-	PRI(InvertAxisX, GET_SET, bool)
-	PRI(IsLineMode, GET_SET, bool)
-	PRI(Layer, GET_SET, u32)
-	PRI(RenderDistance, GET_SET, f32)
-	PRI(IsOutOfCamera, GET_SET, bool)
-	PRI(IsAlreadyInBatch, GET_SET, bool)
-	PRI(Chunk, GET_SET, Chunk *)
+	PRI(Animation *, CurrentAnimation, GET)
+	PRI(SArr(f32, 4), Color, GETREF_CONST)
+	PRI(Vector3, PositionOffset, GET)
+	PRI(Rectangle, Region, GETREF_CONST_SET)
+	PRI(Rectangle, ClipRectangle, GETREF_CONST_SET)
+	PRI(Mesh *, Mesh, GET_SET)
+	PRI(Material *, Material, GET_SET)
+	PRI(bool, InvertAxisX, GET_SET)
+	PRI(bool, IsLineMode, GET_SET)
+	PRI(u32, Layer, GET_SET)
+	PRI(f32, RenderDistance, GET_SET)
+	PRI(bool, IsOutOfCamera, GET_SET)
+	PRI(bool, IsAlreadyInBatch, GET_SET)
+	PRI(Chunk *, Chunk, GET_SET)
 
 public:
 	Renderer();
@@ -50,7 +50,7 @@ public:
 	void setColor(CNS Vector4 &color);
 	void setPositionOffset(Vector3 newPositionOffset);
 	bool getIsWorldSpace();
-	CNS SVec<Vector2> &getVertices(bool force = false);
+	CNS SVec(Vector2) &getVertices(bool force = false);
 	void forceRecalculateVertices();
 	bool hasClipRectangle() CNS {return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON; };
 

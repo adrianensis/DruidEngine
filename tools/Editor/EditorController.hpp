@@ -22,25 +22,25 @@ using TileCallback = SFun<void(GameObject* tile)>;
 
 CLASS(EditorController, ObjectBase)
 {
-	PRI(EditorConfig, GETREF_CONST, ConfigObject)
+	PRI(ConfigObject, EditorConfig, GETREF_CONST)
 
-	PRI(Brush, GETREF, Brush)
-	PRI(MenuBar, GETREF, MenuBar)
-	PRI(InfoBar, GETREF, InfoBar)
-	PRI(ToolsBar, GETREF, ToolsBar)
-	PRI(LayersBar, GETREF, LayersBar)
-	PRI(Sprites, GETREF, Sprites)
+	PRI(Brush, Brush, GETREF)
+	PRI(MenuBar, MenuBar, GETREF)
+	PRI(InfoBar, InfoBar, GETREF)
+	PRI(ToolsBar, ToolsBar, GETREF)
+	PRI(LayersBar, LayersBar, GETREF)
+	PRI(Sprites, Sprites, GETREF)
 
-	PRI(SelectedTiles, GETREF, SLst<GameObject*>)
+	PRI(SLst(GameObject*), SelectedTiles, GETREF)
 
-	PRI(Layer, GET_SET, u32)
-	PRI(Grids, NONE, SVec<Grid>)
-	PRI(DrawGrid, GET_SET, bool)
+	PRI(u32, Layer, GET_SET)
+	PRI(SVec(Grid), Grids, NONE)
+	PRI(bool, DrawGrid, GET_SET)
 
-	PRI(Camera, GET, Camera*)
-	PRI(CameraSpeed, NONE, f32)
-	PRI(CameraDragStarted, NONE, bool)
-	PRI(CameraDragLastPosition, NONE, Vector3)
+	PRI(Camera*, Camera, GET)
+	PRI(f32, CameraSpeed, NONE)
+	PRI(bool, CameraDragStarted, NONE)
+	PRI(Vector3, CameraDragLastPosition, NONE)
 
 public:
 
