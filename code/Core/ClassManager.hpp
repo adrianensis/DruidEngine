@@ -20,7 +20,7 @@
         return object;\
     });
 
-using ClassRegisterCallback = SFun<ObjectBase*()>;
+using ClassRegisterCallback = SFun(ObjectBase*());
 
 class ClassRegister
 {

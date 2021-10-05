@@ -44,4 +44,4 @@ using ObjectId = u32;
 
 #define SStr std::string
 
-#define SFun std::function
+#define SFun(...) std::function<__VA_ARGS__>

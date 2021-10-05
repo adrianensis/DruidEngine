@@ -1,7 +1,7 @@
 #include "Core/Time/TimerManager.hpp"
 #include "Log/Log.hpp"
 
-void Timer::init(f32 duration, TimerDurationType durationType, SFun<void()> callback)
+void Timer::init(f32 duration, TimerDurationType durationType, SFun(void()) callback)
 {
 	mDurationType = durationType;
 	mDuration = duration;
@@ -46,7 +46,7 @@ void TimerManager::update()
 	}
 }
 
-TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, SFun<void()> callback)
+TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType, SFun(void()) callback)
 {
 	Timer *timer = NEW(Timer);
 	timer->init(duration, durationType, callback);

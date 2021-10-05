@@ -6,7 +6,7 @@ void File::init()
 	TRACE()
 }
 
-void File::readFile(CNS SStr &path, SFun<void(std::ifstream &file)> callback)
+void File::readFile(CNS SStr &path, SFun(void(std::ifstream &file)) callback)
 {
 	std::ifstream file;
 	file.open(path);
@@ -19,7 +19,7 @@ void File::readFile(CNS SStr &path, SFun<void(std::ifstream &file)> callback)
 	file.close();
 }
 
-void File::writeFile(CNS SStr &path, SFun<void(std::ofstream &file)> callback)
+void File::writeFile(CNS SStr &path, SFun(void(std::ofstream &file)) callback)
 {
 	std::ofstream file;
 	file.open(path);

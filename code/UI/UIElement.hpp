@@ -11,7 +11,7 @@ class UIGroup;
 
 class UIElement;
 
-using UIElementCallback = SFun<void(UIElement *uiElement)>;
+using UIElementCallback = SFun(void(UIElement *uiElement));
 
 CLASS(FunctorUIElement, Functor<UIElementCallback>)
 {

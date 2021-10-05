@@ -18,7 +18,7 @@ class Material;
 class GameObject;
 class Camera;
 
-using TileCallback = SFun<void(GameObject* tile)>;
+using TileCallback = SFun(void(GameObject* tile));
 
 CLASS(EditorController, ObjectBase)
 {

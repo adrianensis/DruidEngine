@@ -39,7 +39,7 @@ public:
 	STC CNS Vector3 smForward;
 
 	Transform();
-	~Transform();
+	~Transform() OVR;
 
 	void init() OVR;
 

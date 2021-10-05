@@ -22,7 +22,7 @@ CLASS(Event, ObjectBase){
 		}
 };
 
-using EventCallback = SFun<void(CNS Event *)>;
+using EventCallback = SFun(void(CNS Event *));
 
 CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
 {

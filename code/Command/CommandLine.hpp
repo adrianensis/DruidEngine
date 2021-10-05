@@ -8,7 +8,7 @@
 
 class UIText;
 
-using CommandCallback = SFun<void(CNS Command& command)>;
+using CommandCallback = SFun(void(CNS Command& command));
 
 CLASS(CommandFunctor, Functor<CommandCallback>)
 {

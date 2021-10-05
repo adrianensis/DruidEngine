@@ -21,7 +21,7 @@ public:
 	}*/
 };
 
-CLASS(FunctorVoid, Functor<SFun<void()>>){
+CLASS(FunctorVoid, Functor<SFun(void()>)){
 public:	
 	VIR void execute() OVR
 	{
