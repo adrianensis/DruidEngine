@@ -31,7 +31,7 @@ void Chunk::init()
 	mLeftTop.set(0, 0, 0);
 }
 
-void Chunk::set(CNS Vector3 &leftTop, f32 size)
+void Chunk::set(const Vector3 &leftTop, f32 size)
 {
 	mLeftTop = leftTop;
 	mSize = size;
@@ -114,14 +114,14 @@ void Chunk::addRenderer(Renderer *renderer)
 	mRenderers->push_back(renderer);
 }
 
-bool Chunk::containsRenderer(CNS Renderer *renderer, f32 epsilon /*= 0.0f*/) CNS
+bool Chunk::containsRenderer(const Renderer *renderer, f32 epsilon /*= 0.0f*/) const
 {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	bool contains = Geometry::testRectanglePoint(mLeftTop, mSize, mSize, rendererPosition, epsilon);
 	return contains; // TODO : move to settings ?
 }
 
-bool Chunk::containsRendererSphere(CNS Renderer *renderer) CNS
+bool Chunk::containsRendererSphere(const Renderer *renderer) const
 {
 	Vector3 rendererPosition = renderer->getGameObject()->getTransform()->getWorldPosition();
 	return Geometry::testSphereSphere(mCenter, rendererPosition, mRadius,

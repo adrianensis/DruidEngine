@@ -25,12 +25,12 @@ CLASS(Grid, ObjectBase)
 public:
 
 	void init(EditorController* editorController);
-	void setCell(CNS Vector2& gridPosition, GameObject* tile);
-	CellGrid& getCell(CNS Vector2& gridPosition);
+	void setCell(const Vector2& gridPosition, GameObject* tile);
+	CellGrid& getCell(const Vector2& gridPosition);
 
-	bool hasTile(CNS Vector2& gridPosition) CNS;
-	bool isInGrid(CNS Vector2& worldPosition) CNS;
+	bool hasTile(const Vector2& gridPosition) const;
+	bool isInGrid(const Vector2& worldPosition) const;
 	
-	Vector2 calculateGridPosition(CNS Vector2& worldPosition) CNS;
-	Vector2 calculateClampedPosition(CNS Vector2& worldPosition) CNS;
+	Vector2 calculateGridPosition(const Vector2& worldPosition) const;
+	Vector2 calculateClampedPosition(const Vector2& worldPosition) const;
 };

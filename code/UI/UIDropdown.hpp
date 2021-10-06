@@ -23,7 +23,7 @@ private:
 		PUB(UIElementCallback, Callback, NONE)
 
 	public:
-		UIDropdownEntry(CNS SStr& label, UIElementCallback callback);
+		UIDropdownEntry(const SStr& label, UIElementCallback callback);
 
 		COPY(UIDropdownEntry)
 		{
@@ -43,6 +43,6 @@ public:
 
 	VIR void onReleased() OVR;
 
-	UIDropdown& addOption(CNS SStr & label, UIElementCallback onPressedCallback);
+	UIDropdown& addOption(const SStr & label, UIElementCallback onPressedCallback);
 	void toggle();
 };

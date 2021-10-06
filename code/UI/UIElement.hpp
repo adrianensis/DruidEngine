@@ -61,7 +61,7 @@ CLASS(UIElement, GameObject)
 
 public:
 	VIR void init() OVR;
-	VIR void initFromConfig(CNS UIElementConfig& config);
+	VIR void initFromConfig(const UIElementConfig& config);
 	VIR void onDestroy();
 
 	void subscribeToKeyEvents();
@@ -71,13 +71,13 @@ public:
 	void subscribeToEnterEvent();
 	void subscribeToEscEvent();
 
-	bool hasFocus() CNS;
+	bool hasFocus() const;
 
 	bool isMouseCursorInsideElement();
 
 	VIR void onChar(char character);
 
-	VIR void setText(CNS SStr &text) { };
+	VIR void setText(const SStr &text) { };
 
 	VIR void onPressed();
 	VIR void onReleased();

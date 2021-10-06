@@ -22,7 +22,7 @@ CLASS(Event, ObjectBase){
 		}
 };
 
-using EventCallback = SFun(void(CNS Event *));
+using EventCallback = SFun(void(const Event *));
 
 CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
 {
@@ -48,7 +48,7 @@ public:
 		DO_COPY(EventReceiver)
 	}
 
-	bool operator==(CNS EventFunctor &eventFunctor) CNS
+	bool operator==(const EventFunctor &eventFunctor) const
 	{
 		return mEventClassId == eventFunctor.mEventClassId && mEventReceiver == eventFunctor.mEventReceiver;
 	}

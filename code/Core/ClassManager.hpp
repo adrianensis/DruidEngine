@@ -28,7 +28,7 @@ class ClassRegister
         SStr mClassName;
         ClassRegisterCallback mCallback;
     public:
-        ClassRegister(CNS SStr &className, ClassRegisterCallback callback);
+        ClassRegister(const SStr &className, ClassRegisterCallback callback);
 };
 
 class ClassManager: public Singleton<ClassManager>
@@ -36,7 +36,7 @@ class ClassManager: public Singleton<ClassManager>
 friend ClassRegister;
 private:
 
-    STC SMap(SStr, ClassRegisterCallback) smRegisters;
+    static SMap(SStr, ClassRegisterCallback) smRegisters;
 
     SMap(SStr, ClassRegisterCallback) mInstanceByNameMap;
 
@@ -44,15 +44,15 @@ public:
 
     void init();
 
-    void registerClassByName(CNS SStr &className, ClassRegisterCallback callback);
+    void registerClassByName(const SStr &className, ClassRegisterCallback callback);
 
     template<class T, typename = std::enable_if_t<std::is_base_of<ObjectBase, T>::value> >
-    T* instanceByName(CNS SStr &className)
+    T* instanceByName(const SStr &className)
     {
         return static_cast<T*>(instanceByName(className));
     }
 
-    ObjectBase* instanceByName(CNS SStr &className)
+    ObjectBase* instanceByName(const SStr &className)
     {
         if(MAP_CONTAINS(mInstanceByNameMap, className))
         {

@@ -49,7 +49,7 @@ Batch::~Batch()
 	glDeleteBuffers(1, &mEBO);
 }
 
-void Batch::init(CNS Mesh *mesh, Material *material)
+void Batch::init(const Mesh *mesh, Material *material)
 {
 	// TRACE();
 
@@ -201,13 +201,13 @@ void Batch::processRenderers(SLst(Renderer *) *renderers)
 	}
 }
 
-bool Batch::isChunkOk(Renderer *renderer) CNS
+bool Batch::isChunkOk(Renderer *renderer) const
 {
-	CNS Chunk *chunk = renderer->getChunk();
+	const Chunk *chunk = renderer->getChunk();
 	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
 }
 
-void Batch::drawCall() CNS
+void Batch::drawCall() const
 {
 	if (mMeshesIndex > 0)
 	{
@@ -329,7 +329,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 {
 	renderer->updateAnimation();
 
-	CNS SVec(Vector2) &vertexPositions = renderer->getVertices();
+	const SVec(Vector2) &vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())
 	{
@@ -348,7 +348,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 		{
 			textureCoord.x = 1.0f - textureCoord.x;
 
-			CNS Animation *animation = renderer->getCurrentAnimation();
+			const Animation *animation = renderer->getCurrentAnimation();
 
 			if (animation)
 			{

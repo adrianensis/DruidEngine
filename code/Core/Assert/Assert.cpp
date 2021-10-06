@@ -4,8 +4,8 @@
 
 //#include <experimental/filesystem>
 
-void assert_msg(bool condition, CNS SStr &file, u32 line, CNS SStr &function,
-				CNS SStr &message)
+void assert_msg(bool condition, const SStr &file, u32 line, const SStr &function,
+				const SStr &message)
 {
 	if (!condition)
 	{

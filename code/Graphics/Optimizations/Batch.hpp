@@ -15,7 +15,7 @@ CLASS(Batch, ObjectBase)
 	PRI(RenderEngine *, RenderEngine, NONE)
 	PRI(SMap(u32, SLst(Renderer *) *), Renderers, NONE)
 	PRI(Material *, Material, GET)
-	PRI(CNS Mesh *, Mesh, GET)
+	PRI(const Mesh *, Mesh, GET)
 
 	PRI(Mesh, MeshBuilder, NONE)
 
@@ -36,11 +36,11 @@ CLASS(Batch, ObjectBase)
 private:
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
-	bool isChunkOk(Renderer * renderer) CNS;
+	bool isChunkOk(Renderer * renderer) const;
 
 	void processRenderers(SLst(Renderer *) * renderers);
 
-	void drawCall() CNS;
+	void drawCall() const;
 
 	void internalRemoveRendererFromList(SLst(Renderer *)::iterator & it, SLst(Renderer *) * list);
 
@@ -49,7 +49,7 @@ private:
 public:
 	~Batch() OVR;
 
-	void init(CNS Mesh *mesh, Material *material);
+	void init(const Mesh *mesh, Material *material);
 	void bind();
 
 	void render(u32 layer);

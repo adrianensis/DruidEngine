@@ -25,8 +25,8 @@ CLASS(GameObject, ObjectBase)
 	PRI(bool, ShouldPersist, GET_SET)
 
 private:
-	CNS SLst(Component *) *getComponents(ClassId classId) CNS;
-	Component *getFirstComponent(ClassId classId) CNS;
+	const SLst(Component *) *getComponents(ClassId classId) const;
+	Component *getFirstComponent(ClassId classId) const;
 
 	void addComponentToSubsystem(Component* component);
 
@@ -52,18 +52,18 @@ public:
 	}
 
 	template <class T>
-	CNS SLst(T *) *getComponents() CNS
+	const SLst(T *) *getComponents() const
 	{
-		return reinterpret_cast<CNS SLst(T *> *)(GameObject::getComponents(T::getClassIdStatic()));
+		return reinterpret_cast<const SLst(T *> *)(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
 	template <class T>
-	T *getFirstComponent() CNS
+	T *getFirstComponent() const
 	{
 		return dynamic_cast<T *>(GameObject::getFirstComponent(T::getClassIdStatic()));
 	}
 
-	bool isActive() CNS
+	bool isActive() const
 	{
 		return (mIsDestroyed || mIsPendingToBeDestroyed) ? false : mIsActive;
 	};

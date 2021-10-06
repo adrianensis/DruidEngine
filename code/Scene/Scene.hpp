@@ -30,8 +30,8 @@ public:
 
 	SERIALIZE();
 	DESERIALIZE();
-	void loadScene(CNS SStr &path);
-	void saveScene(CNS SStr &path);
+	void loadScene(const SStr &path);
+	void saveScene(const SStr &path);
 
 	void unloadScene();
 
@@ -41,6 +41,6 @@ public:
 
 	void update();
 
-	bool thereAreNewGameObjects() CNS;
+	bool thereAreNewGameObjects() const;
 	void flushNewGameObjects();
 };

@@ -12,22 +12,22 @@ CLASS(UIText, UIElement)
 
 public:
 	VIR void init() OVR;
-	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void initFromConfig(const UIElementConfig& config) OVR;
 	VIR void onDestroy() OVR;
 
-	VIR void setText(CNS SStr &text) OVR;
+	VIR void setText(const SStr &text) OVR;
 
 	void setLayer(u32 layer)
 	{
 		mLayer = layer;
 	};
 
-	void setSize(CNS Vector2 &size)
+	void setSize(const Vector2 &size)
 	{
 		mSize = size;
 	};
 
-	CNS SStr &getText() CNS
+	const SStr &getText() const
 	{
 		return mString;
 	};

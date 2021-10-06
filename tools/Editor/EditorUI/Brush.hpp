@@ -43,18 +43,18 @@ CLASS(Brush, ObjectBase)
 
 private:
 
-	Vector2 getMouseWorldPosition() CNS;
+	Vector2 getMouseWorldPosition() const;
 	void onHold();
-	void applyOneTile(CNS Vector2 &worldPosition);
+	void applyOneTile(const Vector2 &worldPosition);
 	void onMouseMoved();
 	void createSelector();
 	void setSelectorVisibility(bool visible);
 	void setBrushPreviewVisibility(bool visible);
-	void createBrushPreviewOneTile(CNS Vector2 &brushPreviewIndex);
+	void createBrushPreviewOneTile(const Vector2 &brushPreviewIndex);
 	void createBrushPreview();
 	void removeBrushPreview();
-	void paintTile(CNS Vector2 &worldPosition, CNS Vector2 &gridPosition);
-	void removeTile(CNS Vector2 &gridPosition);
+	void paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition);
+	void removeTile(const Vector2 &gridPosition);
 
 public:
 

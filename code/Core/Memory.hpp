@@ -8,13 +8,13 @@
 class Memory
 {
 public:
-	STC SMap(SStr, i32) mAllocationsCounter;
+	static SMap(SStr, i32) mAllocationsCounter;
 
-	STC void init();
-	STC void terminate();
+	static void init();
+	static void terminate();
 
 	template <class T>
-	STC T *newObject()
+	static T *newObject()
 	{
 		T *object = new T;
 
@@ -42,7 +42,7 @@ public:
 	}
 
 	template <class T>
-	STC void deleteObject(T * pointer)
+	static void deleteObject(T * pointer)
 	{
 		ASSERT_MSG(pointer != nullptr, "pointer is nullptr");
 

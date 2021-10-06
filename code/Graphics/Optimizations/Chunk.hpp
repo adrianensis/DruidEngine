@@ -19,11 +19,11 @@ CLASS(Chunk, ObjectBase)
 public:
 	~Chunk() OVR;
 	void init();
-	void set(CNS Vector3 &leftTop, f32 size);
+	void set(const Vector3 &leftTop, f32 size);
 	void load();
 	void update(BatchesMap * batchesMap);
 	void unload();
-	bool containsRenderer(CNS Renderer *renderer, f32 epsilon = 0.0f) CNS;
-	bool containsRendererSphere(CNS Renderer *renderer) CNS;
+	bool containsRenderer(const Renderer *renderer, f32 epsilon = 0.0f) const;
+	bool containsRendererSphere(const Renderer *renderer) const;
 	void addRenderer(Renderer * renderer);
 };

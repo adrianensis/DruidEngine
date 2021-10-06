@@ -8,7 +8,7 @@
 #include "Scene/Scene.hpp"
 #include "Graphics/Mesh.hpp"
 
-UIList::UIListEntry::UIListEntry(CNS SStr& label, UIElementCallback callback)
+UIList::UIListEntry::UIListEntry(const SStr& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
@@ -26,7 +26,7 @@ void UIList::init()
 	subscribeToScrollEvents();
 }
 
-void UIList::initFromConfig(CNS UIElementConfig& config)
+void UIList::initFromConfig(const UIElementConfig& config)
 {
 	Super::initFromConfig(config);
 
@@ -60,7 +60,7 @@ void UIList::onDestroy()
 	Super::onDestroy();
 }
 
-UIList &UIList::addOption(CNS SStr &label, UIElementCallback onPressedCallback)
+UIList &UIList::addOption(const SStr &label, UIElementCallback onPressedCallback)
 {
 	mEntries.push_back(UIListEntry(label, onPressedCallback));
 	return *this;

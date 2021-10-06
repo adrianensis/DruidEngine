@@ -19,7 +19,7 @@ CLASS(UI, ObjectBase), SINGLETON(UI)
 	PRI(Vector2, FontTileTextureSize, NONE)
 	PRI(Material *, FontMaterial, NONE)
 
-	STC Vector2 smDefaultFontSize;
+	static Vector2 smDefaultFontSize;
 
 	PRI(UIBuilder, UIBuilder, GETREF)
 
@@ -31,21 +31,21 @@ public:
 
 	// fonts
 
-	CNS Vector2 &getCharTextureCoordinates(char character);
-	CNS Vector2 &getFontTileTextureSize() CNS { return mFontTileTextureSize; }
+	const Vector2 &getCharTextureCoordinates(char character);
+	const Vector2 &getFontTileTextureSize() const { return mFontTileTextureSize; }
 	Material *getFontMaterial();
-	STC CNS Vector2 &getDefaultFontSize() { return smDefaultFontSize; }
+	static const Vector2 &getDefaultFontSize() { return smDefaultFontSize; }
 
 	// groups
 
-	CNS UIGroup& getGroup(CNS SStr & groupName) CNS;
-	void addToGroup(CNS SStr & groupName, UIElement * uiElement);
-	void removeFromGroup(CNS SStr & groupName, UIElement * uiElement);
-	void removeElementsFromGroup(CNS SStr & groupName);
-	void setGroupVisibility(CNS SStr & groupName, bool visibility);
+	const UIGroup& getGroup(const SStr & groupName) const;
+	void addToGroup(const SStr & groupName, UIElement * uiElement);
+	void removeFromGroup(const SStr & groupName, UIElement * uiElement);
+	void removeElementsFromGroup(const SStr & groupName);
+	void setGroupVisibility(const SStr & groupName, bool visibility);
 
 	// focus
 
-	UIElement *getFocusedElement() CNS { return mFocusedElement; };
+	UIElement *getFocusedElement() const { return mFocusedElement; };
 	void setFocusedElement(UIElement * focusedElement);
 };

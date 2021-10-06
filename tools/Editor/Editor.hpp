@@ -13,5 +13,5 @@ public:
 	void update() OVR;
 	void terminate() OVR;
 
-	void drawGrid() CNS;
+	void drawGrid() const;
 };

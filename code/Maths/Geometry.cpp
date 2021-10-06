@@ -2,24 +2,24 @@
 
 #include "Maths/MathUtils.hpp"
 
-bool Geometry::testRectanglePoint(CNS Vector2 &leftTop, f32 width, f32 height, CNS Vector2 &point, f32 eps)
+bool Geometry::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps)
 {
 	return (leftTop.x - eps <= point.x && leftTop.y + eps >= point.y && leftTop.x + width + eps >= point.x && leftTop.y - height - eps <= point.y);
 }
 
-bool Geometry::testRectangleSphere(CNS Vector2 &leftTop, f32 width, f32 height, CNS Vector2 &center, f32 radius, f32 eps)
+bool Geometry::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps)
 {
 	return (leftTop.x - radius - eps <= center.x && leftTop.y + radius + eps >= center.y && leftTop.x + width + radius + eps >= center.x && leftTop.y - height - radius - eps <= center.y);
 }
 
-bool Geometry::testSphereSphere(CNS Vector2 &centerA, CNS Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps)
+bool Geometry::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps)
 {
 	f32 distance = centerA.dst(centerB);
 	return (distance < (radiusA + radiusB + eps));
 }
 
-bool testLineLine(CNS Vector2 &lineAStart, CNS Vector2 &lineAEnd, CNS Vector2 &lineBStart,
-				  CNS Vector2 &lineBEnd, Vector2 &intersectionResult)
+bool testLineLine(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
+				  const Vector2 &lineBEnd, Vector2 &intersectionResult)
 {
 	// Source : http://www-cs.ccny.cuny.edu/~wolberg/capstone/intersection/Intersection%20point%20of%20two%20lines.html
 
@@ -47,7 +47,7 @@ bool testLineLine(CNS Vector2 &lineAStart, CNS Vector2 &lineAEnd, CNS Vector2 &l
 	return intersection;
 }
 
-bool Geometry::testLineSphereSimple(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &center,
+bool Geometry::testLineSphereSimple(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center,
 									f32 radius, f32 eps)
 {
 	bool lineIntersectsSphere = false;
@@ -66,7 +66,7 @@ bool Geometry::testLineSphereSimple(CNS Vector2 &lineStart, CNS Vector2 &lineEnd
 	return lineIntersectsSphere;
 }
 
-bool Geometry::testLineSphere(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &center, f32 radius,
+bool Geometry::testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center, f32 radius,
 							  f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2)
 {
 	// X(t) = x1 + (x2 - x1) * t
@@ -108,12 +108,12 @@ bool Geometry::testLineSphere(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS 
 	return lineIntersectsSphere;
 }
 
-bool Geometry::testSpherePoint(CNS Vector2 &point, CNS Vector2 &center, f32 radius)
+bool Geometry::testSpherePoint(const Vector2 &point, const Vector2 &center, f32 radius)
 {
 	return center.dst(point) <= radius;
 }
 
-bool Geometry::testLinePoint(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &point, f32 eps)
+bool Geometry::testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point, f32 eps)
 {
 	// get distance from the point to the two ends of the line
 	f32 d1 = lineStart.dst(point);
@@ -131,7 +131,7 @@ bool Geometry::testLinePoint(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS V
 	return pointIsInLine;
 }
 
-Vector2 Geometry::closestPointInLine(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &point)
+Vector2 Geometry::closestPointInLine(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point)
 {
 	Vector2 pointStartVector = (point - lineStart) /*.nor()*/;
 	Vector2 lineVector = (lineEnd - lineStart) /*.nor()*/;
@@ -144,7 +144,7 @@ Vector2 Geometry::closestPointInLine(CNS Vector2 &lineStart, CNS Vector2 &lineEn
 	return Vector2(lineStart + (lineVector.mul(t)));
 }
 
-Vector2 Geometry::midPoint(CNS Vector2 &a, CNS Vector2 &b)
+Vector2 Geometry::midPoint(const Vector2 &a, const Vector2 &b)
 {
 	return Vector2((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f);
 };

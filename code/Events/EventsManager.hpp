@@ -23,9 +23,9 @@ private:
 
 	PRI(OwnersMap, OwnersMap, NONE)
 
-	bool ownerExists(ObjectBase * eventOwner) CNS;
-	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) CNS;
-	bool eventTypeHasReceiver(ObjectBase * eventOwner, ClassId eventClassId, ObjectBase * eventReceiver) CNS;
+	bool ownerExists(ObjectBase * eventOwner) const;
+	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) const;
+	bool eventTypeHasReceiver(ObjectBase * eventOwner, ClassId eventClassId, ObjectBase * eventReceiver) const;
 	void insertEventCallback(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver, EventCallback eventCallback);
 	void removeEventCallback(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver);
 

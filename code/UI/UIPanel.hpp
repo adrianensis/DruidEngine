@@ -5,5 +5,5 @@
 CLASS(UIPanel, UIElement)
 {
     public:
-        VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+        VIR void initFromConfig(const UIElementConfig& config) OVR;
 };

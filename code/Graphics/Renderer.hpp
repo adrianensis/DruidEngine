@@ -43,16 +43,16 @@ public:
 	~Renderer() OVR;
 
 	void init() OVR;
-	void setAnimation(CNS SStr &name);
-	void addAnimation(CNS SStr &name, Animation *animation);
-	bool hasAnimations() CNS;
+	void setAnimation(const SStr &name);
+	void addAnimation(const SStr &name, Animation *animation);
+	bool hasAnimations() const;
 	void updateAnimation();
-	void setColor(CNS Vector4 &color);
+	void setColor(const Vector4 &color);
 	void setPositionOffset(Vector3 newPositionOffset);
 	bool getIsWorldSpace();
-	CNS SVec(Vector2) &getVertices(bool force = false);
+	const SVec(Vector2) &getVertices(bool force = false);
 	void forceRecalculateVertices();
-	bool hasClipRectangle() CNS {return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON; };
+	bool hasClipRectangle() const {return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON; };
 
 	SERIALIZE();
 	DESERIALIZE();

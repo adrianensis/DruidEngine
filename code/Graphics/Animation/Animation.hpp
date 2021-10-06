@@ -33,11 +33,11 @@ public:
 	* /param speed The speed of the animation.
 	* /returns The animation.
 	*/
-	STC Animation *create(u32 frameCount, bool horizontal, bool reverse, CNS Vector2 &startPosition, f32 width,
+	static Animation *create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 							 f32 height, f32 speed);
 
 	void addFrame(AnimationFrame * frame);
-	u32 getNumberOfFrames() CNS;
-	CNS AnimationFrame *getNextFrame();
-	CNS AnimationFrame *getCurrentFrame() CNS;
+	u32 getNumberOfFrames() const;
+	const AnimationFrame *getNextFrame();
+	const AnimationFrame *getCurrentFrame() const;
 };

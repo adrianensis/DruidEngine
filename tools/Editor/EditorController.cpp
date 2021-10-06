@@ -59,27 +59,27 @@ void EditorController::init()
 	mLayersBar.init(this);
 	mSprites.init(this);
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
 		mSprites.toggle();
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](const Event *event)
 	{
 		handlePressedKeys();
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyHold, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventKeyHold, nullptr, this, [&](const Event *event)
 	{
 		handleHoldKeys();
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](const Event *event)
 	{
 		zoom(Input::getInstance()->getScroll());
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
 	{
 		InputEventMouseButtonHold* e = (InputEventMouseButtonHold*) event;
 		if(e->mButton == GLFW_MOUSE_BUTTON_MIDDLE)
@@ -88,7 +88,7 @@ void EditorController::init()
 		}
 	});
 
-	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [&](CNS Event *event)
+	SUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this, [&](const Event *event)
 	{
 		InputEventMouseButtonReleased* e = (InputEventMouseButtonReleased*) event;
 		if(e->mButton == GLFW_MOUSE_BUTTON_MIDDLE)
@@ -149,7 +149,7 @@ void EditorController::drawGrid()
 	}
 }
 
-GameObject* EditorController::createTile(CNS Vector2 &position, CNS Vector2 &size, Material *material, CNS Rectangle &region)
+GameObject* EditorController::createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region)
 {
 	GameObject *tile = NEW(GameObject);
 	tile->init();
@@ -176,7 +176,7 @@ GameObject* EditorController::createTile(CNS Vector2 &position, CNS Vector2 &siz
 	return tile;
 }
 
-bool EditorController::canUseBrush() CNS
+bool EditorController::canUseBrush() const
 {
 	return !mSprites.getIsVisible();
 }

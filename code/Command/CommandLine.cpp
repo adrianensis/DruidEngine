@@ -11,18 +11,18 @@ void CommandLine::init()
 {
     mBuffer = "";
 
-    SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](CNS Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
-            CNS InputEventChar *e = (InputEventChar*) event;
+            const InputEventChar *e = (InputEventChar*) event;
             char c = e->mChar;
             mBuffer.push_back(c);
             //VAR(mBuffer)
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](CNS Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -32,7 +32,7 @@ void CommandLine::init()
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](CNS Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -41,7 +41,7 @@ void CommandLine::init()
         }
 	});
 
-    /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](CNS Event *event)
+    /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](const Event *event)
 	{
         if(!mBuffer.empty())
         {
@@ -51,7 +51,7 @@ void CommandLine::init()
         VAR(mBuffer)
 	});*/
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](CNS Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](const Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
@@ -64,11 +64,11 @@ void CommandLine::init()
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyArrow, nullptr, this, [this](CNS Event *event)
+    SUBSCRIBE_TO_EVENT(InputEventKeyArrow, nullptr, this, [this](const Event *event)
 	{
         if(mUIText && mUIText->isActive())
         {
-            CNS InputEventKeyArrow *e = (InputEventKeyArrow*) event;
+            const InputEventKeyArrow *e = (InputEventKeyArrow*) event;
 
             switch (e->mArrowButton)
             {
@@ -115,7 +115,7 @@ void CommandLine::terminate()
 
 }
 
-void CommandLine::execute(CNS SStr &commandLine)
+void CommandLine::execute(const SStr &commandLine)
 {
     SStr patternValidName("[-+]?[a-zA-Z_\\.0-9]+");
     std::regex regexCommand("^\\s*(" + patternValidName + ")\\s*");
@@ -179,12 +179,12 @@ void CommandLine::execute(CNS SStr &commandLine)
     mHistoryIterator = mHistory.end();
 }
 
-SStr CommandLine::autocomplete(CNS SStr &commandLine)
+SStr CommandLine::autocomplete(const SStr &commandLine)
 {
     return SStr(); // TODO : implement command autocomplete
 }
 
-void CommandLine::registerCommand(CNS SStr &commandName, CommandCallback callback)
+void CommandLine::registerCommand(const SStr &commandName, CommandCallback callback)
 {
     Command command;
     command.setName(commandName);

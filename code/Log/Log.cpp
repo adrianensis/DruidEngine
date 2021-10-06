@@ -3,7 +3,7 @@
 
 //#include <filesystem>
 
-CNS SStr Log::emptyMessage = "";
+const SStr Log::emptyMessage = "";
 std::ofstream Log::logFile;
 
 void Log::init()
@@ -16,25 +16,25 @@ void Log::terminate()
 	logFile.close();
 }
 
-void Log::log(CNS SStr &str)
+void Log::log(const SStr &str)
 {
 	std::cout << str << std::endl;
 	logFile << str << std::endl;
 }
 
-void Log::trace(CNS SStr file, u32 line, CNS SStr function, CNS SStr message)
+void Log::trace(const SStr file, u32 line, const SStr function, const SStr message)
 {
 	// std::cout << "TRACE > [" /* << std::experimental::filesystem::path(file).filename() << ":" */ << function << ":" << std::to_string(line) << "] > " << message << std::endl;
 	log("TRACE > [" + function + ":" + std::to_string(line) + "] > " + message);
 }
 
-void Log::echo(CNS SStr &message)
+void Log::echo(const SStr &message)
 {
 	// std::cout << "ECHO > " << message << std::endl;
 	log("ECHO > " + message);
 }
 
-void Log::error(CNS SStr &message)
+void Log::error(const SStr &message)
 {
 	// std::cout << "ERROR > " << message << std::endl;
 	log("ERROR > " + message);

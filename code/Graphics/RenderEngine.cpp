@@ -89,7 +89,7 @@ void RenderEngine::freeRenderer(Renderer *renderer)
 	//}
 }
 
-bool RenderEngine::frustumTestSphere(CNS Vector3 &center, f32 radius)
+bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 {
 	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
 }
@@ -274,7 +274,7 @@ Chunk *RenderEngine::assignChunk(Renderer *renderer)
 	return chunkFound;
 }
 
-void RenderEngine::drawLine(CNS Vector3 &start, CNS Vector3 &end, f32 size /*= 1*/,
+void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
 							bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
 {
 	if (isWorldSpace)

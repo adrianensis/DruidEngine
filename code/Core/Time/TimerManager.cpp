@@ -59,7 +59,7 @@ TimerHandle TimerManager::setTimer(f32 duration, TimerDurationType durationType,
 	return timerHandler;
 }
 
-void TimerManager::cancelTimer(CNS TimerHandle &timerHandle)
+void TimerManager::cancelTimer(const TimerHandle &timerHandle)
 {
 	endTimer(timerHandle.mTimerReference);
 }

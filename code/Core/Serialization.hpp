@@ -15,15 +15,15 @@ using JSON = nlohmann::ordered_json;
 class ISerializable
 {
 public:
-	VIR void serialize(JSON &json) CNS {};
-	VIR void deserialize(CNS JSON &json) {};
+	VIR void serialize(JSON &json) const {};
+	VIR void deserialize(const JSON &json) {};
 };
 
 class SerializationUtils
 {
 public:
 	template<class T>
-	STC JSON serializeTemplated(T value)
+	static JSON serializeTemplated(T value)
 	{
 		JSON json;
 		if constexpr (IS_BASE_OF(ISerializable, REMOVE_POINTER(REMOVE_REF(T))))
@@ -49,7 +49,7 @@ public:
 	}
 
 	template<class T>
-	STC void deserializeTemplated(T& value, CNS JSON& json)
+	static void deserializeTemplated(T& value, const JSON& json)
 	{
 		if constexpr (IS_BASE_OF(ISerializable, REMOVE_POINTER(REMOVE_REF(T))))
 		{

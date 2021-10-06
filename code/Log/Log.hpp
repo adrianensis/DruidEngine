@@ -6,23 +6,23 @@
 class Log
 {
 public:
-	STC CNS SStr emptyMessage;
-	STC std::ofstream logFile;
+	static const SStr emptyMessage;
+	static std::ofstream logFile;
 
 	Log() = default;
 	~Log() = default;
 
-	STC void init();
-	STC void terminate();
+	static void init();
+	static void terminate();
 
-	STC void log(CNS SStr &str);
+	static void log(const SStr &str);
 
-	STC void trace(CNS SStr file, u32 line, CNS SStr function, CNS SStr message = emptyMessage);
+	static void trace(const SStr file, u32 line, const SStr function, const SStr message = emptyMessage);
 
-	STC void echo(CNS SStr &message);
+	static void echo(const SStr &message);
 
 	template <class T>
-	STC void var(CNS SStr &varname, T var)
+	static void var(const SStr &varname, T var)
 	{
 		SStr valueStr;
 		if constexpr (std::is_same<T, SStr>::value)
@@ -38,7 +38,7 @@ public:
 	};
 
 	template <class T>
-	STC void val(CNS T &var)
+	static void val(const T &var)
 	{
 		SStr valueStr;
 		if constexpr (std::is_same<T, SStr>::value)
@@ -53,9 +53,9 @@ public:
 		log("VAL > " + valueStr);
 	};
 
-	STC void error(CNS SStr &message);
+	static void error(const SStr &message);
 
-	STC void brline();
+	static void brline();
 };
 
 #ifdef DE_ENABLE_LOGS

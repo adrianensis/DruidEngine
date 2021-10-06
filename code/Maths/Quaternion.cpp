@@ -11,7 +11,7 @@ Quaternion::Quaternion(f32 x, f32 y, f32 z, f32 w) : v(x, y, z), w(w)
 {
 }
 
-Quaternion::Quaternion(CNS Vector3 &v, f32 w) : v(v), w(w)
+Quaternion::Quaternion(const Vector3 &v, f32 w) : v(v), w(w)
 {
 }
 
@@ -20,11 +20,11 @@ Quaternion::Quaternion(f32 roll, f32 pitch, f32 yaw)
 	fromEuler(roll, pitch, yaw);
 }
 
-Quaternion::Quaternion(CNS Vector3 &v) : Quaternion(v.x, v.y, v.z)
+Quaternion::Quaternion(const Vector3 &v) : Quaternion(v.x, v.y, v.z)
 {
 }
 
-Quaternion::Quaternion(CNS Quaternion &other) : v(other.v), w(other.w)
+Quaternion::Quaternion(const Quaternion &other) : v(other.v), w(other.w)
 {
 }
 
@@ -35,20 +35,20 @@ Quaternion &Quaternion::set(f32 x, f32 y, f32 z, f32 w)
 	return *this;
 }
 
-Quaternion &Quaternion::set(CNS Vector3 &v, f32 w)
+Quaternion &Quaternion::set(const Vector3 &v, f32 w)
 {
 	this->v.set(v);
 	this->w = w;
 	return *this;
 }
 
-Quaternion &Quaternion::set(CNS Quaternion &rhs)
+Quaternion &Quaternion::set(const Quaternion &rhs)
 {
 	set(rhs.v, rhs.w);
 	return *this;
 }
 
-Quaternion &Quaternion::add(CNS Quaternion &rhs)
+Quaternion &Quaternion::add(const Quaternion &rhs)
 {
 	// can be parallelized with SIMD auto-vectorization
 	v.add(rhs.v);
@@ -56,14 +56,14 @@ Quaternion &Quaternion::add(CNS Quaternion &rhs)
 	return *this;
 }
 
-Quaternion &Quaternion::sub(CNS Quaternion &rhs)
+Quaternion &Quaternion::sub(const Quaternion &rhs)
 {
 	v.sub(rhs.v);
 	w = w - rhs.w;
 	return *this;
 }
 
-Quaternion &Quaternion::mul(CNS Quaternion &rhs)
+Quaternion &Quaternion::mul(const Quaternion &rhs)
 {
 	f32 w_total = (w * rhs.w) - (v.dot(rhs.v));
 	v.set(rhs.v * w + v * w + Vector3(v).cross(rhs.v));
@@ -71,7 +71,7 @@ Quaternion &Quaternion::mul(CNS Quaternion &rhs)
 	return *this;
 }
 
-Quaternion &Quaternion::div(CNS Quaternion &rhs)
+Quaternion &Quaternion::div(const Quaternion &rhs)
 {
 	this->mul(Quaternion(rhs).inv());
 	return *this;
@@ -106,7 +106,7 @@ Quaternion &Quaternion::div(f32 rhs)
 	return *this;
 }
 
-f32 Quaternion::dot(CNS Quaternion &q) CNS
+f32 Quaternion::dot(const Quaternion &q) const
 {
 	// SIMD-optimized
 	f32 xx = v.x * q.v.x;
@@ -117,12 +117,12 @@ f32 Quaternion::dot(CNS Quaternion &q) CNS
 	return xx + yy + zz + ww;
 }
 
-f32 Quaternion::sqrlen() CNS
+f32 Quaternion::sqrlen() const
 {
 	return dot(*this);
 }
 
-f32 Quaternion::len() CNS
+f32 Quaternion::len() const
 {
 	return sqrtf(this->sqrlen());
 }
@@ -137,12 +137,12 @@ Quaternion &Quaternion::nor()
 	return *this;
 }
 
-bool Quaternion::eq(CNS Quaternion &q, f32 e) CNS
+bool Quaternion::eq(const Quaternion &q, f32 e) const
 {
 	return v.eq(q.v, e) && MathUtils::eqf(this->w, q.w, e);
 }
 
-bool Quaternion::eq(CNS Quaternion &q) CNS
+bool Quaternion::eq(const Quaternion &q) const
 {
 	return v.eq(q.v) && MathUtils::eqf(this->w, q.w);
 }
@@ -159,7 +159,7 @@ Quaternion &Quaternion::inv()
 	return *this;
 }
 
-f32 Quaternion::angle(CNS Quaternion &q) CNS
+f32 Quaternion::angle(const Quaternion &q) const
 {
 	/*
 	 * angle is acute (positive dot product)
@@ -170,7 +170,7 @@ f32 Quaternion::angle(CNS Quaternion &q) CNS
 	return acosf(v.dot(q.v) / (v.len() * q.v.len()));
 }
 
-Quaternion &Quaternion::lerp(CNS Quaternion &target, f32 t)
+Quaternion &Quaternion::lerp(const Quaternion &target, f32 t)
 {
 	f32 tt = 1 - t;
 	this->mul(tt);
@@ -178,13 +178,13 @@ Quaternion &Quaternion::lerp(CNS Quaternion &target, f32 t)
 	return *this;
 }
 
-Quaternion &Quaternion::nlerp(CNS Quaternion &target, f32 t)
+Quaternion &Quaternion::nlerp(const Quaternion &target, f32 t)
 {
 	this->lerp(target, t).nor();
 	return *this;
 }
 
-Quaternion &Quaternion::slerp(CNS Quaternion &target, f32 t)
+Quaternion &Quaternion::slerp(const Quaternion &target, f32 t)
 {
 	f32 theta = angle(target);
 
@@ -217,12 +217,12 @@ void Quaternion::fromEuler(f32 roll, f32 pitch, f32 yaw)
 	v.z = cr * cp * sy - sr * sp * cy;
 }
 
-void Quaternion::fromEuler(CNS Vector3 &v)
+void Quaternion::fromEuler(const Vector3 &v)
 {
 	fromEuler(v.x, v.y, v.z);
 }
 
-/*Vector3 Quaternion::toEuler() CNS {
+/*Vector3 Quaternion::toEuler() const {
 	// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
 	f32 xx = v.x * v.x;
@@ -254,7 +254,7 @@ void Quaternion::fromEuler(CNS Vector3 &v)
 	return Vector3(MathUtils::deg(roll), MathUtils::deg(pitch), MathUtils::deg(yaw));
 }*/
 
-/*void Quaternion::fromMatrix(CNS Matrix4 &m){
+/*void Quaternion::fromMatrix(const Matrix4 &m){
 	// https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
 	f32 t = m.get(0, 0) + m.get(1, 1) + m.get(2, 2);
@@ -297,7 +297,7 @@ void Quaternion::fromEuler(CNS Vector3 &v)
 
 }*/
 
-void Quaternion::toMatrix(Matrix4 *outMatrix) CNS
+void Quaternion::toMatrix(Matrix4 *outMatrix) const
 {
 	Quaternion copy((*this));
 	copy.nor();

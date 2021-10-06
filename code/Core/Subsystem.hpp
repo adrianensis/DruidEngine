@@ -49,7 +49,7 @@ public:
         mSubsystems.push_back(subsystem);
     }
 
-    CNS SLst(ISubsystem *) &getSubsystems() CNS
+    const SLst(ISubsystem *) &getSubsystems() const
     {
         return mSubsystems;
     }

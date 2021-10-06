@@ -76,7 +76,7 @@ void Scene::init()
 	mLoadSceneConfig.init();
 }
 
-void Scene::saveScene(CNS SStr &path)
+void Scene::saveScene(const SStr &path)
 {
 	mPath = path;
 
@@ -91,7 +91,7 @@ void Scene::saveScene(CNS SStr &path)
 	configMap.writeToJsonFile(path);
 }
 
-void Scene::loadScene(CNS SStr &path)
+void Scene::loadScene(const SStr &path)
 {
 	mPath = path;
 
@@ -148,7 +148,7 @@ DESERIALIZE_IMPL(Scene)
 	if(json.contains("objects"))
 	{
 		SLst(GameObject *) tmpList;
-		DO_DESERIALIZE_LIST("objects", tmpList, [](CNS JSON &json)
+		DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
 		{
 			GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);
 			return gameObject;
@@ -223,7 +223,7 @@ void Scene::flushNewGameObjects()
 	mNewGameObjects.clear();
 }
 
-bool Scene::thereAreNewGameObjects() CNS
+bool Scene::thereAreNewGameObjects() const
 {
 	return mNewGameObjects.size() > 0;
 }

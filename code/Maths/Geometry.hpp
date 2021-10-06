@@ -26,13 +26,13 @@ public:
         mSize.set(w, h);
     }
 
-    Rectangle(CNS Vector2 &leftTop, f32 w, f32 h)
+    Rectangle(const Vector2 &leftTop, f32 w, f32 h)
     {
         mLeftTop.set(leftTop);
         mSize.set(w, h);
     }
 
-    Rectangle(CNS Vector2 &leftTop, CNS Vector2 &size)
+    Rectangle(const Vector2 &leftTop, const Vector2 &size)
     {
         mLeftTop.set(leftTop);
         mSize.set(size);
@@ -65,14 +65,14 @@ class Geometry
 {
 public:
     // Geometry tests
-    STC bool testRectanglePoint(CNS Vector2 &leftTop, f32 width, f32 height, CNS Vector2 &point, f32 eps);
-    STC bool testRectangleSphere(CNS Vector2 &leftTop, f32 width, f32 height, CNS Vector2 &center, f32 radius, f32 eps);
-    STC bool testSphereSphere(CNS Vector2 &centerA, CNS Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps);
-    STC bool testLineLine(CNS Vector2 &lineAStart, CNS Vector2 &lineAEnd, CNS Vector2 &lineBStart, CNS Vector2 &lineBEnd, Vector2 &intersectionResult);
-    STC bool testLineSphereSimple(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &center, f32 radius, f32 eps);
-    STC bool testLineSphere(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &center, f32 radius, f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2);
-    STC bool testSpherePoint(CNS Vector2 &point, CNS Vector2 &center, f32 radius);
-    STC bool testLinePoint(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &point, f32 eps);
-    STC Vector2 closestPointInLine(CNS Vector2 &lineStart, CNS Vector2 &lineEnd, CNS Vector2 &point);
-    STC Vector2 midPoint(CNS Vector2 &a, CNS Vector2 &b);
+    static bool testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps);
+    static bool testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps);
+    static bool testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps);
+    static bool testLineLine(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart, const Vector2 &lineBEnd, Vector2 &intersectionResult);
+    static bool testLineSphereSimple(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center, f32 radius, f32 eps);
+    static bool testLineSphere(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &center, f32 radius, f32 eps, Vector2 &intersectionResult1, Vector2 &intersectionResult2);
+    static bool testSpherePoint(const Vector2 &point, const Vector2 &center, f32 radius);
+    static bool testLinePoint(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point, f32 eps);
+    static Vector2 closestPointInLine(const Vector2 &lineStart, const Vector2 &lineEnd, const Vector2 &point);
+    static Vector2 midPoint(const Vector2 &a, const Vector2 &b);
 };

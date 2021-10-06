@@ -6,7 +6,7 @@
 /*
 	example for constant config object:
 
-	ConfigObject CNS conf;
+	ConfigObject const conf;
 	conf.setF32("key", 1.0f);
 */
 
@@ -17,10 +17,10 @@ CLASS(ConfigObject, ObjectBase)
 public:
 	void init();
 	void clear();
-	bool contains(SStr & key) CNS;
+	bool contains(SStr & key) const;
 
-	void readFromJsonFile(CNS SStr &path);
-	void writeToJsonFile(CNS SStr &path);
+	void readFromJsonFile(const SStr &path);
+	void writeToJsonFile(const SStr &path);
 
-	CNS JSON &at(CNS SStr &key) CNS { return mJson.at(key); }
+	const JSON &at(const SStr &key) const { return mJson.at(key); }
 };

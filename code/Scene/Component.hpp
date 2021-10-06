@@ -23,7 +23,7 @@ public:
 
 	bool isStatic();
 
-	bool isActive() CNS
+	bool isActive() const
 	{
 		return (mIsDestroyed || mIsPendingToBeDestroyed || !mGameObject) ? false : mIsActive;
 	};

@@ -13,7 +13,7 @@ void UIText::init()
 	Super::init();
 }
 
-void UIText::initFromConfig(CNS UIElementConfig& config)
+void UIText::initFromConfig(const UIElementConfig& config)
 {
 	Super::initFromConfig(config);
 
@@ -41,7 +41,7 @@ void UIText::onDestroy()
 	Super::onDestroy();
 }
 
-void UIText::setText(CNS SStr &text)
+void UIText::setText(const SStr &text)
 {
 	if (mString != text)
 	{

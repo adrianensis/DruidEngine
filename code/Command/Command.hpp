@@ -24,7 +24,7 @@ CLASS(Command, ObjectBase)
 public:
 
     void clearArgs() { mArgs.clear(); };
-    void addArg(CNS CommandArgument& arg) { mArgs.push_back(arg); };
+    void addArg(const CommandArgument& arg) { mArgs.push_back(arg); };
 
     COPY(Command)
     {

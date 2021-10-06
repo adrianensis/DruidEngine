@@ -28,12 +28,12 @@ Material *UI::getFontMaterial()
 	return mFontMaterial;
 };
 
-CNS UIGroup& UI::getGroup(CNS SStr & groupName) CNS
+const UIGroup& UI::getGroup(const SStr & groupName) const
 {
 	return *(mGroups.at(groupName));
 }
 
-void UI::addToGroup(CNS SStr &groupName, UIElement *uiElement)
+void UI::addToGroup(const SStr &groupName, UIElement *uiElement)
 {
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
@@ -47,7 +47,7 @@ void UI::addToGroup(CNS SStr &groupName, UIElement *uiElement)
 	mGroups.at(groupName)->mUIElements.push_back(uiElement);
 }
 
-void UI::removeFromGroup(CNS SStr &groupName, UIElement *uiElement)
+void UI::removeFromGroup(const SStr &groupName, UIElement *uiElement)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{
@@ -55,7 +55,7 @@ void UI::removeFromGroup(CNS SStr &groupName, UIElement *uiElement)
 	}
 }
 
-void UI::removeElementsFromGroup(CNS SStr &groupName)
+void UI::removeElementsFromGroup(const SStr &groupName)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{
@@ -72,7 +72,7 @@ void UI::removeElementsFromGroup(CNS SStr &groupName)
 	}
 }
 
-void UI::setGroupVisibility(CNS SStr &groupName, bool visibility)
+void UI::setGroupVisibility(const SStr &groupName, bool visibility)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{
@@ -195,7 +195,7 @@ void UI::init()
 	MAP_INSERT(mCharMap, '~', Vector2(14 / mFontTilesCount.x, 0 / mFontTilesCount.y));
 }
 
-CNS Vector2 &UI::getCharTextureCoordinates(char character)
+const Vector2 &UI::getCharTextureCoordinates(char character)
 {
 	return mCharMap.at(character);
 }

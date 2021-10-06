@@ -16,7 +16,7 @@ public:
 		DO_COPY(Callback)
 	}
 
-	/*bool operator== (CNS Functor& functor) CNS{
+	/*bool operator== (const Functor& functor) const{
 	   return this == &functor;
 	}*/
 };

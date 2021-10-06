@@ -19,7 +19,7 @@ MaterialManager::~MaterialManager()
 void MaterialManager::init(){
 	TRACE()}
 
-Texture *MaterialManager::loadTexture(CNS SStr &path)
+Texture *MaterialManager::loadTexture(const SStr &path)
 {
 	Texture *texture = nullptr;
 
@@ -37,7 +37,7 @@ Texture *MaterialManager::loadTexture(CNS SStr &path)
 	return texture;
 }
 
-Material *MaterialManager::loadMaterial(CNS SStr &path)
+Material *MaterialManager::loadMaterial(const SStr &path)
 {
 	Material *material = nullptr;
 

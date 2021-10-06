@@ -8,7 +8,7 @@
 
 class UIText;
 
-using CommandCallback = SFun(void(CNS Command& command));
+using CommandCallback = SFun(void(const Command& command));
 
 CLASS(CommandFunctor, Functor<CommandCallback>)
 {
@@ -48,9 +48,9 @@ public:
 	void update();
     void terminate();
 
-    void execute(CNS SStr &commandLine);
-    SStr autocomplete(CNS SStr &commandLine);
-    void registerCommand(CNS SStr &commandName, CommandCallback callback);
+    void execute(const SStr &commandLine);
+    SStr autocomplete(const SStr &commandLine);
+    void registerCommand(const SStr &commandName, CommandCallback callback);
 
 	// UI
 	void open();

@@ -50,7 +50,7 @@ public:
 	~TimerManager() OVR;
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, SFun(void()) callback);
-	void cancelTimer(CNS TimerHandle &timerHandle);
+	void cancelTimer(const TimerHandle &timerHandle);
 	void update();
 	void terminate();
 };

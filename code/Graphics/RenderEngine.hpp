@@ -23,7 +23,7 @@ private:
 	CLASS_NESTED(LayerData, ObjectBase)
 	{
 		PUB(bool, Sorted, NONE)
-		PUB(u32, DynamicObjectsCount, NONE) // Non STC objects count
+		PUB(u32, DynamicObjectsCount, NONE) // Non static objects count
 		PUB(u32, SortCounter, NONE)
 		PUB(bool, Visible, NONE)
 
@@ -63,6 +63,6 @@ public:
 	VIR void addComponent(Component *component) OVR;
 	Chunk *assignChunk(Renderer * renderer);
 	void freeRenderer(Renderer * renderer);
-	void drawLine(CNS Vector3 &start, CNS Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
-	bool frustumTestSphere(CNS Vector3 &center, f32 radius);
+	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };

@@ -100,18 +100,18 @@ public:
 		return create(T::getClassNameStatic());
 	}
 
-	UIBuilder &create(CNS SStr &className);
+	UIBuilder &create(const SStr &className);
 
 	UIBuilder &saveData();
 	UIBuilder &restoreData();
 
-	UIElement *getUIElement() CNS
+	UIElement *getUIElement() const
 	{
 		return mCurrentUIElement;
 	}
 
 	template<class T, typename = std::enable_if_t<std::is_base_of<UIElement, T>::value> >
-	T *getUIElement() CNS
+	T *getUIElement() const
 	{
 		return dynamic_cast<T *>(getUIElement());
 	}

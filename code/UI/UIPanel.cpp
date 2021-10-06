@@ -6,7 +6,7 @@
 #include "UI/UIStyle.hpp"
 #include "Graphics/Mesh.hpp"
 
-void UIPanel::initFromConfig(CNS UIElementConfig& config)
+void UIPanel::initFromConfig(const UIElementConfig& config)
 {
     Super::initFromConfig(config);
 

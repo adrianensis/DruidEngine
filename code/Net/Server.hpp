@@ -26,16 +26,16 @@ private:
 
 	mutable SStr buffer;
 
-	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) CNS;
+	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
 public:
 	void init(u16 port);
 
 	bool checkConnectionRequest();
 
-	void writeData(CNS SStr &data) CNS;
-	SStr readData(u32 size = DEFAULT_SOCKET_READ_SIZE) CNS;
+	void writeData(const SStr &data) const;
+	SStr readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
-	JSON readJSON() CNS;
-	void writeJSON(JSON & json) CNS;
+	JSON readJSON() const;
+	void writeJSON(JSON & json) const;
 };

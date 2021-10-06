@@ -17,23 +17,23 @@ CLASS(Mesh, ObjectBase)
 	PRI(u32, FacesCount, GET)
 
 private:
-	STC Mesh *smRectangle;
+	static Mesh *smRectangle;
 
 public:
-	STC u32 smVertexPositionSize;
-	STC u32 smVertexNormalSize;
-	STC u32 smVertexTexCoordSize;
-	STC u32 smVertexColorSize;
-	STC u32 smFaceSize;
+	static u32 smVertexPositionSize;
+	static u32 smVertexNormalSize;
+	static u32 smVertexTexCoordSize;
+	static u32 smVertexColorSize;
+	static u32 smFaceSize;
 
 	void init(u32 vertexCount, u32 facesCount);
-	Mesh *addVertex(CNS Vector3 &vec);
-	Mesh *addNormal(CNS Vector3 &vec);
+	Mesh *addVertex(const Vector3 &vec);
+	Mesh *addNormal(const Vector3 &vec);
 	Mesh *addTexCoord(f32 u, f32 v);
 	Mesh *addColor(f32 r, f32 g, f32 b, f32 a);
 	Mesh *addFace(u32 v1, u32 v2, u32 v3);
 	void clear();
 
-	STC Mesh *getRectangle();
-	STC void freeRectangle();
+	static Mesh *getRectangle();
+	static void freeRectangle();
 };

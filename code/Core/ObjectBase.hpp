@@ -9,7 +9,7 @@
 
 namespace Hash
 {
-	STC u32 hashString(SStr key)
+	static u32 hashString(SStr key)
 	{
 		std::hash<SStr> hash_fn;
 		u32 hashString = hash_fn(key);
@@ -28,22 +28,22 @@ private:
 	SMap(SStr, AttributeBase) mAttributes; // runtime attributes
 
 protected:
-	inline STC ObjectId smObjectIdCounter = 0;
+	inline static ObjectId smObjectIdCounter = 0;
 
 private:
 
 	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
 public:
-	STC SStr getClassNameStatic()
+	static SStr getClassNameStatic()
 	{
-		STC SStr className = "ObjectBase";
+		static SStr className = "ObjectBase";
 		return className;
 	}
 
-	STC ClassId getClassIdStatic()
+	static ClassId getClassIdStatic()
 	{
-		STC ClassId classId = Hash::hashString("ObjectBase");
+		static ClassId classId = Hash::hashString("ObjectBase");
 		return classId;
 	}
 
@@ -64,45 +64,45 @@ public:
 		return mObjectId;
 	}
 
-	VIR ClassId getClassId() CNS
+	VIR ClassId getClassId() const
 	{
 		return ObjectBase::getClassIdStatic();
 	}
 
-	VIR SStr getClassName() CNS
+	VIR SStr getClassName() const
 	{
 		return ObjectBase::getClassNameStatic();
 	}
 
-	CNS SMap(SStr, AttributeBase) &getAttributes()
+	const SMap(SStr, AttributeBase) &getAttributes()
 	{
 		return mAttributes;
 	}
 
 	template <class T>
-	bool isDerivedClass() CNS
+	bool isDerivedClass() const
 	{
-		return dynamic_cast<CNS T *>(this) != nullptr;
+		return dynamic_cast<const T *>(this) != nullptr;
 	}
 
 	template <class T>
-	bool isSameClass() CNS
+	bool isSameClass() const
 	{
 		return isDerivedClass<ObjectBase>() && (this->getClassId() == T::getClassIdStatic());
 	}
 
-	bool hasSameClass(ObjectBase *object) CNS
+	bool hasSameClass(ObjectBase *object) const
 	{
 		return this->getClassId() == object->getClassId();
 	}
 
 	// Assignment
 
-	VIR void copy(CNS ObjectBase *other)
+	VIR void copy(const ObjectBase *other)
 	{
 	}
 
-	ObjectBase &operator=(CNS ObjectBase &other)
+	ObjectBase &operator=(const ObjectBase &other)
 	{
 		copy(&other);
 		return *this;

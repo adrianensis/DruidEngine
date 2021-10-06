@@ -17,7 +17,7 @@ public:
 	~MaterialManager() OVR;
 
 	void init();
-	Texture *loadTexture(CNS SStr &path);
-	Material *loadMaterial(CNS SStr &path);
+	Texture *loadTexture(const SStr &path);
+	Material *loadMaterial(const SStr &path);
 	Material *loadNoTextureMaterial();
 };

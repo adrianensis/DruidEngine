@@ -30,7 +30,7 @@ public:
 	~LineRenderer() OVR;
 
 	void init();
-	void add(CNS Vector3 &start, CNS Vector3 &end, CNS Vector4 &color);
+	void add(const Vector3 &start, const Vector3 &end, const Vector4 &color);
 	void bind();
 	void render();
 };

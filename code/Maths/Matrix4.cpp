@@ -37,7 +37,7 @@
 bool Matrix4::smIdentityCreated = false;
 Matrix4 Matrix4::smIdentity = Matrix4();
 
-CNS Matrix4 &Matrix4::getIdentity()
+const Matrix4 &Matrix4::getIdentity()
 {
 	if (!smIdentityCreated)
 	{
@@ -47,18 +47,18 @@ CNS Matrix4 &Matrix4::getIdentity()
 	return smIdentity;
 }
 
-void Matrix4::setRows(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3)
+void Matrix4::setRows(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3)
 {
-	CNS SArr(f32, 4) *rows[4] = {&row0, &row1, &row2, &row3};
+	const SArr(f32, 4) *rows[4] = {&row0, &row1, &row2, &row3};
 
 	FOR_RANGE(row, 0, 4)
 	FOR_RANGE(col, 0, 4)
 	Matrix4::set(row, col, (*(rows[row]))[col]);
 };
 
-void Matrix4::setRows(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3)
+void Matrix4::setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3)
 {
-	CNS f32 *rows[4] = {row0, row1, row2, row3};
+	const f32 *rows[4] = {row0, row1, row2, row3};
 
 	FOR_RANGE(row, 0, 4)
 	FOR_RANGE(col, 0, 4)
@@ -71,7 +71,7 @@ void Matrix4::setRows(u32 n)
 	mData[i] = n;
 };
 
-void Matrix4::setRows(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3)
+void Matrix4::setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3)
 {
 	Vector4 rows[4] = {row0, row1, row2, row3};
 
@@ -85,7 +85,7 @@ void Matrix4::init(u32 n)
 	Matrix4::setRows(n);
 };
 
-void Matrix4::init(CNS Matrix4 &other)
+void Matrix4::init(const Matrix4 &other)
 {
 	Matrix4::init(other.mData); //TRACE()
 };
@@ -95,32 +95,32 @@ void Matrix4::init(SArr(f32, 16) &data)
 	memcpy(mData, &data[0], 16 * sizeof(f32));
 };
 
-void Matrix4::init(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3)
+void Matrix4::init(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3)
 {
 	Matrix4::setRows(row0, row1, row2, row3);
 };
 
-void Matrix4::init(CNS f32 *data)
+void Matrix4::init(const f32 *data)
 {
 	memcpy(mData, data, 16 * sizeof(f32));
 };
 
-void Matrix4::init(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3)
+void Matrix4::init(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3)
 {
 	Matrix4::setRows(row0, row1, row2, row3);
 };
 
-void Matrix4::init(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3)
+void Matrix4::init(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3)
 {
 	Matrix4::setRows(row0, row1, row2, row3);
 };
 
-CNS f32 *Matrix4::getData() CNS
+const f32 *Matrix4::getData() const
 {
 	return mData;
 };
 
-f32 Matrix4::get(u8 row, u8 col) CNS
+f32 Matrix4::get(u8 row, u8 col) const
 {
 	return mData[row + (4 * col)];
 };
@@ -212,7 +212,7 @@ void Matrix4::invert()
 	set(3, 3, out_33);
 };
 
-void Matrix4::mul(CNS Matrix4 &other)
+void Matrix4::mul(const Matrix4 &other)
 {
 	Matrix4 copy;
 	copy.init((*this));
@@ -225,7 +225,7 @@ void Matrix4::mul(CNS Matrix4 &other)
 	this->set(i, j, this->get(i, j) + copy.get(i, k) * other.get(k, j));
 };
 
-Vector4 Matrix4::mulVector(CNS Vector4 &vector) CNS
+Vector4 Matrix4::mulVector(const Vector4 &vector) const
 {
 	Vector4 result(0, 0, 0, 0);
 
@@ -254,7 +254,7 @@ void Matrix4::identity()
 	this->set(3, 3, 1.0f);
 };
 
-void Matrix4::translation(CNS Vector3 &vector)
+void Matrix4::translation(const Vector3 &vector)
 {
 	this->identity();
 	this->set(0, 3, vector.x);
@@ -262,7 +262,7 @@ void Matrix4::translation(CNS Vector3 &vector)
 	this->set(2, 3, vector.z);
 };
 
-void Matrix4::rotation(CNS Vector3 &vector)
+void Matrix4::rotation(const Vector3 &vector)
 {
 	Quaternion q(vector);
 	q.toMatrix(this);
@@ -298,7 +298,7 @@ void Matrix4::rotation(CNS Vector3 &vector)
 	}*/
 };
 
-void Matrix4::scale(CNS Vector3 &vector)
+void Matrix4::scale(const Vector3 &vector)
 {
 	this->identity();
 	this->set(0, 0, vector.x);

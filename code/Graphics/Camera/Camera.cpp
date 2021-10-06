@@ -81,12 +81,12 @@ void Camera::onResize()
 	recalculate();
 }
 
-CNS Matrix4 &Camera::getProjectionMatrix() CNS
+const Matrix4 &Camera::getProjectionMatrix() const
 {
 	return mProjectionMatrix;
 };
 
-CNS Matrix4 &Camera::getViewTranslationMatrix()
+const Matrix4 &Camera::getViewTranslationMatrix()
 {
 	Vector3 position = getGameObject()->getTransform()->getWorldPosition();
 	mViewTranslationMatrix.translation(position * -1);
@@ -94,12 +94,12 @@ CNS Matrix4 &Camera::getViewTranslationMatrix()
 	return mViewTranslationMatrix;
 };
 
-CNS Matrix4 &Camera::getViewRotationMatrix()
+const Matrix4 &Camera::getViewRotationMatrix()
 {
 	return getGameObject()->getTransform()->getRotationMatrix();
 };
 
-Vector3 Camera::screenToWorld(CNS Vector2& screenPosition)
+Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 {	
 	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 

@@ -7,43 +7,43 @@
 CLASS(Matrix4, ObjectBase)
 {
 private:
-	STC bool smIdentityCreated;
-	STC Matrix4 smIdentity;
+	static bool smIdentityCreated;
+	static Matrix4 smIdentity;
 
 	f32 mData[16];
 
-	void setRows(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3);
-	void setRows(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3);
+	void setRows(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3);
+	void setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3);
 	void setRows(u32 n);
-	void setRows(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3);
+	void setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);
 
 public:
-	STC CNS Matrix4 &getIdentity();
+	static const Matrix4 &getIdentity();
 
 	void init(u32 n);
-	void init(CNS Matrix4 &other);
+	void init(const Matrix4 &other);
 	void init(SArr(f32, 16) & data);
-	void init(CNS SArr(f32, 4) &row0, CNS SArr(f32, 4) &row1, CNS SArr(f32, 4) &row2, CNS SArr(f32, 4) &row3);
-	void init(CNS f32 *data);
-	void init(CNS f32 *row0, CNS f32 *row1, CNS f32 *row2, CNS f32 *row3);
-	void init(CNS Vector4 &row0, CNS Vector4 &row1, CNS Vector4 &row2, CNS Vector4 &row3);
+	void init(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3);
+	void init(const f32 *data);
+	void init(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3);
+	void init(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);
 
-	CNS f32 *getData() CNS;
+	const f32 *getData() const;
 
-	f32 get(u8 row, u8 col) CNS;
+	f32 get(u8 row, u8 col) const;
 	void set(u8 row, u8 col, f32 value);
 
 	void transpose();
 	void invert();
 
-	void mul(CNS Matrix4 &other);
-	Vector4 mulVector(CNS Vector4 &vector) CNS;
+	void mul(const Matrix4 &other);
+	Vector4 mulVector(const Vector4 &vector) const;
 
 	void zeros();
 	void identity();
-	void translation(CNS Vector3 &vector);
-	void rotation(CNS Vector3 &vector);
-	void scale(CNS Vector3 &vector);
+	void translation(const Vector3 &vector);
+	void rotation(const Vector3 &vector);
+	void scale(const Vector3 &vector);
 	void ortho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far);
 	void perspective(f32 near, f32 far, f32 aspect, f32 fov);
 };

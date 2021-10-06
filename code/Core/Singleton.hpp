@@ -6,19 +6,19 @@ template <class T>
 class Singleton
 {
 protected:
-	STC T *mInstance;
+	static T *mInstance;
 
 public:
 	Singleton() = default;
 
 	~Singleton() = default;
 
-	STC bool existsInstance()
+	static bool existsInstance()
 	{
 		return mInstance != nullptr;
 	}
 
-	STC T *getInstance()
+	static T *getInstance()
 	{
 		if (!existsInstance())
 		{
@@ -28,7 +28,7 @@ public:
 		return mInstance;
 	}
 
-	STC void deleteInstance()
+	static void deleteInstance()
 	{
 		if (mInstance)
 		{

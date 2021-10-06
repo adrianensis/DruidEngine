@@ -31,12 +31,12 @@ CLASS(Transform, Component)
 
 private:
 
-	Vector3 calculateWorldPosition() CNS;
+	Vector3 calculateWorldPosition() const;
 
 public:
-	STC CNS Vector3 smRight;
-	STC CNS Vector3 smUp;
-	STC CNS Vector3 smForward;
+	static const Vector3 smRight;
+	static const Vector3 smUp;
+	static const Vector3 smForward;
 
 	Transform();
 	~Transform() OVR;
@@ -47,34 +47,34 @@ public:
 	\brief Translate the object by an increment vector.
 	\param Vector3 Delta position.
 	*/
-	void translate(CNS Vector3 &vector);
+	void translate(const Vector3 &vector);
 
 	/*!
 	\brief Rotate the object by an increment vector.
 	\param Vector3 Delta rotation.
 	*/
-	void rotate(CNS Vector3 &vector);
+	void rotate(const Vector3 &vector);
 
 	/*!
 	\brief Orient the object to a 3D point.
 	\param Vector3 Target position.
 	*/
-	void lookAt(CNS Vector3 &targetPosition);
+	void lookAt(const Vector3 &targetPosition);
 
-	// void setWorldPosition(CNS Vector3& vector);
-	void setLocalPosition(CNS Vector3 &vector);
-	void setRotation(CNS Vector3 &vector);
-	void setScale(CNS Vector3 &vector);
+	// void setWorldPosition(const Vector3& vector);
+	void setLocalPosition(const Vector3 &vector);
+	void setRotation(const Vector3 &vector);
+	void setScale(const Vector3 &vector);
 
-	CNS Vector3 &getWorldPosition();
+	const Vector3 &getWorldPosition();
 
-	CNS Matrix4 &getTranslationMatrix();
-	CNS Matrix4 &getRotationMatrix();
-	CNS Matrix4 &getScaleMatrix();
+	const Matrix4 &getTranslationMatrix();
+	const Matrix4 &getRotationMatrix();
+	const Matrix4 &getScaleMatrix();
 
-	CNS Matrix4 &getModelMatrix(bool force = false);
+	const Matrix4 &getModelMatrix(bool force = false);
 
-	bool isDirtyTranslation() CNS;
+	bool isDirtyTranslation() const;
 	void setDirtyTranslation(bool dirty);
 
 	void forceModelMatrixCalculation()

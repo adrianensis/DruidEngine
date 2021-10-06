@@ -18,7 +18,7 @@ enum class UILayout
 
 CLASS(UIElementConfig, ObjectBase)
 {
-	PUB(CNS UIStyle*, Style, NONE)
+	PUB(const UIStyle*, Style, NONE)
 	PUB(ClassId, UIElementClassId, NONE)
 	PUB(Vector2, Position, NONE)
 	PUB(Vector2, DisplayPosition, NONE)
@@ -36,7 +36,7 @@ CLASS(UIElementConfig, ObjectBase)
 public:
 	UIElementConfig();
 
-	void init(CNS Vector2 &position, CNS Vector2 &size, u32 layer, SStr text = SStr());
+	void init(const Vector2 &position, const Vector2 &size, u32 layer, SStr text = SStr());
 
 	COPY(UIElementConfig)
 	{

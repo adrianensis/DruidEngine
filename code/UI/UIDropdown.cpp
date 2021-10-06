@@ -7,7 +7,7 @@
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry(CNS SStr& label, UIElementCallback callback)
+UIDropdown::UIDropdownEntry::UIDropdownEntry(const SStr& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
@@ -43,7 +43,7 @@ void UIDropdown::onReleased()
 	}
 }
 
-UIDropdown &UIDropdown::addOption(CNS SStr &label, UIElementCallback onPressedCallback)
+UIDropdown &UIDropdown::addOption(const SStr &label, UIElementCallback onPressedCallback)
 {
 	mEntries.push_back(UIDropdownEntry(label, onPressedCallback));
 	return *this;

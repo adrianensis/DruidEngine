@@ -87,40 +87,40 @@ template<class Template>
 public Singleton<__VA_ARGS__>
 
 #define GENERATE_ID_STATIC(...)                                  \
-	STC ClassId getClassIdStatic()                            \
+	static ClassId getClassIdStatic()                            \
 	{                                                            \
-		STC ClassId classId = Hash::hashString(#__VA_ARGS__); \
+		static ClassId classId = Hash::hashString(#__VA_ARGS__); \
 		return classId;                                          \
 	};
 
 #define GENERATE_ID_VIRTUAL(...)                         \
-	ClassId getClassId() CNS OVR                  \
+	ClassId getClassId() const OVR                  \
 	{                                                    \
 		return __VA_ARGS__##_PARENT::getClassIdStatic(); \
 	};
 
 #define GENERATE_NAME_STATIC(...)                                 \
-	STC SStr getClassNameStatic()                       \
+	static SStr getClassNameStatic()                       \
 	{                                                             \
-		STC SStr className = SStr(#__VA_ARGS__); \
+		static SStr className = SStr(#__VA_ARGS__); \
 		return className;                                         \
 	};
 
 #define GENERATE_NAME_VIRTUAL(...)                         \
-	SStr getClassName() CNS OVR              \
+	SStr getClassName() const OVR              \
 	{                                                      \
 		return __VA_ARGS__##_PARENT::getClassNameStatic(); \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
-	STC SLst(AttributeBase) &__getClassAttributesNamesStatic()          \
+	static SLst(AttributeBase) &__getClassAttributesNamesStatic()          \
 	{                                                                          \
-		STC SLst(AttributeBase) attributesNames = {};\
+		static SLst(AttributeBase) attributesNames = {};\
 		return attributesNames;                                                   \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
-	STC CNS SLst(AttributeBase) &getClassAttributesNamesStatic()          \
+	static const SLst(AttributeBase) &getClassAttributesNamesStatic()          \
 	{                                                                          \
 		return __getClassAttributesNamesStatic();                               \
 	};
@@ -151,8 +151,6 @@ private:
 
 #define OVR override
 #define VIR virtual
-#define STC static
-#define CNS const
 
 #define GETTER_TYPE(Var)                                            \
 	COND_TYPE(                                                      \
@@ -173,13 +171,13 @@ private:
 			ADD_REFERENCE(ADD_CONST(decltype(Var)))))
 
 #define GET(BaseName)        \
-	GETTER_TYPE(m##BaseName) get##BaseName() CNS { return m##BaseName; };
+	GETTER_TYPE(m##BaseName) get##BaseName() const { return m##BaseName; };
 
 #define GETREF(BaseName) \
 	ADD_REFERENCE(GETTER_TYPE(m##BaseName)) get##BaseName() { return m##BaseName; };
 
 #define GETREF_CONST(BaseName) \
-	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() CNS { return m##BaseName; };
+	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() const { return m##BaseName; };
 
 #define SET(BaseName) \
 	void set##BaseName(SETTER_TYPE(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
@@ -196,7 +194,7 @@ private:
 	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
 	public : AccessorMacroName(BaseName)                     \
 	private : \
-	inline STC AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
+	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
 	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
 	Visibility:
 	
@@ -209,18 +207,18 @@ private:
 // --------------------------------------------------------
 
 #define COPY(...)                                                                        \
-	VIR void copy(CNS ObjectBase *other) OVR                                  \
+	VIR void copy(const ObjectBase *other) OVR                                  \
 	{                                                                                    \
 		if (this != other)                                                               \
 		{                                                                                \
-			if (CNS __VA_ARGS__ *otherCast = dynamic_cast<CNS __VA_ARGS__ *>(other)) \
+			if (const __VA_ARGS__ *otherCast = dynamic_cast<const __VA_ARGS__ *>(other)) \
 			{                                                                            \
 				specificCopy(otherCast);                                                 \
 			}                                                                            \
 		}                                                                                \
 	}                                                                                    \
                                                                                          \
-	void specificCopy(CNS __VA_ARGS__ *other)
+	void specificCopy(const __VA_ARGS__ *other)
 
 #define DO_COPY(BaseName) m##BaseName = other->m##BaseName;
 
@@ -231,14 +229,14 @@ private:
 // SERIALIZE
 
 #define SERIALIZE()\
-VIR void serialize(JSON &json) CNS OVR
+VIR void serialize(JSON &json) const OVR
 
 #define SUPER_SERIALIZE()\
 Super::serialize(json);
 
 // This macro must be used in .cpp
 #define SERIALIZE_IMPL(...)\
-void __VA_ARGS__::serialize(JSON &json) CNS
+void __VA_ARGS__::serialize(JSON &json) const
 
 #define DO_SERIALIZE(Name, Var)\
 json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);
@@ -270,13 +268,13 @@ FOR_LIST(__it, Var)\
 // DESERIALIZE
 
 #define DESERIALIZE()\
-VIR void deserialize(CNS JSON &json) OVR
+VIR void deserialize(const JSON &json) OVR
 
 #define SUPER_DESERIALIZE()\
 Super::deserialize(json);
 
 #define DESERIALIZE_IMPL(...)\
-void __VA_ARGS__::deserialize(CNS JSON &json)
+void __VA_ARGS__::deserialize(const JSON &json)
 
 #define DO_DESERIALIZE(Name, Var)\
 SerializationUtils::deserializeTemplated<decltype(Var)>(Var, json[Name]);

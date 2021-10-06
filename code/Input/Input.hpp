@@ -11,10 +11,10 @@
 CLASS(Input, ObjectBase), SINGLETON(Input)
 {
 private:
-	STC void keyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
-	STC void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
-	STC void scrollCallback(GLFWwindow * window, double xoffset, double yoffset);
-	STC void charCallback(GLFWwindow * window, unsigned int codepoint);
+	static void keyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
+	static void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
+	static void scrollCallback(GLFWwindow * window, double xoffset, double yoffset);
+	static void charCallback(GLFWwindow * window, unsigned int codepoint);
 
 public:
 	Vector2 smMouseCoordinates;
@@ -32,7 +32,7 @@ public:
 	bool isModifierPressed(u32 modifier);
 	bool isMouseButtonPressedOnce(u32 button);
 	bool isMouseButtonPressed(u32 button);
-	CNS Vector2& getMousePosition();
+	const Vector2& getMousePosition();
 
 	f32 getScroll();
 

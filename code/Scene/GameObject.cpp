@@ -56,7 +56,7 @@ void GameObject::init()
 	mTag = "";
 }
 
-CNS SLst(Component *) *GameObject::getComponents(ClassId classId) CNS
+const SLst(Component *) *GameObject::getComponents(ClassId classId) const
 {
 	SLst(Component *) *components = nullptr;
 
@@ -73,10 +73,10 @@ CNS SLst(Component *) *GameObject::getComponents(ClassId classId) CNS
 	return components;
 }
 
-Component *GameObject::getFirstComponent(ClassId classId) CNS
+Component *GameObject::getFirstComponent(ClassId classId) const
 {
 	Component *component = nullptr;
-	CNS SLst(Component *) *components = getComponents(classId);
+	const SLst(Component *) *components = getComponents(classId);
 
 	if (components && !components->empty())
 	{
@@ -158,7 +158,7 @@ DESERIALIZE_IMPL(GameObject)
 	DO_DESERIALIZE("transform", mTransform)
 
 	SLst(Component *) tmpList;
-	DO_DESERIALIZE_LIST("components", tmpList, [](CNS JSON &json)
+	DO_DESERIALIZE_LIST("components", tmpList, [](const JSON &json)
 	{
 		Component *component = INSTANCE_BY_NAME(json["class"], Component);
 		return component;

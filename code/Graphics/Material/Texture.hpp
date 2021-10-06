@@ -16,7 +16,7 @@ public:
 	Texture();
 	~Texture() OVR;
 
-	void init(CNS SStr &path);
+	void init(const SStr &path);
 	void bind();
 
 	SERIALIZE();

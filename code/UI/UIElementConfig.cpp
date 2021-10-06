@@ -8,7 +8,7 @@ UIElementConfig::UIElementConfig()
 	mIsAffectedByLayout = true;
 }
 
-void UIElementConfig::init(CNS Vector2 &position, CNS Vector2 &size, u32 layer, SStr text /*= SStr()*/)
+void UIElementConfig::init(const Vector2 &position, const Vector2 &size, u32 layer, SStr text /*= SStr()*/)
 {
 	mStyle = &UIStyleManager::getInstance()->getDefaultStyle();
 	mUIElementClassId = 0;

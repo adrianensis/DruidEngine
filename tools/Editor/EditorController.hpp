@@ -47,11 +47,11 @@ public:
 	void init();
 	void update();
 	void drawGrid();
-	bool canUseBrush() CNS;
+	bool canUseBrush() const;
 
 	Grid& getGrid();
 
-	GameObject* createTile(CNS Vector2 &position, CNS Vector2 &size, Material *material, CNS Rectangle &region);
+	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region);
 
 	void forEachSelectedTile(TileCallback tileCallback);
 

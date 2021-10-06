@@ -13,7 +13,7 @@ private:
 		PUB(UIElementCallback, Callback, NONE)
 
 	public:
-		UIListEntry(CNS SStr& label, UIElementCallback callback);
+		UIListEntry(const SStr& label, UIElementCallback callback);
 
 		COPY(UIListEntry)
 		{
@@ -29,10 +29,10 @@ private:
 
 public:
 	VIR void init() OVR;
-	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void initFromConfig(const UIElementConfig& config) OVR;
 	VIR void onDestroy() OVR;
 
-	UIList& addOption(CNS SStr & label, UIElementCallback onPressedCallback);
+	UIList& addOption(const SStr & label, UIElementCallback onPressedCallback);
 
 	void toggle();
 	VIR void onScroll(f32 scroll) OVR;

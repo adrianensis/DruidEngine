@@ -10,12 +10,12 @@ CLASS(UIButton, UIElement)
 
 public:
 	VIR void init() OVR;
-	VIR void initFromConfig(CNS UIElementConfig& config) OVR;
+	VIR void initFromConfig(const UIElementConfig& config) OVR;
 	VIR void onDestroy() OVR;
 
 	void onLabelDestroy();
 
-	VIR void setText(CNS SStr &text) OVR;
+	VIR void setText(const SStr &text) OVR;
 	VIR void setVisibility(bool visibility) OVR;
 };
 
