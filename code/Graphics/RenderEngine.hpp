@@ -57,7 +57,6 @@ private:
 public:
 	void init(f32 sceneSize);
 	void update();	  // render
-	void updateDebug(); // debug render
 	void terminate();
 
 	VIR void addComponent(Component *component) OVR;

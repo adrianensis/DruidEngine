@@ -109,7 +109,6 @@ void RenderEngine::update()
 	}
 
 	renderBatches();
-	updateDebug();
 	swap();
 	checkChunks();
 	freeRenderersPendingtoFree();
@@ -137,6 +136,8 @@ void RenderEngine::renderBatches()
 		}
 	}
 
+    mLineRenderer->render();
+
 	FOR_RANGE(layer, 0, mMaxLayers)
 	{
 		//if(mLayersData->get(layer)->mVisible){
@@ -144,6 +145,8 @@ void RenderEngine::renderBatches()
 		//}
 	}
 
+	mLineRendererScreenSpace->render();
+    
 	//PROFILER_TIMEMARK_END()
 }
 
@@ -182,16 +185,6 @@ void RenderEngine::freeRenderersPendingtoFree()
 	LIST_DELETE_CONTENT(mRenderersToFree)
 
 	mRenderersToFree.clear();
-
-	//PROFILER_TIMEMARK_END()
-}
-
-void RenderEngine::updateDebug()
-{
-	//PROFILER_TIMEMARK_START()
-
-	mLineRenderer->render();
-	mLineRendererScreenSpace->render();
 
 	//PROFILER_TIMEMARK_END()
 }
