@@ -10,34 +10,37 @@
 void CommandLine::init()
 {
     mBuffer = "";
+    mIsOpen = false;
 
     SUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this, [this](const Event *event)
 	{
-        if(mUIText && mUIText->isActive())
+        if(mIsOpen)
         {
             const InputEventChar *e = (InputEventChar*) event;
             char c = e->mChar;
             mBuffer.push_back(c);
-            //VAR(mBuffer)
+            log(mBuffer, false);
         }
 	});
 
     SUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this, [this](const Event *event)
 	{
-        if(mUIText && mUIText->isActive())
+        if(mIsOpen)
         {
+            BRLINE();
             execute(mBuffer);
             mBuffer.clear();
-            //VAR(mBuffer)
+            log("", false);
         }
 	});
 
     SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
 	{
-        if(mUIText && mUIText->isActive())
+        if(mIsOpen)
         {
+            BRLINE();
             mBuffer.clear();
-            //VAR(mBuffer)
+            log("", false);
         }
 	});
 
@@ -53,20 +56,21 @@ void CommandLine::init()
 
     SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](const Event *event)
 	{
-        if(mUIText && mUIText->isActive())
+        if(mIsOpen)
         {
             if(!mBuffer.empty())
             {
+                BACKSPACE()
                 mBuffer.pop_back();
             }
             
-            //VAR(mBuffer)
+            log(mBuffer, false);
         }
 	});
 
     SUBSCRIBE_TO_EVENT(InputEventKeyArrow, nullptr, this, [this](const Event *event)
 	{
-        if(mUIText && mUIText->isActive())
+        if(mIsOpen)
         {
             const InputEventKeyArrow *e = (InputEventKeyArrow*) event;
 
@@ -100,13 +104,33 @@ void CommandLine::init()
             }
         }
 	});
+
+    registerCommand("echo", [](const Command& command)
+    {
+        FOR_MAP(it, command.getArgs())
+        {
+            ECHO(it->second.getName() + " = " + it->second.getValue());
+        }
+    });
+}
+
+void CommandLine::log(const SStr& line, bool newLine /*= true*/) const
+{
+    if(newLine)
+    {
+        ECHO(line)
+    }
+    else
+    {
+        ECHO_APPEND(line)
+    }
 }
 
 void CommandLine::update()
 {
-    if(mUIText && mUIText->isActive())
+    if(mIsOpen)
     {
-        mUIText->setText("> " + mBuffer);
+        //mUIText->setText("> " + mBuffer);
     }
 }
 
@@ -128,7 +152,7 @@ void CommandLine::execute(const SStr &commandLine)
 
     if(isCommand && MAP_CONTAINS(mCommandsMap, commandName))
     {
-        ECHO("command: " + commandName)
+        log("command: " + commandName);
 
         CommandFunctor& functor = mCommandsMap.at(commandName);
         functor.getCommand().clearArgs();
@@ -149,8 +173,8 @@ void CommandLine::execute(const SStr &commandLine)
             auto argumentlistBegin = std::sregex_iterator(argumentList.begin(), argumentList.end(), regexArgument);
             auto argumentlistEnd = std::sregex_iterator();
         
-            ECHO("Arguments")
-            VAL(std::distance(argumentlistBegin, argumentlistEnd))
+            log("arguments");
+            //VAL(std::distance(argumentlistBegin, argumentlistEnd))
         
             for (std::sregex_iterator i = argumentlistBegin; i != argumentlistEnd; ++i) {
                 std::smatch argumentMatch = *i;                                                 
@@ -160,10 +184,10 @@ void CommandLine::execute(const SStr &commandLine)
 
                 std::smatch matchPair;
                 std::regex_search(argumentStr, matchPair, regexPair);
-                bool isPair = !matchPair.empty();
+                //bool isPair = !matchPair.empty();
 
-                VAL(matchPair[1].str())
-                VAL(matchPair[3].str())
+                //VAL(matchPair[1].str())
+                //VAL(matchPair[3].str())
 
                 CommandArgument arg;
                 arg.setName(matchPair[1].str());
@@ -173,6 +197,10 @@ void CommandLine::execute(const SStr &commandLine)
         }
         
         functor.execute();
+    }
+    else
+    {
+        log("command: " + commandLine + " not recognized.");
     }
 
     mHistory.push_back(commandLine);
@@ -198,7 +226,10 @@ void CommandLine::registerCommand(const SStr &commandName, CommandCallback callb
 
 void CommandLine::open()
 {
-    if(!mUIText)
+    mIsOpen = true;
+    log("CMD Opened");
+    log(mBuffer, false);
+    /*if(!mUIText)
     {
         mUIText = UI::getInstance()->getUIBuilder().
         setLayout(UILayout::VERTICAL).
@@ -213,13 +244,28 @@ void CommandLine::open()
     if(!mUIText->isActive())
     {
         mUIText->setIsActive(true);
-    }
+    }*/
 }
 
 void CommandLine::close()
 {
-    if(mUIText && mUIText->isActive())
+    mIsOpen = false;
+    log(mBuffer);
+    log("CMD Closed");
+    /*if(mUIText && mUIText->isActive())
     {
         mUIText->setIsActive(false);
+    }*/
+}
+
+void CommandLine::toggle()
+{
+    if(mIsOpen)
+    {
+        close();
+    }
+    else
+    {
+        open();
     }
 }

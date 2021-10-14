@@ -6,6 +6,7 @@
 			"label": "druid build debug",
 			"command": "python3",
 			"args": [
+                "-B",
 				"./scripts/build.py",
 				"-x",
 				"-i",
@@ -24,6 +25,7 @@
 			"label": "druid build release",
 			"command": "python3",
 			"args": [
+                "-B",
 				"./scripts/build.py",
 				"-x",
 				"-i",

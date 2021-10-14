@@ -302,6 +302,11 @@ void EditorController::handlePressedKeys()
 			mInfoBar.setBrushSize(mBrush.getBrushSize());
 		}
 	}
+
+    if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_F1))
+	{
+        CommandLine::getInstance()->toggle();
+    }
 }
 
 void EditorController::handleHoldKeys()

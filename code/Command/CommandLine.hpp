@@ -43,6 +43,10 @@ CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
 
 	PRI(UIText*, UIText, NONE);
 
+    PRI(bool, IsOpen, NONE);
+
+    void log(const SStr& line, bool newLine = true) const;
+
 public:
     void init();
 	void update();
@@ -55,5 +59,5 @@ public:
 	// UI
 	void open();
 	void close();
-
+    void toggle();
 };
