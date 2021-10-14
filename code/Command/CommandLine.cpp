@@ -1,5 +1,7 @@
 #include "Command/CommandLine.hpp"
 
+#include "Command/DefaultCommands.hpp"
+
 #include "Input/Input.hpp"
 #include "Log/Log.hpp"
 #include "Events/EventsManager.hpp"
@@ -34,7 +36,7 @@ void CommandLine::init()
         }
 	});
 
-    SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
+    /*SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
 	{
         if(mIsOpen)
         {
@@ -42,7 +44,7 @@ void CommandLine::init()
             mBuffer.clear();
             log("", false);
         }
-	});
+	});*/
 
     /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](const Event *event)
 	{
@@ -105,24 +107,18 @@ void CommandLine::init()
         }
 	});
 
-    registerCommand("echo", [](const Command& command)
-    {
-        FOR_MAP(it, command.getArgs())
-        {
-            ECHO(it->second.getName() + " = " + it->second.getValue());
-        }
-    });
+    DefaultCommands::registerDefaultCommands();
 }
 
 void CommandLine::log(const SStr& line, bool newLine /*= true*/) const
 {
     if(newLine)
     {
-        ECHO(line)
+        CUSTOM_ECHO("CMD", line)
     }
     else
     {
-        ECHO_APPEND(line)
+        CUSTOM_ECHO_APPEND("CMD", line)
     }
 }
 
@@ -152,10 +148,10 @@ void CommandLine::execute(const SStr &commandLine)
 
     if(isCommand && MAP_CONTAINS(mCommandsMap, commandName))
     {
-        log("command: " + commandName);
+        //log("command: " + commandName);
 
         CommandFunctor& functor = mCommandsMap.at(commandName);
-        functor.getCommand().clearArgs();
+        functor.getCommand().clearArguments();
 
         SStr patternAssignation("\\s*=\\s*");
         std::regex regexCommandWithArgumentList("^\\s*" + patternValidName + "\\s+((" + patternValidName + "(" + patternAssignation + patternValidName + ")?\\s*)+)\\s*");
@@ -173,9 +169,11 @@ void CommandLine::execute(const SStr &commandLine)
             auto argumentlistBegin = std::sregex_iterator(argumentList.begin(), argumentList.end(), regexArgument);
             auto argumentlistEnd = std::sregex_iterator();
         
-            log("arguments");
+            //log("arguments");
             //VAL(std::distance(argumentlistBegin, argumentlistEnd))
         
+            functor.getCommand().setArgumentsString(argumentList);
+
             for (std::sregex_iterator i = argumentlistBegin; i != argumentlistEnd; ++i) {
                 std::smatch argumentMatch = *i;                                                 
                 SStr argumentStr = argumentMatch.str(); 
@@ -192,7 +190,7 @@ void CommandLine::execute(const SStr &commandLine)
                 CommandArgument arg;
                 arg.setName(matchPair[1].str());
                 arg.setValue(matchPair[3].str());
-                functor.getCommand().addArg(arg);
+                functor.getCommand().addArgument(arg);
             }   
         }
         
@@ -214,6 +212,8 @@ SStr CommandLine::autocomplete(const SStr &commandLine)
 
 void CommandLine::registerCommand(const SStr &commandName, CommandCallback callback)
 {
+    ASSERT_MSG(!MAP_CONTAINS(mCommandsMap, commandName), "Command " + commandName + " already registered!");
+
     Command command;
     command.setName(commandName);
 

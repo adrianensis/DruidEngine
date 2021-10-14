@@ -19,16 +19,18 @@ public:
 CLASS(Command, ObjectBase)
 {
     PRI(SStr, Name, GETREF_CONST_SET);
-    PRI(SMap(SStr, CommandArgument), Args, GETREF_CONST);
+    PRI(SStr, ArgumentsString, GETREF_CONST_SET);
+    PRI(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);
 
 public:
 
-    void clearArgs() { mArgs.clear(); };
-    void addArg(const CommandArgument& arg) { MAP_INSERT(mArgs, arg.getName(), arg); };
+    void clearArguments() { mArguments.clear(); };
+    void addArgument(const CommandArgument& arg) { MAP_INSERT(mArguments, arg.getName(), arg); };
 
     COPY(Command)
     {
         DO_COPY(Name)
-        DO_COPY(Args)
+        DO_COPY(Arguments)
+        DO_COPY(ArgumentsString)
     }
 };

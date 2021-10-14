@@ -22,6 +22,8 @@ public:
 
 	static void echo(const SStr &message, bool newLine = true);
 
+    static void custom_echo(const SStr &tag, const SStr &message, bool newLine = true);
+
 	template <class T>
 	static void var(const SStr &varname, T var)
 	{
@@ -65,6 +67,8 @@ public:
 #define TO_STR(s) #s
 #define ECHO(x) Log::echo(x);
 #define ECHO_APPEND(x) Log::echo(x, false);
+#define CUSTOM_ECHO(Tag, x) Log::custom_echo(Tag, x);
+#define CUSTOM_ECHO_APPEND(Tag, x) Log::custom_echo(Tag, x, false);
 #define VAR(x) Log::var<REMOVE_POINTER(REMOVE_REF(decltype(x)))>(#x, x);
 #define VAL(x) Log::val<REMOVE_POINTER(REMOVE_REF(decltype(x)))>(x);
 #define ERROR(x) Log::error(x);
@@ -75,6 +79,8 @@ public:
 #define TO_STR(s)
 #define ECHO(x)
 #define ECHO_APPEND(x)
+#define CUSTOM_ECHO(Tag, x)
+#define CUSTOM_ECHO_APPEND(Tag, x)
 #define VAR(x)
 #define VAL(x)
 #define ERROR(x)

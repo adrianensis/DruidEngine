@@ -49,6 +49,18 @@ void Log::echo(const SStr &message, bool newLine /*= true*/)
     }
 }
 
+void Log::custom_echo(const SStr &tag, const SStr &message, bool newLine /*= true*/)
+{
+    if(newLine)
+    {
+	    log(tag + " > " + message);
+    }
+    else
+    {
+	    append(tag + " > " + message);
+    }
+}
+
 void Log::error(const SStr &message)
 {
 	// std::cout << "ERROR > " << message << std::endl;
