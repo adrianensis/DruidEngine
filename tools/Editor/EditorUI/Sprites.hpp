@@ -15,12 +15,15 @@ CLASS(Sprites, ObjectBase)
 {
 	PRI(EditorController*, EditorController, NONE)
 	PRI(SStr, SpritesSelectorUIGroup, NONE)
+    PRI(SStr, SpritesUIGroup, NONE)
 	PRI(SStr, AtlasUIGroup, NONE)
 	PRI(bool, IsVisible, GET)
     PRI(Grid, Grid, NONE) // TODO: use this grid to create sprites
 
     PRI(UIPanel*, CurrentSpritePreview, NONE)
     PRI(SLst(UIPanel*), FramesPreview, NONE)
+
+    void loadSprites();
 
 private:
 

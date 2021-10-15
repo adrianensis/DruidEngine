@@ -50,5 +50,7 @@ void MenuBar::init(EditorController* editorController)
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&, this](UIElement *uiElement){
 		mEditorController->getSprites().toggle();
+        mEditorController->getLayersBar().toggle();
+        mEditorController->getToolsBar().toggle();
 	});
 }

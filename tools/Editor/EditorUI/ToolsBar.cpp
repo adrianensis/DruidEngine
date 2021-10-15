@@ -14,11 +14,14 @@ void ToolsBar::init(EditorController* editorController)
 {
     mEditorController = editorController;
 
+    mIsVisible = true;
+    mUIGroupName = "ToolsBar";
+
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::HORIZONTAL).
-	setPosition(Vector2(-1,0.8)).
+	setPosition(Vector2(-1.0f, 0.8f)).
 	setLayer(0).
-	setGroup("ToolsBar").
+	setGroup(mUIGroupName).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
@@ -62,4 +65,10 @@ void ToolsBar::init(EditorController* editorController)
 	restoreStyle().
 	setGroup("").
 	restoreMaterial();
+}
+
+void ToolsBar::toggle()
+{
+	mIsVisible = !mIsVisible;
+	UI::getInstance()->setGroupVisibility(mUIGroupName, mIsVisible);
 }

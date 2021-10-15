@@ -65,6 +65,8 @@ void EditorController::init()
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
 		mSprites.toggle();
+        mToolsBar.toggle();
+        mLayersBar.toggle();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](const Event *event)

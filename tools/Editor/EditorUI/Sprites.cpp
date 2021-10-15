@@ -33,6 +33,7 @@ Sprites::Sprites()
 {
 	mSpritesSelectorUIGroup = "spritesSelector";
 	mAtlasUIGroup = "atlas";
+    mSpritesUIGroup = "sprites";
 	mIsVisible = true;
     mCurrentSpritePreview = nullptr;
 }
@@ -43,6 +44,7 @@ void Sprites::init(EditorController* editorController)
 
 	createAtlasSelectors();
     createSpriteMenu();
+    loadSprites();
 	toggle();
 
     SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
@@ -62,6 +64,7 @@ void Sprites::setVisible(bool visible)
 	mIsVisible = visible;
 	UI::getInstance()->setGroupVisibility(mAtlasUIGroup, mIsVisible);
 	UI::getInstance()->setGroupVisibility(mSpritesSelectorUIGroup, mIsVisible);
+    UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsVisible);
 }
 
 void Sprites::createAtlasSelectors()
@@ -70,7 +73,7 @@ void Sprites::createAtlasSelectors()
 		setSeparatorSize(0).
 		setAdjustSizeToText(false).
 		setLayout(UILayout::VERTICAL).
-		setPosition(Vector2(-1.0f, 0.0f)).
+		setPosition(Vector2(-1.0f, 0.8f)).
 		setText("").
 		setSize(Vector2(0.1f, 0.1f)).
 		setLayer(0).
@@ -254,7 +257,7 @@ void Sprites::createAtlas(Material* material)
 		setSeparatorSize(0).
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
-		setPosition(Vector2(-panelSize.x/2.0f - offset, panelSize.y/2.0f)).
+		setPosition(Vector2(-panelSize.x/2.0f - offset, panelSize.y/2.0f + offset)).
 		setText("").
 		setSize(Vector2(tileSize, tileSize)).
 		setLayer(0).
@@ -290,6 +293,30 @@ void Sprites::createAtlas(Material* material)
 	setGroup("");
 }
 
+void Sprites::loadSprites()
+{
+    UI::getInstance()->getUIBuilder().
+	setLayout(UILayout::HORIZONTAL).
+	setPosition(Vector2(0.0f, -0.8f)).
+	setLayer(0).
+	setGroup(mSpritesUIGroup).
+	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+	setSize(Vector2(0.1f, 0.1f));
+
+	FOR_RANGE(i, 0, 10)
+    {
+        UI::getInstance()->getUIBuilder().
+        setAdjustSizeToText(false).
+        setText("").
+        setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Cursor.png")).
+        create<UIToggleButton>().
+        getUIElement<UIToggleButton>()->
+        setOnPressedCallback([&](UIElement* uiElement){
+
+        });
+    }
+}
+
 void Sprites::addSprite()
 {
     f32 tileSize = 0.06f;
@@ -303,7 +330,7 @@ void Sprites::addSprite()
 		setSeparatorSize(0).
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
-		setPosition(Vector2(0.8f, -0.8f)).
+		setPosition(Vector2(0.6f, 0.8f)).
 		setText("").
 		setSize(Vector2(tileSize, tileSize)).
 		setLayer(0).

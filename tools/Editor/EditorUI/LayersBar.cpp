@@ -14,11 +14,14 @@ void LayersBar::init(EditorController* editorController)
 {
     mEditorController = editorController;
 
+    mIsVisible = true;
+    mUIGroupName = "LayersBar";
+
 	UI::getInstance()->getUIBuilder().
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(0.94,0.8)).
 	setLayer(0).
-	setGroup("LayersBar").
+	setGroup(mUIGroupName).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.07f, 0.07f)).
 	//setAdjustSizeToText(true).
@@ -51,4 +54,10 @@ void LayersBar::init(EditorController* editorController)
 	restoreStyle().
 	setGroup("").
 	restoreMaterial();
+}
+
+void LayersBar::toggle()
+{
+	mIsVisible = !mIsVisible;
+	UI::getInstance()->setGroupVisibility(mUIGroupName, mIsVisible);
 }
