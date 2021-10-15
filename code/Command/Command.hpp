@@ -22,10 +22,14 @@ CLASS(Command, ObjectBase)
     PRI(SStr, ArgumentsString, GETREF_CONST_SET);
     PRI(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);
 
+    inline static const SStr smDefaultArgumentValue = ""; 
+
 public:
 
     void clearArguments() { mArguments.clear(); };
     void addArgument(const CommandArgument& arg) { MAP_INSERT(mArguments, arg.getName(), arg); };
+    bool argumentExists(const SStr& argName) const { return MAP_CONTAINS(mArguments, argName); };
+    const SStr& getValue(const SStr& argName) const { return argumentExists(argName) ? mArguments.at(argName).getValue() : smDefaultArgumentValue; };
 
     COPY(Command)
     {

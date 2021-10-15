@@ -55,7 +55,16 @@ void UI::removeFromGroup(const SStr &groupName, UIElement *uiElement)
 	}
 }
 
-void UI::removeElementsFromGroup(const SStr &groupName)
+void UI::destroyElementInGroup(const SStr &groupName, UIElement *uiElement)
+{
+	if (MAP_CONTAINS(mGroups, groupName))
+	{
+		mGroups.at(groupName)->mUIElements.remove(uiElement);
+        uiElement->getScene()->removeGameObject(uiElement);
+	}
+}
+
+void UI::destroyAllElementsInGroup(const SStr &groupName)
 {
 	if (MAP_CONTAINS(mGroups, groupName))
 	{

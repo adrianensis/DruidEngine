@@ -8,7 +8,8 @@
 
 CLASS(UIStyle, ObjectBase)
 {
-	PUB(Vector4, Color, NONE);
+    PUB(Vector4, TextColor, NONE);
+	PUB(Vector4, BackgroundColor, NONE);
 	PUB(Vector4, ColorPressed, NONE);
 	PUB(Vector4, ColorHovered, NONE);
 
@@ -16,14 +17,16 @@ public:
 
 	UIStyle()
 	{
-		mColor = Vector4(0, 0, 0, 1);
+        mTextColor = Vector4(1, 1, 1, 1);
+		mBackgroundColor = Vector4(0, 0, 0, 1);
 		mColorPressed = Vector4(0.3f, 0.3f, 0.3f, 1);
 		mColorHovered = Vector4(0.7f, 0.7f, 0.7f, 1);
 	}
 
 	COPY(UIStyle)
 	{
-		DO_COPY(Color)
+        DO_COPY(TextColor)
+		DO_COPY(BackgroundColor)
 		DO_COPY(ColorPressed)
 		DO_COPY(ColorHovered)
 	}

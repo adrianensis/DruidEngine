@@ -22,6 +22,7 @@ void UIElement::init()
 
 	mPressed = false;
 	mConsumeInput = true;
+    mOnlyReleaseOnClickOutside = false;
 }
 
 void UIElement::initFromConfig(const UIElementConfig& config)
@@ -39,6 +40,7 @@ void UIElement::onDestroy()
 	UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
+    UNSUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
 	UNSUBSCRIBE_TO_EVENT(InputEventMouseMoved, nullptr, this);
@@ -76,6 +78,14 @@ void UIElement::subscribeToCharEvents()
 			onChar(((const InputEventChar *)event)->mChar);
 		}
 	});
+
+    SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](const Event *event)
+	{
+		if (isActive())
+		{
+			onBackspace();
+		}
+	});
 }
 
 void UIElement::subscribeToMouseEvents()
@@ -88,7 +98,7 @@ void UIElement::subscribeToMouseEvents()
 
 			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
 			{
-				onPressed();
+				onPressedEventReceived();
 			}
 		}
 	});
@@ -100,7 +110,7 @@ void UIElement::subscribeToMouseEvents()
 			const InputEventMouseButtonReleased *e = (const InputEventMouseButtonReleased *)event;
 			if (e->mButton == GLFW_MOUSE_BUTTON_LEFT)
 			{
-				onReleased();
+				onReleasedEventReceived();
 			}
 		}
 	});
@@ -163,6 +173,15 @@ void UIElement::onChar(char character)
 	}
 }
 
+void UIElement::onBackspace()
+{
+    if(!mInputString.empty())
+    {
+        mInputString.pop_back();
+        setText(mInputString);
+    }
+}
+
 void UIElement::onFocusLost()
 {
 	if (hasFocus())
@@ -174,11 +193,13 @@ void UIElement::onFocusLost()
 
 void UIElement::onFocus()
 {
+    mInputString.clear();
+    setText(mInputString);
 }
 
-void UIElement::onPressed()
+void UIElement::onPressedEventReceived()
 {
-	if (mRenderer->isActive())
+	if (isVisible())
 	{
 		bool cursorInside = isMouseCursorInsideElement();
 		
@@ -191,7 +212,10 @@ void UIElement::onPressed()
 
 void UIElement::press()
 {
-	mRenderer->setColor(mConfig.mStyle->mColorPressed);
+    if(mRenderer)
+    {
+	    mRenderer->setColor(mConfig.mStyle->mColorPressed);
+    }
 
 	mPressed = true;
 
@@ -214,11 +238,11 @@ void UIElement::press()
 	}
 }
 
-void UIElement::onReleased()
+void UIElement::onReleasedEventReceived()
 {
 	if(mPressed)
 	{
-		if (mRenderer->isActive())
+		if (isVisible())
 		{
 			if (hasFocus())
 			{
@@ -245,7 +269,9 @@ void UIElement::executePressAndRelease(bool force /*= false*/)
 	{
 		if (cursorInside)
 		{
+            onPrePressed();
 			mOnPressedFunctor.execute();
+            onPostPressed();
 
 			if(mCanToggle)
 			{
@@ -294,7 +320,10 @@ void UIElement::release(bool force /*= false*/)
 {
 	bool cursorInside = isMouseCursorInsideElement();
 
-	bool canExecuteRelease = !mCanToggle || (mCanToggle && mToggled) || force;
+	bool canExecuteRelease =
+    (!mCanToggle || (mCanToggle && mToggled)) &&
+    ((mOnlyReleaseOnClickOutside && !cursorInside) || !mOnlyReleaseOnClickOutside) ||
+    force;
 
 	if(canExecuteRelease)
 	{
@@ -302,6 +331,7 @@ void UIElement::release(bool force /*= false*/)
 
 		mToggled = false;
 
+        onPreReleased();
 		mOnReleasedFunctor.execute();
 
 		if (getConsumeInput())
@@ -309,16 +339,21 @@ void UIElement::release(bool force /*= false*/)
 			Input::getInstance()->clearMouseButton();
 		}
 
-		if(cursorInside)
-		{
-			mRenderer->setColor(mConfig.mStyle->mColorHovered);
-		}
-		else
-		{
-			mRenderer->setColor(mConfig.mStyle->mColor);
-		}
-
+        if(mRenderer)
+        {
+            if(cursorInside)
+            {
+                mRenderer->setColor(mConfig.mStyle->mColorHovered);
+            }
+            else
+            {
+                mRenderer->setColor(mConfig.mStyle->mBackgroundColor);
+            }
+        }
+		
 		onFocusLost();
+
+        onPostReleased();
 	}
 }
 
@@ -332,23 +367,26 @@ void UIElement::onMouseOver()
 {
 	if(!mPressed)
 	{
-		if (mRenderer->isActive())
+		if (isVisible())
 		{
-			if (isMouseCursorInsideElement())
-			{
-				mRenderer->setColor(mConfig.mStyle->mColorHovered);
-			}
-			else
-			{
-				mRenderer->setColor(mConfig.mStyle->mColor);
-			}
+			if(mRenderer)
+            {
+                if (isMouseCursorInsideElement())
+                {
+                    mRenderer->setColor(mConfig.mStyle->mColorHovered);
+                }
+                else
+                {
+                    mRenderer->setColor(mConfig.mStyle->mBackgroundColor);
+                }
+            }
 		}
 	}
 }
 
 void UIElement::onScroll(f32 scroll)
 {
-	if (mRenderer->isActive())
+	if (isVisible())
 	{
 		if (isMouseCursorInsideElement())
 		{
@@ -384,8 +422,8 @@ bool UIElement::isMouseCursorInsideElement()
 	}
 
 	return Geometry::testRectanglePoint(
-		mRenderer->getVertices()[0],
-		getTransform()->getScale().x,
-		getTransform()->getScale().y,
+		mConfig.mPosition,
+		UIUtils::correctAspectRatio_X(mConfig.mSize).x,
+        mConfig.mSize.y,
 		mousePosition, 0);
 }

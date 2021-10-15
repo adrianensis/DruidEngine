@@ -97,7 +97,7 @@ void UIBuilder::calculateConfig()
 	// Offset the UI Element so its Top-Left corner is the origin.
 	mConfig.mDisplayPosition = mConfig.mPosition;
 
-	if(mConfig.mUIElementClassId == UIText::getClassIdStatic() /* || UITextEditable*/)
+	if(mConfig.mUIElementClassId == UIText::getClassIdStatic() || mConfig.mUIElementClassId == UIEditableText::getClassIdStatic())
 	{
 		mConfig.mDisplayPosition.x += mConfig.mTextSize.x/RenderContext::getAspectRatio();
 		mConfig.mDisplayPosition.y -= mConfig.mTextSize.y / 2.0f;

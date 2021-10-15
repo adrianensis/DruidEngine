@@ -1,4 +1,5 @@
 #include "EditorController.hpp"
+#include "EditorCommands.hpp"
 
 #include "Core/Time/TimeUtils.hpp"
 #include "Log/Log.hpp"
@@ -43,6 +44,8 @@
 
 void EditorController::init()
 {
+    EditorCommands::registerEditorCommands(this);
+    
 	mEditorConfig.readFromJsonFile("tools/Editor/config/resources.json");
 
 	mGrids.resize(10); // TODO : engine max layers

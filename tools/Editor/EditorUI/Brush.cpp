@@ -35,11 +35,6 @@ void Brush::init(EditorController* editorController)
 	mEditorController = editorController;
 	createSelector();
 
-	SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [&](const Event *event)
-	{
-		setModeSelect();
-	});
-
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
 	{
 		onHold();
@@ -96,7 +91,7 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 					if(tile->isActive())
 					{
 						Renderer* renderer = tile->getFirstComponent<Renderer>();
-						renderer->setColor(style.mColor);
+						renderer->setColor(style.mBackgroundColor);
 					}
 				});
 
@@ -159,11 +154,11 @@ void Brush::onMouseMoved()
 
 					if(mEditorController->getGrid().isInGrid(singleTileClampedPosition))
 					{
-						mBrushPreview[index]->getFirstComponent<Renderer>()->setColor(style.mColor);
+						mBrushPreview[index]->getFirstComponent<Renderer>()->setColor(style.mBackgroundColor);
 					}
 					else
 					{
-						mBrushPreview[index]->getFirstComponent<Renderer>()->setColor(style.mColor + Vector4(1,0,0,0));
+						mBrushPreview[index]->getFirstComponent<Renderer>()->setColor(style.mBackgroundColor + Vector4(1,0,0,0));
 					}
 				}
 			}
@@ -277,7 +272,7 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 
 		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
-		renderer->setColor(style.mColor);
+		renderer->setColor(style.mBackgroundColor);
 
 		brushPreview->addComponent<Renderer>(renderer);
 

@@ -6,7 +6,7 @@
 #include "Maths/Vector4.hpp"
 #include "UI/UIElement.hpp"
 #include "UI/UIButton.hpp"
-/*#include "UI/UITextEditable.hpp"*/
+#include "UI/UIEditableText.hpp"
 #include "UI/UIDropdown.hpp"
 #include "UI/UIText.hpp"
 #include "UI/UIPanel.hpp"

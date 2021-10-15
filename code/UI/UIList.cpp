@@ -39,7 +39,7 @@ void UIList::initFromConfig(const UIElementConfig& config)
 
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
-	renderer->setColor(mConfig.mStyle->mColor);
+	renderer->setColor(mConfig.mStyle->mBackgroundColor);
 	renderer->setLayer(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
@@ -180,7 +180,7 @@ void UIList::onScroll(f32 scroll)
 {
 	UIElement::onScroll(scroll);
 
-	if (mRenderer->isActive())
+	if (isVisible())
 	{
 		if (isMouseCursorInsideElement())
 		{

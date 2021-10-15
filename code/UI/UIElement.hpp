@@ -5,6 +5,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIUtils.hpp"
+#include "Maths/Geometry.hpp"
 
 class Renderer;
 class UIGroup;
@@ -54,6 +55,34 @@ CLASS(UIElement, GameObject)
 	PRO(bool, CanToggle, GET)
 	PRO(bool, ReleaseOnSameGroupPressed, GET)
 	PRO(bool, Toggled, GET)
+    PRO(bool, OnlyReleaseOnClickOutside, GET)
+
+protected:
+
+    void subscribeToKeyEvents();
+	void subscribeToCharEvents();
+	void subscribeToMouseEvents();
+	void subscribeToScrollEvents();
+	void subscribeToEnterEvent();
+	void subscribeToEscEvent();
+
+	VIR void onChar(char character);
+    void onBackspace();
+
+    void onPressedEventReceived();
+	void onReleasedEventReceived();
+
+	VIR void onPrePressed() { };
+	VIR void onPreReleased() { };
+    VIR void onPostPressed() { };
+	VIR void onPostReleased() { };
+
+	VIR void onMouseOver();
+
+	VIR void onScroll(f32 scroll);
+
+	VIR void onFocusLost();
+	void onFocus();
 
 	void press();
 	void executePressAndRelease(bool force = false);
@@ -64,32 +93,13 @@ public:
 	VIR void initFromConfig(const UIElementConfig& config);
 	VIR void onDestroy();
 
-	void subscribeToKeyEvents();
-	void subscribeToCharEvents();
-	void subscribeToMouseEvents();
-	void subscribeToScrollEvents();
-	void subscribeToEnterEvent();
-	void subscribeToEscEvent();
+	void simulateClick();
 
 	bool hasFocus() const;
 
 	bool isMouseCursorInsideElement();
 
-	VIR void onChar(char character);
-
 	VIR void setText(const SStr &text) { };
-
-	VIR void onPressed();
-	VIR void onReleased();
-
-	void simulateClick();
-
-	VIR void onMouseOver();
-
-	VIR void onScroll(f32 scroll);
-
-	VIR void onFocusLost();
-	void onFocus();
 
 	void setOnPressedCallback(UIElementCallback callback)
 	{

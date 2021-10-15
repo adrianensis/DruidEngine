@@ -30,7 +30,7 @@ void UIButton::initFromConfig(const UIElementConfig& config)
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setLayer(mConfig.mLayer);
-	renderer->setColor(mConfig.mStyle->mColor);
+	renderer->setColor(mConfig.mStyle->mBackgroundColor);
 
 	addComponent<Renderer>(renderer);
 	

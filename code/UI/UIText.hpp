@@ -3,14 +3,24 @@
 #include "UI/UIElement.hpp"
 #include "Maths/Vector2.hpp"
 
+class UIPanel;
+
 CLASS(UIText, UIElement)
 {
 	PRI(u32, Layer, NONE)
 	PRI(Vector2, Size, NONE)
 	PRI(SStr, String, NONE)
 	PRI(SVec(Renderer *), FontRenderers, NONE)
+    PRI(bool, IsEditable, GET)
+    PRO(UIPanel*, Background, NONE)
+
+protected:
+    void setIsEditable(bool editable);
+    VIR void setBackground(const UIElementConfig& config) { };
 
 public:
+    UIText();
+
 	VIR void init() OVR;
 	VIR void initFromConfig(const UIElementConfig& config) OVR;
 	VIR void onDestroy() OVR;
@@ -31,4 +41,6 @@ public:
 	{
 		return mString;
 	};
+
+    VIR void setVisibility(bool visibility) OVR;
 };

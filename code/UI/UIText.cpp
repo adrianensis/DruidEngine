@@ -4,9 +4,21 @@
 #include "Graphics/Material/Material.hpp"
 #include "Maths/Vector3.hpp"
 #include "UI/UI.hpp"
+#include "UI/UIPanel.hpp"
 #include "Scene/Scene.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Scene/Transform.hpp"
+
+#include "Events/EventsManager.hpp"
+#include "Input/InputEvents.hpp"
+#include "Events/Event.hpp"
+
+#include "Graphics/RenderEngine.hpp"
+
+UIText::UIText()
+{
+    mIsEditable = false;
+}
 
 void UIText::init()
 {
@@ -31,6 +43,9 @@ void UIText::initFromConfig(const UIElementConfig& config)
 
 	setSize(mConfig.mTextSize);
 	setLayer(mConfig.mLayer);
+
+    setBackground(mConfig);
+
 	setText(mConfig.mText);
 
 	setComponentsCache();
@@ -120,4 +135,37 @@ void UIText::setText(const SStr &text)
 		// NOTE: IMPORTANT - REFRESH COMPONENTS
 		setComponentsCache();
 	}
+}
+
+void UIText::setIsEditable(bool editable)
+{
+    if(editable && !getIsEditable())
+    {
+        subscribeToMouseEvents();
+        subscribeToEnterEvent();
+        subscribeToEscEvent();
+        subscribeToCharEvents();
+        mOnlyReleaseOnClickOutside = true;
+    }
+
+    if(!editable && getIsEditable())
+    {
+        UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonPressed, nullptr, this);
+        UNSUBSCRIBE_TO_EVENT(InputEventMouseButtonReleased, nullptr, this);
+        UNSUBSCRIBE_TO_EVENT(InputEventChar, nullptr, this);
+        UNSUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this);
+        UNSUBSCRIBE_TO_EVENT(InputEventKeyEnter, nullptr, this);
+        UNSUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this);
+        mOnlyReleaseOnClickOutside = true;
+    }
+}
+
+void UIText::setVisibility(bool visibility)
+{
+    Super::setVisibility(visibility);
+
+    if(mBackground)
+    {
+        mBackground->setVisibility(visibility);
+    }
 }

@@ -13,14 +13,10 @@ UIDropdown::UIDropdownEntry::UIDropdownEntry(const SStr& label, UIElementCallbac
 	mCallback = callback;
 }
 
-void UIDropdownButton::onReleased()
+void UIDropdownButton::onPostReleased()
 {
-	Super::onReleased();
-
-	if (isMouseCursorInsideElement())
-	{
-		mParentDropdown->setEntriesVisibility(false);
-	}
+	Super::onPostReleased();
+	mParentDropdown->setEntriesVisibility(false);
 }
 
 void UIDropdown::init()
@@ -33,14 +29,10 @@ void UIDropdown::onDestroy()
 	Super::onDestroy();
 }
 
-void UIDropdown::onReleased()
+void UIDropdown::onPostReleased()
 {
-	Super::onReleased();
-
-	if (isMouseCursorInsideElement())
-	{
-		toggle();
-	}
+	Super::onPostReleased();
+	toggle();
 }
 
 UIDropdown &UIDropdown::addOption(const SStr &label, UIElementCallback onPressedCallback)

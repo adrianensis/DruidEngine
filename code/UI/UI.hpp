@@ -41,7 +41,8 @@ public:
 	const UIGroup& getGroup(const SStr & groupName) const;
 	void addToGroup(const SStr & groupName, UIElement * uiElement);
 	void removeFromGroup(const SStr & groupName, UIElement * uiElement);
-	void removeElementsFromGroup(const SStr & groupName);
+    void destroyElementInGroup(const SStr & groupName, UIElement * uiElement);
+	void destroyAllElementsInGroup(const SStr & groupName);
 	void setGroupVisibility(const SStr & groupName, bool visibility);
 
 	// focus

@@ -36,26 +36,6 @@ void CommandLine::init()
         }
 	});
 
-    /*SUBSCRIBE_TO_EVENT(InputEventKeyEsc, nullptr, this, [this](const Event *event)
-	{
-        if(mIsOpen)
-        {
-            BRLINE();
-            mBuffer.clear();
-            log("", false);
-        }
-	});*/
-
-    /*SUBSCRIBE_TO_EVENT(InputEventKeyDelete, nullptr, this, [this](const Event *event)
-	{
-        if(!mBuffer.empty())
-        {
-            mBuffer.pop_back();
-        }
-
-        VAR(mBuffer)
-	});*/
-
     SUBSCRIBE_TO_EVENT(InputEventKeyBackspace, nullptr, this, [this](const Event *event)
 	{
         if(mIsOpen)
