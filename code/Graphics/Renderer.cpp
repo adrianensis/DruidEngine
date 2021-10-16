@@ -90,11 +90,16 @@ void Renderer::addAnimation(const SStr &name, Animation *animation)
 	MAP_INSERT(mAnimations, name, animation);
 };
 
+void Renderer::removeAnimation(const SStr &name)
+{
+    mAnimations.erase(name);
+}
+
 void Renderer::updateAnimation()
 {
 	if (mMaterial)
 	{
-		if (hasAnimations())
+		if (hasAnimations() && mCurrentAnimation)
 		{
 			const AnimationFrame *frame = mCurrentAnimation->getNextFrame();
 			mRegion.setLeftTop(frame->getPosition());

@@ -16,7 +16,7 @@ class Chunk;
 
 CLASS(Renderer, Component)
 {
-	PRI(SMap(SStr, Animation *), Animations, NONE)
+	PRI(SMap(SStr, Animation *), Animations, GETREF_CONST)
 	PRI(Matrix4, RenderereModelMatrix, NONE)
 	PRI(bool, PositionOffsetDirty, NONE)
 	PRI(bool, ForceRecalculateVertices, NONE)
@@ -45,6 +45,7 @@ public:
 	void init() OVR;
 	void setAnimation(const SStr &name);
 	void addAnimation(const SStr &name, Animation *animation);
+    void removeAnimation(const SStr &name);
 	bool hasAnimations() const;
 	void updateAnimation();
 	void setColor(const Vector4 &color);

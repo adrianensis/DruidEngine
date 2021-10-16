@@ -16,25 +16,28 @@ CLASS(Sprites, ObjectBase)
 	PRI(EditorController*, EditorController, NONE)
 	PRI(SStr, SpritesSelectorUIGroup, NONE)
     PRI(SStr, SpritesUIGroup, NONE)
+    PRI(SStr, SpritePreviewUIGroup, NONE)
 	PRI(SStr, AtlasUIGroup, NONE)
 	PRI(bool, IsVisible, GET)
-    PRI(Grid, Grid, NONE) // TODO: use this grid to create sprites
 
-    PRI(UIPanel*, CurrentSpritePreview, NONE)
-    PRI(SLst(UIPanel*), FramesPreview, NONE)
+    PRI(u32, SpritesCount, NONE)
 
-    void loadSprites();
+    PRI(GameObject*, CurrentSprite, NONE)
 
 private:
+
+    void loadSprites();
 
 	void createAtlas(Material* material);
 	void createAtlasSelectors();
     void createSpriteMenu();
 
+    void createSpritePreview(GameObject* sprite);
+
     void addSprite();
     void removeSprite();
 
-    void addAnimation();
+    void addAnimation(const SStr& name);
     void removeAnimation();
 
     void addFrame();
