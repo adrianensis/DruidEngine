@@ -53,7 +53,7 @@ CLASS(UIElement, GameObject)
 	PRO(bool, ConsumeInput, GET_SET)
 	PRO(bool, Pressed, GET)
 	PRO(bool, CanToggle, GET)
-	PRO(bool, ReleaseOnSameGroupPressed, GET)
+	PRO(bool, ReleaseOnSameGroupPressed, GET_SET)
 	PRO(bool, Toggled, GET)
     PRO(bool, OnlyReleaseOnClickOutside, GET)
 

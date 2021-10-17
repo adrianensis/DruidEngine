@@ -7,16 +7,15 @@
 #include "Maths/Geometry.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Maths/Matrix4.hpp"
-
+#include "Graphics/Animation/Animation.hpp"
 
 class Material;
 class Mesh;
-class Animation;
 class Chunk;
 
 CLASS(Renderer, Component)
 {
-	PRI(SMap(SStr, Animation *), Animations, GETREF_CONST)
+	PRI(SMap(SStr, Animation), Animations, GETREF_CONST)
 	PRI(Matrix4, RenderereModelMatrix, NONE)
 	PRI(bool, PositionOffsetDirty, NONE)
 	PRI(bool, ForceRecalculateVertices, NONE)
@@ -44,7 +43,7 @@ public:
 
 	void init() OVR;
 	void setAnimation(const SStr &name);
-	void addAnimation(const SStr &name, Animation *animation);
+	void addAnimation(const SStr &name, const Animation &animation);
     void removeAnimation(const SStr &name);
 	bool hasAnimations() const;
 	void updateAnimation();

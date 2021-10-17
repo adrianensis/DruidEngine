@@ -18,11 +18,23 @@ CLASS(Sprites, ObjectBase)
     PRI(SStr, SpritesUIGroup, NONE)
     PRI(SStr, SpritePreviewUIGroup, NONE)
 	PRI(SStr, AtlasUIGroup, NONE)
+    PRI(SStr, FramesUIGroup, NONE)
+    PRI(SLst(GameObject*), Frames, NONE)
 	PRI(bool, IsVisible, GET)
 
     PRI(u32, SpritesCount, NONE)
 
     PRI(GameObject*, CurrentSprite, NONE)
+
+    PRI(UIPanel*, SpritePreview, NONE)
+
+    PRI(GameObject*, SelectedAtlasTile, NONE)
+
+    PRI(Material*, CurrentAtlasMaterial, GET)
+
+    PRI(bool, IsRecording, GET)
+
+    PRI(SStr, CurrentAnimationName, NONE)
 
 private:
 
@@ -32,7 +44,7 @@ private:
 	void createAtlasSelectors();
     void createSpriteMenu();
 
-    void createSpritePreview(GameObject* sprite);
+    void refreshSpritePreview(GameObject* sprite);
 
     void addSprite();
     void removeSprite();
@@ -41,7 +53,7 @@ private:
     void removeAnimation();
 
     void addFrame();
-    void removeFrame();
+    void refreshFrames();
 
 public:
 

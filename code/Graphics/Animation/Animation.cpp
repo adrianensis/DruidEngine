@@ -6,7 +6,6 @@
 
 Animation::Animation()
 {
-	mFrames = nullptr;
 	mCurrentFrameNumber = 0;
 	mSpeed = 1.0f;
 	mTimeAccumulator = 0.0f;
@@ -14,33 +13,26 @@ Animation::Animation()
 
 Animation::~Animation()
 {
-	LIST_DELETE_CONTENT(*mFrames)
-
-	DELETE(mFrames);
 }
 
 void Animation::init()
 {
-	mFrames = NEW(SVec(AnimationFrame *));
+	mFrames.clear();
 }
 
-void Animation::addFrame(AnimationFrame *frame)
-{
-	mFrames->push_back(frame);
-}
 u32 Animation::getNumberOfFrames() const
 {
-	return mFrames->size();
+	return mFrames.size();
 }
 
-Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+Animation Animation::create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 							 f32 height, f32 speed)
 {
 	// TODO: check if coordinates are > 1 and < 0 !!!!!
 
-	Animation *animation = NEW(Animation);
-	animation->init();
-	animation->setSpeed(speed);
+	Animation animation;
+	animation.init();
+	animation.setSpeed(speed);
 
 	i32 horizontalDir = 0;
 	i32 verticalDir = 0;
@@ -78,44 +70,37 @@ Animation *Animation::create(u32 frameCount, bool horizontal, bool reverse, cons
 		if (verticalDir != 0)
 			pos.y += i * height;
 
-		AnimationFrame *frame = NEW(AnimationFrame);
-		frame->init(pos, width, height);
-		animation->addFrame(frame);
+		AnimationFrame frame;
+		frame.init(pos, width, height);
+        animation.mFrames.push_back(frame);
 	}
 
 	return animation;
 }
 
-const AnimationFrame *Animation::getNextFrame()
+const AnimationFrame& Animation::getNextFrame()
 {
-	const AnimationFrame *frame = nullptr;
+	// speed -> frame/second.
+    // time -> time of one frame.
 
-	if (mFrames->size() > 0)
-	{
-		// speed -> frame/second.
-		// time -> time of one frame.
+    f32 time = (1.0 / (mSpeed)) * 1000.0f; // in milliseconds !
 
-		f32 time = (1.0 / (mSpeed)) * 1000.0f; // in milliseconds !
+    mTimeAccumulator += Time::getInstance()->getDeltaTimeMillis();
 
-		mTimeAccumulator += Time::getInstance()->getDeltaTimeMillis();
+    //ECHO("RENDERER NUM")
 
-		//ECHO("RENDERER NUM")
+    // if delta time is greater than 'one frame time'
+    // then -> change to the next frame.
+    if (mTimeAccumulator >= time)
+    {
+        mTimeAccumulator = 0.0f;
+        mCurrentFrameNumber = (mCurrentFrameNumber + 1) % mFrames.size();
+    }
 
-		// if delta time is greater than 'one frame time'
-		// then -> change to the next frame.
-		if (mTimeAccumulator >= time)
-		{
-			mTimeAccumulator = 0.0f;
-			mCurrentFrameNumber = (mCurrentFrameNumber + 1) % mFrames->size();
-		}
-
-		frame = mFrames->at(mCurrentFrameNumber);
-	}
-
-	return frame;
+    return mFrames.at(mCurrentFrameNumber);
 }
 
-const AnimationFrame *Animation::getCurrentFrame() const
+const AnimationFrame& Animation::getCurrentFrame() const
 {
-	return mFrames->at(mCurrentFrameNumber);
+	return mFrames.at(mCurrentFrameNumber);
 }

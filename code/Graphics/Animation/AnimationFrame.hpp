@@ -12,4 +12,11 @@ CLASS(AnimationFrame, ObjectBase)
 
 public:
 	void init(const Vector2 &position, f32 width, f32 height);
+
+    COPY(AnimationFrame)
+    {
+        DO_COPY(Position)
+        DO_COPY(Width)
+        DO_COPY(Height)
+    }
 };

@@ -1,24 +1,19 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 #include "Maths/Vector2.hpp"
-
-
-class AnimationFrame;
+#include "Graphics/Animation/AnimationFrame.hpp"
 
 CLASS(Animation, ObjectBase)
 {
-	PRI(SVec(AnimationFrame *) *, Frames, NONE);
+	PRI(SVec(AnimationFrame), Frames, GETREF_CONST);
 	PRI(u32, CurrentFrameNumber, NONE)
 	PRI(f32, TimeAccumulator, NONE)
-	PRI(f32, Speed, NONE)
+	PRI(f32, Speed, GET_SET)
 
 public:
 	Animation();
 	~Animation() OVR;
-
-	SET(Speed);
 
 	void init();
 
@@ -33,11 +28,20 @@ public:
 	* /param speed The speed of the animation.
 	* /returns The animation.
 	*/
-	static Animation *create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
+	static Animation create(u32 frameCount, bool horizontal, bool reverse, const Vector2 &startPosition, f32 width,
 							 f32 height, f32 speed);
 
-	void addFrame(AnimationFrame * frame);
 	u32 getNumberOfFrames() const;
-	const AnimationFrame *getNextFrame();
-	const AnimationFrame *getCurrentFrame() const;
+	const AnimationFrame &getNextFrame();
+	const AnimationFrame &getCurrentFrame() const;
+
+    COPY(Animation)
+    {
+        DO_COPY(Speed);
+
+        FOR_LIST(it, other->mFrames)
+        {
+            this->mFrames.push_back(*it);
+        }
+    }
 };

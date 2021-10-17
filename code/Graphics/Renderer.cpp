@@ -45,7 +45,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-	MAP_DELETE_CONTENT(mAnimations)
+	//MAP_DELETE_CONTENT(mAnimations)
 }
 
 void Renderer::init()
@@ -74,7 +74,7 @@ void Renderer::setAnimation(const SStr &name)
 {
 	if (MAP_CONTAINS(mAnimations, name))
 	{
-		mCurrentAnimation = mAnimations[name];
+		mCurrentAnimation = &mAnimations[name];
 	}
 };
 
@@ -85,7 +85,7 @@ void Renderer::setAnimation(const SStr &name)
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const SStr &name, Animation *animation)
+void Renderer::addAnimation(const SStr &name, const Animation& animation)
 {
 	MAP_INSERT(mAnimations, name, animation);
 };
@@ -99,11 +99,11 @@ void Renderer::updateAnimation()
 {
 	if (mMaterial)
 	{
-		if (hasAnimations() && mCurrentAnimation)
+		if (hasAnimations() && mCurrentAnimation && !mCurrentAnimation->getFrames().empty())
 		{
-			const AnimationFrame *frame = mCurrentAnimation->getNextFrame();
-			mRegion.setLeftTop(frame->getPosition());
-			mRegion.setSize(Vector2(frame->getWidth(), frame->getHeight()));
+			const AnimationFrame& frame = mCurrentAnimation->getNextFrame();
+			mRegion.setLeftTop(frame.getPosition());
+			mRegion.setSize(Vector2(frame.getWidth(), frame.getHeight()));
 		}
 	}
 };
