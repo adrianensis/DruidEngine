@@ -19,4 +19,7 @@ public:
         DO_COPY(Width)
         DO_COPY(Height)
     }
+
+    SERIALIZE();
+    DESERIALIZE();
 };

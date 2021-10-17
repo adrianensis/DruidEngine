@@ -85,13 +85,22 @@ void Renderer::setAnimation(const SStr &name)
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const SStr &name, const Animation& animation)
+void Renderer::addAnimation(const SStr &name, Animation animation)
 {
+    animation.setName(name);
 	MAP_INSERT(mAnimations, name, animation);
 };
 
 void Renderer::removeAnimation(const SStr &name)
 {
+    if (MAP_CONTAINS(mAnimations, name))
+	{
+		if(mCurrentAnimation == &mAnimations[name])
+        {
+            mCurrentAnimation = nullptr;
+        }
+	}
+
     mAnimations.erase(name);
 }
 
@@ -179,6 +188,14 @@ SERIALIZE_IMPL(Renderer)
 	DO_SERIALIZE("material", materialPath)
 	DO_SERIALIZE("region", mRegion)
 	DO_SERIALIZE("layer", mLayer)
+
+    SLst(Animation) tmpList;
+    FOR_MAP(it, mAnimations)
+    {
+        tmpList.push_back(it->second);
+    }
+
+    DO_SERIALIZE_LIST("animations", tmpList)
 }
 
 DESERIALIZE_IMPL(Renderer)
@@ -192,4 +209,17 @@ DESERIALIZE_IMPL(Renderer)
 	DO_DESERIALIZE("layer", mLayer)
 
 	mMesh = Mesh::getRectangle();
+
+    SLst(Animation) tmpList;
+    DO_DESERIALIZE_LIST("animations", tmpList, [](const JSON &json)
+    {
+        Animation animation;
+        animation.deserialize(json);
+        return animation;
+    });
+
+    FOR_LIST(it, tmpList)
+    {
+        MAP_INSERT(mAnimations, (*it).getName(), *it)
+    }
 }

@@ -43,7 +43,7 @@ public:
 
 	void init() OVR;
 	void setAnimation(const SStr &name);
-	void addAnimation(const SStr &name, const Animation &animation);
+	void addAnimation(const SStr &name, Animation animation);
     void removeAnimation(const SStr &name);
 	bool hasAnimations() const;
 	void updateAnimation();

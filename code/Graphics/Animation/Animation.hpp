@@ -6,6 +6,7 @@
 
 CLASS(Animation, ObjectBase)
 {
+    PRI(SStr, Name, GETREF_CONST_SET)
 	PRI(SVec(AnimationFrame), Frames, GETREF_CONST);
 	PRI(u32, CurrentFrameNumber, NONE)
 	PRI(f32, TimeAccumulator, NONE)
@@ -44,4 +45,7 @@ public:
             this->mFrames.push_back(*it);
         }
     }
+
+    SERIALIZE();
+    DESERIALIZE();
 };

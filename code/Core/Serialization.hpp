@@ -51,23 +51,26 @@ public:
 	template<class T>
 	static void deserializeTemplated(T& value, const JSON& json)
 	{
-		if constexpr (IS_BASE_OF(ISerializable, REMOVE_POINTER(REMOVE_REF(T))))
-		{
-			if constexpr (IS_POINTER(T))
-			{
-				if(value)
-				{
-					value->deserialize(json);
-				}
-			}
-			else
-			{
-				value.deserialize(json);
-			}
-		}
-		else
-		{
-			value = json.get<T>();
-		}
+		if(!json.empty())
+        {
+            if constexpr (IS_BASE_OF(ISerializable, REMOVE_POINTER(REMOVE_REF(T))))
+            {
+                if constexpr (IS_POINTER(T))
+                {
+                    if(value)
+                    {
+                        value->deserialize(json);
+                    }
+                }
+                else
+                {
+                    value.deserialize(json);
+                }
+            }
+            else
+            {
+                value = json.get<T>();
+            }
+        }
 	}
 };

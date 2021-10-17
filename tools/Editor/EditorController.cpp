@@ -57,8 +57,8 @@ void EditorController::init()
 
 	mBrush.init(this);
 	mMenuBar.init(this);
-	mToolsBar.init(this);
 	mInfoBar.init(this);
+	mToolsBar.init(this);
 	mLayersBar.init(this);
 	mSprites.init(this);
 
@@ -196,6 +196,7 @@ void EditorController::forEachSelectedTile(TileCallback tileCallback)
 
 void EditorController::saveScene()
 {
+    mSprites.saveSprites();
 	ScenesManager::getInstance()->getCurrentScene()->saveScene("config/tmp.json");
 }
 

@@ -265,6 +265,14 @@ FOR_LIST(__it, Var)\
 	}\
 }
 
+// #define DO_SERIALIZE_MAP(Name, Var)\
+// JSON __jsonMap = JSON::object();\
+// FOR_MAP(__it, Var)\
+// {\
+//     __jsonMap[__it->first]  = SerializationUtils::serializeTemplated<decltype(__it->second)>(__it->second);\
+// }\
+// json[Name] = __jsonMap;
+
 // DESERIALIZE
 
 #define DESERIALIZE()\
@@ -280,12 +288,26 @@ void __VA_ARGS__::deserialize(const JSON &json)
 SerializationUtils::deserializeTemplated<decltype(Var)>(Var, json[Name]);
 
 #define DO_DESERIALIZE_LIST(Name, Var, ConstructionLambda)\
-FOR_LIST(__it, json[Name])\
+if(!json.empty() && json.contains(Name))\
 {\
-	auto object = ConstructionLambda(*__it);\
-	SerializationUtils::deserializeTemplated<decltype(object)>(object, (*__it));\
-	(Var).push_back(object);\
+    FOR_LIST(__it, json[Name])\
+    {\
+        auto object = ConstructionLambda(*__it);\
+        SerializationUtils::deserializeTemplated<decltype(object)>(object, (*__it));\
+        (Var).push_back(object);\
+    }\
 }
+
+// #define DO_DESERIALIZE_MAP(Name, Var, ConstructionLambda)\
+// if(!json.empty() && json.contains(Name))\
+// {\
+//     FOR_LIST(__it, json[Name])\
+//     {\
+//         auto object = ConstructionLambda(*__it);\
+//         SerializationUtils::deserializeTemplated<decltype(object)>(object, (*__it));\
+//         MAP_INSERT(Var, json[Name], object);\
+//     }\
+// }
 
 // --------------------------------------------------------
 // FOR LOOPS

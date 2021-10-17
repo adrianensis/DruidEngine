@@ -1,0 +1,968 @@
+{
+    "sprites": [
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.25,
+                            "y": 0.9375
+                        },
+                        "size": {
+                            "x": 0.125,
+                            "y": 0.0625
+                        }
+                    },
+                    "layer": 0,
+                    "animations": [
+                        {
+                            "name": "idle",
+                            "speed": 6.0,
+                            "frames": [
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.5,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.625,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.5,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.625,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.5,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.625,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.5,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.625,
+                                        "y": 0.0625
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                }
+                            ]
+                        },
+                        {
+                            "name": "run",
+                            "speed": 6.0,
+                            "frames": [
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.125,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.25,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                },
+                                {
+                                    "position": {
+                                        "x": 0.375,
+                                        "y": 0.0
+                                    },
+                                    "width": 0.125,
+                                    "height": 0.0625
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "size": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "size": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "size": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "size": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        },
+        {
+            "class": "GameObject",
+            "is_static": false,
+            "should_persist": false,
+            "tag": "",
+            "transform": {
+                "class": "Transform",
+                "local_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "components": [
+                {
+                    "class": "Renderer",
+                    "material": "resources/tiles.png",
+                    "region": {
+                        "left_top": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "size": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "layer": 0
+                }
+            ]
+        }
+    ]
+}

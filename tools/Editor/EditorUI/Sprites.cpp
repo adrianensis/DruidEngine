@@ -41,6 +41,15 @@ Sprites::Sprites()
     mCurrentAtlasMaterial = nullptr;
 }
 
+Sprites::~Sprites()
+{
+    FOR_LIST(it, mSprites)
+    {
+        (*it)->destroy();
+        delete *it;
+    }
+}
+
 void Sprites::init(EditorController* editorController)
 {
 	mEditorController = editorController;
@@ -280,37 +289,26 @@ void Sprites::createAtlas(Material* material)
 
 void Sprites::loadSprites()
 {
-    mCurrentAnimationName.clear();
+    ConfigObject configMap;
 
-    UI::getInstance()->getUIBuilder().
-	setLayout(UILayout::HORIZONTAL).
-	setPosition(Vector2(-1.0f, -0.8f)).
-	setLayer(0).
-	setGroup(mSpritesUIGroup).
-	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
-	setSize(Vector2(0.1f, 0.1f));
+	configMap.readFromJsonFile("tools/Editor/config/sprites.json");
 
-	FOR_RANGE(i, 0, mSpritesCount)
-    {
-        UI::getInstance()->getUIBuilder().
-        setAdjustSizeToText(false).
-        setText("").
-        setMaterial(mCurrentAtlasMaterial).
-        create<UIToggleButton>().
-        getUIElement<UIToggleButton>()->
-        setOnPressedCallback([&](UIElement* uiElement)
-        {
-            mCurrentSprite = uiElement;
-            refreshSpritePreview(uiElement);
-        });
-    }
+    deserialize(configMap.getJson());
 
-    UI::getInstance()->getUIBuilder().
-    setText("").
-    restoreSeparatorSize().
-    restoreMaterial().
-    restoreStyle().
-	setGroup("");
+    refreshSprites();
+}
+
+void Sprites::saveSprites()
+{
+    ConfigObject configMap;
+	configMap.init();
+
+	JSON json;
+	serialize(json);
+
+	configMap.setJson(json);
+
+	configMap.writeToJsonFile("tools/Editor/config/sprites.json");
 }
 
 void Sprites::refreshSpritePreview(GameObject* sprite)
@@ -391,12 +389,12 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
         setText("-").
         create<UIButton>().
         getUIElement<UIButton>()->
-        setOnPressedCallback([&, renderer, animationName](UIElement* uiElement)
+        setOnPressedCallback([&, sprite, renderer, animationName](UIElement* uiElement)
         {
             renderer->removeAnimation(animationName);
             TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
 			{
-                refreshSpritePreview(mCurrentSprite);
+                refreshSpritePreview(sprite);
 			});
         });
 
@@ -411,9 +409,21 @@ void Sprites::addSprite()
 {
     if(mCurrentAtlasMaterial)
     {
-        ++mSpritesCount;
-        UI::getInstance()->destroyAllElementsInGroup(mSpritesUIGroup);
-        loadSprites();
+        // NOTE: this sprite game objects are not added to the scene, just needed to hold sprite info.
+        GameObject* sprite = NEW(GameObject);
+        sprite->init();
+
+        Renderer* renderer = NEW(Renderer);
+        renderer->init();
+        renderer->setMesh(Mesh::getRectangle());
+        renderer->setLayer(0);
+        renderer->setMaterial(mCurrentAtlasMaterial);
+
+        sprite->addComponent<Renderer>(renderer);
+
+        mSprites.push_back(sprite);
+
+        refreshSprites();
     }
 }
 
@@ -421,13 +431,48 @@ void Sprites::removeSprite()
 {
     if(mCurrentAtlasMaterial)
     {
-        if(mSpritesCount > 0)
-        {
-            --mSpritesCount;
-            UI::getInstance()->destroyAllElementsInGroup(mSpritesUIGroup);
-            loadSprites();
-        }
+        //refreshSprites();
     }
+}
+
+void Sprites::refreshSprites()
+{
+    UI::getInstance()->destroyAllElementsInGroup(mSpritesUIGroup);
+
+    mCurrentAnimationName.clear();
+
+    UI::getInstance()->getUIBuilder().
+	setLayout(UILayout::HORIZONTAL).
+	setPosition(Vector2(-1.0f, -0.8f)).
+	setLayer(0).
+	setGroup(mSpritesUIGroup).
+	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+	setSize(Vector2(0.1f, 0.1f));
+
+	FOR_LIST(it, mSprites)
+    {
+        Renderer* spriteRenderer = (*it)->getFirstComponent<Renderer>();
+
+        UI::getInstance()->getUIBuilder().
+        setAdjustSizeToText(false).
+        setText("").
+        setMaterial(spriteRenderer->getMaterial()).
+        create<UIButton>().
+        getUIElement<UIButton>()->
+        setOnPressedCallback([&, sprite = *it](UIElement* uiElement)
+        {
+            mCurrentSpriteSelector = uiElement;
+            mCurrentSprite = sprite;
+            refreshSpritePreview(sprite);
+        });
+    }
+
+    UI::getInstance()->getUIBuilder().
+    setText("").
+    restoreSeparatorSize().
+    restoreMaterial().
+    restoreStyle().
+	setGroup("");
 }
 
 void Sprites::addAnimation(const SStr& name)
@@ -435,6 +480,7 @@ void Sprites::addAnimation(const SStr& name)
     if(mCurrentSprite)
     {
         Renderer* renderer = mCurrentSprite->getFirstComponent<Renderer>();
+        Renderer* rendererSpriteSelector = mCurrentSpriteSelector->getFirstComponent<Renderer>();
 
         Renderer* firstFrameRenderer = mFrames.front()->getFirstComponent<Renderer>();
 
@@ -449,6 +495,7 @@ void Sprites::addAnimation(const SStr& name)
         );
 
         renderer->addAnimation(name, animation);
+        rendererSpriteSelector->addAnimation(name, animation);
         refreshSpritePreview(mCurrentSprite);
     }
 }
@@ -521,4 +568,24 @@ void Sprites::refreshFrames()
         restoreStyle().
         setGroup("");
     }
+}
+
+SERIALIZE_IMPL(Sprites)
+{
+    DO_SERIALIZE_LIST("sprites", mSprites);
+}
+
+DESERIALIZE_IMPL(Sprites)
+{
+    DO_DESERIALIZE_LIST("sprites", mSprites, [](const JSON &json)
+    {
+        GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);
+        gameObject->init();
+        return gameObject;
+    })
+}
+
+DESERIALIZE_IMPL(SpriteEditorObject)
+{
+
 }

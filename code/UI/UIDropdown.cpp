@@ -59,7 +59,7 @@ void UIDropdown::setEntriesVisibility(bool visible)
 			UI::getInstance()->getUIBuilder().saveData().
 				setLayout(UILayout::VERTICAL).
 				//setSize(scale).
-				setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
+				setPosition(getTransform()->getWorldPosition() + Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
 				setTextSize(mConfig.mTextSize).
 				setAdjustSizeToText(true).
 				setLayer(mConfig.mLayer);
@@ -75,9 +75,6 @@ void UIDropdown::setEntriesVisibility(bool visible)
 
 				UIDropdownButton *button = UI::getInstance()->getUIBuilder().getUIElement<UIDropdownButton>();
 				button->setOnPressedCallback(onPressedCallback);
-
-				Transform *t = button->getTransform();
-				t->setParent(getTransform());
 
 				button->setParentDropdown(this);
 
