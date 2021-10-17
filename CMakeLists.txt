@@ -88,8 +88,8 @@ include_directories(${OPENGL_INCLUDE_DIR})
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory("${DEPENDENCIES_DIR}/glfw-3.2.1")
-include_directories("${DEPENDENCIES_DIR}/glfw-3.2.1/include")
+add_subdirectory("${DEPENDENCIES_DIR}/glfw-3.3.4")
+include_directories("${DEPENDENCIES_DIR}/glfw-3.3.4/include")
 
 # glad
 set(GLAD_SOURCE "${DEPENDENCIES_DIR}/glad/src/glad.c")

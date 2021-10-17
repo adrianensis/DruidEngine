@@ -61,7 +61,7 @@ elif system_name == "Win32":
 # ------------------------------------------------------------------------
 
 # GLFW
-extract(os.path.join(origin_path_base, "glfw-3.2.1.zip"), destiny)
+extract(os.path.join(origin_path_base, "glfw-3.3.4.zip"), destiny)
 
 # ------------------------------------------------------------------------
 

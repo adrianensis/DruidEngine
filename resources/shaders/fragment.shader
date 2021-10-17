@@ -5,8 +5,8 @@ precision mediump float;
 out vec4 FragColor;
 
 // Passed in from the vertex shader.
-varying vec2 vTexcoord;
-varying vec4 vColor;
+in vec2 vTexcoord;
+in vec4 vColor;
 
 uniform float time;
 

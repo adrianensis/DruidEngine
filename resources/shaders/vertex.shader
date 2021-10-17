@@ -12,8 +12,8 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texcoord;
 layout (location = 2) in vec4 color;
 
-varying vec2 vTexcoord;
-varying vec4 vColor;
+out vec2 vTexcoord;
+out vec4 vColor;
 
 void main()
 {
