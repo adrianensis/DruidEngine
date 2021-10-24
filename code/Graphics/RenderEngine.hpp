@@ -40,7 +40,7 @@ private:
 	PRI(Camera *, Camera, GET_SET)
 	PRI(bool, CameraDirtyTranslation, GET)
 
-	PRI(SMap(u32, LayerData *), LayersData, GETREF_CONST_SET);
+	PRI(SMap(u32, LayerData), LayersData, GETREF_SET);
 	PRI(u32, MaxLayers, GET)
 	PRI(u32, MaxLayersUsed, NONE)
 

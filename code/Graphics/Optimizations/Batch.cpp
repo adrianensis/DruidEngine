@@ -285,10 +285,10 @@ void Batch::addRenderer(Renderer *renderer)
 
 	if (!renderer->isStatic())
 	{
-		mRenderEngine->getLayersData().at(renderer->getLayer())->mDynamicObjectsCount++;
+		mRenderEngine->getLayersData().at(renderer->getLayer()).mDynamicObjectsCount++;
 	}
 
-	if (mRenderEngine->getLayersData().at(renderer->getLayer())->mSorted)
+	if (mRenderEngine->getLayersData().at(renderer->getLayer()).mSorted)
 	{
 		insertSorted(renderer, renderers);
 	}
@@ -310,7 +310,7 @@ void Batch::internalRemoveRendererFromList(SLst(Renderer *)::iterator &it, SLst(
 	{
 		if (!renderer->isStatic())
 		{
-			mRenderEngine->getLayersData().at(renderer->getLayer())->mDynamicObjectsCount--;
+			mRenderEngine->getLayersData().at(renderer->getLayer()).mDynamicObjectsCount--;
 		}
 	}
 	else

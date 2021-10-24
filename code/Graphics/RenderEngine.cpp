@@ -76,8 +76,8 @@ void RenderEngine::init(f32 sceneSize)
 	mMaxLayers = EngineConfig::getInstance()->getConfig().at("scene").at("maxLayers").get<u32>();
 	FOR_RANGE(i, 0, mMaxLayers)
 	{
-		LayerData *layerData = NEW(LayerData);
-		layerData->mSorted = EngineConfig::getInstance()->getConfig().at("scene").at("sortByYCoordinate").get<bool>();
+		LayerData layerData;
+		layerData.mSorted = EngineConfig::getInstance()->getConfig().at("scene").at("sortByYCoordinate").get<bool>();
 		MAP_INSERT(mLayersData, i, layerData);
 	}
 }
@@ -130,7 +130,7 @@ void RenderEngine::renderBatches()
 
 	FOR_RANGE(layer, 0, mMaxLayers)
 	{
-		if (mLayersData.at(layer)->mVisible)
+		if (mLayersData.at(layer).mVisible)
 		{
 			mBatchesMap.render(layer);
 		}
@@ -204,8 +204,6 @@ void RenderEngine::terminate()
 	}
 
 	LIST_DELETE_CONTENT(mChunks);
-
-	MAP_DELETE_CONTENT(mLayersData)
 
 	Mesh::freeRectangle();
 
