@@ -57,19 +57,19 @@ public:
 		}
 	};
 
-	VIR ~ObjectBase(){};
+	virtual ~ObjectBase(){};
 
 	ObjectId getObjectId()
 	{
 		return mObjectId;
 	}
 
-	VIR ClassId getClassId() const
+	virtual ClassId getClassId() const
 	{
 		return ObjectBase::getClassIdStatic();
 	}
 
-	VIR SStr getClassName() const
+	virtual SStr getClassName() const
 	{
 		return ObjectBase::getClassNameStatic();
 	}
@@ -98,7 +98,7 @@ public:
 
 	// Assignment
 
-	VIR void copy(const ObjectBase *other)
+	virtual void copy(const ObjectBase *other)
 	{
 	}
 

@@ -17,9 +17,9 @@ CLASS(Component, ObjectBase)
 public:
 	Component();
 
-	VIR void init() = 0;
+	virtual void init() = 0;
 
-	VIR void onComponentAdded() { };
+	virtual void onComponentAdded() { };
 
 	bool isStatic();
 
@@ -41,7 +41,7 @@ public:
 
 	void destroy();
 
-	VIR void onDestroy(){};
+	virtual void onDestroy(){};
 
 	SERIALIZE();
 	DESERIALIZE();

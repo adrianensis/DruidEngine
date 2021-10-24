@@ -22,7 +22,7 @@ private:
 
 public:
 	Shader();
-	~Shader() OVR;
+	~Shader() override;
 
 	static Shader *getDefaultShader();
 	static Shader *getDebugShader();

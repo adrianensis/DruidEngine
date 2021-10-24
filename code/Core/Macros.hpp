@@ -55,7 +55,7 @@ void __customMain()
 
 #define CLASS_MACRO_CONSTRUCTOR(ClassName) \
 	ClassName() = default;        \
-	~ClassName() OVR = default;
+	~ClassName() override = default;
 
 #define CLASS_MACRO_COMMON(ClassName, ...) \
 	class ClassName##_PARENT : public __VA_ARGS__           \
@@ -94,7 +94,7 @@ public Singleton<__VA_ARGS__>
 	};
 
 #define GENERATE_ID_VIRTUAL(...)                         \
-	ClassId getClassId() const OVR                  \
+	ClassId getClassId() const override                  \
 	{                                                    \
 		return __VA_ARGS__##_PARENT::getClassIdStatic(); \
 	};
@@ -107,7 +107,7 @@ public Singleton<__VA_ARGS__>
 	};
 
 #define GENERATE_NAME_VIRTUAL(...)                         \
-	SStr getClassName() const OVR              \
+	SStr getClassName() const override              \
 	{                                                      \
 		return __VA_ARGS__##_PARENT::getClassNameStatic(); \
 	};
@@ -126,7 +126,7 @@ public Singleton<__VA_ARGS__>
 	};
 
 #define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...) \
-	VIR void dynamicDestructor() OVR { this->~__VA_ARGS__(); };
+	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
 
 #define GENERATE_METADATA(...)          \
 protected:\
@@ -148,9 +148,6 @@ private:
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
-
-#define OVR override
-#define VIR virtual
 
 #define GETTER_TYPE(Var)                                            \
 	COND_TYPE(                                                      \
@@ -207,7 +204,7 @@ private:
 // --------------------------------------------------------
 
 #define COPY(...)                                                                        \
-	VIR void copy(const ObjectBase *other) OVR                                  \
+	virtual void copy(const ObjectBase *other) override                                  \
 	{                                                                                    \
 		if (this != other)                                                               \
 		{                                                                                \
@@ -229,7 +226,7 @@ private:
 // SERIALIZE
 
 #define SERIALIZE()\
-VIR void serialize(JSON &json) const OVR
+virtual void serialize(JSON &json) const override
 
 #define SUPER_SERIALIZE()\
 Super::serialize(json);
@@ -276,7 +273,7 @@ FOR_LIST(__it, Var)\
 // DESERIALIZE
 
 #define DESERIALIZE()\
-VIR void deserialize(const JSON &json) OVR
+virtual void deserialize(const JSON &json) override
 
 #define SUPER_DESERIALIZE()\
 Super::deserialize(json);

@@ -9,7 +9,7 @@ CLASS(UIDropdownButton, UIButton)
 {
 	PRI(UIDropdown *, ParentDropdown, GET_SET)
 public:
-	VIR void onPostReleased() OVR;
+	virtual void onPostReleased() override;
 };
 
 CLASS(UIDropdown, UIButton)
@@ -38,10 +38,10 @@ private:
 	void setEntriesVisibility(bool visible);
 
 public:
-	VIR void init() OVR;
-	VIR void onDestroy() OVR;
+	virtual void init() override;
+	virtual void onDestroy() override;
 
-	VIR void onPostReleased() OVR;
+	virtual void onPostReleased() override;
 
 	UIDropdown& addOption(const SStr & label, UIElementCallback onPressedCallback);
 	void toggle();

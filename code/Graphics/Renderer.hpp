@@ -39,9 +39,9 @@ CLASS(Renderer, Component)
 
 public:
 	Renderer();
-	~Renderer() OVR;
+	~Renderer() override;
 
-	void init() OVR;
+	void init() override;
 	void setAnimation(const SStr &name);
 	void addAnimation(const SStr &name, Animation animation);
     void removeAnimation(const SStr &name);

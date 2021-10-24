@@ -17,7 +17,7 @@ CLASS(Chunk, ObjectBase)
 	PRI(f32, Radius, GET)
 
 public:
-	~Chunk() OVR;
+	~Chunk() override;
 	void init();
 	void set(const Vector3 &leftTop, f32 size);
 	void load();

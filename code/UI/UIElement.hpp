@@ -20,7 +20,7 @@ CLASS(FunctorUIElement, Functor<UIElementCallback>)
 
 public:
 
-	VIR void execute() OVR
+	virtual void execute() override
 	{
 		if (mCallback)
 		{
@@ -66,22 +66,22 @@ protected:
 	void subscribeToEnterEvent();
 	void subscribeToEscEvent();
 
-	VIR void onChar(char character);
+	virtual void onChar(char character);
     void onBackspace();
 
     void onPressedEventReceived();
 	void onReleasedEventReceived();
 
-	VIR void onPrePressed() { };
-	VIR void onPreReleased() { };
-    VIR void onPostPressed() { };
-	VIR void onPostReleased() { };
+	virtual void onPrePressed() { };
+	virtual void onPreReleased() { };
+    virtual void onPostPressed() { };
+	virtual void onPostReleased() { };
 
-	VIR void onMouseOver();
+	virtual void onMouseOver();
 
-	VIR void onScroll(f32 scroll);
+	virtual void onScroll(f32 scroll);
 
-	VIR void onFocusLost();
+	virtual void onFocusLost();
 	void onFocus();
 
 	void press();
@@ -89,9 +89,9 @@ protected:
 	void release(bool force = false);
 
 public:
-	VIR void init() OVR;
-	VIR void initFromConfig(const UIElementConfig& config);
-	VIR void onDestroy();
+	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config);
+	virtual void onDestroy();
 
 	void simulateClick();
 
@@ -99,7 +99,7 @@ public:
 
 	bool isMouseCursorInsideElement();
 
-	VIR void setText(const SStr &text) { };
+	virtual void setText(const SStr &text) { };
 
 	void setOnPressedCallback(UIElementCallback callback)
 	{
@@ -127,6 +127,6 @@ public:
 
 	void setComponentsCache();
 
-	VIR void setVisibility(bool visibility);
+	virtual void setVisibility(bool visibility);
 	bool isVisible();
 };

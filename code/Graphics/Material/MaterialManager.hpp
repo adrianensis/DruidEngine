@@ -14,7 +14,7 @@ CLASS(MaterialManager, ObjectBase), SINGLETON(MaterialManager)
 	PRI(Material *, NoTextureMaterial, NONE);
 
 public:
-	~MaterialManager() OVR;
+	~MaterialManager() override;
 
 	void init();
 	Texture *loadTexture(const SStr &path);

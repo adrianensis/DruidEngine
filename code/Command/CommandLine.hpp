@@ -16,7 +16,7 @@ CLASS(CommandFunctor, Functor<CommandCallback>)
 
 public:
 
-	void execute() OVR
+	void execute() override
 	{
 		if (mCallback)
 		{

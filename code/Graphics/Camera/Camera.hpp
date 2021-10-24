@@ -30,10 +30,10 @@ CLASS(Camera, Component)
 
 public:
 	Camera();
-	~Camera() OVR;
+	~Camera() override;
 
-	void init() OVR;
-	void onComponentAdded() OVR;
+	void init() override;
+	void onComponentAdded() override;
 	void recalculate();
 
 	const Matrix4 &getProjectionMatrix() const;

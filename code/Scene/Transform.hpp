@@ -39,9 +39,9 @@ public:
 	static const Vector3 smForward;
 
 	Transform();
-	~Transform() OVR;
+	~Transform() override;
 
-	void init() OVR;
+	void init() override;
 
 	/*!
 	\brief Translate the object by an increment vector.

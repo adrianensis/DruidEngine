@@ -16,16 +16,16 @@ CLASS(UIText, UIElement)
 
 protected:
     void setIsEditable(bool editable);
-    VIR void setBackground(const UIElementConfig& config) { };
+    virtual void setBackground(const UIElementConfig& config) { };
 
 public:
     UIText();
 
-	VIR void init() OVR;
-	VIR void initFromConfig(const UIElementConfig& config) OVR;
-	VIR void onDestroy() OVR;
+	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config) override;
+	virtual void onDestroy() override;
 
-	VIR void setText(const SStr &text) OVR;
+	virtual void setText(const SStr &text) override;
 
 	void setLayer(u32 layer)
 	{
@@ -42,5 +42,5 @@ public:
 		return mString;
 	};
 
-    VIR void setVisibility(bool visibility) OVR;
+    virtual void setVisibility(bool visibility) override;
 };

@@ -14,7 +14,7 @@ CLASS(Animation, ObjectBase)
 
 public:
 	Animation();
-	~Animation() OVR;
+	~Animation() override;
 
 	void init();
 

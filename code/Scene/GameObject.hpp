@@ -32,9 +32,9 @@ private:
 
 public:
 	GameObject();
-	~GameObject() OVR;
+	~GameObject() override;
 
-	VIR void init();
+	virtual void init();
 
 	void addComponent(Component * component, ClassId classId);
 	void removeComponent(Component * component, ClassId classId);
@@ -78,7 +78,7 @@ public:
 
 	void destroy();
 
-	VIR void onDestroy(){/*TODO: call script onDestroy here??*/};
+	virtual void onDestroy(){/*TODO: call script onDestroy here??*/};
 
 	SERIALIZE();
 	DESERIALIZE();

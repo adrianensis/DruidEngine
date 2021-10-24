@@ -47,7 +47,7 @@ CLASS(TimerManager, ObjectBase), SINGLETON(TimerManager)
 	void endTimer(Timer * timer);
 
 public:
-	~TimerManager() OVR;
+	~TimerManager() override;
 	void init();
 	TimerHandle setTimer(f32 duration, TimerDurationType durationType, SFun(void()) callback);
 	void cancelTimer(const TimerHandle &timerHandle);

@@ -14,7 +14,7 @@ CLASS(Texture, ObjectBase)
 
 public:
 	Texture();
-	~Texture() OVR;
+	~Texture() override;
 
 	void init(const SStr &path);
 	void bind();

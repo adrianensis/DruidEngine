@@ -24,7 +24,7 @@ private:
 
 public:
 	Scene();
-	~Scene() OVR;
+	~Scene() override;
 
 	void init();
 

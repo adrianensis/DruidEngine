@@ -39,7 +39,7 @@ CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
 
 public:
 
-	VIR ~UIStyleManager() OVR;
+	virtual ~UIStyleManager() override;
 	
 	void init();
 

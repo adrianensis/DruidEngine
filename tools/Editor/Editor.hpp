@@ -8,10 +8,10 @@ CLASS(Editor, Script)
 	PRI(EditorController, EditorController, GET)
 
 public:
-	void init() OVR;
-	void firstUpdate() OVR;
-	void update() OVR;
-	void terminate() OVR;
+	void init() override;
+	void firstUpdate() override;
+	void update() override;
+	void terminate() override;
 
 	void drawGrid() const;
 };

@@ -47,7 +47,7 @@ private:
 	void insertSorted(Renderer * renderer, SLst(Renderer *) * renderers);
 
 public:
-	~Batch() OVR;
+	~Batch() override;
 
 	void init(const Mesh *mesh, Material *material);
 	void bind();

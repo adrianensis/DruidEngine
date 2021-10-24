@@ -21,7 +21,7 @@ CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
 
 public:
 	ScenesManager();
-	~ScenesManager() OVR;
+	~ScenesManager() override;
 
 	void init();
 	void update();

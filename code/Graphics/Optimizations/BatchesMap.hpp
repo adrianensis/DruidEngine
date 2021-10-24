@@ -13,7 +13,7 @@ CLASS(BatchesMap, ObjectBase)
 	PRI(bool, IsWorldSpace, GET)
 
 public:
-	~BatchesMap() OVR;
+	~BatchesMap() override;
 
 	void init();
 	void render(u32 layer);

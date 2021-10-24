@@ -8,7 +8,7 @@ CLASS_TEMPLATE(Functor, T, ObjectBase)
 	PRO(T, Callback, SET)
 
 public:
-	VIR void execute() = 0;
+	virtual void execute() = 0;
 
 	// NOTE : Override in children if needed!
 	COPY(Functor<T>)
@@ -23,7 +23,7 @@ public:
 
 CLASS(FunctorVoid, Functor<SFun(void()>)){
 public:	
-	VIR void execute() OVR
+	virtual void execute() override
 	{
 		ASSERT_MSG(mCallback != nullptr, "Callback is null.");
 

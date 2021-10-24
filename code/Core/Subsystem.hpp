@@ -31,9 +31,9 @@ public:
         ;
     }
 
-    VIR void init();
+    virtual void init();
 
-    VIR void addComponent(Component * component);
+    virtual void addComponent(Component * component);
 };
 
 class SubsystemsManager : SINGLETON(SubsystemsManager)

@@ -28,12 +28,12 @@ private:
 	void setEntriesVisibility(bool visible);
 
 public:
-	VIR void init() OVR;
-	VIR void initFromConfig(const UIElementConfig& config) OVR;
-	VIR void onDestroy() OVR;
+	virtual void init() override;
+	virtual void initFromConfig(const UIElementConfig& config) override;
+	virtual void onDestroy() override;
 
 	UIList& addOption(const SStr & label, UIElementCallback onPressedCallback);
 
 	void toggle();
-	VIR void onScroll(f32 scroll) OVR;
+	virtual void onScroll(f32 scroll) override;
 };

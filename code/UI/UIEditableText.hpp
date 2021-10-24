@@ -16,8 +16,8 @@ public:
 CLASS(UIEditableText, UIText)
 {
 protected:
-    VIR void setBackground(const UIElementConfig& config) OVR;
+    virtual void setBackground(const UIElementConfig& config) override;
 
 public:
-    VIR void init() OVR;
+    virtual void init() override;
 };

@@ -31,7 +31,7 @@ CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
 	PUB(ObjectBase *, EventReceiver, NONE)
 
 public:
-	void execute() OVR
+	void execute() override
 	{
 		if (mCallback)
 		{
