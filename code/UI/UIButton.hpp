@@ -6,9 +6,9 @@ class UIText;
 
 CLASS(UIButton, UIElement)
 {
-	PRI(UIText *, Text, GET)
+	PRI_M(UIText *, Text, GET)
 
-public:
+PUB
 	virtual void init() override;
 	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;
@@ -21,6 +21,6 @@ public:
 
 CLASS(UIToggleButton, UIButton)
 {
-public:
+PUB
 	virtual void init() override;
 };

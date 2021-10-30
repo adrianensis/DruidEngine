@@ -6,9 +6,9 @@ class GameObject;
 
 CLASS(Script, Component)
 {
-	PRI(bool, FirstUpdateDone, GET)
+	PRI_M(bool, FirstUpdateDone, GET)
 
-public:
+PUB
 	virtual void init();
 	virtual void firstUpdate();
 	virtual void update();

@@ -23,25 +23,25 @@ enum class BrushPaintMode
 
 CLASS(BrushPaintData, ObjectBase)
 {
-	PUB(Rectangle, Region, NONE)
-	PUB(Material *, Material, NONE)
+	PUB_M(Rectangle, Region, NONE)
+	PUB_M(Material *, Material, NONE)
 };
 
 CLASS(Brush, ObjectBase)
 {
-	PRI(EditorController*, EditorController, NONE)
-	PRI(GameObject *, Selector, NONE)
-	PRI(SVec(GameObject *), BrushPreview, NONE)
+	PRI_M(EditorController*, EditorController, NONE)
+	PRI_M(GameObject *, Selector, NONE)
+	PRI_M(SVec(GameObject *), BrushPreview, NONE)
 
-	PRI(BrushMode, Mode, NONE)
-	PRI(BrushPaintMode, PaintMode, NONE)
+	PRI_M(BrushMode, Mode, NONE)
+	PRI_M(BrushPaintMode, PaintMode, NONE)
 
-	PRI(BrushPaintData, PaintData, GETREF)
+	PRI_M(BrushPaintData, PaintData, GETREF)
 
-	PRI(u32, BrushSize, GET)
-	PRI(u32, MaxBrushSize, NONE)
+	PRI_M(u32, BrushSize, GET)
+	PRI_M(u32, MaxBrushSize, NONE)
 
-private:
+PRI
 
 	Vector2 getMouseWorldPosition() const;
 	void onHold();
@@ -56,7 +56,7 @@ private:
 	void paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition);
 	void removeTile(const Vector2 &gridPosition);
 
-public:
+PUB
 
 	void init(EditorController* editorController);
 	void onTileSelectedFromAtlas(GameObject* tile);

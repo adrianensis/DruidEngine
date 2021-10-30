@@ -24,23 +24,23 @@ using ClassRegisterCallback = SFun(ObjectBase*());
 
 class ClassRegister
 {
-    private:        
+    PRI        
         SStr mClassName;
         ClassRegisterCallback mCallback;
-    public:
+    PUB
         ClassRegister(const SStr &className, ClassRegisterCallback callback);
 };
 
 class ClassManager: public Singleton<ClassManager>
 {
 friend ClassRegister;
-private:
+PRI
 
     static SMap(SStr, ClassRegisterCallback) smRegisters;
 
     SMap(SStr, ClassRegisterCallback) mInstanceByNameMap;
 
-public:
+PUB
 
     void init();
 

@@ -11,7 +11,7 @@ class Camera;
 
 class RenderContext
 {
-private:
+PRI
 	static GLFWwindow *smWindow;
 
 	static Vector2 smWindowSize;
@@ -20,7 +20,7 @@ private:
 
 	static void onResize(GLFWwindow *window, int width, int height);
 
-public:
+PUB
 	friend class Input;
 
 	static Vector2 getWindowSize();

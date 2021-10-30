@@ -22,27 +22,27 @@ using TileCallback = SFun(void(GameObject* tile));
 
 CLASS(EditorController, ObjectBase)
 {
-	PRI(ConfigObject, EditorConfig, GETREF_CONST)
+	PRI_M(ConfigObject, EditorConfig, GETREF_CONST)
 
-	PRI(Brush, Brush, GETREF)
-	PRI(MenuBar, MenuBar, GETREF)
-	PRI(InfoBar, InfoBar, GETREF)
-	PRI(ToolsBar, ToolsBar, GETREF)
-	PRI(LayersBar, LayersBar, GETREF)
-	PRI(Sprites, Sprites, GETREF)
+	PRI_M(Brush, Brush, GETREF)
+	PRI_M(MenuBar, MenuBar, GETREF)
+	PRI_M(InfoBar, InfoBar, GETREF)
+	PRI_M(ToolsBar, ToolsBar, GETREF)
+	PRI_M(LayersBar, LayersBar, GETREF)
+	PRI_M(Sprites, Sprites, GETREF)
 
-	PRI(SLst(GameObject*), SelectedTiles, GETREF)
+	PRI_M(SLst(GameObject*), SelectedTiles, GETREF)
 
-	PRI(u32, Layer, GET_SET)
-	PRI(SVec(Grid), Grids, NONE)
-	PRI(bool, DrawGrid, GET_SET)
+	PRI_M(u32, Layer, GET_SET)
+	PRI_M(SVec(Grid), Grids, NONE)
+	PRI_M(bool, DrawGrid, GET_SET)
 
-	PRI(Camera*, Camera, GET)
-	PRI(f32, CameraSpeed, NONE)
-	PRI(bool, CameraDragStarted, NONE)
-	PRI(Vector3, CameraDragLastPosition, NONE)
+	PRI_M(Camera*, Camera, GET)
+	PRI_M(f32, CameraSpeed, NONE)
+	PRI_M(bool, CameraDragStarted, NONE)
+	PRI_M(Vector3, CameraDragLastPosition, NONE)
 
-public:
+PUB
 
 	void init();
 	void update();

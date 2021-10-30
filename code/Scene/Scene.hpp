@@ -10,19 +10,19 @@ class GameObject;
 
 CLASS(Scene, ObjectBase)
 {
-	PRI(SLst(GameObject *), GameObjects, GET);
-	PRI(SLst(GameObject *), NewGameObjects, GET);
-	PRI(GameObject *, CameraGameObject, GET_SET)
+	PRI_M(SLst(GameObject *), GameObjects, GET);
+	PRI_M(SLst(GameObject *), NewGameObjects, GET);
+	PRI_M(GameObject *, CameraGameObject, GET_SET)
 
-	PRI(f32, Size, GET)
-	PRI(SStr, Path, GET)
+	PRI_M(f32, Size, GET)
+	PRI_M(SStr, Path, GET)
 
-	PRI(ConfigObject, LoadSceneConfig, NONE)
+	PRI_M(ConfigObject, LoadSceneConfig, NONE)
 
-private:
+PRI
 	void destroyGameObjects();
 
-public:
+PUB
 	Scene();
 	~Scene() override;
 

@@ -4,6 +4,6 @@
 
 CLASS(UIPanel, UIElement)
 {
-    public:
+    PUB
         virtual void initFromConfig(const UIElementConfig& config) override;
 };

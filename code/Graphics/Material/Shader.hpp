@@ -10,17 +10,17 @@ class Matrix4;
 
 CLASS(Shader, ObjectBase)
 {
-private:
-	PRI(u32, VertexShader, NONE)
-	PRI(u32, FragmentShader, NONE)
-	PRI(u32, Program, NONE)
+PRI
+	PRI_M(u32, VertexShader, NONE)
+	PRI_M(u32, FragmentShader, NONE)
+	PRI_M(u32, Program, NONE)
 
 	static Shader *msShaderDefault;
 	static Shader *msShaderDebug;
 
 	void initInternal(const SStr &vertex, const SStr &fragment);
 
-public:
+PUB
 	Shader();
 	~Shader() override;
 

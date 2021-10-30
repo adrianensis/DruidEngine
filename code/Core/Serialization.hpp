@@ -14,14 +14,14 @@ using JSON = nlohmann::ordered_json;
 
 class ISerializable
 {
-public:
+PUB
 	virtual void serialize(JSON &json) const {};
 	virtual void deserialize(const JSON &json) {};
 };
 
 class SerializationUtils
 {
-public:
+PUB
 	template<class T>
 	static JSON serializeTemplated(T value)
 	{

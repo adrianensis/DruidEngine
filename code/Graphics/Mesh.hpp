@@ -7,19 +7,19 @@ class Vector3;
 
 CLASS(Mesh, ObjectBase)
 {
-	PRI(SVec(f32), Vertices, GETREF_CONST)
-	PRI(SVec(f32), Normals, GETREF_CONST)
-	PRI(SVec(f32), TextureCoordinates, GETREF_CONST)
-	PRI(SVec(f32), Colors, GETREF_CONST)
-	PRI(SVec(u32), Faces, GETREF_CONST)
+	PRI_M(SVec(f32), Vertices, GETREF_CONST)
+	PRI_M(SVec(f32), Normals, GETREF_CONST)
+	PRI_M(SVec(f32), TextureCoordinates, GETREF_CONST)
+	PRI_M(SVec(f32), Colors, GETREF_CONST)
+	PRI_M(SVec(u32), Faces, GETREF_CONST)
 
-	PRI(u32, VertexCount, GET)
-	PRI(u32, FacesCount, GET)
+	PRI_M(u32, VertexCount, GET)
+	PRI_M(u32, FacesCount, GET)
 
-private:
+PRI
 	static Mesh *smRectangle;
 
-public:
+PUB
 	static u32 smVertexPositionSize;
 	static u32 smVertexNormalSize;
 	static u32 smVertexTexCoordSize;

@@ -6,8 +6,8 @@
 class EditorController;
 
 #define INFO_BAR_MEMBER(BaseName, ...)\
-PRI(UIText*, BaseName, GET)\
-public:\
+PRI_M(UIText*, BaseName, GET)\
+PUB \
 void set##BaseName(__VA_ARGS__ new##BaseName)\
 {\
 	m##BaseName->setText(#BaseName " " + std::to_string(new##BaseName));\
@@ -15,15 +15,15 @@ void set##BaseName(__VA_ARGS__ new##BaseName)\
 
 CLASS(InfoBar, ObjectBase)
 {
-	PRI(EditorController*, EditorController, NONE)
+	PRI_M(EditorController*, EditorController, NONE)
 	
 	INFO_BAR_MEMBER(Layer, u32)
 	INFO_BAR_MEMBER(FPS, u32)
 	INFO_BAR_MEMBER(BrushSize, u32)
 
-private:
+PRI
 	UIText* createInfoField(const SStr &name);
 
-public:
+PUB
 	void init(EditorController* editorController);
 };

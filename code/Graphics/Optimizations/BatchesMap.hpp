@@ -9,10 +9,10 @@ class Batch;
 
 CLASS(BatchesMap, ObjectBase)
 {
-	PRI(SMap(Texture *, Batch *), Batches, NONE);
-	PRI(bool, IsWorldSpace, GET)
+	PRI_M(SMap(Texture *, Batch *), Batches, NONE);
+	PRI_M(bool, IsWorldSpace, GET)
 
-public:
+PUB
 	~BatchesMap() override;
 
 	void init();

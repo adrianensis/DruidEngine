@@ -7,10 +7,10 @@ class UIElement;
 
 CLASS(UIGroup, ObjectBase)
 {
-	PUB(SStr, Name, GETREF_CONST)
-	PUB(bool, Visible, GET)
-	PUB(SLst(UIElement *), UIElements, GETREF_CONST);
+	PUB_M(SStr, Name, GETREF_CONST)
+	PUB_M(bool, Visible, GET)
+	PUB_M(SLst(UIElement *), UIElements, GETREF_CONST);
 
-public:
+PUB
 	void init();
 };

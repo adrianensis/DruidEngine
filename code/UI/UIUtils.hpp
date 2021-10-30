@@ -6,7 +6,7 @@
 
 class UIUtils
 {
-public:
+PUB
 
 	static Vector2 correctAspectRatio_X(const Vector2& vector);
 };

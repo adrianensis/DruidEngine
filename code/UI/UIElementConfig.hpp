@@ -18,22 +18,22 @@ enum class UILayout
 
 CLASS(UIElementConfig, ObjectBase)
 {
-	PUB(const UIStyle*, Style, NONE)
-	PUB(ClassId, UIElementClassId, NONE)
-	PUB(Vector2, Position, NONE)
-	PUB(Vector2, DisplayPosition, NONE)
-	PUB(Vector2, Size, NONE)
-	PUB(Vector2, TextSize, NONE)
-	PUB(SStr, Text, NONE)
-	PUB(bool, AdjustSizeToText, NONE)
-	PUB(u32, Layer, NONE)
-	PUB(bool, IsAffectedByLayout, NONE)
-	PUB(Material *, Material, NONE)
-	PUB(SStr, Group, NONE)
-	PUB(GameObject*, Parent, NONE)
-	PUB(f32, SeparatorSize, NONE)
+	PUB_M(const UIStyle*, Style, NONE)
+	PUB_M(ClassId, UIElementClassId, NONE)
+	PUB_M(Vector2, Position, NONE)
+	PUB_M(Vector2, DisplayPosition, NONE)
+	PUB_M(Vector2, Size, NONE)
+	PUB_M(Vector2, TextSize, NONE)
+	PUB_M(SStr, Text, NONE)
+	PUB_M(bool, AdjustSizeToText, NONE)
+	PUB_M(u32, Layer, NONE)
+	PUB_M(bool, IsAffectedByLayout, NONE)
+	PUB_M(Material *, Material, NONE)
+	PUB_M(SStr, Group, NONE)
+	PUB_M(GameObject*, Parent, NONE)
+	PUB_M(f32, SeparatorSize, NONE)
 
-public:
+PUB
 	UIElementConfig();
 
 	void init(const Vector2 &position, const Vector2 &size, u32 layer, SStr text = SStr());

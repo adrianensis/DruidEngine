@@ -16,10 +16,10 @@ class Component;
 
 CLASS(ISubsystem, ObjectBase)
 {
-private:
+PRI
     SSet(ClassId) mAcceptedComponentClasses;
 
-public:
+PUB
     void registerComponentClass(ClassId classId)
     {
         mAcceptedComponentClasses.insert(classId);
@@ -38,10 +38,10 @@ public:
 
 class SubsystemsManager : SINGLETON(SubsystemsManager)
 {
-private:
+PRI
     SLst(ISubsystem *) mSubsystems;
 
-public:
+PUB
     void addComponentToSubsystem(Component *component);
 
     void registerSubsystem(ISubsystem *subsystem)

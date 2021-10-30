@@ -27,7 +27,7 @@ class Scene;
 	}*/
 
 #define UI_BUILDER_CONFIG_SETTER(Name)   \
-	UIBuilder &set##Name(SETTER_TYPE(mConfig.m##Name) _##Name) \
+	UIBuilder &set##Name(SETTER_TYPE_FROM_VAR(mConfig.m##Name) _##Name) \
 	{                                              \
 		mConfig.m##Name = _##Name;                   \
 		return *this;                               \
@@ -46,24 +46,24 @@ class Scene;
 
 CLASS(UIBuilder, ObjectBase), SINGLETON(UIBuilder)
 {
-	PRI(UILayout, CurrentLayout, NONE)
-	PRI(Material *, ButtonMaterial, NONE)
-	PRI(UIElementConfig, Config, NONE)
-	PRI(UIElementConfig, DefaultConfig, NONE)
-	PRI(SLst(UIElementConfig), ConfigStack, NONE);
-	PRI(UIElementConfig, LastConfig, NONE)
-	PRI(bool, MakeRelativeToLastConfig, NONE) // used for layouts
-	PRI(UIElementConfig, LayoutFirstUIElementConfig, NONE)
-	PRI(bool, NewRowOrColumn, NONE)
-	PRI(UIElement *, CurrentUIElement, NONE)
+	PRI_M(UILayout, CurrentLayout, NONE)
+	PRI_M(Material *, ButtonMaterial, NONE)
+	PRI_M(UIElementConfig, Config, NONE)
+	PRI_M(UIElementConfig, DefaultConfig, NONE)
+	PRI_M(SLst(UIElementConfig), ConfigStack, NONE);
+	PRI_M(UIElementConfig, LastConfig, NONE)
+	PRI_M(bool, MakeRelativeToLastConfig, NONE) // used for layouts
+	PRI_M(UIElementConfig, LayoutFirstUIElementConfig, NONE)
+	PRI_M(bool, NewRowOrColumn, NONE)
+	PRI_M(UIElement *, CurrentUIElement, NONE)
 
-private:
+PRI
 	void registerUIElement(UIElement * uiElement);
 	UILayout getOppositeLayout(UILayout layout);
 	Vector2 calculateNextElementOffset(UILayout layout);
 	void calculateConfig();
 
-public:
+PUB
 	UIBuilder();
 
 	UI_BUILDER_CONFIG_SETTER(IsAffectedByLayout)

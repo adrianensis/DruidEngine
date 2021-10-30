@@ -4,10 +4,10 @@
 
 CLASS(CommandArgument, ObjectBase)
 {
-    PRI(SStr, Name, GETREF_CONST_SET);
-    PRI(SStr, Value, GETREF_CONST_SET);
+    PRI_M(SStr, Name, GETREF_CONST_SET);
+    PRI_M(SStr, Value, GETREF_CONST_SET);
 
-public:
+PUB
 
     COPY(CommandArgument)
     {
@@ -18,13 +18,13 @@ public:
 
 CLASS(Command, ObjectBase)
 {
-    PRI(SStr, Name, GETREF_CONST_SET);
-    PRI(SStr, ArgumentsString, GETREF_CONST_SET);
-    PRI(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);
+    PRI_M(SStr, Name, GETREF_CONST_SET);
+    PRI_M(SStr, ArgumentsString, GETREF_CONST_SET);
+    PRI_M(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);
 
     inline static const SStr smDefaultArgumentValue = ""; 
 
-public:
+PUB
 
     void clearArguments() { mArguments.clear(); };
     void addArgument(const CommandArgument& arg) { MAP_INSERT(mArguments, arg.getName(), arg); };

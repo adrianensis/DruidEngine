@@ -6,11 +6,11 @@
 
 CLASS(AnimationFrame, ObjectBase)
 {
-	PRI(Vector2, Position, GET)
-	PRI(f32, Width, GET)
-	PRI(f32, Height, GET)
+	PRI_M(Vector2, Position, GET)
+	PRI_M(f32, Width, GET)
+	PRI_M(f32, Height, GET)
 
-public:
+PUB
 	void init(const Vector2 &position, f32 width, f32 height);
 
     COPY(AnimationFrame)

@@ -5,9 +5,9 @@
 
 CLASS(Editor, Script)
 {
-	PRI(EditorController, EditorController, GET)
+	PRI_M(EditorController, EditorController, GET)
 
-public:
+PUB
 	void init() override;
 	void firstUpdate() override;
 	void update() override;

@@ -4,7 +4,7 @@
 
 CLASS(UIStyleEditor, UIStyle)
 {
-public:
+PUB
 	UIStyleEditor()
 	{
 		
@@ -13,7 +13,7 @@ public:
 
 CLASS(UIStyleEditorBrushPreview, UIStyleEditor)
 {
-public:
+PUB
 	UIStyleEditorBrushPreview()
 	{
 		mBackgroundColor = Vector4(0, 0, 0, 0.45f);
@@ -22,7 +22,7 @@ public:
 
 CLASS(UIStyleEditorToolsBar, UIStyleEditor)
 {
-public:
+PUB
 	UIStyleEditorToolsBar()
 	{
 		mBackgroundColor = Vector4(0, 0, 0, 1);

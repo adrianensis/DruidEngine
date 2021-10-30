@@ -13,19 +13,19 @@ class UIGroup;
 
 CLASS(UI, ObjectBase), SINGLETON(UI)
 {
-	PRI(SMap(SStr, UIGroup *), Groups, NONE)
-	PRI(SMap(char, Vector2), CharMap, NONE)
-	PRI(Vector2, FontTilesCount, NONE)
-	PRI(Vector2, FontTileTextureSize, NONE)
-	PRI(Material *, FontMaterial, NONE)
+	PRI_M(SMap(SStr, UIGroup *), Groups, NONE)
+	PRI_M(SMap(char, Vector2), CharMap, NONE)
+	PRI_M(Vector2, FontTilesCount, NONE)
+	PRI_M(Vector2, FontTileTextureSize, NONE)
+	PRI_M(Material *, FontMaterial, NONE)
 
 	static Vector2 smDefaultFontSize;
 
-	PRI(UIBuilder, UIBuilder, GETREF)
+	PRI_M(UIBuilder, UIBuilder, GETREF)
 
-	PRI(UIElement *, FocusedElement, NONE);
+	PRI_M(UIElement *, FocusedElement, NONE);
 
-public:
+PUB
 	void init();
 	void terminate();
 

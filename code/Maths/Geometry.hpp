@@ -5,7 +5,7 @@
 
 CLASS(Shape, ObjectBase)
 {
-public:
+PUB
 
     SERIALIZE() { }
 	DESERIALIZE() { }
@@ -13,10 +13,10 @@ public:
 
 CLASS(Rectangle, Shape)
 {
-    PRO(Vector2, LeftTop, GETREF_CONST_SET)
-    PRO(Vector2, Size, GETREF_CONST_SET)
+    PRO_M(Vector2, LeftTop, GETREF_CONST_SET)
+    PRO_M(Vector2, Size, GETREF_CONST_SET)
 
-public:
+PUB
 
     Rectangle() { }
 
@@ -63,7 +63,7 @@ public:
 
 class Geometry
 {
-public:
+PUB
     // Geometry tests
     static bool testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps);
     static bool testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps);

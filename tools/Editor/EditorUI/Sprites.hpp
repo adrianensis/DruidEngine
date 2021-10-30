@@ -13,39 +13,39 @@ class EditorController;
 
 CLASS(SpriteEditorObject, GameObject)
 {
-public:
+PUB
     DESERIALIZE();
 };
 
 CLASS(Sprites, ObjectBase)
 {
-	PRI(EditorController*, EditorController, NONE)
-	PRI(SStr, SpritesSelectorUIGroup, NONE)
-    PRI(SStr, SpritesUIGroup, NONE)
-    PRI(SStr, SpritePreviewUIGroup, NONE)
-	PRI(SStr, AtlasUIGroup, NONE)
-    PRI(SStr, FramesUIGroup, NONE)
-    PRI(SLst(GameObject*), Frames, NONE)
-    PRI(SLst(GameObject*), Sprites, NONE)
+	PRI_M(EditorController*, EditorController, NONE)
+	PRI_M(SStr, SpritesSelectorUIGroup, NONE)
+    PRI_M(SStr, SpritesUIGroup, NONE)
+    PRI_M(SStr, SpritePreviewUIGroup, NONE)
+	PRI_M(SStr, AtlasUIGroup, NONE)
+    PRI_M(SStr, FramesUIGroup, NONE)
+    PRI_M(SLst(GameObject*), Frames, NONE)
+    PRI_M(SLst(GameObject*), Sprites, NONE)
 
-	PRI(bool, IsVisible, GET)
+	PRI_M(bool, IsVisible, GET)
 
-    PRI(u32, SpritesCount, NONE)
+    PRI_M(u32, SpritesCount, NONE)
 
-    PRI(GameObject*, CurrentSpriteSelector, NONE)
-    PRI(GameObject*, CurrentSprite, NONE)
+    PRI_M(GameObject*, CurrentSpriteSelector, NONE)
+    PRI_M(GameObject*, CurrentSprite, NONE)
 
-    PRI(UIPanel*, SpritePreview, NONE)
+    PRI_M(UIPanel*, SpritePreview, NONE)
 
-    PRI(GameObject*, SelectedAtlasTile, NONE)
+    PRI_M(GameObject*, SelectedAtlasTile, NONE)
 
-    PRI(Material*, CurrentAtlasMaterial, GET)
+    PRI_M(Material*, CurrentAtlasMaterial, GET)
 
-    PRI(bool, IsRecording, GET)
+    PRI_M(bool, IsRecording, GET)
 
-    PRI(SStr, CurrentAnimationName, NONE)
+    PRI_M(SStr, CurrentAnimationName, NONE)
 
-private:
+PRI
 
     void loadSprites();
 
@@ -65,7 +65,7 @@ private:
     void addFrame();
     void refreshFrames();
 
-public:
+PUB
 
 	Sprites();
     ~Sprites();

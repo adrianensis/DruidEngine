@@ -7,18 +7,18 @@ class UIPanel;
 
 CLASS(UIText, UIElement)
 {
-	PRI(u32, Layer, NONE)
-	PRI(Vector2, Size, NONE)
-	PRI(SStr, String, NONE)
-	PRI(SVec(Renderer *), FontRenderers, NONE)
-    PRI(bool, IsEditable, GET)
-    PRO(UIPanel*, Background, NONE)
+	PRI_M(u32, Layer, NONE)
+	PRI_M(Vector2, Size, NONE)
+	PRI_M(SStr, String, NONE)
+	PRI_M(SVec(Renderer *), FontRenderers, NONE)
+    PRI_M(bool, IsEditable, GET)
+    PRO_M(UIPanel*, Background, NONE)
 
-protected:
+PRO
     void setIsEditable(bool editable);
     virtual void setBackground(const UIElementConfig& config) { };
 
-public:
+PUB
     UIText();
 
 	virtual void init() override;

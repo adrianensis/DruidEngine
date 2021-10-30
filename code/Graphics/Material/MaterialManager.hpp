@@ -9,11 +9,11 @@ class Texture;
 
 CLASS(MaterialManager, ObjectBase), SINGLETON(MaterialManager)
 {
-	PRI(SMap(SStr, class Texture *), TexturesMap, NONE);
-	PRI(SMap(SStr, class Material *), MaterialsMap, NONE);
-	PRI(Material *, NoTextureMaterial, NONE);
+	PRI_M(SMap(SStr, class Texture *), TexturesMap, NONE);
+	PRI_M(SMap(SStr, class Material *), MaterialsMap, NONE);
+	PRI_M(Material *, NoTextureMaterial, NONE);
 
-public:
+PUB
 	~MaterialManager() override;
 
 	void init();

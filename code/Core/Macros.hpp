@@ -2,6 +2,10 @@
 
 #define NONE(...)
 
+#define PUB public:
+#define PRO protected:
+#define PRI private:
+
 #define REMOVE_REF(Class) typename std::remove_reference<Class>::type
 #define REMOVE_POINTER(Class) typename std::remove_pointer<Class>::type
 #define IS_POINTER(Class) std::is_pointer<REMOVE_REF(Class)>::value
@@ -61,11 +65,11 @@ void __customMain()
 	class ClassName##_PARENT : public __VA_ARGS__           \
 	{                                                       \
 		GENERATE_METADATA(ClassName)               \
-	public:                                                 \
+	PUB                                                 \
 		CLASS_MACRO_CONSTRUCTOR(ClassName##_PARENT)                  \
-	protected:                                              \
+	PRO                                              \
 		using Super = __VA_ARGS__;                          \
-	private:\
+	PRI\
 		SStr ____className = getClassNameStatic();\
 	};
 
@@ -129,55 +133,53 @@ public Singleton<__VA_ARGS__>
 	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
 
 #define GENERATE_METADATA(...)          \
-protected:\
+PRO\
 	GENERATE_ATTRIBUTES_NAMES_STATIC(__VA_ARGS__);  \
-public:                                 \
+PUB                                 \
 	GENERATE_NAME_STATIC(__VA_ARGS__);  \
 	GENERATE_NAME_VIRTUAL(__VA_ARGS__); \
 	GENERATE_ID_STATIC(__VA_ARGS__);    \
 	GENERATE_ID_VIRTUAL(__VA_ARGS__);   \
 	GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(__VA_ARGS__);  \
                                         \
-private:
-
-// --------------------------------------------------------
-// CONSTRUCTOR - DESTRUCTOR
-// --------------------------------------------------------
-
+PRI // NOTE: notice the last blank space " "
 
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS
 // --------------------------------------------------------
 
-#define GETTER_TYPE(Var)                                            \
+#define GETTER_TYPE(Type)                                            \
 	COND_TYPE(                                                      \
-		IS_POINTER(decltype(Var)),                                  \
-		ADD_CONST(decltype(Var)),                                   \
+		IS_POINTER(Type),                                  \
+		ADD_CONST(Type),                                   \
 		COND_TYPE(                                                  \
-			IS_ARITHMETIC(decltype(Var)) || IS_ENUM(decltype(Var)), \
-			REMOVE_REF(decltype(Var)),                              \
-			decltype(Var)))
+			IS_ARITHMETIC(Type) || IS_ENUM(Type), \
+			REMOVE_REF(Type),                              \
+			Type))
 
-#define SETTER_TYPE(Var) \
+#define SETTER_TYPE(Type) \
 	COND_TYPE(                                                      \
-		IS_POINTER(decltype(Var)),                                  \
-		ADD_CONST(decltype(Var)),                                   \
+		IS_POINTER(Type),                                  \
+		ADD_CONST(Type),                                   \
 		COND_TYPE(                                                  \
-			IS_ARITHMETIC(decltype(Var)) || IS_ENUM(decltype(Var)), \
-			REMOVE_REF(decltype(Var)),                              \
-			ADD_REFERENCE(ADD_CONST(decltype(Var)))))
+			IS_ARITHMETIC(Type) || IS_ENUM(Type), \
+			REMOVE_REF(Type),                              \
+			ADD_REFERENCE(ADD_CONST(Type))))
+
+#define GETTER_TYPE_FROM_VAR(Var) GETTER_TYPE(decltype(Var))
+
+#define SETTER_TYPE_FROM_VAR(Var) SETTER_TYPE(decltype(Var))
 
 #define GET(BaseName)        \
-	GETTER_TYPE(m##BaseName) get##BaseName() const { return m##BaseName; };
+	GETTER_TYPE_FROM_VAR(m##BaseName) get##BaseName() const { return m##BaseName; };
 
 #define GETREF(BaseName) \
-	ADD_REFERENCE(GETTER_TYPE(m##BaseName)) get##BaseName() { return m##BaseName; };
+	ADD_REFERENCE(GETTER_TYPE_FROM_VAR(m##BaseName)) get##BaseName() { return m##BaseName; };
 
 #define GETREF_CONST(BaseName) \
-	ADD_REFERENCE(ADD_CONST(GETTER_TYPE(m##BaseName))) get##BaseName() const { return m##BaseName; };
+	ADD_REFERENCE(ADD_CONST(GETTER_TYPE_FROM_VAR(m##BaseName))) get##BaseName() const { return m##BaseName; };
 
-#define SET(BaseName) \
-	void set##BaseName(SETTER_TYPE(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
+#define SET(BaseName) void set##BaseName(SETTER_TYPE_FROM_VAR(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
 
 #define GET_SET(BaseName) GET(BaseName) SET(BaseName)
 #define GETREF_SET(BaseName) GETREF(BaseName) SET(BaseName)
@@ -189,15 +191,36 @@ private:
 #define MEMBER(BaseName, AccessorMacroName, Visibility, ...) \
 	Visibility:                                              \
 	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
-	public : AccessorMacroName(BaseName)                     \
-	private : \
+	PUB AccessorMacroName(BaseName)                     \
+	PRI \
 	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
 	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
 	Visibility:
 	
-#define PUB(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, public, ClassName)
-#define PRO(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, protected, ClassName)
-#define PRI(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, private, ClassName)
+#define PUB_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, public, ClassName)
+#define PRO_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, protected, ClassName)
+#define PRI_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, private, ClassName)
+
+/*
+#define FUNCTION_MEMBER(ReturnClassName, FuncName, VirtualMacro, ModifiersMacro, Visibility, ...)\
+Visibility:\
+VirtualMacro() ReturnClassName FuncName (__VA_ARGS__) ModifiersMacro();\
+Visibility:
+
+#define VIR() virtual
+#define OVR() override
+#define CONST() const
+#define CONST_OVR() const override
+
+#define PUB_F(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, NONE, NONE, public, __VA_ARGS__)
+#define PUB_FC(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, NONE, CONST, public, __VA_ARGS__)
+#define PUB_FO(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, NONE, OVR, public, __VA_ARGS__)
+#define PUB_FCO(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, NONE, CONST_OVR, public, __VA_ARGS__)
+#define PUB_VF(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, VIR, NONE, public, __VA_ARGS__)
+#define PUB_VFC(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, VIR, CONST, public, __VA_ARGS__)
+#define PUB_VFO(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, VIR, OVR, public, __VA_ARGS__)
+#define PUB_VFCO(ReturnClassName, FuncName, ...) FUNCTION_MEMBER(ReturnClassName, FuncName, VIR, CONST_OVR, public, __VA_ARGS__)
+*/
 
 // --------------------------------------------------------
 // COPY

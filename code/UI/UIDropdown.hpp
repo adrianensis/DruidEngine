@@ -7,8 +7,8 @@ class UIDropdown;
 
 CLASS(UIDropdownButton, UIButton)
 {
-	PRI(UIDropdown *, ParentDropdown, GET_SET)
-public:
+	PRI_M(UIDropdown *, ParentDropdown, GET_SET)
+PUB
 	virtual void onPostReleased() override;
 };
 
@@ -16,13 +16,13 @@ CLASS(UIDropdown, UIButton)
 {
 friend UIDropdownButton;
 
-private:
+PRI
 	CLASS_NESTED(UIDropdownEntry, ObjectBase)
 	{
-		PUB(SStr, Label, NONE)
-		PUB(UIElementCallback, Callback, NONE)
+		PUB_M(SStr, Label, NONE)
+		PUB_M(UIElementCallback, Callback, NONE)
 
-	public:
+	PUB
 		UIDropdownEntry(const SStr& label, UIElementCallback callback);
 
 		COPY(UIDropdownEntry)
@@ -37,7 +37,7 @@ private:
 
 	void setEntriesVisibility(bool visible);
 
-public:
+PUB
 	virtual void init() override;
 	virtual void onDestroy() override;
 

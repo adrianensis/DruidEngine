@@ -13,24 +13,24 @@ CLASS_EVENT(EventOnDestroy) {};
 
 CLASS(GameObject, ObjectBase)
 {
-	PRI(SMap(ClassId, SLst(Component *) *), ComponentsMap, NONE)
-	PRI(bool, IsActive, NONE)
+	PRI_M(SMap(ClassId, SLst(Component *) *), ComponentsMap, NONE)
+	PRI_M(bool, IsActive, NONE)
 
-	PRI(Scene *, Scene, GET_SET)
-	PRI(bool, IsStatic, GET_SET)
-	PRI(Transform *, Transform, GET)
-	PRI(SStr, Tag, GET_SET)
-	PRI(bool, IsPendingToBeDestroyed, GET)
-	PRI(bool, IsDestroyed, GET)
-	PRI(bool, ShouldPersist, GET_SET)
+	PRI_M(Scene *, Scene, GET_SET)
+	PRI_M(bool, IsStatic, GET_SET)
+	PRI_M(Transform *, Transform, GET)
+	PRI_M(SStr, Tag, GET_SET)
+	PRI_M(bool, IsPendingToBeDestroyed, GET)
+	PRI_M(bool, IsDestroyed, GET)
+	PRI_M(bool, ShouldPersist, GET_SET)
 
-private:
+PRI
 	const SLst(Component *) *getComponents(ClassId classId) const;
 	Component *getFirstComponent(ClassId classId) const;
 
 	void addComponentToSubsystem(Component* component);
 
-public:
+PUB
 	GameObject();
 	~GameObject() override;
 

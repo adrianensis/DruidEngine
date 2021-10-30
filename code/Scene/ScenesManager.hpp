@@ -9,17 +9,17 @@ class GameObject;
 
 CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
 {
-	PRI(SVec(Scene *), Scenes, NONE);
-	PRI(u32, CurrentSceneIndex, NONE)
+	PRI_M(SVec(Scene *), Scenes, NONE);
+	PRI_M(u32, CurrentSceneIndex, NONE)
 
-	PRI(Scene *, CurrentScene, GET)
-	PRI(bool, SceneHasChanged, GET)
-	PRI(GameObject *, GameObjectController, GET_SET)
+	PRI_M(Scene *, CurrentScene, GET)
+	PRI_M(bool, SceneHasChanged, GET)
+	PRI_M(GameObject *, GameObjectController, GET_SET)
 
 	void internalLoadScene();
 	void addScene(Scene * newScene);
 
-public:
+PUB
 	ScenesManager();
 	~ScenesManager() override;
 

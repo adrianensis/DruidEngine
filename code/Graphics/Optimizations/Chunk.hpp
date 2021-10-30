@@ -9,14 +9,14 @@ class BatchesMap;
 
 CLASS(Chunk, ObjectBase)
 {
-	PRI(SLst(Renderer *) *, Renderers, NONE);
-	PRI(Vector3, LeftTop, NONE)
-	PRI(f32, Size, NONE)
-	PRI(bool, IsLoaded, GET)
-	PRI(Vector3, Center, GET)
-	PRI(f32, Radius, GET)
+	PRI_M(SLst(Renderer *) *, Renderers, NONE);
+	PRI_M(Vector3, LeftTop, NONE)
+	PRI_M(f32, Size, NONE)
+	PRI_M(bool, IsLoaded, GET)
+	PRI_M(Vector3, Center, GET)
+	PRI_M(f32, Radius, GET)
 
-public:
+PUB
 	~Chunk() override;
 	void init();
 	void set(const Vector3 &leftTop, f32 size);

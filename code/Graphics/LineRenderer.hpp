@@ -8,24 +8,24 @@ class Vector4;
 
 CLASS(LineRenderer, ObjectBase)
 {
-	PRI(Shader *, ShaderLine, NONE)
+	PRI_M(Shader *, ShaderLine, NONE)
 
-	PRI(u32, MaxShapes, NONE)
-	PRI(u32, ShapesCounter, NONE)
+	PRI_M(u32, MaxShapes, NONE)
+	PRI_M(u32, ShapesCounter, NONE)
 
-	PRI(u32, VAO, NONE)
-	PRI(u32, VBOPosition, NONE)
-	PRI(u32, VBOColor, NONE)
-	PRI(u32, EBO, NONE)
-	PRI(SVec(f32), PositionBuffer, NONE)
-	PRI(SVec(f32), ColorBuffer, NONE)
-	PRI(SVec(u32), IndicesBuffer, NONE)
+	PRI_M(u32, VAO, NONE)
+	PRI_M(u32, VBOPosition, NONE)
+	PRI_M(u32, VBOColor, NONE)
+	PRI_M(u32, EBO, NONE)
+	PRI_M(SVec(f32), PositionBuffer, NONE)
+	PRI_M(SVec(f32), ColorBuffer, NONE)
+	PRI_M(SVec(u32), IndicesBuffer, NONE)
 
-	PRI(f32, Size, NONE)
+	PRI_M(f32, Size, NONE)
 
-	PUB(bool, IsWorldSpace, NONE)
+	PUB_M(bool, IsWorldSpace, NONE)
 
-public:
+PUB
 	LineRenderer();
 	~LineRenderer() override;
 

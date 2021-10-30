@@ -6,6 +6,6 @@ class EditorController;
 
 class EditorCommands
 {
-public:
+PUB
     static void registerEditorCommands(EditorController* editorController);
 };

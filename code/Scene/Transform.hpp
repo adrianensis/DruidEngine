@@ -6,34 +6,34 @@
 
 CLASS(Transform, Component)
 {
-	PRI(Vector3, WorldPosition, NONE)
+	PRI_M(Vector3, WorldPosition, NONE)
 
-	PRI(mutable Matrix4, ModelMatrix, NONE)
-	PRI(mutable Matrix4, TranslationMatrix, NONE)
-	PRI(mutable Matrix4, RotationMatrix, NONE)
-	PRI(mutable Matrix4, ScaleMatrix, NONE)
+	PRI_M(mutable Matrix4, ModelMatrix, NONE)
+	PRI_M(mutable Matrix4, TranslationMatrix, NONE)
+	PRI_M(mutable Matrix4, RotationMatrix, NONE)
+	PRI_M(mutable Matrix4, ScaleMatrix, NONE)
 
-	PRI(bool, ModelMatrixGenerated, NONE)
+	PRI_M(bool, ModelMatrixGenerated, NONE)
 
-	PRI(mutable bool, IsDirtyTranslation, NONE)
-	PRI(mutable bool, IsDirtyRotation, NONE)
-	PRI(mutable bool, IsDirtyScale, NONE)
+	PRI_M(mutable bool, IsDirtyTranslation, NONE)
+	PRI_M(mutable bool, IsDirtyRotation, NONE)
+	PRI_M(mutable bool, IsDirtyScale, NONE)
 
-	PRI(bool, ForceModelMatrixCalculation, NONE)
+	PRI_M(bool, ForceModelMatrixCalculation, NONE)
 
 	//Transform* mParent;
-	PRI(Transform *, Parent, GET_SET);
+	PRI_M(Transform *, Parent, GET_SET);
 
-	PRI(Vector3, LocalPosition, GET)
-	PRI(Vector3, Rotation, GET)
-	PRI(Vector3, Scale, GET)
-	PRI(bool, AffectedByProjection, GET_SET)
+	PRI_M(Vector3, LocalPosition, GET)
+	PRI_M(Vector3, Rotation, GET)
+	PRI_M(Vector3, Scale, GET)
+	PRI_M(bool, AffectedByProjection, GET_SET)
 
-private:
+PRI
 
 	Vector3 calculateWorldPosition() const;
 
-public:
+PUB
 	static const Vector3 smRight;
 	static const Vector3 smUp;
 	static const Vector3 smForward;

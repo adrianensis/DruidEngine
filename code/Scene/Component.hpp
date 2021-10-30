@@ -6,15 +6,15 @@ class GameObject;
 
 CLASS(Component, ObjectBase)
 {
-	PRI(bool, IsActive, NONE)
-	PRI(bool, IsStatic, NONE)
+	PRI_M(bool, IsActive, NONE)
+	PRI_M(bool, IsStatic, NONE)
 
-	PRI(GameObject *, GameObject, GET_SET)
-	PRI(bool, AlreadyAddedToEngine, GET_SET)
-	PRI(bool, IsPendingToBeDestroyed, GET)
-	PRI(bool, IsDestroyed, GET)
+	PRI_M(GameObject *, GameObject, GET_SET)
+	PRI_M(bool, AlreadyAddedToEngine, GET_SET)
+	PRI_M(bool, IsPendingToBeDestroyed, GET)
+	PRI_M(bool, IsDestroyed, GET)
 
-public:
+PUB
 	Component();
 
 	virtual void init() = 0;

@@ -16,9 +16,9 @@ using UIElementCallback = SFun(void(UIElement *uiElement));
 
 CLASS(FunctorUIElement, Functor<UIElementCallback>)
 {
-	PUB(UIElement *, UIElement, NONE)
+	PUB_M(UIElement *, UIElement, NONE)
 
-public:
+PUB
 
 	virtual void execute() override
 	{
@@ -37,27 +37,27 @@ public:
 
 CLASS(UIElement, GameObject)
 {
-	PRO(UIElementConfig, Config, GETREF_CONST_SET)
+	PRO_M(UIElementConfig, Config, GETREF_CONST_SET)
 
-	PRO(FunctorUIElement, OnPressedFunctor, NONE)
-	PRO(FunctorUIElement, OnReleasedFunctor, NONE)
+	PRO_M(FunctorUIElement, OnPressedFunctor, NONE)
+	PRO_M(FunctorUIElement, OnReleasedFunctor, NONE)
 
-	PRO(FunctorUIElement, OnScrollFunctor, NONE)
+	PRO_M(FunctorUIElement, OnScrollFunctor, NONE)
 
-	PRO(FunctorUIElement, OnTextChangedFunctor, NONE)
-	PRO(FunctorUIElement, OnFocusLostFunctor, NONE)
+	PRO_M(FunctorUIElement, OnTextChangedFunctor, NONE)
+	PRO_M(FunctorUIElement, OnFocusLostFunctor, NONE)
 
-	PRO(Renderer *, Renderer, GET)
-	//PRI(Collider*, Collider, GET)
-	PRO(SStr, InputString, GET)
-	PRO(bool, ConsumeInput, GET_SET)
-	PRO(bool, Pressed, GET)
-	PRO(bool, CanToggle, GET)
-	PRO(bool, ReleaseOnSameGroupPressed, GET_SET)
-	PRO(bool, Toggled, GET)
-    PRO(bool, OnlyReleaseOnClickOutside, GET)
+	PRO_M(Renderer *, Renderer, GET)
+	//PRI_M(Collider*, Collider, GET)
+	PRO_M(SStr, InputString, GET)
+	PRO_M(bool, ConsumeInput, GET_SET)
+	PRO_M(bool, Pressed, GET)
+	PRO_M(bool, CanToggle, GET)
+	PRO_M(bool, ReleaseOnSameGroupPressed, GET_SET)
+	PRO_M(bool, Toggled, GET)
+    PRO_M(bool, OnlyReleaseOnClickOutside, GET)
 
-protected:
+PRO
 
     void subscribeToKeyEvents();
 	void subscribeToCharEvents();
@@ -88,7 +88,7 @@ protected:
 	void executePressAndRelease(bool force = false);
 	void release(bool force = false);
 
-public:
+PUB
 	virtual void init() override;
 	virtual void initFromConfig(const UIElementConfig& config);
 	virtual void onDestroy();

@@ -6,7 +6,7 @@
 
 CLASS(Matrix4, ObjectBase)
 {
-private:
+PRI
 	static bool smIdentityCreated;
 	static Matrix4 smIdentity;
 
@@ -17,7 +17,7 @@ private:
 	void setRows(u32 n);
 	void setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);
 
-public:
+PUB
 	static const Matrix4 &getIdentity();
 
 	void init(u32 n);

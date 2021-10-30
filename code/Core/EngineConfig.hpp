@@ -4,8 +4,8 @@
 
 CLASS(EngineConfig, ObjectBase), SINGLETON(EngineConfig)
 {
-	PRI(ConfigObject, Config, GETREF_CONST)
+	PRI_M(ConfigObject, Config, GETREF_CONST)
 
-public:
+PUB
 	void init();
 };

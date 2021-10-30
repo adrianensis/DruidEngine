@@ -11,7 +11,7 @@ class Vector3;
 
 CLASS(Vector4, ObjectBase) /*16 bytes alignment*/
 {
-public:
+PUB
 
 	f32 x, y, z, w;
 

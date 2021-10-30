@@ -16,12 +16,12 @@
 
 CLASS(EventsManager, ObjectBase), SINGLETON(EventsManager)
 {
-private:
+PRI
 	using ReceiversFunctorMap = SMap(ObjectBase *, EventFunctor<Event>);
 	using EventReceiversMap = SMap(ClassId, ReceiversFunctorMap);
 	using OwnersMap = SMap(ObjectBase *, EventReceiversMap);
 
-	PRI(OwnersMap, OwnersMap, NONE)
+	PRI_M(OwnersMap, OwnersMap, NONE)
 
 	bool ownerExists(ObjectBase * eventOwner) const;
 	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) const;
@@ -36,7 +36,7 @@ private:
 	void subscribe(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver, EventCallback eventCallback);
 	void unsubscribe(ClassId eventClassId, ObjectBase * eventOwner, ObjectBase * eventReceiver);
 
-public:
+PUB
 	void init();
 	void terminate();
 

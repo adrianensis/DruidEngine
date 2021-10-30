@@ -11,7 +11,7 @@ class Vector4;
 
 CLASS(Vector2, ObjectBase)
 {
-public:
+PUB
 
 	f32 x, y;
 

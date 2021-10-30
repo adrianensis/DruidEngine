@@ -21,20 +21,20 @@ class ObjectBase: public ISerializable
 {
 	friend AttributeRegister;
 
-private:
+PRI
 
 	ObjectId mObjectId = 0;
 
 	SMap(SStr, AttributeBase) mAttributes; // runtime attributes
 
-protected:
+PRO
 	inline static ObjectId smObjectIdCounter = 0;
 
-private:
+PRI
 
 	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
-public:
+PUB
 	static SStr getClassNameStatic()
 	{
 		static SStr className = "ObjectBase";

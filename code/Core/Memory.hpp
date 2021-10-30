@@ -7,7 +7,7 @@
 
 class Memory
 {
-public:
+PUB
 	static SMap(SStr, i32) mAllocationsCounter;
 
 	static void init();

@@ -7,19 +7,19 @@ class AttributeBase;
 
 class AttributeRegisterStatic
 {
-public:
+PUB
     AttributeRegisterStatic(const SStr &classname, const SStr &name, SLst(AttributeBase) &outList);
 };
 
 class AttributeRegister
 {
-public:
+PUB
     AttributeRegister(const SStr &name, void *pointer, ObjectBase *owner);
 };
 
 class AttributeBase
 {
-public:
+PUB
     AttributeBase(const SStr &name, void *pointer);
 
     void *mPointer = nullptr;

@@ -7,11 +7,11 @@ class EditorController;
 
 CLASS(LayersBar, ObjectBase)
 {
-	PRI(EditorController*, EditorController, NONE);
-    PRI(SStr, UIGroupName, NONE)
-	PRI(bool, IsVisible, GET)
+	PRI_M(EditorController*, EditorController, NONE);
+    PRI_M(SStr, UIGroupName, NONE)
+	PRI_M(bool, IsVisible, GET)
 
-public:
+PUB
 	void init(EditorController* editorController);
     void toggle();
 };

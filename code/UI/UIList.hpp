@@ -6,13 +6,13 @@
 CLASS(UIList, UIElement)
 {
 
-private:
+PRI
 	CLASS_NESTED(UIListEntry, ObjectBase)
 	{
-		PUB(SStr, Label, NONE)
-		PUB(UIElementCallback, Callback, NONE)
+		PUB_M(SStr, Label, NONE)
+		PUB_M(UIElementCallback, Callback, NONE)
 
-	public:
+	PUB
 		UIListEntry(const SStr& label, UIElementCallback callback);
 
 		COPY(UIListEntry)
@@ -27,7 +27,7 @@ private:
 
 	void setEntriesVisibility(bool visible);
 
-public:
+PUB
 	virtual void init() override;
 	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;

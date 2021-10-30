@@ -6,7 +6,7 @@
 
 CLASS(UIStyleEditableTextBackground, UIStyle)
 {
-public:
+PUB
 	UIStyleEditableTextBackground()
 	{
 		mBackgroundColor = Vector4(0, 0, 0.2f, 1);
@@ -15,9 +15,9 @@ public:
 
 CLASS(UIEditableText, UIText)
 {
-protected:
+PRO
     virtual void setBackground(const UIElementConfig& config) override;
 
-public:
+PUB
     virtual void init() override;
 };

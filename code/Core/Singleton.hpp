@@ -5,10 +5,10 @@
 template <class T>
 class Singleton
 {
-protected:
+PRO
 	static T *mInstance;
 
-public:
+PUB
 	Singleton() = default;
 
 	~Singleton() = default;

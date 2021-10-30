@@ -4,9 +4,9 @@
 
 CLASS(Engine, ObjectBase), SINGLETON(Engine)
 {
-	PRI(f32, FPS, NONE)
+	PRI_M(f32, FPS, NONE)
 
-public:
+PUB
 	void init();
 	void initSubsystems();
 	void terminateSubSystems();

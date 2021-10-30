@@ -16,9 +16,9 @@ enum class ServerStatus
 
 CLASS(Server, ObjectBase)
 {
-	PRI(ServerStatus, Status, GET);
+	PRI_M(ServerStatus, Status, GET);
 
-private:
+PRI
 	int server_fd, new_socket;
 	struct sockaddr_in address;
 	int opt = 1;
@@ -28,7 +28,7 @@ private:
 
 	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
-public:
+PUB
 	void init(u16 port);
 
 	bool checkConnectionRequest();

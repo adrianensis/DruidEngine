@@ -85,10 +85,11 @@ void Renderer::setAnimation(const SStr &name)
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const SStr &name, Animation animation)
+void Renderer::addAnimation(const SStr &name, const Animation& animation)
 {
-    animation.setName(name);
-	MAP_INSERT(mAnimations, name, animation);
+	Animation animationCopy = animation;
+    animationCopy.setName(name);
+	MAP_INSERT(mAnimations, name, animationCopy);
 };
 
 void Renderer::removeAnimation(const SStr &name)
@@ -117,7 +118,7 @@ void Renderer::updateAnimation()
 	}
 };
 
-void Renderer::setPositionOffset(Vector3 newPositionOffset)
+void Renderer::setPositionOffset(const Vector3 &newPositionOffset)
 {
 	mPositionOffset = newPositionOffset;
 	mPositionOffsetDirty = true;
@@ -173,6 +174,11 @@ void Renderer::forceRecalculateVertices()
 	getGameObject()->getTransform()->forceModelMatrixCalculation();
 	mForceRecalculateVertices = true;
 }
+
+bool Renderer::hasClipRectangle() const 
+{
+	return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON;
+};
 
 SERIALIZE_IMPL(Renderer)
 {

@@ -7,12 +7,12 @@ class Script;
 
 CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
 {
-	PRI(SLst(Script *), Scripts, NONE);
-	PRI(Script *, Controller, NONE)
+	PRI_M(SLst(Script *), Scripts, NONE);
+	PRI_M(Script *, Controller, NONE)
 
 	void internalRemoveScript(SLst(Script *)::iterator & it);
 
-public:
+PUB
 	void init();
 	virtual void addComponent(Component *component) override;
 	void update();

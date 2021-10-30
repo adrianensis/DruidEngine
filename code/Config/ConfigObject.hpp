@@ -12,9 +12,9 @@
 
 CLASS(ConfigObject, ObjectBase)
 {
-	PRI(JSON, Json, GETREF_CONST_SET);
+	PRI_M(JSON, Json, GETREF_CONST_SET);
 
-public:
+PUB
 	void init();
 	void clear();
 	bool contains(SStr & key) const;

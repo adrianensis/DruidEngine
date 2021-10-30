@@ -8,13 +8,13 @@ class Shader;
 
 CLASS(Material, ObjectBase)
 {
-	PRI(Vector4, Color, GET_SET)
-	PRI(Shader *, Shader, GET_SET);
-	PRI(Texture *, Texture, GET_SET);
-	PRI(bool, AlphaEnabled, GET_SET)
-	PRI(bool, HasBorder, GET_SET)
+	PRI_M(Vector4, Color, GET_SET)
+	PRI_M(Shader *, Shader, GET_SET);
+	PRI_M(Texture *, Texture, GET_SET);
+	PRI_M(bool, AlphaEnabled, GET_SET)
+	PRI_M(bool, HasBorder, GET_SET)
 
-public:
+PUB
 	Material();
 	void init();
 	void bind(bool isWorldSpace);

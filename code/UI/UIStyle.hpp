@@ -8,12 +8,12 @@
 
 CLASS(UIStyle, ObjectBase)
 {
-    PUB(Vector4, TextColor, NONE);
-	PUB(Vector4, BackgroundColor, NONE);
-	PUB(Vector4, ColorPressed, NONE);
-	PUB(Vector4, ColorHovered, NONE);
+    PUB_M(Vector4, TextColor, NONE);
+	PUB_M(Vector4, BackgroundColor, NONE);
+	PUB_M(Vector4, ColorPressed, NONE);
+	PUB_M(Vector4, ColorHovered, NONE);
 
-public:
+PUB
 
 	UIStyle()
 	{
@@ -34,10 +34,10 @@ public:
 
 CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
 {
-	PRI(UIStyle, DefaultStyle, GETREF_CONST);
-	PRI(SMap(ClassId, UIStyle*), Styles, NONE);
+	PRI_M(UIStyle, DefaultStyle, GETREF_CONST);
+	PRI_M(SMap(ClassId, UIStyle*), Styles, NONE);
 
-public:
+PUB
 
 	virtual ~UIStyleManager() override;
 	

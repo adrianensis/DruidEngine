@@ -12,9 +12,9 @@ using CommandCallback = SFun(void(const Command& command));
 
 CLASS(CommandFunctor, Functor<CommandCallback>)
 {
-    PRI(Command, Command, GETREF_SET);
+    PRI_M(Command, Command, GETREF_SET);
 
-public:
+PUB
 
 	void execute() override
 	{
@@ -35,19 +35,19 @@ public:
 
 CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
 {
-    PRI(SMap(SStr, CommandFunctor), CommandsMap, NONE)
-	PRI(SStr, Buffer, GETREF_CONST)
+    PRI_M(SMap(SStr, CommandFunctor), CommandsMap, NONE)
+	PRI_M(SStr, Buffer, GETREF_CONST)
 
-	PRI(SLst(SStr), History, NONE)
-	PRI(SLst(SStr)::iterator, HistoryIterator, NONE)
+	PRI_M(SLst(SStr), History, NONE)
+	PRI_M(SLst(SStr)::iterator, HistoryIterator, NONE)
 
-	PRI(UIText*, UIText, NONE);
+	PRI_M(UIText*, UIText, NONE);
 
-    PRI(bool, IsOpen, NONE);
+    PRI_M(bool, IsOpen, NONE);
 
     void log(const SStr& line, bool newLine = true) const;
 
-public:
+PUB
     void init();
 	void update();
     void terminate();

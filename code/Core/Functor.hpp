@@ -5,9 +5,9 @@
 
 CLASS_TEMPLATE(Functor, T, ObjectBase)
 {
-	PRO(T, Callback, SET)
+	PRO_M(T, Callback, SET)
 
-public:
+PUB
 	virtual void execute() = 0;
 
 	// NOTE : Override in children if needed!
@@ -22,7 +22,7 @@ public:
 };
 
 CLASS(FunctorVoid, Functor<SFun(void()>)){
-public:	
+PUB	
 	virtual void execute() override
 	{
 		ASSERT_MSG(mCallback != nullptr, "Callback is null.");

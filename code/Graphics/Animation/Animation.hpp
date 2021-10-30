@@ -6,13 +6,13 @@
 
 CLASS(Animation, ObjectBase)
 {
-    PRI(SStr, Name, GETREF_CONST_SET)
-	PRI(SVec(AnimationFrame), Frames, GETREF_CONST);
-	PRI(u32, CurrentFrameNumber, NONE)
-	PRI(f32, TimeAccumulator, NONE)
-	PRI(f32, Speed, GET_SET)
+    PRI_M(SStr, Name, GETREF_CONST_SET)
+	PRI_M(SVec(AnimationFrame), Frames, GETREF_CONST);
+	PRI_M(u32, CurrentFrameNumber, NONE)
+	PRI_M(f32, TimeAccumulator, NONE)
+	PRI_M(f32, Speed, GET_SET)
 
-public:
+PUB
 	Animation();
 	~Animation() override;
 

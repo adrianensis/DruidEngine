@@ -4,15 +4,15 @@
 
 CLASS(Texture, ObjectBase)
 {
-	PRI(u32, TextureId, GET)
-	PRI(byte *, Data, GET)
-	PRI(u32, Width, GET)
-	PRI(u32, Height, GET)
-	PRI(SStr, Path, GETREF_CONST)
+	PRI_M(u32, TextureId, GET)
+	PRI_M(byte *, Data, GET)
+	PRI_M(u32, Width, GET)
+	PRI_M(u32, Height, GET)
+	PRI_M(SStr, Path, GETREF_CONST)
 
 	byte *readPNG();
 
-public:
+PUB
 	Texture();
 	~Texture() override;
 

@@ -10,13 +10,13 @@
 
 CLASS(Input, ObjectBase), SINGLETON(Input)
 {
-private:
+PRI
 	static void keyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
 	static void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
 	static void scrollCallback(GLFWwindow * window, double xoffset, double yoffset);
 	static void charCallback(GLFWwindow * window, unsigned int codepoint);
 
-public:
+PUB
 	Vector2 smMouseCoordinates;
 	u32 smLastMouseButtonPressed;
 	u32 smLastKeyPressed;
