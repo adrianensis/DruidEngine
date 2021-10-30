@@ -47,9 +47,8 @@ endif(ENABLE_LOGS)
 
 if(UNIX)
   set(CMAKE_CXX_FLAGS_ALL "${CMAKE_CXX_FLAGS_ALL} -std=c++17 -Werror=return-type")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL} -D DE_DEBUG -ffast-math -mavx")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -ffast-math -mavx")
-  #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -Ofast -ffast-math -mavx")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_ALL} -D DE_DEBUG -mavx")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_ALL} -O3 -mavx")
 endif(UNIX)
 
 if(WIN32)
@@ -122,6 +121,10 @@ add_subdirectory("${DEPENDENCIES_DIR}/libpng-1.6.37")
 #find_package(Freetype REQUIRED)
 #include_directories(${FREETYPE_INCLUDE_DIRS})
 
+# Duktape
+set(DUKTAPE_SOURCE "${DEPENDENCIES_DIR}/duktape-2.6.0/src/duktape.c")
+include_directories("${DEPENDENCIES_DIR}/duktape-2.6.0/src")
+
 # ----------------------------------------------------------------------------
 # ENGINE PACKAGES
 # ----------------------------------------------------------------------------
@@ -173,7 +176,7 @@ endforeach()
 # ----------------------------------------------------------------------------
 
 # single library
-add_library(${DRUID} ${OBJS} ${GLAD_SOURCE})
+add_library(${DRUID} ${OBJS} ${GLAD_SOURCE} ${DUKTAPE_SOURCE})
 
 # ----------------------------------------------------------------------------
 # LINK LIBRARIES

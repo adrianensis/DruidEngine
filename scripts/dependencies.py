@@ -79,3 +79,8 @@ extract(os.path.join(origin_path_base, "json-3.9.1.zip"), destiny)
 extract(os.path.join(origin_path_base, "libpng-1.6.37.tar.xz"), destiny)
 
 # ------------------------------------------------------------------------
+
+# Duktape
+extract(os.path.join(origin_path_base, "duktape-2.6.0.tar.xz"), destiny)
+
+# ------------------------------------------------------------------------
