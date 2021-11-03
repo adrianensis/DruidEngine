@@ -14,7 +14,7 @@
 
 void LayersBar::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 
 	UIBuilder uiBuilder;
 
@@ -53,6 +53,6 @@ void LayersBar::init(EditorController* editorController)
 
 void LayersBar::setVisibility(bool visible)
 {
-	Super::setVisibility(visible);
+	EditorUIElement::setVisibility(visible);
 	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
 }

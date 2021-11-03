@@ -7,8 +7,9 @@
 class Material;
 class Texture;
 
-CLASS(MaterialManager, ObjectBase), SINGLETON(MaterialManager)
+class MaterialManager: public ObjectBase, public Singleton<MaterialManager>
 {
+	GENERATE_METADATA(MaterialManager)
 	PRI_M(SMap(SStr, class Texture *), TexturesMap, NONE);
 	PRI_M(SMap(SStr, class Material *), MaterialsMap, NONE);
 	PRI_M(Material *, NoTextureMaterial, NONE);

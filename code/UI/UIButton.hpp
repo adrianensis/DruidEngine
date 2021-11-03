@@ -4,8 +4,9 @@
 
 class UIText;
 
-CLASS(UIButton, UIElement)
+class UIButton: public UIElement
 {
+    GENERATE_METADATA(UIButton)
 	PRI_M(UIText *, Text, GET)
 
 PUB
@@ -19,8 +20,9 @@ PUB
 	virtual void setVisibility(bool visibility) override;
 };
 
-CLASS(UIToggleButton, UIButton)
+class UIToggleButton: public UIButton
 {
+    GENERATE_METADATA(UIToggleButton)
 PUB
 	virtual void init() override;
 };

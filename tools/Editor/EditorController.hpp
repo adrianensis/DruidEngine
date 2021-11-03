@@ -20,8 +20,9 @@ class Camera;
 
 using TileCallback = SFun(void(GameObject* tile));
 
-CLASS(EditorController, ObjectBase)
+class EditorController: public ObjectBase
 {
+    GENERATE_METADATA(EditorController)
 	PRI_M(ConfigObject, EditorConfig, GETREF_CONST)
 
 	PRI_M(Brush, Brush, GETREF)
@@ -64,4 +65,5 @@ PUB
 	void zoom(f32 scroll);
 	void handleHoldKeys();
 	void handlePressedKeys();
+	void toggle();
 };

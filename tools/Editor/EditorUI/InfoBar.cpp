@@ -9,7 +9,7 @@ m##BaseName = createInfoField(#BaseName, builder);
 
 void InfoBar::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 
 	UIBuilder uiBuilder;
 

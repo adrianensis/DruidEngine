@@ -10,8 +10,9 @@ class Renderer;
 class RenderEngine;
 class Camera;
 
-CLASS(Batch, ObjectBase)
+class Batch: public ObjectBase
 {
+    GENERATE_METADATA(Batch)
 	PRI_M(RenderEngine *, RenderEngine, NONE)
 	PRI_M(SMap(u32, SLst(Renderer *) *), Renderers, NONE)
 	PRI_M(Material *, Material, GET)

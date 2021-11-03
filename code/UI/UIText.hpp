@@ -5,8 +5,9 @@
 
 class UIPanel;
 
-CLASS(UIText, UIElement)
+class UIText: public UIElement
 {
+    GENERATE_METADATA(UIText)
 	PRI_M(u32, Layer, NONE)
 	PRI_M(Vector2, Size, NONE)
 	PRI_M(SStr, String, NONE)

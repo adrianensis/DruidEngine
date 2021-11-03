@@ -4,8 +4,9 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
-CLASS(Transform, Component)
+class Transform: public Component
 {
+    GENERATE_METADATA(Transform)
 	PRI_M(Vector3, WorldPosition, NONE)
 
 	PRI_M(mutable Matrix4, ModelMatrix, NONE)

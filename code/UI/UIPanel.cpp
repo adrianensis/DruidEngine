@@ -8,7 +8,7 @@
 
 void UIPanel::initFromConfig(const UIElementConfig& config)
 {
-    Super::initFromConfig(config);
+    UIElement::initFromConfig(config);
 
     Vector3 size = mConfig.mSize;
 	size.z = 1;

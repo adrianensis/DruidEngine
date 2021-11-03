@@ -6,7 +6,7 @@
 
 #define SEND_INPUT_EVENT(event) SEND_EVENT(nullptr, Input::getInstance(), event);
 
-#define CLASS_EVENT_SPECIFIC_KEY(KeyName) CLASS_EVENT(InputEventKey ## KeyName) {};
+#define CLASS_EVENT_SPECIFIC_KEY(KeyName) class InputEventKey##KeyName: public Event { GENERATE_METADATA(InputEventKey##KeyName) };
 
 CLASS_EVENT_SPECIFIC_KEY(Enter)
 CLASS_EVENT_SPECIFIC_KEY(Esc)
@@ -14,55 +14,67 @@ CLASS_EVENT_SPECIFIC_KEY(Tab)
 CLASS_EVENT_SPECIFIC_KEY(Delete)
 CLASS_EVENT_SPECIFIC_KEY(Backspace)
 
-CLASS_EVENT(InputEventKeyArrow)
-{
+class InputEventKeyArrow: public Event
+{   
+    GENERATE_METADATA(InputEventKeyArrow)
     PUB_M(u32, ArrowButton, NONE)
 };
 
-CLASS_EVENT(InputEventMouseMoved) {};
-
-CLASS_EVENT(InputEventMouseButtonPressed)
+class InputEventMouseMoved: public Event
 {
+    GENERATE_METADATA(InputEventMouseMoved)
+};
+
+class InputEventMouseButtonPressed: public Event
+{   
+    GENERATE_METADATA(InputEventMouseButtonPressed)
     PUB_M(u32, Button, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventMouseButtonHold)
-{
+class InputEventMouseButtonHold: public Event
+{   
+    GENERATE_METADATA(InputEventMouseButtonHold)
     PUB_M(u32, Button, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventMouseButtonReleased)
-{
+class InputEventMouseButtonReleased: public Event
+{   
+    GENERATE_METADATA(InputEventMouseButtonReleased)
     PUB_M(u32, Button, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventKeyPressed)
-{
+class InputEventKeyPressed: public Event
+{   
+    GENERATE_METADATA(InputEventKeyPressed)
     PUB_M(u32, Key, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventKeyHold)
-{
+class InputEventKeyHold: public Event
+{   
+    GENERATE_METADATA(InputEventKeyHold)
     PUB_M(u32, Key, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventKeyReleased)
-{
+class InputEventKeyReleased: public Event
+{   
+    GENERATE_METADATA(InputEventKeyReleased)
     PUB_M(u32, Key, NONE)
     PUB_M(u32, Mods, NONE)
 };
 
-CLASS_EVENT(InputEventScroll)
-{
+class InputEventScroll: public Event
+{   
+    GENERATE_METADATA(InputEventScroll)
     PUB_M(f32, Scroll, NONE)
 };
 
-CLASS_EVENT(InputEventChar)
-{
+class InputEventChar: public Event
+{   
+    GENERATE_METADATA(InputEventChar)
     PUB_M(char, Char, NONE)
 };

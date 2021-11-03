@@ -6,8 +6,9 @@ class Shader;
 class Vector3;
 class Vector4;
 
-CLASS(LineRenderer, ObjectBase)
+class LineRenderer: public ObjectBase
 {
+    GENERATE_METADATA(LineRenderer)
 	PRI_M(Shader *, ShaderLine, NONE)
 
 	PRI_M(u32, MaxShapes, NONE)

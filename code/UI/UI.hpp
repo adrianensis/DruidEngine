@@ -10,8 +10,9 @@
 class Material;
 class Scene;
 
-CLASS(UI, ObjectBase), SINGLETON(UI)
+class UI: public ObjectBase, public Singleton<UI>
 {
+	GENERATE_METADATA(UI)
 	PRI_M(SMap(SStr, UIGroup *), Groups, NONE)
 	PRI_M(SMap(char, Vector2), CharMap, NONE)
 	PRI_M(Vector2, FontTilesCount, NONE)

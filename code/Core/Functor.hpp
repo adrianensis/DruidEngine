@@ -3,8 +3,10 @@
 #include "Core/Core.hpp"
 #include "Assert/Assert.hpp"
 
-CLASS_TEMPLATE(Functor, T, ObjectBase)
+template <class T>
+class Functor: public ObjectBase
 {
+	GENERATE_METADATA(Functor<T>)
 	PRO_M(T, Callback, SET)
 
 PUB
@@ -21,7 +23,9 @@ PUB
 	}*/
 };
 
-CLASS(FunctorVoid, Functor<SFun(void()>)){
+class FunctorVoid: public Functor<SFun(void()>)
+{
+	GENERATE_METADATA(FunctorVoid)
 PUB	
 	virtual void execute() override
 	{

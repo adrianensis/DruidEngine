@@ -9,8 +9,9 @@
 
 class Camera;
 
-CLASS(Frustum, ObjectBase)
+class Frustum: public ObjectBase
 {
+    GENERATE_METADATA(Frustum)
 	PRI_M(Matrix4, VPmatrix, NONE)
 	PRI_M(Camera *, Camera, NONE)
 	PRI_M(SArr(Vector4, 6), Planes, NONE);

@@ -7,8 +7,9 @@ class Texture;
 class Renderer;
 class Batch;
 
-CLASS(BatchesMap, ObjectBase)
+class BatchesMap: public ObjectBase
 {
+    GENERATE_METADATA(BatchesMap)
 	PRI_M(SMap(Texture *, Batch *), Batches, NONE);
 	PRI_M(bool, IsWorldSpace, GET)
 

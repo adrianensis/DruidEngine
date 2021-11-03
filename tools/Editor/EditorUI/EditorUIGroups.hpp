@@ -5,8 +5,9 @@
 #define DECLARE_EDITOR_UIGROUP(GroupName)\
 	PUB inline static SStr sm##GroupName = #GroupName;
 
-CLASS(EditorUIGroups, ObjectBase)
+class EditorUIGroups: public ObjectBase
 {
+    GENERATE_METADATA(EditorUIGroups)
 	DECLARE_EDITOR_UIGROUP(ToolsBar)
 	
 	DECLARE_EDITOR_UIGROUP(SpritesSelector)

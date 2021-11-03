@@ -8,8 +8,9 @@
 
 class Matrix4;
 
-CLASS(Shader, ObjectBase)
+class Shader: public ObjectBase
 {
+    GENERATE_METADATA(Shader)
 PRI
 	PRI_M(u32, VertexShader, NONE)
 	PRI_M(u32, FragmentShader, NONE)

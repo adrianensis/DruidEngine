@@ -6,8 +6,9 @@
 #include "Maths/Vector4.hpp"
 
 
-CLASS(UIStyle, ObjectBase)
+class UIStyle: public ObjectBase
 {
+    GENERATE_METADATA(UIStyle)
     PUB_M(Vector4, TextColor, NONE);
 	PUB_M(Vector4, BackgroundColor, NONE);
 	PUB_M(Vector4, ColorPressed, NONE);
@@ -32,8 +33,9 @@ PUB
 	}
 };
 
-CLASS(UIStyleManager, ObjectBase), SINGLETON(UIStyleManager)
+class UIStyleManager: public ObjectBase, public Singleton<UIStyleManager>
 {
+	GENERATE_METADATA(UIStyleManager)
 	PRI_M(UIStyle, DefaultStyle, GETREF_CONST);
 	PRI_M(SMap(ClassId, UIStyle*), Styles, NONE);
 

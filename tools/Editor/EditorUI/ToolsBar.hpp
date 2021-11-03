@@ -4,8 +4,9 @@
 #include "UI/UIElement.hpp"
 #include "EditorUIElement.hpp"
 
-CLASS(ToolsBar, EditorUIElement)
+class ToolsBar: public EditorUIElement
 {
+    GENERATE_METADATA(ToolsBar)
 PUB
 	void init(EditorController* editorController) override;
 	void setVisibility(bool visible) override;

@@ -9,7 +9,7 @@
 
 void MenuBar::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 	
 	UIBuilder uiBuilder;
 

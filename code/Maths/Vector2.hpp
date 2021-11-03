@@ -9,8 +9,9 @@
 class Vector3;
 class Vector4;
 
-CLASS(Vector2, ObjectBase)
+class Vector2: public ObjectBase
 {
+    GENERATE_METADATA(Vector2)
 PUB
 
 	f32 x, y;

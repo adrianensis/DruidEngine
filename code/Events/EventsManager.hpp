@@ -14,8 +14,9 @@
 #define UNSUBSCRIBE_TO_EVENT(EventClassName, owner, receiver) EventsManager::getInstance()->unsubscribe<EventClassName>(owner, receiver);
 #define SEND_EVENT(owner, instigator, event) EventsManager::getInstance()->send(owner, instigator, &event);
 
-CLASS(EventsManager, ObjectBase), SINGLETON(EventsManager)
+class EventsManager: public ObjectBase, public Singleton<EventsManager>
 {
+	GENERATE_METADATA(EventsManager)
 PRI
 	using ReceiversFunctorMap = SMap(ObjectBase *, EventFunctor<Event>);
 	using EventReceiversMap = SMap(ClassId, ReceiversFunctorMap);

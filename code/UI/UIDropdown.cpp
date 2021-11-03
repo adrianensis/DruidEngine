@@ -15,23 +15,23 @@ UIDropdown::UIDropdownEntry::UIDropdownEntry(const SStr& label, UIElementCallbac
 
 void UIDropdownButton::onPostReleased()
 {
-	Super::onPostReleased();
+	UIButton::onPostReleased();
 	mParentDropdown->setEntriesVisibility(false);
 }
 
 void UIDropdown::init()
 {
-	Super::init();
+	UIButton::init();
 }
 
 void UIDropdown::onDestroy()
 {
-	Super::onDestroy();
+	UIButton::onDestroy();
 }
 
 void UIDropdown::onPostReleased()
 {
-	Super::onPostReleased();
+	UIButton::onPostReleased();
 	toggle();
 }
 

@@ -7,8 +7,9 @@
 class Renderer;
 class BatchesMap;
 
-CLASS(Chunk, ObjectBase)
+class Chunk: public ObjectBase
 {
+    GENERATE_METADATA(Chunk)
 	PRI_M(SLst(Renderer *) *, Renderers, NONE);
 	PRI_M(Vector3, LeftTop, NONE)
 	PRI_M(f32, Size, NONE)

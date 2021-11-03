@@ -32,7 +32,7 @@ Vector2 Brush::getMouseWorldPosition() const
 
 void Brush::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 
 	createSelector();
 

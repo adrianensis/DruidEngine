@@ -64,9 +64,7 @@ void EditorController::init()
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
 	{
-		mSprites.toggle();
-        mToolsBar.toggle();
-        mLayersBar.toggle();
+		toggle();
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyPressed, nullptr, this, [&](const Event *event)
@@ -336,4 +334,11 @@ void EditorController::handleHoldKeys()
 			zoom(-1);
 		}
 	}
+}
+
+void EditorController::toggle()
+{
+	mSprites.toggle();
+	mToolsBar.toggle();
+	mLayersBar.toggle();
 }

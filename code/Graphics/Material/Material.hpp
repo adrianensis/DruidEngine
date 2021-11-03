@@ -6,8 +6,9 @@
 class Texture;
 class Shader;
 
-CLASS(Material, ObjectBase)
+class Material: public ObjectBase
 {
+    GENERATE_METADATA(Material)
 	PRI_M(Vector4, Color, GET_SET)
 	PRI_M(Shader *, Shader, GET_SET);
 	PRI_M(Texture *, Texture, GET_SET);

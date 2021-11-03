@@ -11,8 +11,9 @@ enum class TimerDurationType
 	NEXT_FRAME
 };
 
-CLASS(Timer, ObjectBase)
+class Timer: public ObjectBase
 {
+    GENERATE_METADATA(Timer)
 	PRI_M(f32, Duration, GET)
 	PRI_M(f32, TimeCounter, GET_SET)
 	PRI_M(TimerDurationType, DurationType, GET)
@@ -22,8 +23,9 @@ PUB
 	void init(f32 duration, TimerDurationType durationType, SFun(void()) callback);
 };
 
-CLASS(TimerHandle, ObjectBase)
+class TimerHandle: public ObjectBase
 {
+    GENERATE_METADATA(TimerHandle)
 	friend class TimerManager;
 
 	PRI_M(Timer *, TimerReference, NONE)
@@ -40,8 +42,9 @@ PUB
 	}
 };
 
-CLASS(TimerManager, ObjectBase), SINGLETON(TimerManager)
+class TimerManager: public ObjectBase, public Singleton<TimerManager>
 {
+	GENERATE_METADATA(TimerManager)
 	PRI_M(SLst(Timer *), Timers, NONE);
 
 	void endTimer(Timer * timer);

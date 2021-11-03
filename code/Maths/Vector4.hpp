@@ -9,8 +9,9 @@
 class Vector2;
 class Vector3;
 
-CLASS(Vector4, ObjectBase) /*16 bytes alignment*/
+class Vector4: public ObjectBase
 {
+	GENERATE_METADATA(Vector4)
 PUB
 
 	f32 x, y, z, w;

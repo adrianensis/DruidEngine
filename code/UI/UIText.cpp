@@ -22,12 +22,12 @@ UIText::UIText()
 
 void UIText::init()
 {
-	Super::init();
+	UIElement::init();
 }
 
 void UIText::initFromConfig(const UIElementConfig& config)
 {
-	Super::initFromConfig(config);
+	UIElement::initFromConfig(config);
 
 	Vector3 textSize = Vector3(UIUtils::correctAspectRatio_X(mConfig.mTextSize), 1);
 
@@ -53,7 +53,7 @@ void UIText::initFromConfig(const UIElementConfig& config)
 
 void UIText::onDestroy()
 {
-	Super::onDestroy();
+	UIElement::onDestroy();
 }
 
 void UIText::setText(const SStr &text)
@@ -162,7 +162,7 @@ void UIText::setIsEditable(bool editable)
 
 void UIText::setVisibility(bool visibility)
 {
-    Super::setVisibility(visibility);
+    UIElement::setVisibility(visibility);
 
     if(mBackground)
     {

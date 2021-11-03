@@ -14,8 +14,9 @@ class Component;
 #define ADD_COMPONENT_TO_SUBSYSTEM(component) \
     SubsystemsManager::getInstance()->addComponentToSubsystem(component);
 
-CLASS(ISubsystem, ObjectBase)
+class ISubsystem: public ObjectBase
 {
+    GENERATE_METADATA(ISubsystem)
 PRI
     SSet(ClassId) mAcceptedComponentClasses;
 
@@ -36,7 +37,7 @@ PUB
     virtual void addComponent(Component * component);
 };
 
-class SubsystemsManager : SINGLETON(SubsystemsManager)
+class SubsystemsManager : public Singleton<SubsystemsManager>
 {
 PRI
     SLst(ISubsystem *) mSubsystems;

@@ -13,7 +13,7 @@
 
 void ToolsBar::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 
 	UIBuilder uiBuilder;
 
@@ -64,7 +64,7 @@ void ToolsBar::init(EditorController* editorController)
 
 void ToolsBar::setVisibility(bool visible)
 {
-	Super::setVisibility(visible);
+	EditorUIElement::setVisibility(visible);
 
 	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
 }

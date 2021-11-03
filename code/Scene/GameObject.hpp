@@ -9,10 +9,11 @@
 class Transform;
 class Scene;
 
-CLASS_EVENT(EventOnDestroy) {};
+class EventOnDestroy: public Event { GENERATE_METADATA(EventOnDestroy) };
 
-CLASS(GameObject, ObjectBase)
+class GameObject: public ObjectBase
 {
+    GENERATE_METADATA(GameObject)
 	PRI_M(SMap(ClassId, SLst(Component *) *), ComponentsMap, NONE)
 	PRI_M(bool, IsActive, NONE)
 

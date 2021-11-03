@@ -30,7 +30,7 @@ void RenderEngine::init(f32 sceneSize)
 {
 	TRACE()
 
-	Super::init();
+	ISubsystem::init();
 
 	REGISTER_COMPONENT_CLASS_IN_SUBSYSTEM(Renderer)
 
@@ -212,7 +212,7 @@ void RenderEngine::terminate()
 
 void RenderEngine::addComponent(Component *component)
 {
-	Super::addComponent(component);
+	ISubsystem::addComponent(component);
 
 	if(component->getClassId() == Renderer::getClassIdStatic())
 	{

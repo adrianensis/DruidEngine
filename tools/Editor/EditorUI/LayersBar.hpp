@@ -5,8 +5,9 @@
 
 #include "EditorUIElement.hpp"
 
-CLASS(LayersBar, EditorUIElement)
+class LayersBar: public EditorUIElement
 {
+    GENERATE_METADATA(LayersBar)
 PUB
 	void init(EditorController* editorController) override;
 	void setVisibility(bool visible) override;

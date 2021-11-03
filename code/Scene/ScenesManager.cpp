@@ -37,11 +37,6 @@ void ScenesManager::internalLoadScene()
 
 void ScenesManager::init()
 {
-	/*INSTANCEABLE_BY_CLASSNAME(GameObject);
-	INSTANCEABLE_BY_CLASSNAME(MapElement);
-	INSTANCEABLE_BY_CLASSNAME(MapElement_Tile);
-	INSTANCEABLE_BY_CLASSNAME(MapElement_ActionPoint);*/
-
 	mCurrentSceneIndex = 0;
 
 	u32 scenesCount = EngineConfig::getInstance()->getConfig().at("scenes").size();

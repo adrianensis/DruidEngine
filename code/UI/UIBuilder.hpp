@@ -36,8 +36,9 @@ class Scene;
 	UI_BUILDER_CONFIG_RESTORE(Name)\
 	UI_BUILDER_CONFIG_SETTER(Name)
 
-CLASS(UIBuilder, ObjectBase)
+class UIBuilder: public ObjectBase
 {
+    GENERATE_METADATA(UIBuilder)
 	PRI_M(UILayout, CurrentLayout, NONE)
 	PRI_M(UIElementConfig, Config, GETREF_CONST_SET)
 	PRI_M(UIElementConfig, DefaultConfig, NONE)

@@ -5,8 +5,9 @@
 class Vector3;
 
 
-CLASS(Mesh, ObjectBase)
+class Mesh: public ObjectBase
 {
+    GENERATE_METADATA(Mesh)
 	PRI_M(SVec(f32), Vertices, GETREF_CONST)
 	PRI_M(SVec(f32), Normals, GETREF_CONST)
 	PRI_M(SVec(f32), TextureCoordinates, GETREF_CONST)

@@ -2,8 +2,9 @@
 
 #include "UI/UIStyle.hpp"
 
-CLASS(UIStyleEditor, UIStyle)
+class UIStyleEditor: public UIStyle
 {
+    GENERATE_METADATA(UIStyleEditor)
 PUB
 	UIStyleEditor()
 	{
@@ -11,8 +12,9 @@ PUB
 	}
 };
 
-CLASS(UIStyleEditorBrushPreview, UIStyleEditor)
+class UIStyleEditorBrushPreview: public UIStyleEditor
 {
+    GENERATE_METADATA(UIStyleEditorBrushPreview)
 PUB
 	UIStyleEditorBrushPreview()
 	{
@@ -20,8 +22,9 @@ PUB
 	}
 };
 
-CLASS(UIStyleEditorToolsBar, UIStyleEditor)
+class UIStyleEditorToolsBar: public UIStyleEditor
 {
+    GENERATE_METADATA(UIStyleEditorToolsBar)
 PUB
 	UIStyleEditorToolsBar()
 	{

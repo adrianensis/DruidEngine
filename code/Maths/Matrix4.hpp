@@ -4,8 +4,9 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
 
-CLASS(Matrix4, ObjectBase)
+class Matrix4: public ObjectBase
 {
+    GENERATE_METADATA(Matrix4)
 PRI
 	static bool smIdentityCreated;
 	static Matrix4 smIdentity;

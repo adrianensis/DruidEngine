@@ -10,8 +10,9 @@
 	conf.setF32("key", 1.0f);
 */
 
-CLASS(ConfigObject, ObjectBase)
+class ConfigObject: public ObjectBase
 {
+    GENERATE_METADATA(ConfigObject)
 	PRI_M(JSON, Json, GETREF_CONST_SET);
 
 PUB

@@ -3,16 +3,18 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
 
-CLASS(Shape, ObjectBase)
+class Shape: public ObjectBase
 {
+    GENERATE_METADATA(Shape)
 PUB
 
     SERIALIZE() { }
 	DESERIALIZE() { }
 };
 
-CLASS(Rectangle, Shape)
+class Rectangle: public Shape
 {
+    GENERATE_METADATA(Rectangle)
     PRO_M(Vector2, LeftTop, GETREF_CONST_SET)
     PRO_M(Vector2, Size, GETREF_CONST_SET)
 
@@ -46,7 +48,7 @@ PUB
 
     SERIALIZE()
     {
-        SUPER_SERIALIZE()
+        Shape::serialize(json);
 
         DO_SERIALIZE("left_top", mLeftTop)
         DO_SERIALIZE("size", mSize)
@@ -54,7 +56,7 @@ PUB
 
     DESERIALIZE()
     {
-        SUPER_DESERIALIZE()
+        Shape::deserialize(json);
 
         DO_DESERIALIZE("left_top", mLeftTop);
         DO_DESERIALIZE("size", mSize);

@@ -6,16 +6,18 @@
 
 class GameObject;
 
-CLASS(CellGrid, ObjectBase)
+class CellGrid: public ObjectBase
 {
+    GENERATE_METADATA(CellGrid)
 	PUB_M(GameObject *, GameObject, NONE)
 	PUB_M(Vector2, WorldPosition, NONE)
 PUB
 
 };
 
-CLASS(Grid, EditorUIElement)
+class Grid: public EditorUIElement
 {
+    GENERATE_METADATA(Grid)
 	PRI_M(SVec(SVec(CellGrid)), CellsGrid, NONE)
 	PRI_M(Vector2, GridSize, GETREF_CONST)
 	PRI_M(Vector2, TileSize, GETREF_CONST)

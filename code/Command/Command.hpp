@@ -2,8 +2,9 @@
 
 #include "Core/Core.hpp"
 
-CLASS(CommandArgument, ObjectBase)
+class CommandArgument: public ObjectBase
 {
+    GENERATE_METADATA(CommandArgument)
     PRI_M(SStr, Name, GETREF_CONST_SET);
     PRI_M(SStr, Value, GETREF_CONST_SET);
 
@@ -16,8 +17,9 @@ PUB
     }
 };
 
-CLASS(Command, ObjectBase)
+class Command: public ObjectBase
 {
+    GENERATE_METADATA(Command)
     PRI_M(SStr, Name, GETREF_CONST_SET);
     PRI_M(SStr, ArgumentsString, GETREF_CONST_SET);
     PRI_M(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);

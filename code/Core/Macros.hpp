@@ -61,35 +61,6 @@ void __customMain()
 	ClassName() = default;        \
 	~ClassName() override = default;
 
-#define CLASS_MACRO_COMMON(ClassName, ...) \
-	class ClassName##_PARENT : public __VA_ARGS__           \
-	{                                                       \
-		GENERATE_METADATA(ClassName)               \
-	PUB                                                 \
-		CLASS_MACRO_CONSTRUCTOR(ClassName##_PARENT)                  \
-	PRO                                              \
-		using Super = __VA_ARGS__;                          \
-	PRI\
-		SStr ____className = getClassNameStatic();\
-	};
-
-#define TEMPLATE_MACRO(Template)\
-template<class Template>
-
-#define CLASS_TEMPLATE_MACRO_BASE(ClassName, TemplateMacro, Template, ...) \
-	TemplateMacro(Template)                               \
-	class ClassName;                                        \
-	CLASS_MACRO_COMMON(ClassName, __VA_ARGS__)              \
-	TemplateMacro(Template)                               \
-	class ClassName : public ClassName##_PARENT
-
-#define CLASS(ClassName, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, NONE, NONE, __VA_ARGS__)
-#define CLASS_NESTED(ClassName, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, NONE, NONE, __VA_ARGS__) // needed so generated code script can ignore nested classes
-#define CLASS_TEMPLATE(ClassName, Template, ...) CLASS_TEMPLATE_MACRO_BASE(ClassName, TEMPLATE_MACRO, Template, __VA_ARGS__)
-
-#define SINGLETON(...) \
-public Singleton<__VA_ARGS__>
-
 #define GENERATE_ID_STATIC(...)                                  \
 	static ClassId getClassIdStatic()                            \
 	{                                                            \
@@ -100,7 +71,7 @@ public Singleton<__VA_ARGS__>
 #define GENERATE_ID_VIRTUAL(...)                         \
 	ClassId getClassId() const override                  \
 	{                                                    \
-		return __VA_ARGS__##_PARENT::getClassIdStatic(); \
+		return __VA_ARGS__::getClassIdStatic(); \
 	};
 
 #define GENERATE_NAME_STATIC(...)                                 \
@@ -113,7 +84,7 @@ public Singleton<__VA_ARGS__>
 #define GENERATE_NAME_VIRTUAL(...)                         \
 	SStr getClassName() const override              \
 	{                                                      \
-		return __VA_ARGS__##_PARENT::getClassNameStatic(); \
+		return __VA_ARGS__::getClassNameStatic(); \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
@@ -251,9 +222,6 @@ Visibility:
 #define SERIALIZE()\
 virtual void serialize(JSON &json) const override
 
-#define SUPER_SERIALIZE()\
-Super::serialize(json);
-
 // This macro must be used in .cpp
 #define SERIALIZE_IMPL(...)\
 void __VA_ARGS__::serialize(JSON &json) const
@@ -297,9 +265,6 @@ FOR_LIST(__it, Var)\
 
 #define DESERIALIZE()\
 virtual void deserialize(const JSON &json) override
-
-#define SUPER_DESERIALIZE()\
-Super::deserialize(json);
 
 #define DESERIALIZE_IMPL(...)\
 void __VA_ARGS__::deserialize(const JSON &json)

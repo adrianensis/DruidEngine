@@ -20,14 +20,16 @@ enum class BrushPaintMode
 	ERASE
 };
 
-CLASS(BrushPaintData, ObjectBase)
+class BrushPaintData: public ObjectBase
 {
+    GENERATE_METADATA(BrushPaintData)
 	PUB_M(Rectangle, Region, NONE)
 	PUB_M(Material *, Material, NONE)
 };
 
-CLASS(Brush, EditorUIElement)
+class Brush: public EditorUIElement
 {
+    GENERATE_METADATA(Brush)
 	PRI_M(GameObject *, Selector, NONE)
 	PRI_M(SVec(GameObject *), BrushPreview, NONE)
 

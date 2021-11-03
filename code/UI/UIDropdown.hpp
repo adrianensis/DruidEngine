@@ -5,20 +5,23 @@
 
 class UIDropdown;
 
-CLASS(UIDropdownButton, UIButton)
+class UIDropdownButton: public UIButton
 {
+    GENERATE_METADATA(UIDropdownButton)
 	PRI_M(UIDropdown *, ParentDropdown, GET_SET)
 PUB
 	virtual void onPostReleased() override;
 };
 
-CLASS(UIDropdown, UIButton)
+class UIDropdown: public UIButton
 {
+    GENERATE_METADATA(UIDropdown)
 friend UIDropdownButton;
 
 PRI
-	CLASS_NESTED(UIDropdownEntry, ObjectBase)
+	class UIDropdownEntry: public ObjectBase
 	{
+		GENERATE_METADATA(UIDropdown::UIDropdownEntry)
 		PUB_M(SStr, Label, NONE)
 		PUB_M(UIElementCallback, Callback, NONE)
 

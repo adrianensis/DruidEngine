@@ -14,8 +14,9 @@ enum class ServerStatus
 
 #define DEFAULT_SOCKET_READ_SIZE 1024
 
-CLASS(Server, ObjectBase)
+class Server: public ObjectBase
 {
+    GENERATE_METADATA(Server)
 	PRI_M(ServerStatus, Status, GET);
 
 PRI

@@ -7,8 +7,9 @@ class Scene;
 class Script;
 class GameObject;
 
-CLASS(ScenesManager, ObjectBase), SINGLETON(ScenesManager)
+class ScenesManager: public ObjectBase, public Singleton<ScenesManager>
 {
+	GENERATE_METADATA(ScenesManager)
 	PRI_M(SVec(Scene *), Scenes, NONE);
 	PRI_M(u32, CurrentSceneIndex, NONE)
 

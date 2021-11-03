@@ -8,8 +8,9 @@
 
 #include "Input/InputEvents.hpp"
 
-CLASS(Input, ObjectBase), SINGLETON(Input)
+class Input: public ObjectBase, public Singleton<Input>
 {
+	GENERATE_METADATA(Input)
 PRI
 	static void keyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);
 	static void mouseButtonCallback(GLFWwindow * window, int button, int action, int mods);

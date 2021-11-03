@@ -182,7 +182,7 @@ bool Renderer::hasClipRectangle() const
 
 SERIALIZE_IMPL(Renderer)
 {
-	Super::serialize(json);
+	Component::serialize(json);
 
 	SStr materialPath = "";
 

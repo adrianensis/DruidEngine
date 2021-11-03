@@ -2,8 +2,9 @@
 
 #include "UI/UIElement.hpp"
 
-CLASS(UIPanel, UIElement)
+class UIPanel: public UIElement
 {
+    GENERATE_METADATA(UIPanel)
     PUB
         virtual void initFromConfig(const UIElementConfig& config) override;
 };

@@ -5,8 +5,9 @@
 
 class Script;
 
-CLASS(ScriptEngine, ISubsystem), SINGLETON(ScriptEngine)
+class ScriptEngine: public ISubsystem, public Singleton<ScriptEngine>
 {
+	GENERATE_METADATA(ScriptEngine)
 	PRI_M(SLst(Script *), Scripts, NONE);
 	PRI_M(Script *, Controller, NONE)
 

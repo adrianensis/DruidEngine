@@ -3,8 +3,6 @@
 
 SMap(SStr, ClassRegisterCallback) ClassManager::smRegisters;
 
-//#include "../../generated-code/code.includes.generated"
-
 ClassRegister::ClassRegister(const SStr &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(ClassManager::smRegisters, className, callback);
@@ -13,8 +11,6 @@ ClassRegister::ClassRegister(const SStr &className, ClassRegisterCallback callba
 void ClassManager::init()
 {
     TRACE()
-
-    //#include "../../generated-code/code.generated"
     
     FOR_MAP(it, smRegisters)
     {

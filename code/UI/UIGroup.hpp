@@ -4,8 +4,9 @@
 
 class UIElement;
 
-CLASS(UIGroup, ObjectBase)
+class UIGroup: public ObjectBase
 {
+    GENERATE_METADATA(UIGroup)
 	PUB_M(SStr, Name, GETREF_CONST)
 	PUB_M(bool, Visible, GET)
 	PUB_M(SLst(UIElement *), UIElements, GETREF_CONST);

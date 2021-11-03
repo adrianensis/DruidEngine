@@ -4,8 +4,9 @@
 
 #include "UI/UIStyle.hpp"
 
-CLASS(UIStyleEditableTextBackground, UIStyle)
+class UIStyleEditableTextBackground: public UIStyle
 {
+    GENERATE_METADATA(UIStyleEditableTextBackground)
 PUB
 	UIStyleEditableTextBackground()
 	{
@@ -13,8 +14,9 @@ PUB
 	}
 };
 
-CLASS(UIEditableText, UIText)
+class UIEditableText: public UIText
 {
+    GENERATE_METADATA(UIEditableText)
 PRO
     virtual void setBackground(const UIElementConfig& config) override;
 

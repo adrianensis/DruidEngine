@@ -8,8 +8,9 @@
 
 class GameObject;
 
-CLASS(Scene, ObjectBase)
+class Scene: public ObjectBase
 {
+    GENERATE_METADATA(Scene)
 	PRI_M(SLst(GameObject *), GameObjects, GET);
 	PRI_M(SLst(GameObject *), NewGameObjects, GET);
 	PRI_M(GameObject *, CameraGameObject, GET_SET)

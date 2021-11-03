@@ -17,11 +17,14 @@ class Chunk;
 class Vector3;
 class LineRenderer;
 
-CLASS(RenderEngine, ISubsystem), SINGLETON(RenderEngine)
+class RenderEngine : public ISubsystem, public Singleton<RenderEngine>
 {
 PRI
-	CLASS_NESTED(LayerData, ObjectBase)
+	GENERATE_METADATA(RenderEngine)
+
+	class LayerData : public ObjectBase
 	{
+		GENERATE_METADATA(RenderEngine::LayerData)
 		PUB_M(bool, Sorted, NONE)
 		PUB_M(u32, DynamicObjectsCount, NONE) // Non static objects count
 		PUB_M(u32, SortCounter, NONE)

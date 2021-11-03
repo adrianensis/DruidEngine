@@ -13,8 +13,9 @@ class Material;
 class Mesh;
 class Chunk;
 
-CLASS(Renderer, Component)
+class Renderer: public Component
 {
+    GENERATE_METADATA(Renderer)
 	PUB Renderer();
 	PUB ~Renderer() override;
 	PUB SERIALIZE();

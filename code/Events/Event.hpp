@@ -5,9 +5,9 @@
 #include "Core/Functor.hpp"
 #include "Core/Time/TimerManager.hpp"
 
-#define CLASS_EVENT(EventClassName) CLASS(EventClassName, Event)
-
-CLASS(Event, ObjectBase){
+class Event: public ObjectBase
+{
+    GENERATE_METADATA(Event)
 	PUB_M(f32, DelayAmount, NONE)
 	PUB_M(TimerDurationType, DelayType, NONE)
 	PUB_M(ObjectBase *, Instigator, NONE)
@@ -24,8 +24,10 @@ CLASS(Event, ObjectBase){
 
 using EventCallback = SFun(void(const Event *));
 
-CLASS_TEMPLATE(EventFunctor, E, Functor<EventCallback>)
+template<class E>
+class EventFunctor: public Functor<EventCallback>
 {
+	GENERATE_METADATA(EventFunctor<E>)
 	PUB_M(E *, Event, NONE)
 	PUB_M(ClassId, EventClassId, NONE)
 	PUB_M(ObjectBase *, EventReceiver, NONE)
@@ -42,7 +44,7 @@ PUB
 	// NOTE : Override in children!
 	COPY(EventFunctor)
 	{
-		Super::copy(other);
+		Functor<EventCallback>::copy(other);
 		DO_COPY(Event)
 		DO_COPY(EventClassId)
 		DO_COPY(EventReceiver)

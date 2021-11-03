@@ -3,8 +3,9 @@
 #include "Scripting/Script.hpp"
 #include "EditorController.hpp"
 
-CLASS(Editor, Script)
+class Editor: public Script
 {
+    GENERATE_METADATA(Editor)
 	PRI_M(EditorController, EditorController, GET)
 
 PUB

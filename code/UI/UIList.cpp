@@ -16,7 +16,7 @@ UIList::UIListEntry::UIListEntry(const SStr& label, UIElementCallback callback)
 
 void UIList::init()
 {
-	Super::init();
+	UIElement::init();
 
 	setOnFocusLostCallback([this](UIElement *uiElement)
 	{ 
@@ -28,7 +28,7 @@ void UIList::init()
 
 void UIList::initFromConfig(const UIElementConfig& config)
 {
-	Super::initFromConfig(config);
+	UIElement::initFromConfig(config);
 
 	getTransform()->setLocalPosition(mConfig.mDisplayPosition);
 	getTransform()->setScale(Vector3(UIUtils::correctAspectRatio_X(mConfig.mSize), 1));
@@ -57,7 +57,7 @@ void UIList::initFromConfig(const UIElementConfig& config)
 
 void UIList::onDestroy()
 {
-	Super::onDestroy();
+	UIElement::onDestroy();
 }
 
 UIList &UIList::addOption(const SStr &label, UIElementCallback onPressedCallback)

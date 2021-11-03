@@ -186,7 +186,7 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 
 SERIALIZE_IMPL(Transform)
 {
-	SUPER_SERIALIZE()
+	Component::serialize(json);
 
 	DO_SERIALIZE("local_position", mLocalPosition);
 	DO_SERIALIZE("scale", mScale);
@@ -195,7 +195,8 @@ SERIALIZE_IMPL(Transform)
 
 DESERIALIZE_IMPL(Transform)
 {
-	SUPER_DESERIALIZE()
+	Component::deserialize(json);
+
 
 	DO_DESERIALIZE("local_position", mLocalPosition);
 	DO_DESERIALIZE("scale", mScale);

@@ -16,8 +16,9 @@ enum class UILayout
 	VERTICAL
 };
 
-CLASS(UIElementConfig, ObjectBase)
+class UIElementConfig: public ObjectBase
 {
+    GENERATE_METADATA(UIElementConfig)
 	PUB_M(const UIStyle*, Style, NONE)
 	PUB_M(ClassId, UIElementClassId, NONE)
 	PUB_M(Vector2, Position, NONE)

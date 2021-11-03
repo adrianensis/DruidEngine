@@ -4,8 +4,9 @@
 #include "Maths/Vector2.hpp"
 #include "Graphics/Animation/AnimationFrame.hpp"
 
-CLASS(Animation, ObjectBase)
+class Animation: public ObjectBase
 {
+    GENERATE_METADATA(Animation)
     PRI_M(SStr, Name, GETREF_CONST_SET)
 	PRI_M(SVec(AnimationFrame), Frames, GETREF_CONST);
 	PRI_M(u32, CurrentFrameNumber, NONE)

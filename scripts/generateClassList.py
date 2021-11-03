@@ -7,7 +7,7 @@ class ClassDef:
     self.include = include
 
 def searchClassDefinition(text):
-    return re.search(r'^\s*CLASS\s*\(\s*(\w+)\s*,\s*\w+\s*\)\s*', text)
+    return re.search(r'^\s*GENERATE_METADATA\s*\(\s*(\w+)\s*\)\s*', text)
 
 def getClassList(currentDir, folders):
 

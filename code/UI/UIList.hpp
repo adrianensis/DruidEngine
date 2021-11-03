@@ -3,12 +3,14 @@
 #include "UI/UIButton.hpp"
 
 
-CLASS(UIList, UIElement)
+class UIList: public UIElement
 {
+    GENERATE_METADATA(UIList)
 
 PRI
-	CLASS_NESTED(UIListEntry, ObjectBase)
+	class UIListEntry: public ObjectBase
 	{
+		GENERATE_METADATA(UIList::UIListEntry)
 		PUB_M(SStr, Label, NONE)
 		PUB_M(UIElementCallback, Callback, NONE)
 

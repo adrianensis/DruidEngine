@@ -2,8 +2,9 @@
 
 #include "Core/Core.hpp"
 
-CLASS(Texture, ObjectBase)
+class Texture: public ObjectBase
 {
+    GENERATE_METADATA(Texture)
 	PRI_M(u32, TextureId, GET)
 	PRI_M(byte *, Data, GET)
 	PRI_M(u32, Width, GET)

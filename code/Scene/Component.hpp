@@ -4,8 +4,9 @@
 
 class GameObject;
 
-CLASS(Component, ObjectBase)
+class Component: public ObjectBase
 {
+    GENERATE_METADATA(Component)
 	PRI_M(bool, IsActive, NONE)
 	PRI_M(bool, IsStatic, NONE)
 

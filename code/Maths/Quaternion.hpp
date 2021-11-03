@@ -8,8 +8,9 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
 
-CLASS(Quaternion, ObjectBase) /*16 bytes alignment*/
+class Quaternion: public ObjectBase
 {
+	GENERATE_METADATA(Quaternion)
 PUB
 	//-------------------------------------------------------------------
 	// MEMBERS

@@ -4,8 +4,9 @@
 
 #include "Maths/Vector2.hpp"
 
-CLASS(AnimationFrame, ObjectBase)
+class AnimationFrame: public ObjectBase
 {
+    GENERATE_METADATA(AnimationFrame)
 	PRI_M(Vector2, Position, GET)
 	PRI_M(f32, Width, GET)
 	PRI_M(f32, Height, GET)

@@ -2,8 +2,9 @@
 
 #include "Core/Core.hpp"
 
-CLASS(Engine, ObjectBase), SINGLETON(Engine)
+class Engine: public ObjectBase, public Singleton<Engine>
 {
+	GENERATE_METADATA(Engine)
 	PRI_M(f32, FPS, NONE)
 
 PUB

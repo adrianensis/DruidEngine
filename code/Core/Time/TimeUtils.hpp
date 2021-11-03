@@ -3,8 +3,9 @@
 #include "Core/Core.hpp"
 #include <chrono>
 
-CLASS(TimeMark, ObjectBase)
+class TimeMark: public ObjectBase
 {
+    GENERATE_METADATA(TimeMark)
 	PRI_M(f32, DeltaTimeMillis, NONE)
 	PRI_M(f32, DeltaTimeSeconds, NONE)
 	PRI_M(std::chrono::milliseconds, DeltaTimeChronoDuration, NONE);
@@ -30,8 +31,9 @@ PUB
 	}
 };
 
-CLASS(Time, ObjectBase), SINGLETON(Time)
-{	
+class Time: public ObjectBase, public Singleton<Time>
+{
+	GENERATE_METADATA(Time)	
 	PRI_M(TimeMark, InternalTimeMark, NONE)
 
 PUB

@@ -14,8 +14,9 @@ class UIElement;
 
 using UIElementCallback = SFun(void(UIElement *uiElement));
 
-CLASS(FunctorUIElement, Functor<UIElementCallback>)
+class FunctorUIElement: public Functor<UIElementCallback>
 {
+	GENERATE_METADATA(FunctorUIElement)
 	PUB_M(UIElement *, UIElement, NONE)
 
 PUB
@@ -35,8 +36,9 @@ PUB
 	}
 };
 
-CLASS(UIElement, GameObject)
+class UIElement: public GameObject
 {
+    GENERATE_METADATA(UIElement)
 	PRO_M(UIElementConfig, Config, GETREF_CONST_SET)
 
 	PRO_M(FunctorUIElement, OnPressedFunctor, NONE)

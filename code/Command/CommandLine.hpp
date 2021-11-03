@@ -10,8 +10,10 @@ class UIText;
 
 using CommandCallback = SFun(void(const Command& command));
 
-CLASS(CommandFunctor, Functor<CommandCallback>)
+class CommandFunctor: public Functor<CommandCallback>
 {
+	GENERATE_METADATA(CommandFunctor)
+	
     PRI_M(Command, Command, GETREF_SET);
 
 PUB
@@ -33,8 +35,9 @@ PUB
 
 };
 
-CLASS(CommandLine, ObjectBase), SINGLETON(CommandLine)
+class CommandLine: public ObjectBase, public Singleton<CommandLine>
 {
+	GENERATE_METADATA(CommandLine)
     PRI_M(SMap(SStr, CommandFunctor), CommandsMap, NONE)
 	PRI_M(SStr, Buffer, GETREF_CONST)
 

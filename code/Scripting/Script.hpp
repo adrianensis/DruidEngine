@@ -4,8 +4,9 @@
 
 class GameObject;
 
-CLASS(Script, Component)
+class Script: public Component
 {
+    GENERATE_METADATA(Script)
 	PRI_M(bool, FirstUpdateDone, GET)
 
 PUB

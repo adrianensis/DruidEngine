@@ -5,7 +5,7 @@
 
 void Grid::init(EditorController* editorController)
 {
-    Super::init(editorController);
+    EditorUIElement::init(editorController);
     
     mGridSize.set(50, 50);
     mTileSize.set(50, 50);

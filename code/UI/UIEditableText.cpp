@@ -10,13 +10,13 @@
 
 void UIEditableText::init()
 {
-	Super::init();
+	UIText::init();
     setIsEditable(true);
 }
 
 void UIEditableText::setBackground(const UIElementConfig& config)
 {
-    Super::setBackground(config);
+    UIText::setBackground(config);
     
     if(mBackground)
     {

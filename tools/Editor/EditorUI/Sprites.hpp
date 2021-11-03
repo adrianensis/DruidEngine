@@ -10,8 +10,9 @@ class UIButton;
 class UIPanel;
 class Material;
 
-CLASS(Sprites, EditorUIElement)
-{    
+class Sprites: public EditorUIElement
+{
+    GENERATE_METADATA(Sprites)    
     PRI_M(SLst(GameObject*), Frames, NONE)
     PRI_M(SLst(GameObject*), Sprites, NONE)
 

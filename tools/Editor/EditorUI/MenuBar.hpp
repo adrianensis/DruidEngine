@@ -4,8 +4,9 @@
 
 #include "EditorUIElement.hpp"
 
-CLASS(MenuBar, EditorUIElement)
+class MenuBar: public EditorUIElement
 {
+    GENERATE_METADATA(MenuBar)
 PUB
 	void init(EditorController* editorController) override;
 };

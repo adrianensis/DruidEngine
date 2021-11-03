@@ -48,7 +48,7 @@ Sprites::~Sprites()
 
 void Sprites::init(EditorController* editorController)
 {
-	Super::init(editorController);
+	EditorUIElement::init(editorController);
 
 	createAtlasSelectors();
     createSpriteMenu();
@@ -58,7 +58,7 @@ void Sprites::init(EditorController* editorController)
 
 void Sprites::setVisibility(bool visible)
 {
-	Super::setVisibility(visible);
+	EditorUIElement::setVisibility(visible);
 
 	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
 	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());

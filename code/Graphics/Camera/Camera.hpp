@@ -7,8 +7,9 @@
 
 class Frustum;
 
-CLASS(Camera, Component)
+class Camera: public Component
 {
+    GENERATE_METADATA(Camera)
 	PRI_M(Matrix4, ProjectionMatrix, NONE)
 	PRI_M(Matrix4, ViewTranslationMatrix, NONE)
 	PRI_M(Matrix4, InversePVMatrix, NONE) // used in screen to world calculations.

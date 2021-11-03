@@ -11,14 +11,14 @@
 
 void UIButton::init()
 {
-	Super::init();
+	UIElement::init();
 
 	subscribeToMouseEvents();
 }
 
 void UIButton::initFromConfig(const UIElementConfig& config)
 {
-	Super::initFromConfig(config);
+	UIElement::initFromConfig(config);
 
 	getTransform()->setLocalPosition(mConfig.mDisplayPosition);
 	getTransform()->setScale(Vector3(UIUtils::correctAspectRatio_X(mConfig.mSize), 1));
@@ -47,7 +47,7 @@ void UIButton::onDestroy()
 		mText = nullptr;
 	}
 
-	Super::onDestroy();
+	UIElement::onDestroy();
 }
 
 void UIButton::onLabelDestroy()
@@ -81,7 +81,7 @@ void UIButton::setText(const SStr &text)
 
 void UIButton::setVisibility(bool visibility)
 {
-	Super::setVisibility(visibility);
+	UIElement::setVisibility(visibility);
 
 	if (mText)
 	{
@@ -91,7 +91,7 @@ void UIButton::setVisibility(bool visibility)
 
 void UIToggleButton::init()
 {
-	Super::init();
+	UIButton::init();
 
 	mCanToggle = true;
 	mReleaseOnSameGroupPressed = true;
