@@ -8,12 +8,12 @@ class UIPanel;
 class UIText: public UIElement
 {
     GENERATE_METADATA(UIText)
-	PRI_M(u32, Layer, NONE)
-	PRI_M(Vector2, Size, NONE)
-	PRI_M(SStr, String, NONE)
-	PRI_M(SVec(Renderer *), FontRenderers, NONE)
-    PRI_M(bool, IsEditable, GET)
-    PRO_M(UIPanel*, Background, NONE)
+	PRI u32 mLayer = {};
+	PRI Vector2 mSize = {};
+	PRI std::string mString = {};
+	PRI std::vector<Renderer *> mFontRenderers = {};
+    PRI bool mIsEditable = {}; GET(IsEditable)
+    PRO UIPanel* mBackground = {};
 
 PRO
     void setIsEditable(bool editable);
@@ -26,7 +26,7 @@ PUB
 	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;
 
-	virtual void setText(const SStr &text) override;
+	virtual void setText(const std::string &text) override;
 
 	void setLayer(u32 layer)
 	{
@@ -38,7 +38,7 @@ PUB
 		mSize = size;
 	};
 
-	const SStr &getText() const
+	const std::string &getText() const
 	{
 		return mString;
 	};

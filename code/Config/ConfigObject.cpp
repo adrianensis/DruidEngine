@@ -1,7 +1,7 @@
 #include "Config/ConfigObject.hpp"
 #include "File/File.hpp"
 
-void ConfigObject::readFromJsonFile(const SStr &path)
+void ConfigObject::readFromJsonFile(const std::string &path)
 {
 	File::readFile(path, [&](std::ifstream &file)
 	{
@@ -9,7 +9,7 @@ void ConfigObject::readFromJsonFile(const SStr &path)
 	});
 }
 
-void ConfigObject::writeToJsonFile(const SStr &path)
+void ConfigObject::writeToJsonFile(const std::string &path)
 {
 	File::writeFile(path, [&](std::ofstream &file)
 	{
@@ -27,7 +27,7 @@ void ConfigObject::clear()
 	mJson.clear();
 }
 
-bool ConfigObject::contains(SStr &key) const
+bool ConfigObject::contains(std::string &key) const
 {
 	return mJson.contains(key);
 }

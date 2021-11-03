@@ -9,9 +9,9 @@
 
 namespace Hash
 {
-	static u32 hashString(SStr key)
+	static u32 hashString(std::string key)
 	{
-		std::hash<SStr> hash_fn;
+		std::hash<std::string> hash_fn;
 		u32 hashString = hash_fn(key);
 		return hashString;
 	}
@@ -25,7 +25,7 @@ PRI
 
 	ObjectId mObjectId = 0;
 
-	SMap(SStr, AttributeBase) mAttributes; // runtime attributes
+	std::map<std::string, AttributeBase> mAttributes; // runtime attributes
 
 PRO
 	inline static ObjectId smObjectIdCounter = 0;
@@ -35,9 +35,9 @@ PRI
 	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
 PUB
-	static SStr getClassNameStatic()
+	static std::string getClassNameStatic()
 	{
-		static SStr className = "ObjectBase";
+		static std::string className = "ObjectBase";
 		return className;
 	}
 
@@ -69,12 +69,12 @@ PUB
 		return ObjectBase::getClassIdStatic();
 	}
 
-	virtual SStr getClassName() const
+	virtual std::string getClassName() const
 	{
 		return ObjectBase::getClassNameStatic();
 	}
 
-	const SMap(SStr, AttributeBase) &getAttributes()
+	const std::map<std::string, AttributeBase> &getAttributes()
 	{
 		return mAttributes;
 	}

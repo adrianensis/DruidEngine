@@ -26,7 +26,7 @@ void Chunk::init()
 {
 	//TRACE();
 
-	mRenderers = NEW(SLst(Renderer *));
+	mRenderers = NEW(std::list<Renderer *>);
 
 	mLeftTop.set(0, 0, 0);
 }

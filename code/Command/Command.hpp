@@ -5,8 +5,8 @@
 class CommandArgument: public ObjectBase
 {
     GENERATE_METADATA(CommandArgument)
-    PRI_M(SStr, Name, GETREF_CONST_SET);
-    PRI_M(SStr, Value, GETREF_CONST_SET);
+    PRI std::string mName = {}; GETREF_CONST_SET(Name);
+    PRI std::string mValue = {}; GETREF_CONST_SET(Value);
 
 PUB
 
@@ -20,18 +20,18 @@ PUB
 class Command: public ObjectBase
 {
     GENERATE_METADATA(Command)
-    PRI_M(SStr, Name, GETREF_CONST_SET);
-    PRI_M(SStr, ArgumentsString, GETREF_CONST_SET);
-    PRI_M(SMap(SStr, CommandArgument), Arguments, GETREF_CONST);
+    PRI std::string mName = {}; GETREF_CONST_SET(Name);
+    PRI std::string mArgumentsString = {}; GETREF_CONST_SET(ArgumentsString);
+    PRI std::map<std::string, CommandArgument> mArguments = {}; GETREF_CONST(Arguments);
 
-    inline static const SStr smDefaultArgumentValue = ""; 
+    inline static const std::string smDefaultArgumentValue = ""; 
 
 PUB
 
     void clearArguments() { mArguments.clear(); };
     void addArgument(const CommandArgument& arg) { MAP_INSERT(mArguments, arg.getName(), arg); };
-    bool argumentExists(const SStr& argName) const { return MAP_CONTAINS(mArguments, argName); };
-    const SStr& getValue(const SStr& argName) const { return argumentExists(argName) ? mArguments.at(argName).getValue() : smDefaultArgumentValue; };
+    bool argumentExists(const std::string& argName) const { return MAP_CONTAINS(mArguments, argName); };
+    const std::string& getValue(const std::string& argName) const { return argumentExists(argName) ? mArguments.at(argName).getValue() : smDefaultArgumentValue; };
 
     COPY(Command)
     {

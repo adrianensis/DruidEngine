@@ -8,9 +8,9 @@
 class Event: public ObjectBase
 {
     GENERATE_METADATA(Event)
-	PUB_M(f32, DelayAmount, NONE)
-	PUB_M(TimerDurationType, DelayType, NONE)
-	PUB_M(ObjectBase *, Instigator, NONE)
+	PUB f32 mDelayAmount = {};
+	PUB TimerDurationType mDelayType = {};
+	PUB ObjectBase * mInstigator = {};
 
 	PUB
 		// NOTE : Override in children!
@@ -22,15 +22,15 @@ class Event: public ObjectBase
 		}
 };
 
-using EventCallback = SFun(void(const Event *));
+using EventCallback = std::function<void(const Event *)>;
 
 template<class E>
 class EventFunctor: public Functor<EventCallback>
 {
 	GENERATE_METADATA(EventFunctor<E>)
-	PUB_M(E *, Event, NONE)
-	PUB_M(ClassId, EventClassId, NONE)
-	PUB_M(ObjectBase *, EventReceiver, NONE)
+	PUB E * mEvent = {};
+	PUB ClassId mEventClassId = {};
+	PUB ObjectBase * mEventReceiver = {};
 
 PUB
 	void execute() override

@@ -9,8 +9,8 @@ class GameObject;
 class CellGrid: public ObjectBase
 {
     GENERATE_METADATA(CellGrid)
-	PUB_M(GameObject *, GameObject, NONE)
-	PUB_M(Vector2, WorldPosition, NONE)
+	PUB GameObject * mGameObject = {};
+	PUB Vector2 mWorldPosition = {};
 PUB
 
 };
@@ -18,9 +18,9 @@ PUB
 class Grid: public EditorUIElement
 {
     GENERATE_METADATA(Grid)
-	PRI_M(SVec(SVec(CellGrid)), CellsGrid, NONE)
-	PRI_M(Vector2, GridSize, GETREF_CONST)
-	PRI_M(Vector2, TileSize, GETREF_CONST)
+	PRI std::vector<std::vector<CellGrid>> mCellsGrid = {};
+	PRI Vector2 mGridSize = {}; GETREF_CONST(GridSize)
+	PRI Vector2 mTileSize = {}; GETREF_CONST(TileSize)
 
 PUB
 

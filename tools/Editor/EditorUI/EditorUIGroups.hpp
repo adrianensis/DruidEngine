@@ -3,7 +3,7 @@
 #include "Core/Core.hpp"
 
 #define DECLARE_EDITOR_UIGROUP(GroupName)\
-	PUB inline static SStr sm##GroupName = #GroupName;
+	PUB inline static std::string sm##GroupName = #GroupName;
 
 class EditorUIGroups: public ObjectBase
 {

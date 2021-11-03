@@ -7,13 +7,13 @@ class GameObject;
 class Component: public ObjectBase
 {
     GENERATE_METADATA(Component)
-	PRI_M(bool, IsActive, NONE)
-	PRI_M(bool, IsStatic, NONE)
+	PRI bool mIsActive = {};
+	PRI bool mIsStatic = {};
 
-	PRI_M(GameObject *, GameObject, GET_SET)
-	PRI_M(bool, AlreadyAddedToEngine, GET_SET)
-	PRI_M(bool, IsPendingToBeDestroyed, GET)
-	PRI_M(bool, IsDestroyed, GET)
+	PRI GameObject * mGameObject = {}; GET_SET(GameObject)
+	PRI bool mAlreadyAddedToEngine = {}; GET_SET(AlreadyAddedToEngine)
+	PRI bool mIsPendingToBeDestroyed = {}; GET(IsPendingToBeDestroyed)
+	PRI bool mIsDestroyed = {}; GET(IsDestroyed)
 
 PUB
 	Component();

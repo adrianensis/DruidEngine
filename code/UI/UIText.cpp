@@ -56,7 +56,7 @@ void UIText::onDestroy()
 	UIElement::onDestroy();
 }
 
-void UIText::setText(const SStr &text)
+void UIText::setText(const std::string &text)
 {
 	if (mString != text)
 	{
@@ -83,7 +83,7 @@ void UIText::setText(const SStr &text)
 						removeComponent(mFontRenderers[i]);
 					}
 
-					SVec(Renderer *) copyVector = mFontRenderers;
+					std::vector<Renderer *> copyVector = mFontRenderers;
 					mFontRenderers.clear();
 					std::copy(copyVector.begin(), copyVector.begin() + text.length(), std::back_inserter(mFontRenderers));
 				}

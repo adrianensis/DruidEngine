@@ -14,19 +14,19 @@ class EventOnDestroy: public Event { GENERATE_METADATA(EventOnDestroy) };
 class GameObject: public ObjectBase
 {
     GENERATE_METADATA(GameObject)
-	PRI_M(SMap(ClassId, SLst(Component *) *), ComponentsMap, NONE)
-	PRI_M(bool, IsActive, NONE)
+	PRI std::map<ClassId, std::list<Component *> *> mComponentsMap = {};
+	PRI bool mIsActive = {};
 
-	PRI_M(Scene *, Scene, GET_SET)
-	PRI_M(bool, IsStatic, GET_SET)
-	PRI_M(Transform *, Transform, GET)
-	PRI_M(SStr, Tag, GET_SET)
-	PRI_M(bool, IsPendingToBeDestroyed, GET)
-	PRI_M(bool, IsDestroyed, GET)
-	PRI_M(bool, ShouldPersist, GET_SET)
+	PRI Scene * mScene = {}; GET_SET(Scene)
+	PRI bool mIsStatic = {}; GET_SET(IsStatic)
+	PRI Transform * mTransform = {}; GET(Transform)
+	PRI std::string mTag = {}; GET_SET(Tag)
+	PRI bool mIsPendingToBeDestroyed = {}; GET(IsPendingToBeDestroyed)
+	PRI bool mIsDestroyed = {}; GET(IsDestroyed)
+	PRI bool mShouldPersist = {}; GET_SET(ShouldPersist)
 
 PRI
-	const SLst(Component *) *getComponents(ClassId classId) const;
+	const std::list<Component *> *getComponents(ClassId classId) const;
 	Component *getFirstComponent(ClassId classId) const;
 
 	void addComponentToSubsystem(Component* component);
@@ -53,9 +53,9 @@ PUB
 	}
 
 	template <class T>
-	const SLst(T *) *getComponents() const
+	const std::list<T *> *getComponents() const
 	{
-		return reinterpret_cast<const SLst(T *> *)(GameObject::getComponents(T::getClassIdStatic()));
+		return reinterpret_cast<const std::list<T *> *>(GameObject::getComponents(T::getClassIdStatic()));
 	}
 
 	template <class T>

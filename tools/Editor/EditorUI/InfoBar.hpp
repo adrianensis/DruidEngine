@@ -8,7 +8,7 @@
 class UIBuilder;
 
 #define INFO_BAR_MEMBER(BaseName, ...)\
-PRI_M(UIText*, BaseName, GET)\
+PRI UIText* m##BaseName = {}; GET(BaseName)\
 PUB \
 void set##BaseName(__VA_ARGS__ new##BaseName)\
 {\
@@ -23,7 +23,7 @@ class InfoBar: public EditorUIElement
 	INFO_BAR_MEMBER(BrushSize, u32)
 
 PRI
-	UIText* createInfoField(const SStr &name, UIBuilder& uiBuilder);
+	UIText* createInfoField(const std::string &name, UIBuilder& uiBuilder);
 
 PUB
 	void init(EditorController* editorController) override;

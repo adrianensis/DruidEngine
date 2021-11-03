@@ -11,11 +11,11 @@ PRI
 	class UIListEntry: public ObjectBase
 	{
 		GENERATE_METADATA(UIList::UIListEntry)
-		PUB_M(SStr, Label, NONE)
-		PUB_M(UIElementCallback, Callback, NONE)
+		PUB std::string mLabel = {};
+		PUB UIElementCallback mCallback = {};
 
 	PUB
-		UIListEntry(const SStr& label, UIElementCallback callback);
+		UIListEntry(const std::string& label, UIElementCallback callback);
 
 		COPY(UIListEntry)
 		{
@@ -24,8 +24,8 @@ PRI
 		}
 	};
 
-	SLst(UIButton *) mButtons;
-	SLst(UIListEntry) mEntries;
+	std::list<UIButton *> mButtons;
+	std::list<UIListEntry> mEntries;
 
 	void setEntriesVisibility(bool visible);
 
@@ -34,7 +34,7 @@ PUB
 	virtual void initFromConfig(const UIElementConfig& config) override;
 	virtual void onDestroy() override;
 
-	UIList& addOption(const SStr & label, UIElementCallback onPressedCallback);
+	UIList& addOption(const std::string & label, UIElementCallback onPressedCallback);
 
 	void toggle();
 	virtual void onScroll(f32 scroll) override;

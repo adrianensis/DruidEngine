@@ -8,7 +8,7 @@
 #include "Scene/Scene.hpp"
 #include "Graphics/Mesh.hpp"
 
-UIList::UIListEntry::UIListEntry(const SStr& label, UIElementCallback callback)
+UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
@@ -60,7 +60,7 @@ void UIList::onDestroy()
 	UIElement::onDestroy();
 }
 
-UIList &UIList::addOption(const SStr &label, UIElementCallback onPressedCallback)
+UIList &UIList::addOption(const std::string &label, UIElementCallback onPressedCallback)
 {
 	mEntries.push_back(UIListEntry(label, onPressedCallback));
 	return *this;
@@ -86,7 +86,7 @@ void UIList::toggle()
 
 		FOR_LIST(it, mEntries)
 		{
-			SStr &label = (*it).mLabel;
+			std::string &label = (*it).mLabel;
 			UIElementCallback onPressedCallback = (*it).mCallback;
 
 			uiBuilder.
@@ -132,7 +132,7 @@ void UIList::setEntriesVisibility(bool visible)
 	/*if(visible){
 		FOR_LIST(it, mEntries) {
 
-			SStr& label = it.get().mLabel;
+			std::string& label = it.get().mLabel;
 			UIElementCallback onPressedCallback = it.get().mCallback;
 
 			Vector3 scale = getTransform()->getScale();

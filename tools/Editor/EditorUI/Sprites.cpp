@@ -84,7 +84,7 @@ void Sprites::createAtlasSelectors()
 
 	FOR_LIST(it, getEditorController()->getEditorConfig().at("atlases"))
 	{
-		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<SStr>());
+		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<std::string>());
 
 		UIButton* atlasSelector = uiBuilder.
 			setMaterial(material).
@@ -338,7 +338,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
     {
         mSpritePreview->getRenderer()->addAnimation(it->first, it->second);
 
-        SStr animationName = it->first;
+        std::string animationName = it->first;
 
         uiBuilder.
         setText(animationName).
@@ -444,7 +444,7 @@ void Sprites::refreshSprites()
     
 }
 
-void Sprites::addAnimation(const SStr& name)
+void Sprites::addAnimation(const std::string& name)
 {
     if(mCurrentSprite)
     {

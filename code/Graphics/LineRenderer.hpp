@@ -9,22 +9,22 @@ class Vector4;
 class LineRenderer: public ObjectBase
 {
     GENERATE_METADATA(LineRenderer)
-	PRI_M(Shader *, ShaderLine, NONE)
+	PRI Shader * mShaderLine = {};
 
-	PRI_M(u32, MaxShapes, NONE)
-	PRI_M(u32, ShapesCounter, NONE)
+	PRI u32 mMaxShapes = {};
+	PRI u32 mShapesCounter = {};
 
-	PRI_M(u32, VAO, NONE)
-	PRI_M(u32, VBOPosition, NONE)
-	PRI_M(u32, VBOColor, NONE)
-	PRI_M(u32, EBO, NONE)
-	PRI_M(SVec(f32), PositionBuffer, NONE)
-	PRI_M(SVec(f32), ColorBuffer, NONE)
-	PRI_M(SVec(u32), IndicesBuffer, NONE)
+	PRI u32 mVAO = {};
+	PRI u32 mVBOPosition = {};
+	PRI u32 mVBOColor = {};
+	PRI u32 mEBO = {};
+	PRI std::vector<f32> mPositionBuffer = {};
+	PRI std::vector<f32> mColorBuffer = {};
+	PRI std::vector<u32> mIndicesBuffer = {};
 
-	PRI_M(f32, Size, NONE)
+	PRI f32 mSize = {};
 
-	PUB_M(bool, IsWorldSpace, NONE)
+	PUB bool mIsWorldSpace = {};
 
 PUB
 	LineRenderer();

@@ -11,14 +11,14 @@ class GameObject;
 class Scene: public ObjectBase
 {
     GENERATE_METADATA(Scene)
-	PRI_M(SLst(GameObject *), GameObjects, GET);
-	PRI_M(SLst(GameObject *), NewGameObjects, GET);
-	PRI_M(GameObject *, CameraGameObject, GET_SET)
+	PRI std::list<GameObject *> mGameObjects = {}; GET(GameObjects);
+	PRI std::list<GameObject *> mNewGameObjects = {}; GET(NewGameObjects);
+	PRI GameObject * mCameraGameObject = {}; GET_SET(CameraGameObject)
 
-	PRI_M(f32, Size, GET)
-	PRI_M(SStr, Path, GET)
+	PRI f32 mSize = {}; GET(Size)
+	PRI std::string mPath = {}; GET(Path)
 
-	PRI_M(ConfigObject, LoadSceneConfig, NONE)
+	PRI ConfigObject mLoadSceneConfig = {};
 
 PRI
 	void destroyGameObjects();
@@ -31,8 +31,8 @@ PUB
 
 	SERIALIZE();
 	DESERIALIZE();
-	void loadScene(const SStr &path);
-	void saveScene(const SStr &path);
+	void loadScene(const std::string &path);
+	void saveScene(const std::string &path);
 
 	void unloadScene();
 

@@ -58,7 +58,7 @@ void ScriptEngine::update()
 	}
 }
 
-void ScriptEngine::internalRemoveScript(SLst(Script *)::iterator &it)
+void ScriptEngine::internalRemoveScript(std::list<Script *>::iterator &it)
 {
 	Script *script = *it;
 

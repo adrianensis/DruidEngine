@@ -7,7 +7,7 @@
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 
-UIDropdown::UIDropdownEntry::UIDropdownEntry(const SStr& label, UIElementCallback callback)
+UIDropdown::UIDropdownEntry::UIDropdownEntry(const std::string& label, UIElementCallback callback)
 {
 	mLabel = label;
 	mCallback = callback;
@@ -35,7 +35,7 @@ void UIDropdown::onPostReleased()
 	toggle();
 }
 
-UIDropdown &UIDropdown::addOption(const SStr &label, UIElementCallback onPressedCallback)
+UIDropdown &UIDropdown::addOption(const std::string &label, UIElementCallback onPressedCallback)
 {
 	mEntries.push_back(UIDropdownEntry(label, onPressedCallback));
 	return *this;
@@ -68,7 +68,7 @@ void UIDropdown::setEntriesVisibility(bool visible)
 
 			FOR_LIST(it, mEntries)
 			{
-				SStr &label = (*it).mLabel;
+				std::string &label = (*it).mLabel;
 				UIElementCallback onPressedCallback = (*it).mCallback;
 
 				uiBuilder.

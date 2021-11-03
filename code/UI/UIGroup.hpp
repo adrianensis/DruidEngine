@@ -7,9 +7,9 @@ class UIElement;
 class UIGroup: public ObjectBase
 {
     GENERATE_METADATA(UIGroup)
-	PUB_M(SStr, Name, GETREF_CONST)
-	PUB_M(bool, Visible, GET)
-	PUB_M(SLst(UIElement *), UIElements, GETREF_CONST);
+	PUB std::string mName = {}; GETREF_CONST(Name)
+	PUB bool mVisible = {}; GET(Visible)
+	PUB std::list<UIElement *> mUIElements = {}; GETREF_CONST(UIElements);
 
 PUB
 	void init();

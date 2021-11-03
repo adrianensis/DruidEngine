@@ -7,7 +7,7 @@ class UIText;
 class UIButton: public UIElement
 {
     GENERATE_METADATA(UIButton)
-	PRI_M(UIText *, Text, GET)
+	PRI UIText * mText = {}; GET(Text)
 
 PUB
 	virtual void init() override;
@@ -16,7 +16,7 @@ PUB
 
 	void onLabelDestroy();
 
-	virtual void setText(const SStr &text) override;
+	virtual void setText(const std::string &text) override;
 	virtual void setVisibility(bool visibility) override;
 };
 

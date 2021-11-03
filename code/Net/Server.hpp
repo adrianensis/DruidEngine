@@ -17,7 +17,7 @@ enum class ServerStatus
 class Server: public ObjectBase
 {
     GENERATE_METADATA(Server)
-	PRI_M(ServerStatus, Status, GET);
+	PRI ServerStatus mStatus = {}; GET(Status);
 
 PRI
 	int server_fd, new_socket;
@@ -25,7 +25,7 @@ PRI
 	int opt = 1;
 	int addrlen = sizeof(address);
 
-	mutable SStr buffer;
+	mutable std::string buffer;
 
 	JSON readSimpleJSON(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
@@ -34,8 +34,8 @@ PUB
 
 	bool checkConnectionRequest();
 
-	void writeData(const SStr &data) const;
-	SStr readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
+	void writeData(const std::string &data) const;
+	std::string readData(u32 size = DEFAULT_SOCKET_READ_SIZE) const;
 
 	JSON readJSON() const;
 	void writeJSON(JSON & json) const;

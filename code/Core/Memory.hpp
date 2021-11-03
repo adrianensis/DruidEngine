@@ -8,7 +8,7 @@
 class Memory
 {
 PUB
-	static SMap(SStr, i32) mAllocationsCounter;
+	static std::map<std::string, i32> mAllocationsCounter;
 
 	static void init();
 	static void terminate();
@@ -18,7 +18,7 @@ PUB
 	{
 		T *object = new T;
 
-		SStr className;
+		std::string className;
 
 		if constexpr (std::is_base_of<ObjectBase, T>::value)
 		{
@@ -46,7 +46,7 @@ PUB
 	{
 		ASSERT_MSG(pointer != nullptr, "pointer is nullptr");
 
-		SStr className;
+		std::string className;
 		if constexpr (std::is_base_of<ObjectBase, T>::value)
 		{
 			className = pointer->getClassName();

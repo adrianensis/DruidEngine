@@ -75,27 +75,27 @@ void __customMain()
 	};
 
 #define GENERATE_NAME_STATIC(...)                                 \
-	static SStr getClassNameStatic()                       \
+	static std::string getClassNameStatic()                       \
 	{                                                             \
-		static SStr className = SStr(#__VA_ARGS__); \
+		static std::string className = std::string(#__VA_ARGS__); \
 		return className;                                         \
 	};
 
 #define GENERATE_NAME_VIRTUAL(...)                         \
-	SStr getClassName() const override              \
+	std::string getClassName() const override              \
 	{                                                      \
 		return __VA_ARGS__::getClassNameStatic(); \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
-	static SLst(AttributeBase) &__getClassAttributesNamesStatic()          \
+	static std::list<AttributeBase> &__getClassAttributesNamesStatic()          \
 	{                                                                          \
-		static SLst(AttributeBase) attributesNames = {};\
+		static std::list<AttributeBase> attributesNames = {};\
 		return attributesNames;                                                   \
 	};
 
 #define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
-	static const SLst(AttributeBase) &getClassAttributesNamesStatic()          \
+	static const std::list<AttributeBase> &getClassAttributesNamesStatic()          \
 	{                                                                          \
 		return __getClassAttributesNamesStatic();                               \
 	};
@@ -141,36 +141,32 @@ PRI // NOTE: notice the last blank space " "
 
 #define SETTER_TYPE_FROM_VAR(Var) SETTER_TYPE(decltype(Var))
 
-#define GET(BaseName)        \
-	GETTER_TYPE_FROM_VAR(m##BaseName) get##BaseName() const { return m##BaseName; };
+#define GENERATE_GET(BaseName)        \
+	PUB GETTER_TYPE_FROM_VAR(m##BaseName) get##BaseName() const { return m##BaseName; };
 
-#define GETREF(BaseName) \
-	ADD_REFERENCE(GETTER_TYPE_FROM_VAR(m##BaseName)) get##BaseName() { return m##BaseName; };
+#define GENERATE_GETREF(BaseName) \
+	PUB ADD_REFERENCE(GETTER_TYPE_FROM_VAR(m##BaseName)) get##BaseName() { return m##BaseName; };
 
-#define GETREF_CONST(BaseName) \
-	ADD_REFERENCE(ADD_CONST(GETTER_TYPE_FROM_VAR(m##BaseName))) get##BaseName() const { return m##BaseName; };
+#define GENERATE_GETREF_CONST(BaseName) \
+	PUB ADD_REFERENCE(ADD_CONST(GETTER_TYPE_FROM_VAR(m##BaseName))) get##BaseName() const { return m##BaseName; };
 
-#define SET(BaseName) void set##BaseName(SETTER_TYPE_FROM_VAR(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
+#define GENERATE_SET(BaseName) \
+	PUB void set##BaseName(SETTER_TYPE_FROM_VAR(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
 
-#define GET_SET(BaseName) GET(BaseName) SET(BaseName)
-#define GETREF_SET(BaseName) GETREF(BaseName) SET(BaseName)
-#define GETREF_CONST_SET(BaseName) GETREF_CONST(BaseName) SET(BaseName)
+#define GET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GET(BaseName)
+#define GETREF(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF(BaseName)
+#define GETREF_CONST(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF_CONST(BaseName)
 
-#define MEMBER_BASE(BaseName, ...) \
-	__VA_ARGS__ m##BaseName = {};
+#define SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_SET(BaseName)
 
-#define MEMBER(BaseName, AccessorMacroName, Visibility, ...) \
-	Visibility:                                              \
-	MEMBER_BASE(BaseName, __VA_ARGS__)                       \
-	PUB AccessorMacroName(BaseName)                     \
+#define GET_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GET(BaseName) GENERATE_SET(BaseName)
+#define GETREF_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF(BaseName) GENERATE_SET(BaseName)
+#define GETREF_CONST_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF_CONST(BaseName) GENERATE_SET(BaseName)
+
+#define MEMBER_METADATA(BaseName) \
 	PRI \
 	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
 	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
-	Visibility:
-	
-#define PUB_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, public, ClassName)
-#define PRO_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, protected, ClassName)
-#define PRI_M(ClassName, BaseName, AccessorMacroName) MEMBER(BaseName, AccessorMacroName, private, ClassName)
 
 /*
 #define FUNCTION_MEMBER(ReturnClassName, FuncName, VirtualMacro, ModifiersMacro, Visibility, ...)\
@@ -309,12 +305,6 @@ if(!json.empty() && json.contains(Name))\
 
 #define FOR_LIST(it, list) for (auto it = (list).begin(); it != (list).end(); ++it)
 #define FOR_LIST_COND(it, list, condition) for (auto it = (list).begin(); (it != (list).end()) && (condition); ++it)
-
-// --------------------------------------------------------
-// PREPROCESOR FOR EACH
-// --------------------------------------------------------
-
-#include "generated-code/for_each.generated.hpp"
 
 // --------------------------------------------------------
 // STD CONTAINERS

@@ -7,8 +7,8 @@ class EditorController;
 class EditorUIElement: public ObjectBase
 {
     GENERATE_METADATA(EditorUIElement)
-	PRI_M(EditorController*, EditorController, GET);
-	PRI_M(bool, IsVisible, GET)
+	PRI EditorController* mEditorController = {}; GET(EditorController);
+	PRI bool mIsVisible = {}; GET(IsVisible)
 
 PUB
 	EditorUIElement()

@@ -32,7 +32,7 @@ void LayersBar::init(EditorController* editorController)
 	FOR_RANGE(i, 0, 10)
 	{
 		u32 layer = i;
-		SStr layerStr = std::to_string(layer);
+		std::string layerStr = std::to_string(layer);
 
 		uiBuilder.
 		setText(layerStr).

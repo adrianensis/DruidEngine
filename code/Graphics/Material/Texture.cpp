@@ -15,7 +15,7 @@ Texture::~Texture()
 	delete[] mData;
 }
 
-void Texture::init(const SStr &path)
+void Texture::init(const std::string &path)
 {
 	//TRACE()
 

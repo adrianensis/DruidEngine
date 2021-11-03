@@ -12,9 +12,9 @@ class Camera;
 class Frustum: public ObjectBase
 {
     GENERATE_METADATA(Frustum)
-	PRI_M(Matrix4, VPmatrix, NONE)
-	PRI_M(Camera *, Camera, NONE)
-	PRI_M(SArr(Vector4, 6), Planes, NONE);
+	PRI Matrix4 mVPmatrix = {};
+	PRI Camera * mCamera = {};
+	PRI std::array<Vector4, 6> mPlanes = {};;
 
 PUB
 	void init(Camera * camera);

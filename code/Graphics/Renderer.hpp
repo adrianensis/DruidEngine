@@ -24,39 +24,39 @@ class Renderer: public Component
 	PUB void init() override;
 
 	// Renderer Properties
-	PRI_M(Matrix4, RenderereModelMatrix, NONE)
-	PRI_M(bool, PositionOffsetDirty, NONE)
-	PRI_M(bool, ForceRecalculateVertices, NONE)
-	PRI_M(SVec(Vector2), Vertices, NONE)
-	PRI_M(bool, IsWorldSpace, NONE)
-	PRI_M(SArr(f32, 4), Color, GETREF_CONST)
-	PRI_M(Vector3, PositionOffset, GET)
-	PRI_M(Rectangle, Region, GETREF_CONST_SET)
-	PRI_M(Rectangle, ClipRectangle, GETREF_CONST_SET)
-	PRI_M(Mesh*, Mesh, GET_SET)
-	PRI_M(Material*, Material, GET_SET)
-	PRI_M(bool, InvertAxisX, GET_SET)
-	PRI_M(bool, IsLineMode, GET_SET)
-	PRI_M(u32, Layer, GET_SET)
-	PRI_M(f32, RenderDistance, GET_SET)
-	PRI_M(bool, IsOutOfCamera, GET_SET)
-	PRI_M(bool, IsAlreadyInBatch, GET_SET)
-	PRI_M(Chunk*, Chunk, GET_SET)
+	PRI Matrix4 mRenderereModelMatrix = {};
+	PRI bool mPositionOffsetDirty = {};
+	PRI bool mForceRecalculateVertices = {};
+	PRI std::vector<Vector2> mVertices = {};
+	PRI bool mIsWorldSpace = {};
+	PRI std::array<f32, 4> mColor = {}; GETREF_CONST(Color)
+	PRI Vector3 mPositionOffset = {}; GET(PositionOffset)
+	PRI Rectangle mRegion = {}; GETREF_CONST_SET(Region)
+	PRI Rectangle mClipRectangle = {}; GETREF_CONST_SET(ClipRectangle)
+	PRI Mesh* mMesh = {}; GET_SET(Mesh)
+	PRI Material* mMaterial = {}; GET_SET(Material)
+	PRI bool mInvertAxisX = {}; GET_SET(InvertAxisX)
+	PRI bool mIsLineMode = {}; GET_SET(IsLineMode)
+	PRI u32 mLayer = {}; GET_SET(Layer)
+	PRI f32 mRenderDistance = {}; GET_SET(RenderDistance)
+	PRI bool mIsOutOfCamera = {}; GET_SET(IsOutOfCamera)
+	PRI bool mIsAlreadyInBatch = {}; GET_SET(IsAlreadyInBatch)
+	PRI Chunk* mChunk = {}; GET_SET(Chunk)
 
 	PUB void setColor(const Vector4& color);
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
 	PUB bool getIsWorldSpace();
-	PUB const SVec(Vector2)& getVertices(bool force = false);
+	PUB const std::vector<Vector2>& getVertices(bool force = false);
 	PUB void forceRecalculateVertices();
 	PUB bool hasClipRectangle() const;
 
 	// Animation
-	PRI_M(SMap(SStr, Animation), Animations, GETREF_CONST)
-	PRI_M(Animation*, CurrentAnimation, GET)
+	PRI std::map<std::string, Animation> mAnimations = {}; GETREF_CONST(Animations)
+	PRI Animation* mCurrentAnimation = {}; GET(CurrentAnimation)
 
-	PUB void setAnimation(const SStr& name);
-	PUB void addAnimation(const SStr& name, const Animation& animation);
-    PUB void removeAnimation(const SStr& name);
+	PUB void setAnimation(const std::string& name);
+	PUB void addAnimation(const std::string& name, const Animation& animation);
+    PUB void removeAnimation(const std::string& name);
 	PUB bool hasAnimations() const;
 	PUB void updateAnimation();
 };

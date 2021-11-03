@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string> // SStr
+#include <string> // std::string
 #include "Core/BasicTypes.hpp"
 
-static const SStr emptyAssert = "?";
+static const std::string emptyAssert = "?";
 
-void assert_msg(bool condition, const SStr &file, u32 line, const SStr &function,
-				const SStr &message = emptyAssert);
+void assert_msg(bool condition, const std::string &file, u32 line, const std::string &function,
+				const std::string &message = emptyAssert);
 
-#define ASSERT_MSG(condition, message) assert_msg((condition), __FILE__, __LINE__, __FUNCTION__, SStr("[ " #condition " ] ") + message);
+#define ASSERT_MSG(condition, message) assert_msg((condition), __FILE__, __LINE__, __FUNCTION__, std::string("[ " #condition " ] ") + message);

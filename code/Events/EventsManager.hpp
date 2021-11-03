@@ -18,11 +18,11 @@ class EventsManager: public ObjectBase, public Singleton<EventsManager>
 {
 	GENERATE_METADATA(EventsManager)
 PRI
-	using ReceiversFunctorMap = SMap(ObjectBase *, EventFunctor<Event>);
-	using EventReceiversMap = SMap(ClassId, ReceiversFunctorMap);
-	using OwnersMap = SMap(ObjectBase *, EventReceiversMap);
+	using ReceiversFunctorMap = std::map<ObjectBase *, EventFunctor<Event>>;
+	using EventReceiversMap = std::map<ClassId, ReceiversFunctorMap>;
+	using OwnersMap = std::map<ObjectBase *, EventReceiversMap>;
 
-	PRI_M(OwnersMap, OwnersMap, NONE)
+	PRI OwnersMap mOwnersMap = {};
 
 	bool ownerExists(ObjectBase * eventOwner) const;
 	bool ownerHasEventType(ObjectBase * eventOwner, ClassId eventClassId) const;

@@ -7,11 +7,11 @@
 class Animation: public ObjectBase
 {
     GENERATE_METADATA(Animation)
-    PRI_M(SStr, Name, GETREF_CONST_SET)
-	PRI_M(SVec(AnimationFrame), Frames, GETREF_CONST);
-	PRI_M(u32, CurrentFrameNumber, NONE)
-	PRI_M(f32, TimeAccumulator, NONE)
-	PRI_M(f32, Speed, GET_SET)
+    PRI std::string mName = {}; GETREF_CONST_SET(Name)
+	PRI std::vector<AnimationFrame> mFrames = {}; GETREF_CONST(Frames);
+	PRI u32 mCurrentFrameNumber = {};
+	PRI f32 mTimeAccumulator = {};
+	PRI f32 mSpeed = {}; GET_SET(Speed)
 
 PUB
 	Animation();

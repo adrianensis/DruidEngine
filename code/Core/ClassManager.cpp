@@ -1,9 +1,9 @@
 #include "ClassManager.hpp"
 #include "Assert/Assert.hpp"
 
-SMap(SStr, ClassRegisterCallback) ClassManager::smRegisters;
+std::map<std::string, ClassRegisterCallback> ClassManager::smRegisters;
 
-ClassRegister::ClassRegister(const SStr &className, ClassRegisterCallback callback)
+ClassRegister::ClassRegister(const std::string &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(ClassManager::smRegisters, className, callback);
 }
@@ -18,7 +18,7 @@ void ClassManager::init()
     }
 }
 
-void ClassManager::registerClassByName(const SStr &className, ClassRegisterCallback callback)
+void ClassManager::registerClassByName(const std::string &className, ClassRegisterCallback callback)
 {
     MAP_INSERT(mInstanceByNameMap, className, callback);
 }

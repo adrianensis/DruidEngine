@@ -12,12 +12,12 @@ class UIGroup;
 
 class UIElement;
 
-using UIElementCallback = SFun(void(UIElement *uiElement));
+using UIElementCallback = std::function<void(UIElement *uiElement)>;
 
 class FunctorUIElement: public Functor<UIElementCallback>
 {
 	GENERATE_METADATA(FunctorUIElement)
-	PUB_M(UIElement *, UIElement, NONE)
+	PUB UIElement * mUIElement = {};
 
 PUB
 
@@ -39,25 +39,25 @@ PUB
 class UIElement: public GameObject
 {
     GENERATE_METADATA(UIElement)
-	PRO_M(UIElementConfig, Config, GETREF_CONST_SET)
+	PRO UIElementConfig mConfig = {}; GETREF_CONST_SET(Config)
 
-	PRO_M(FunctorUIElement, OnPressedFunctor, NONE)
-	PRO_M(FunctorUIElement, OnReleasedFunctor, NONE)
+	PRO FunctorUIElement mOnPressedFunctor = {};
+	PRO FunctorUIElement mOnReleasedFunctor = {};
 
-	PRO_M(FunctorUIElement, OnScrollFunctor, NONE)
+	PRO FunctorUIElement mOnScrollFunctor = {};
 
-	PRO_M(FunctorUIElement, OnTextChangedFunctor, NONE)
-	PRO_M(FunctorUIElement, OnFocusLostFunctor, NONE)
+	PRO FunctorUIElement mOnTextChangedFunctor = {};
+	PRO FunctorUIElement mOnFocusLostFunctor = {};
 
-	PRO_M(Renderer *, Renderer, GET)
-	//PRI_M(Collider*, Collider, GET)
-	PRO_M(SStr, InputString, GET)
-	PRO_M(bool, ConsumeInput, GET_SET)
-	PRO_M(bool, Pressed, GET)
-	PRO_M(bool, CanToggle, GET)
-	PRO_M(bool, ReleaseOnSameGroupPressed, GET_SET)
-	PRO_M(bool, Toggled, GET)
-    PRO_M(bool, OnlyReleaseOnClickOutside, GET)
+	PRO Renderer * mRenderer = {}; GET(Renderer)
+	//PRI Collider* mCollider = {}; GET(Collider)
+	PRO std::string mInputString = {}; GET(InputString)
+	PRO bool mConsumeInput = {}; GET_SET(ConsumeInput)
+	PRO bool mPressed = {}; GET(Pressed)
+	PRO bool mCanToggle = {}; GET(CanToggle)
+	PRO bool mReleaseOnSameGroupPressed = {}; GET_SET(ReleaseOnSameGroupPressed)
+	PRO bool mToggled = {}; GET(Toggled)
+    PRO bool mOnlyReleaseOnClickOutside = {}; GET(OnlyReleaseOnClickOutside)
 
 PRO
 
@@ -101,7 +101,7 @@ PUB
 
 	bool isMouseCursorInsideElement();
 
-	virtual void setText(const SStr &text) { };
+	virtual void setText(const std::string &text) { };
 
 	void setOnPressedCallback(UIElementCallback callback)
 	{

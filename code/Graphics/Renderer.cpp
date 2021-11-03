@@ -70,7 +70,7 @@ bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
  * Set the animation, by name.
  * \param string name The name.
  */
-void Renderer::setAnimation(const SStr &name)
+void Renderer::setAnimation(const std::string &name)
 {
 	if (MAP_CONTAINS(mAnimations, name))
 	{
@@ -85,14 +85,14 @@ void Renderer::setAnimation(const SStr &name)
  * \param string name The name.
  * \param Animation animation The animation.
  */
-void Renderer::addAnimation(const SStr &name, const Animation& animation)
+void Renderer::addAnimation(const std::string &name, const Animation& animation)
 {
 	Animation animationCopy = animation;
     animationCopy.setName(name);
 	MAP_INSERT(mAnimations, name, animationCopy);
 };
 
-void Renderer::removeAnimation(const SStr &name)
+void Renderer::removeAnimation(const std::string &name)
 {
     if (MAP_CONTAINS(mAnimations, name))
 	{
@@ -142,7 +142,7 @@ bool Renderer::getIsWorldSpace()
 	return mIsWorldSpace;
 }
 
-const SVec(Vector2) &Renderer::getVertices(bool force /*= false*/)
+const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
 {
 	if (mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices)
 	{
@@ -184,7 +184,7 @@ SERIALIZE_IMPL(Renderer)
 {
 	Component::serialize(json);
 
-	SStr materialPath = "";
+	std::string materialPath = "";
 
 	if(mMaterial->getTexture())
 	{
@@ -195,7 +195,7 @@ SERIALIZE_IMPL(Renderer)
 	DO_SERIALIZE("region", mRegion)
 	DO_SERIALIZE("layer", mLayer)
 
-    SLst(Animation) tmpList;
+    std::list<Animation> tmpList;
     FOR_MAP(it, mAnimations)
     {
         tmpList.push_back(it->second);
@@ -206,7 +206,7 @@ SERIALIZE_IMPL(Renderer)
 
 DESERIALIZE_IMPL(Renderer)
 {
-	SStr materialPath = "";
+	std::string materialPath = "";
 	DO_DESERIALIZE("material", materialPath)
 
 	mMaterial = MaterialManager::getInstance()->loadMaterial(materialPath);
@@ -216,7 +216,7 @@ DESERIALIZE_IMPL(Renderer)
 
 	mMesh = Mesh::getRectangle();
 
-    SLst(Animation) tmpList;
+    std::list<Animation> tmpList;
     DO_DESERIALIZE_LIST("animations", tmpList, [](const JSON &json)
     {
         Animation animation;

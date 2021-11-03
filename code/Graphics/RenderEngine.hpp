@@ -25,32 +25,32 @@ PRI
 	class LayerData : public ObjectBase
 	{
 		GENERATE_METADATA(RenderEngine::LayerData)
-		PUB_M(bool, Sorted, NONE)
-		PUB_M(u32, DynamicObjectsCount, NONE) // Non static objects count
-		PUB_M(u32, SortCounter, NONE)
-		PUB_M(bool, Visible, NONE)
+		PUB bool mSorted = {};
+		PUB u32 mDynamicObjectsCount = {}; // Non static objects count
+		PUB u32 mSortCounter = {};
+		PUB bool mVisible = {};
 
 	PUB
 		LayerData();
 	};
 
-	PRI_M(BatchesMap, BatchesMap, NONE)
-	PRI_M(BatchesMap, BatchesMapScreenSpace, NONE)
+	PRI BatchesMap mBatchesMap = {};
+	PRI BatchesMap mBatchesMapScreenSpace = {};
 
-	PRI_M(LineRenderer *, LineRenderer, NONE)
-	PRI_M(LineRenderer *, LineRendererScreenSpace, NONE)
+	PRI LineRenderer * mLineRenderer = {};
+	PRI LineRenderer * mLineRendererScreenSpace = {};
 
-	PRI_M(Camera *, Camera, GET_SET)
-	PRI_M(bool, CameraDirtyTranslation, GET)
+	PRI Camera * mCamera = {}; GET_SET(Camera)
+	PRI bool mCameraDirtyTranslation = {}; GET(CameraDirtyTranslation)
 
-	PRI_M(SMap(u32, LayerData), LayersData, GETREF_SET);
-	PRI_M(u32, MaxLayers, GET)
-	PRI_M(u32, MaxLayersUsed, NONE)
+	PRI std::map<u32, LayerData> mLayersData = {}; GETREF_SET(LayersData);
+	PRI u32 mMaxLayers = {}; GET(MaxLayers)
+	PRI u32 mMaxLayersUsed = {};
 
-	PRI_M(f32, MinChunkDrawDistance, GET)
-	PRI_M(SVec(Chunk *), Chunks, NONE)
+	PRI f32 mMinChunkDrawDistance = {}; GET(MinChunkDrawDistance)
+	PRI std::vector<Chunk *> mChunks = {};
 
-	PRI_M(SLst(Renderer *), RenderersToFree, NONE)
+	PRI std::list<Renderer *> mRenderersToFree = {};
 
 	void checkChunks();
 	void freeRenderersPendingtoFree();

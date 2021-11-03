@@ -13,15 +13,15 @@
 class ConfigObject: public ObjectBase
 {
     GENERATE_METADATA(ConfigObject)
-	PRI_M(JSON, Json, GETREF_CONST_SET);
+	PRI JSON mJson = {}; GETREF_CONST_SET(Json);
 
 PUB
 	void init();
 	void clear();
-	bool contains(SStr & key) const;
+	bool contains(std::string & key) const;
 
-	void readFromJsonFile(const SStr &path);
-	void writeToJsonFile(const SStr &path);
+	void readFromJsonFile(const std::string &path);
+	void writeToJsonFile(const std::string &path);
 
-	const JSON &at(const SStr &key) const { return mJson.at(key); }
+	const JSON &at(const std::string &key) const { return mJson.at(key); }
 };

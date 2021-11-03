@@ -14,13 +14,13 @@ enum class TimerDurationType
 class Timer: public ObjectBase
 {
     GENERATE_METADATA(Timer)
-	PRI_M(f32, Duration, GET)
-	PRI_M(f32, TimeCounter, GET_SET)
-	PRI_M(TimerDurationType, DurationType, GET)
-	PUB_M(FunctorVoid, Functor, NONE)
+	PRI f32 mDuration = {}; GET(Duration)
+	PRI f32 mTimeCounter = {}; GET_SET(TimeCounter)
+	PRI TimerDurationType mDurationType = {}; GET(DurationType)
+	PUB FunctorVoid mFunctor = {};
 
 PUB
-	void init(f32 duration, TimerDurationType durationType, SFun(void()) callback);
+	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 };
 
 class TimerHandle: public ObjectBase
@@ -28,7 +28,7 @@ class TimerHandle: public ObjectBase
     GENERATE_METADATA(TimerHandle)
 	friend class TimerManager;
 
-	PRI_M(Timer *, TimerReference, NONE)
+	PRI Timer * mTimerReference = {};
 
 PUB
 	void init(Timer * timerReference)
@@ -45,14 +45,14 @@ PUB
 class TimerManager: public ObjectBase, public Singleton<TimerManager>
 {
 	GENERATE_METADATA(TimerManager)
-	PRI_M(SLst(Timer *), Timers, NONE);
+	PRI std::list<Timer *> mTimers = {};;
 
 	void endTimer(Timer * timer);
 
 PUB
 	~TimerManager() override;
 	void init();
-	TimerHandle setTimer(f32 duration, TimerDurationType durationType, SFun(void()) callback);
+	TimerHandle setTimer(f32 duration, TimerDurationType durationType, std::function<void()> callback);
 	void cancelTimer(const TimerHandle &timerHandle);
 	void update();
 	void terminate();

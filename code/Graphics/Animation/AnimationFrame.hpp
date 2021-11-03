@@ -7,9 +7,9 @@
 class AnimationFrame: public ObjectBase
 {
     GENERATE_METADATA(AnimationFrame)
-	PRI_M(Vector2, Position, GET)
-	PRI_M(f32, Width, GET)
-	PRI_M(f32, Height, GET)
+	PRI Vector2 mPosition = {}; GET(Position)
+	PRI f32 mWidth = {}; GET(Width)
+	PRI f32 mHeight = {}; GET(Height)
 
 PUB
 	void init(const Vector2 &position, f32 width, f32 height);

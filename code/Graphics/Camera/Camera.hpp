@@ -10,24 +10,24 @@ class Frustum;
 class Camera: public Component
 {
     GENERATE_METADATA(Camera)
-	PRI_M(Matrix4, ProjectionMatrix, NONE)
-	PRI_M(Matrix4, ViewTranslationMatrix, NONE)
-	PRI_M(Matrix4, InversePVMatrix, NONE) // used in screen to world calculations.
+	PRI Matrix4 mProjectionMatrix = {};
+	PRI Matrix4 mViewTranslationMatrix = {};
+	PRI Matrix4 mInversePVMatrix = {}; // used in screen to world calculations.
 
-	PRI_M(f32, Left, NONE)
-	PRI_M(f32, Right, NONE)
-	PRI_M(f32, Bottom, NONE)
-	PRI_M(f32, Top, NONE)
-	PRI_M(f32, Near, NONE)
-	PRI_M(f32, Far, NONE)
+	PRI f32 mLeft = {};
+	PRI f32 mRight = {};
+	PRI f32 mBottom = {};
+	PRI f32 mTop = {};
+	PRI f32 mNear = {};
+	PRI f32 mFar = {};
 
-	PRI_M(f32, Aspect, NONE)
-	PRI_M(f32, Fov, NONE)
+	PRI f32 mAspect = {};
+	PRI f32 mFov = {};
 	
-	PRI_M(bool, IsOrtho, NONE)
+	PRI bool mIsOrtho = {};
 
-	PRI_M(Frustum *, Frustum, GET)
-	PRI_M(f32, Zoom, GET)
+	PRI Frustum * mFrustum = {}; GET(Frustum)
+	PRI f32 mZoom = {}; GET(Zoom)
 
 PUB
 	Camera();

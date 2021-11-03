@@ -8,13 +8,13 @@
 
 class UIText;
 
-using CommandCallback = SFun(void(const Command& command));
+using CommandCallback = std::function<void(const Command& command)>;
 
 class CommandFunctor: public Functor<CommandCallback>
 {
 	GENERATE_METADATA(CommandFunctor)
 	
-    PRI_M(Command, Command, GETREF_SET);
+    PRI Command mCommand = {}; GETREF_SET(Command);
 
 PUB
 
@@ -38,26 +38,26 @@ PUB
 class CommandLine: public ObjectBase, public Singleton<CommandLine>
 {
 	GENERATE_METADATA(CommandLine)
-    PRI_M(SMap(SStr, CommandFunctor), CommandsMap, NONE)
-	PRI_M(SStr, Buffer, GETREF_CONST)
+    PRI std::map<std::string, CommandFunctor> mCommandsMap = {};
+	PRI std::string mBuffer = {}; GETREF_CONST(Buffer)
 
-	PRI_M(SLst(SStr), History, NONE)
-	PRI_M(SLst(SStr)::iterator, HistoryIterator, NONE)
+	PRI std::list<std::string> mHistory = {};
+	PRI std::list<std::string>::iterator mHistoryIterator = {};
 
-	PRI_M(UIText*, UIText, NONE);
+	PRI UIText* mUIText = {};;
 
-    PRI_M(bool, IsOpen, NONE);
+    PRI bool mIsOpen = {};;
 
-    void log(const SStr& line, bool newLine = true) const;
+    void log(const std::string& line, bool newLine = true) const;
 
 PUB
     void init();
 	void update();
     void terminate();
 
-    void execute(const SStr &commandLine);
-    SStr autocomplete(const SStr &commandLine);
-    void registerCommand(const SStr &commandName, CommandCallback callback);
+    void execute(const std::string &commandLine);
+    std::string autocomplete(const std::string &commandLine);
+    void registerCommand(const std::string &commandName, CommandCallback callback);
 
 	// UI
 	void open();

@@ -18,7 +18,7 @@ class ISubsystem: public ObjectBase
 {
     GENERATE_METADATA(ISubsystem)
 PRI
-    SSet(ClassId) mAcceptedComponentClasses;
+    std::set<ClassId> mAcceptedComponentClasses;
 
 PUB
     void registerComponentClass(ClassId classId)
@@ -40,7 +40,7 @@ PUB
 class SubsystemsManager : public Singleton<SubsystemsManager>
 {
 PRI
-    SLst(ISubsystem *) mSubsystems;
+    std::list<ISubsystem *> mSubsystems;
 
 PUB
     void addComponentToSubsystem(Component *component);
@@ -50,7 +50,7 @@ PUB
         mSubsystems.push_back(subsystem);
     }
 
-    const SLst(ISubsystem *) &getSubsystems() const
+    const std::list<ISubsystem *> &getSubsystems() const
     {
         return mSubsystems;
     }

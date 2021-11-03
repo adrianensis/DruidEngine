@@ -5,7 +5,7 @@
 class EngineConfig: public ObjectBase, public Singleton<EngineConfig>
 {
 	GENERATE_METADATA(EngineConfig)
-	PRI_M(ConfigObject, Config, GETREF_CONST)
+	PRI ConfigObject mConfig = {}; GETREF_CONST(Config)
 
 PUB
 	void init();

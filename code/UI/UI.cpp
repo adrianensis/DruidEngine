@@ -28,7 +28,7 @@ Material *UI::getFontMaterial()
 	return mFontMaterial;
 };
 
-UIGroup& UI::getOrCreateGroup(const SStr & groupName)
+UIGroup& UI::getOrCreateGroup(const std::string & groupName)
 {
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{

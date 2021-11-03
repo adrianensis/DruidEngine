@@ -35,8 +35,8 @@ PUB
 	static GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
 	static GLuint createEBO();
 	static GLuint createVAO();
-	static void setDataVBO(u32 VBO, const SVec(f32) &data);
-	static void setDataEBO(u32 EBO, const SVec(u32) &data);
+	static void setDataVBO(u32 VBO, const std::vector<f32> &data);
+	static void setDataEBO(u32 EBO, const std::vector<u32> &data);
 
 	static void enableProperty(u32 propertyArrayIndex);
 	static void disableProperty(u32 propertyArrayIndex);

@@ -47,9 +47,9 @@ const Matrix4 &Matrix4::getIdentity()
 	return smIdentity;
 }
 
-void Matrix4::setRows(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3)
+void Matrix4::setRows(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3)
 {
-	const SArr(f32, 4) *rows[4] = {&row0, &row1, &row2, &row3};
+	const std::array<f32, 4> *rows[4] = {&row0, &row1, &row2, &row3};
 
 	FOR_RANGE(row, 0, 4)
 	FOR_RANGE(col, 0, 4)
@@ -90,12 +90,12 @@ void Matrix4::init(const Matrix4 &other)
 	Matrix4::init(other.mData); //TRACE()
 };
 
-void Matrix4::init(SArr(f32, 16) &data)
+void Matrix4::init(const std::array<f32, 16> &data)
 {
 	memcpy(mData, &data[0], 16 * sizeof(f32));
 };
 
-void Matrix4::init(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3)
+void Matrix4::init(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3)
 {
 	Matrix4::setRows(row0, row1, row2, row3);
 };

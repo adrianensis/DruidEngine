@@ -133,7 +133,7 @@ UIBuilder &UIBuilder::restoreData()
 	return *this;
 }
 
-UIBuilder &UIBuilder::create(const SStr &className)
+UIBuilder &UIBuilder::create(const std::string &className)
 {
 	UIElement* uiElement = INSTANCE_BY_NAME(className, UIElement);
 	mConfig.mUIElementClassId = uiElement->getClassId();

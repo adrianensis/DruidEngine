@@ -19,25 +19,25 @@ enum class UILayout
 class UIElementConfig: public ObjectBase
 {
     GENERATE_METADATA(UIElementConfig)
-	PUB_M(const UIStyle*, Style, NONE)
-	PUB_M(ClassId, UIElementClassId, NONE)
-	PUB_M(Vector2, Position, NONE)
-	PUB_M(Vector2, DisplayPosition, NONE)
-	PUB_M(Vector2, Size, NONE)
-	PUB_M(Vector2, TextSize, NONE)
-	PUB_M(SStr, Text, NONE)
-	PUB_M(bool, AdjustSizeToText, NONE)
-	PUB_M(u32, Layer, NONE)
-	PUB_M(bool, IsAffectedByLayout, NONE)
-	PUB_M(Material *, Material, NONE)
-	PUB_M(SStr, Group, NONE)
-	PUB_M(GameObject*, Parent, NONE)
-	PUB_M(f32, SeparatorSize, NONE)
+	PUB const UIStyle* mStyle = {};
+	PUB ClassId mUIElementClassId = {};
+	PUB Vector2 mPosition = {};
+	PUB Vector2 mDisplayPosition = {};
+	PUB Vector2 mSize = {};
+	PUB Vector2 mTextSize = {};
+	PUB std::string mText = {};
+	PUB bool mAdjustSizeToText = {};
+	PUB u32 mLayer = {};
+	PUB bool mIsAffectedByLayout = {};
+	PUB Material * mMaterial = {};
+	PUB std::string mGroup = {};
+	PUB GameObject* mParent = {};
+	PUB f32 mSeparatorSize = {};
 
 PUB
 	UIElementConfig();
 
-	void init(const Vector2 &position, const Vector2 &size, u32 layer, SStr text = SStr());
+	void init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text = std::string());
 
 	COPY(UIElementConfig)
 	{

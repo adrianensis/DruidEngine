@@ -34,14 +34,3 @@ using u64 = std::uint64_t;
 
 using ClassId = u32;
 using ObjectId = u32;
-
-// S for "std"
-#define SVec(...) std::vector<__VA_ARGS__>
-#define SLst(...) std::list<__VA_ARGS__>
-#define SArr(...) std::array<__VA_ARGS__>
-#define SMap(...) std::map<__VA_ARGS__>
-#define SSet(...) std::set<__VA_ARGS__>
-
-#define SStr std::string
-
-#define SFun(...) std::function<__VA_ARGS__>

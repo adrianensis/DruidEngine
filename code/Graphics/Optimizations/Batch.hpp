@@ -13,39 +13,39 @@ class Camera;
 class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
-	PRI_M(RenderEngine *, RenderEngine, NONE)
-	PRI_M(SMap(u32, SLst(Renderer *) *), Renderers, NONE)
-	PRI_M(Material *, Material, GET)
-	PRI_M(const Mesh *, Mesh, GET)
+	PRI RenderEngine * mRenderEngine = {};
+	PRI std::map<u32, std::list<Renderer *> *> mRenderers = {};
+	PRI Material * mMaterial = {}; GET(Material)
+	PRI const Mesh * mMesh = {}; GET(Mesh)
 
-	PRI_M(Mesh, MeshBuilder, NONE)
+	PRI Mesh mMeshBuilder = {};
 
-	PRI_M(u32, VBOPosition, NONE) // TODO: change u32 for GLuint
-	PRI_M(u32, EBO, NONE)
-	PRI_M(u32, VBOTexture, NONE)
-	PRI_M(u32, VBOColor, NONE)
-	PRI_M(u32, VBONormal, NONE)
-	PRI_M(u32, VAO, NONE)
+	PRI u32 mVBOPosition = {}; // TODO: change u32 for GLuint
+	PRI u32 mEBO = {};
+	PRI u32 mVBOTexture = {};
+	PRI u32 mVBOColor = {};
+	PRI u32 mVBONormal = {};
+	PRI u32 mVAO = {};
 
-	PRI_M(u32, MaxMeshesThreshold, NONE)
-	PRI_M(u32, MaxMeshesIncrement, NONE)
-	PRI_M(u32, MeshesIndex, NONE)
+	PRI u32 mMaxMeshesThreshold = {};
+	PRI u32 mMaxMeshesIncrement = {};
+	PRI u32 mMeshesIndex = {};
 
-	PRI_M(bool, Binded, NONE)
-	PRI_M(bool, IsWorldSpace, GET_SET)
+	PRI bool mBinded = {};
+	PRI bool mIsWorldSpace = {}; GET_SET(IsWorldSpace)
 
 PRI
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
 	bool isChunkOk(Renderer * renderer) const;
 
-	void processRenderers(SLst(Renderer *) * renderers);
+	void processRenderers(std::list<Renderer *> * renderers);
 
 	void drawCall() const;
 
-	void internalRemoveRendererFromList(SLst(Renderer *)::iterator & it, SLst(Renderer *) * list);
+	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *> * list);
 
-	void insertSorted(Renderer * renderer, SLst(Renderer *) * renderers);
+	void insertSorted(Renderer * renderer, std::list<Renderer *> * renderers);
 
 PUB
 	~Batch() override;

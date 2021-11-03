@@ -7,28 +7,28 @@
 class Transform: public Component
 {
     GENERATE_METADATA(Transform)
-	PRI_M(Vector3, WorldPosition, NONE)
+	PRI Vector3 mWorldPosition = {};
 
-	PRI_M(mutable Matrix4, ModelMatrix, NONE)
-	PRI_M(mutable Matrix4, TranslationMatrix, NONE)
-	PRI_M(mutable Matrix4, RotationMatrix, NONE)
-	PRI_M(mutable Matrix4, ScaleMatrix, NONE)
+	PRI mutable Matrix4 mModelMatrix = {};
+	PRI mutable Matrix4 mTranslationMatrix = {};
+	PRI mutable Matrix4 mRotationMatrix = {};
+	PRI mutable Matrix4 mScaleMatrix = {};
 
-	PRI_M(bool, ModelMatrixGenerated, NONE)
+	PRI bool mModelMatrixGenerated = {};
 
-	PRI_M(mutable bool, IsDirtyTranslation, NONE)
-	PRI_M(mutable bool, IsDirtyRotation, NONE)
-	PRI_M(mutable bool, IsDirtyScale, NONE)
+	PRI mutable bool mIsDirtyTranslation = {};
+	PRI mutable bool mIsDirtyRotation = {};
+	PRI mutable bool mIsDirtyScale = {};
 
-	PRI_M(bool, ForceModelMatrixCalculation, NONE)
+	PRI bool mForceModelMatrixCalculation = {};
 
 	//Transform* mParent;
-	PRI_M(Transform *, Parent, GET_SET);
+	PRI Transform * mParent = {}; GET_SET(Parent);
 
-	PRI_M(Vector3, LocalPosition, GET)
-	PRI_M(Vector3, Rotation, GET)
-	PRI_M(Vector3, Scale, GET)
-	PRI_M(bool, AffectedByProjection, GET_SET)
+	PRI Vector3 mLocalPosition = {}; GET(LocalPosition)
+	PRI Vector3 mRotation = {}; GET(Rotation)
+	PRI Vector3 mScale = {}; GET(Scale)
+	PRI bool mAffectedByProjection = {}; GET_SET(AffectedByProjection)
 
 PRI
 

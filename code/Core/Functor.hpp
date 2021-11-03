@@ -7,7 +7,7 @@ template <class T>
 class Functor: public ObjectBase
 {
 	GENERATE_METADATA(Functor<T>)
-	PRO_M(T, Callback, SET)
+	PRO T mCallback = {}; SET(Callback)
 
 PUB
 	virtual void execute() = 0;
@@ -23,7 +23,7 @@ PUB
 	}*/
 };
 
-class FunctorVoid: public Functor<SFun(void()>)
+class FunctorVoid: public Functor<std::function<void()>>
 {
 	GENERATE_METADATA(FunctorVoid)
 PUB	

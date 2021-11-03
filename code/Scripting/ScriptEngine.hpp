@@ -8,10 +8,10 @@ class Script;
 class ScriptEngine: public ISubsystem, public Singleton<ScriptEngine>
 {
 	GENERATE_METADATA(ScriptEngine)
-	PRI_M(SLst(Script *), Scripts, NONE);
-	PRI_M(Script *, Controller, NONE)
+	PRI std::list<Script *> mScripts = {};;
+	PRI Script * mController = {};
 
-	void internalRemoveScript(SLst(Script *)::iterator & it);
+	void internalRemoveScript(std::list<Script *>::iterator & it);
 
 PUB
 	void init();

@@ -9,10 +9,10 @@
 class UIStyle: public ObjectBase
 {
     GENERATE_METADATA(UIStyle)
-    PUB_M(Vector4, TextColor, NONE);
-	PUB_M(Vector4, BackgroundColor, NONE);
-	PUB_M(Vector4, ColorPressed, NONE);
-	PUB_M(Vector4, ColorHovered, NONE);
+    PUB Vector4 mTextColor = {};;
+	PUB Vector4 mBackgroundColor = {};;
+	PUB Vector4 mColorPressed = {};;
+	PUB Vector4 mColorHovered = {};;
 
 PUB
 
@@ -36,8 +36,8 @@ PUB
 class UIStyleManager: public ObjectBase, public Singleton<UIStyleManager>
 {
 	GENERATE_METADATA(UIStyleManager)
-	PRI_M(UIStyle, DefaultStyle, GETREF_CONST);
-	PRI_M(SMap(ClassId, UIStyle*), Styles, NONE);
+	PRI UIStyle mDefaultStyle = {}; GETREF_CONST(DefaultStyle);
+	PRI std::map<ClassId, UIStyle*> mStyles = {};;
 
 PUB
 

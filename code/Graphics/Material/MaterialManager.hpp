@@ -10,15 +10,15 @@ class Texture;
 class MaterialManager: public ObjectBase, public Singleton<MaterialManager>
 {
 	GENERATE_METADATA(MaterialManager)
-	PRI_M(SMap(SStr, class Texture *), TexturesMap, NONE);
-	PRI_M(SMap(SStr, class Material *), MaterialsMap, NONE);
-	PRI_M(Material *, NoTextureMaterial, NONE);
+	PRI std::map<std::string, class Texture *> mTexturesMap = {};;
+	PRI std::map<std::string, class Material *> mMaterialsMap = {};;
+	PRI Material * mNoTextureMaterial = {};;
 
 PUB
 	~MaterialManager() override;
 
 	void init();
-	Texture *loadTexture(const SStr &path);
-	Material *loadMaterial(const SStr &path);
+	Texture *loadTexture(const std::string &path);
+	Material *loadMaterial(const std::string &path);
 	Material *loadNoTextureMaterial();
 };

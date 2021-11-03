@@ -13,7 +13,7 @@ PRI
 
 	f32 mData[16];
 
-	void setRows(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3);
+	void setRows(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3);
 	void setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3);
 	void setRows(u32 n);
 	void setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);
@@ -23,8 +23,8 @@ PUB
 
 	void init(u32 n);
 	void init(const Matrix4 &other);
-	void init(SArr(f32, 16) & data);
-	void init(const SArr(f32, 4) &row0, const SArr(f32, 4) &row1, const SArr(f32, 4) &row2, const SArr(f32, 4) &row3);
+	void init(const std::array<f32, 16> & data);
+	void init(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3);
 	void init(const f32 *data);
 	void init(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3);
 	void init(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);

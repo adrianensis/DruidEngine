@@ -12,14 +12,14 @@ class Shader: public ObjectBase
 {
     GENERATE_METADATA(Shader)
 PRI
-	PRI_M(u32, VertexShader, NONE)
-	PRI_M(u32, FragmentShader, NONE)
-	PRI_M(u32, Program, NONE)
+	PRI u32 mVertexShader = {};
+	PRI u32 mFragmentShader = {};
+	PRI u32 mProgram = {};
 
 	static Shader *msShaderDefault;
 	static Shader *msShaderDebug;
 
-	void initInternal(const SStr &vertex, const SStr &fragment);
+	void initInternal(const std::string &vertex, const std::string &fragment);
 
 PUB
 	Shader();
@@ -34,12 +34,12 @@ PUB
 	void initDebug();
 	void use();
 
-	void addMatrix(const Matrix4 &matrix, const SStr &name);
-	void addInt(i32 value, const SStr &name);
-	void addUInt(u32 value, const SStr &name);
-	void addFloat(f32 value, const SStr &name);
-	void addVector4(const Vector4 &value, const SStr &name);
-	void addVector3(const Vector3 &value, const SStr &name);
-	void addVector2(const Vector2 &value, const SStr &name);
-	void addBool(bool value, const SStr &name);
+	void addMatrix(const Matrix4 &matrix, const std::string &name);
+	void addInt(i32 value, const std::string &name);
+	void addUInt(u32 value, const std::string &name);
+	void addFloat(f32 value, const std::string &name);
+	void addVector4(const Vector4 &value, const std::string &name);
+	void addVector3(const Vector3 &value, const std::string &name);
+	void addVector2(const Vector2 &value, const std::string &name);
+	void addBool(bool value, const std::string &name);
 };

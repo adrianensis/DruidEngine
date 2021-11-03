@@ -18,30 +18,30 @@ class Material;
 class GameObject;
 class Camera;
 
-using TileCallback = SFun(void(GameObject* tile));
+using TileCallback = std::function<void(GameObject* tile)>;
 
 class EditorController: public ObjectBase
 {
     GENERATE_METADATA(EditorController)
-	PRI_M(ConfigObject, EditorConfig, GETREF_CONST)
+	PRI ConfigObject mEditorConfig = {}; GETREF_CONST(EditorConfig)
 
-	PRI_M(Brush, Brush, GETREF)
-	PRI_M(MenuBar, MenuBar, GETREF)
-	PRI_M(InfoBar, InfoBar, GETREF)
-	PRI_M(ToolsBar, ToolsBar, GETREF)
-	PRI_M(LayersBar, LayersBar, GETREF)
-	PRI_M(Sprites, Sprites, GETREF)
+	PRI Brush mBrush = {}; GETREF(Brush)
+	PRI MenuBar mMenuBar = {}; GETREF(MenuBar)
+	PRI InfoBar mInfoBar = {}; GETREF(InfoBar)
+	PRI ToolsBar mToolsBar = {}; GETREF(ToolsBar)
+	PRI LayersBar mLayersBar = {}; GETREF(LayersBar)
+	PRI Sprites mSprites = {}; GETREF(Sprites)
 
-	PRI_M(SLst(GameObject*), SelectedTiles, GETREF)
+	PRI std::list<GameObject*> mSelectedTiles = {}; GETREF(SelectedTiles)
 
-	PRI_M(u32, Layer, GET_SET)
-	PRI_M(SVec(Grid), Grids, NONE)
-	PRI_M(bool, DrawGrid, GET_SET)
+	PRI u32 mLayer = {}; GET_SET(Layer)
+	PRI std::vector<Grid> mGrids = {};
+	PRI bool mDrawGrid = {}; GET_SET(DrawGrid)
 
-	PRI_M(Camera*, Camera, GET)
-	PRI_M(f32, CameraSpeed, NONE)
-	PRI_M(bool, CameraDragStarted, NONE)
-	PRI_M(Vector3, CameraDragLastPosition, NONE)
+	PRI Camera* mCamera = {}; GET(Camera)
+	PRI f32 mCameraSpeed = {};
+	PRI bool mCameraDragStarted = {};
+	PRI Vector3 mCameraDragLastPosition = {};
 
 PUB
 

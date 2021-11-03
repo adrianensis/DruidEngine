@@ -76,7 +76,7 @@ void Scene::init()
 	mLoadSceneConfig.init();
 }
 
-void Scene::saveScene(const SStr &path)
+void Scene::saveScene(const std::string &path)
 {
 	mPath = path;
 
@@ -91,7 +91,7 @@ void Scene::saveScene(const SStr &path)
 	configMap.writeToJsonFile(path);
 }
 
-void Scene::loadScene(const SStr &path)
+void Scene::loadScene(const std::string &path)
 {
 	mPath = path;
 
@@ -147,7 +147,7 @@ DESERIALIZE_IMPL(Scene)
 
 	if(json.contains("objects"))
 	{
-		SLst(GameObject *) tmpList;
+		std::list<GameObject *> tmpList;
 		DO_DESERIALIZE_LIST("objects", tmpList, [](const JSON &json)
 		{
 			GameObject *gameObject = INSTANCE_BY_NAME(json["class"], GameObject);
@@ -192,7 +192,7 @@ void Scene::update()
 	{
 		FOR_RANGE_COND(i, 0, mMaxGameObjectsToLoadPerFrame, mGameObjectsToLoadIndex < mGameObjectsToLoadTotal)
 		{
-			SStr className = "GameObject"; //mLoadSceneConfig->at("class").get<SStr>();
+			std::string className = "GameObject"; //mLoadSceneConfig->at("class").get<std::string>();
 
 			GameObject *gameObject = (GameObject*) INSTANCE_BY_NAME(className); //Memory::fromClassName<GameObject>(className));
 			gameObject->init();

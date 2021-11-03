@@ -17,7 +17,7 @@ CLASS_EVENT_SPECIFIC_KEY(Backspace)
 class InputEventKeyArrow: public Event
 {   
     GENERATE_METADATA(InputEventKeyArrow)
-    PUB_M(u32, ArrowButton, NONE)
+    PUB u32 mArrowButton = {};
 };
 
 class InputEventMouseMoved: public Event
@@ -28,53 +28,53 @@ class InputEventMouseMoved: public Event
 class InputEventMouseButtonPressed: public Event
 {   
     GENERATE_METADATA(InputEventMouseButtonPressed)
-    PUB_M(u32, Button, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mButton = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventMouseButtonHold: public Event
 {   
     GENERATE_METADATA(InputEventMouseButtonHold)
-    PUB_M(u32, Button, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mButton = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventMouseButtonReleased: public Event
 {   
     GENERATE_METADATA(InputEventMouseButtonReleased)
-    PUB_M(u32, Button, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mButton = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventKeyPressed: public Event
 {   
     GENERATE_METADATA(InputEventKeyPressed)
-    PUB_M(u32, Key, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mKey = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventKeyHold: public Event
 {   
     GENERATE_METADATA(InputEventKeyHold)
-    PUB_M(u32, Key, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mKey = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventKeyReleased: public Event
 {   
     GENERATE_METADATA(InputEventKeyReleased)
-    PUB_M(u32, Key, NONE)
-    PUB_M(u32, Mods, NONE)
+    PUB u32 mKey = {};
+    PUB u32 mMods = {};
 };
 
 class InputEventScroll: public Event
 {   
     GENERATE_METADATA(InputEventScroll)
-    PUB_M(f32, Scroll, NONE)
+    PUB f32 mScroll = {};
 };
 
 class InputEventChar: public Event
 {   
     GENERATE_METADATA(InputEventChar)
-    PUB_M(char, Char, NONE)
+    PUB char mChar = {};
 };

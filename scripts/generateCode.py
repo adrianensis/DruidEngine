@@ -13,5 +13,4 @@ def generateCode():
         os.mkdir(generated_code_dirname)
         
     # -B : prevents from writing .pyc or .pyo files
-    os.system('python3 -B ./scripts/generateForEach.py')
     os.system('python3 -B ./scripts/generateInstanceByName.py')

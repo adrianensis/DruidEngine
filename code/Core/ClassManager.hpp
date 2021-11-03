@@ -15,20 +15,20 @@
         }\
         else\
         {\
-            ASSERT_MSG(false, "Cannot instantiate Abstract Class object " + SStr(#__VA_ARGS__));\
+            ASSERT_MSG(false, "Cannot instantiate Abstract Class object " + std::string(#__VA_ARGS__));\
         }\
         return object;\
     });
 
-using ClassRegisterCallback = SFun(ObjectBase*());
+using ClassRegisterCallback = std::function<ObjectBase*()>;
 
 class ClassRegister
 {
     PRI        
-        SStr mClassName;
+        std::string mClassName;
         ClassRegisterCallback mCallback;
     PUB
-        ClassRegister(const SStr &className, ClassRegisterCallback callback);
+        ClassRegister(const std::string &className, ClassRegisterCallback callback);
 };
 
 class ClassManager: public Singleton<ClassManager>
@@ -36,23 +36,23 @@ class ClassManager: public Singleton<ClassManager>
 friend ClassRegister;
 PRI
 
-    static SMap(SStr, ClassRegisterCallback) smRegisters;
+    static std::map<std::string, ClassRegisterCallback> smRegisters;
 
-    SMap(SStr, ClassRegisterCallback) mInstanceByNameMap;
+    std::map<std::string, ClassRegisterCallback> mInstanceByNameMap;
 
 PUB
 
     void init();
 
-    void registerClassByName(const SStr &className, ClassRegisterCallback callback);
+    void registerClassByName(const std::string &className, ClassRegisterCallback callback);
 
     template<class T, typename = std::enable_if_t<std::is_base_of<ObjectBase, T>::value> >
-    T* instanceByName(const SStr &className)
+    T* instanceByName(const std::string &className)
     {
         return static_cast<T*>(instanceByName(className));
     }
 
-    ObjectBase* instanceByName(const SStr &className)
+    ObjectBase* instanceByName(const std::string &className)
     {
         if(MAP_CONTAINS(mInstanceByNameMap, className))
         {
