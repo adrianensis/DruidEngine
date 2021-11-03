@@ -45,7 +45,7 @@ PUB
 class TimerManager: public ObjectBase, public Singleton<TimerManager>
 {
 	GENERATE_METADATA(TimerManager)
-	PRI std::list<Timer *> mTimers = {};;
+	PRI std::list<Timer *> mTimers = {};
 
 	void endTimer(Timer * timer);
 

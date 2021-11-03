@@ -10,7 +10,7 @@ class BatchesMap;
 class Chunk: public ObjectBase
 {
     GENERATE_METADATA(Chunk)
-	PRI std::list<Renderer *> * mRenderers = {};;
+	PRI std::list<Renderer *> * mRenderers = {};
 	PRI Vector3 mLeftTop = {};
 	PRI f32 mSize = {};
 	PRI bool mIsLoaded = {}; GET(IsLoaded)

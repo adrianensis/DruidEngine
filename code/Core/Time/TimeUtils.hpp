@@ -8,9 +8,9 @@ class TimeMark: public ObjectBase
     GENERATE_METADATA(TimeMark)
 	PRI f32 mDeltaTimeMillis = {};
 	PRI f32 mDeltaTimeSeconds = {};
-	PRI std::chrono::milliseconds mDeltaTimeChronoDuration = {};;
-	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime = {};;
-	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime = {};;
+	PRI std::chrono::milliseconds mDeltaTimeChronoDuration = {};
+	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime = {};
+	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime = {};
 	PRI bool mIsStarted = {}; GET(IsStarted)
 
 PUB

@@ -10,7 +10,7 @@ class Batch;
 class BatchesMap: public ObjectBase
 {
     GENERATE_METADATA(BatchesMap)
-	PRI std::map<Texture *, Batch *> mBatches = {};;
+	PRI std::map<Texture *, Batch *> mBatches = {};
 	PRI bool mIsWorldSpace = {}; GET(IsWorldSpace)
 
 PUB

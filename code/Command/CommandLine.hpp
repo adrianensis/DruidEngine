@@ -44,9 +44,9 @@ class CommandLine: public ObjectBase, public Singleton<CommandLine>
 	PRI std::list<std::string> mHistory = {};
 	PRI std::list<std::string>::iterator mHistoryIterator = {};
 
-	PRI UIText* mUIText = {};;
+	PRI UIText* mUIText = {};
 
-    PRI bool mIsOpen = {};;
+    PRI bool mIsOpen = {};
 
     void log(const std::string& line, bool newLine = true) const;
 

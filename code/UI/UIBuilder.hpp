@@ -42,7 +42,7 @@ class UIBuilder: public ObjectBase
 	PRI UILayout mCurrentLayout = {};
 	PRI UIElementConfig mConfig = {}; GETREF_CONST_SET(Config)
 	PRI UIElementConfig mDefaultConfig = {};
-	PRI std::list<UIElementConfig> mConfigStack = {};;
+	PRI std::list<UIElementConfig> mConfigStack = {};
 	PRI UIElementConfig mLastConfig = {};
 	PRI bool mMakeRelativeToLastConfig = {}; // used for layouts
 	PRI UIElementConfig mLayoutFirstUIElementConfig = {};

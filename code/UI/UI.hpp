@@ -23,7 +23,7 @@ class UI: public ObjectBase, public Singleton<UI>
 
 	PRI UIBuilder mUIBuilder = {};
 
-	PRI UIElement * mFocusedElement = {};;
+	PRI UIElement * mFocusedElement = {};
 
 PUB
 	void init();

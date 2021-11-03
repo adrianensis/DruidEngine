@@ -10,7 +10,7 @@ class GameObject;
 class ScenesManager: public ObjectBase, public Singleton<ScenesManager>
 {
 	GENERATE_METADATA(ScenesManager)
-	PRI std::vector<Scene *> mScenes = {};;
+	PRI std::vector<Scene *> mScenes = {};
 	PRI u32 mCurrentSceneIndex = {};
 
 	PRI Scene * mCurrentScene = {}; GET(CurrentScene)

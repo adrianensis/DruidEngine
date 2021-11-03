@@ -14,7 +14,7 @@ class Frustum: public ObjectBase
     GENERATE_METADATA(Frustum)
 	PRI Matrix4 mVPmatrix = {};
 	PRI Camera * mCamera = {};
-	PRI std::array<Vector4, 6> mPlanes = {};;
+	PRI std::array<Vector4, 6> mPlanes = {};
 
 PUB
 	void init(Camera * camera);

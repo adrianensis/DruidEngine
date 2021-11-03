@@ -16,6 +16,7 @@ class Chunk;
 class Renderer: public Component
 {
     GENERATE_METADATA(Renderer)
+	
 	PUB Renderer();
 	PUB ~Renderer() override;
 	PUB SERIALIZE();
