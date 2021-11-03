@@ -50,10 +50,8 @@ PRI
 	PRI f32 mMinChunkDrawDistance = {}; GET(MinChunkDrawDistance)
 	PRI std::vector<Chunk *> mChunks = {};
 
-	PRI std::list<Renderer *> mRenderersToFree = {};
 
 	void checkChunks();
-	void freeRenderersPendingtoFree();
 	void renderBatches();
 	void swap();
 
@@ -64,7 +62,6 @@ PUB
 
 	virtual void addComponent(Component *component) override;
 	Chunk *assignChunk(Renderer * renderer);
-	void freeRenderer(Renderer * renderer);
 	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };

@@ -82,13 +82,6 @@ void RenderEngine::init(f32 sceneSize)
 	}
 }
 
-void RenderEngine::freeRenderer(Renderer *renderer)
-{
-	//if(mRenderersToFree->find(renderer).isNull()){
-	mRenderersToFree.push_back(renderer);
-	//}
-}
-
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 {
 	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
@@ -111,7 +104,6 @@ void RenderEngine::update()
 	renderBatches();
 	swap();
 	checkChunks();
-	freeRenderersPendingtoFree();
 	//PROFILER_TIMEMARK_END()
 }
 
@@ -178,17 +170,6 @@ void RenderEngine::checkChunks()
 	//PROFILER_TIMEMARK_END()
 }
 
-void RenderEngine::freeRenderersPendingtoFree()
-{
-	//PROFILER_TIMEMARK_START()
-
-	LIST_DELETE_CONTENT(mRenderersToFree)
-
-	mRenderersToFree.clear();
-
-	//PROFILER_TIMEMARK_END()
-}
-
 void RenderEngine::terminate()
 {
 	TRACE()
@@ -206,8 +187,6 @@ void RenderEngine::terminate()
 	LIST_DELETE_CONTENT(mChunks);
 
 	Mesh::freeRectangle();
-
-	LIST_DELETE_CONTENT(mRenderersToFree)
 }
 
 void RenderEngine::addComponent(Component *component)

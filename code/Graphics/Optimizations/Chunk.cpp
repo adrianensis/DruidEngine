@@ -78,11 +78,11 @@ void Chunk::update(BatchesMap *batchesMap)
 		if (renderer->getIsPendingToBeDestroyed())
 		{
 			renderer->finallyDestroy();
-			RenderEngine::getInstance()->freeRenderer(renderer);
 		}
 
 		if (renderer->getIsDestroyed())
 		{
+			DELETE(renderer);
 			removeFromList = true;
 		}
 
