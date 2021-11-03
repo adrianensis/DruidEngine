@@ -3,15 +3,11 @@
 #include "Core/Core.hpp"
 #include "UI/UIElement.hpp"
 
-class EditorController;
+#include "EditorUIElement.hpp"
 
-CLASS(LayersBar, ObjectBase)
+CLASS(LayersBar, EditorUIElement)
 {
-	PRI_M(EditorController*, EditorController, NONE);
-    PRI_M(SStr, UIGroupName, NONE)
-	PRI_M(bool, IsVisible, GET)
-
 PUB
-	void init(EditorController* editorController);
-    void toggle();
+	void init(EditorController* editorController) override;
+	void setVisibility(bool visible) override;
 };

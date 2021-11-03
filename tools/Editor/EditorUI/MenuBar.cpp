@@ -9,17 +9,18 @@
 
 void MenuBar::init(EditorController* editorController)
 {
-    mEditorController = editorController;
+	Super::init(editorController);
+	
+	UIBuilder uiBuilder;
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1,1)).
 	setLayer(5).
 	setAdjustSizeToText(true).
-	setTextSize(Vector2(0.025f, 0.05f)).
 	setSize(Vector2(0.5f, 0.05f));
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setText("File").
 	create<UIDropdown>().
 	getUIElement<UIDropdown>()->
@@ -29,28 +30,28 @@ void MenuBar::init(EditorController* editorController)
 	}).
 	addOption("Open", [&](UIElement *uiElement)
 	{
-		mEditorController->loadScene();
+		getEditorController()->loadScene();
 	}).
 	addOption("Save", [&](UIElement *uiElement)
 	{
-		mEditorController->saveScene();
+		getEditorController()->saveScene();
 	});
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setText("Grid").
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&, this](UIElement *uiElement){
-		mEditorController->setDrawGrid(!mEditorController->getDrawGrid());
+		getEditorController()->setDrawGrid(!getEditorController()->getDrawGrid());
 	});
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setText("Sprites").
 	create<UIButton>().
 	getUIElement<UIButton>()->
 	setOnPressedCallback([&, this](UIElement *uiElement){
-		mEditorController->getSprites().toggle();
-        mEditorController->getLayersBar().toggle();
-        mEditorController->getToolsBar().toggle();
+		getEditorController()->getSprites().toggle();
+        getEditorController()->getLayersBar().toggle();
+        getEditorController()->getToolsBar().toggle();
 	});
 }

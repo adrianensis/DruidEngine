@@ -15,21 +15,13 @@
 #include "UI/UIStyle.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
 
-
 class Material;
 class Scene;
 
-/*#define UI_BUILDER_CONFIG_SETTER(Name, ...)   \
-	UIBuilder &set##Name(__VA_ARGS__ _##Name) \
-	{                                              \
-		mConfig.m##Name = _##Name;                   \
-		return *this;                               \
-	}*/
-
 #define UI_BUILDER_CONFIG_SETTER(Name)   \
-	UIBuilder &set##Name(SETTER_TYPE_FROM_VAR(mConfig.m##Name) _##Name) \
+	UIBuilder &set##Name(SETTER_TYPE_FROM_VAR(mConfig.m##Name) new##Name) \
 	{                                              \
-		mConfig.m##Name = _##Name;                   \
+		mConfig.m##Name = new##Name;                   \
 		return *this;                               \
 	}
 
@@ -42,13 +34,12 @@ class Scene;
 
 #define UI_BUILDER_CONFIG_METHODS(Name)\
 	UI_BUILDER_CONFIG_RESTORE(Name)\
-	UI_BUILDER_CONFIG_SETTER(Name, ...)
+	UI_BUILDER_CONFIG_SETTER(Name)
 
-CLASS(UIBuilder, ObjectBase), SINGLETON(UIBuilder)
+CLASS(UIBuilder, ObjectBase)
 {
 	PRI_M(UILayout, CurrentLayout, NONE)
-	PRI_M(Material *, ButtonMaterial, NONE)
-	PRI_M(UIElementConfig, Config, NONE)
+	PRI_M(UIElementConfig, Config, GETREF_CONST_SET)
 	PRI_M(UIElementConfig, DefaultConfig, NONE)
 	PRI_M(SLst(UIElementConfig), ConfigStack, NONE);
 	PRI_M(UIElementConfig, LastConfig, NONE)
@@ -66,22 +57,20 @@ PRI
 PUB
 	UIBuilder();
 
-	UI_BUILDER_CONFIG_SETTER(IsAffectedByLayout)
-	UI_BUILDER_CONFIG_SETTER(Position)
-	UI_BUILDER_CONFIG_SETTER(Size)
-	UI_BUILDER_CONFIG_SETTER(Layer)
-	UI_BUILDER_CONFIG_SETTER(Text)
-	UI_BUILDER_CONFIG_SETTER(TextSize)
-	UI_BUILDER_CONFIG_SETTER(AdjustSizeToText)
-	UI_BUILDER_CONFIG_SETTER(Group)
-	UI_BUILDER_CONFIG_SETTER(SeparatorSize)
-	UI_BUILDER_CONFIG_SETTER(Parent)
-	UI_BUILDER_CONFIG_SETTER(Style)
-	UI_BUILDER_CONFIG_SETTER(Material)
+	UI_BUILDER_CONFIG_METHODS(IsAffectedByLayout)
+	UI_BUILDER_CONFIG_METHODS(Position)
+	UI_BUILDER_CONFIG_METHODS(Size)
+	UI_BUILDER_CONFIG_METHODS(Layer)
+	UI_BUILDER_CONFIG_METHODS(Text)
+	UI_BUILDER_CONFIG_METHODS(TextSize)
+	UI_BUILDER_CONFIG_METHODS(AdjustSizeToText)
+	UI_BUILDER_CONFIG_METHODS(Group)
+	UI_BUILDER_CONFIG_METHODS(SeparatorSize)
+	UI_BUILDER_CONFIG_METHODS(Parent)
+	UI_BUILDER_CONFIG_METHODS(Style)
+	UI_BUILDER_CONFIG_METHODS(Material)
 
-	UI_BUILDER_CONFIG_RESTORE(SeparatorSize)
-	UI_BUILDER_CONFIG_RESTORE(Style)
-	UI_BUILDER_CONFIG_RESTORE(Material)
+	void restoreAll() { mConfig = mDefaultConfig; }
 
 	UIBuilder &setLayout(UILayout layout)
 	{

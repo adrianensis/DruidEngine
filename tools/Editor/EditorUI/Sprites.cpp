@@ -29,14 +29,10 @@
 #include "Input/InputEvents.hpp"
 #include "Events/Event.hpp"
 
+#include "EditorUIGroups.hpp"
+
 Sprites::Sprites()
 {
-	mSpritesSelectorUIGroup = "spritesSelector";
-	mAtlasUIGroup = "atlas";
-    mSpritesUIGroup = "sprites";
-    mSpritePreviewUIGroup = "mSpritePreview";
-    mFramesUIGroup = "frames";
-	mIsVisible = true;
     mIsRecording = false;
     mCurrentAtlasMaterial = nullptr;
 }
@@ -46,13 +42,13 @@ Sprites::~Sprites()
     FOR_LIST(it, mSprites)
     {
         (*it)->destroy();
-        delete *it;
+        DELETE(*it);
     }
 }
 
 void Sprites::init(EditorController* editorController)
 {
-	mEditorController = editorController;
+	Super::init(editorController);
 
 	createAtlasSelectors();
     createSpriteMenu();
@@ -60,25 +56,22 @@ void Sprites::init(EditorController* editorController)
 	toggle();
 }
 
-void Sprites::toggle()
+void Sprites::setVisibility(bool visible)
 {
-	mIsVisible = !mIsVisible;
-	setVisible(mIsVisible);
-}
+	Super::setVisibility(visible);
 
-void Sprites::setVisible(bool visible)
-{
-	mIsVisible = visible;
-	UI::getInstance()->setGroupVisibility(mAtlasUIGroup, mIsVisible);
-	UI::getInstance()->setGroupVisibility(mSpritesSelectorUIGroup, mIsVisible);
-    UI::getInstance()->setGroupVisibility(mSpritesUIGroup, mIsVisible);
-    UI::getInstance()->setGroupVisibility(mSpritePreviewUIGroup, mIsVisible);
-    UI::getInstance()->setGroupVisibility(mFramesUIGroup, mIsVisible);
+	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
+	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());
+    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSprites).setVisibility(getIsVisible());
+    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritePreview).setVisibility(getIsVisible());
+    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smFrames).setVisibility(getIsVisible());
 }
 
 void Sprites::createAtlasSelectors()
 {
-	UI::getInstance()->getUIBuilder().
+    UIBuilder uiBuilder;
+
+	uiBuilder.
 		setSeparatorSize(0).
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
@@ -86,14 +79,14 @@ void Sprites::createAtlasSelectors()
 		setText("").
 		setSize(Vector2(0.1f, 0.1f)).
 		setLayer(0).
-		setGroup(mSpritesSelectorUIGroup).
+		setGroup(EditorUIGroups::smSpritesSelector).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
 
-	FOR_LIST(it, mEditorController->getEditorConfig().at("atlases"))
+	FOR_LIST(it, getEditorController()->getEditorConfig().at("atlases"))
 	{
 		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<SStr>());
 
-		UIButton* atlasSelector = UI::getInstance()->getUIBuilder().
+		UIButton* atlasSelector = uiBuilder.
 			setMaterial(material).
 			create<UIButton>().
 			getUIElement<UIButton>();
@@ -102,33 +95,29 @@ void Sprites::createAtlasSelectors()
 		{
 			TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
 			{
-				UI::getInstance()->destroyAllElementsInGroup(mAtlasUIGroup);
+				UI::getInstance()->getOrCreateGroup(EditorUIGroups::smAtlas).destroyAllUIElements();
 				createAtlas(material);
 			});
 		});
 	}
 
-	UI::getInstance()->getUIBuilder().
-	restoreSeparatorSize().
-	restoreMaterial().
-	setGroup("").
-	restoreStyle();
+	
 
 	// TODO : Load sprites from disk
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
 		setPosition(Vector2(0.3f, 0.5f)).
 		setText("").
 		setSize(Vector2(0.1f, 0.1f)).
 		setLayer(0).
-		setGroup(mSpritesSelectorUIGroup);
+		setGroup(EditorUIGroups::smSpritesSelector);
 
 	/*FOR_RANGE(i, 0, 4)
 	{
 		FOR_RANGE(j, 0, 4)
 		{
-			UIButton* sprites = UI::getInstance()->getUIBuilder().
+			UIButton* sprites = uiBuilder.
 				create<UIButton>().
 				getUIElement<UIButton>();
 
@@ -138,36 +127,31 @@ void Sprites::createAtlasSelectors()
 			});
 		}
 
-		UI::getInstance()->getUIBuilder().nextRow();
+		uiBuilder.nextRow();
 	}*/
-
-	UI::getInstance()->getUIBuilder().
-	restoreSeparatorSize().
-	restoreMaterial().
-	setGroup("").
-	restoreStyle();
 }
 
 void Sprites::createSpriteMenu()
 {
-	UI::getInstance()->getUIBuilder().
+    UIBuilder uiBuilder;
+
+	uiBuilder.
 		setLayout(UILayout::VERTICAL).
 		setAdjustSizeToText(true).
-		setTextSize(Vector2(0.025f, 0.05f)).
 		setPosition(Vector2(0.8f, 0.9f)).
 		setLayer(0).
-		setGroup(mSpritesSelectorUIGroup);
+		setGroup(EditorUIGroups::smSpritesSelector);
 
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
 		setText("Sprites").
 		create<UIText>();
 
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
 		setText("Name").
 		create<UIEditableText>().
         getUIElement<UIEditableText>();
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 		setText("Add").
 		create<UIButton>().
 		getUIElement<UIButton>()->
@@ -176,16 +160,16 @@ void Sprites::createSpriteMenu()
             addSprite();
 		});
 
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
 		setText("Animations").
 		create<UIText>();
 
-    UIEditableText* editableTextAnimation = UI::getInstance()->getUIBuilder().
+    UIEditableText* editableTextAnimation = uiBuilder.
 		setText("Name").
 		create<UIEditableText>().
         getUIElement<UIEditableText>();
 
-	UIButton* recordButton = UI::getInstance()->getUIBuilder().
+	UIButton* recordButton = uiBuilder.
 		setText("Record").
 		create<UIToggleButton>().
 		getUIElement<UIToggleButton>();
@@ -202,7 +186,7 @@ void Sprites::createSpriteMenu()
             mIsRecording = false;
 		});
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 		setText("Clear").
 		create<UIButton>().
 		getUIElement<UIButton>()->
@@ -212,7 +196,7 @@ void Sprites::createSpriteMenu()
             refreshFrames();
 		});
 
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
 		setText("Add").
 		create<UIButton>().
 		getUIElement<UIButton>()->
@@ -220,12 +204,6 @@ void Sprites::createSpriteMenu()
 		{
             addAnimation(editableTextAnimation->getInputString());
 		});
-
-	UI::getInstance()->getUIBuilder().
-	restoreSeparatorSize().
-	restoreMaterial().
-	setGroup("").
-	restoreStyle();
 }
 
 void Sprites::createAtlas(Material* material)
@@ -240,7 +218,9 @@ void Sprites::createAtlas(Material* material)
 
 	Vector2 panelSize = spritesSize * tileSize;
 
-	UI::getInstance()->getUIBuilder().
+    UIBuilder uiBuilder;
+
+	uiBuilder.
 		setSeparatorSize(0).
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
@@ -248,14 +228,14 @@ void Sprites::createAtlas(Material* material)
 		setText("").
 		setSize(Vector2(tileSize, tileSize)).
 		setLayer(0).
-		setGroup(mAtlasUIGroup).
+		setGroup(EditorUIGroups::smAtlas).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
 
 	FOR_RANGE(i, 0, spritesSize.y)
 	{
 		FOR_RANGE(j, 0, spritesSize.x)
 		{
-			UIButton* tile = UI::getInstance()->getUIBuilder().
+			UIButton* tile = uiBuilder.
 				setMaterial(material).
 				create<UIButton>().
 				getUIElement<UIButton>();
@@ -272,19 +252,12 @@ void Sprites::createAtlas(Material* material)
                     addFrame();
                 }
 
-				this->mEditorController->getBrush().onTileSelectedFromAtlas(uiElement);
+				this->getEditorController()->getBrush().onTileSelectedFromAtlas(uiElement);
 			});
 		}
 
-		UI::getInstance()->getUIBuilder().nextRow();
+		uiBuilder.nextRow();
 	}
-
-	UI::getInstance()->getUIBuilder().
-    setText("").
-    restoreSeparatorSize().
-    restoreMaterial().
-    restoreStyle().
-	setGroup("");
 }
 
 void Sprites::loadSprites()
@@ -317,23 +290,24 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
     f32 tileSize = 0.3f;
 
-    UI::getInstance()->destroyAllElementsInGroup(mSpritePreviewUIGroup);
+    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritePreview).destroyAllUIElements();
 
-     UI::getInstance()->getUIBuilder().
+    UIBuilder uiBuilder;
+
+    uiBuilder.
         setLayout(UILayout::HORIZONTAL).
-		setPosition(Vector2(0.1f, 0.9f)).
-        setTextSize(Vector2(0.025f, 0.05f)).
+        setPosition(Vector2(0.1f, 0.9f)).
         setAdjustSizeToText(true).
         setText("Sprite Name").
-		setSeparatorSize(0).
-		setGroup(mSpritePreviewUIGroup).
-		setLayer(0).
+        setSeparatorSize(0).
+        setGroup(EditorUIGroups::smSpritePreview).
+        setLayer(0).
         create<UIText>().
         getUIElement<UIText>();
 
-    UI::getInstance()->getUIBuilder().nextRow();    
+    uiBuilder.nextRow();    
 
-    mSpritePreview = UI::getInstance()->getUIBuilder().
+    mSpritePreview = uiBuilder.
 		setAdjustSizeToText(false).
 		setText("").
 		setSize(Vector2(tileSize, tileSize)).
@@ -344,23 +318,21 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
     mSpritePreview->getRenderer()->setRegion(renderer->getRegion());
 
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
+    restoreAll();
+
+    uiBuilder.
 		setLayout(UILayout::HORIZONTAL).
 		setAdjustSizeToText(true).
-		setTextSize(Vector2(0.025f / 1.2f, 0.05f / 1.2f)).
 		setPosition(Vector2(0.4f, 0.9f)).
-		setLayer(0);
+		setLayer(0).
+        setGroup(EditorUIGroups::smSpritePreview);
 
-    UI::getInstance()->getUIBuilder().
-    restoreMaterial().
-    restoreStyle().
-    restoreSeparatorSize();
-
-    UI::getInstance()->getUIBuilder().
+    uiBuilder.
 		setText("Animations").
 		create<UIText>();
 
-    UI::getInstance()->getUIBuilder().nextRow();
+    uiBuilder.nextRow();
 
     FOR_MAP(it, renderer->getAnimations())
     {
@@ -368,7 +340,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
         SStr animationName = it->first;
 
-        UI::getInstance()->getUIBuilder().
+        uiBuilder.
         setText(animationName).
         create<UIButton>().
         getUIElement<UIButton>()->
@@ -384,7 +356,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
             });
         });
 
-        UI::getInstance()->getUIBuilder().
+        uiBuilder.
         setAdjustSizeToText(true).
         setText("-").
         create<UIButton>().
@@ -398,7 +370,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 			});
         });
 
-        UI::getInstance()->getUIBuilder().nextRow();
+        uiBuilder.nextRow();
     }
 
     Renderer* previewRenderer = mSpritePreview->getFirstComponent<Renderer>();
@@ -437,15 +409,17 @@ void Sprites::removeSprite()
 
 void Sprites::refreshSprites()
 {
-    UI::getInstance()->destroyAllElementsInGroup(mSpritesUIGroup);
+    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSprites).destroyAllUIElements();
 
     mCurrentAnimationName.clear();
 
-    UI::getInstance()->getUIBuilder().
+    UIBuilder uiBuilder;
+
+    uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, -0.8f)).
 	setLayer(0).
-	setGroup(mSpritesUIGroup).
+	setGroup(EditorUIGroups::smSprites).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
@@ -453,7 +427,7 @@ void Sprites::refreshSprites()
     {
         Renderer* spriteRenderer = (*it)->getFirstComponent<Renderer>();
 
-        UI::getInstance()->getUIBuilder().
+        uiBuilder.
         setAdjustSizeToText(false).
         setText("").
         setMaterial(spriteRenderer->getMaterial()).
@@ -467,12 +441,7 @@ void Sprites::refreshSprites()
         });
     }
 
-    UI::getInstance()->getUIBuilder().
-    setText("").
-    restoreSeparatorSize().
-    restoreMaterial().
-    restoreStyle().
-	setGroup("");
+    
 }
 
 void Sprites::addAnimation(const SStr& name)
@@ -518,19 +487,21 @@ void Sprites::refreshFrames()
 {
     if(mCurrentSprite)
     {   
-        UI::getInstance()->destroyAllElementsInGroup(mFramesUIGroup);
+        UI::getInstance()->getOrCreateGroup(EditorUIGroups::smFrames).destroyAllUIElements();
 
-        UI::getInstance()->getUIBuilder().
+        UIBuilder uiBuilder;
+
+        uiBuilder.
         setLayout(UILayout::VERTICAL).
         setPosition(Vector2(-1.0f, -0.6f)).
         setLayer(0).
-        setGroup(mFramesUIGroup);
+        setGroup(EditorUIGroups::smFrames);
 
         FOR_LIST(it, mFrames)
         {
             Renderer* renderer = (*it)->getFirstComponent<Renderer>();
 
-            UI::getInstance()->getUIBuilder().
+            uiBuilder.
             setAdjustSizeToText(false).
             setText("").
             setSize(Vector2(0.05f, 0.05f)).
@@ -540,11 +511,11 @@ void Sprites::refreshFrames()
             getUIElement<UIPanel>()->
             getRenderer()->setRegion(renderer->getRegion());
 
-            UI::getInstance()->getUIBuilder().
+            uiBuilder.
             restoreMaterial().
             restoreStyle();
 
-            UI::getInstance()->getUIBuilder().
+            uiBuilder.
             setAdjustSizeToText(true).
             setText("-").
             create<UIButton>().
@@ -558,15 +529,10 @@ void Sprites::refreshFrames()
                 });
             });
 
-            UI::getInstance()->getUIBuilder().nextColumn();
+            uiBuilder.nextColumn();
         }
 
-        UI::getInstance()->getUIBuilder().
-        setText("").
-        restoreSeparatorSize().
-        restoreMaterial().
-        restoreStyle().
-        setGroup("");
+        
     }
 }
 
@@ -583,9 +549,4 @@ DESERIALIZE_IMPL(Sprites)
         gameObject->init();
         return gameObject;
     })
-}
-
-DESERIALIZE_IMPL(SpriteEditorObject)
-{
-
 }

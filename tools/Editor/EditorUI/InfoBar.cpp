@@ -4,29 +4,30 @@
 
 #include "../EditorController.hpp"
 
-#define CREATE_INFO_FIELD(BaseName)\
-m##BaseName = createInfoField(#BaseName);
+#define CREATE_INFO_FIELD(BaseName, builder)\
+m##BaseName = createInfoField(#BaseName, builder);
 
 void InfoBar::init(EditorController* editorController)
 {
-    mEditorController = editorController;
+	Super::init(editorController);
 
-	UI::getInstance()->getUIBuilder().
+	UIBuilder uiBuilder;
+
+	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1,-0.95)).
 	setLayer(0).
 	setAdjustSizeToText(false).
-	setTextSize(Vector2(0.025f, 0.05f)).
 	setSize(Vector2(0.25f, 0.05f));
 
-	CREATE_INFO_FIELD(FPS)
-	CREATE_INFO_FIELD(Layer)
-	CREATE_INFO_FIELD(BrushSize)
+	CREATE_INFO_FIELD(FPS, uiBuilder)
+	CREATE_INFO_FIELD(Layer, uiBuilder)
+	CREATE_INFO_FIELD(BrushSize, uiBuilder)
 }
 
-UIText* InfoBar::createInfoField(const SStr &name)
+UIText* InfoBar::createInfoField(const SStr &name, UIBuilder& uiBuilder)
 {
-	return UI::getInstance()->getUIBuilder().
+	return uiBuilder.
 	setText(name).
 	create<UIText>().
 	getUIElement<UIText>();

@@ -3,10 +3,9 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Geometry.hpp"
-
+#include "EditorUIElement.hpp"
 
 class GameObject;
-class EditorController;
 class Material;
 
 enum class BrushMode
@@ -27,9 +26,8 @@ CLASS(BrushPaintData, ObjectBase)
 	PUB_M(Material *, Material, NONE)
 };
 
-CLASS(Brush, ObjectBase)
+CLASS(Brush, EditorUIElement)
 {
-	PRI_M(EditorController*, EditorController, NONE)
 	PRI_M(GameObject *, Selector, NONE)
 	PRI_M(SVec(GameObject *), BrushPreview, NONE)
 
@@ -58,7 +56,7 @@ PRI
 
 PUB
 
-	void init(EditorController* editorController);
+	void init(EditorController* editorController) override;
 	void onTileSelectedFromAtlas(GameObject* tile);
 
 	void setModeSelect();

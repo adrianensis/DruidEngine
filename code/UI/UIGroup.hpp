@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 
-
 class UIElement;
 
 CLASS(UIGroup, ObjectBase)
@@ -13,4 +12,10 @@ CLASS(UIGroup, ObjectBase)
 
 PUB
 	void init();
+
+	void addUIElement(UIElement * uiElement);
+	void removeUIElement(UIElement * uiElement);
+    void destroyUIElement(UIElement * uiElement);
+	void destroyAllUIElements();
+	void setVisibility(bool visibility);
 };

@@ -2,11 +2,10 @@
 
 #include "Core/Core.hpp"
 
-class EditorController;
+#include "EditorUIElement.hpp"
 
-CLASS(MenuBar, ObjectBase)
+CLASS(MenuBar, EditorUIElement)
 {
-	PRI_M(EditorController*, EditorController, NONE)
 PUB
-	void init(EditorController* editorController);
+	void init(EditorController* editorController) override;
 };

@@ -19,7 +19,6 @@
 
 UIBuilder::UIBuilder()
 {
-	mButtonMaterial = nullptr;
 	mCurrentLayout = UILayout::VERTICAL;
 	mMakeRelativeToLastConfig = false;
 	mCurrentUIElement = nullptr;
@@ -37,7 +36,7 @@ void UIBuilder::registerUIElement(UIElement *uiElement)
 
 	if (mConfig.mGroup.length() > 0)
 	{
-		UI::getInstance()->addToGroup(mConfig.mGroup, mCurrentUIElement);
+		UI::getInstance()->getOrCreateGroup(mConfig.mGroup).addUIElement(mCurrentUIElement);
 	}
 
 	if (mConfig.mIsAffectedByLayout)

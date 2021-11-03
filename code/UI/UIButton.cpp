@@ -63,8 +63,9 @@ void UIButton::setText(const SStr &text)
 
 		if (!mText)
 		{
-			mText = UI::getInstance()->getUIBuilder().
-			saveData().
+			UIBuilder uiBuilder;
+
+			mText = uiBuilder.
 			setPosition(Vector2(0, 0)).
 			setText(text).
 			setLayer(mConfig.mLayer + 1).
@@ -72,8 +73,6 @@ void UIButton::setText(const SStr &text)
 			setParent(this).
 			create<UIText>().
 			getUIElement<UIText>();
-
-			UI::getInstance()->getUIBuilder().restoreData();
 		}
 
 		mText->setText(text);

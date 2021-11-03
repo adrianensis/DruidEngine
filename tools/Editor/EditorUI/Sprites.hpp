@@ -4,31 +4,16 @@
 #include "Maths/Vector2.hpp"
 #include "Scene/GameObject.hpp"
 #include "EditorUI/Grid.hpp"
+#include "EditorUIElement.hpp"
 
 class UIButton;
 class UIPanel;
 class Material;
 
-class EditorController;
-
-CLASS(SpriteEditorObject, GameObject)
-{
-PUB
-    DESERIALIZE();
-};
-
-CLASS(Sprites, ObjectBase)
-{
-	PRI_M(EditorController*, EditorController, NONE)
-	PRI_M(SStr, SpritesSelectorUIGroup, NONE)
-    PRI_M(SStr, SpritesUIGroup, NONE)
-    PRI_M(SStr, SpritePreviewUIGroup, NONE)
-	PRI_M(SStr, AtlasUIGroup, NONE)
-    PRI_M(SStr, FramesUIGroup, NONE)
+CLASS(Sprites, EditorUIElement)
+{    
     PRI_M(SLst(GameObject*), Frames, NONE)
     PRI_M(SLst(GameObject*), Sprites, NONE)
-
-	PRI_M(bool, IsVisible, GET)
 
     PRI_M(u32, SpritesCount, NONE)
 
@@ -70,9 +55,8 @@ PUB
 	Sprites();
     ~Sprites();
 
-	void init(EditorController* editorController);
-	void toggle();
-	void setVisible(bool visible);
+	void init(EditorController* editorController) override;
+	void setVisibility(bool visible) override;
     
     void saveSprites();
 

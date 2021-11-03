@@ -10,54 +10,49 @@
 
 #include "../EditorController.hpp"
 
+#include "EditorUIGroups.hpp"
+
 void LayersBar::init(EditorController* editorController)
 {
-    mEditorController = editorController;
+	Super::init(editorController);
 
-    mIsVisible = true;
-    mUIGroupName = "LayersBar";
+	UIBuilder uiBuilder;
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(0.94,0.8)).
 	setLayer(0).
-	setGroup(mUIGroupName).
+	setGroup(EditorUIGroups::smLayersBar).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.07f, 0.07f)).
 	//setAdjustSizeToText(true).
 	//restoreMaterial().
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Layer.png")).
-	setTextSize(Vector2(0.04f, 0.04f));
+	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Layer.png"));
 
 	FOR_RANGE(i, 0, 10)
 	{
 		u32 layer = i;
 		SStr layerStr = std::to_string(layer);
 
-		UI::getInstance()->getUIBuilder().
+		uiBuilder.
 		setText(layerStr).
 		create<UIToggleButton>().
 		getUIElement<UIToggleButton>()->
 		setOnPressedCallback([&, layer](UIElement* uiElement){
-			mEditorController->setLayer(layer);
-			mEditorController->getInfoBar().setLayer(mEditorController->getLayer());
+			getEditorController()->setLayer(layer);
+			getEditorController()->getInfoBar().setLayer(getEditorController()->getLayer());
 		});
 
 		if(i == 0)
 		{
-			UI::getInstance()->getUIBuilder().
+			uiBuilder.
 			getUIElement<UIToggleButton>()->simulateClick();
 		}
 	}
-
-	UI::getInstance()->getUIBuilder().
-	restoreStyle().
-	setGroup("").
-	restoreMaterial();
 }
 
-void LayersBar::toggle()
+void LayersBar::setVisibility(bool visible)
 {
-	mIsVisible = !mIsVisible;
-	UI::getInstance()->setGroupVisibility(mUIGroupName, mIsVisible);
+	Super::setVisibility(visible);
+	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
 }

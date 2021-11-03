@@ -211,12 +211,11 @@ void CommandLine::open()
     log(mBuffer, false);
     /*if(!mUIText)
     {
-        mUIText = UI::getInstance()->getUIBuilder().
+        mUIText = uiBuilder.
         setLayout(UILayout::VERTICAL).
         setPosition(Vector2(-1.0f, -0.96f)).
         setLayer(0).
         setAdjustSizeToText(false).
-        setTextSize(Vector2(0.04f, 0.04f)).
         create<UIText>().
         getUIElement<UIText>();
     }

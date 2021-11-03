@@ -74,8 +74,9 @@ void UIList::toggle()
 		Vector3 scale = getTransform()->getScale();
 		scale.x = scale.x * RenderContext::getAspectRatio();
 
-		
-		UI::getInstance()->getUIBuilder().saveData().
+		UIBuilder uiBuilder;
+
+		uiBuilder.
 			setLayout(UILayout::VERTICAL).
 			//setSize(scale).
 			setPosition(Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), scale.y/2.0f)).
@@ -88,11 +89,11 @@ void UIList::toggle()
 			SStr &label = (*it).mLabel;
 			UIElementCallback onPressedCallback = (*it).mCallback;
 
-			UI::getInstance()->getUIBuilder().
+			uiBuilder.
 			setText(label).
 			create<UIButton>();
 
-			UIButton *button = (UIButton *)UI::getInstance()->getUIBuilder().getUIElement();
+			UIButton *button = (UIButton *)uiBuilder.getUIElement();
 			button->setOnPressedCallback(onPressedCallback);
 			button->setVisibility(false);
 
@@ -113,8 +114,6 @@ void UIList::toggle()
 
 			mButtons.push_back(button);
 		}
-
-		UI::getInstance()->getUIBuilder().restoreData();
 
 		//setEntriesVisibility(false);
 	}

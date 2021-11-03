@@ -2,16 +2,11 @@
 
 #include "Core/Core.hpp"
 #include "UI/UIElement.hpp"
+#include "EditorUIElement.hpp"
 
-class EditorController;
-
-CLASS(ToolsBar, ObjectBase)
+CLASS(ToolsBar, EditorUIElement)
 {
-	PRI_M(EditorController*, EditorController, NONE);
-    PRI_M(SStr, UIGroupName, NONE)
-	PRI_M(bool, IsVisible, GET)
-
 PUB
-	void init(EditorController* editorController);
-    void toggle();
+	void init(EditorController* editorController) override;
+	void setVisibility(bool visible) override;
 };

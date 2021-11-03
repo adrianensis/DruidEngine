@@ -28,12 +28,7 @@ Material *UI::getFontMaterial()
 	return mFontMaterial;
 };
 
-const UIGroup& UI::getGroup(const SStr & groupName) const
-{
-	return *(mGroups.at(groupName));
-}
-
-void UI::addToGroup(const SStr &groupName, UIElement *uiElement)
+UIGroup& UI::getOrCreateGroup(const SStr & groupName)
 {
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
@@ -44,55 +39,7 @@ void UI::addToGroup(const SStr &groupName, UIElement *uiElement)
 		MAP_INSERT(mGroups, groupName, group);
 	}
 
-	mGroups.at(groupName)->mUIElements.push_back(uiElement);
-}
-
-void UI::removeFromGroup(const SStr &groupName, UIElement *uiElement)
-{
-	if (uiElement && MAP_CONTAINS(mGroups, groupName))
-	{
-		mGroups.at(groupName)->mUIElements.remove(uiElement);
-	}
-}
-
-void UI::destroyElementInGroup(const SStr &groupName, UIElement *uiElement)
-{
-	if (uiElement && MAP_CONTAINS(mGroups, groupName))
-	{
-		mGroups.at(groupName)->mUIElements.remove(uiElement);
-        uiElement->getScene()->removeGameObject(uiElement);
-	}
-}
-
-void UI::destroyAllElementsInGroup(const SStr &groupName)
-{
-	if (MAP_CONTAINS(mGroups, groupName))
-	{
-		UIGroup *group = mGroups.at(groupName);
-		auto list = group->mUIElements;
-
-		FOR_LIST(it, list)
-		{
-			UIElement *element = *it;
-			element->getScene()->removeGameObject(element);
-		}
-
-		mGroups.at(groupName)->mUIElements.clear();
-	}
-}
-
-void UI::setGroupVisibility(const SStr &groupName, bool visibility)
-{
-	if (MAP_CONTAINS(mGroups, groupName))
-	{
-		UIGroup *group = mGroups.at(groupName);
-		group->mVisible = visibility;
-
-		FOR_LIST(it, mGroups.at(groupName)->mUIElements)
-		{
-			(*it)->setVisibility(group->mVisible);
-		}
-	}
+	return *(mGroups.at(groupName));
 }
 
 void UI::init()

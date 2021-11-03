@@ -5,11 +5,10 @@
 #include "Maths/Vector2.hpp"
 #include "UI/UIElement.hpp"
 #include "UI/UIBuilder.hpp"
-
+#include "UI/UIGroup.hpp"
 
 class Material;
 class Scene;
-class UIGroup;
 
 CLASS(UI, ObjectBase), SINGLETON(UI)
 {
@@ -21,7 +20,7 @@ CLASS(UI, ObjectBase), SINGLETON(UI)
 
 	static Vector2 smDefaultFontSize;
 
-	PRI_M(UIBuilder, UIBuilder, GETREF)
+	PRI_M(UIBuilder, UIBuilder, NONE)
 
 	PRI_M(UIElement *, FocusedElement, NONE);
 
@@ -38,12 +37,7 @@ PUB
 
 	// groups
 
-	const UIGroup& getGroup(const SStr & groupName) const;
-	void addToGroup(const SStr & groupName, UIElement * uiElement);
-	void removeFromGroup(const SStr & groupName, UIElement * uiElement);
-    void destroyElementInGroup(const SStr & groupName, UIElement * uiElement);
-	void destroyAllElementsInGroup(const SStr & groupName);
-	void setGroupVisibility(const SStr & groupName, bool visibility);
+	UIGroup& getOrCreateGroup(const SStr & groupName);
 
 	// focus
 

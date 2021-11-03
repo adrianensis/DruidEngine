@@ -56,7 +56,9 @@ void UIDropdown::setEntriesVisibility(bool visible)
 			Vector3 scale = getTransform()->getScale();
 			scale.x = scale.x * RenderContext::getAspectRatio();
 			
-			UI::getInstance()->getUIBuilder().saveData().
+			UIBuilder uiBuilder;
+
+			uiBuilder.
 				setLayout(UILayout::VERTICAL).
 				//setSize(scale).
 				setPosition(getTransform()->getWorldPosition() + Vector2((-scale.x / 2.0f) / RenderContext::getAspectRatio(), -scale.y / 2.0f)).
@@ -69,19 +71,17 @@ void UIDropdown::setEntriesVisibility(bool visible)
 				SStr &label = (*it).mLabel;
 				UIElementCallback onPressedCallback = (*it).mCallback;
 
-				UI::getInstance()->getUIBuilder().
+				uiBuilder.
 				setText(label).
 				create<UIDropdownButton>();
 
-				UIDropdownButton *button = UI::getInstance()->getUIBuilder().getUIElement<UIDropdownButton>();
+				UIDropdownButton *button = uiBuilder.getUIElement<UIDropdownButton>();
 				button->setOnPressedCallback(onPressedCallback);
 
 				button->setParentDropdown(this);
 
 				mButtons.push_back(button);
 			}
-
-			UI::getInstance()->getUIBuilder().restoreData();
 		}
 		
 		FOR_LIST(it, mButtons)

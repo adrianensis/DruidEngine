@@ -100,7 +100,7 @@ void UIText::setText(const SStr &text)
 				Vector2 textureCoordinates = UI::getInstance()->getCharTextureCoordinates(character);
 				Vector2 textureSize = UI::getInstance()->getFontTileTextureSize();
 
-				if (!mFontRenderers.empty() && i < mString.length())
+				if (!mFontRenderers.empty() && i < static_cast<i32>(mString.length()))
 				{
 					renderer = mFontRenderers[i];
 				}

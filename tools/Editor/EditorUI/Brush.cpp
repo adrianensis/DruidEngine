@@ -32,7 +32,8 @@ Vector2 Brush::getMouseWorldPosition() const
 
 void Brush::init(EditorController* editorController)
 {
-	mEditorController = editorController;
+	Super::init(editorController);
+
 	createSelector();
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
@@ -53,7 +54,7 @@ void Brush::onHold()
 {
 	if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{
-		if(mEditorController->canUseBrush())
+		if(getEditorController()->canUseBrush())
 		{
 			Vector2 worldPosition = getMouseWorldPosition();
 
@@ -62,9 +63,9 @@ void Brush::onHold()
 				FOR_RANGE(j, 0, mBrushSize)
 				{
 					Vector2 singleTileWorldPosition = worldPosition + 
-					mEditorController->getGrid().getTileSize() * Vector2(i,j);
+					getEditorController()->getGrid().getTileSize() * Vector2(i,j);
 
-					if(mEditorController->getGrid().isInGrid(singleTileWorldPosition))
+					if(getEditorController()->getGrid().isInGrid(singleTileWorldPosition))
 					{
 						applyOneTile(singleTileWorldPosition);
 					}
@@ -76,7 +77,7 @@ void Brush::onHold()
 
 void Brush::applyOneTile(const Vector2 &worldPosition)
 {
-	Vector2 gridPosition = mEditorController->getGrid().calculateGridPosition(worldPosition);
+	Vector2 gridPosition = getEditorController()->getGrid().calculateGridPosition(worldPosition);
 				
 	switch (mMode)
 	{
@@ -86,7 +87,7 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 
 			if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
 			{
-				mEditorController->forEachSelectedTile([&](GameObject* tile)
+				getEditorController()->forEachSelectedTile([&](GameObject* tile)
 				{	
 					if(tile->isActive())
 					{
@@ -95,19 +96,19 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 					}
 				});
 
-				mEditorController->getSelectedTiles().clear();
+				getEditorController()->getSelectedTiles().clear();
 			}
 
-			if(mEditorController->getGrid().hasTile(gridPosition))
+			if(getEditorController()->getGrid().hasTile(gridPosition))
 			{
-				GameObject* tile = mEditorController->getGrid().getCell(gridPosition).mGameObject;
+				GameObject* tile = getEditorController()->getGrid().getCell(gridPosition).mGameObject;
 				
 				if(tile->isActive())
 				{
 					Renderer* renderer = tile->getFirstComponent<Renderer>();
 					renderer->setColor(style.mColorPressed);
 
-					mEditorController->getSelectedTiles().push_back(tile);
+					getEditorController()->getSelectedTiles().push_back(tile);
 				}
 			}
 
@@ -134,10 +135,10 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 
 void Brush::onMouseMoved()
 {
-	if(mEditorController->canUseBrush())
+	if(getEditorController()->canUseBrush())
 	{
 		Vector2 worldPosition = getMouseWorldPosition();
-		Vector2 clampedPosition = mEditorController->getGrid().calculateClampedPosition(worldPosition);
+		Vector2 clampedPosition = getEditorController()->getGrid().calculateClampedPosition(worldPosition);
 
 		if(!mBrushPreview.empty())
 		{
@@ -146,13 +147,13 @@ void Brush::onMouseMoved()
 				FOR_RANGE(j, 0, mBrushSize)
 				{
 					Vector2 singleTileClampedPosition = clampedPosition + 
-					mEditorController->getGrid().getTileSize() * Vector2(i,j);
+					getEditorController()->getGrid().getTileSize() * Vector2(i,j);
 
 					u32 index = j + i*mBrushSize;
 					mBrushPreview[index]->getTransform()->setLocalPosition(singleTileClampedPosition);
 					const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
 
-					if(mEditorController->getGrid().isInGrid(singleTileClampedPosition))
+					if(getEditorController()->getGrid().isInGrid(singleTileClampedPosition))
 					{
 						mBrushPreview[index]->getFirstComponent<Renderer>()->setColor(style.mBackgroundColor);
 					}
@@ -170,7 +171,7 @@ void Brush::onMouseMoved()
 		{
 			mSelector->getTransform()->setLocalPosition(clampedPosition);
 
-			if(mEditorController->getGrid().isInGrid(worldPosition))
+			if(getEditorController()->getGrid().isInGrid(worldPosition))
 			{
 				mSelector->getFirstComponent<Renderer>()->setColor(Vector4(0,1,0,1));
 			}
@@ -206,7 +207,7 @@ void Brush::createSelector()
 	selector->init();
 
 	selector->getTransform()->setLocalPosition(Vector2(0,0));
-	selector->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
+	selector->getTransform()->setScale(Vector3(getEditorController()->getGrid().getTileSize(), 1));
 
 	Renderer *renderer = NEW(Renderer);
 	renderer->init();
@@ -258,8 +259,8 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 		GameObject *brushPreview = NEW(GameObject);
 		brushPreview->init();
 
-		brushPreview->getTransform()->setLocalPosition(brushPreviewIndex * mEditorController->getGrid().getTileSize());
-		brushPreview->getTransform()->setScale(Vector3(mEditorController->getGrid().getTileSize(), 1));
+		brushPreview->getTransform()->setLocalPosition(brushPreviewIndex * getEditorController()->getGrid().getTileSize());
+		brushPreview->getTransform()->setScale(Vector3(getEditorController()->getGrid().getTileSize(), 1));
 
 		Renderer *renderer = NEW(Renderer);
 		renderer->init();
@@ -280,7 +281,7 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 
 		mBrushPreview.push_back(brushPreview);
 
-		setBrushPreviewVisibility(mEditorController->canUseBrush());
+		setBrushPreviewVisibility(getEditorController()->canUseBrush());
 	}
 }
 
@@ -296,15 +297,15 @@ void Brush::removeBrushPreview()
 
 void Brush::paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition)
 {
-	if(mEditorController->getGrid().hasTile(gridPosition))
+	if(getEditorController()->getGrid().hasTile(gridPosition))
 	{
 		removeTile(gridPosition);
 	}
 
-	mEditorController->getGrid().setCell(gridPosition, 
-		mEditorController->createTile(
-			mEditorController->getGrid().calculateClampedPosition(worldPosition),
-			mEditorController->getGrid().getTileSize(),
+	getEditorController()->getGrid().setCell(gridPosition, 
+		getEditorController()->createTile(
+			getEditorController()->getGrid().calculateClampedPosition(worldPosition),
+			getEditorController()->getGrid().getTileSize(),
 			mPaintData.mMaterial,
 			mPaintData.mRegion
 		)
@@ -313,9 +314,9 @@ void Brush::paintTile(const Vector2 &worldPosition, const Vector2 &gridPosition)
 
 void Brush::removeTile(const Vector2 &gridPosition)
 {
-	if(mEditorController->getGrid().hasTile(gridPosition))
+	if(getEditorController()->getGrid().hasTile(gridPosition))
 	{
-		CellGrid& cell = mEditorController->getGrid().getCell(gridPosition);
+		CellGrid& cell = getEditorController()->getGrid().getCell(gridPosition);
 		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
 		cell.mGameObject = nullptr;
 	}

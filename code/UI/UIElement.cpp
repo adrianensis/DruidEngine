@@ -276,7 +276,7 @@ void UIElement::executePressAndRelease(bool force /*= false*/)
 			if(mCanToggle)
 			{
 				// Release other UIToggleButtons
-				const UIGroup& group = UI::getInstance()->getGroup(mConfig.mGroup);
+				const UIGroup& group = UI::getInstance()->getOrCreateGroup(mConfig.mGroup);
 				FOR_LIST(it, group.getUIElements())
 				{
 					UIElement* other = *it;

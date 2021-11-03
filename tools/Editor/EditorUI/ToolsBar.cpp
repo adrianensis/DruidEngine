@@ -9,66 +9,62 @@
 #include "Graphics/Material/MaterialManager.hpp"
 
 #include "../EditorController.hpp"
+#include "EditorUIGroups.hpp"
 
 void ToolsBar::init(EditorController* editorController)
 {
-    mEditorController = editorController;
+	Super::init(editorController);
 
-    mIsVisible = true;
-    mUIGroupName = "ToolsBar";
+	UIBuilder uiBuilder;
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, 0.8f)).
 	setLayer(0).
-	setGroup(mUIGroupName).
+	setGroup(EditorUIGroups::smToolsBar).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setAdjustSizeToText(false).
 	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Cursor.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getBrush().setModeSelect();
+		getEditorController()->getBrush().setModeSelect();
 	});
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	getUIElement<UIToggleButton>()->simulateClick();
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setAdjustSizeToText(false).
 	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Pencil.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getBrush().setModePaint();
+		getEditorController()->getBrush().setModePaint();
 	});
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	nextRow();
 
-	UI::getInstance()->getUIBuilder().
+	uiBuilder.
 	setAdjustSizeToText(false).
 	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Eraser.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
-		mEditorController->getBrush().setModeErase();
+		getEditorController()->getBrush().setModeErase();
 	});
-
-	UI::getInstance()->getUIBuilder().
-	restoreStyle().
-	setGroup("").
-	restoreMaterial();
 }
 
-void ToolsBar::toggle()
+void ToolsBar::setVisibility(bool visible)
 {
-	mIsVisible = !mIsVisible;
-	UI::getInstance()->setGroupVisibility(mUIGroupName, mIsVisible);
+	Super::setVisibility(visible);
+
+	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
 }
