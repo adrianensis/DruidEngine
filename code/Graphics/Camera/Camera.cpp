@@ -32,9 +32,7 @@ void Camera::init()
 
 void Camera::onComponentAdded()
 {
-	// TODO: do this also in setOrtho and setPerspective
-	calculateInverseMatrix();
-	mFrustum->build();
+	recalculatePerspectiveMatrix();
 
 	mTransformState = getGameObject()->getTransform()->getTransformState();
 }
@@ -66,6 +64,9 @@ void Camera::recalculatePerspectiveMatrix()
 	{
 		setPerspective(mNear, mFar, mAspect, mFov);
 	}
+
+	calculateInverseMatrix(true);
+	mFrustum->build();
 }
 
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
@@ -130,9 +131,9 @@ Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 	return v;
 }
 
-void Camera::calculateInverseMatrix()
+void Camera::calculateInverseMatrix(bool force /*= false*/)
 {
-	if(mInversePVMatrixNeedsUpdate)
+	if(mInversePVMatrixNeedsUpdate || force)
 	{
 		Matrix4 inverseProjectionMatrix;
 		Matrix4 viewTranslationMatrix;

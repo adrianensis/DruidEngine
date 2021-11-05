@@ -34,6 +34,8 @@ class Camera: public Component
 
 	PRI TransformState mTransformState;
 
+	PRI void calculateInverseMatrix(bool force = false);
+
 PUB
 	Camera();
 	~Camera() override;
@@ -54,7 +56,6 @@ PUB
 	void onResize();
 
 	Vector3 screenToWorld(const Vector2& screenPosition);
-	void calculateInverseMatrix();
 
 	void setZoom(f32 zoom);
 	void zoomIn(f32 zoomDelta);
