@@ -47,7 +47,7 @@ void UIElement::onDestroy()
 
 	if (hasFocus())
 	{
-		UI::getInstance()->setFocusedElement(nullptr);
+		UI::getInstance().setFocusedElement(nullptr);
 	}
 }
 
@@ -161,7 +161,7 @@ void UIElement::subscribeToEscEvent()
 
 bool UIElement::hasFocus() const
 {
-	return this == UI::getInstance()->getFocusedElement();
+	return this == UI::getInstance().getFocusedElement();
 }
 
 void UIElement::onChar(char character)
@@ -186,7 +186,7 @@ void UIElement::onFocusLost()
 {
 	if (hasFocus())
 	{
-		UI::getInstance()->setFocusedElement(nullptr);
+		UI::getInstance().setFocusedElement(nullptr);
 		mOnFocusLostFunctor.execute();
 	}
 }
@@ -221,20 +221,20 @@ void UIElement::press()
 
 	if (!hasFocus())
 	{
-		UIElement *lastFocusedElement = UI::getInstance()->getFocusedElement();
+		UIElement *lastFocusedElement = UI::getInstance().getFocusedElement();
 
 		if (lastFocusedElement && lastFocusedElement->isActive())
 		{
 			lastFocusedElement->onFocusLost();
 		}
 
-		UI::getInstance()->setFocusedElement(this);
+		UI::getInstance().setFocusedElement(this);
 		onFocus();
 	}
 
 	if (getConsumeInput())
 	{
-		Input::getInstance()->clearMouseButton();
+		Input::getInstance().clearMouseButton();
 	}
 }
 
@@ -276,7 +276,7 @@ void UIElement::executePressAndRelease(bool force /*= false*/)
 			if(mCanToggle)
 			{
 				// Release other UIToggleButtons
-				const UIGroup& group = UI::getInstance()->getOrCreateGroup(mConfig.mGroup);
+				const UIGroup& group = UI::getInstance().getOrCreateGroup(mConfig.mGroup);
 				FOR_LIST(it, group.getUIElements())
 				{
 					UIElement* other = *it;
@@ -336,7 +336,7 @@ void UIElement::release(bool force /*= false*/)
 
 		if (getConsumeInput())
 		{
-			Input::getInstance()->clearMouseButton();
+			Input::getInstance().clearMouseButton();
 		}
 
         if(mRenderer)
@@ -414,11 +414,11 @@ bool UIElement::isVisible()
 bool UIElement::isMouseCursorInsideElement()
 {
 	//collider->getBoundingBox(true); // force regenerate bounding box
-	Vector2 mousePosition = Input::getInstance()->getMousePosition();
+	Vector2 mousePosition = Input::getInstance().getMousePosition();
 
 	if(getTransform()->getAffectedByProjection())
 	{
-		mousePosition = RenderEngine::getInstance()->getCamera()->screenToWorld(Input::getInstance()->getMousePosition());
+		mousePosition = RenderEngine::getInstance().getCamera()->screenToWorld(Input::getInstance().getMousePosition());
 	}
 
 	return Geometry::testRectanglePoint(

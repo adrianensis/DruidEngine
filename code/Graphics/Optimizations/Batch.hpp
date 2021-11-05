@@ -13,7 +13,6 @@ class Camera;
 class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
-	PRI RenderEngine * mRenderEngine = {};
 	PRI std::map<u32, std::list<Renderer *> *> mRenderers = {};
 	PRI Material * mMaterial = {}; GET(Material)
 	PRI const Mesh * mMesh = {}; GET(Mesh)

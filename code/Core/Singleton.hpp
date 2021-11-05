@@ -18,14 +18,14 @@ PUB
 		return mInstance != nullptr;
 	}
 
-	static T *getInstance()
+	static T &getInstance()
 	{
 		if (!existsInstance())
 		{
 			mInstance = Memory::newObject<T>();
 		}
 
-		return mInstance;
+		return *mInstance;
 	}
 
 	static void deleteInstance()

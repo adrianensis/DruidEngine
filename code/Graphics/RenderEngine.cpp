@@ -45,9 +45,9 @@ void RenderEngine::init(f32 sceneSize)
 
 	// Static Chunks grid
 
-	mMinChunkDrawDistance = EngineConfig::getInstance()->getConfig().at("scene").at("chunks").at("minChunkDrawDistance").get<f32>();
+	mMinChunkDrawDistance = EngineConfig::getInstance().getConfig().at("scene").at("chunks").at("minChunkDrawDistance").get<f32>();
 
-	f32 chunksGridSize = EngineConfig::getInstance()->getConfig().at("scene").at("chunks").at("gridSize").get<f32>();
+	f32 chunksGridSize = EngineConfig::getInstance().getConfig().at("scene").at("chunks").at("gridSize").get<f32>();
 	f32 chunksGridSizeHalf = chunksGridSize / 2.0f; // TODO : Make it power of 2!
 
 	mChunks.reserve(chunksGridSize * chunksGridSize);
@@ -73,11 +73,11 @@ void RenderEngine::init(f32 sceneSize)
 
 	mMaxLayersUsed = 0;
 
-	mMaxLayers = EngineConfig::getInstance()->getConfig().at("scene").at("maxLayers").get<u32>();
+	mMaxLayers = EngineConfig::getInstance().getConfig().at("scene").at("maxLayers").get<u32>();
 	FOR_RANGE(i, 0, mMaxLayers)
 	{
 		LayerData layerData;
-		layerData.mSorted = EngineConfig::getInstance()->getConfig().at("scene").at("sortByYCoordinate").get<bool>();
+		layerData.mSorted = EngineConfig::getInstance().getConfig().at("scene").at("sortByYCoordinate").get<bool>();
 		MAP_INSERT(mLayersData, i, layerData);
 	}
 }

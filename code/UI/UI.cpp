@@ -23,7 +23,7 @@ Material *UI::getFontMaterial()
 {
 	if (!mFontMaterial)
 	{
-		mFontMaterial = MaterialManager::getInstance()->loadMaterial("resources/font16x16.png");
+		mFontMaterial = MaterialManager::getInstance().loadMaterial("resources/font16x16.png");
 	}
 	return mFontMaterial;
 };
@@ -44,7 +44,7 @@ UIGroup& UI::getOrCreateGroup(const std::string & groupName)
 
 void UI::init()
 {
-	UIStyleManager::getInstance()->init();
+	UIStyleManager::getInstance().init();
 
 	mFontTilesCount = Vector2(16.0f, 6.0f);
 	mFontTileTextureSize = Vector2(1.0f / mFontTilesCount.x, 1.0f / mFontTilesCount.y);

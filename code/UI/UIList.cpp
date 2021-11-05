@@ -138,7 +138,7 @@ void UIList::setEntriesVisibility(bool visible)
 			Vector3 scale = getTransform()->getScale();
 			scale.x = scale.x * RenderContext::getAspectRatio();
 
-			UI::getInstance()->getBuilder()->saveData()->
+			UI::getInstance().getBuilder()->saveData()->
 				setPosition(Vector2(-scale.x/2.0f,-scale.y * mButtons->getLength() - scale.y/2.0f))->
 				setSize(scale)->
 				setText(label)->
@@ -147,14 +147,14 @@ void UIList::setEntriesVisibility(bool visible)
 				setIsAffectedByLayout(false)->
 				create<UIButton>();
 
-			UIButton* button = (UIButton*) UI::getInstance()->getBuilder()->getUIElement();
+			UIButton* button = (UIButton*) UI::getInstance().getBuilder()->getUIElement();
 			button->setOnPressedCallback(onPressedCallback);
 			//button->setVisibility(false);
 
 			Transform* t = button->getTransform();
 			t->setParent(getTransform());
 
-			UI::getInstance()->getBuilder()->restoreData();
+			UI::getInstance().getBuilder()->restoreData();
 
 			mButtons->pushBack(button);
 		}

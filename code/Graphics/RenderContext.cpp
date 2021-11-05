@@ -25,7 +25,7 @@ void RenderContext::onResize(GLFWwindow *window, int width, int height)
 {
 	smWindowSize.set(width, height);
 	glViewport(0, 0, smWindowSize.x, smWindowSize.y);
-	RenderEngine::getInstance()->getCamera()->onResize();
+	RenderEngine::getInstance().getCamera()->onResize();
 }
 
 void RenderContext::init()
@@ -70,7 +70,7 @@ void RenderContext::init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	//Input::getInstance()->init();
+	//Input::getInstance().init();
 
 	RenderContext::clear();
 }

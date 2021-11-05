@@ -9,10 +9,10 @@ class Component;
     registerComponentClass(__VA_ARGS__::getClassIdStatic());
 
 #define REGISTER_SUBSYSTEM(subsystem) \
-    SubsystemsManager::getInstance()->registerSubsystem(subsystem);
+    SubsystemsManager::getInstance().registerSubsystem(subsystem);
 
 #define ADD_COMPONENT_TO_SUBSYSTEM(component) \
-    SubsystemsManager::getInstance()->addComponentToSubsystem(component);
+    SubsystemsManager::getInstance().addComponentToSubsystem(component);
 
 class ISubsystem: public ObjectBase
 {

@@ -28,7 +28,7 @@ void TimerManager::update()
 {
 	if (!mTimers.empty())
 	{
-		f32 deltaTime = Time::getInstance()->getDeltaTimeSeconds(); // seconds
+		f32 deltaTime = Time::getInstance().getDeltaTimeSeconds(); // seconds
 		std::list<Timer *> timers(mTimers);
 
 		for (auto itTimer = timers.begin(); itTimer != timers.end(); ++itTimer)

@@ -24,22 +24,22 @@ void ScenesManager::internalLoadScene()
 {
 	mCurrentScene->init();
 
-	if (EngineConfig::getInstance()->getConfig().at("scenes").size() > 0)
+	if (EngineConfig::getInstance().getConfig().at("scenes").size() > 0)
 	{
-		std::string sceneName = EngineConfig::getInstance()->getConfig().at("scenes")[mCurrentSceneIndex].get<std::string>();
+		std::string sceneName = EngineConfig::getInstance().getConfig().at("scenes")[mCurrentSceneIndex].get<std::string>();
 
 		mCurrentScene->loadScene(sceneName);
 	}
 
 	mGameObjectController->setScene(mCurrentScene);
-	RenderEngine::getInstance()->setCamera(mCurrentScene->getCameraGameObject()->getFirstComponent<Camera>());
+	RenderEngine::getInstance().setCamera(mCurrentScene->getCameraGameObject()->getFirstComponent<Camera>());
 }
 
 void ScenesManager::init()
 {
 	mCurrentSceneIndex = 0;
 
-	u32 scenesCount = EngineConfig::getInstance()->getConfig().at("scenes").size();
+	u32 scenesCount = EngineConfig::getInstance().getConfig().at("scenes").size();
 
 	if (scenesCount == 0)
 	{

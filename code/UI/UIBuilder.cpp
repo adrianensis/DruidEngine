@@ -32,11 +32,11 @@ void UIBuilder::registerUIElement(UIElement *uiElement)
 {
 	mCurrentUIElement = uiElement;
 
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(mCurrentUIElement);
+	ScenesManager::getInstance().getCurrentScene()->addGameObject(mCurrentUIElement);
 
 	if (mConfig.mGroup.length() > 0)
 	{
-		UI::getInstance()->getOrCreateGroup(mConfig.mGroup).addUIElement(mCurrentUIElement);
+		UI::getInstance().getOrCreateGroup(mConfig.mGroup).addUIElement(mCurrentUIElement);
 	}
 
 	if (mConfig.mIsAffectedByLayout)

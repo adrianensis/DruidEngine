@@ -53,7 +53,6 @@ void Batch::init(const Mesh *mesh, Material *material)
 {
 	// TRACE();
 
-	mRenderEngine = RenderEngine::getInstance();
 	mMesh = mesh;
 	mMaterial = material;
 	mIsWorldSpace = true;
@@ -61,7 +60,7 @@ void Batch::init(const Mesh *mesh, Material *material)
 	mMaxMeshesIncrement = 100;
 	mMeshesIndex = 0;
 
-	FOR_RANGE(i, 0, mRenderEngine->getMaxLayers()){
+	FOR_RANGE(i, 0, RenderEngine::getInstance().getMaxLayers()){
 		MAP_INSERT(mRenderers, i, nullptr)}
 
 	bind();
@@ -96,7 +95,7 @@ void Batch::render(u32 layer)
 
 		resizeVertexBuffers(renderers->size());
 
-		//bool isSortedLayer = mRenderEngine->getLayersData().at(layer)->mSorted;
+		//bool isSortedLayer = RenderEngine::getInstance().getLayersData().at(layer)->mSorted;
 
 		mMaterial->bind(mIsWorldSpace);
 
@@ -285,10 +284,10 @@ void Batch::addRenderer(Renderer *renderer)
 
 	if (!renderer->isStatic())
 	{
-		mRenderEngine->getLayersData().at(renderer->getLayer()).mDynamicObjectsCount++;
+		RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mDynamicObjectsCount++;
 	}
 
-	if (mRenderEngine->getLayersData().at(renderer->getLayer()).mSorted)
+	if (RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mSorted)
 	{
 		insertSorted(renderer, renderers);
 	}
@@ -310,7 +309,7 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 	{
 		if (!renderer->isStatic())
 		{
-			mRenderEngine->getLayersData().at(renderer->getLayer()).mDynamicObjectsCount--;
+			RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mDynamicObjectsCount--;
 		}
 	}
 	else

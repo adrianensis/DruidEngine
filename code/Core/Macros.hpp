@@ -24,7 +24,7 @@
 // --------------------------------------------------------
 
 #define NEW(...) Memory::newObject<__VA_ARGS__>()
-#define INSTANCE_BY_NAME(ClassNameString, ...) ClassManager::getInstance()->instanceByName<__VA_ARGS__>(ClassNameString)
+#define INSTANCE_BY_NAME(ClassNameString, ...) ClassManager::getInstance().instanceByName<__VA_ARGS__>(ClassNameString)
 #define DELETE(...) Memory::deleteObject<REMOVE_POINTER(REMOVE_REF(decltype(__VA_ARGS__)))>(__VA_ARGS__);
 
 // --------------------------------------------------------
@@ -35,12 +35,12 @@
 void __customMain();\
 void __initMain()\
 {\
-	Engine::getInstance()->init();\
+	Engine::getInstance().init();\
 }\
 void __runMain()\
 {\
-	Engine::getInstance()->run();\
-	Engine::getInstance()->terminate();\
+	Engine::getInstance().run();\
+	Engine::getInstance().terminate();\
 	Engine::deleteInstance();\
 }\
 int main()\

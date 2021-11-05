@@ -79,7 +79,7 @@ void EditorController::init()
 
 	SUBSCRIBE_TO_EVENT(InputEventScroll, nullptr, this, [&](const Event *event)
 	{
-		zoom(Input::getInstance()->getScroll());
+		zoom(Input::getInstance().getScroll());
 	});
 
 	SUBSCRIBE_TO_EVENT(InputEventMouseButtonHold, nullptr, this, [&](const Event *event)
@@ -102,7 +102,7 @@ void EditorController::init()
 
 	mDrawGrid = true;
 
-	mCamera = ScenesManager::getInstance()->getCurrentScene()->
+	mCamera = ScenesManager::getInstance().getCurrentScene()->
 	getCameraGameObject()->getFirstComponent<Camera>();
 
 	mCameraSpeed = 1000;
@@ -111,7 +111,7 @@ void EditorController::init()
 void EditorController::update()
 {
 	drawGrid();
-	mInfoBar.setFPS(1.0f/Time::getInstance()->getDeltaTimeSeconds());
+	mInfoBar.setFPS(1.0f/Time::getInstance().getDeltaTimeSeconds());
 }
 
 Grid& EditorController::getGrid()
@@ -132,7 +132,7 @@ void EditorController::drawGrid()
 
 		FOR_RANGE(i, -halfGridSize.x, halfGridSize.x + 1)
 		{
-			RenderEngine::getInstance()->drawLine(
+			RenderEngine::getInstance().drawLine(
 				Vector3(i * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
 				Vector3(i * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
 				1,
@@ -142,7 +142,7 @@ void EditorController::drawGrid()
 
 		FOR_RANGE(j, -halfGridSize.y - 1, halfGridSize.y)
 		{
-			RenderEngine::getInstance()->drawLine(
+			RenderEngine::getInstance().drawLine(
 				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0), 
 				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0),
 				1,
@@ -174,7 +174,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 
 	tile->addComponent<Renderer>(renderer);
 	
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(tile);
+	ScenesManager::getInstance().getCurrentScene()->addGameObject(tile);
 
 	return tile;
 }
@@ -195,12 +195,12 @@ void EditorController::forEachSelectedTile(TileCallback tileCallback)
 void EditorController::saveScene()
 {
     mSprites.saveSprites();
-	ScenesManager::getInstance()->getCurrentScene()->saveScene("config/tmp.json");
+	ScenesManager::getInstance().getCurrentScene()->saveScene("config/tmp.json");
 }
 
 void EditorController::loadScene()
 {
-	Scene *scene = ScenesManager::getInstance()->getCurrentScene();
+	Scene *scene = ScenesManager::getInstance().getCurrentScene();
 	scene->loadScene("config/tmp.json");
 
 	std::list<GameObject *> tmpList = scene->getNewGameObjects();
@@ -220,21 +220,21 @@ void EditorController::moveCameraKeys()
 {
 	Transform* cameraTransform = mCamera->getGameObject()->getTransform();
 
-	f32 speed = mCameraSpeed * Time::getInstance()->getDeltaTimeSeconds();
+	f32 speed = mCameraSpeed * Time::getInstance().getDeltaTimeSeconds();
 
-	if(Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT))
+	if(Input::getInstance().isKeyPressed(GLFW_KEY_LEFT))
 	{
 		cameraTransform->translate(Vector2(-speed,0));
 	}
-	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_RIGHT))
+	else if (Input::getInstance().isKeyPressed(GLFW_KEY_RIGHT))
 	{
 		cameraTransform->translate(Vector2(speed,0));
 	}
-	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_UP))
+	else if (Input::getInstance().isKeyPressed(GLFW_KEY_UP))
 	{
 		cameraTransform->translate(Vector2(0,speed));
 	}
-	else if (Input::getInstance()->isKeyPressed(GLFW_KEY_DOWN))
+	else if (Input::getInstance().isKeyPressed(GLFW_KEY_DOWN))
 	{
 		cameraTransform->translate(Vector2(0,-speed));
 	}
@@ -242,7 +242,7 @@ void EditorController::moveCameraKeys()
 
 void EditorController::moveCameraMouse()
 {
-	Vector2 mouse = Input::getInstance()->getMousePosition();
+	Vector2 mouse = Input::getInstance().getMousePosition();
 	Vector2 worldPosition = mCamera->screenToWorld(mouse);
 
 	if(!mCameraDragStarted)
@@ -259,7 +259,7 @@ void EditorController::moveCameraMouse()
 	{
 		dirVector.nor();
 
-		f32 speed = mCameraSpeed * Time::getInstance()->getDeltaTimeSeconds();
+		f32 speed = mCameraSpeed * Time::getInstance().getDeltaTimeSeconds();
 
 		cameraTransform->translate(dirVector * speed);
 	}
@@ -275,7 +275,7 @@ void EditorController::releaseCameraMouse()
 
 void EditorController::zoom(f32 scroll)
 {
-	f32 zoomDelta = 10.0f * Time::getInstance()->getDeltaTimeSeconds();
+	f32 zoomDelta = 10.0f * Time::getInstance().getDeltaTimeSeconds();
 
 	if(scroll > 0)
 	{
@@ -289,27 +289,27 @@ void EditorController::zoom(f32 scroll)
 
 void EditorController::handlePressedKeys()
 {
-	if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD))
+	if(Input::getInstance().isKeyPressedOnce(GLFW_KEY_KP_ADD))
 	{
-		if(Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+		if(Input::getInstance().isModifierPressed(GLFW_MOD_CONTROL))
 		{
 			mBrush.setBrushSize(mBrush.getBrushSize() + 1);
 			mInfoBar.setBrushSize(mBrush.getBrushSize());
 		}
 	}
 
-	if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT))
+	if(Input::getInstance().isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT))
 	{
-		if(Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+		if(Input::getInstance().isModifierPressed(GLFW_MOD_CONTROL))
 		{
 			mBrush.setBrushSize(mBrush.getBrushSize() - 1);
 			mInfoBar.setBrushSize(mBrush.getBrushSize());
 		}
 	}
 
-    if(Input::getInstance()->isKeyPressedOnce(GLFW_KEY_F1))
+    if(Input::getInstance().isKeyPressedOnce(GLFW_KEY_F1))
 	{
-        CommandLine::getInstance()->toggle();
+        CommandLine::getInstance().toggle();
     }
 }
 
@@ -317,19 +317,19 @@ void EditorController::handleHoldKeys()
 {
 	moveCameraKeys();
 
-	if(!Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_ADD) &&
-		!Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+	if(!Input::getInstance().isKeyPressedOnce(GLFW_KEY_KP_ADD) &&
+		!Input::getInstance().isModifierPressed(GLFW_MOD_CONTROL))
 	{
-		if(Input::getInstance()->isKeyPressed(GLFW_KEY_KP_ADD))
+		if(Input::getInstance().isKeyPressed(GLFW_KEY_KP_ADD))
 		{
 			zoom(1);
 		}
 	}
 
-	if(!Input::getInstance()->isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT) &&
-		!Input::getInstance()->isModifierPressed(GLFW_MOD_CONTROL))
+	if(!Input::getInstance().isKeyPressedOnce(GLFW_KEY_KP_SUBTRACT) &&
+		!Input::getInstance().isModifierPressed(GLFW_MOD_CONTROL))
 	{
-		if(Input::getInstance()->isKeyPressed(GLFW_KEY_KP_SUBTRACT))
+		if(Input::getInstance().isKeyPressed(GLFW_KEY_KP_SUBTRACT))
 		{
 			zoom(-1);
 		}

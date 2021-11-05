@@ -22,11 +22,11 @@ void LayersBar::init(EditorController* editorController)
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(0.94,0.8)).
 	setGroup(EditorUIGroups::smLayersBar).
-	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+	setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.07f, 0.07f)).
 	//setAdjustSizeToText(true).
 	//restoreMaterial().
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Layer.png"));
+	setMaterial(MaterialManager::getInstance().loadMaterial("resources/editor-icons/Layer.png"));
 
 	FOR_RANGE(i, 0, 10)
 	{
@@ -53,5 +53,5 @@ void LayersBar::init(EditorController* editorController)
 void LayersBar::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
-	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
+	UI::getInstance().getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
 }

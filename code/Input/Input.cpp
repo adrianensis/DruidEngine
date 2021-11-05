@@ -4,14 +4,14 @@
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-	Input::getInstance()->smModifier = mods;
+	Input::getInstance().smModifier = mods;
 
 	switch (action)
 	{
 		case GLFW_PRESS:
 		{
-			Input::getInstance()->smLastKeyPressed = key;
-			Input::getInstance()->smKeyJustPressed = true;
+			Input::getInstance().smLastKeyPressed = key;
+			Input::getInstance().smKeyJustPressed = true;
 
 			switch (key)
 			{
@@ -73,7 +73,7 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 			event.mMods = mods;
 			SEND_INPUT_EVENT(event);
 
-			Input::getInstance()->clearKey();
+			Input::getInstance().clearKey();
 			break;
 		}
 		case GLFW_REPEAT:
@@ -90,14 +90,14 @@ void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, i
 
 void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
 {
-	Input::getInstance()->smModifier = mods;
+	Input::getInstance().smModifier = mods;
 
 	switch (action)
 	{
 		case GLFW_PRESS:
 		{
-			Input::getInstance()->smLastMouseButtonPressed = button;
-			Input::getInstance()->smButtonJustPressed = true;
+			Input::getInstance().smLastMouseButtonPressed = button;
+			Input::getInstance().smButtonJustPressed = true;
 
 			InputEventMouseButtonPressed event;
 			event.mButton = button;
@@ -112,7 +112,7 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 			event.mMods = mods;
 			SEND_INPUT_EVENT(event);
 
-			Input::getInstance()->clearMouseButton();
+			Input::getInstance().clearMouseButton();
 			break;
 		}
 	}
@@ -120,7 +120,7 @@ void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int 
 
 void Input::scrollCallback(GLFWwindow *window, double xoffset, double yoffset)
 {
-	Input::getInstance()->smScroll = yoffset;
+	Input::getInstance().smScroll = yoffset;
 
 	InputEventScroll event;
 	event.mScroll = yoffset;

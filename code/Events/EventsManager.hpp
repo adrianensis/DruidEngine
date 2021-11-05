@@ -10,9 +10,9 @@
   Macros for (un)susbscribing and sending events.
 */
 
-#define SUBSCRIBE_TO_EVENT(EventClassName, owner, receiver, eventCallback) EventsManager::getInstance()->subscribe<EventClassName>(owner, receiver, eventCallback);
-#define UNSUBSCRIBE_TO_EVENT(EventClassName, owner, receiver) EventsManager::getInstance()->unsubscribe<EventClassName>(owner, receiver);
-#define SEND_EVENT(owner, instigator, event) EventsManager::getInstance()->send(owner, instigator, &event);
+#define SUBSCRIBE_TO_EVENT(EventClassName, owner, receiver, eventCallback) EventsManager::getInstance().subscribe<EventClassName>(owner, receiver, eventCallback);
+#define UNSUBSCRIBE_TO_EVENT(EventClassName, owner, receiver) EventsManager::getInstance().unsubscribe<EventClassName>(owner, receiver);
+#define SEND_EVENT(owner, instigator, event) EventsManager::getInstance().send(owner, instigator, &event);
 
 class EventsManager: public ObjectBase, public Singleton<EventsManager>
 {

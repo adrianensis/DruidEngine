@@ -23,8 +23,8 @@
 
 Vector2 Brush::getMouseWorldPosition() const
 {
-	Vector2 mouse = Input::getInstance()->getMousePosition();
-	Vector3 worldPosition = ScenesManager::getInstance()->getCurrentScene()->getCameraGameObject()->
+	Vector2 mouse = Input::getInstance().getMousePosition();
+	Vector3 worldPosition = ScenesManager::getInstance().getCurrentScene()->getCameraGameObject()->
 	getFirstComponent<Camera>()->screenToWorld(mouse);
 
 	return worldPosition;
@@ -52,7 +52,7 @@ void Brush::init(EditorController* editorController)
 
 void Brush::onHold()
 {
-	if(Input::getInstance()->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+	if(Input::getInstance().isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
 	{
 		if(getEditorController()->canUseBrush())
 		{
@@ -83,9 +83,9 @@ void Brush::applyOneTile(const Vector2 &worldPosition)
 	{
 		case BrushMode::SELECT:
 		{
-			const UIStyleEditor& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>();
+			const UIStyleEditor& style = UIStyleManager::getInstance().getOrAddStyle<UIStyleEditor>();
 
-			if( ! Input::getInstance()->isKeyPressed(GLFW_KEY_LEFT_CONTROL))
+			if( ! Input::getInstance().isKeyPressed(GLFW_KEY_LEFT_CONTROL))
 			{
 				getEditorController()->forEachSelectedTile([&](GameObject* tile)
 				{	
@@ -151,7 +151,7 @@ void Brush::onMouseMoved()
 
 					u32 index = j + i*mBrushSize;
 					mBrushPreview[index]->getTransform()->setLocalPosition(singleTileClampedPosition);
-					const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+					const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorBrushPreview>();
 
 					if(getEditorController()->getGrid().isInGrid(singleTileClampedPosition))
 					{
@@ -201,7 +201,7 @@ void Brush::onTileSelectedFromAtlas(GameObject* tile)
 
 void Brush::createSelector()
 {
-	Material *material = MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Selector.png");
+	Material *material = MaterialManager::getInstance().loadMaterial("resources/editor-icons/Selector.png");
 
 	GameObject *selector = NEW(GameObject);
 	selector->init();
@@ -216,7 +216,7 @@ void Brush::createSelector()
 
 	selector->addComponent<Renderer>(renderer);
 	
-	ScenesManager::getInstance()->getCurrentScene()->addGameObject(selector);
+	ScenesManager::getInstance().getCurrentScene()->addGameObject(selector);
 
 	mSelector = selector;
 }
@@ -265,12 +265,12 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 		renderer->setMaterial(mPaintData.mMaterial);
 		renderer->setRegion(mPaintData.mRegion);
 
-		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorBrushPreview>();
+		const UIStyleEditorBrushPreview& style = UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorBrushPreview>();
 		renderer->setColor(style.mBackgroundColor);
 
 		brushPreview->addComponent<Renderer>(renderer);
 
-		ScenesManager::getInstance()->getCurrentScene()->addGameObject(brushPreview);
+		ScenesManager::getInstance().getCurrentScene()->addGameObject(brushPreview);
 
 		mBrushPreview.push_back(brushPreview);
 
@@ -282,7 +282,7 @@ void Brush::removeBrushPreview()
 {
 	FOR_ARRAY(i, mBrushPreview)
 	{
-		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(mBrushPreview[i]);
+		ScenesManager::getInstance().getCurrentScene()->removeGameObject(mBrushPreview[i]);
 	}
 
 	mBrushPreview.clear();
@@ -310,7 +310,7 @@ void Brush::removeTile(const Vector2 &gridPosition)
 	if(getEditorController()->getGrid().hasTile(gridPosition))
 	{
 		CellGrid& cell = getEditorController()->getGrid().getCell(gridPosition);
-		ScenesManager::getInstance()->getCurrentScene()->removeGameObject(cell.mGameObject);
+		ScenesManager::getInstance().getCurrentScene()->removeGameObject(cell.mGameObject);
 		cell.mGameObject = nullptr;
 	}
 }

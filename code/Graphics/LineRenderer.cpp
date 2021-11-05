@@ -22,7 +22,7 @@ LineRenderer::~LineRenderer()
 
 void LineRenderer::init()
 {
-	mMaxShapes = EngineConfig::getInstance()->getConfig().at("line").at("count").get<f32>();
+	mMaxShapes = EngineConfig::getInstance().getConfig().at("line").at("count").get<f32>();
 
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 	mColorBuffer.reserve(mMaxShapes * 2 * 4); // 2 vertex per line * 4 floats per vertex
@@ -82,9 +82,9 @@ void LineRenderer::render()
 		mShaderLine->use();
 		RenderContext::enableVAO(mVAO);
 
-		const Matrix4 &projectionMatrix = RenderEngine::getInstance()->getCamera()->getProjectionMatrix();
-		const Matrix4 &viewTranslationMatrix = RenderEngine::getInstance()->getCamera()->getViewTranslationMatrix();
-		const Matrix4 &viewRotationMatrix = RenderEngine::getInstance()->getCamera()->getViewRotationMatrix();
+		const Matrix4 &projectionMatrix = RenderEngine::getInstance().getCamera()->getProjectionMatrix();
+		const Matrix4 &viewTranslationMatrix = RenderEngine::getInstance().getCamera()->getViewTranslationMatrix();
+		const Matrix4 &viewRotationMatrix = RenderEngine::getInstance().getCamera()->getViewRotationMatrix();
 
 		if (mIsWorldSpace)
 		{

@@ -4,7 +4,7 @@
 
 #include "Events/Event.hpp"
 
-#define SEND_INPUT_EVENT(event) SEND_EVENT(nullptr, Input::getInstance(), event);
+#define SEND_INPUT_EVENT(event) SEND_EVENT(nullptr, &Input::getInstance(), event);
 
 #define CLASS_EVENT_SPECIFIC_KEY(KeyName) class InputEventKey##KeyName: public Event { GENERATE_METADATA(InputEventKey##KeyName) };
 

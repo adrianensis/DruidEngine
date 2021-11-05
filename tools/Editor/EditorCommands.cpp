@@ -4,9 +4,9 @@
 
 void EditorCommands::registerEditorCommands(EditorController* editorController)
 {
-    auto* cmd = CommandLine::getInstance();
+    CommandLine &cmd = CommandLine::getInstance();
 
-    cmd->registerCommand("sprite", [&](const Command& command)
+    cmd.registerCommand("sprite", [&](const Command& command)
     {
         if(command.argumentExists("-n"))
         {

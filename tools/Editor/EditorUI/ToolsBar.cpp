@@ -21,12 +21,12 @@ void ToolsBar::init(EditorController* editorController)
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, 0.8f)).
 	setGroup(EditorUIGroups::smToolsBar).
-	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+	setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Cursor.png")).
+	setMaterial(MaterialManager::getInstance().loadMaterial("resources/editor-icons/Cursor.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
@@ -38,7 +38,7 @@ void ToolsBar::init(EditorController* editorController)
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Pencil.png")).
+	setMaterial(MaterialManager::getInstance().loadMaterial("resources/editor-icons/Pencil.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
@@ -50,7 +50,7 @@ void ToolsBar::init(EditorController* editorController)
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Eraser.png")).
+	setMaterial(MaterialManager::getInstance().loadMaterial("resources/editor-icons/Eraser.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
 	setOnPressedCallback([&](UIElement* uiElement){
@@ -62,5 +62,5 @@ void ToolsBar::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
 
-	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
+	UI::getInstance().getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
 }

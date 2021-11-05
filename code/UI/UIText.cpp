@@ -97,8 +97,8 @@ void UIText::setText(const std::string &text)
 				Renderer *renderer = nullptr;
 
 				char character = text.at(i);
-				Vector2 textureCoordinates = UI::getInstance()->getCharTextureCoordinates(character);
-				Vector2 textureSize = UI::getInstance()->getFontTileTextureSize();
+				Vector2 textureCoordinates = UI::getInstance().getCharTextureCoordinates(character);
+				Vector2 textureSize = UI::getInstance().getFontTileTextureSize();
 
 				if (!mFontRenderers.empty() && i < static_cast<i32>(mString.length()))
 				{
@@ -110,7 +110,7 @@ void UIText::setText(const std::string &text)
 					renderer->init();
 
 					renderer->setMesh(Mesh::getRectangle());
-					renderer->setMaterial(UI::getInstance()->getFontMaterial());
+					renderer->setMaterial(UI::getInstance().getFontMaterial());
 					renderer->setLayer(mLayer /*+ 1*/);
 					
 					addComponent<Renderer>(renderer);

@@ -43,10 +43,10 @@ void Chunk::set(const Vector3 &leftTop, f32 size)
 
 void Chunk::update(BatchesMap *batchesMap)
 {
-	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
-	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
-	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
-	RenderEngine::getInstance()->drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
+	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
+	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
+	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
 
 	FOR_LIST(it, *mRenderers)
 	{
@@ -63,7 +63,7 @@ void Chunk::update(BatchesMap *batchesMap)
 
 			if (!renderer->isStatic() && !containsRenderer(renderer))
 			{
-				Chunk *newChunk = RenderEngine::getInstance()->assignChunk(renderer);
+				Chunk *newChunk = RenderEngine::getInstance().assignChunk(renderer);
 
 				// Only remove the renderer from this chunk if another chunk is found.
 				// If not, keep the renderer here until a new chunk is found.

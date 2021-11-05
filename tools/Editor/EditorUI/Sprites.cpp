@@ -60,11 +60,11 @@ void Sprites::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
 
-	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
-	UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());
-    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSprites).setVisibility(getIsVisible());
-    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritePreview).setVisibility(getIsVisible());
-    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smFrames).setVisibility(getIsVisible());
+	UI::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
+	UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());
+    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).setVisibility(getIsVisible());
+    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).setVisibility(getIsVisible());
+    UI::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).setVisibility(getIsVisible());
 }
 
 void Sprites::createAtlasSelectors()
@@ -78,11 +78,11 @@ void Sprites::createAtlasSelectors()
 		setPosition(Vector2(-1.0f, 0.8f)).
 		setSize(Vector2(0.1f, 0.1f)).
 		setGroup(EditorUIGroups::smSpritesSelector).
-		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
+		setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditor>());
 
 	FOR_LIST(it, getEditorController()->getEditorConfig().at("atlases"))
 	{
-		Material* material = MaterialManager::getInstance()->loadMaterial((*it).get<std::string>());
+		Material* material = MaterialManager::getInstance().loadMaterial((*it).get<std::string>());
 
 		UIButton* atlasSelector = uiBuilder.
 			setMaterial(material).
@@ -91,9 +91,9 @@ void Sprites::createAtlasSelectors()
 
 		atlasSelector->setOnPressedCallback([&, material](UIElement* uiElement)
 		{
-			TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
+			TimerManager::getInstance().setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
 			{
-				UI::getInstance()->getOrCreateGroup(EditorUIGroups::smAtlas).destroyAllUIElements();
+				UI::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).destroyAllUIElements();
 				createAtlas(material);
 			});
 		});
@@ -222,7 +222,7 @@ void Sprites::createAtlas(Material* material)
 		setPosition(Vector2(-panelSize.x/2.0f - 0.5f, panelSize.y/2.0f)).
 		setSize(Vector2(tileSize, tileSize)).
 		setGroup(EditorUIGroups::smAtlas).
-		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
+		setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditor>());
 
 	FOR_RANGE(i, 0, spritesSize.y)
 	{
@@ -283,7 +283,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
     f32 tileSize = 0.3f;
 
-    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSpritePreview).destroyAllUIElements();
+    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).destroyAllUIElements();
 
     UIBuilder uiBuilder;
 
@@ -302,7 +302,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
     mSpritePreview = uiBuilder.
 		setAdjustSizeToText(false).
 		setSize(Vector2(tileSize, tileSize)).
-		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>()).
+		setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditor>()).
         setMaterial(renderer->getMaterial()).
         create<UIPanel>().
         getUIElement<UIPanel>();
@@ -340,7 +340,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
             mCurrentAnimationName = animationName;
 
-            TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
+            TimerManager::getInstance().setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
             {
                 refreshSpritePreview(sprite);
             });
@@ -354,7 +354,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
         setOnPressedCallback([&, sprite, renderer, animationName](UIElement* uiElement)
         {
             renderer->removeAnimation(animationName);
-            TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
+            TimerManager::getInstance().setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
 			{
                 refreshSpritePreview(sprite);
 			});
@@ -398,7 +398,7 @@ void Sprites::removeSprite()
 
 void Sprites::refreshSprites()
 {
-    UI::getInstance()->getOrCreateGroup(EditorUIGroups::smSprites).destroyAllUIElements();
+    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).destroyAllUIElements();
 
     mCurrentAnimationName.clear();
 
@@ -408,7 +408,7 @@ void Sprites::refreshSprites()
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, -0.8f)).
 	setGroup(EditorUIGroups::smSprites).
-	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+	setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
 	FOR_LIST(it, mSprites)
@@ -474,7 +474,7 @@ void Sprites::refreshFrames()
 {
     if(mCurrentSprite)
     {   
-        UI::getInstance()->getOrCreateGroup(EditorUIGroups::smFrames).destroyAllUIElements();
+        UI::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).destroyAllUIElements();
 
         UIBuilder uiBuilder;
 
@@ -490,7 +490,7 @@ void Sprites::refreshFrames()
             uiBuilder.
             setAdjustSizeToText(false).
             setSize(Vector2(0.05f, 0.05f)).
-            setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
+            setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorToolsBar>()).
             setMaterial(renderer->getMaterial()).
             create<UIPanel>().
             getUIElement<UIPanel>()->
@@ -508,7 +508,7 @@ void Sprites::refreshFrames()
             setOnPressedCallback([&, frame = *it](UIElement* uiElement)
             {
                 mFrames.remove(frame);
-                TimerManager::getInstance()->setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
+                TimerManager::getInstance().setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
                 {
                     refreshFrames();
                 });

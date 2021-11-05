@@ -23,5 +23,5 @@ ENGINE_MAIN()
 	script->init();
 	controller->addComponent<Script>(script);
 
-	ScenesManager::getInstance()->setGameObjectController(controller);
+	ScenesManager::getInstance().setGameObjectController(controller);
 }

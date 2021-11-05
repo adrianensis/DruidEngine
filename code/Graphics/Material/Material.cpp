@@ -28,7 +28,7 @@ void Material::bind(bool isWorldSpace)
 		mTexture->bind();
 	}
 
-	Camera *camera = RenderEngine::getInstance()->getCamera();
+	Camera *camera = RenderEngine::getInstance().getCamera();
 
 	const Matrix4 &projectionMatrix = camera->getProjectionMatrix();
 	const Matrix4 &viewTranslationMatrix = camera->getViewTranslationMatrix();
@@ -42,7 +42,7 @@ void Material::bind(bool isWorldSpace)
 	mShader->addBool(mAlphaEnabled, "alphaEnabled");
 	mShader->addBool(mHasBorder, "hasBorder");
 
-	mShader->addFloat(Time::getInstance()->getDeltaTimeSeconds(), "time");
+	mShader->addFloat(Time::getInstance().getDeltaTimeSeconds(), "time");
 
 	mShader->addBool(isWorldSpace, "isWorldSpace");
 
