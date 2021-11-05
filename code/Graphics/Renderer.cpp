@@ -41,8 +41,6 @@ void Renderer::init()
 	mVertices.push_back(Vector2(0, 0)); // LEFT BOTTOM
 	mVertices.push_back(Vector2(0, 0)); // RIGHT BOTTOM
 	mVertices.push_back(Vector2(0, 0)); // RIGHT TOP
-
-	mForceRecalculateVertices = false;
 }
 
 bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
@@ -125,7 +123,8 @@ bool Renderer::getIsWorldSpace()
 
 const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
 {
-	if (mPositionOffsetDirty || !isStatic() || force || mForceRecalculateVertices)
+	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
+	if (!currentTransformState.eq(mTransformState) || mPositionOffsetDirty || force)
 	{
 		mRenderereModelMatrix.translation(mPositionOffset);
 
@@ -144,16 +143,10 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
 			mVertices[i] = vertexPosition;
 		}
 
-		mForceRecalculateVertices = false;
+		mTransformState = currentTransformState;
 	}
 
 	return mVertices;
-}
-
-void Renderer::forceRecalculateVertices()
-{
-	getGameObject()->getTransform()->forceModelMatrixCalculation();
-	mForceRecalculateVertices = true;
 }
 
 bool Renderer::hasClipRectangle() const 

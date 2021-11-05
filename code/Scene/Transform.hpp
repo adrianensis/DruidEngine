@@ -38,8 +38,6 @@ class Transform: public Component
 
 	PRI bool mModelMatrixGenerated = false;
 
-	PRI bool mForceModelMatrixCalculation = false;
-
 	//Transform* mParent;
 	PRI Transform* mParent = nullptr; GET_SET(Parent);
 
@@ -90,11 +88,6 @@ PUB
 	const Matrix4 &getModelMatrix(bool force = false);
 
 	TransformState getTransformState() const;
-
-	void forceModelMatrixCalculation()
-	{
-		mForceModelMatrixCalculation = true;
-	}
 
 	SERIALIZE();
 	DESERIALIZE();

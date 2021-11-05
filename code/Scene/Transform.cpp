@@ -16,7 +16,6 @@ Transform::Transform()
 
 	mAffectedByProjection = true;
 	mModelMatrixGenerated = false;
-	mForceModelMatrixCalculation = false;
 }
 
 Transform::~Transform()
@@ -37,7 +36,6 @@ void Transform::init()
 	mScale = Vector3(1.0f, 1.0f, 1.0f);
 
 	mModelMatrixGenerated = false;
-	mForceModelMatrixCalculation = false;
 }
 
 void Transform::setLocalPosition(const Vector3 &vector)
@@ -138,7 +136,7 @@ const Matrix4 &Transform::getScaleMatrix() const
 
 const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 {
-	if (!isStatic() || (isStatic() && !mModelMatrixGenerated) || force || mForceModelMatrixCalculation)
+	if (!isStatic() || (isStatic() && !mModelMatrixGenerated) || force)
 	{
 		mModelMatrix.init(getTranslationMatrix());
 		Matrix4 rotationMatrix(getRotationMatrix());
@@ -148,7 +146,6 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 		mModelMatrix.mul(scaleMatrix);
 
 		mModelMatrixGenerated = true;
-		mForceModelMatrixCalculation = false;
 	}
 
 	return mModelMatrix;

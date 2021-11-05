@@ -8,6 +8,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Graphics/Animation/Animation.hpp"
+#include "Scene/Transform.hpp"
 
 class Material;
 class Mesh;
@@ -24,10 +25,11 @@ class Renderer: public Component
 	
 	PUB void init() override;
 
+	PRI TransformState mTransformState;
+
 	// Renderer Properties
 	PRI Matrix4 mRenderereModelMatrix;
 	PRI bool mPositionOffsetDirty = true;
-	PRI bool mForceRecalculateVertices = false;
 	PRI std::vector<Vector2> mVertices;
 	PRI bool mIsWorldSpace = true;
 	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
@@ -48,7 +50,6 @@ class Renderer: public Component
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
 	PUB bool getIsWorldSpace();
 	PUB const std::vector<Vector2>& getVertices(bool force = false);
-	PUB void forceRecalculateVertices();
 	PUB bool hasClipRectangle() const;
 
 	// Animation
