@@ -4,15 +4,18 @@
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector2.hpp"
 #include "Maths/Matrix4.hpp"
+#include "Scene/Transform.hpp"
 
 class Frustum;
 
 class Camera: public Component
 {
     GENERATE_METADATA(Camera)
+
 	PRI Matrix4 mProjectionMatrix = {};
 	PRI Matrix4 mViewTranslationMatrix = {};
 	PRI Matrix4 mInversePVMatrix = {}; // used in screen to world calculations.
+	PRI bool mInversePVMatrixNeedsUpdate = {true};
 
 	PRI f32 mLeft = {};
 	PRI f32 mRight = {};
@@ -29,13 +32,17 @@ class Camera: public Component
 	PRI Frustum * mFrustum = {}; GET(Frustum)
 	PRI f32 mZoom = {}; GET(Zoom)
 
+	PRI TransformState mTransformState;
+
 PUB
 	Camera();
 	~Camera() override;
 
 	void init() override;
 	void onComponentAdded() override;
-	void recalculate();
+	void recalculatePerspectiveMatrix();
+
+	void update();
 
 	const Matrix4 &getProjectionMatrix() const;
 	const Matrix4 &getViewTranslationMatrix();
@@ -47,7 +54,7 @@ PUB
 	void onResize();
 
 	Vector3 screenToWorld(const Vector2& screenPosition);
-	void calculateInverseMatrix(bool forceCalculate = false);
+	void calculateInverseMatrix();
 
 	void setZoom(f32 zoom);
 	void zoomIn(f32 zoomDelta);

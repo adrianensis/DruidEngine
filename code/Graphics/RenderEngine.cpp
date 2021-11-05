@@ -93,12 +93,7 @@ void RenderEngine::update()
 
 	if (mCamera)
 	{
-		if (mCamera->getFrustum())
-		{
-			mCamera->getFrustum()->build();
-		}
-
-		mCamera->calculateInverseMatrix();
+		mCamera->update();
 	}
 
 	renderBatches();

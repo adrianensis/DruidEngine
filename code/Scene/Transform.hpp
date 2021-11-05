@@ -3,11 +3,33 @@
 #include "Scene/Component.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Matrix4.hpp"
+#include "Maths/MathUtils.hpp"
+
+class Transform;
+
+class TransformState : public ObjectBase
+{
+    GENERATE_METADATA(TransformState)
+
+	PUB Vector3 mWorldPosition = {}; GETREF_CONST(WorldPosition)
+	PUB Vector3 mRotation = {}; GETREF_CONST(Rotation)
+	PUB Vector3 mScale = {}; GETREF_CONST(Scale)
+
+	TransformState() = default;
+	TransformState(const Transform& transform);
+
+	bool eq(const TransformState &rhs, f32 eps = MathUtils::FLOAT_EPSILON) const
+	{
+		return mWorldPosition.eq(rhs.mWorldPosition, eps) &&
+			mRotation.eq(rhs.mRotation, eps) &&
+			mScale.eq(rhs.mScale, eps);
+	}
+};
 
 class Transform: public Component
 {
     GENERATE_METADATA(Transform)
-	PRI Vector3 mWorldPosition = {};
+	PRI mutable Vector3 mWorldPosition = {};
 
 	PRI mutable Matrix4 mModelMatrix = {};
 	PRI mutable Matrix4 mTranslationMatrix = {};
@@ -16,23 +38,15 @@ class Transform: public Component
 
 	PRI bool mModelMatrixGenerated = {};
 
-	PRI mutable bool mIsDirtyTranslation = {};
-	PRI mutable bool mIsDirtyRotation = {};
-	PRI mutable bool mIsDirtyScale = {};
-
 	PRI bool mForceModelMatrixCalculation = {};
 
 	//Transform* mParent;
 	PRI Transform * mParent = {}; GET_SET(Parent);
 
-	PRI Vector3 mLocalPosition = {}; GET(LocalPosition)
-	PRI Vector3 mRotation = {}; GET(Rotation)
-	PRI Vector3 mScale = {}; GET(Scale)
+	PRI Vector3 mLocalPosition = {}; GETREF_CONST(LocalPosition)
+	PRI Vector3 mRotation = {}; GETREF_CONST(Rotation)
+	PRI Vector3 mScale = {}; GETREF_CONST(Scale)
 	PRI bool mAffectedByProjection = {}; GET_SET(AffectedByProjection)
-
-PRI
-
-	Vector3 calculateWorldPosition() const;
 
 PUB
 	static const Vector3 smRight;
@@ -67,16 +81,15 @@ PUB
 	void setRotation(const Vector3 &vector);
 	void setScale(const Vector3 &vector);
 
-	const Vector3 &getWorldPosition();
+	const Vector3 &getWorldPosition() const;
 
-	const Matrix4 &getTranslationMatrix();
-	const Matrix4 &getRotationMatrix();
-	const Matrix4 &getScaleMatrix();
+	const Matrix4 &getTranslationMatrix() const;
+	const Matrix4 &getRotationMatrix() const;
+	const Matrix4 &getScaleMatrix() const;
 
 	const Matrix4 &getModelMatrix(bool force = false);
 
-	bool isDirtyTranslation() const;
-	void setDirtyTranslation(bool dirty);
+	TransformState getTransformState() const;
 
 	void forceModelMatrixCalculation()
 	{

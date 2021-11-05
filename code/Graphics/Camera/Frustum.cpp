@@ -64,63 +64,58 @@ bool Frustum::testRectangle(const Vector3 &leftTop, f32 width, f32 height) const
 
 //----------------------------------------------------------------------
 
-void Frustum::build(bool forceBuild /* = false*/)
+void Frustum::build()
 {
-	Transform *t = mCamera->getGameObject()->getTransform();
+	u32 LEFT = 0;
+	u32 RIGHT = 1;
+	u32 BOTTOM = 2;
+	u32 TOP = 3;
+	u32 NEAR = 4;
+	u32 FAR = 5;
 
-	if (forceBuild || t->isDirtyTranslation())
+	mVPmatrix.init(mCamera->getProjectionMatrix());
+	mVPmatrix.mul(mCamera->getViewTranslationMatrix());
+
+	mPlanes[LEFT] =
+		Vector4(mVPmatrix.get(0, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(0, 1) + mVPmatrix.get(3, 1),
+				mVPmatrix.get(0, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(0, 3) + mVPmatrix.get(3, 3));
+
+	mPlanes[RIGHT] =
+		Vector4(-mVPmatrix.get(0, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(0, 1) + mVPmatrix.get(3, 1),
+				-mVPmatrix.get(0, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(0, 3) + mVPmatrix.get(3, 3));
+
+	mPlanes[BOTTOM] =
+		Vector4(mVPmatrix.get(1, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(1, 1) + mVPmatrix.get(3, 1),
+				mVPmatrix.get(1, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(1, 3) + mVPmatrix.get(3, 3));
+
+	mPlanes[TOP] =
+		Vector4(-mVPmatrix.get(1, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(1, 1) + mVPmatrix.get(3, 1),
+				-mVPmatrix.get(1, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(1, 3) + mVPmatrix.get(3, 3));
+
+	mPlanes[NEAR] =
+		Vector4(mVPmatrix.get(2, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(2, 1) + mVPmatrix.get(3, 1),
+				mVPmatrix.get(2, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(2, 3) + mVPmatrix.get(3, 3));
+
+	mPlanes[FAR] =
+		Vector4(-mVPmatrix.get(2, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(2, 1) + mVPmatrix.get(3, 1),
+				-mVPmatrix.get(2, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(2, 3) + mVPmatrix.get(3, 3));
+
+	for (u32 i = 0; i < mPlanes.size(); ++i)
 	{
-		u32 LEFT = 0;
-		u32 RIGHT = 1;
-		u32 BOTTOM = 2;
-		u32 TOP = 3;
-		u32 NEAR = 4;
-		u32 FAR = 5;
+		Vector4 v4(mPlanes.at(i));
+		Vector3 v3(v4.x, v4.y, v4.z);
 
-		mVPmatrix.init(mCamera->getProjectionMatrix() /*mCamera->getViewTranslationMatrix()*/);
-		mVPmatrix.mul(mCamera->getViewTranslationMatrix() /*.transpose()*/);
-
-		mPlanes[LEFT] =
-			Vector4(mVPmatrix.get(0, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(0, 1) + mVPmatrix.get(3, 1),
-					mVPmatrix.get(0, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(0, 3) + mVPmatrix.get(3, 3));
-
-		mPlanes[RIGHT] =
-			Vector4(-mVPmatrix.get(0, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(0, 1) + mVPmatrix.get(3, 1),
-					-mVPmatrix.get(0, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(0, 3) + mVPmatrix.get(3, 3));
-
-		mPlanes[BOTTOM] =
-			Vector4(mVPmatrix.get(1, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(1, 1) + mVPmatrix.get(3, 1),
-					mVPmatrix.get(1, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(1, 3) + mVPmatrix.get(3, 3));
-
-		mPlanes[TOP] =
-			Vector4(-mVPmatrix.get(1, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(1, 1) + mVPmatrix.get(3, 1),
-					-mVPmatrix.get(1, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(1, 3) + mVPmatrix.get(3, 3));
-
-		mPlanes[NEAR] =
-			Vector4(mVPmatrix.get(2, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(2, 1) + mVPmatrix.get(3, 1),
-					mVPmatrix.get(2, 2) + mVPmatrix.get(3, 2), mVPmatrix.get(2, 3) + mVPmatrix.get(3, 3));
-
-		mPlanes[FAR] =
-			Vector4(-mVPmatrix.get(2, 0) + mVPmatrix.get(3, 0), -mVPmatrix.get(2, 1) + mVPmatrix.get(3, 1),
-					-mVPmatrix.get(2, 2) + mVPmatrix.get(3, 2), -mVPmatrix.get(2, 3) + mVPmatrix.get(3, 3));
-
-		for (u32 i = 0; i < mPlanes.size(); ++i)
+		if (v3.len() > 0)
 		{
-			Vector4 v4(mPlanes.at(i));
-			Vector3 v3(v4.x, v4.y, v4.z);
+			v4.x = v4.x / v3.len();
+			v4.y = v4.y / v3.len();
+			v4.z = v4.z / v3.len();
+			v4.w = v4.w / v3.len();
 
-			if (v3.len() > 0)
-			{
-				v4.x = v4.x / v3.len();
-				v4.y = v4.y / v3.len();
-				v4.z = v4.z / v3.len();
-				v4.w = v4.w / v3.len();
+			// v3.nor();
+			// v4.set(v3.x, v3.y, v3.z ,v4.w);
 
-				// v3.nor();
-				// v4.set(v3.x, v3.y, v3.z ,v4.w);
-
-				mPlanes[i] = v4;
-			}
+			mPlanes[i] = v4;
 		}
 	}
 }

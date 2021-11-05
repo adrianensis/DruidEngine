@@ -3,12 +3,15 @@
 #include "Maths/Quaternion.hpp"
 #include "Log/Log.hpp"
 
+TransformState::TransformState(const Transform& transform)
+{
+	mWorldPosition = transform.getWorldPosition();
+	mRotation = transform.getRotation();
+	mScale = transform.getScale();
+}
+
 Transform::Transform()
 {
-	mIsDirtyTranslation = true;
-	mIsDirtyRotation = true;
-	mIsDirtyScale = true;
-
 	mParent = nullptr;
 
 	mAffectedByProjection = true;
@@ -37,54 +40,35 @@ void Transform::init()
 	mForceModelMatrixCalculation = false;
 }
 
-bool Transform::isDirtyTranslation() const
-{
-	return mIsDirtyTranslation || (mParent && mParent->isDirtyTranslation());
-}
-
-void Transform::setDirtyTranslation(bool dirty)
-{
-	mIsDirtyTranslation = dirty;
-}
-
 void Transform::setLocalPosition(const Vector3 &vector)
 {
-	mIsDirtyTranslation = true;
 	mLocalPosition = vector;
 }
 
 void Transform::setRotation(const Vector3 &vector)
 {
-	mIsDirtyRotation = true;
 	mRotation = vector;
 }
 
 void Transform::setScale(const Vector3 &vector)
 {
-	mIsDirtyScale = true;
 	mScale = vector;
 }
 
-Vector3 Transform::calculateWorldPosition() const
+const Vector3 &Transform::getWorldPosition() const
 {
-	Vector3 worldPosition = mLocalPosition;
+	mWorldPosition = mLocalPosition;
 
 	if (mParent)
 	{
-		worldPosition.add(mParent->getWorldPosition());
+		mWorldPosition.add(mParent->getWorldPosition());
 
 		Matrix4 rotationMatrix;
 		rotationMatrix.init(mParent->getRotationMatrix());
 
-		worldPosition = Vector3(rotationMatrix.mulVector(Vector4(worldPosition, 1.0f)));
+		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
 	}
 
-	return worldPosition;
-}
-
-const Vector3 &Transform::getWorldPosition()
-{
-	mWorldPosition = calculateWorldPosition();
 	return mWorldPosition;
 }
 
@@ -92,8 +76,7 @@ void Transform::translate(const Vector3 &vector)
 {
 	if (vector.len() > 0.0f)
 	{
-		mIsDirtyTranslation = true;
-		mLocalPosition.add(vector);
+		setLocalPosition(mLocalPosition.add(vector));
 	}
 }
 
@@ -101,8 +84,7 @@ void Transform::rotate(const Vector3 &vector)
 {
 	if (vector.len() > 0.0f)
 	{
-		mIsDirtyRotation = true;
-		mRotation.add(vector);
+		setRotation(mRotation.add(vector));
 	}
 }
 
@@ -129,13 +111,9 @@ void Transform::lookAt(const Vector3 &targetPosition)
 	mRotation = q.toEuler();*/
 }
 
-const Matrix4 &Transform::getTranslationMatrix()
+const Matrix4 &Transform::getTranslationMatrix() const
 {
-	if (mIsDirtyTranslation || mParent)
-	{
-		mTranslationMatrix.translation(getWorldPosition());
-		mIsDirtyTranslation = false;
-	}
+	mTranslationMatrix.translation(getWorldPosition());
 
 	// RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x + 400.0f ,mLocalPosition.y,mLocalPosition.z));
 	// RenderEngine::getInstance()->drawLine(mLocalPosition, Vector3(mLocalPosition.x,mLocalPosition.y + 400.0f ,mLocalPosition.z));
@@ -144,24 +122,16 @@ const Matrix4 &Transform::getTranslationMatrix()
 	return mTranslationMatrix;
 }
 
-const Matrix4 &Transform::getRotationMatrix()
+const Matrix4 &Transform::getRotationMatrix() const
 {
-	if (mIsDirtyRotation)
-	{
-		mRotationMatrix.rotation(mRotation);
-		mIsDirtyRotation = false;
-	}
+	mRotationMatrix.rotation(mRotation);
 
 	return mRotationMatrix;
 }
 
-const Matrix4 &Transform::getScaleMatrix()
+const Matrix4 &Transform::getScaleMatrix() const
 {
-	if (mIsDirtyScale)
-	{
-		mScaleMatrix.scale(mScale);
-		mIsDirtyScale = false;
-	}
+	mScaleMatrix.scale(mScale);
 
 	return mScaleMatrix;
 }
@@ -184,6 +154,14 @@ const Matrix4 &Transform::getModelMatrix(bool force /*= false*/)
 	return mModelMatrix;
 }
 
+TransformState Transform::getTransformState() const
+{
+	TransformState transformState(*this);
+
+	return transformState;
+}
+
+
 SERIALIZE_IMPL(Transform)
 {
 	Component::serialize(json);
@@ -201,8 +179,4 @@ DESERIALIZE_IMPL(Transform)
 	DO_DESERIALIZE("local_position", mLocalPosition);
 	DO_DESERIALIZE("scale", mScale);
 	DO_DESERIALIZE("rotation", mRotation);
-
-	mIsDirtyTranslation = true;
-	mIsDirtyRotation = true;
-	mIsDirtyScale = true;
 }

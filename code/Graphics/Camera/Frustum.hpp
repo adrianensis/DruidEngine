@@ -22,7 +22,7 @@ PUB
 	/**
 	* Builds the frustum planes.
 	*/
-	void build(bool forceBuild = false);
+	void build();
 
 	bool testSphere(const Vector3 &center, f32 radius) const;
 	bool testPoint(const Vector3 &point) const;

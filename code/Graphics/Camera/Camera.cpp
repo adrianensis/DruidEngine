@@ -33,11 +33,30 @@ void Camera::init()
 void Camera::onComponentAdded()
 {
 	// TODO: do this also in setOrtho and setPerspective
-	calculateInverseMatrix(true);
-	mFrustum->build(true);
+	calculateInverseMatrix();
+	mFrustum->build();
+
+	mTransformState = getGameObject()->getTransform()->getTransformState();
 }
 
-void Camera::recalculate()
+void Camera::update()
+{
+	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
+	if(!currentTransformState.eq(mTransformState))
+	{
+		if (getFrustum())
+		{
+			// TODO: NOTE: frustum is unused for now :/
+			getFrustum()->build();
+		}
+
+		mInversePVMatrixNeedsUpdate = true;
+
+		mTransformState = currentTransformState;
+	}
+}
+
+void Camera::recalculatePerspectiveMatrix()
 {
 	if (mIsOrtho)
 	{
@@ -78,7 +97,7 @@ void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)
 
 void Camera::onResize()
 {
-	recalculate();
+	recalculatePerspectiveMatrix();
 }
 
 const Matrix4 &Camera::getProjectionMatrix() const
@@ -101,6 +120,7 @@ const Matrix4 &Camera::getViewRotationMatrix()
 
 Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 {	
+	calculateInverseMatrix();
 	Vector4 v = mInversePVMatrix.mulVector(Vector4(screenPosition.x, screenPosition.y, 0, 1.0));
 
 	v.x = v.x / v.w;
@@ -110,11 +130,9 @@ Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 	return v;
 }
 
-void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/)
+void Camera::calculateInverseMatrix()
 {
-	Transform *transform = getGameObject()->getTransform();
-
-	if (forceCalculate || transform->isDirtyTranslation())
+	if(mInversePVMatrixNeedsUpdate)
 	{
 		Matrix4 inverseProjectionMatrix;
 		Matrix4 viewTranslationMatrix;
@@ -131,15 +149,14 @@ void Camera::calculateInverseMatrix(bool forceCalculate /*= false*/)
 		inverseProjectionMatrix.invert();
 		mInversePVMatrix.init(inverseProjectionMatrix);
 
-		// HACK: set the dirty value again
-		transform->setDirtyTranslation(true);
+		mInversePVMatrixNeedsUpdate = false;
 	}
 }
 
 void Camera::setZoom(f32 zoom)
 {
 	mZoom = zoom;
-	recalculate();
+	recalculatePerspectiveMatrix();
 }
 
 void Camera::zoomIn(f32 zoomDelta)
