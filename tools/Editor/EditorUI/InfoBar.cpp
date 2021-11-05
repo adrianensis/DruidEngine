@@ -16,7 +16,6 @@ void InfoBar::init(EditorController* editorController)
 	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1,-0.95)).
-	setLayer(0).
 	setAdjustSizeToText(false).
 	setSize(Vector2(0.25f, 0.05f));
 

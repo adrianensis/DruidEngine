@@ -76,9 +76,7 @@ void Sprites::createAtlasSelectors()
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
 		setPosition(Vector2(-1.0f, 0.8f)).
-		setText("").
 		setSize(Vector2(0.1f, 0.1f)).
-		setLayer(0).
 		setGroup(EditorUIGroups::smSpritesSelector).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
 
@@ -108,9 +106,7 @@ void Sprites::createAtlasSelectors()
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
 		setPosition(Vector2(0.3f, 0.5f)).
-		setText("").
 		setSize(Vector2(0.1f, 0.1f)).
-		setLayer(0).
 		setGroup(EditorUIGroups::smSpritesSelector);
 
 	/*FOR_RANGE(i, 0, 4)
@@ -139,7 +135,6 @@ void Sprites::createSpriteMenu()
 		setLayout(UILayout::VERTICAL).
 		setAdjustSizeToText(true).
 		setPosition(Vector2(0.8f, 0.9f)).
-		setLayer(0).
 		setGroup(EditorUIGroups::smSpritesSelector);
 
     uiBuilder.
@@ -225,9 +220,7 @@ void Sprites::createAtlas(Material* material)
 		setAdjustSizeToText(false).
 		setLayout(UILayout::HORIZONTAL).
 		setPosition(Vector2(-panelSize.x/2.0f - 0.5f, panelSize.y/2.0f)).
-		setText("").
 		setSize(Vector2(tileSize, tileSize)).
-		setLayer(0).
 		setGroup(EditorUIGroups::smAtlas).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>());
 
@@ -301,7 +294,6 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
         setText("Sprite Name").
         setSeparatorSize(0).
         setGroup(EditorUIGroups::smSpritePreview).
-        setLayer(0).
         create<UIText>().
         getUIElement<UIText>();
 
@@ -309,7 +301,6 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
     mSpritePreview = uiBuilder.
 		setAdjustSizeToText(false).
-		setText("").
 		setSize(Vector2(tileSize, tileSize)).
 		setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditor>()).
         setMaterial(renderer->getMaterial()).
@@ -325,7 +316,6 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 		setLayout(UILayout::HORIZONTAL).
 		setAdjustSizeToText(true).
 		setPosition(Vector2(0.4f, 0.9f)).
-		setLayer(0).
         setGroup(EditorUIGroups::smSpritePreview);
 
     uiBuilder.
@@ -388,7 +378,6 @@ void Sprites::addSprite()
         Renderer* renderer = NEW(Renderer);
         renderer->init();
         renderer->setMesh(Mesh::getRectangle());
-        renderer->setLayer(0);
         renderer->setMaterial(mCurrentAtlasMaterial);
 
         sprite->addComponent<Renderer>(renderer);
@@ -418,7 +407,6 @@ void Sprites::refreshSprites()
     uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, -0.8f)).
-	setLayer(0).
 	setGroup(EditorUIGroups::smSprites).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
@@ -429,7 +417,6 @@ void Sprites::refreshSprites()
 
         uiBuilder.
         setAdjustSizeToText(false).
-        setText("").
         setMaterial(spriteRenderer->getMaterial()).
         create<UIButton>().
         getUIElement<UIButton>()->
@@ -494,7 +481,6 @@ void Sprites::refreshFrames()
         uiBuilder.
         setLayout(UILayout::VERTICAL).
         setPosition(Vector2(-1.0f, -0.6f)).
-        setLayer(0).
         setGroup(EditorUIGroups::smFrames);
 
         FOR_LIST(it, mFrames)
@@ -503,7 +489,6 @@ void Sprites::refreshFrames()
 
             uiBuilder.
             setAdjustSizeToText(false).
-            setText("").
             setSize(Vector2(0.05f, 0.05f)).
             setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
             setMaterial(renderer->getMaterial()).

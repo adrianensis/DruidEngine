@@ -21,7 +21,6 @@ void LayersBar::init(EditorController* editorController)
 	uiBuilder.
 	setLayout(UILayout::VERTICAL).
 	setPosition(Vector2(0.94,0.8)).
-	setLayer(0).
 	setGroup(EditorUIGroups::smLayersBar).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.07f, 0.07f)).

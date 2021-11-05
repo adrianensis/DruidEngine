@@ -20,14 +20,12 @@ void ToolsBar::init(EditorController* editorController)
 	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1.0f, 0.8f)).
-	setLayer(0).
 	setGroup(EditorUIGroups::smToolsBar).
 	setStyle(&UIStyleManager::getInstance()->getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.1f, 0.1f));
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Cursor.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
@@ -40,7 +38,6 @@ void ToolsBar::init(EditorController* editorController)
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Pencil.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
@@ -53,7 +50,6 @@ void ToolsBar::init(EditorController* editorController)
 
 	uiBuilder.
 	setAdjustSizeToText(false).
-	setText("").
 	setMaterial(MaterialManager::getInstance()->loadMaterial("resources/editor-icons/Eraser.png")).
 	create<UIToggleButton>().
 	getUIElement<UIToggleButton>()->
