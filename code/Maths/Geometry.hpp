@@ -15,8 +15,8 @@ PUB
 class Rectangle: public Shape
 {
     GENERATE_METADATA(Rectangle)
-    PRO Vector2 mLeftTop = {}; GETREF_CONST_SET(LeftTop)
-    PRO Vector2 mSize = {}; GETREF_CONST_SET(Size)
+    PRO Vector2 mLeftTop; GETREF_CONST_SET(LeftTop)
+    PRO Vector2 mSize; GETREF_CONST_SET(Size)
 
 PUB
 

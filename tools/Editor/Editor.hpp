@@ -6,7 +6,7 @@
 class Editor: public Script
 {
     GENERATE_METADATA(Editor)
-	PRI EditorController mEditorController = {}; GET(EditorController)
+	PRI EditorController mEditorController; GET(EditorController)
 
 PUB
 	void init() override;

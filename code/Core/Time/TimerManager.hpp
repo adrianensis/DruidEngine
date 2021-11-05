@@ -14,10 +14,10 @@ enum class TimerDurationType
 class Timer: public ObjectBase
 {
     GENERATE_METADATA(Timer)
-	PRI f32 mDuration = {}; GET(Duration)
-	PRI f32 mTimeCounter = {}; GET_SET(TimeCounter)
-	PRI TimerDurationType mDurationType = {}; GET(DurationType)
-	PUB FunctorVoid mFunctor = {};
+	PRI f32 mDuration = 0.0f; GET(Duration)
+	PRI f32 mTimeCounter = 0.0f; GET_SET(TimeCounter)
+	PRI TimerDurationType mDurationType; GET(DurationType)
+	PUB FunctorVoid mFunctor;
 
 PUB
 	void init(f32 duration, TimerDurationType durationType, std::function<void()> callback);
@@ -28,7 +28,7 @@ class TimerHandle: public ObjectBase
     GENERATE_METADATA(TimerHandle)
 	friend class TimerManager;
 
-	PRI Timer * mTimerReference = {};
+	PRI Timer* mTimerReference = nullptr;
 
 PUB
 	void init(Timer * timerReference)
@@ -45,7 +45,7 @@ PUB
 class TimerManager: public ObjectBase, public Singleton<TimerManager>
 {
 	GENERATE_METADATA(TimerManager)
-	PRI std::list<Timer *> mTimers = {};
+	PRI std::list<Timer *> mTimers;
 
 	void endTimer(Timer * timer);
 

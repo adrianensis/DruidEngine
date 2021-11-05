@@ -181,7 +181,7 @@ f32 Vector2::angle(const Vector2 &v) const
 
 Vector2 &Vector2::clamp(f32 maxLength)
 {
-	if (this->sqrlen() > maxLength * maxLength)
+	if (this->sqrlen() > maxLength* maxLength)
 	{
 		this->nor();
 		this->mul(maxLength);

@@ -13,7 +13,7 @@
 class ConfigObject: public ObjectBase
 {
     GENERATE_METADATA(ConfigObject)
-	PRI JSON mJson = {}; GETREF_CONST_SET(Json);
+	PRI JSON mJson; GETREF_CONST_SET(Json);
 
 PUB
 	void init();

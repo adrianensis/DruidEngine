@@ -5,8 +5,8 @@
 class CommandArgument: public ObjectBase
 {
     GENERATE_METADATA(CommandArgument)
-    PRI std::string mName = {}; GETREF_CONST_SET(Name);
-    PRI std::string mValue = {}; GETREF_CONST_SET(Value);
+    PRI std::string mName; GETREF_CONST_SET(Name);
+    PRI std::string mValue; GETREF_CONST_SET(Value);
 
 PUB
 
@@ -20,9 +20,9 @@ PUB
 class Command: public ObjectBase
 {
     GENERATE_METADATA(Command)
-    PRI std::string mName = {}; GETREF_CONST_SET(Name);
-    PRI std::string mArgumentsString = {}; GETREF_CONST_SET(ArgumentsString);
-    PRI std::map<std::string, CommandArgument> mArguments = {}; GETREF_CONST(Arguments);
+    PRI std::string mName; GETREF_CONST_SET(Name);
+    PRI std::string mArgumentsString; GETREF_CONST_SET(ArgumentsString);
+    PRI std::map<std::string, CommandArgument> mArguments; GETREF_CONST(Arguments);
 
     inline static const std::string smDefaultArgumentValue = ""; 
 

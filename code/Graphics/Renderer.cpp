@@ -15,32 +15,13 @@
 
 Renderer::Renderer()
 {
-	mMesh = nullptr;
-	mMaterial = nullptr;
-	mCurrentAnimation = nullptr;
-
-	mPositionOffset = Vector3(0.0, 0.0, 0.0);
-	mPositionOffsetDirty = true;
-
 	// texture region
 	mRegion.setLeftTop(Vector2(0.0, 0.0));
 	mRegion.setSize(Vector2(1.0, 1.0));
 
-	mInvertAxisX = false;
-
-	mIsLineMode = false;
-
-	mLayer = 0;
-
 	mRenderDistance = 1500; // TODO : move to settings?
-	mIsOutOfCamera = false;
 
 	mIsWorldSpace = true;
-
-	mChunk = nullptr;
-	mIsAlreadyInBatch = false;
-
-	mForceRecalculateVertices = false;
 }
 
 Renderer::~Renderer()

@@ -8,9 +8,9 @@
 class Event: public ObjectBase
 {
     GENERATE_METADATA(Event)
-	PUB f32 mDelayAmount = {};
-	PUB TimerDurationType mDelayType = {};
-	PUB ObjectBase * mInstigator = {};
+	PUB f32 mDelayAmount = 0.0f;
+	PUB TimerDurationType mDelayType;
+	PUB ObjectBase* mInstigator = nullptr;
 
 	PUB
 		// NOTE : Override in children!
@@ -28,9 +28,9 @@ template<class E>
 class EventFunctor: public Functor<EventCallback>
 {
 	GENERATE_METADATA(EventFunctor<E>)
-	PUB E * mEvent = {};
-	PUB ClassId mEventClassId = {};
-	PUB ObjectBase * mEventReceiver = {};
+	PUB E* mEvent = nullptr;
+	PUB ClassId mEventClassId;
+	PUB ObjectBase* mEventReceiver = nullptr;
 
 PUB
 	void execute() override

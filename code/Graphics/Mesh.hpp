@@ -8,14 +8,14 @@ class Vector3;
 class Mesh: public ObjectBase
 {
     GENERATE_METADATA(Mesh)
-	PRI std::vector<f32> mVertices = {}; GETREF_CONST(Vertices)
-	PRI std::vector<f32> mNormals = {}; GETREF_CONST(Normals)
-	PRI std::vector<f32> mTextureCoordinates = {}; GETREF_CONST(TextureCoordinates)
-	PRI std::vector<f32> mColors = {}; GETREF_CONST(Colors)
-	PRI std::vector<u32> mFaces = {}; GETREF_CONST(Faces)
+	PRI std::vector<f32> mVertices; GETREF_CONST(Vertices)
+	PRI std::vector<f32> mNormals; GETREF_CONST(Normals)
+	PRI std::vector<f32> mTextureCoordinates; GETREF_CONST(TextureCoordinates)
+	PRI std::vector<f32> mColors; GETREF_CONST(Colors)
+	PRI std::vector<u32> mFaces; GETREF_CONST(Faces)
 
-	PRI u32 mVertexCount = {}; GET(VertexCount)
-	PRI u32 mFacesCount = {}; GET(FacesCount)
+	PRI u32 mVertexCount = 0; GET(VertexCount)
+	PRI u32 mFacesCount = 0; GET(FacesCount)
 
 PRI
 	static Mesh *smRectangle;

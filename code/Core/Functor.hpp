@@ -7,7 +7,7 @@ template <class T>
 class Functor: public ObjectBase
 {
 	GENERATE_METADATA(Functor<T>)
-	PRO T mCallback = {}; SET(Callback)
+	PRO T mCallback; SET(Callback)
 
 PUB
 	virtual void execute() = 0;

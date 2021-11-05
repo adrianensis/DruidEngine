@@ -23,25 +23,25 @@ using TileCallback = std::function<void(GameObject* tile)>;
 class EditorController: public ObjectBase
 {
     GENERATE_METADATA(EditorController)
-	PRI ConfigObject mEditorConfig = {}; GETREF_CONST(EditorConfig)
+	PRI ConfigObject mEditorConfig; GETREF_CONST(EditorConfig)
 
-	PRI Brush mBrush = {}; GETREF(Brush)
-	PRI MenuBar mMenuBar = {}; GETREF(MenuBar)
-	PRI InfoBar mInfoBar = {}; GETREF(InfoBar)
-	PRI ToolsBar mToolsBar = {}; GETREF(ToolsBar)
-	PRI LayersBar mLayersBar = {}; GETREF(LayersBar)
-	PRI Sprites mSprites = {}; GETREF(Sprites)
+	PRI Brush mBrush; GETREF(Brush)
+	PRI MenuBar mMenuBar; GETREF(MenuBar)
+	PRI InfoBar mInfoBar; GETREF(InfoBar)
+	PRI ToolsBar mToolsBar; GETREF(ToolsBar)
+	PRI LayersBar mLayersBar; GETREF(LayersBar)
+	PRI Sprites mSprites; GETREF(Sprites)
 
-	PRI std::list<GameObject*> mSelectedTiles = {}; GETREF(SelectedTiles)
+	PRI std::list<GameObject*> mSelectedTiles; GETREF(SelectedTiles)
 
-	PRI u32 mLayer = {}; GET_SET(Layer)
-	PRI std::vector<Grid> mGrids = {};
-	PRI bool mDrawGrid = {}; GET_SET(DrawGrid)
+	PRI u32 mLayer = 0; GET_SET(Layer)
+	PRI std::vector<Grid> mGrids;
+	PRI bool mDrawGrid = false; GET_SET(DrawGrid)
 
-	PRI Camera* mCamera = {}; GET(Camera)
-	PRI f32 mCameraSpeed = {};
-	PRI bool mCameraDragStarted = {};
-	PRI Vector3 mCameraDragLastPosition = {};
+	PRI Camera* mCamera = nullptr; GET(Camera)
+	PRI f32 mCameraSpeed = 0.0f;
+	PRI bool mCameraDragStarted = false;
+	PRI Vector3 mCameraDragLastPosition;
 
 PUB
 

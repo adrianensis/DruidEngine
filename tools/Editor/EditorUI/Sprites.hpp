@@ -13,23 +13,23 @@ class Material;
 class Sprites: public EditorUIElement
 {
     GENERATE_METADATA(Sprites)    
-    PRI std::list<GameObject*> mFrames = {};
-    PRI std::list<GameObject*> mSprites = {};
+    PRI std::list<GameObject*> mFrames;
+    PRI std::list<GameObject*> mSprites;
 
-    PRI u32 mSpritesCount = {};
+    PRI u32 mSpritesCount = 0;
 
-    PRI GameObject* mCurrentSpriteSelector = {};
-    PRI GameObject* mCurrentSprite = {};
+    PRI GameObject* mCurrentSpriteSelector = nullptr;
+    PRI GameObject* mCurrentSprite = nullptr;
 
-    PRI UIPanel* mSpritePreview = {};
+    PRI UIPanel* mSpritePreview = nullptr;
 
-    PRI GameObject* mSelectedAtlasTile = {};
+    PRI GameObject* mSelectedAtlasTile = nullptr;
 
-    PRI Material* mCurrentAtlasMaterial = {}; GET(CurrentAtlasMaterial)
+    PRI Material* mCurrentAtlasMaterial = nullptr; GET(CurrentAtlasMaterial)
 
-    PRI bool mIsRecording = {}; GET(IsRecording)
+    PRI bool mIsRecording = false; GET(IsRecording)
 
-    PRI std::string mCurrentAnimationName = {};
+    PRI std::string mCurrentAnimationName;
 
 PRI
 

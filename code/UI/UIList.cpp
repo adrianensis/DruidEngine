@@ -139,7 +139,7 @@ void UIList::setEntriesVisibility(bool visible)
 			scale.x = scale.x * RenderContext::getAspectRatio();
 
 			UI::getInstance().getBuilder()->saveData()->
-				setPosition(Vector2(-scale.x/2.0f,-scale.y * mButtons->getLength() - scale.y/2.0f))->
+				setPosition(Vector2(-scale.x/2.0f,-scale.y* mButtons->getLength() - scale.y/2.0f))->
 				setSize(scale)->
 				setText(label)->
 				setAdjustSizeToText(true)->

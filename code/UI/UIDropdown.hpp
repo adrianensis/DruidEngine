@@ -8,7 +8,7 @@ class UIDropdown;
 class UIDropdownButton: public UIButton
 {
     GENERATE_METADATA(UIDropdownButton)
-	PRI UIDropdown * mParentDropdown = {}; GET_SET(ParentDropdown)
+	PRI UIDropdown* mParentDropdown = nullptr; GET_SET(ParentDropdown)
 PUB
 	virtual void onPostReleased() override;
 };
@@ -22,8 +22,8 @@ PRI
 	class UIDropdownEntry: public ObjectBase
 	{
 		GENERATE_METADATA(UIDropdown::UIDropdownEntry)
-		PUB std::string mLabel = {};
-		PUB UIElementCallback mCallback = {};
+		PUB std::string mLabel;
+		PUB UIElementCallback mCallback;
 
 	PUB
 		UIDropdownEntry(const std::string& label, UIElementCallback callback);

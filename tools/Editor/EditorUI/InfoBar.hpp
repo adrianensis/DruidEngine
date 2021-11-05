@@ -8,7 +8,7 @@
 class UIBuilder;
 
 #define INFO_BAR_MEMBER(BaseName, ...)\
-PRI UIText* m##BaseName = {}; GET(BaseName)\
+PRI UIText* m##BaseName; GET(BaseName)\
 PUB \
 void set##BaseName(__VA_ARGS__ new##BaseName)\
 {\

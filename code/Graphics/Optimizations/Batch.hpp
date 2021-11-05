@@ -13,25 +13,25 @@ class Camera;
 class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
-	PRI std::map<u32, std::list<Renderer *> *> mRenderers = {};
-	PRI Material * mMaterial = {}; GET(Material)
-	PRI const Mesh * mMesh = {}; GET(Mesh)
+	PRI std::map<u32, std::list<Renderer *> *> mRenderers;
+	PRI Material* mMaterial = nullptr; GET(Material)
+	PRI const Mesh* mMesh = nullptr; GET(Mesh)
 
-	PRI Mesh mMeshBuilder = {};
+	PRI Mesh mMeshBuilder;
 
-	PRI u32 mVBOPosition = {}; // TODO: change u32 for GLuint
-	PRI u32 mEBO = {};
-	PRI u32 mVBOTexture = {};
-	PRI u32 mVBOColor = {};
-	PRI u32 mVBONormal = {};
-	PRI u32 mVAO = {};
+	PRI u32 mVBOPosition = 0; // TODO: change u32 for GLuint
+	PRI u32 mEBO = 0;
+	PRI u32 mVBOTexture = 0;
+	PRI u32 mVBOColor = 0;
+	PRI u32 mVBONormal = 0;
+	PRI u32 mVAO = 0;
 
-	PRI u32 mMaxMeshesThreshold = {};
-	PRI u32 mMaxMeshesIncrement = {};
-	PRI u32 mMeshesIndex = {};
+	PRI u32 mMaxMeshesThreshold = 0;
+	PRI u32 mMaxMeshesIncrement = 0;
+	PRI u32 mMeshesIndex = 0;
 
-	PRI bool mBinded = {};
-	PRI bool mIsWorldSpace = {}; GET_SET(IsWorldSpace)
+	PRI bool mBinded = false;
+	PRI bool mIsWorldSpace = false; GET_SET(IsWorldSpace)
 
 PRI
 	void addToVertexBuffer(Renderer * renderer);

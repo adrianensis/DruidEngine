@@ -5,7 +5,7 @@
 class Engine: public ObjectBase, public Singleton<Engine>
 {
 	GENERATE_METADATA(Engine)
-	PRI f32 mFPS = {};
+	PRI f32 mFPS = 0.0f;
 
 PUB
 	void init();

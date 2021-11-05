@@ -25,24 +25,24 @@ class Renderer: public Component
 	PUB void init() override;
 
 	// Renderer Properties
-	PRI Matrix4 mRenderereModelMatrix = {};
-	PRI bool mPositionOffsetDirty = {};
-	PRI bool mForceRecalculateVertices = {};
-	PRI std::vector<Vector2> mVertices = {};
-	PRI bool mIsWorldSpace = {};
-	PRI std::array<f32, 4> mColor = {}; GETREF_CONST(Color)
-	PRI Vector3 mPositionOffset = {}; GET(PositionOffset)
-	PRI Rectangle mRegion = {}; GETREF_CONST_SET(Region)
-	PRI Rectangle mClipRectangle = {}; GETREF_CONST_SET(ClipRectangle)
-	PRI Mesh* mMesh = {}; GET_SET(Mesh)
-	PRI Material* mMaterial = {}; GET_SET(Material)
-	PRI bool mInvertAxisX = {}; GET_SET(InvertAxisX)
-	PRI bool mIsLineMode = {}; GET_SET(IsLineMode)
-	PRI u32 mLayer = {}; GET_SET(Layer)
-	PRI f32 mRenderDistance = {}; GET_SET(RenderDistance)
-	PRI bool mIsOutOfCamera = {}; GET_SET(IsOutOfCamera)
-	PRI bool mIsAlreadyInBatch = {}; GET_SET(IsAlreadyInBatch)
-	PRI Chunk* mChunk = {}; GET_SET(Chunk)
+	PRI Matrix4 mRenderereModelMatrix;
+	PRI bool mPositionOffsetDirty = true;
+	PRI bool mForceRecalculateVertices = false;
+	PRI std::vector<Vector2> mVertices;
+	PRI bool mIsWorldSpace = true;
+	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
+	PRI Vector3 mPositionOffset; GET(PositionOffset)
+	PRI Rectangle mRegion; GETREF_CONST_SET(Region)
+	PRI Rectangle mClipRectangle; GETREF_CONST_SET(ClipRectangle)
+	PRI Mesh* mMesh = nullptr; GET_SET(Mesh)
+	PRI Material* mMaterial = nullptr; GET_SET(Material)
+	PRI bool mInvertAxisX = false; GET_SET(InvertAxisX)
+	PRI bool mIsLineMode = false; GET_SET(IsLineMode)
+	PRI u32 mLayer = 0; GET_SET(Layer)
+	PRI f32 mRenderDistance = 0.0f; GET_SET(RenderDistance)
+	PRI bool mIsOutOfCamera = false; GET_SET(IsOutOfCamera)
+	PRI bool mIsAlreadyInBatch = false; GET_SET(IsAlreadyInBatch)
+	PRI Chunk* mChunk = nullptr; GET_SET(Chunk)
 
 	PUB void setColor(const Vector4& color);
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
@@ -52,8 +52,8 @@ class Renderer: public Component
 	PUB bool hasClipRectangle() const;
 
 	// Animation
-	PRI std::map<std::string, Animation> mAnimations = {}; GETREF_CONST(Animations)
-	PRI Animation* mCurrentAnimation = {}; GET(CurrentAnimation)
+	PRI std::map<std::string, Animation> mAnimations; GETREF_CONST(Animations)
+	PRI Animation* mCurrentAnimation = nullptr; GET(CurrentAnimation)
 
 	PUB void setAnimation(const std::string& name);
 	PUB void addAnimation(const std::string& name, const Animation& animation);

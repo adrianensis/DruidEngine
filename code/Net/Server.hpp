@@ -17,7 +17,7 @@ enum class ServerStatus
 class Server: public ObjectBase
 {
     GENERATE_METADATA(Server)
-	PRI ServerStatus mStatus = {}; GET(Status);
+	PRI ServerStatus mStatus; GET(Status);
 
 PRI
 	int server_fd, new_socket;

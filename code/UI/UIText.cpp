@@ -38,7 +38,7 @@ void UIText::initFromConfig(const UIElementConfig& config)
 	if (mConfig.mParent)
 	{
 		getTransform()->setParent(mConfig.mParent->getTransform());
-		getTransform()->setLocalPosition(Vector2(-textSize.x * mConfig.mText.length() / 2.0f + textSize.x,0));
+		getTransform()->setLocalPosition(Vector2(-textSize.x* mConfig.mText.length() / 2.0f + textSize.x,0));
 	}
 
 	setSize(mConfig.mTextSize);
@@ -120,7 +120,7 @@ void UIText::setText(const std::string &text)
 					newRenderersCreated = true;
 				}
 
-				renderer->setPositionOffset(Vector3(((i * mSize.x) - (mSize.x / 2.0f)) / RenderContext::getAspectRatio(), 0, 0));
+				renderer->setPositionOffset(Vector3(((i* mSize.x) - (mSize.x / 2.0f)) / RenderContext::getAspectRatio(), 0, 0));
 				renderer->setRegion(Rectangle(textureCoordinates.x, textureCoordinates.y, textureSize.x, textureSize.y));
 			}
 		}

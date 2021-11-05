@@ -11,8 +11,8 @@ PRI
 	class UIListEntry: public ObjectBase
 	{
 		GENERATE_METADATA(UIList::UIListEntry)
-		PUB std::string mLabel = {};
-		PUB UIElementCallback mCallback = {};
+		PUB std::string mLabel;
+		PUB UIElementCallback mCallback;
 
 	PUB
 		UIListEntry(const std::string& label, UIElementCallback callback);

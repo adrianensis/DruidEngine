@@ -79,8 +79,8 @@ void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 fa
 	mNear = near;
 	mFar = far;
 
-	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio() * mZoom, mRight * RenderContext::getAspectRatio() * mZoom, mBottom * mZoom,
-							mTop * mZoom, mNear, mFar);
+	mProjectionMatrix.ortho(mLeft * RenderContext::getAspectRatio() * mZoom, mRight * RenderContext::getAspectRatio() * mZoom, mBottom* mZoom,
+							mTop* mZoom, mNear, mFar);
 };
 
 void Camera::setPerspective(f32 near, f32 far, f32 aspect, f32 fov)

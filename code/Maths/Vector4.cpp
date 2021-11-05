@@ -212,7 +212,7 @@ Vector4 &Vector4::lerp(const Vector4 &target, f32 t)
 
 Vector4 &Vector4::clamp(f32 maxLength)
 {
-	if (this->sqrlen() > maxLength * maxLength)
+	if (this->sqrlen() > maxLength* maxLength)
 	{
 		this->nor();
 		this->mul(maxLength);

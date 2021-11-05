@@ -23,23 +23,23 @@ enum class BrushPaintMode
 class BrushPaintData: public ObjectBase
 {
     GENERATE_METADATA(BrushPaintData)
-	PUB Rectangle mRegion = {};
-	PUB Material * mMaterial = {};
+	PUB Rectangle mRegion;
+	PUB Material* mMaterial = nullptr;
 };
 
 class Brush: public EditorUIElement
 {
     GENERATE_METADATA(Brush)
-	PRI GameObject * mSelector = {};
-	PRI std::vector<GameObject *> mBrushPreview = {};
+	PRI GameObject* mSelector = nullptr;
+	PRI std::vector<GameObject *> mBrushPreview;
 
-	PRI BrushMode mMode = {};
-	PRI BrushPaintMode mPaintMode = {};
+	PRI BrushMode mMode;
+	PRI BrushPaintMode mPaintMode;
 
-	PRI BrushPaintData mPaintData = {}; GETREF(PaintData)
+	PRI BrushPaintData mPaintData; GETREF(PaintData)
 
-	PRI u32 mBrushSize = {}; GET(BrushSize)
-	PRI u32 mMaxBrushSize = {};
+	PRI u32 mBrushSize = 0; GET(BrushSize)
+	PRI u32 mMaxBrushSize = 0;
 
 PRI
 

@@ -14,7 +14,7 @@ class CommandFunctor: public Functor<CommandCallback>
 {
 	GENERATE_METADATA(CommandFunctor)
 	
-    PRI Command mCommand = {}; GETREF_SET(Command);
+    PRI Command mCommand; GETREF_SET(Command);
 
 PUB
 
@@ -38,15 +38,15 @@ PUB
 class CommandLine: public ObjectBase, public Singleton<CommandLine>
 {
 	GENERATE_METADATA(CommandLine)
-    PRI std::map<std::string, CommandFunctor> mCommandsMap = {};
-	PRI std::string mBuffer = {}; GETREF_CONST(Buffer)
+    PRI std::map<std::string, CommandFunctor> mCommandsMap;
+	PRI std::string mBuffer; GETREF_CONST(Buffer)
 
-	PRI std::list<std::string> mHistory = {};
-	PRI std::list<std::string>::iterator mHistoryIterator = {};
+	PRI std::list<std::string> mHistory;
+	PRI std::list<std::string>::iterator mHistoryIterator;
 
-	PRI UIText* mUIText = {};
+	PRI UIText* mUIText = nullptr;
 
-    PRI bool mIsOpen = {};
+    PRI bool mIsOpen = false;
 
     void log(const std::string& line, bool newLine = true) const;
 

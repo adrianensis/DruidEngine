@@ -90,7 +90,7 @@ void __customMain()
 #define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
 	static std::list<AttributeBase> &__getClassAttributesNamesStatic()          \
 	{                                                                          \
-		static std::list<AttributeBase> attributesNames = {};\
+		static std::list<AttributeBase> attributesNames;\
 		return attributesNames;                                                   \
 	};
 

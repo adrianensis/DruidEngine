@@ -11,9 +11,9 @@ class TransformState : public ObjectBase
 {
     GENERATE_METADATA(TransformState)
 
-	PUB Vector3 mWorldPosition = {}; GETREF_CONST(WorldPosition)
-	PUB Vector3 mRotation = {}; GETREF_CONST(Rotation)
-	PUB Vector3 mScale = {}; GETREF_CONST(Scale)
+	PUB Vector3 mWorldPosition; GETREF_CONST(WorldPosition)
+	PUB Vector3 mRotation; GETREF_CONST(Rotation)
+	PUB Vector3 mScale; GETREF_CONST(Scale)
 
 	TransformState() = default;
 	TransformState(const Transform& transform);
@@ -29,24 +29,24 @@ class TransformState : public ObjectBase
 class Transform: public Component
 {
     GENERATE_METADATA(Transform)
-	PRI mutable Vector3 mWorldPosition = {};
+	PRI mutable Vector3 mWorldPosition;
 
-	PRI mutable Matrix4 mModelMatrix = {};
-	PRI mutable Matrix4 mTranslationMatrix = {};
-	PRI mutable Matrix4 mRotationMatrix = {};
-	PRI mutable Matrix4 mScaleMatrix = {};
+	PRI mutable Matrix4 mModelMatrix;
+	PRI mutable Matrix4 mTranslationMatrix;
+	PRI mutable Matrix4 mRotationMatrix;
+	PRI mutable Matrix4 mScaleMatrix;
 
-	PRI bool mModelMatrixGenerated = {};
+	PRI bool mModelMatrixGenerated = false;
 
-	PRI bool mForceModelMatrixCalculation = {};
+	PRI bool mForceModelMatrixCalculation = false;
 
 	//Transform* mParent;
-	PRI Transform * mParent = {}; GET_SET(Parent);
+	PRI Transform* mParent = nullptr; GET_SET(Parent);
 
-	PRI Vector3 mLocalPosition = {}; GETREF_CONST(LocalPosition)
-	PRI Vector3 mRotation = {}; GETREF_CONST(Rotation)
-	PRI Vector3 mScale = {}; GETREF_CONST(Scale)
-	PRI bool mAffectedByProjection = {}; GET_SET(AffectedByProjection)
+	PRI Vector3 mLocalPosition; GETREF_CONST(LocalPosition)
+	PRI Vector3 mRotation; GETREF_CONST(Rotation)
+	PRI Vector3 mScale; GETREF_CONST(Scale)
+	PRI bool mAffectedByProjection = false; GET_SET(AffectedByProjection)
 
 PUB
 	static const Vector3 smRight;

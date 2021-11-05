@@ -17,7 +17,7 @@ using UIElementCallback = std::function<void(UIElement *uiElement)>;
 class FunctorUIElement: public Functor<UIElementCallback>
 {
 	GENERATE_METADATA(FunctorUIElement)
-	PUB UIElement * mUIElement = {};
+	PUB UIElement* mUIElement = nullptr;
 
 PUB
 
@@ -39,25 +39,25 @@ PUB
 class UIElement: public GameObject
 {
     GENERATE_METADATA(UIElement)
-	PRO UIElementConfig mConfig = {}; GETREF_CONST_SET(Config)
+	PRO UIElementConfig mConfig; GETREF_CONST_SET(Config)
 
-	PRO FunctorUIElement mOnPressedFunctor = {};
-	PRO FunctorUIElement mOnReleasedFunctor = {};
+	PRO FunctorUIElement mOnPressedFunctor;
+	PRO FunctorUIElement mOnReleasedFunctor;
 
-	PRO FunctorUIElement mOnScrollFunctor = {};
+	PRO FunctorUIElement mOnScrollFunctor;
 
-	PRO FunctorUIElement mOnTextChangedFunctor = {};
-	PRO FunctorUIElement mOnFocusLostFunctor = {};
+	PRO FunctorUIElement mOnTextChangedFunctor;
+	PRO FunctorUIElement mOnFocusLostFunctor;
 
-	PRO Renderer * mRenderer = {}; GET(Renderer)
-	//PRI Collider* mCollider = {}; GET(Collider)
-	PRO std::string mInputString = {}; GET(InputString)
-	PRO bool mConsumeInput = {}; GET_SET(ConsumeInput)
-	PRO bool mPressed = {}; GET(Pressed)
-	PRO bool mCanToggle = {}; GET(CanToggle)
-	PRO bool mReleaseOnSameGroupPressed = {}; GET_SET(ReleaseOnSameGroupPressed)
-	PRO bool mToggled = {}; GET(Toggled)
-    PRO bool mOnlyReleaseOnClickOutside = {}; GET(OnlyReleaseOnClickOutside)
+	PRO Renderer* mRenderer = nullptr; GET(Renderer)
+	//PRI Collider* mCollider = nullptr; GET(Collider)
+	PRO std::string mInputString; GET(InputString)
+	PRO bool mConsumeInput = false; GET_SET(ConsumeInput)
+	PRO bool mPressed = false; GET(Pressed)
+	PRO bool mCanToggle = false; GET(CanToggle)
+	PRO bool mReleaseOnSameGroupPressed = false; GET_SET(ReleaseOnSameGroupPressed)
+	PRO bool mToggled = false; GET(Toggled)
+    PRO bool mOnlyReleaseOnClickOutside = false; GET(OnlyReleaseOnClickOutside)
 
 PRO
 

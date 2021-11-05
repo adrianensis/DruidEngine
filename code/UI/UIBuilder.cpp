@@ -83,7 +83,7 @@ void UIBuilder::calculateConfig()
 {
 	if (mConfig.mAdjustSizeToText)
 	{
-		mConfig.mSize.x = (mConfig.mTextSize.x * mConfig.mText.length());
+		mConfig.mSize.x = (mConfig.mTextSize.x* mConfig.mText.length());
 		mConfig.mSize.y = mConfig.mTextSize.y;
 	}
 

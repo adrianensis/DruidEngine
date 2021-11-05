@@ -7,7 +7,7 @@ class GameObject;
 class Script: public Component
 {
     GENERATE_METADATA(Script)
-	PRI bool mFirstUpdateDone = {}; GET(FirstUpdateDone)
+	PRI bool mFirstUpdateDone = false; GET(FirstUpdateDone)
 
 PUB
 	virtual void init();

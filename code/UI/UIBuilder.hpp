@@ -39,15 +39,15 @@ class Scene;
 class UIBuilder: public ObjectBase
 {
     GENERATE_METADATA(UIBuilder)
-	PRI UILayout mCurrentLayout = {};
-	PRI UIElementConfig mConfig = {}; GETREF_CONST_SET(Config)
-	PRI UIElementConfig mDefaultConfig = {};
-	PRI std::list<UIElementConfig> mConfigStack = {};
-	PRI UIElementConfig mLastConfig = {};
-	PRI bool mMakeRelativeToLastConfig = {}; // used for layouts
-	PRI UIElementConfig mLayoutFirstUIElementConfig = {};
-	PRI bool mNewRowOrColumn = {};
-	PRI UIElement * mCurrentUIElement = {};
+	PRI UILayout mCurrentLayout;
+	PRI UIElementConfig mConfig; GETREF_CONST_SET(Config)
+	PRI UIElementConfig mDefaultConfig;
+	PRI std::list<UIElementConfig> mConfigStack;
+	PRI UIElementConfig mLastConfig;
+	PRI bool mMakeRelativeToLastConfig = false; // used for layouts
+	PRI UIElementConfig mLayoutFirstUIElementConfig;
+	PRI bool mNewRowOrColumn = false;
+	PRI UIElement* mCurrentUIElement = nullptr;
 
 PRI
 	void registerUIElement(UIElement * uiElement);

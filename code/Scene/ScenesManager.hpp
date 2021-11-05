@@ -10,12 +10,12 @@ class GameObject;
 class ScenesManager: public ObjectBase, public Singleton<ScenesManager>
 {
 	GENERATE_METADATA(ScenesManager)
-	PRI std::vector<Scene *> mScenes = {};
-	PRI u32 mCurrentSceneIndex = {};
+	PRI std::vector<Scene *> mScenes;
+	PRI u32 mCurrentSceneIndex = 0;
 
-	PRI Scene * mCurrentScene = {}; GET(CurrentScene)
-	PRI bool mSceneHasChanged = {}; GET(SceneHasChanged)
-	PRI GameObject * mGameObjectController = {}; GET_SET(GameObjectController)
+	PRI Scene* mCurrentScene = nullptr; GET(CurrentScene)
+	PRI bool mSceneHasChanged = false; GET(SceneHasChanged)
+	PRI GameObject* mGameObjectController = nullptr; GET_SET(GameObjectController)
 
 	void internalLoadScene();
 	void addScene(Scene * newScene);

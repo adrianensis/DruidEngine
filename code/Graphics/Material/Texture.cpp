@@ -131,7 +131,7 @@ byte *Texture::readPNG()
 	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
 	// Allocate the image_data as a big block, to be given to opengl
-	png_byte *image_data = new (png_byte[rowbytes * mHeight]);
+	png_byte *image_data = new (png_byte[rowbytes* mHeight]);
 	if (!image_data)
 	{
 		//clean up memory and close stuff

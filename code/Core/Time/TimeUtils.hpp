@@ -6,12 +6,12 @@
 class TimeMark: public ObjectBase
 {
     GENERATE_METADATA(TimeMark)
-	PRI f32 mDeltaTimeMillis = {};
-	PRI f32 mDeltaTimeSeconds = {};
-	PRI std::chrono::milliseconds mDeltaTimeChronoDuration = {};
-	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime = {};
-	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime = {};
-	PRI bool mIsStarted = {}; GET(IsStarted)
+	PRI f32 mDeltaTimeMillis = 0.0f;
+	PRI f32 mDeltaTimeSeconds = 0.0f;
+	PRI std::chrono::milliseconds mDeltaTimeChronoDuration;
+	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mStartTime;
+	PRI std::chrono::time_point<std::chrono::high_resolution_clock> mLastTime;
+	PRI bool mIsStarted = false; GET(IsStarted)
 
 PUB
 	void init();
@@ -34,7 +34,7 @@ PUB
 class Time: public ObjectBase, public Singleton<Time>
 {
 	GENERATE_METADATA(Time)	
-	PRI TimeMark mInternalTimeMark = {};
+	PRI TimeMark mInternalTimeMark;
 
 PUB
 

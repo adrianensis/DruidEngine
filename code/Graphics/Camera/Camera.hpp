@@ -12,25 +12,25 @@ class Camera: public Component
 {
     GENERATE_METADATA(Camera)
 
-	PRI Matrix4 mProjectionMatrix = {};
-	PRI Matrix4 mViewTranslationMatrix = {};
-	PRI Matrix4 mInversePVMatrix = {}; // used in screen to world calculations.
+	PRI Matrix4 mProjectionMatrix;
+	PRI Matrix4 mViewTranslationMatrix;
+	PRI Matrix4 mInversePVMatrix; // used in screen to world calculations.
 	PRI bool mInversePVMatrixNeedsUpdate = {true};
 
-	PRI f32 mLeft = {};
-	PRI f32 mRight = {};
-	PRI f32 mBottom = {};
-	PRI f32 mTop = {};
-	PRI f32 mNear = {};
-	PRI f32 mFar = {};
+	PRI f32 mLeft = 0.0f;
+	PRI f32 mRight = 0.0f;
+	PRI f32 mBottom = 0.0f;
+	PRI f32 mTop = 0.0f;
+	PRI f32 mNear = 0.0f;
+	PRI f32 mFar = 0.0f;
 
-	PRI f32 mAspect = {};
-	PRI f32 mFov = {};
+	PRI f32 mAspect = 0.0f;
+	PRI f32 mFov = 0.0f;
 	
-	PRI bool mIsOrtho = {};
+	PRI bool mIsOrtho = false;
 
-	PRI Frustum * mFrustum = {}; GET(Frustum)
-	PRI f32 mZoom = {}; GET(Zoom)
+	PRI Frustum* mFrustum = nullptr; GET(Frustum)
+	PRI f32 mZoom = 0.0f; GET(Zoom)
 
 	PRI TransformState mTransformState;
 
