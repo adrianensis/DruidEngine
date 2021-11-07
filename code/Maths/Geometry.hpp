@@ -8,8 +8,8 @@ class Shape: public ObjectBase
     GENERATE_METADATA(Shape)
 PUB
 
-    SERIALIZE() { }
-	DESERIALIZE() { }
+    virtual void serialize(JSON &json) const override { }
+	virtual void deserialize(const JSON &json) override { }
 };
 
 class Rectangle: public Shape
@@ -46,7 +46,7 @@ PUB
         DO_COPY(Size)
     }
 
-    SERIALIZE()
+    virtual void serialize(JSON &json) const override
     {
         Shape::serialize(json);
 
@@ -54,7 +54,7 @@ PUB
         DO_SERIALIZE("size", mSize)
     }
 
-    DESERIALIZE()
+    virtual void deserialize(const JSON &json) override
     {
         Shape::deserialize(json);
 

@@ -21,6 +21,6 @@ PUB
         DO_COPY(Height)
     }
 
-    SERIALIZE();
-    DESERIALIZE();
+    virtual void serialize(JSON &json) const override;
+    virtual void deserialize(const JSON &json) override;
 };

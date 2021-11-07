@@ -29,8 +29,8 @@ PUB
 
 	void init();
 
-	SERIALIZE();
-	DESERIALIZE();
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 	void loadScene(const std::string &path);
 	void saveScene(const std::string &path);
 

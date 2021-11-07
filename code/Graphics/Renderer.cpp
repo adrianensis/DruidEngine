@@ -154,7 +154,7 @@ bool Renderer::hasClipRectangle() const
 	return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON;
 };
 
-SERIALIZE_IMPL(Renderer)
+void Renderer::serialize(JSON &json) const
 {
 	Component::serialize(json);
 
@@ -178,7 +178,7 @@ SERIALIZE_IMPL(Renderer)
     DO_SERIALIZE_LIST("animations", tmpList)
 }
 
-DESERIALIZE_IMPL(Renderer)
+void Renderer::deserialize(const JSON &json)
 {
 	std::string materialPath = "";
 	DO_DESERIALIZE("material", materialPath)

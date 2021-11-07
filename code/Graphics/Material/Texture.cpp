@@ -167,7 +167,7 @@ byte *Texture::readPNG()
 	return image_data;
 }
 
-SERIALIZE_IMPL(Texture)
+void Texture::serialize(JSON &json) const
 {
 	//DO_SERIALIZE("path", mPath)
 }

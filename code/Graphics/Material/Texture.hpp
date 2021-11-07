@@ -20,6 +20,6 @@ PUB
 	void init(const std::string &path);
 	void bind();
 
-	SERIALIZE();
-	DESERIALIZE();
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };

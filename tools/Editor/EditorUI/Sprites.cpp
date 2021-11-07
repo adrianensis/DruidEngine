@@ -521,12 +521,12 @@ void Sprites::refreshFrames()
     }
 }
 
-SERIALIZE_IMPL(Sprites)
+void Sprites::serialize(JSON &json) const
 {
     DO_SERIALIZE_LIST("sprites", mSprites);
 }
 
-DESERIALIZE_IMPL(Sprites)
+void Sprites::deserialize(const JSON &json)
 {
     DO_DESERIALIZE_LIST("sprites", mSprites, [](const JSON &json)
     {

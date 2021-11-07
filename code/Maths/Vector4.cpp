@@ -221,7 +221,7 @@ Vector4 &Vector4::clamp(f32 maxLength)
 	return *this;
 }
 
-SERIALIZE_IMPL(Vector4)
+void Vector4::serialize(JSON &json) const
 {
 	DO_SERIALIZE("x", x)
 	DO_SERIALIZE("y", y)
@@ -229,7 +229,7 @@ SERIALIZE_IMPL(Vector4)
 	DO_SERIALIZE("w", w)
 }
 
-DESERIALIZE_IMPL(Vector4)
+void Vector4::deserialize(const JSON &json)
 {
 	DO_DESERIALIZE("x", x);
 	DO_DESERIALIZE("y", y);

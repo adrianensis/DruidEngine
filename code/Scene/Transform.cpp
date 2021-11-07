@@ -159,7 +159,7 @@ TransformState Transform::getTransformState() const
 }
 
 
-SERIALIZE_IMPL(Transform)
+void Transform::serialize(JSON &json) const
 {
 	Component::serialize(json);
 
@@ -168,7 +168,7 @@ SERIALIZE_IMPL(Transform)
 	DO_SERIALIZE("rotation", mRotation);
 }
 
-DESERIALIZE_IMPL(Transform)
+void Transform::deserialize(const JSON &json)
 {
 	Component::deserialize(json);
 

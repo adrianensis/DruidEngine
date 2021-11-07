@@ -215,13 +215,6 @@ Visibility:
 
 // SERIALIZE
 
-#define SERIALIZE()\
-virtual void serialize(JSON &json) const override
-
-// This macro must be used in .cpp
-#define SERIALIZE_IMPL(...)\
-void __VA_ARGS__::serialize(JSON &json) const
-
 #define DO_SERIALIZE(Name, Var)\
 json[Name] = SerializationUtils::serializeTemplated<decltype(Var)>(Var);
 
@@ -258,12 +251,6 @@ FOR_LIST(__it, Var)\
 // json[Name] = __jsonMap;
 
 // DESERIALIZE
-
-#define DESERIALIZE()\
-virtual void deserialize(const JSON &json) override
-
-#define DESERIALIZE_IMPL(...)\
-void __VA_ARGS__::deserialize(const JSON &json)
 
 #define DO_DESERIALIZE(Name, Var)\
 SerializationUtils::deserializeTemplated<decltype(Var)>(Var, json[Name]);

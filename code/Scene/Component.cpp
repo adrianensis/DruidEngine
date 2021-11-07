@@ -29,7 +29,7 @@ void Component::destroy()
 	}
 };
 
-SERIALIZE_IMPL(Component)
+void Component::serialize(JSON &json) const
 {
 	DO_SERIALIZE("class", getClassName())
 };

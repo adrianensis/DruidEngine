@@ -127,7 +127,7 @@ void GameObject::destroy()
 	DELETE(mTransform);
 }
 
-SERIALIZE_IMPL(GameObject)
+void GameObject::serialize(JSON &json) const
 {
 	//json["id"] = getObjectId();
 	DO_SERIALIZE("class", getClassName())
@@ -148,7 +148,7 @@ SERIALIZE_IMPL(GameObject)
 	}
 }
 
-DESERIALIZE_IMPL(GameObject)
+void GameObject::deserialize(const JSON &json)
 {
 	DO_DESERIALIZE("is_static", mIsStatic)
 	DO_DESERIALIZE("should_persist", mShouldPersist)

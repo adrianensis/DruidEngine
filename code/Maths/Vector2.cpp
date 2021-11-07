@@ -190,13 +190,13 @@ Vector2 &Vector2::clamp(f32 maxLength)
 	return *this;
 }
 
-SERIALIZE_IMPL(Vector2)
+void Vector2::serialize(JSON &json) const
 {
 	DO_SERIALIZE("x", x)
 	DO_SERIALIZE("y", y)
 }
 
-DESERIALIZE_IMPL(Vector2)
+void Vector2::deserialize(const JSON &json)
 {
 	DO_DESERIALIZE("x", x);
 	DO_DESERIALIZE("y", y);

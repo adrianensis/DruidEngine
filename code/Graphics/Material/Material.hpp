@@ -20,6 +20,6 @@ PUB
 	void init();
 	void bind(bool isWorldSpace);
 
-	SERIALIZE();
-	DESERIALIZE();
+	virtual void serialize(JSON &json) const override;
+	virtual void deserialize(const JSON &json) override;
 };
