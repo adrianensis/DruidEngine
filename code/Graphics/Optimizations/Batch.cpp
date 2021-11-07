@@ -46,6 +46,9 @@ Batch::~Batch()
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
+	glDeleteBuffers(1, &mVBOTexture);
+	glDeleteBuffers(1, &mVBOColor);
+	//glDeleteBuffers(1, &mVBONormal);
 	glDeleteBuffers(1, &mEBO);
 }
 
@@ -60,8 +63,11 @@ void Batch::init(const Mesh *mesh, Material *material)
 	mMaxMeshesIncrement = 100;
 	mMeshesIndex = 0;
 
-	FOR_RANGE(i, 0, RenderEngine::getInstance().getMaxLayers()){
-		MAP_INSERT(mRenderers, i, nullptr)}
+	// init sub-lists to nullptr
+	FOR_RANGE(i, 0, RenderEngine::getInstance().getMaxLayers())
+	{
+		MAP_INSERT(mRenderers, i, nullptr)
+	}
 
 	bind();
 }
