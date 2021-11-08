@@ -7,15 +7,12 @@
 
 Camera::Camera()
 {
-	mFrustum = nullptr;
-
 	mIsOrtho = true;
 	mZoom = 1;
 }
 
 Camera::~Camera()
 {
-	DELETE(mFrustum);
 }
 
 void Camera::init()
@@ -26,8 +23,7 @@ void Camera::init()
 
 	mInversePVMatrix.identity();
 
-	mFrustum = NEW(Frustum);
-	mFrustum->init(this);
+	mFrustum.init(this);
 }
 
 void Camera::onComponentAdded()
@@ -42,11 +38,7 @@ void Camera::update()
 	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
 	if(!currentTransformState.eq(mTransformState))
 	{
-		if (getFrustum())
-		{
-			// TODO: NOTE: frustum is unused for now :/
-			getFrustum()->build();
-		}
+		mFrustum.build();
 
 		mInversePVMatrixNeedsUpdate = true;
 
@@ -66,7 +58,7 @@ void Camera::recalculatePerspectiveMatrix()
 	}
 
 	calculateInverseMatrix(true);
-	mFrustum->build();
+	mFrustum.build();
 }
 
 void Camera::setOrtho(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)

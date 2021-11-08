@@ -84,7 +84,7 @@ void RenderEngine::init(f32 sceneSize)
 
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 {
-	return mCamera && mCamera->getFrustum() && mCamera->getFrustum()->testSphere(center, radius);
+	return mCamera && mCamera->getFrustum().testSphere(center, radius);
 }
 
 void RenderEngine::update()

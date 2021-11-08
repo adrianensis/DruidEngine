@@ -5,8 +5,7 @@
 #include "Maths/Vector2.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Scene/Transform.hpp"
-
-class Frustum;
+#include "Graphics/Camera/Frustum.hpp"
 
 class Camera: public Component
 {
@@ -29,7 +28,7 @@ class Camera: public Component
 	
 	PRI bool mIsOrtho = false;
 
-	PRI Frustum* mFrustum = nullptr; GET(Frustum)
+	PRI Frustum mFrustum; GETREF_CONST(Frustum)
 	PRI f32 mZoom = 0.0f; GET(Zoom)
 
 	PRI TransformState mTransformState;
