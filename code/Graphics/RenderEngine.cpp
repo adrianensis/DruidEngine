@@ -15,7 +15,7 @@
 #include "Scene/Transform.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
-#include "Graphics/ShapeRenderer.hpp"
+#include "Graphics/ShapeBatchRenderer.hpp"
 //#include "Profiler/Profiler.hpp"
 
 RenderEngine::LayerData::LayerData()
@@ -36,12 +36,7 @@ void RenderEngine::init(f32 sceneSize)
 
 	mCameraDirtyTranslation = true;
 
-	mLineRenderer = NEW(LineRenderer);
-	mLineRenderer->init();
-
-	mLineRendererScreenSpace = NEW(LineRenderer);
-	mLineRendererScreenSpace->init();
-	mLineRendererScreenSpace->mIsWorldSpace = false;
+	mShapeBatchRendererMapScreenSpace.setIsWorldSpace(false);
 
 	// Static Chunks grid
 
@@ -123,7 +118,8 @@ void RenderEngine::renderBatches()
 		}
 	}
 
-    mLineRenderer->render();
+    // mLineBatchRenderer->render();
+	mShapeBatchRendererMap.render();
 
 	FOR_RANGE(layer, 0, mMaxLayers)
 	{
@@ -132,7 +128,7 @@ void RenderEngine::renderBatches()
 		//}
 	}
 
-	mLineRendererScreenSpace->render();
+	mShapeBatchRendererMapScreenSpace.render();
     
 	//PROFILER_TIMEMARK_END()
 }
@@ -169,15 +165,8 @@ void RenderEngine::terminate()
 {
 	TRACE()
 
-	if (mLineRenderer)
-	{
-		DELETE(mLineRenderer);
-	}
-
-	if (mLineRendererScreenSpace)
-	{
-		DELETE(mLineRendererScreenSpace);
-	}
+	mShapeBatchRendererMap.terminate();
+	mShapeBatchRendererMapScreenSpace.terminate();
 
 	LIST_DELETE_CONTENT(mChunks);
 
@@ -239,16 +228,15 @@ Chunk *RenderEngine::assignChunk(Renderer *renderer)
 	return chunkFound;
 }
 
-void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
+void RenderEngine::drawLine(const Line& line, f32 size /*= 1*/,
 							bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
 {
-	Line line = Line(start, end);
 	if (isWorldSpace)
 	{
-		mLineRenderer->add(line, color);
+		mShapeBatchRendererMap.add(line, size, color);
 	}
 	else
 	{
-		mLineRendererScreenSpace->add(line, color);
+		mShapeBatchRendererMapScreenSpace.add(line, size, color);
 	}
 }

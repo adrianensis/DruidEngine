@@ -3,8 +3,9 @@
 #include "Core/Core.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
+#include "Maths/Geometry.hpp"
 #include "Graphics/Optimizations/BatchesMap.hpp"
-
+#include "Graphics/ShapeBatchRenderer.hpp"
 
 class Batch;
 class Texture;
@@ -15,7 +16,6 @@ class Shader;
 class BatchesMap;
 class Chunk;
 class Vector3;
-class LineRenderer;
 
 class RenderEngine : public ISubsystem, public Singleton<RenderEngine>
 {
@@ -37,8 +37,8 @@ PRI
 	PRI BatchesMap mBatchesMap;
 	PRI BatchesMap mBatchesMapScreenSpace;
 
-	PRI LineRenderer* mLineRenderer = nullptr;
-	PRI LineRenderer* mLineRendererScreenSpace = nullptr;
+	PRI ShapeBatchRendererMap mShapeBatchRendererMap;
+	PRI ShapeBatchRendererMap mShapeBatchRendererMapScreenSpace;
 
 	PRI Camera* mCamera = nullptr; GET_SET(Camera)
 	PRI bool mCameraDirtyTranslation = false; GET(CameraDirtyTranslation)
@@ -62,6 +62,6 @@ PUB
 
 	virtual void addComponent(Component *component) override;
 	Chunk *assignChunk(Renderer * renderer);
-	void drawLine(const Vector3 &start, const Vector3 &end, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	void drawLine(const Line& line, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
 };

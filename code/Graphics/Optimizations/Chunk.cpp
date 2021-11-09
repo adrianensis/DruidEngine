@@ -43,10 +43,10 @@ void Chunk::set(const Vector3 &leftTop, f32 size)
 
 void Chunk::update(BatchesMap *batchesMap)
 {
-	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0));
-	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0));
-	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0));
-	RenderEngine::getInstance().drawLine(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0));
+	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0)));
+	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0)));
+	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0)));
+	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0)));
 
 	FOR_LIST(it, *mRenderers)
 	{

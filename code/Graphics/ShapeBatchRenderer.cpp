@@ -1,4 +1,4 @@
-#include "Graphics/ShapeRenderer.hpp"
+#include "Graphics/ShapeBatchRenderer.hpp"
 #include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
@@ -6,16 +6,22 @@
 #include "Core/EngineConfig.hpp"
 #include "Maths/Vector3.hpp"
 
-ShapeRendererBase::~ShapeRendererBase()
+ShapeBatchRenderer::~ShapeBatchRenderer()
 {
 	DELETE(mShaderLine);
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
 	glDeleteBuffers(1, &mEBO);
+
+	mPositionBuffer.clear();
+	mColorBuffer.clear();
+	mIndicesBuffer.clear();
+
+	mShapesCounter = 0;
 }
 
-void ShapeRendererBase::init()
+void ShapeBatchRenderer::init()
 {
 	mMaxShapes = EngineConfig::getInstance().getConfig().at("line").at("count").get<f32>();
 
@@ -29,7 +35,7 @@ void ShapeRendererBase::init()
 	bind();
 }
 
-void ShapeRendererBase::bind()
+void ShapeBatchRenderer::bind()
 {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(3, 0);
@@ -46,7 +52,7 @@ void ShapeRendererBase::bind()
 	RenderContext::enableVAO(0);
 }
 
-void ShapeRendererBase::render()
+void ShapeBatchRenderer::render()
 {
 	if (mShapesCounter > 0)
 	{
@@ -82,14 +88,14 @@ void ShapeRendererBase::render()
 	}
 }
 
-void ShapeRendererBase::addPosition(const Vector3& position)
+void ShapeBatchRenderer::addPosition(const Vector3& position)
 {
 	mPositionBuffer.push_back(position.x);
 	mPositionBuffer.push_back(position.y);
 	mPositionBuffer.push_back(position.z);
 }
 
-void ShapeRendererBase::addColor(const Vector4& color)
+void ShapeBatchRenderer::addColor(const Vector4& color)
 {
 	mColorBuffer.push_back(color.x);
 	mColorBuffer.push_back(color.y);
@@ -97,11 +103,25 @@ void ShapeRendererBase::addColor(const Vector4& color)
 	mColorBuffer.push_back(color.w);
 }
 
-void LineRenderer::addCustom(const Line& line, const Vector4 &color)
+template<>
+void ShapeBatchRenderer::addSpecificShape<Line>(const Line& shape, const Vector4 &color)
 {
-	addPosition(line.getStart());
-	addPosition(line.getEnd());
+	addPosition(shape.getStart());
+	addPosition(shape.getEnd());
 
 	addColor(color);
 	addColor(color);
+}
+
+void ShapeBatchRendererMap::render()
+{
+	FOR_MAP(it, mShapeBatchMap)
+	{
+		it->second->render();
+	}
+}
+
+void ShapeBatchRendererMap::terminate()
+{
+	MAP_DELETE_CONTENT(mShapeBatchMap);
 }

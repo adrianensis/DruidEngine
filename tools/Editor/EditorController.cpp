@@ -133,8 +133,8 @@ void EditorController::drawGrid()
 		FOR_RANGE(i, -halfGridSize.x, halfGridSize.x + 1)
 		{
 			RenderEngine::getInstance().drawLine(
-				Vector3(i * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
-				Vector3(i * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0),
+				Line(Vector3(i * tileSize.y - halfTileSize.x, -halfGridSize.y * tileSize.y - halfTileSize.y,0), 
+				Vector3(i * tileSize.y - halfTileSize.x, halfGridSize.y * tileSize.y - halfTileSize.y,0)),
 				1,
 				true,
 				gridColor);
@@ -143,8 +143,8 @@ void EditorController::drawGrid()
 		FOR_RANGE(j, -halfGridSize.y - 1, halfGridSize.y)
 		{
 			RenderEngine::getInstance().drawLine(
-				Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0), 
-				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0),
+				Line(Vector3(-halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0), 
+				Vector3(halfGridSize.x * tileSize.x - halfTileSize.x, j * tileSize.y + halfTileSize.y ,0)),
 				1,
 				true,
 				gridColor);
