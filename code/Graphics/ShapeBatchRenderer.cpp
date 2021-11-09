@@ -21,9 +21,13 @@ ShapeBatchRenderer::~ShapeBatchRenderer()
 	mShapesCounter = 0;
 }
 
-void ShapeBatchRenderer::init()
+void ShapeBatchRenderer::init(bool isWorldSpace, u32 verticesPerShape)
 {
 	mMaxShapes = EngineConfig::getInstance().getConfig().at("line").at("count").get<f32>();
+
+	mIsWorldSpace = isWorldSpace;
+
+	mVerticesPerShape = verticesPerShape;
 
 	mPositionBuffer.reserve(mMaxShapes * 2 * 3); // 2 vertex per line * 3 floats per vertex
 	mColorBuffer.reserve(mMaxShapes * 2 * 4); // 2 vertex per line * 4 floats per vertex
@@ -42,7 +46,7 @@ void ShapeBatchRenderer::bind()
 	mVBOColor = RenderContext::createVBO(4, 1);
 	mEBO = RenderContext::createEBO();
 
-	FOR_RANGE(i, 0, mMaxShapes * 2)
+	FOR_RANGE(i, 0, mMaxShapes * mVerticesPerShape)
 	{
 		mIndicesBuffer.push_back(i);
 	}

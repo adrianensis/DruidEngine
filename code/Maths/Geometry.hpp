@@ -7,9 +7,16 @@
 class Shape: public ObjectBase
 {
     GENERATE_METADATA(Shape)
+    
+    PRO u32 mVerticesCount = 0; GET(VerticesCount)
 PUB
     virtual void serialize(JSON &json) const override { }
 	virtual void deserialize(const JSON &json) override { }
+
+    COPY(Shape)
+    {
+        DO_COPY(mVerticesCount)
+    }
 };
 
 class Line: public Shape
@@ -19,15 +26,15 @@ class Line: public Shape
     PRO Vector3 mEnd; GETREF_CONST_SET(End)
 
 PUB
-    Line() { }
+    Line() { mVerticesCount = 2; }
 
-    Line(f32 xStart, f32 yStart, f32 xEnd, f32 yEnd)
+    Line(f32 xStart, f32 yStart, f32 xEnd, f32 yEnd): Line()
     {
         mStart.set(xStart,yStart, 0);
         mEnd.set(xEnd, yEnd, 0);
     }
 
-    Line(const Vector3 &start, const Vector3 &end)
+    Line(const Vector3 &start, const Vector3 &end): Line()
     {
         mStart.set(start);
         mEnd.set(end);
@@ -35,6 +42,7 @@ PUB
 
     COPY(Line)
     {
+        Shape::copy(other);
         DO_COPY(mStart)
         DO_COPY(mEnd)
     }
@@ -63,21 +71,21 @@ class Rectangle: public Shape
     PRO Vector2 mSize; GETREF_CONST_SET(Size)
 
 PUB
-    Rectangle() { }
+    Rectangle() { mVerticesCount = 4; }
 
-    Rectangle(f32 x, f32 y, f32 w, f32 h)
+    Rectangle(f32 x, f32 y, f32 w, f32 h): Rectangle()
     {
         mLeftTop.set(x,y);
         mSize.set(w, h);
     }
 
-    Rectangle(const Vector2 &leftTop, f32 w, f32 h)
+    Rectangle(const Vector2 &leftTop, f32 w, f32 h): Rectangle()
     {
         mLeftTop.set(leftTop);
         mSize.set(w, h);
     }
 
-    Rectangle(const Vector2 &leftTop, const Vector2 &size)
+    Rectangle(const Vector2 &leftTop, const Vector2 &size): Rectangle()
     {
         mLeftTop.set(leftTop);
         mSize.set(size);
@@ -85,6 +93,7 @@ PUB
 
     COPY(Rectangle)
     {
+        Shape::copy(other);
         DO_COPY(mLeftTop)
         DO_COPY(mSize)
     }

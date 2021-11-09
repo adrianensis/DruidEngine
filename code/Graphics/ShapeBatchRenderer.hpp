@@ -14,6 +14,7 @@ class ShapeBatchRenderer: public ObjectBase
 
 	PRO u32 mMaxShapes = 0;
 	PRO u32 mShapesCounter = 0;
+	PRO u32 mVerticesPerShape = 0;
 
 	PRI u32 mVAO = 0;
 	PRI u32 mVBOPosition = 0;
@@ -25,7 +26,7 @@ class ShapeBatchRenderer: public ObjectBase
 
 	PRI f32 mSize = 0.0f;
 
-	PRI bool mIsWorldSpace = true; GET_SET(IsWorldSpace)
+	PRI bool mIsWorldSpace = true;
 
 PRI
 	void bind();
@@ -43,7 +44,7 @@ PUB
 	ShapeBatchRenderer() { }
 	~ShapeBatchRenderer() override;
 
-	void init();
+	void init(bool isWorldSpace, u32 verticesPerShape);
 	void render();
 	template<class T, typename = std::enable_if_t<std::is_base_of<Shape, T>::value> >
 	void add(const T& shape, const Vector4 &color)
@@ -79,8 +80,7 @@ PUB
 		if(!MAP_CONTAINS(mShapeBatchMap, shapeClassId))
 		{
 			ShapeBatchRenderer* shapeBatchRenderer = NEW(ShapeBatchRenderer);
-			shapeBatchRenderer->init();
-			shapeBatchRenderer->setIsWorldSpace(mIsWorldSpace);
+			shapeBatchRenderer->init(mIsWorldSpace, shape.getVerticesCount());
 			MAP_INSERT(mShapeBatchMap, shapeClassId, shapeBatchRenderer)
 		}
 
