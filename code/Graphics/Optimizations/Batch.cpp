@@ -64,7 +64,7 @@ void Batch::init(const Mesh *mesh, Material *material)
 	mMeshesIndex = 0;
 
 	// init sub-lists to nullptr
-	FOR_RANGE(i, 0, RenderEngine::getInstance().getMaxLayers())
+	FOR_RANGE(i, 0, 10)
 	{
 		MAP_INSERT(mRenderers, i, nullptr)
 	}
@@ -286,11 +286,6 @@ void Batch::addRenderer(Renderer *renderer)
 		renderers = NEW(std::list<Renderer *>);
 
 		MAP_INSERT(mRenderers, layer, renderers);
-	}
-
-	if (!renderer->isStatic())
-	{
-		RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mDynamicObjectsCount++;
 	}
 
 	if (RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mSorted)

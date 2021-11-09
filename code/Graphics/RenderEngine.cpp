@@ -18,14 +18,6 @@
 #include "Graphics/ShapeBatchRenderer.hpp"
 //#include "Profiler/Profiler.hpp"
 
-RenderEngine::LayerData::LayerData()
-{
-	mSorted = false;
-	mDynamicObjectsCount = 0;
-	mSortCounter = 0;
-	mVisible = true;
-}
-
 void RenderEngine::init(f32 sceneSize)
 {
 	TRACE()
@@ -65,16 +57,6 @@ void RenderEngine::init(f32 sceneSize)
 
 	mBatchesMapScreenSpace.init();
 	mBatchesMapScreenSpace.setIsWorldSpace(false);
-
-	mMaxLayersUsed = 0;
-
-	mMaxLayers = EngineConfig::getInstance().getConfig().at("scene").at("maxLayers").get<u32>();
-	FOR_RANGE(i, 0, mMaxLayers)
-	{
-		LayerData layerData;
-		layerData.mSorted = EngineConfig::getInstance().getConfig().at("scene").at("sortByYCoordinate").get<bool>();
-		MAP_INSERT(mLayersData, i, layerData);
-	}
 }
 
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
@@ -110,21 +92,21 @@ void RenderEngine::renderBatches()
 {
 	//PROFILER_TIMEMARK_START()
 
-	FOR_RANGE(layer, 0, mMaxLayers)
+	FOR_MAP(it, mLayersData)
 	{
-		if (mLayersData.at(layer).mVisible)
+		if (it->second.mVisible)
 		{
-			mBatchesMap.render(layer);
+			mBatchesMap.render(it->second.mLayerNumber);
 		}
 	}
 
-    // mLineBatchRenderer->render();
 	mShapeBatchRendererMap.render();
 
-	FOR_RANGE(layer, 0, mMaxLayers)
+	FOR_MAP(it, mLayersData)
 	{
-		//if(mLayersData->get(layer)->mVisible){
-		mBatchesMapScreenSpace.render(layer);
+		//if (it->second.mVisible)
+		//{
+			mBatchesMapScreenSpace.render(it->second.mLayerNumber);
 		//}
 	}
 
@@ -181,6 +163,18 @@ void RenderEngine::addComponent(Component *component)
 	{
 		Renderer *renderer = static_cast<Renderer*>(component);
 
+		if(!MAP_CONTAINS(mLayersData, renderer->getLayer()))
+		{
+			LayerData layerData;
+			layerData.mLayerNumber = renderer->getLayer();
+			MAP_INSERT(mLayersData, renderer->getLayer(), layerData);
+		}
+
+		if (!renderer->isStatic())
+		{
+			mLayersData.at(renderer->getLayer()).mDynamicObjectsCount++;
+		}
+
 		if (renderer->getIsWorldSpace())
 		{
 			Chunk *chunk = assignChunk(renderer);
@@ -198,8 +192,6 @@ void RenderEngine::addComponent(Component *component)
 			// UI Case!
 			mBatchesMapScreenSpace.addRenderer(renderer);
 		}
-
-		mMaxLayersUsed = std::max(mMaxLayersUsed, renderer->getLayer() + 1);
 	}
 }
 

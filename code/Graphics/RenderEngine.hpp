@@ -25,13 +25,14 @@ PRI
 	class LayerData : public ObjectBase
 	{
 		GENERATE_METADATA(RenderEngine::LayerData)
+		PUB u32 mLayerNumber = 0;
 		PUB bool mSorted = false;
 		PUB u32 mDynamicObjectsCount = 0; // Non static objects count
 		PUB u32 mSortCounter = 0;
-		PUB bool mVisible = false;
+		PUB bool mVisible = true;
 
 	PUB
-		LayerData();
+		LayerData() {}
 	};
 
 	PRI BatchesMap mBatchesMap;
@@ -44,12 +45,9 @@ PRI
 	PRI bool mCameraDirtyTranslation = false; GET(CameraDirtyTranslation)
 
 	PRI std::map<u32, LayerData> mLayersData; GETREF_SET(LayersData);
-	PRI u32 mMaxLayers = 0; GET(MaxLayers)
-	PRI u32 mMaxLayersUsed = 0;
 
 	PRI f32 mMinChunkDrawDistance = 0.0f; GET(MinChunkDrawDistance)
 	PRI std::vector<Chunk *> mChunks;
-
 
 	void checkChunks();
 	void renderBatches();
