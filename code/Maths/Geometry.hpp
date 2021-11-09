@@ -2,14 +2,58 @@
 
 #include "Core/Core.hpp"
 #include "Maths/Vector2.hpp"
+#include "Maths/Vector3.hpp"
 
 class Shape: public ObjectBase
 {
     GENERATE_METADATA(Shape)
 PUB
-
     virtual void serialize(JSON &json) const override { }
 	virtual void deserialize(const JSON &json) override { }
+};
+
+class Line: public Shape
+{
+    GENERATE_METADATA(Line)
+    PRO Vector3 mStart; GETREF_CONST_SET(Start)
+    PRO Vector3 mEnd; GETREF_CONST_SET(End)
+
+PUB
+    Line() { }
+
+    Line(f32 xStart, f32 yStart, f32 xEnd, f32 yEnd)
+    {
+        mStart.set(xStart,yStart, 0);
+        mEnd.set(xEnd, yEnd, 0);
+    }
+
+    Line(const Vector3 &start, const Vector3 &end)
+    {
+        mStart.set(start);
+        mEnd.set(end);
+    }
+
+    COPY(Line)
+    {
+        DO_COPY(mStart)
+        DO_COPY(mEnd)
+    }
+
+    virtual void serialize(JSON &json) const override
+    {
+        Shape::serialize(json);
+
+        DO_SERIALIZE("start", mStart)
+        DO_SERIALIZE("end", mEnd)
+    }
+
+    virtual void deserialize(const JSON &json) override
+    {
+        Shape::deserialize(json);
+
+        DO_DESERIALIZE("start", mStart)
+        DO_DESERIALIZE("end", mEnd)
+    }
 };
 
 class Rectangle: public Shape
@@ -19,7 +63,6 @@ class Rectangle: public Shape
     PRO Vector2 mSize; GETREF_CONST_SET(Size)
 
 PUB
-
     Rectangle() { }
 
     Rectangle(f32 x, f32 y, f32 w, f32 h)

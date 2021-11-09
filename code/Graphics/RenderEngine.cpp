@@ -15,7 +15,7 @@
 #include "Scene/Transform.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
-#include "Graphics/LineRenderer.hpp"
+#include "Graphics/ShapeRenderer.hpp"
 //#include "Profiler/Profiler.hpp"
 
 RenderEngine::LayerData::LayerData()
@@ -242,12 +242,13 @@ Chunk *RenderEngine::assignChunk(Renderer *renderer)
 void RenderEngine::drawLine(const Vector3 &start, const Vector3 &end, f32 size /*= 1*/,
 							bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
 {
+	Line line = Line(start, end);
 	if (isWorldSpace)
 	{
-		mLineRenderer->add(start, end, color);
+		mLineRenderer->add(line, color);
 	}
 	else
 	{
-		mLineRendererScreenSpace->add(start, end, color);
+		mLineRendererScreenSpace->add(line, color);
 	}
 }

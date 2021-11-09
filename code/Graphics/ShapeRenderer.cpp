@@ -1,4 +1,4 @@
-#include "Graphics/LineRenderer.hpp"
+#include "Graphics/ShapeRenderer.hpp"
 #include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
@@ -6,12 +6,7 @@
 #include "Core/EngineConfig.hpp"
 #include "Maths/Vector3.hpp"
 
-LineRenderer::LineRenderer()
-{
-	mIsWorldSpace = true;
-}
-
-LineRenderer::~LineRenderer()
+ShapeRendererBase::~ShapeRendererBase()
 {
 	DELETE(mShaderLine);
 
@@ -20,7 +15,7 @@ LineRenderer::~LineRenderer()
 	glDeleteBuffers(1, &mEBO);
 }
 
-void LineRenderer::init()
+void ShapeRendererBase::init()
 {
 	mMaxShapes = EngineConfig::getInstance().getConfig().at("line").at("count").get<f32>();
 
@@ -34,31 +29,7 @@ void LineRenderer::init()
 	bind();
 }
 
-void LineRenderer::add(const Vector3 &start, const Vector3 &end, const Vector4 &color)
-{
-	if (mShapesCounter < mMaxShapes)
-	{
-		mPositionBuffer.push_back(start.x);
-		mPositionBuffer.push_back(start.y);
-		mPositionBuffer.push_back(start.z);
-		mPositionBuffer.push_back(end.x);
-		mPositionBuffer.push_back(end.y);
-		mPositionBuffer.push_back(end.z);
-
-		mColorBuffer.push_back(color.x);
-		mColorBuffer.push_back(color.y);
-		mColorBuffer.push_back(color.z);
-		mColorBuffer.push_back(color.w);
-		mColorBuffer.push_back(color.x);
-		mColorBuffer.push_back(color.y);
-		mColorBuffer.push_back(color.z);
-		mColorBuffer.push_back(color.w);
-
-		mShapesCounter++;
-	}
-}
-
-void LineRenderer::bind()
+void ShapeRendererBase::bind()
 {
 	mVAO = RenderContext::createVAO();
 	mVBOPosition = RenderContext::createVBO(3, 0);
@@ -75,7 +46,7 @@ void LineRenderer::bind()
 	RenderContext::enableVAO(0);
 }
 
-void LineRenderer::render()
+void ShapeRendererBase::render()
 {
 	if (mShapesCounter > 0)
 	{
@@ -109,4 +80,28 @@ void LineRenderer::render()
 		mColorBuffer.clear();
 		mShapesCounter = 0;
 	}
+}
+
+void ShapeRendererBase::addPosition(const Vector3& position)
+{
+	mPositionBuffer.push_back(position.x);
+	mPositionBuffer.push_back(position.y);
+	mPositionBuffer.push_back(position.z);
+}
+
+void ShapeRendererBase::addColor(const Vector4& color)
+{
+	mColorBuffer.push_back(color.x);
+	mColorBuffer.push_back(color.y);
+	mColorBuffer.push_back(color.z);
+	mColorBuffer.push_back(color.w);
+}
+
+void LineRenderer::addCustom(const Line& line, const Vector4 &color)
+{
+	addPosition(line.getStart());
+	addPosition(line.getEnd());
+
+	addColor(color);
+	addColor(color);
 }
