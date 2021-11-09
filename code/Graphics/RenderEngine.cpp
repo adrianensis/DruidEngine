@@ -170,11 +170,6 @@ void RenderEngine::addComponent(Component *component)
 			MAP_INSERT(mLayersData, renderer->getLayer(), layerData);
 		}
 
-		if (!renderer->isStatic())
-		{
-			mLayersData.at(renderer->getLayer()).mDynamicObjectsCount++;
-		}
-
 		if (renderer->getIsWorldSpace())
 		{
 			Chunk *chunk = assignChunk(renderer);

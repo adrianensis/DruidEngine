@@ -306,17 +306,10 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 
 	renderer->setIsAlreadyInBatch(false);
 
-	if (mIsWorldSpace)
+	// NOTE: UI CASE
+	// UI is not deleted in Chunk so it has to be deleted here.
+	if (!mIsWorldSpace)
 	{
-		if (!renderer->isStatic())
-		{
-			RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mDynamicObjectsCount--;
-		}
-	}
-	else
-	{
-		// NOTE: UI CASE
-		// UI is not deleted in Chunk so it has to be deleted here.
 		renderer->finallyDestroy();
 		DELETE(renderer);
 	}

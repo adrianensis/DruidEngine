@@ -27,7 +27,6 @@ PRI
 		GENERATE_METADATA(RenderEngine::LayerData)
 		PUB u32 mLayerNumber = 0;
 		PUB bool mSorted = false;
-		PUB u32 mDynamicObjectsCount = 0; // Non static objects count
 		PUB u32 mSortCounter = 0;
 		PUB bool mVisible = true;
 
