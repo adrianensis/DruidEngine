@@ -15,7 +15,7 @@ PUB
 	// NOTE : Override in children if needed!
 	COPY(Functor<T>)
 	{
-		DO_COPY(Callback)
+		DO_COPY(mCallback)
 	}
 
 	/*bool operator== (const Functor& functor) const{

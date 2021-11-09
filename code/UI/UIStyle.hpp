@@ -26,10 +26,10 @@ PUB
 
 	COPY(UIStyle)
 	{
-        DO_COPY(TextColor)
-		DO_COPY(BackgroundColor)
-		DO_COPY(ColorPressed)
-		DO_COPY(ColorHovered)
+        DO_COPY(mTextColor)
+		DO_COPY(mBackgroundColor)
+		DO_COPY(mColorPressed)
+		DO_COPY(mColorHovered)
 	}
 };
 

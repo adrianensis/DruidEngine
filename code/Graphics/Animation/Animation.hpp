@@ -39,7 +39,7 @@ PUB
 
     COPY(Animation)
     {
-        DO_COPY(Speed);
+        DO_COPY(mSpeed);
 
         FOR_LIST(it, other->mFrames)
         {

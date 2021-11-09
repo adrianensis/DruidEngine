@@ -23,11 +23,11 @@ PUB
 
 	COPY(TimeMark)
 	{
-		DO_COPY(DeltaTimeMillis)
-		DO_COPY(DeltaTimeSeconds)
-		DO_COPY(DeltaTimeChronoDuration)
-		DO_COPY(StartTime)
-		DO_COPY(LastTime)
+		DO_COPY(mDeltaTimeMillis)
+		DO_COPY(mDeltaTimeSeconds)
+		DO_COPY(mDeltaTimeChronoDuration)
+		DO_COPY(mStartTime)
+		DO_COPY(mLastTime)
 	}
 };
 

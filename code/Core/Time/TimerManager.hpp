@@ -38,7 +38,7 @@ PUB
 
 	COPY(TimerHandle)
 	{
-		DO_COPY(TimerReference)
+		DO_COPY(mTimerReference)
 	}
 };
 

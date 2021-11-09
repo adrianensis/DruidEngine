@@ -12,8 +12,8 @@ PUB
 
     COPY(CommandArgument)
     {
-        DO_COPY(Name)
-        DO_COPY(Value)
+        DO_COPY(mName)
+        DO_COPY(mValue)
     }
 };
 
@@ -35,8 +35,8 @@ PUB
 
     COPY(Command)
     {
-        DO_COPY(Name)
-        DO_COPY(Arguments)
-        DO_COPY(ArgumentsString)
+        DO_COPY(mName)
+        DO_COPY(mArguments)
+        DO_COPY(mArgumentsString)
     }
 };

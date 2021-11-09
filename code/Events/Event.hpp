@@ -16,9 +16,9 @@ class Event: public ObjectBase
 		// NOTE : Override in children!
 		COPY(Event)
 		{
-			DO_COPY(Instigator)
-			DO_COPY(DelayType)
-			DO_COPY(DelayAmount)
+			DO_COPY(mInstigator)
+			DO_COPY(mDelayType)
+			DO_COPY(mDelayAmount)
 		}
 };
 
@@ -45,9 +45,9 @@ PUB
 	COPY(EventFunctor)
 	{
 		Functor<EventCallback>::copy(other);
-		DO_COPY(Event)
-		DO_COPY(EventClassId)
-		DO_COPY(EventReceiver)
+		DO_COPY(mEvent)
+		DO_COPY(mEventClassId)
+		DO_COPY(mEventReceiver)
 	}
 
 	bool operator==(const EventFunctor &eventFunctor) const

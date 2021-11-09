@@ -42,8 +42,8 @@ PUB
 
     COPY(Rectangle)
     {
-        DO_COPY(LeftTop)
-        DO_COPY(Size)
+        DO_COPY(mLeftTop)
+        DO_COPY(mSize)
     }
 
     virtual void serialize(JSON &json) const override

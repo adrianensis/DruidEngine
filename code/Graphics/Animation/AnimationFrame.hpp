@@ -16,9 +16,9 @@ PUB
 
     COPY(AnimationFrame)
     {
-        DO_COPY(Position)
-        DO_COPY(Width)
-        DO_COPY(Height)
+        DO_COPY(mPosition)
+        DO_COPY(mWidth)
+        DO_COPY(mHeight)
     }
 
     virtual void serialize(JSON &json) const override;

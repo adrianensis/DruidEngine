@@ -207,7 +207,7 @@ Visibility:
                                                                                          \
 	void specificCopy(const __VA_ARGS__ *other)
 
-#define DO_COPY(BaseName) m##BaseName = other->m##BaseName;
+#define DO_COPY(MemberName) MemberName = other->MemberName;
 
 // --------------------------------------------------------
 // SERIALIZATION

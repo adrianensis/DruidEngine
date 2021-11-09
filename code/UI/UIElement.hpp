@@ -31,7 +31,7 @@ PUB
 
 	COPY(FunctorUIElement)
 	{
-		DO_COPY(UIElement)
+		DO_COPY(mUIElement)
 		Functor<UIElementCallback>::copy(other);
 	}
 };

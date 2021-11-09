@@ -19,8 +19,8 @@ PRI
 
 		COPY(UIListEntry)
 		{
-			DO_COPY(Label)
-			DO_COPY(Callback)
+			DO_COPY(mLabel)
+			DO_COPY(mCallback)
 		}
 	};
 

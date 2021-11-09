@@ -30,7 +30,7 @@ PUB
 	COPY(CommandFunctor)
 	{
 		Functor<CommandCallback>::copy(other);
-        DO_COPY(Command)
+        DO_COPY(mCommand)
 	}
 
 };
