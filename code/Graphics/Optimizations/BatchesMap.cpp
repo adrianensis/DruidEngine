@@ -10,6 +10,7 @@
 #include "Scene/Transform.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Log/Log.hpp"
+#include "Profiler/Profiler.hpp"
 
 BatchesMap::~BatchesMap()
 {

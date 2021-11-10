@@ -15,7 +15,7 @@
 #include "Scene/ScenesManager.hpp"
 #include "UI/UI.hpp"
 #include "Command/CommandLine.hpp"
-
+#include "Profiler/Profiler.hpp"
 
 #include <thread>
 #include <chrono>
@@ -33,6 +33,8 @@ void Engine::init()
 	Memory::init();
 
 	ClassManager::getInstance().init();
+
+	Profiler::getInstance().init();
 
 	EngineConfig::getInstance().init();
 	RenderContext::init();
@@ -91,7 +93,7 @@ void Engine::run()
 		RenderEngine::getInstance().update();
 
 		f32 dtMillis = Time::getInstance().getElapsedTimeMillis();
-
+		
 		if (inverseFPSMillis > dtMillis)
 		{
 			diff = inverseFPSMillis - dtMillis;
@@ -99,6 +101,8 @@ void Engine::run()
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
 		//std::cout << 1.0f/Time::getInstance().getDeltaTimeSeconds() << std::endl;
+
+		Profiler::getInstance().update(Time::getInstance().getElapsedTimeMillis());
 
 		Time::getInstance().endFrame();
 	}
@@ -132,6 +136,9 @@ void Engine::terminate()
 	EngineConfig::deleteInstance();
 
 	SubsystemsManager::deleteInstance();
+
+	Profiler::getInstance().terminate();
+
 	ClassManager::deleteInstance();
 
 	Memory::terminate();

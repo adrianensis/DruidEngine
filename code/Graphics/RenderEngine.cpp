@@ -16,7 +16,7 @@
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
 #include "Graphics/ShapeBatchRenderer.hpp"
-//#include "Profiler/Profiler.hpp"
+#include "Profiler/Profiler.hpp"
 
 void RenderEngine::init(f32 sceneSize)
 {
@@ -66,8 +66,6 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 
 void RenderEngine::update()
 {
-	//PROFILER_TIMEMARK_START()
-
 	if (mCamera)
 	{
 		mCamera->update();
@@ -76,21 +74,20 @@ void RenderEngine::update()
 	renderBatches();
 	swap();
 	checkChunks();
-	//PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::swap()
 {
-	//PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	RenderContext::swap();
 
-	//PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::renderBatches()
 {
-	//PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	FOR_MAP(it, mLayersData)
 	{
@@ -112,12 +109,12 @@ void RenderEngine::renderBatches()
 
 	mShapeBatchRendererMapScreenSpace.render();
     
-	//PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::checkChunks()
 {
-	//PROFILER_TIMEMARK_START()
+	PROFILER_TIMEMARK_START()
 
 	FOR_ARRAY(i, mChunks)
 	{
@@ -140,7 +137,7 @@ void RenderEngine::checkChunks()
 		//}
 	}
 
-	//PROFILER_TIMEMARK_END()
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::terminate()

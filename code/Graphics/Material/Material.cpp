@@ -6,6 +6,7 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Core/Time/TimeUtils.hpp"
+#include "Profiler/Profiler.hpp"
 
 Material::Material()
 {

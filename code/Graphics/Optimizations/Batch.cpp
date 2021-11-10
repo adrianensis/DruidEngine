@@ -15,6 +15,7 @@
 #include "Maths/MathUtils.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
+#include "Profiler/Profiler.hpp"
 
 Batch::~Batch()
 {
@@ -115,6 +116,7 @@ void Batch::render(u32 layer)
 
 void Batch::resizeVertexBuffers(u32 newSize)
 {
+	PROFILER_TIMEMARK_START()
 	if (newSize > mMaxMeshesThreshold)
 	{
 		mMaxMeshesThreshold += mMaxMeshesIncrement;
@@ -137,11 +139,15 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	}
 
 	mMeshesIndex = 0;
+	PROFILER_TIMEMARK_END()
 }
 
 void Batch::processRenderers(std::list<Renderer *> *renderers)
 {
+	PROFILER_TIMEMARK_START()
 	bool pendingDrawCall = false;
+
+	u32 renderersSize = renderers->size();
 	
 	FOR_LIST(it, *renderers)
 	{
@@ -204,6 +210,7 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 	{
 		drawCall(); // flush all the previous rendereres
 	}
+	PROFILER_TIMEMARK_END()
 }
 
 bool Batch::isChunkOk(Renderer *renderer) const
@@ -214,6 +221,7 @@ bool Batch::isChunkOk(Renderer *renderer) const
 
 void Batch::drawCall() const
 {
+	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
 	{
 		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
@@ -222,6 +230,7 @@ void Batch::drawCall() const
 
 		RenderContext::drawRectangles(mMeshesIndex);
 	}
+	PROFILER_TIMEMARK_END()
 }
 
 void Batch::insertSorted(Renderer *renderer, std::list<Renderer *> *renderers)
@@ -320,6 +329,7 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 
 void Batch::addToVertexBuffer(Renderer *renderer)
 {
+	PROFILER_TIMEMARK_START()
 	renderer->updateAnimation();
 
 	const std::vector<Vector2> &vertexPositions = renderer->getVertices();
@@ -359,4 +369,6 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 	}
 
 	mMeshesIndex++;
+	
+	PROFILER_TIMEMARK_END()
 }
