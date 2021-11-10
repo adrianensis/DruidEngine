@@ -24,13 +24,14 @@ class Renderer: public Component
 	PUB virtual void deserialize(const JSON &json) override;
 	
 	PUB void init() override;
+	PUB void onComponentAdded() override;
 
-	PRI TransformState mTransformState;
+	PRI mutable TransformState mTransformState;
 
 	// Renderer Properties
-	PRI Matrix4 mRenderereModelMatrix;
-	PRI bool mPositionOffsetDirty = true;
-	PRI std::vector<Vector2> mVertices;
+	PRI mutable Matrix4 mRenderereModelMatrix;
+	PRI mutable bool mPositionOffsetDirty = true;
+	PRI mutable std::vector<Vector2> mVertices;
 	PRI bool mIsWorldSpace = true;
 	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
 	PRI Vector3 mPositionOffset; GET(PositionOffset)
@@ -49,7 +50,7 @@ class Renderer: public Component
 	PUB void setColor(const Vector4& color);
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
 	PUB bool getIsWorldSpace();
-	PUB const std::vector<Vector2>& getVertices(bool force = false);
+	PUB const std::vector<Vector2>& getVertices(bool force = false) const;
 	PUB bool hasClipRectangle() const;
 
 	// Animation

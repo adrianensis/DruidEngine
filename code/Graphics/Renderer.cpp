@@ -43,6 +43,12 @@ void Renderer::init()
 	mVertices.push_back(Vector2(0, 0)); // RIGHT TOP
 }
 
+void Renderer::onComponentAdded()
+{
+	mTransformState = getGameObject()->getTransform()->getTransformState();
+}
+
+
 bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
 
 /**
@@ -121,7 +127,7 @@ bool Renderer::getIsWorldSpace()
 	return mIsWorldSpace;
 }
 
-const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
+const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
 {
 	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
 	if (!currentTransformState.eq(mTransformState) || mPositionOffsetDirty || force)
@@ -129,7 +135,6 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
 		mRenderereModelMatrix.translation(mPositionOffset);
 
 		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
-		mPositionOffsetDirty = false;
 
 		FOR_ARRAY(i, mVertices)
 		{
@@ -144,6 +149,7 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/)
 		}
 
 		mTransformState = currentTransformState;
+		mPositionOffsetDirty = false;
 	}
 
 	return mVertices;
