@@ -46,11 +46,15 @@ void ShapeBatchRenderer::bind()
 	mVBOColor = RenderContext::createVBO(4, 1);
 	mEBO = RenderContext::createEBO();
 
+	RenderContext::resizeVBO(mVBOPosition, mPositionBuffer.capacity());
+	RenderContext::resizeVBO(mVBOColor, mColorBuffer.capacity());
+
 	FOR_RANGE(i, 0, mMaxShapes * mVerticesPerShape)
 	{
 		mIndicesBuffer.push_back(i);
 	}
 
+	RenderContext::resizeEBO(mEBO, mIndicesBuffer.size());
 	RenderContext::setDataEBO(mEBO, mIndicesBuffer);
 
 	RenderContext::enableVAO(0);

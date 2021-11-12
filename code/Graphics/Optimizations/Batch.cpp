@@ -123,6 +123,10 @@ void Batch::resizeVertexBuffers(u32 newSize)
 
 		mMeshBuilder.init(mMesh->getVertexCount() * mMaxMeshesThreshold, mMesh->getFacesCount() * mMaxMeshesThreshold);
 
+		RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity());
+		RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity());
+		RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity());
+
 		// Create Faces once and send to GPU once.
 		FOR_RANGE(i, 0, mMaxMeshesThreshold)
 		{
@@ -131,6 +135,7 @@ void Batch::resizeVertexBuffers(u32 newSize)
 		}
 
 		// NOTE : VAO needs to be enabled before this line
+		RenderContext::resizeEBO(mEBO, mMeshBuilder.getFaces().size());
 		RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
 	}
 	else

@@ -125,16 +125,28 @@ GLuint RenderContext::createEBO()
 	return EBO;
 }
 
+void RenderContext::resizeVBO(u32 VBO, u32 size)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, nullptr, GL_DYNAMIC_DRAW);
+}
+
+void RenderContext::resizeEBO(u32 EBO, u32 size)
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * size, nullptr, GL_DYNAMIC_DRAW);
+}
+
 void RenderContext::setDataVBO(u32 VBO, const std::vector<f32> &data)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * data.size(), data.data(), GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(f32) * data.size(), data.data());
 }
 
 void RenderContext::setDataEBO(u32 EBO, const std::vector<u32> &data)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(f32) * data.size(), data.data(), GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(u32) * data.size(), data.data());
 }
 
 void RenderContext::enableProperty(u32 PropertyArrayIndex)
