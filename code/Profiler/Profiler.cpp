@@ -18,6 +18,8 @@ void Profiler::init()
 
 void Profiler::update(f32 deltaTimeMillis)
 {
+	mFrameCounter++;
+
 	mTotalTimeMillis += deltaTimeMillis;
 }
 
@@ -25,11 +27,11 @@ void Profiler::terminate()
 {
 	ECHO("")
 	ECHO("PROFILER RESULTS")
-	std::string totalTimeStr = "Total Time";
-	printResult(totalTimeStr, mTotalTimeMillis);
+	printResult("Total Time", mTotalTimeMillis);
+	printResultAverage("Frame Time", mTotalTimeMillis);
 	FOR_MAP(it, mTimeMap)
 	{
-		printResult(it->first, it->second);
+		printResultAverage(it->first, it->second);
 	}
 
 	ECHO("")
@@ -41,8 +43,12 @@ void Profiler::terminate()
 
 void Profiler::printResult(const std::string &name, f32 time)  const
 {
-	f32 percent = (time/mTotalTimeMillis) * 100.0f;
-	ECHO(name + " : " + std::to_string(time) + "ms, " + std::to_string(time / 1000.0f) + "s : " + std::to_string(percent) + "%")
+	ECHO(name + " : " + std::to_string(time) + "ms, " + std::to_string(time / 1000.0f) + "s")
+}
+
+void Profiler::printResultAverage(const std::string &name, f32 time)  const
+{
+	printResult(std::string("(Avg) ") + name, time / mFrameCounter);
 } 
 
 void Profiler::timeMarkStart(const std::string &name)
