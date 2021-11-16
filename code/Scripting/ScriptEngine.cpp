@@ -6,6 +6,8 @@
 
 #include "Log/Log.hpp"
 
+#include "Profiler/Profiler.hpp"
+
 void ScriptEngine::init()
 {
 	TRACE()
@@ -26,6 +28,8 @@ void ScriptEngine::addComponent(Component *component)
 
 void ScriptEngine::update()
 {
+	PROFILER_TIMEMARK_START()
+	
 	if (mController)
 	{
 		if (!mController->getFirstUpdateDone())
@@ -56,6 +60,8 @@ void ScriptEngine::update()
 			internalRemoveScript(it);
 		}
 	}
+
+	PROFILER_TIMEMARK_END()
 }
 
 void ScriptEngine::internalRemoveScript(std::list<Script *>::iterator &it)

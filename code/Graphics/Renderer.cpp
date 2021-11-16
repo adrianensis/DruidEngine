@@ -6,6 +6,8 @@
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Config/ConfigObject.hpp"
+#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Material/Texture.hpp"
 #include "Graphics/Material/MaterialManager.hpp"
 #include "Graphics/Material/Material.hpp"
@@ -117,7 +119,7 @@ void Renderer::setColor(const Vector4 &color)
 	mColor[3] = color.w;
 };
 
-bool Renderer::getIsWorldSpace()
+bool Renderer::getIsWorldSpace() const
 {
 	if (getGameObject())
 	{
@@ -135,7 +137,7 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
 		mRenderereModelMatrix.translation(mPositionOffset);
 
 		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
-
+		
 		FOR_ARRAY(i, mVertices)
 		{
 			Vector3 vertexPosition(

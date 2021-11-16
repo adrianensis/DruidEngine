@@ -5,6 +5,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Core/EngineConfig.hpp"
 //#include "Scripting/Script.hpp"
+#include "Profiler/Profiler.hpp"
 
 ScenesManager::ScenesManager()
 {
@@ -57,7 +58,9 @@ void ScenesManager::init()
 
 void ScenesManager::update()
 {
+	PROFILER_TIMEMARK_START()
 	mCurrentScene->update();
+	PROFILER_TIMEMARK_END()
 }
 
 void ScenesManager::loadCurrentScene()

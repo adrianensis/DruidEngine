@@ -94,6 +94,7 @@ void Batch::bind()
 
 void Batch::render(u32 layer)
 {
+	PROFILER_TIMEMARK_START()
 	std::list<Renderer *> *renderers = mRenderers[layer];
 
 	if (renderers && !renderers->empty())
@@ -112,6 +113,7 @@ void Batch::render(u32 layer)
 
 		RenderContext::enableVAO(0);
 	}
+	PROFILER_TIMEMARK_END()
 }
 
 void Batch::resizeVertexBuffers(u32 newSize)
@@ -316,6 +318,8 @@ void Batch::addRenderer(Renderer *renderer)
 
 void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *> *list)
 {
+	PROFILER_TIMEMARK_START()
+
 	Renderer *renderer = *it;
 
 	renderer->setIsAlreadyInBatch(false);
@@ -330,6 +334,8 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 
 	it = list->erase(it);
 	--it; // go back to the previous it, so the FOR LOOP can do ++it with no problem
+
+	PROFILER_TIMEMARK_END()
 }
 
 void Batch::addToVertexBuffer(Renderer *renderer)

@@ -68,21 +68,10 @@ void ShapeBatchRenderer::render()
 		RenderContext::enableVAO(mVAO);
 
 		const Matrix4 &projectionMatrix = RenderEngine::getInstance().getCamera()->getProjectionMatrix();
-		const Matrix4 &viewTranslationMatrix = RenderEngine::getInstance().getCamera()->getViewTranslationMatrix();
-		const Matrix4 &viewRotationMatrix = RenderEngine::getInstance().getCamera()->getViewRotationMatrix();
+		const Matrix4 &viewMatrix = RenderEngine::getInstance().getCamera()->getViewMatrix();
 
-		if (mIsWorldSpace)
-		{
-			mShaderLine->addMatrix(projectionMatrix, "projectionMatrix");
-			mShaderLine->addMatrix(viewTranslationMatrix, "viewTranslationMatrix");
-			mShaderLine->addMatrix(viewRotationMatrix, "viewRotationMatrix");
-		}
-		else
-		{
-			mShaderLine->addMatrix(Matrix4::getIdentity(), "projectionMatrix");
-			mShaderLine->addMatrix(Matrix4::getIdentity(), "viewTranslationMatrix");
-			mShaderLine->addMatrix(Matrix4::getIdentity(), "viewRotationMatrix");
-		}
+		mShaderLine->addMatrix(mIsWorldSpace ? projectionMatrix : Matrix4::getIdentity(), "projectionMatrix");
+		mShaderLine->addMatrix(mIsWorldSpace ? viewMatrix : Matrix4::getIdentity(), "viewMatrix");
 
 		RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
 		RenderContext::setDataVBO(mVBOColor, mColorBuffer);

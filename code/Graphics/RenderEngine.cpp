@@ -66,6 +66,8 @@ bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
 
 void RenderEngine::update()
 {
+	PROFILER_TIMEMARK_START()
+
 	if (mCamera)
 	{
 		mCamera->update();
@@ -74,6 +76,8 @@ void RenderEngine::update()
 	renderBatches();
 	swap();
 	checkChunks();
+
+	PROFILER_TIMEMARK_END()
 }
 
 void RenderEngine::swap()

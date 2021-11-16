@@ -5,6 +5,8 @@
 #include "Graphics/Camera/Frustum.hpp"
 #include "Graphics/RenderContext.hpp"
 
+#include "Profiler/Profiler.hpp"
+
 Camera::Camera()
 {
 	mIsOrtho = true;
@@ -19,7 +21,7 @@ void Camera::init()
 {
 	TRACE()
 
-	mViewTranslationMatrix.identity();
+	mViewMatrix.identity();
 
 	mInversePVMatrix.identity();
 
@@ -35,15 +37,21 @@ void Camera::onComponentAdded()
 
 void Camera::update()
 {
+	PROFILER_TIMEMARK_START()
+
 	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
 	if(!currentTransformState.eq(mTransformState))
 	{
 		mFrustum.build();
 
 		mInversePVMatrixNeedsUpdate = true;
+		mViewMatrixNeedsUpdate = true;
+		mProjectionViewMatrixNeedsUpdate = true;
 
 		mTransformState = currentTransformState;
 	}
+
+	PROFILER_TIMEMARK_END()
 }
 
 void Camera::recalculatePerspectiveMatrix()
@@ -57,6 +65,7 @@ void Camera::recalculatePerspectiveMatrix()
 		setPerspective(mNear, mFar, mAspect, mFov);
 	}
 
+	mProjectionViewMatrixNeedsUpdate = true;
 	calculateInverseMatrix(true);
 	mFrustum.build();
 }
@@ -98,18 +107,31 @@ const Matrix4 &Camera::getProjectionMatrix() const
 	return mProjectionMatrix;
 };
 
-const Matrix4 &Camera::getViewTranslationMatrix()
+const Matrix4 &Camera::getViewMatrix() const
 {
-	Vector3 position = getGameObject()->getTransform()->getWorldPosition();
-	mViewTranslationMatrix.translation(position * -1);
+	if(mViewMatrixNeedsUpdate)
+	{
+		const Vector3& position = getGameObject()->getTransform()->getWorldPosition();
+		mViewMatrix.translation(position * -1);
+		mViewMatrix.mul(getGameObject()->getTransform()->getRotationMatrix());
 
-	return mViewTranslationMatrix;
+		mViewMatrixNeedsUpdate = false;
+	}
+
+	return mViewMatrix;
 };
 
-const Matrix4 &Camera::getViewRotationMatrix()
+const Matrix4 &Camera::getProjectionViewMatrix() const
 {
-	return getGameObject()->getTransform()->getRotationMatrix();
-};
+	if(mProjectionViewMatrixNeedsUpdate)
+	{
+		mProjectionViewMatrix.init(getProjectionMatrix());
+		mProjectionViewMatrix.mul(getViewMatrix());
+		mProjectionViewMatrixNeedsUpdate = false;
+	}
+
+	return mProjectionViewMatrix;
+}
 
 Vector3 Camera::screenToWorld(const Vector2& screenPosition)
 {	
@@ -128,19 +150,8 @@ void Camera::calculateInverseMatrix(bool force /*= false*/)
 	if(mInversePVMatrixNeedsUpdate || force)
 	{
 		Matrix4 inverseProjectionMatrix;
-		Matrix4 viewTranslationMatrix;
-		Matrix4 viewRotationMatrix;
-
-		inverseProjectionMatrix.init(getProjectionMatrix());
-		viewTranslationMatrix.init(getViewTranslationMatrix());
-		viewRotationMatrix.init(getViewRotationMatrix());
-
-		viewTranslationMatrix.mul(viewRotationMatrix);
-
-		inverseProjectionMatrix.mul(viewTranslationMatrix);
-		
-		inverseProjectionMatrix.invert();
-		mInversePVMatrix.init(inverseProjectionMatrix);
+		mInversePVMatrix.init(getProjectionViewMatrix());		
+		mInversePVMatrix.invert();
 
 		mInversePVMatrixNeedsUpdate = false;
 	}

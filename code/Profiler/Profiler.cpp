@@ -31,7 +31,9 @@ void Profiler::terminate()
 	printResultAverage("Frame Time", mTotalTimeMillis);
 	FOR_MAP(it, mTimeMap)
 	{
+		//printResult(it->first, it->second);
 		printResultAverage(it->first, it->second);
+		ECHO("----------------------------")
 	}
 
 	ECHO("")
@@ -43,7 +45,7 @@ void Profiler::terminate()
 
 void Profiler::printResult(const std::string &name, f32 time)  const
 {
-	ECHO(name + " : " + std::to_string(time) + "ms, " + std::to_string(time / 1000.0f) + "s")
+	ECHO(name + " : " + std::to_string(time) + "ms ")
 }
 
 void Profiler::printResultAverage(const std::string &name, f32 time)  const

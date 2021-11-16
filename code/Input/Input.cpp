@@ -1,6 +1,7 @@
 #include "Input/Input.hpp"
 #include "Log/Log.hpp"
 #include "Events/EventsManager.hpp"
+#include "Profiler/Profiler.hpp"
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -154,6 +155,8 @@ void Input::init()
 
 void Input::pollEvents()
 {
+	PROFILER_TIMEMARK_START()
+
 	smKeyJustPressed = false;
 	smButtonJustPressed = false;
 	smScroll = 0;
@@ -197,6 +200,8 @@ void Input::pollEvents()
 	}
 
 	glfwPollEvents();
+
+	PROFILER_TIMEMARK_END();
 }
 
 bool Input::isKeyPressedOnce(u32 key)

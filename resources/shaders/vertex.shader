@@ -1,10 +1,8 @@
 #version 420
 
 uniform float time;
-uniform bool isWorldSpace;
 
-uniform mat4 viewTranslationMatrix;
-uniform mat4 viewRotationMatrix;
+uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec4 positionOffset;
 
@@ -17,11 +15,7 @@ out vec4 vColor;
 
 void main()
 {
-  mat4 PV_Matrix = mat4(1.0);
-
-  if(isWorldSpace) {
-    PV_Matrix = projectionMatrix * (viewRotationMatrix * viewTranslationMatrix);
-  }
+  mat4 PV_Matrix = projectionMatrix * viewMatrix;
   
   gl_Position = PV_Matrix * vec4(position.x, position.y, position.z, 1.0);
 

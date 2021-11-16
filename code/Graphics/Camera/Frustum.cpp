@@ -74,7 +74,7 @@ void Frustum::build()
 	u32 FAR = 5;
 
 	mVPmatrix.init(mCamera->getProjectionMatrix());
-	mVPmatrix.mul(mCamera->getViewTranslationMatrix());
+	mVPmatrix.mul(mCamera->getViewMatrix());
 
 	mPlanes[LEFT] =
 		Vector4(mVPmatrix.get(0, 0) + mVPmatrix.get(3, 0), mVPmatrix.get(0, 1) + mVPmatrix.get(3, 1),
