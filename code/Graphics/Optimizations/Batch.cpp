@@ -95,24 +95,34 @@ void Batch::bind()
 void Batch::render(u32 layer)
 {
 	PROFILER_TIMEMARK_START()
+
 	std::list<Renderer *> *renderers = mRenderers[layer];
 
 	if (renderers && !renderers->empty())
 	{
 		RenderContext::enableVAO(mVAO);
 
-		resizeVertexBuffers(renderers->size());
+		RenderContext::enableProperty(0);
+		RenderContext::enableProperty(1);
+		RenderContext::enableProperty(2);
 
-		//bool isSortedLayer = RenderEngine::getInstance().getLayersData().at(layer)->mSorted;
+		mMaterial->enable();
+
+		resizeVertexBuffers(renderers->size());
 
 		mMaterial->bind(mIsWorldSpace);
 
 		processRenderers(renderers);
 
-		//drawCall();
+		mMaterial->disable();
+
+		RenderContext::disableProperty(0);
+		RenderContext::disableProperty(1);
+		RenderContext::disableProperty(2);
 
 		RenderContext::enableVAO(0);
 	}
+
 	PROFILER_TIMEMARK_END()
 }
 

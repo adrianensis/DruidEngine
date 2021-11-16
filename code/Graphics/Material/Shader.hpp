@@ -32,7 +32,8 @@ PUB
 
 	void init();
 	void initDebug();
-	void use();
+	void enable();
+	void disable();
 
 	void addMatrix(const Matrix4 &matrix, const std::string &name);
 	void addInt(i32 value, const std::string &name);

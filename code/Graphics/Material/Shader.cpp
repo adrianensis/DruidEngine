@@ -131,9 +131,14 @@ void Shader::initDebug()
 	initInternal("resources/shaders/vertexDebug.shader", "resources/shaders/fragmentDebug.shader");
 }
 
-void Shader::use()
+void Shader::enable()
 {
 	glUseProgram(mProgram);
+};
+
+void Shader::disable()
+{
+	glUseProgram(0);
 };
 
 void Shader::addMatrix(const Matrix4 &matrix, const std::string &name)

@@ -64,8 +64,12 @@ void ShapeBatchRenderer::render()
 {
 	if (mShapesCounter > 0)
 	{
-		mShaderLine->use();
+		mShaderLine->enable();
+
 		RenderContext::enableVAO(mVAO);
+
+		RenderContext::enableProperty(0);
+		RenderContext::enableProperty(1);
 
 		const Matrix4 &projectionMatrix = RenderEngine::getInstance().getCamera()->getProjectionMatrix();
 		const Matrix4 &viewMatrix = RenderEngine::getInstance().getCamera()->getViewMatrix();
@@ -76,6 +80,9 @@ void ShapeBatchRenderer::render()
 		RenderContext::setDataVBO(mVBOPosition, mPositionBuffer);
 		RenderContext::setDataVBO(mVBOColor, mColorBuffer);
 		RenderContext::drawLines(mShapesCounter);
+
+		RenderContext::disableProperty(0);
+		RenderContext::disableProperty(1);
 
 		RenderContext::enableVAO(0);
 

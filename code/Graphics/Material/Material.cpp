@@ -22,8 +22,6 @@ void Material::init()
 
 void Material::bind(bool isWorldSpace)
 {
-	mShader->use();
-
 	if (mTexture)
 	{
 		mTexture->bind();
@@ -45,6 +43,16 @@ void Material::bind(bool isWorldSpace)
 
 	mShader->addVector2(RenderContext::getWindowSize(), "windowSize");
 }
+
+void Material::enable()
+{
+	mShader->enable();
+};
+
+void Material::disable()
+{
+	mShader->disable();
+};
 
 void Material::serialize(JSON &json) const
 {
