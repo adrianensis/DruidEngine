@@ -2,7 +2,13 @@
 # DRUID ENGINE
 # ----------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+if(UNIX)
+  cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+endif(UNIX)
+
+if(WIN32)
+  cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
+endif(WIN32)
 
 # ----------------------------------------------------------------------------
 # FUNCTIONS
@@ -82,6 +88,13 @@ set(DEPENDENCIES_DIR "dependencies")
 # OpenGL
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
+
+if(WIN32)
+  # ZLib 
+  # Requires Zlib -> http://gnuwin32.sourceforge.net/packages/zlib.htm
+  set(ZLIB_ROOT "C:/Program Files (x86)/GnuWin32")
+  find_package(ZLIB REQUIRED)
+endif(WIN32)
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
@@ -190,7 +203,7 @@ target_link_libraries(${DRUID} nlohmann_json)
 target_link_libraries(${DRUID} libpng.so)
 #target_link_libraries(${DRUID} ${FREETYPE_LIBRARIES})
 #target_include_directories(${DRUID} PRIVATE ${FREETYPE_INCLUDE_DIRS})
-# target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
+#target_link_libraries( ${DRUID} ${Python3_LIBRARIES})
 
 # SOIL
 #target_link_libraries( ${DRUID} SOIL )
