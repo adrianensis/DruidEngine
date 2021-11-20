@@ -15,13 +15,13 @@ class BatchesMap: public ObjectBase
 	PRI std::map<Texture *, Batch *> mBatchesStatic;
 	PRI std::map<Texture *, Batch *> mBatchesStaticScreenSpace;
 
-	void renderBatchesMap(u32 layer, std::map<Texture *, Batch *>& batchesMap);
+	void renderBatchesMap(std::map<Texture *, Batch *>& batchesMap);
 
 PUB
 	~BatchesMap() override;
 
 	void init();
-	void render(u32 layer);
+	void render();
 	void addRenderer(Renderer * renderer);
 
 	void setIsWorldSpace(bool isWorldSpace);

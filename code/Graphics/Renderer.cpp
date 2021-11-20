@@ -175,7 +175,7 @@ void Renderer::serialize(JSON &json) const
 
 	DO_SERIALIZE("material", materialPath)
 	DO_SERIALIZE("region", mRegion)
-	DO_SERIALIZE("layer", mLayer)
+	DO_SERIALIZE("depth", mDepth)
 
     std::list<Animation> tmpList;
     FOR_MAP(it, mAnimations)
@@ -194,7 +194,7 @@ void Renderer::deserialize(const JSON &json)
 	mMaterial = MaterialManager::getInstance().loadMaterial(materialPath);
 
 	DO_DESERIALIZE("region", mRegion)
-	DO_DESERIALIZE("layer", mLayer)
+	DO_DESERIALIZE("depth", mDepth)
 
 	mMesh = Mesh::getRectangle();
 

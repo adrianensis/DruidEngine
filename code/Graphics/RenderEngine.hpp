@@ -22,18 +22,6 @@ class RenderEngine : public ISubsystem, public Singleton<RenderEngine>
 PRI
 	GENERATE_METADATA(RenderEngine)
 
-	class LayerData : public ObjectBase
-	{
-		GENERATE_METADATA(RenderEngine::LayerData)
-		PUB u32 mLayerNumber = 0;
-		PUB bool mSorted = false;
-		PUB u32 mSortCounter = 0;
-		PUB bool mVisible = true;
-
-	PUB
-		LayerData() {}
-	};
-
 	PRI BatchesMap mBatchesMap;
 
 	PRI ShapeBatchRendererMap mShapeBatchRendererMap;
@@ -41,8 +29,6 @@ PRI
 
 	PRI Camera* mCamera = nullptr; GET_SET(Camera)
 	PRI bool mCameraDirtyTranslation = false; GET(CameraDirtyTranslation)
-
-	PRI std::map<u32, LayerData> mLayersData; GETREF_SET(LayersData);
 
 	PRI f32 mMinChunkDrawDistance = 0.0f; GET(MinChunkDrawDistance)
 	PRI std::vector<Chunk *> mChunks;

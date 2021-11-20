@@ -101,7 +101,7 @@ void Engine::run()
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
 		
-		std::cout << 1.0f/Time::getInstance().getDeltaTimeSeconds() << std::endl;
+		std::cout << std::round(1.0f/Time::getInstance().getDeltaTimeSeconds()) << std::endl;
 
 		Profiler::getInstance().update(Time::getInstance().getElapsedTimeMillis());
 

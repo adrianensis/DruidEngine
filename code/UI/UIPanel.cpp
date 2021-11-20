@@ -24,7 +24,7 @@ void UIPanel::initFromConfig(const UIElementConfig& config)
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mBackgroundColor);
-	renderer->setLayer(mConfig.mLayer);
+	renderer->setDepth(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
 	addComponent<Renderer>(renderer);

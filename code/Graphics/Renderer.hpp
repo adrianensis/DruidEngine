@@ -41,7 +41,7 @@ class Renderer: public Component
 	PRI Material* mMaterial = nullptr; GET_SET(Material)
 	PRI bool mInvertAxisX = false; GET_SET(InvertAxisX)
 	PRI bool mIsLineMode = false; GET_SET(IsLineMode)
-	PRI u32 mLayer = 0; GET_SET(Layer)
+	PRI u32 mDepth = 0; GET_SET(Depth)
 	PRI f32 mRenderDistance = 0.0f; GET_SET(RenderDistance)
 	PRI bool mIsOutOfCamera = false; GET_SET(IsOutOfCamera)
 	PRI bool mIsAlreadyInBatch = false; GET_SET(IsAlreadyInBatch)

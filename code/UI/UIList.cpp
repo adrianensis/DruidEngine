@@ -40,7 +40,7 @@ void UIList::initFromConfig(const UIElementConfig& config)
 	renderer->setMesh(Mesh::getRectangle());
 	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mBackgroundColor);
-	renderer->setLayer(mConfig.mLayer);
+	renderer->setDepth(mConfig.mLayer);
 	//renderer->setHasBorder(true);
 
 	//renderer->setClipRectangle(Rectangle(Vector2(mConfig.mPosition.x, mConfig.mPosition.y), Vector2(mConfig.mSize.x / RenderContext::getAspectRatio(), mConfig.mSize.y)));

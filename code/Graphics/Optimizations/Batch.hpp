@@ -14,16 +14,7 @@ class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
 
-	PRI class BatchLayerData: public ObjectBase
-	{
-		GENERATE_METADATA(Batch::BatchLayerData)
-
-		PUB bool mNewRendererAdded = false;
-		PUB bool mPendingDrawCall = false;
-	};
-
-	PRI std::map<u32, std::list<Renderer *> *> mRenderers;
-	PRI std::map<u32, BatchLayerData> mBatchLayersData;
+	PRI std::list<Renderer *> mRenderers;
 
 	PRI Material* mMaterial = nullptr; GET(Material)
 	PRI const Mesh* mMesh = nullptr; GET(Mesh)
@@ -45,18 +36,21 @@ class Batch: public ObjectBase
 	PRI bool mIsWorldSpace = false; GET_SET(IsWorldSpace)
 	PRI bool mIsStatic = false; GET_SET(IsStatic)
 
+	PUB bool mNewRendererAdded = false;
+	PUB bool mPendingDrawCall = false;
+
 PRI
-	bool shouldRegenerateBuffers(u32 layer) const;
+	bool shouldRegenerateBuffers() const;
 
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
 	bool isChunkOk(Renderer * renderer) const;
 
-	bool processRenderers(std::list<Renderer *> * renderers);
+	bool processRenderers(std::list<Renderer *>& renderers);
 
-	void drawCall(u32 layer);
+	void drawCall();
 
-	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *> * list);
+	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *>& list);
 
 	void insertSorted(Renderer * renderer, std::list<Renderer *> * renderers);
 
@@ -66,7 +60,7 @@ PUB
 	void init(const Mesh *mesh, Material *material);
 	void bind();
 
-	void render(u32 layer);
+	void render();
 
 	void addRenderer(Renderer * renderer);
 };

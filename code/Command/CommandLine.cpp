@@ -214,7 +214,7 @@ void CommandLine::open()
         mUIText = uiBuilder.
         setLayout(UILayout::VERTICAL).
         setPosition(Vector2(-1.0f, -0.96f)).
-        setLayer(0).
+        setDepth(0).
         setAdjustSizeToText(false).
         create<UIText>().
         getUIElement<UIText>();

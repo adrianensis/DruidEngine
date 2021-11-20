@@ -111,7 +111,7 @@ void UIText::setText(const std::string &text)
 
 					renderer->setMesh(Mesh::getRectangle());
 					renderer->setMaterial(UI::getInstance().getFontMaterial());
-					renderer->setLayer(mLayer /*+ 1*/);
+					renderer->setDepth(mLayer /*+ 1*/);
 					
 					addComponent<Renderer>(renderer);
 

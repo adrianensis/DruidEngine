@@ -23,26 +23,20 @@ Batch::~Batch()
 
 	if (!mIsWorldSpace)
 	{
-		FOR_MAP(itList, mRenderers)
+		FOR_LIST(itRenderer, mRenderers)
 		{
-			if (itList->second)
+			if (!(*itRenderer)->getIsDestroyed())
 			{
-				FOR_LIST(itRenderer, *itList->second)
-				{
-					if (!(*itRenderer)->getIsDestroyed())
-					{
-						(*itRenderer)->finallyDestroy();
-						DELETE((*itRenderer));
-					}
-				}
-
-				DELETE(itList->second);
+				(*itRenderer)->finallyDestroy();
+				DELETE((*itRenderer));
 			}
 		}
+
+		mRenderers.clear();
 	}
 	else
 	{
-		MAP_DELETE_CONTENT(mRenderers)
+		LIST_DELETE_CONTENT(mRenderers)
 	}
 
 	glDeleteVertexArrays(1, &mVAO);
@@ -63,12 +57,6 @@ void Batch::init(const Mesh *mesh, Material *material)
 
 	mMaxMeshesIncrement = 100;
 	mMeshesIndex = 0;
-
-	// init sub-lists to nullptr
-	FOR_RANGE(i, 0, 10)
-	{
-		MAP_INSERT(mRenderers, i, nullptr)
-	}
 
 	bind();
 }
@@ -92,13 +80,11 @@ void Batch::bind()
 	RenderContext::enableVAO(0);
 }
 
-void Batch::render(u32 layer)
+void Batch::render()
 {
 	PROFILER_TIMEMARK_START()
 
-	std::list<Renderer *> *renderers = mRenderers[layer];
-
-	if (renderers && !renderers->empty())
+	if (!mRenderers.empty())
 	{
 		RenderContext::enableVAO(mVAO);
 
@@ -110,19 +96,19 @@ void Batch::render(u32 layer)
 
 		mMaterial->bind(mIsWorldSpace);
 
-		if(shouldRegenerateBuffers(layer))
+		if(shouldRegenerateBuffers())
 		{
-			resizeVertexBuffers(renderers->size());
-			mBatchLayersData[layer].mPendingDrawCall = processRenderers(renderers);
+			resizeVertexBuffers(mRenderers.size());
+			mPendingDrawCall = processRenderers(mRenderers);
 		}
 		else
 		{
-			mBatchLayersData[layer].mPendingDrawCall = true;
+			mPendingDrawCall = true;
 		}
 
-		if(mBatchLayersData[layer].mPendingDrawCall)
+		if(mPendingDrawCall)
 		{
-			drawCall(layer); // flush all the previous rendereres
+			drawCall(); // flush all the previous rendereres
 		}
 
 		mMaterial->disable();
@@ -170,15 +156,15 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	PROFILER_TIMEMARK_END()
 }
 
-bool Batch::processRenderers(std::list<Renderer *> *renderers)
+bool Batch::processRenderers(std::list<Renderer *>& renderers)
 {
 	PROFILER_TIMEMARK_START()
 
-	u32 renderersSize = renderers->size();
+	u32 renderersSize = mRenderers.size();
 
 	bool pendingDrawCall = false;
 	
-	FOR_LIST(it, *renderers)
+	FOR_LIST(it, mRenderers)
 	{
 		Renderer *renderer = *it;
 
@@ -231,7 +217,7 @@ bool Batch::processRenderers(std::list<Renderer *> *renderers)
 
 		if (toRemove)
 		{
-			internalRemoveRendererFromList(it, renderers);
+			internalRemoveRendererFromList(it, mRenderers);
 		}
 	}
 
@@ -246,7 +232,7 @@ bool Batch::isChunkOk(Renderer *renderer) const
 	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
 }
 
-void Batch::drawCall(u32 layer)
+void Batch::drawCall()
 {
 	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
@@ -258,8 +244,8 @@ void Batch::drawCall(u32 layer)
 		RenderContext::drawRectangles(mMeshesIndex);
 	}
 
-	mBatchLayersData[layer].mNewRendererAdded = false;
-	mBatchLayersData[layer].mPendingDrawCall = false;
+	mNewRendererAdded = false;
+	mPendingDrawCall = false;
 
 	PROFILER_TIMEMARK_END()
 }
@@ -279,13 +265,13 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer *> *renderers)
 		Renderer* first = *renderers->begin();
 		Renderer* last = *renderers->end();
 
-		// CASE 2 : RENDERER IS IN THE LAST/FIRST LAYER
+		// CASE 2 : RENDERER IS IN THE LAST/FIRST Depth
 		if (last->isActive() && (y <= last->getGameObject()->getTransform()->getWorldPosition().y)) {
 			renderers->push_back(renderer);
 		} else if (first->isActive() && (y >= first->getGameObject()->getTransform()->getWorldPosition().y)) {
 			renderers->push_front(renderer);
 		} else {
-			// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM LAYER, NOT THE LAST
+			// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM Depth, NOT THE LAST
 			bool foundSmallerY = false;
 
 			// TODO : complete insert sorted
@@ -317,32 +303,25 @@ void Batch::insertSorted(Renderer *renderer, std::list<Renderer *> *renderers)
 
 void Batch::addRenderer(Renderer *renderer)
 {
-	u32 layer = renderer->getLayer();
+	u32 Depth = renderer->getDepth();
 
-	std::list<Renderer *> *renderers = mRenderers[layer];
-
-	if (!renderers)
-	{
-		renderers = NEW(std::list<Renderer *>);
-
-		MAP_INSERT(mRenderers, layer, renderers);
-	}
-
-	if (RenderEngine::getInstance().getLayersData().at(renderer->getLayer()).mSorted)
+	/*if (RenderEngine::getInstance().getDepthsData().at(renderer->getDepth()).mSorted)
 	{
 		insertSorted(renderer, renderers);
 	}
 	else
 	{
-		renderers->push_back(renderer);
-	}
+		// renderers->push_back(renderer);
+	}*/
+
+	mRenderers.push_back(renderer);
 
 	renderer->setIsAlreadyInBatch(true);
 
-	mBatchLayersData[layer].mNewRendererAdded = true;
+	mNewRendererAdded = true;
 }
 
-void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *> *list)
+void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *>& list)
 {
 	PROFILER_TIMEMARK_START()
 
@@ -358,7 +337,7 @@ void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, 
 		DELETE(renderer);
 	}
 
-	it = list->erase(it);
+	it = list.erase(it);
 	--it; // go back to the previous it, so the FOR LOOP can do ++it with no problem
 
 	PROFILER_TIMEMARK_END()
@@ -410,7 +389,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 	PROFILER_TIMEMARK_END()
 }
 
-bool Batch::shouldRegenerateBuffers(u32 layer) const
+bool Batch::shouldRegenerateBuffers() const
 {
-	return mBatchLayersData.at(layer).mNewRendererAdded || !mIsStatic;
+	return mNewRendererAdded || !mIsStatic;
 }

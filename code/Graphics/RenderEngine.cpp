@@ -90,13 +90,15 @@ void RenderEngine::renderBatches()
 {
 	PROFILER_TIMEMARK_START()
 
-	FOR_MAP(it, mLayersData)
+	/*FOR_MAP(it, mDepthsData)
 	{
 		if (it->second.mVisible)
 		{
-			mBatchesMap.render(it->second.mLayerNumber);
+			
 		}
-	}
+	}*/
+
+	mBatchesMap.render();
 
 	mShapeBatchRendererMap.render();
 	mShapeBatchRendererMapScreenSpace.render();
@@ -152,12 +154,12 @@ void RenderEngine::addComponent(Component *component)
 	{
 		Renderer *renderer = static_cast<Renderer*>(component);
 
-		if(!MAP_CONTAINS(mLayersData, renderer->getLayer()))
+		/*if(!MAP_CONTAINS(mDepthsData, renderer->getDepth()))
 		{
-			LayerData layerData;
-			layerData.mLayerNumber = renderer->getLayer();
-			MAP_INSERT(mLayersData, renderer->getLayer(), layerData);
-		}
+			DepthData DepthData;
+			DepthData.mDepthNumber = renderer->getDepth();
+			MAP_INSERT(mDepthsData, renderer->getDepth(), DepthData);
+		}*/
 
 		if (renderer->getIsWorldSpace())
 		{

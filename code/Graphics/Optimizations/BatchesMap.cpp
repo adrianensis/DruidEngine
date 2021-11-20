@@ -56,18 +56,18 @@ void BatchesMap::addRenderer(Renderer *renderer)
 	(*batchesMap).at(texture)->addRenderer(renderer);
 }
 
-void BatchesMap::render(u32 layer)
+void BatchesMap::render()
 {
-	renderBatchesMap(layer, mBatchesStatic);
-	renderBatchesMap(layer, mBatchesDynamic);
-	renderBatchesMap(layer, mBatchesStaticScreenSpace);
-	renderBatchesMap(layer, mBatchesDynamicScreenSpace);
+	renderBatchesMap(mBatchesStatic);
+	renderBatchesMap(mBatchesDynamic);
+	renderBatchesMap(mBatchesStaticScreenSpace);
+	renderBatchesMap(mBatchesDynamicScreenSpace);
 }
 
-void BatchesMap::renderBatchesMap(u32 layer, std::map<Texture *, Batch *>& batchesMap)
+void BatchesMap::renderBatchesMap(std::map<Texture *, Batch *>& batchesMap)
 {
 	FOR_MAP(it, batchesMap)
 	{
-		it->second->render(layer);
+		it->second->render();
 	}
 }

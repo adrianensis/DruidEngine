@@ -168,7 +168,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setLayer(mLayer);
+	renderer->setDepth(mLayer);
 
 	renderer->setMaterial(material);
 	renderer->setRegion(region);
@@ -211,7 +211,7 @@ void EditorController::loadScene()
 
 		Renderer *renderer = gameObject->getFirstComponent<Renderer>();
 
-		mGrids[renderer->getLayer()].setCell(mGrids[renderer->getLayer()].calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
+		mGrids[renderer->getDepth()].setCell(mGrids[renderer->getDepth()].calculateGridPosition(gameObject->getTransform()->getWorldPosition()), 
 			gameObject
 		);
 	}
