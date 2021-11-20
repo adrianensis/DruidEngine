@@ -56,6 +56,7 @@ void EditorController::init()
     }
 
 	mBrush.init(this);
+	mBrush.setBrushSize(9);
 	mMenuBar.init(this);
 	mInfoBar.init(this);
 	mToolsBar.init(this);

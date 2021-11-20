@@ -54,9 +54,6 @@ void RenderEngine::init(f32 sceneSize)
 	}
 
 	mBatchesMap.init();
-
-	mBatchesMapScreenSpace.init();
-	mBatchesMapScreenSpace.setIsWorldSpace(false);
 }
 
 bool RenderEngine::frustumTestSphere(const Vector3 &center, f32 radius)
@@ -102,15 +99,6 @@ void RenderEngine::renderBatches()
 	}
 
 	mShapeBatchRendererMap.render();
-
-	FOR_MAP(it, mLayersData)
-	{
-		//if (it->second.mVisible)
-		//{
-			mBatchesMapScreenSpace.render(it->second.mLayerNumber);
-		//}
-	}
-
 	mShapeBatchRendererMapScreenSpace.render();
     
 	PROFILER_TIMEMARK_END()
@@ -186,7 +174,7 @@ void RenderEngine::addComponent(Component *component)
 		else
 		{
 			// UI Case!
-			mBatchesMapScreenSpace.addRenderer(renderer);
+			mBatchesMap.addRenderer(renderer);
 		}
 	}
 }

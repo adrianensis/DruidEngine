@@ -108,11 +108,22 @@ void Batch::render(u32 layer)
 
 		mMaterial->enable();
 
-		resizeVertexBuffers(renderers->size());
-
 		mMaterial->bind(mIsWorldSpace);
 
-		processRenderers(renderers);
+		if(shouldRegenerateBuffers(layer))
+		{
+			resizeVertexBuffers(renderers->size());
+			mBatchLayersData[layer].mPendingDrawCall = processRenderers(renderers);
+		}
+		else
+		{
+			mBatchLayersData[layer].mPendingDrawCall = true;
+		}
+
+		if(mBatchLayersData[layer].mPendingDrawCall)
+		{
+			drawCall(layer); // flush all the previous rendereres
+		}
 
 		mMaterial->disable();
 
@@ -159,12 +170,13 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::processRenderers(std::list<Renderer *> *renderers)
+bool Batch::processRenderers(std::list<Renderer *> *renderers)
 {
 	PROFILER_TIMEMARK_START()
-	bool pendingDrawCall = false;
 
 	u32 renderersSize = renderers->size();
+
+	bool pendingDrawCall = false;
 	
 	FOR_LIST(it, *renderers)
 	{
@@ -180,7 +192,7 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 
 				if(renderer->hasClipRectangle())
 				{
-					if(pendingDrawCall)
+					/*if(pendingDrawCall)
 					{
 						drawCall(); // flush all the previous rendereres
 						resizeVertexBuffers(renderers->size()); // TODO : resize to the correct remaining size
@@ -196,7 +208,7 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 
 					// TODO : comment this ↓↓↓↓ to test clip rectangle
 					mMaterial->getShader()->addVector2(Vector2(), "clipRegionLeftTop");
-					mMaterial->getShader()->addVector2(Vector2(), "clipRegionSize");
+					mMaterial->getShader()->addVector2(Vector2(), "clipRegionSize");*/
 				}
 				else
 				{
@@ -223,11 +235,9 @@ void Batch::processRenderers(std::list<Renderer *> *renderers)
 		}
 	}
 
-	if(pendingDrawCall)
-	{
-		drawCall(); // flush all the previous rendereres
-	}
 	PROFILER_TIMEMARK_END()
+
+	return pendingDrawCall;
 }
 
 bool Batch::isChunkOk(Renderer *renderer) const
@@ -236,7 +246,7 @@ bool Batch::isChunkOk(Renderer *renderer) const
 	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
 }
 
-void Batch::drawCall() const
+void Batch::drawCall(u32 layer)
 {
 	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
@@ -247,6 +257,10 @@ void Batch::drawCall() const
 
 		RenderContext::drawRectangles(mMeshesIndex);
 	}
+
+	mBatchLayersData[layer].mNewRendererAdded = false;
+	mBatchLayersData[layer].mPendingDrawCall = false;
+
 	PROFILER_TIMEMARK_END()
 }
 
@@ -324,6 +338,8 @@ void Batch::addRenderer(Renderer *renderer)
 	}
 
 	renderer->setIsAlreadyInBatch(true);
+
+	mBatchLayersData[layer].mNewRendererAdded = true;
 }
 
 void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *> *list)
@@ -392,4 +408,9 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 	mMeshesIndex++;
 	
 	PROFILER_TIMEMARK_END()
+}
+
+bool Batch::shouldRegenerateBuffers(u32 layer) const
+{
+	return mBatchLayersData.at(layer).mNewRendererAdded || !mIsStatic;
 }

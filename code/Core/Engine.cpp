@@ -100,7 +100,8 @@ void Engine::run()
 			auto diff_duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double, std::milli>(diff));
 			std::this_thread::sleep_for(std::chrono::milliseconds(diff_duration.count()));
 		}
-		//std::cout << 1.0f/Time::getInstance().getDeltaTimeSeconds() << std::endl;
+		
+		std::cout << 1.0f/Time::getInstance().getDeltaTimeSeconds() << std::endl;
 
 		Profiler::getInstance().update(Time::getInstance().getElapsedTimeMillis());
 

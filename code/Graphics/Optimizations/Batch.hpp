@@ -13,7 +13,18 @@ class Camera;
 class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
+
+	PRI class BatchLayerData: public ObjectBase
+	{
+		GENERATE_METADATA(Batch::BatchLayerData)
+
+		PUB bool mNewRendererAdded = false;
+		PUB bool mPendingDrawCall = false;
+	};
+
 	PRI std::map<u32, std::list<Renderer *> *> mRenderers;
+	PRI std::map<u32, BatchLayerData> mBatchLayersData;
+
 	PRI Material* mMaterial = nullptr; GET(Material)
 	PRI const Mesh* mMesh = nullptr; GET(Mesh)
 
@@ -32,15 +43,18 @@ class Batch: public ObjectBase
 
 	PRI bool mBinded = false;
 	PRI bool mIsWorldSpace = false; GET_SET(IsWorldSpace)
+	PRI bool mIsStatic = false; GET_SET(IsStatic)
 
 PRI
+	bool shouldRegenerateBuffers(u32 layer) const;
+
 	void addToVertexBuffer(Renderer * renderer);
 	void resizeVertexBuffers(u32 newSize);
 	bool isChunkOk(Renderer * renderer) const;
 
-	void processRenderers(std::list<Renderer *> * renderers);
+	bool processRenderers(std::list<Renderer *> * renderers);
 
-	void drawCall() const;
+	void drawCall(u32 layer);
 
 	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *> * list);
 

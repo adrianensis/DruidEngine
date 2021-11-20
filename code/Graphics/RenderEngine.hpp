@@ -35,7 +35,6 @@ PRI
 	};
 
 	PRI BatchesMap mBatchesMap;
-	PRI BatchesMap mBatchesMapScreenSpace;
 
 	PRI ShapeBatchRendererMap mShapeBatchRendererMap;
 	PRI ShapeBatchRendererMap mShapeBatchRendererMapScreenSpace;
