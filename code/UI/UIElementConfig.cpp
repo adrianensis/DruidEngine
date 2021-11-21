@@ -8,7 +8,7 @@ UIElementConfig::UIElementConfig()
 	mIsAffectedByLayout = true;
 }
 
-void UIElementConfig::init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text /*= std::string()*/)
+void UIElementConfig::init(const Vector2 &position, const Vector2 &size, i32 layer, std::string text /*= std::string()*/)
 {
 	mStyle = &UIStyleManager::getInstance().getDefaultStyle();
 	mUIElementClassId = 0;

@@ -111,7 +111,7 @@ void UIText::setText(const std::string &text)
 
 					renderer->setMesh(Mesh::getRectangle());
 					renderer->setMaterial(UI::getInstance().getFontMaterial());
-					renderer->setDepth(mLayer /*+ 1*/);
+					renderer->setDepth(mLayer);
 					
 					addComponent<Renderer>(renderer);
 
@@ -124,11 +124,6 @@ void UIText::setText(const std::string &text)
 				renderer->setRegion(Rectangle(textureCoordinates.x, textureCoordinates.y, textureSize.x, textureSize.y));
 			}
 		}
-
-		/*if (newRenderersCreated)
-		{
-			getScene()->updateComponents(this);
-		}*/
 
 		mString = text;
 

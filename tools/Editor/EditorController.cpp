@@ -57,10 +57,10 @@ void EditorController::init()
 
 	mBrush.init(this);
 	mBrush.setBrushSize(9);
-	mMenuBar.init(this);
 	mInfoBar.init(this);
 	mToolsBar.init(this);
 	mLayersBar.init(this);
+	mMenuBar.init(this);
 	mSprites.init(this);
 
 	SUBSCRIBE_TO_EVENT(InputEventKeyTab, nullptr, this, [&](const Event *event)
@@ -168,7 +168,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	renderer->init();
 
 	renderer->setMesh(Mesh::getRectangle());
-	renderer->setDepth(mLayer);
+	renderer->setDepth(-1 * getLayer());
 
 	renderer->setMaterial(material);
 	renderer->setRegion(region);

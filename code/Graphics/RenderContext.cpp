@@ -59,9 +59,7 @@ void RenderContext::init()
 
 	glfwSetFramebufferSizeCallback(smWindow, RenderContext::onResize);
 
-	//glViewport(0, 0, smWindowSize.x*10, smWindowSize.y*10);
-
-	glClearColor(0.1f, 0.2f, 0.4f, 1.0f);
+	glClearColor(0,0,0,1);
 	glEnable(GL_DEPTH_TEST); // Enable depth testing
 	glDepthFunc(GL_LEQUAL);	 // Near things obscure far things
 	glEnable(GL_CULL_FACE);	 // BACK by default
@@ -69,8 +67,6 @@ void RenderContext::init()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-
-	//Input::getInstance().init();
 
 	RenderContext::clear();
 }
@@ -103,7 +99,6 @@ GLuint RenderContext::createVBO(u32 elementSize, u32 PropertyArrayIndex)
 	u32 VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, 1000, nullptr, GL_DYNAMIC_DRAW);
 	// for vertices elementSize should be 3 (x,y,z), for colors 4 (r,g,b,a)
 	RenderContext::enableProperty(PropertyArrayIndex);
 	glVertexAttribPointer(PropertyArrayIndex, elementSize, GL_FLOAT, GL_FALSE, elementSize * sizeof(f32), (byte *)0);
@@ -125,16 +120,16 @@ GLuint RenderContext::createEBO()
 	return EBO;
 }
 
-void RenderContext::resizeVBO(u32 VBO, u32 size)
+void RenderContext::resizeVBO(u32 VBO, u32 size, u32 drawMode /*= GL_DYNAMIC_DRAW*/)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, nullptr, drawMode);
 }
 
-void RenderContext::resizeEBO(u32 EBO, u32 size)
+void RenderContext::resizeEBO(u32 EBO, u32 size, u32 drawMode /*= GL_DYNAMIC_DRAW*/)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * size, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * size, nullptr, drawMode);
 }
 
 void RenderContext::setDataVBO(u32 VBO, const std::vector<f32> &data)

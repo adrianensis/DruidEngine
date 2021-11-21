@@ -13,6 +13,7 @@
 class Material;
 class Mesh;
 class Chunk;
+class Batch;
 
 class Renderer: public Component
 {
@@ -31,8 +32,7 @@ class Renderer: public Component
 	// Renderer Properties
 	PRI mutable Matrix4 mRenderereModelMatrix;
 	PRI mutable bool mPositionOffsetDirty = true;
-	PRI mutable std::vector<Vector2> mVertices;
-	PRI mutable bool mIsWorldSpace = true;
+	PRI mutable std::vector<Vector3> mVertices;
 	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
 	PRI Vector3 mPositionOffset; GET(PositionOffset)
 	PRI Rectangle mRegion; GETREF_CONST_SET(Region)
@@ -41,16 +41,18 @@ class Renderer: public Component
 	PRI Material* mMaterial = nullptr; GET_SET(Material)
 	PRI bool mInvertAxisX = false; GET_SET(InvertAxisX)
 	PRI bool mIsLineMode = false; GET_SET(IsLineMode)
-	PRI u32 mDepth = 0; GET_SET(Depth)
+	PRI i32 mDepth = 0; GET_SET(Depth)
+	PRI bool mUseDepth = true; GET_SET(UseDepth) // overrides Z with Depth
 	PRI f32 mRenderDistance = 0.0f; GET_SET(RenderDistance)
 	PRI bool mIsOutOfCamera = false; GET_SET(IsOutOfCamera)
-	PRI bool mIsAlreadyInBatch = false; GET_SET(IsAlreadyInBatch)
+	
 	PRI Chunk* mChunk = nullptr; GET_SET(Chunk)
+	PRI Batch* mBatch = nullptr; GET_SET(Batch)
 
 	PUB void setColor(const Vector4& color);
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
 	PUB bool getIsWorldSpace() const;
-	PUB const std::vector<Vector2>& getVertices(bool force = false) const;
+	PUB const std::vector<Vector3>& getVertices(bool force = false) const;
 	PUB bool hasClipRectangle() const;
 
 	// Animation
@@ -62,4 +64,6 @@ class Renderer: public Component
     PUB void removeAnimation(const std::string& name);
 	PUB bool hasAnimations() const;
 	PUB void updateAnimation();
+
+	PUB void onDestroy() override;
 };

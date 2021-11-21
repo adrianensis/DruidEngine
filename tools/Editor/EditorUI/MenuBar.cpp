@@ -16,7 +16,7 @@ void MenuBar::init(EditorController* editorController)
 	uiBuilder.
 	setLayout(UILayout::HORIZONTAL).
 	setPosition(Vector2(-1,1)).
-	setLayer(5).
+	setLayer(0).
 	setAdjustSizeToText(true).
 	setSize(Vector2(0.5f, 0.05f));
 

@@ -100,9 +100,6 @@ void __customMain()
 		return __getClassAttributesNamesStatic();                               \
 	};
 
-#define GENERATE_DYNAMIC_DESTRUCTOR_VIRTUAL(...) \
-	virtual void dynamicDestructor() override { this->~__VA_ARGS__(); };
-
 #define GENERATE_METADATA(...)          \
 PRO\
 	GENERATE_ATTRIBUTES_NAMES_STATIC(__VA_ARGS__);  \

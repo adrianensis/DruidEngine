@@ -27,7 +27,7 @@ class UIElementConfig: public ObjectBase
 	PUB Vector2 mTextSize;
 	PUB std::string mText;
 	PUB bool mAdjustSizeToText = false;
-	PUB u32 mLayer = 0;
+	PUB i32 mLayer = 0;
 	PUB bool mIsAffectedByLayout = false;
 	PUB Material* mMaterial = nullptr;
 	PUB std::string mGroup;
@@ -37,7 +37,7 @@ class UIElementConfig: public ObjectBase
 PUB
 	UIElementConfig();
 
-	void init(const Vector2 &position, const Vector2 &size, u32 layer, std::string text = std::string());
+	void init(const Vector2 &position, const Vector2 &size, i32 layer, std::string text = std::string());
 
 	COPY(UIElementConfig)
 	{

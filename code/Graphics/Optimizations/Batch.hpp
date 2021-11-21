@@ -3,10 +3,9 @@
 #include "Core/Core.hpp"
 #include "Maths/Matrix4.hpp"
 #include "Graphics/Mesh.hpp"
-
+#include "Graphics/Renderer.hpp"
 
 class Material;
-class Renderer;
 class RenderEngine;
 class Camera;
 
@@ -14,7 +13,7 @@ class Batch: public ObjectBase
 {
     GENERATE_METADATA(Batch)
 
-	PRI std::list<Renderer *> mRenderers;
+	PRI std::list<ProxyObject<Renderer>> mProxyRenderers;
 
 	PRI Material* mMaterial = nullptr; GET(Material)
 	PRI const Mesh* mMesh = nullptr; GET(Mesh)
@@ -36,24 +35,22 @@ class Batch: public ObjectBase
 	PRI bool mIsWorldSpace = false; GET_SET(IsWorldSpace)
 	PRI bool mIsStatic = false; GET_SET(IsStatic)
 
-	PUB bool mNewRendererAdded = false;
-	PUB bool mPendingDrawCall = false;
+	PRI bool mNewRendererAdded = false;
+	PRI bool mPendingDrawCall = false;
+	PRI bool mForceRegenerateBuffers = false;
 
 PRI
 	bool shouldRegenerateBuffers() const;
 
 	void addToVertexBuffer(Renderer * renderer);
-	void resizeVertexBuffers(u32 newSize);
+	void resizeVertexBuffers();
 	bool isChunkOk(Renderer * renderer) const;
 
-	bool processRenderers(std::list<Renderer *>& renderers);
+	bool processRenderers();
 
 	void drawCall();
 
-	void internalRemoveRendererFromList(std::list<Renderer *>::iterator & it, std::list<Renderer *>& list);
-
-	void insertSorted(Renderer * renderer, std::list<Renderer *> * renderers);
-
+	void internalRemoveRendererFromList(std::list<ProxyObject<Renderer>>::iterator & it);
 PUB
 	~Batch() override;
 
@@ -63,4 +60,5 @@ PUB
 	void render();
 
 	void addRenderer(Renderer * renderer);
+	void forceRegenerateBuffers() { mForceRegenerateBuffers = true; }
 };

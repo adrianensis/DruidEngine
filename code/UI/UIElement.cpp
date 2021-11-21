@@ -321,8 +321,8 @@ void UIElement::release(bool force /*= false*/)
 	bool cursorInside = isMouseCursorInsideElement();
 
 	bool canExecuteRelease =
-    (!mCanToggle || (mCanToggle && mToggled)) &&
-    ((mOnlyReleaseOnClickOutside && !cursorInside) || !mOnlyReleaseOnClickOutside) ||
+    ((!mCanToggle || (mCanToggle && mToggled)) &&
+    ((mOnlyReleaseOnClickOutside && !cursorInside) || !mOnlyReleaseOnClickOutside)) ||
     force;
 
 	if(canExecuteRelease)

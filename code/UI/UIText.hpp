@@ -8,7 +8,7 @@ class UIPanel;
 class UIText: public UIElement
 {
     GENERATE_METADATA(UIText)
-	PRI u32 mLayer = 0;
+	PRI i32 mLayer = 0;
 	PRI Vector2 mSize;
 	PRI std::string mString;
 	PRI std::vector<Renderer *> mFontRenderers;
@@ -28,7 +28,7 @@ PUB
 
 	virtual void setText(const std::string &text) override;
 
-	void setLayer(u32 layer)
+	void setLayer(i32 layer)
 	{
 		mLayer = layer;
 	};

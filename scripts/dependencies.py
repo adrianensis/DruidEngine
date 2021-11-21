@@ -41,9 +41,8 @@ print(system_info)
 
 if system_name == "Linux" or system_name == "Linux2":
     # linux
-    if "Ubuntu" in system_info:
-        os.system("sudo apt-get -y update")
-        os.system("sudo apt-get -y install build-essential wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz")
+    os.system("sudo apt-get -y update")
+    os.system("sudo apt-get -y install build-essential wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz")
 
 elif system_name == "Darwin":
     # OS X

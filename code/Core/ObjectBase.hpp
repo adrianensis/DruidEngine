@@ -6,6 +6,7 @@
 #include "Log/Log.hpp"
 #include "Core/Serialization.hpp"
 #include "Core/AttributeBase.hpp"
+#include "Core/Proxy/ProxyOwner.hpp"
 
 namespace Hash
 {
@@ -17,7 +18,7 @@ namespace Hash
 	}
 }
 
-class ObjectBase: public ISerializable
+class ObjectBase: public ISerializable, public ProxyOwner
 {
 	friend AttributeRegister;
 
@@ -57,7 +58,10 @@ PUB
 		}
 	};
 
-	virtual ~ObjectBase(){};
+	virtual ~ObjectBase()
+	{
+		notifyProxy();
+	};
 
 	ObjectId getObjectId()
 	{

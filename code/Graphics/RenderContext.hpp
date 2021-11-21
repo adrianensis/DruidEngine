@@ -35,8 +35,8 @@ PUB
 	static GLuint createVBO(u32 elementSize, u32 PropertyArrayIndex);
 	static GLuint createEBO();
 	static GLuint createVAO();
-	static void resizeVBO(u32 VBO, u32 size);
-	static void resizeEBO(u32 EBO, u32 size);
+	static void resizeVBO(u32 VBO, u32 size, u32 drawMode = GL_DYNAMIC_DRAW);
+	static void resizeEBO(u32 EBO, u32 size, u32 drawMode = GL_DYNAMIC_DRAW);
 	static void setDataVBO(u32 VBO, const std::vector<f32> &data);
 	static void setDataEBO(u32 EBO, const std::vector<u32> &data);
 

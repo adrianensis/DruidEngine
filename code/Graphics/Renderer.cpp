@@ -14,6 +14,7 @@
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
+#include "Graphics/Optimizations/Batch.hpp"
 
 Renderer::Renderer()
 {
@@ -22,8 +23,6 @@ Renderer::Renderer()
 	mRegion.setSize(Vector2(1.0, 1.0));
 
 	mRenderDistance = 1500; // TODO : move to settings?
-
-	mIsWorldSpace = true;
 }
 
 Renderer::~Renderer()
@@ -48,8 +47,10 @@ void Renderer::init()
 void Renderer::onComponentAdded()
 {
 	mTransformState = getGameObject()->getTransform()->getTransformState();
-}
 
+	// Force vertices generatiin
+	getVertices(true);
+}
 
 bool Renderer::hasAnimations() const { return mAnimations.size() > 0; };
 
@@ -121,15 +122,10 @@ void Renderer::setColor(const Vector4 &color)
 
 bool Renderer::getIsWorldSpace() const
 {
-	if (getGameObject())
-	{
-		mIsWorldSpace = getGameObject()->getTransform()->getAffectedByProjection();
-	}
-
-	return mIsWorldSpace;
+	return getGameObject()->getTransform()->getAffectedByProjection();
 }
 
-const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
+const std::vector<Vector3> &Renderer::getVertices(bool force /*= false*/) const
 {
 	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
 	if (!currentTransformState.eq(mTransformState) || mPositionOffsetDirty || force)
@@ -137,7 +133,7 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
 		mRenderereModelMatrix.translation(mPositionOffset);
 
 		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
-		
+
 		FOR_ARRAY(i, mVertices)
 		{
 			Vector3 vertexPosition(
@@ -146,6 +142,8 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
 				mMesh->getVertices()[i * 3 + 2]);
 
 			vertexPosition = mRenderereModelMatrix.mulVector(Vector4(vertexPosition, 1));
+
+			vertexPosition.z = (mUseDepth ? mDepth : 0);
 
 			mVertices[i] = vertexPosition;
 		}
@@ -160,7 +158,15 @@ const std::vector<Vector2> &Renderer::getVertices(bool force /*= false*/) const
 bool Renderer::hasClipRectangle() const 
 {
 	return mClipRectangle.getSize().len() > MathUtils::FLOAT_EPSILON;
-};
+}
+
+void Renderer::onDestroy()
+{
+	if(mBatch)
+	{
+		mBatch->forceRegenerateBuffers();
+	}
+}
 
 void Renderer::serialize(JSON &json) const
 {

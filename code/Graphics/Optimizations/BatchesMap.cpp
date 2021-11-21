@@ -71,3 +71,11 @@ void BatchesMap::renderBatchesMap(std::map<Texture *, Batch *>& batchesMap)
 		it->second->render();
 	}
 }
+
+void BatchesMap::forceRegenerateBuffers()
+{
+	FOR_MAP(it, mBatchesStatic)
+	{
+		it->second->forceRegenerateBuffers();
+	}
+}

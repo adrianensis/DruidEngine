@@ -19,25 +19,16 @@
 
 Batch::~Batch()
 {
-	// TODO : Is this needed if !WorldSpace??
-
-	if (!mIsWorldSpace)
+	FOR_LIST(it, mProxyRenderers)
 	{
-		FOR_LIST(itRenderer, mRenderers)
+		if (it->isValid())
 		{
-			if (!(*itRenderer)->getIsDestroyed())
-			{
-				(*itRenderer)->finallyDestroy();
-				DELETE((*itRenderer));
-			}
+			it->disconnectFromOwner();
+			DELETE(it->getObject());
 		}
+	}
 
-		mRenderers.clear();
-	}
-	else
-	{
-		LIST_DELETE_CONTENT(mRenderers)
-	}
+	mProxyRenderers.clear();
 
 	glDeleteVertexArrays(1, &mVAO);
 	glDeleteBuffers(1, &mVBOPosition);
@@ -84,7 +75,7 @@ void Batch::render()
 {
 	PROFILER_TIMEMARK_START()
 
-	if (!mRenderers.empty())
+	if (!mProxyRenderers.empty())
 	{
 		RenderContext::enableVAO(mVAO);
 
@@ -98,8 +89,8 @@ void Batch::render()
 
 		if(shouldRegenerateBuffers())
 		{
-			resizeVertexBuffers(mRenderers.size());
-			mPendingDrawCall = processRenderers(mRenderers);
+			resizeVertexBuffers();
+			mPendingDrawCall = processRenderers();
 		}
 		else
 		{
@@ -123,18 +114,21 @@ void Batch::render()
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::resizeVertexBuffers(u32 newSize)
+void Batch::resizeVertexBuffers()
 {
 	PROFILER_TIMEMARK_START()
+	
+	u32 newSize = mProxyRenderers.size();
+	
 	if (newSize > mMaxMeshesThreshold)
 	{
 		mMaxMeshesThreshold += mMaxMeshesIncrement;
 
 		mMeshBuilder.init(mMesh->getVertexCount() * mMaxMeshesThreshold, mMesh->getFacesCount() * mMaxMeshesThreshold);
 
-		RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity());
-		RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity());
-		RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity());
+		RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 
 		// Create Faces once and send to GPU once.
 		FOR_RANGE(i, 0, mMaxMeshesThreshold)
@@ -144,7 +138,7 @@ void Batch::resizeVertexBuffers(u32 newSize)
 		}
 
 		// NOTE : VAO needs to be enabled before this line
-		RenderContext::resizeEBO(mEBO, mMeshBuilder.getFaces().size());
+		RenderContext::resizeEBO(mEBO, mMeshBuilder.getFaces().size(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
 	}
 	else
@@ -156,68 +150,75 @@ void Batch::resizeVertexBuffers(u32 newSize)
 	PROFILER_TIMEMARK_END()
 }
 
-bool Batch::processRenderers(std::list<Renderer *>& renderers)
+bool Batch::processRenderers()
 {
 	PROFILER_TIMEMARK_START()
 
-	u32 renderersSize = mRenderers.size();
-
 	bool pendingDrawCall = false;
 	
-	FOR_LIST(it, mRenderers)
+	FOR_LIST(it, mProxyRenderers)
 	{
-		Renderer *renderer = *it;
-
 		bool toRemove = false;
 
-		if (renderer->isActive())
+		if(it->isValid())
 		{
-			if (isChunkOk(renderer))
+			Renderer *renderer = it->getObject();
+			if (renderer->isActive())
 			{
-				//if (!checkIsOutOfCamera(camera, renderer)) { }
-
-				if(renderer->hasClipRectangle())
+				if (isChunkOk(renderer))
 				{
-					/*if(pendingDrawCall)
+					/*Transform* transform = renderer->getGameObject()->getTransform();
+					const Vector3& position = transform->getWorldPosition();
+					f32 distanceToCamera = position.dst(RenderEngine::getInstance().getCamera()->getGameObject()->getTransform()->getWorldPosition());
+					if(!renderer->getIsWorldSpace() || distanceToCamera <= renderer->getRenderDistance())*/
+					
+					if(renderer->hasClipRectangle())
 					{
-						drawCall(); // flush all the previous rendereres
-						resizeVertexBuffers(renderers->size()); // TODO : resize to the correct remaining size
+						/*if(pendingDrawCall)
+						{
+							drawCall(); // flush all the previous rendereres
+							resizeVertexBuffers(renderers->size()); // TODO : resize to the correct remaining size
+						}
+
+						addToVertexBuffer(renderer);
+
+						mMaterial->getShader()->addVector2(renderer->getClipRectangle().getLeftTop(), "clipRegionLeftTop");
+						mMaterial->getShader()->addVector2(renderer->getClipRectangle().getSize(), "clipRegionSize");
+
+						drawCall();
+						resizeVertexBuffers(renderers->size());
+
+						// TODO : comment this ↓↓↓↓ to test clip rectangle
+						mMaterial->getShader()->addVector2(Vector2(), "clipRegionLeftTop");
+						mMaterial->getShader()->addVector2(Vector2(), "clipRegionSize");*/
 					}
-
-					addToVertexBuffer(renderer);
-
-					mMaterial->getShader()->addVector2(renderer->getClipRectangle().getLeftTop(), "clipRegionLeftTop");
-					mMaterial->getShader()->addVector2(renderer->getClipRectangle().getSize(), "clipRegionSize");
-
-					drawCall();
-					resizeVertexBuffers(renderers->size());
-
-					// TODO : comment this ↓↓↓↓ to test clip rectangle
-					mMaterial->getShader()->addVector2(Vector2(), "clipRegionLeftTop");
-					mMaterial->getShader()->addVector2(Vector2(), "clipRegionSize");*/
+					else
+					{
+						addToVertexBuffer(renderer);
+						pendingDrawCall = true;
+					}
 				}
 				else
 				{
-					addToVertexBuffer(renderer);
-					pendingDrawCall = true;
+					toRemove = true;
 				}
 			}
 			else
 			{
-				toRemove = true;
+				if (renderer->getIsPendingToBeDestroyed())
+				{
+					toRemove = true;
+				}
 			}
 		}
 		else
 		{
-			if (renderer->getIsPendingToBeDestroyed())
-			{
-				toRemove = true;
-			}
+			toRemove = true;
 		}
 
 		if (toRemove)
 		{
-			internalRemoveRendererFromList(it, mRenderers);
+			internalRemoveRendererFromList(it);
 		}
 	}
 
@@ -237,6 +238,7 @@ void Batch::drawCall()
 	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
 	{
+		// TODO : can I avoid these "setDataVBO" if static batch?? probably yes
 		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
 		RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
 		RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
@@ -246,98 +248,47 @@ void Batch::drawCall()
 
 	mNewRendererAdded = false;
 	mPendingDrawCall = false;
+	mForceRegenerateBuffers = false;
 
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::insertSorted(Renderer *renderer, std::list<Renderer *> *renderers)
-{
-	// INSERT SORTED
-
-	f32 y = renderer->getGameObject()->getTransform()->getWorldPosition().y;
-
-	renderers->push_back(renderer);
-
-	// CASE 1 : IF LIST IS EMPTY
-	/*if (renderers->empty()) {
-		renderers->push_back(renderer);
-	} else {
-		Renderer* first = *renderers->begin();
-		Renderer* last = *renderers->end();
-
-		// CASE 2 : RENDERER IS IN THE LAST/FIRST Depth
-		if (last->isActive() && (y <= last->getGameObject()->getTransform()->getWorldPosition().y)) {
-			renderers->push_back(renderer);
-		} else if (first->isActive() && (y >= first->getGameObject()->getTransform()->getWorldPosition().y)) {
-			renderers->push_front(renderer);
-		} else {
-			// CASE 3 : LIST HAS ELEMENTS AND RENDERER IS IN A RANDOM Depth, NOT THE LAST
-			bool foundSmallerY = false;
-
-			// TODO : complete insert sorted
-			auto itSmallerY = renderers->getIterator();
-
-			FOR_LIST_COND(it, renderers, !foundSmallerY)
-			{
-				Renderer* otherRenderer = it.get();
-				if(otherRenderer->isActive()){
-					f32 otherY = otherRenderer->getGameObject()->getTransform()->getWorldPosition().y;
-
-					if (y >= otherY) {
-						foundSmallerY = true;
-						itSmallerY = it;
-					}
-				}
-			}
-
-			if (foundSmallerY) {
-				renderers->insert(itSmallerY, renderer); // this method inserts before the iterator
-			} else {
-				renderers->pushBack(renderer);
-			}
-
-			renderers->push_back(renderer);
-		}
-	}*/
-}
-
 void Batch::addRenderer(Renderer *renderer)
 {
-	u32 Depth = renderer->getDepth();
+	ProxyObject<Renderer> proxy;
 
-	/*if (RenderEngine::getInstance().getDepthsData().at(renderer->getDepth()).mSorted)
-	{
-		insertSorted(renderer, renderers);
-	}
-	else
-	{
-		// renderers->push_back(renderer);
-	}*/
+	mProxyRenderers.push_back(proxy);
 
-	mRenderers.push_back(renderer);
+	mProxyRenderers.back().init(renderer);
 
-	renderer->setIsAlreadyInBatch(true);
+	renderer->setBatch(this);
 
 	mNewRendererAdded = true;
 }
 
-void Batch::internalRemoveRendererFromList(std::list<Renderer *>::iterator &it, std::list<Renderer *>& list)
+void Batch::internalRemoveRendererFromList(std::list<ProxyObject<Renderer>>::iterator &it)
 {
 	PROFILER_TIMEMARK_START()
 
-	Renderer *renderer = *it;
+	ProxyObject<Renderer>& proxy = *it;
 
-	renderer->setIsAlreadyInBatch(false);
+	proxy.disconnectFromOwner();
 
-	// NOTE: UI CASE
-	// UI is not deleted in Chunk so it has to be deleted here.
-	if (!mIsWorldSpace)
+	if(proxy.isValid())
 	{
-		renderer->finallyDestroy();
-		DELETE(renderer);
+		Renderer* renderer = proxy.getObject();
+		renderer->setBatch(nullptr);
+
+		// NOTE: UI CASE
+		// UI is not deleted in Chunk so it has to be deleted here.
+		if (!mIsWorldSpace)
+		{
+			renderer->finallyDestroy();
+			DELETE(renderer);
+		}
 	}
 
-	it = list.erase(it);
+	it = mProxyRenderers.erase(it);
 	--it; // go back to the previous it, so the FOR LOOP can do ++it with no problem
 
 	PROFILER_TIMEMARK_END()
@@ -348,7 +299,7 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 	PROFILER_TIMEMARK_START()
 	renderer->updateAnimation();
 
-	const std::vector<Vector2> &vertexPositions = renderer->getVertices();
+	const std::vector<Vector3> &vertexPositions = renderer->getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())
 	{
@@ -391,5 +342,5 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 
 bool Batch::shouldRegenerateBuffers() const
 {
-	return mNewRendererAdded || !mIsStatic;
+	return mNewRendererAdded || !mIsStatic || mForceRegenerateBuffers;
 }

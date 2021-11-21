@@ -117,12 +117,14 @@ void RenderEngine::checkChunks()
 		f32 chunkToCameraDistance = chunk->getCenter().dst(mCamera->getGameObject()->getTransform()->getWorldPosition());
 		bool chunkInDistance = chunkToCameraDistance <= mMinChunkDrawDistance;
 		
-		if (chunkInDistance)
+		if (chunkInDistance && !chunk->getIsLoaded())
 		{
 			chunk->load();
 		}
-		else
+		else if (!chunkInDistance && chunk->getIsLoaded())
 		{
+			mBatchesMap.forceRegenerateBuffers();
+
 			chunk->unload();
 		}
 

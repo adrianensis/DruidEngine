@@ -25,12 +25,11 @@ void LayersBar::init(EditorController* editorController)
 	setStyle(&UIStyleManager::getInstance().getOrAddStyle<UIStyleEditorToolsBar>()).
 	setSize(Vector2(0.07f, 0.07f)).
 	//setAdjustSizeToText(true).
-	//restoreMaterial().
 	setMaterial(MaterialManager::getInstance().loadMaterial("resources/editor-icons/Layer.png"));
 
 	FOR_RANGE(i, 0, 10)
 	{
-		u32 layer = i;
+		i32 layer = i;
 		std::string layerStr = std::to_string(layer);
 
 		uiBuilder.

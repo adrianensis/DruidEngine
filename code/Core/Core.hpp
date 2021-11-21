@@ -7,3 +7,4 @@
 #include "Core/Memory.hpp"
 #include "Core/ClassManager.hpp"
 #include "Core/Subsystem.hpp"
+#include "Core/Proxy/ProxyObject.hpp"

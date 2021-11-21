@@ -26,4 +26,5 @@ PUB
 
 	void setIsWorldSpace(bool isWorldSpace);
 	void setIsStatic(bool isStatic);
+	void forceRegenerateBuffers();
 };
