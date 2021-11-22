@@ -143,7 +143,10 @@ const std::vector<Vector3> &Renderer::getVertices(bool force /*= false*/) const
 
 			vertexPosition = mRenderereModelMatrix.mulVector(Vector4(vertexPosition, 1));
 
-			vertexPosition.z = (mUseDepth ? mDepth : 0);
+			if(mUseDepth)
+			{
+				vertexPosition.z = mDepth;
+			}
 
 			mVertices[i] = vertexPosition;
 		}

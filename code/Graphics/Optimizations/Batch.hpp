@@ -28,10 +28,11 @@ class Batch: public ObjectBase
 	PRI u32 mVAO = 0;
 
 	PRI u32 mMaxMeshesThreshold = 0;
-	PRI u32 mMaxMeshesIncrement = 0;
+	PRI u32 mMaxMeshesIncrement = 100;
 	PRI u32 mMeshesIndex = 0;
 
 	PRI bool mBinded = false;
+	PRI bool mDataSentToGPU = false;
 	PRI bool mIsWorldSpace = false; GET_SET(IsWorldSpace)
 	PRI bool mIsStatic = false; GET_SET(IsStatic)
 

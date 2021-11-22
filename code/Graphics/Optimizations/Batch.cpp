@@ -46,7 +46,6 @@ void Batch::init(const Mesh *mesh, Material *material)
 	mMaterial = material;
 	mIsWorldSpace = true;
 
-	mMaxMeshesIncrement = 100;
 	mMeshesIndex = 0;
 
 	bind();
@@ -147,6 +146,8 @@ void Batch::resizeVertexBuffers()
 	}
 
 	mMeshesIndex = 0;
+	mDataSentToGPU = false;
+	
 	PROFILER_TIMEMARK_END()
 }
 
@@ -238,10 +239,13 @@ void Batch::drawCall()
 	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
 	{
-		// TODO : can I avoid these "setDataVBO" if static batch?? probably yes
-		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
-		RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
-		RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
+		if(!mDataSentToGPU)
+		{
+			RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
+			RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
+			RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
+			mDataSentToGPU = true;
+		}
 
 		RenderContext::drawRectangles(mMeshesIndex);
 	}
