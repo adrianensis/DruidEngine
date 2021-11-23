@@ -42,12 +42,7 @@ void RenderContext::init()
 
 	smWindow = glfwCreateWindow(smWindowSize.x, smWindowSize.y, "Engine", NULL, NULL);
 
-	if (!smWindow)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-	}
-	else
+	if (smWindow)
 	{
 		glfwMakeContextCurrent(smWindow);
 
@@ -55,20 +50,27 @@ void RenderContext::init()
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
+
+		glfwSwapInterval(0);
+
+		glfwSetFramebufferSizeCallback(smWindow, RenderContext::onResize);
+
+		glClearColor(0,0,0,1);
+		glEnable(GL_DEPTH_TEST); // Enable depth testing
+		glDepthFunc(GL_LEQUAL);	 // Near things obscure far things
+		glEnable(GL_CULL_FACE);	 // BACK by default
+		glCullFace(GL_BACK);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+
+		RenderContext::clear();
 	}
-
-	glfwSetFramebufferSizeCallback(smWindow, RenderContext::onResize);
-
-	glClearColor(0,0,0,1);
-	glEnable(GL_DEPTH_TEST); // Enable depth testing
-	glDepthFunc(GL_LEQUAL);	 // Near things obscure far things
-	glEnable(GL_CULL_FACE);	 // BACK by default
-	glCullFace(GL_BACK);
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-
-	RenderContext::clear();
+	else
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+	}
 }
 
 bool RenderContext::isClosed()
@@ -83,8 +85,8 @@ void RenderContext::clear()
 
 void RenderContext::swap()
 {
-	glFlush(); // https://stackoverflow.com/questions/50412575/is-there-a-way-to-remove-60-fps-cap-in-glfw
-	//glfwSwapBuffers(smWindow);
+	//glFlush(); // https://stackoverflow.com/questions/50412575/is-there-a-way-to-remove-60-fps-cap-in-glfw
+	glfwSwapBuffers(smWindow);
 	RenderContext::clear();
 }
 
