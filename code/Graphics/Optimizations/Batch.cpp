@@ -78,10 +78,6 @@ void Batch::render()
 	{
 		RenderContext::enableVAO(mVAO);
 
-		RenderContext::enableProperty(0);
-		RenderContext::enableProperty(1);
-		RenderContext::enableProperty(2);
-
 		mMaterial->enable();
 
 		mMaterial->bind(mIsWorldSpace);
@@ -98,14 +94,16 @@ void Batch::render()
 
 		if(mPendingDrawCall)
 		{
+			RenderContext::enableProperty(0);
+			RenderContext::enableProperty(1);
+			RenderContext::enableProperty(2);
 			drawCall(); // flush all the previous rendereres
+			RenderContext::disableProperty(0);
+			RenderContext::disableProperty(1);
+			RenderContext::disableProperty(2);
 		}
 
 		mMaterial->disable();
-
-		RenderContext::disableProperty(0);
-		RenderContext::disableProperty(1);
-		RenderContext::disableProperty(2);
 
 		RenderContext::enableVAO(0);
 	}
