@@ -12,7 +12,7 @@ class Mesh: public ObjectBase
 	PRI std::vector<f32> mNormals; GETREF_CONST(Normals)
 	PRI std::vector<f32> mTextureCoordinates; GETREF_CONST(TextureCoordinates)
 	PRI std::vector<f32> mColors; GETREF_CONST(Colors)
-	PRI std::vector<u32> mFaces; GETREF_CONST(Faces)
+	PRI std::vector<u16> mFaces; GETREF_CONST(Faces)
 
 	PRI u32 mVertexCount = 0; GET(VertexCount)
 	PRI u32 mFacesCount = 0; GET(FacesCount)
@@ -32,7 +32,7 @@ PUB
 	Mesh *addNormal(const Vector3 &vec);
 	Mesh *addTexCoord(f32 u, f32 v);
 	Mesh *addColor(f32 r, f32 g, f32 b, f32 a);
-	Mesh *addFace(u32 v1, u32 v2, u32 v3);
+	Mesh *addFace(u16 v1, u16 v2, u16 v3);
 	void clear();
 
 	static Mesh *getRectangle();

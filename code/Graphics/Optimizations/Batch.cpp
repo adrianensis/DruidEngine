@@ -123,9 +123,7 @@ void Batch::resizeVertexBuffers()
 
 		mMeshBuilder.init(mMesh->getVertexCount() * mMaxMeshesThreshold, mMesh->getFacesCount() * mMaxMeshesThreshold);
 
-		RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-		RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-		RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		
 
 		// Create Faces once and send to GPU once.
 		FOR_RANGE(i, 0, mMaxMeshesThreshold)
@@ -142,6 +140,11 @@ void Batch::resizeVertexBuffers()
 	{
 		mMeshBuilder.clear();
 	}
+
+	// Invalidate buffers so OpenGL will allocate new one under the hood, reducing sync
+	RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 
 	mMeshesIndex = 0;
 	mDataSentToGPU = false;

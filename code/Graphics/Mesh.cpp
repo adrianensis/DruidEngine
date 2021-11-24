@@ -52,7 +52,7 @@ Mesh *Mesh::addColor(f32 r, f32 g, f32 b, f32 a)
 	return this;
 }
 
-Mesh *Mesh::addFace(u32 v1, u32 v2, u32 v3)
+Mesh *Mesh::addFace(u16 v1, u16 v2, u16 v3)
 {
 	mFaces.push_back(v1);
 	mFaces.push_back(v2);

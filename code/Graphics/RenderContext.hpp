@@ -38,7 +38,7 @@ PUB
 	static void resizeVBO(u32 VBO, u32 size, u32 drawMode = GL_DYNAMIC_DRAW);
 	static void resizeEBO(u32 EBO, u32 size, u32 drawMode = GL_DYNAMIC_DRAW);
 	static void setDataVBO(u32 VBO, const std::vector<f32> &data);
-	static void setDataEBO(u32 EBO, const std::vector<u32> &data);
+	static void setDataEBO(u32 EBO, const std::vector<u16> &data);
 
 	static void enableProperty(u32 propertyArrayIndex);
 	static void disableProperty(u32 propertyArrayIndex);

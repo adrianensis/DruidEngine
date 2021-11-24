@@ -20,12 +20,11 @@ class Batch: public ObjectBase
 
 	PRI Mesh mMeshBuilder;
 
+	PRI u32 mVAO = 0;
 	PRI u32 mVBOPosition = 0; // TODO: change u32 for GLuint
-	PRI u32 mEBO = 0;
 	PRI u32 mVBOTexture = 0;
 	PRI u32 mVBOColor = 0;
-	PRI u32 mVBONormal = 0;
-	PRI u32 mVAO = 0;
+	PRI u32 mEBO = 0;
 
 	PRI u32 mMaxMeshesThreshold = 0;
 	PRI u32 mMaxMeshesIncrement = 100;

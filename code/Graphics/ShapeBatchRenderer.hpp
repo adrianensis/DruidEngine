@@ -22,7 +22,7 @@ class ShapeBatchRenderer: public ObjectBase
 	PRI u32 mEBO = 0;
 	PRI std::vector<f32> mPositionBuffer;
 	PRI std::vector<f32> mColorBuffer;
-	PRI std::vector<u32> mIndicesBuffer;
+	PRI std::vector<u16> mIndicesBuffer;
 
 	PRI f32 mSize = 0.0f;
 
