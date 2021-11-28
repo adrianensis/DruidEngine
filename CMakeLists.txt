@@ -89,12 +89,13 @@ set(DEPENDENCIES_DIR "dependencies")
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
+# ZLib (libpng dependency)
 if(WIN32)
-  # ZLib 
   # Requires Zlib -> http://gnuwin32.sourceforge.net/packages/zlib.htm
   set(ZLIB_ROOT "C:/Program Files (x86)/GnuWin32")
-  find_package(ZLIB REQUIRED)
 endif(WIN32)
+
+find_package(ZLIB REQUIRED)
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) # see : http://www.glfw.org/docs/latest/build_guide.html
