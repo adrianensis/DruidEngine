@@ -109,7 +109,8 @@ void Renderer::updateAnimation()
 void Renderer::setPositionOffset(const Vector3 &newPositionOffset)
 {
 	mPositionOffset = newPositionOffset;
-	mPositionOffsetDirty = true;
+	mVerticesDirty = true;
+	mRenderereModelMatrixGenerated = false;
 };
 
 void Renderer::setColor(const Vector4 &color)
@@ -125,14 +126,26 @@ bool Renderer::getIsWorldSpace() const
 	return getGameObject()->getTransform()->getAffectedByProjection();
 }
 
+const Matrix4& Renderer::getRendererModelMatrix(bool force /*= false*/) const
+{
+	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
+	if (!currentTransformState.eq(mTransformState) || (!mRenderereModelMatrixGenerated) || force)
+	{
+		mRenderereModelMatrix.translation(mPositionOffset);
+		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
+
+		mRenderereModelMatrixGenerated = true;
+	}
+
+	return mRenderereModelMatrix;
+}
+
 const std::vector<Vector3> &Renderer::getVertices(bool force /*= false*/) const
 {
 	TransformState currentTransformState = getGameObject()->getTransform()->getTransformState();
-	if (!currentTransformState.eq(mTransformState) || mPositionOffsetDirty || force)
+	if (!currentTransformState.eq(mTransformState) || mVerticesDirty || force)
 	{
-		mRenderereModelMatrix.translation(mPositionOffset);
-
-		mRenderereModelMatrix.mul(getGameObject()->getTransform()->getModelMatrix());
+		getRendererModelMatrix(force);
 
 		FOR_ARRAY(i, mVertices)
 		{
@@ -152,7 +165,7 @@ const std::vector<Vector3> &Renderer::getVertices(bool force /*= false*/) const
 		}
 
 		mTransformState = currentTransformState;
-		mPositionOffsetDirty = false;
+		mVerticesDirty = false;
 	}
 
 	return mVertices;

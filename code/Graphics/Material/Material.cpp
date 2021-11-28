@@ -20,7 +20,7 @@ void Material::init()
 {
 }
 
-void Material::bind(bool isWorldSpace)
+void Material::bind(bool isWorldSpace, bool isInstanced)
 {
 	if (mTexture)
 	{
@@ -34,6 +34,8 @@ void Material::bind(bool isWorldSpace)
 
 	mShader->addMatrix(isWorldSpace ? projectionMatrix : Matrix4::getIdentity(), "projectionMatrix");
 	mShader->addMatrix(isWorldSpace ? viewMatrix : Matrix4::getIdentity(), "viewMatrix");
+
+	mShader->addBool(isInstanced, "isInstanced");
 
 	mShader->addBool(mTexture != nullptr, "hasTexture");
 	mShader->addBool(mAlphaEnabled, "alphaEnabled");

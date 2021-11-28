@@ -44,6 +44,6 @@ PUB
 	static void disableProperty(u32 propertyArrayIndex);
 	static void enableVAO(u32 VAO);
 
-	static void drawRectangles(u32 rectanglesCount);
+	static void drawElements(u32 indicesCount, u32 instancesCount, bool instanced);
 	static void drawLines(u32 linesCount);
 };

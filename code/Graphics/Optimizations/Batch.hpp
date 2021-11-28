@@ -17,6 +17,8 @@ class Batch: public ObjectBase
 
 	PRI Material* mMaterial = nullptr; GET(Material)
 	PRI const Mesh* mMesh = nullptr; GET(Mesh)
+	PRI bool mIsInstanced = true; GET(IsInstanced)
+	PRI std::vector<f32> mMatrices;
 
 	PRI Mesh mMeshBuilder;
 
@@ -24,10 +26,11 @@ class Batch: public ObjectBase
 	PRI u32 mVBOPosition = 0; // TODO: change u32 for GLuint
 	PRI u32 mVBOTexture = 0;
 	PRI u32 mVBOColor = 0;
+	PRI u32 mVBOMatrices = 0;
 	PRI u32 mEBO = 0;
 
 	PRI u32 mMaxMeshesThreshold = 0;
-	PRI u32 mMaxMeshesIncrement = 100;
+	PRI const u32 mMaxMeshesIncrement = 100;
 	PRI u32 mMeshesIndex = 0;
 
 	PRI bool mBinded = false;
@@ -43,7 +46,15 @@ PRI
 	bool shouldRegenerateBuffers() const;
 
 	void addToVertexBuffer(Renderer * renderer);
-	void resizeVertexBuffers();
+
+	void generateFacesData(u32 meshesCount);
+	void invalidateAndReallocateBuffers();
+	void sendDataToBuffers();
+
+	void addToVertexBufferNotInstanced(Renderer * renderer);
+	void addToVertexBufferInstanced(Renderer * renderer);
+
+	void resizeBuffers();
 	bool isChunkOk(Renderer * renderer) const;
 
 	bool processRenderers();

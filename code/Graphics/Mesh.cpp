@@ -6,12 +6,6 @@
 
 Mesh *Mesh::smRectangle = nullptr;
 
-u32 Mesh::smVertexPositionSize = 3;
-u32 Mesh::smVertexNormalSize = 3;
-u32 Mesh::smVertexTexCoordSize = 2;
-u32 Mesh::smVertexColorSize = 4;
-u32 Mesh::smFaceSize = 3;
-
 void Mesh::init(u32 vertexCount, u32 facesCount)
 {
 	mVertexCount = vertexCount;
@@ -54,9 +48,45 @@ Mesh *Mesh::addColor(f32 r, f32 g, f32 b, f32 a)
 
 Mesh *Mesh::addFace(u16 v1, u16 v2, u16 v3)
 {
-	mFaces.push_back(v1);
-	mFaces.push_back(v2);
-	mFaces.push_back(v3);
+	addFaceIndex(v1);
+	addFaceIndex(v2);
+	addFaceIndex(v3);
+	return this;
+}
+
+Mesh *Mesh::addFaceIndex(u16 i)
+{
+	mFaces.push_back(i);
+	return this;
+}
+
+Mesh *Mesh::copyVertices(const Mesh* other)
+{
+	std::copy(other->getVertices().begin(), other->getVertices().end(), back_inserter(mVertices));
+	return this;
+}
+
+Mesh *Mesh::copyNormals(const Mesh* other)
+{
+	std::copy(other->getNormals().begin(), other->getNormals().end(), back_inserter(mNormals));
+	return this;
+}
+
+Mesh *Mesh::copyTextureCoordinates(const Mesh* other)
+{
+	std::copy(other->getTextureCoordinates().begin(), other->getTextureCoordinates().end(), back_inserter(mTextureCoordinates));
+	return this;
+}
+
+Mesh *Mesh::copyColors(const Mesh* other)
+{
+	std::copy(other->getColors().begin(), other->getColors().end(), back_inserter(mColors));
+	return this;
+}
+
+Mesh *Mesh::copyFaces(const Mesh* other)
+{
+	std::copy(other->getFaces().begin(), other->getFaces().end(), back_inserter(mFaces));
 	return this;
 }
 
@@ -84,25 +114,19 @@ Mesh *Mesh::getRectangle()
 		smRectangle = NEW(Mesh);
 		smRectangle->init(4, 2);
 
-		smRectangle->addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
-			addVertex(Vector3(-0.5f, -0.5f, 0.0f))
-				-> // bottom left
-			addVertex(Vector3(0.5f, -0.5f, 0.0f))
-				-> // bottom right
-			addVertex(Vector3(0.5f, 0.5f, 0.0f))
-				-> // top right
+		smRectangle->
+		addVertex(Vector3(-0.5f, 0.5f, 0.0f))-> // top left
+		addVertex(Vector3(-0.5f, -0.5f, 0.0f))-> // bottom left
+		addVertex(Vector3(0.5f, -0.5f, 0.0f))-> // bottom right
+		addVertex(Vector3(0.5f, 0.5f, 0.0f))-> // top right
 
-			addTexCoord(0.0f, 1.0f)
-				-> // top left
-			addTexCoord(0.0f, 0.0f)
-				-> // bottom left
-			addTexCoord(1.0f, 0.0f)
-				-> // bottom right
-			addTexCoord(1.0f, 1.0f)
-				-> // top right
+		addTexCoord(0.0f, 1.0f)-> // top left
+		addTexCoord(0.0f, 0.0f)-> // bottom left
+		addTexCoord(1.0f, 0.0f)-> // bottom right
+		addTexCoord(1.0f, 1.0f)-> // top right
 
-			addFace(0, 1, 3)
-				->addFace(1, 2, 3);
+		addFace(0, 1, 3)->
+		addFace(1, 2, 3);
 	}
 
 	return smRectangle;

@@ -35,6 +35,7 @@ Batch::~Batch()
 	glDeleteBuffers(1, &mVBOTexture);
 	glDeleteBuffers(1, &mVBOColor);
 	//glDeleteBuffers(1, &mVBONormal);
+	glDeleteBuffers(1, &mVBOMatrices);
 	glDeleteBuffers(1, &mEBO);
 }
 
@@ -58,15 +59,38 @@ void Batch::bind()
 	mVBOTexture = RenderContext::createVBO(Mesh::smVertexTexCoordSize, 1);
 	mVBOColor = RenderContext::createVBO(Mesh::smVertexColorSize, 2);
 	//mVBONormal = RenderContext::createVBO(mMesh->getNormals(), 3, 3);
-	mEBO = RenderContext::createEBO();
 
+	if(getIsInstanced())
+	{
+		glGenBuffers(1, &mVBOMatrices);
+		glBindBuffer(GL_ARRAY_BUFFER, mVBOMatrices);
+
+		// vertex attributes
+		u32 columnBytesSize = Matrix4::smColumnSize * sizeof(f32);
+		RenderContext::enableProperty(3);
+		glVertexAttribPointer(3, Matrix4::smColumnSize, GL_FLOAT, GL_FALSE, 4 * columnBytesSize, (void*)0);
+		RenderContext::enableProperty(4);
+		glVertexAttribPointer(4, Matrix4::smColumnSize, GL_FLOAT, GL_FALSE, 4 * columnBytesSize, (void*)(1 * columnBytesSize));
+		RenderContext::enableProperty(5);
+		glVertexAttribPointer(5, Matrix4::smColumnSize, GL_FLOAT, GL_FALSE, 4 * columnBytesSize, (void*)(2 * columnBytesSize));
+		RenderContext::enableProperty(6);
+		glVertexAttribPointer(6, Matrix4::smColumnSize, GL_FLOAT, GL_FALSE, 4 * columnBytesSize, (void*)(3 * columnBytesSize));
+
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+		glVertexAttribDivisor(6, 1);
+	}
+
+	mEBO = RenderContext::createEBO();
+	
 	Texture *texture = mMaterial->getTexture();
 
 	if (texture)
 	{
 		texture->bind();
 	}
-
+	
 	RenderContext::enableVAO(0);
 }
 
@@ -80,11 +104,10 @@ void Batch::render()
 
 		mMaterial->enable();
 
-		mMaterial->bind(mIsWorldSpace);
+		mMaterial->bind(getIsWorldSpace(), getIsInstanced());
 
 		if(shouldRegenerateBuffers())
 		{
-			resizeVertexBuffers();
 			mPendingDrawCall = processRenderers();
 		}
 		else
@@ -94,13 +117,7 @@ void Batch::render()
 
 		if(mPendingDrawCall)
 		{
-			RenderContext::enableProperty(0);
-			RenderContext::enableProperty(1);
-			RenderContext::enableProperty(2);
 			drawCall(); // flush all the previous rendereres
-			RenderContext::disableProperty(0);
-			RenderContext::disableProperty(1);
-			RenderContext::disableProperty(2);
 		}
 
 		mMaterial->disable();
@@ -111,43 +128,44 @@ void Batch::render()
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::resizeVertexBuffers()
+void Batch::resizeBuffers()
 {
 	PROFILER_TIMEMARK_START()
+
+	mMeshBuilder.clear();
+
+	if(getIsInstanced())
+	{
+		mMatrices.clear();
+	}
 	
 	u32 newSize = mProxyRenderers.size();
-	
 	if (newSize > mMaxMeshesThreshold)
 	{
 		mMaxMeshesThreshold += mMaxMeshesIncrement;
 
-		mMeshBuilder.init(mMesh->getVertexCount() * mMaxMeshesThreshold, mMesh->getFacesCount() * mMaxMeshesThreshold);
+		u32 meshesAmount = getIsInstanced() ? 1 : mMaxMeshesThreshold; 
 
-		
+		mMeshBuilder.init(mMesh->getVertexCount() * meshesAmount, mMesh->getFacesCount() * meshesAmount);
 
-		// Create Faces once and send to GPU once.
-		FOR_RANGE(i, 0, mMaxMeshesThreshold)
-		{
-			i32 offset = +(4 * i);
-			mMeshBuilder.addFace(0 + offset, 1 + offset, 3 + offset)->addFace(1 + offset, 2 + offset, 3 + offset);
-		}
+		mMatrices.reserve(Matrix4::smMatrixSize * mMaxMeshesThreshold);
 
-		// NOTE : VAO needs to be enabled before this line
-		RenderContext::resizeEBO(mEBO, mMeshBuilder.getFaces().size(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-		RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
+		generateFacesData(meshesAmount);
 	}
-	else
+
+	if(getIsInstanced())
 	{
-		mMeshBuilder.clear();
+		mMeshBuilder.copyVertices(mMesh);
+		mMeshBuilder.copyTextureCoordinates(mMesh);
+		//mMeshBuilder.copyColors(mMesh);
+
+		FOR_RANGE(i, 0, mMesh->getVertexCount())
+		{
+			mMeshBuilder.addColor(0,0,0,1);
+		}
 	}
 
-	// Invalidate buffers so OpenGL will allocate new one under the hood, reducing sync
-	RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-	RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-	RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-
-	mMeshesIndex = 0;
-	mDataSentToGPU = false;
+	invalidateAndReallocateBuffers();
 	
 	PROFILER_TIMEMARK_END()
 }
@@ -155,6 +173,8 @@ void Batch::resizeVertexBuffers()
 bool Batch::processRenderers()
 {
 	PROFILER_TIMEMARK_START()
+
+	resizeBuffers();
 
 	bool pendingDrawCall = false;
 	
@@ -179,7 +199,7 @@ bool Batch::processRenderers()
 						/*if(pendingDrawCall)
 						{
 							drawCall(); // flush all the previous rendereres
-							resizeVertexBuffers(renderers->size()); // TODO : resize to the correct remaining size
+							resizeBuffers(renderers->size()); // TODO : resize to the correct remaining size
 						}
 
 						addToVertexBuffer(renderer);
@@ -188,7 +208,7 @@ bool Batch::processRenderers()
 						mMaterial->getShader()->addVector2(renderer->getClipRectangle().getSize(), "clipRegionSize");
 
 						drawCall();
-						resizeVertexBuffers(renderers->size());
+						resizeBuffers(renderers->size());
 
 						// TODO : comment this ↓↓↓↓ to test clip rectangle
 						mMaterial->getShader()->addVector2(Vector2(), "clipRegionLeftTop");
@@ -240,15 +260,9 @@ void Batch::drawCall()
 	PROFILER_TIMEMARK_START()
 	if (mMeshesIndex > 0)
 	{
-		if(!mDataSentToGPU)
-		{
-			RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
-			RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
-			RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
-			mDataSentToGPU = true;
-		}
+		sendDataToBuffers();
 
-		RenderContext::drawRectangles(mMeshesIndex);
+		RenderContext::drawElements(mMesh->getFaces().size(), mMeshesIndex, getIsInstanced());
 	}
 
 	mNewRendererAdded = false;
@@ -286,7 +300,7 @@ void Batch::internalRemoveRendererFromList(std::list<ProxyObject<Renderer>>::ite
 
 		// NOTE: UI CASE
 		// UI is not deleted in Chunk so it has to be deleted here.
-		if (!mIsWorldSpace)
+		if (!getIsWorldSpace())
 		{
 			renderer->finallyDestroy();
 			DELETE(renderer);
@@ -301,8 +315,23 @@ void Batch::internalRemoveRendererFromList(std::list<ProxyObject<Renderer>>::ite
 
 void Batch::addToVertexBuffer(Renderer *renderer)
 {
-	PROFILER_TIMEMARK_START()
 	renderer->updateAnimation();
+
+	if(getIsInstanced())
+	{
+		addToVertexBufferInstanced(renderer);
+	}
+	else
+	{
+		addToVertexBufferNotInstanced(renderer);
+	}
+
+	mMeshesIndex++;
+}
+
+void Batch::addToVertexBufferNotInstanced(Renderer * renderer)
+{
+	PROFILER_TIMEMARK_START()
 
 	const std::vector<Vector3> &vertexPositions = renderer->getVertices();
 
@@ -340,9 +369,67 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 			renderer->getColor()[3]);
 	}
 
-	mMeshesIndex++;
-	
 	PROFILER_TIMEMARK_END()
+}
+
+void Batch::addToVertexBufferInstanced(Renderer * renderer)
+{
+	PROFILER_TIMEMARK_START()
+
+	const Matrix4& rendererModelMatrix = renderer->getRendererModelMatrix();
+	std::copy(rendererModelMatrix.getData(), rendererModelMatrix.getData() + Matrix4::smMatrixSize, back_inserter(mMatrices));
+
+	PROFILER_TIMEMARK_END()
+}
+
+void Batch::invalidateAndReallocateBuffers()
+{
+	// Invalidate buffers so OpenGL will allocate new one under the hood, reducing sync
+	RenderContext::resizeVBO(mVBOPosition, mMeshBuilder.getVertices().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	RenderContext::resizeVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	RenderContext::resizeVBO(mVBOColor, mMeshBuilder.getColors().capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+
+	if(getIsInstanced())
+	{
+		RenderContext::resizeVBO(mVBOMatrices, mMatrices.capacity(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	}
+
+	mMeshesIndex = 0;
+	mDataSentToGPU = false;
+}
+
+void Batch::generateFacesData(u32 meshesCount)
+{
+	// Create Faces once and send to GPU once.
+	FOR_RANGE(i, 0, meshesCount)
+	{
+		u32 offset = (i * mMesh->getVertexCount());
+		
+		FOR_RANGE(faceIndex, 0, mMesh->getFaces().size())
+		{
+			mMeshBuilder.addFaceIndex(mMesh->getFaces()[faceIndex] + offset);
+		}
+	}
+
+	RenderContext::resizeEBO(mEBO, mMeshBuilder.getFaces().size(), mIsStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	RenderContext::setDataEBO(mEBO, mMeshBuilder.getFaces());
+}
+
+void Batch::sendDataToBuffers()
+{
+	if(!mDataSentToGPU)
+	{
+		RenderContext::setDataVBO(mVBOPosition, mMeshBuilder.getVertices());
+		RenderContext::setDataVBO(mVBOTexture, mMeshBuilder.getTextureCoordinates());
+		RenderContext::setDataVBO(mVBOColor, mMeshBuilder.getColors());
+
+		if(getIsInstanced())
+		{
+			RenderContext::setDataVBO(mVBOMatrices, mMatrices);
+		}
+
+		mDataSentToGPU = true;
+	}
 }
 
 bool Batch::shouldRegenerateBuffers() const

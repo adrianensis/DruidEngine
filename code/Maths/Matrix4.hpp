@@ -7,11 +7,15 @@
 class Matrix4: public ObjectBase
 {
     GENERATE_METADATA(Matrix4)
+
+	PUB const static u16 smColumnSize = 4;
+	PUB const static u16 smMatrixSize = smColumnSize * smColumnSize;
+	
 PRI
 	static bool smIdentityCreated;
 	static Matrix4 smIdentity;
 
-	f32 mData[16];
+	f32 mData[smMatrixSize];
 
 	void setRows(const std::array<f32, 4> &row0, const std::array<f32, 4> &row1, const std::array<f32, 4> &row2, const std::array<f32, 4> &row3);
 	void setRows(const f32 *row0, const f32 *row1, const f32 *row2, const f32 *row3);
@@ -19,6 +23,7 @@ PRI
 	void setRows(const Vector4 &row0, const Vector4 &row1, const Vector4 &row2, const Vector4 &row3);
 
 PUB
+
 	static const Matrix4 &getIdentity();
 
 	void init(u32 n);

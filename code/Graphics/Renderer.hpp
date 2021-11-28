@@ -29,9 +29,11 @@ class Renderer: public Component
 
 	PRI mutable TransformState mTransformState;
 
+
 	// Renderer Properties
 	PRI mutable Matrix4 mRenderereModelMatrix;
-	PRI mutable bool mPositionOffsetDirty = true;
+	PRI mutable bool mRenderereModelMatrixGenerated = false;
+	PRI mutable bool mVerticesDirty = true;
 	PRI mutable std::vector<Vector3> mVertices;
 	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
 	PRI Vector3 mPositionOffset; GET(PositionOffset)
@@ -52,6 +54,7 @@ class Renderer: public Component
 	PUB void setColor(const Vector4& color);
 	PUB void setPositionOffset (const Vector3& newPositionOffset);
 	PUB bool getIsWorldSpace() const;
+	PUB const Matrix4& getRendererModelMatrix(bool force = false) const;
 	PUB const std::vector<Vector3>& getVertices(bool force = false) const;
 	PUB bool hasClipRectangle() const;
 

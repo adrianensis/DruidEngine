@@ -18,7 +18,7 @@ class Material: public ObjectBase
 PUB
 	Material();
 	void init();
-	void bind(bool isWorldSpace);
+	void bind(bool isWorldSpace, bool isInstanced);
 	void enable();
 	void disable();
 

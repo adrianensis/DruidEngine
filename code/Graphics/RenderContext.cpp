@@ -161,9 +161,18 @@ void RenderContext::enableVAO(u32 VAO)
 	glBindVertexArray(VAO);
 }
 
-void RenderContext::drawRectangles(u32 rectanglesCount)
+void RenderContext::drawElements(u32 indicesCount, u32 instancesCount, bool instanced)
 {
-	glDrawElements(GL_TRIANGLES, rectanglesCount * 6, GL_UNSIGNED_SHORT, 0);
+	if(instanced)
+	{
+		glDrawElementsInstanced(GL_TRIANGLES, indicesCount, GL_UNSIGNED_SHORT, 0, instancesCount);
+	}
+	else
+	{
+		glDrawElements(GL_TRIANGLES, instancesCount * indicesCount, GL_UNSIGNED_SHORT, 0);
+	}
+
+	glBindVertexArray(0);
 }
 
 void RenderContext::drawLines(u32 linesCount)

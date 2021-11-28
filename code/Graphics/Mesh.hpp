@@ -21,11 +21,11 @@ PRI
 	static Mesh *smRectangle;
 
 PUB
-	static u32 smVertexPositionSize;
-	static u32 smVertexNormalSize;
-	static u32 smVertexTexCoordSize;
-	static u32 smVertexColorSize;
-	static u32 smFaceSize;
+	static const u32 smVertexPositionSize = 3;
+	static const u32 smVertexNormalSize = 3;
+	static const u32 smVertexTexCoordSize = 2;
+	static const u32 smVertexColorSize = 4;
+	static const u32 smFaceSize = 3;
 
 	void init(u32 vertexCount, u32 facesCount);
 	Mesh *addVertex(const Vector3 &vec);
@@ -33,6 +33,14 @@ PUB
 	Mesh *addTexCoord(f32 u, f32 v);
 	Mesh *addColor(f32 r, f32 g, f32 b, f32 a);
 	Mesh *addFace(u16 v1, u16 v2, u16 v3);
+	Mesh *addFaceIndex(u16 v1);
+
+	Mesh *copyVertices(const Mesh* other);
+	Mesh *copyNormals(const Mesh* other);
+	Mesh *copyTextureCoordinates(const Mesh* other);
+	Mesh *copyColors(const Mesh* other);
+	Mesh *copyFaces(const Mesh* other);
+
 	void clear();
 
 	static Mesh *getRectangle();
