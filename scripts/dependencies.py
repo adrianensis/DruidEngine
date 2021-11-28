@@ -45,7 +45,7 @@ if system_name == "Linux" or system_name == "Linux2":
     distro_id = distro.id()
     if distro_id == "ubuntu":
         os.system("sudo apt-get -y update")
-        os.system("sudo apt-get -y install build-essential wget unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz")
+        os.system("sudo apt-get -y install build-essential wget zlib1g-dev unzip cmake clang cmake-data libglu1-mesa-dev freeglut3-dev mesa-common-dev xorg-dev doxygen graphviz")
     elif distro_id == "manjaro":
         os.system("sudo pacman -Syy")
         os.system("sudo pacman -Sy base-devel wget unzip cmake clang doxygen graphviz")
