@@ -10,10 +10,10 @@
 
 namespace Hash
 {
-	static u32 hashString(std::string key)
+	static u64 hashString(std::string key)
 	{
 		std::hash<std::string> hash_fn;
-		u32 hashString = hash_fn(key);
+		u64 hashString = hash_fn(key);
 		return hashString;
 	}
 }

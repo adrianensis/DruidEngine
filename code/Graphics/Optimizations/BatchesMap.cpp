@@ -5,6 +5,7 @@
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
+#include "Graphics/Material/Shader.hpp"
 #include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
@@ -27,11 +28,36 @@ void BatchesMap::init()
 
 void BatchesMap::addRenderer(Renderer *renderer)
 {
-	Texture *texture = renderer->getMaterial()->getTexture(); // NOTE : Texture can be nullptr as a valid hash key.
+	// Create a temporary key for searching purposes
+	BatchKey tmpBatchKey;
+	tmpBatchKey.init(
+		renderer->getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
+		renderer->getMaterial()->getShader(),
+		renderer->getMesh()
+	);
+
+	// Find if batch key already exists
+	BatchKey* foundBatchKey = nullptr;
+	FOR_LIST(itBatchKey, mBatchKeys)
+	{
+		BatchKey* batchKey = &(*itBatchKey);
+		foundBatchKey = (*batchKey) == tmpBatchKey ? batchKey : nullptr; 
+	}
+
+	// If not found, register the key
+	if(!foundBatchKey)
+	{
+		foundBatchKey = &(mBatchKeys.emplace_back(tmpBatchKey));
+		foundBatchKey->init(
+			renderer->getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
+			renderer->getMaterial()->getShader(),
+			renderer->getMesh()
+		);
+	}
 
 	Transform* transform = renderer->getGameObject()->getTransform();
 
-	std::map<Texture *, Batch *>* batchesMap = nullptr;
+	std::map<BatchKey*, Batch*>* batchesMap = nullptr;
 	
 	if(transform->isStatic())
 	{
@@ -42,18 +68,17 @@ void BatchesMap::addRenderer(Renderer *renderer)
 		batchesMap = &(transform->getAffectedByProjection() ?  mBatchesDynamic : mBatchesDynamicScreenSpace);
 	}
 
-	if (!MAP_CONTAINS(*batchesMap, texture))
+	if (!MAP_CONTAINS(*batchesMap, foundBatchKey))
 	{
 		Batch *batch = NEW(Batch);
 		batch->init(renderer->getMesh(), renderer->getMaterial());
-		// batch->setChunk(chunk);
 		batch->setIsStatic(transform->isStatic());
 		batch->setIsWorldSpace(transform->getAffectedByProjection());
 
-		MAP_INSERT(*batchesMap, texture, batch);
+		MAP_INSERT(*batchesMap, foundBatchKey, batch);
 	}
 
-	(*batchesMap).at(texture)->addRenderer(renderer);
+	(*batchesMap).at(foundBatchKey)->addRenderer(renderer);
 }
 
 void BatchesMap::render()
@@ -64,7 +89,7 @@ void BatchesMap::render()
 	renderBatchesMap(mBatchesDynamicScreenSpace);
 }
 
-void BatchesMap::renderBatchesMap(std::map<Texture *, Batch *>& batchesMap)
+void BatchesMap::renderBatchesMap(std::map<BatchKey*, Batch*>& batchesMap)
 {
 	FOR_MAP(it, batchesMap)
 	{

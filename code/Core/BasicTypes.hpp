@@ -6,6 +6,7 @@
 #include <list>
 #include <array>
 #include <map>
+#include <unordered_map>
 #include <set>
 
 #include <string>
@@ -32,5 +33,5 @@ using u16 = std::uint16_t;
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
-using ClassId = u32;
-using ObjectId = u32;
+using ClassId = u64;
+using ObjectId = u64;
