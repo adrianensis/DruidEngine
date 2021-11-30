@@ -5,7 +5,6 @@
 #include "Core/Macros.hpp"
 #include "Log/Log.hpp"
 #include "Core/Serialization.hpp"
-#include "Core/AttributeBase.hpp"
 #include "Core/Proxy/ProxyOwner.hpp"
 
 namespace Hash
@@ -20,20 +19,12 @@ namespace Hash
 
 class ObjectBase: public ISerializable, public ProxyOwner
 {
-	friend AttributeRegister;
-
 PRI
 
 	ObjectId mObjectId = 0;
 
-	std::map<std::string, AttributeBase> mAttributes; // runtime attributes
-
 PRO
 	inline static ObjectId smObjectIdCounter = 0;
-
-PRI
-
-	GENERATE_ATTRIBUTES_NAMES_STATIC(ObjectBase)
 
 PUB
 	static std::string getClassNameStatic()
@@ -47,8 +38,6 @@ PUB
 		static ClassId classId = Hash::hashString("ObjectBase");
 		return classId;
 	}
-
-	GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(ObjectBase)
 
 	ObjectBase()
 	{
@@ -76,11 +65,6 @@ PUB
 	virtual std::string getClassName() const
 	{
 		return ObjectBase::getClassNameStatic();
-	}
-
-	const std::map<std::string, AttributeBase> &getAttributes()
-	{
-		return mAttributes;
 	}
 
 	template <class T>

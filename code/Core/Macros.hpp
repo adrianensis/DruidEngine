@@ -87,28 +87,12 @@ void __customMain()
 		return __VA_ARGS__::getClassNameStatic(); \
 	};
 
-#define GENERATE_ATTRIBUTES_NAMES_STATIC(...)                                        \
-	static std::list<AttributeBase> &__getClassAttributesNamesStatic()          \
-	{                                                                          \
-		static std::list<AttributeBase> attributesNames;\
-		return attributesNames;                                                   \
-	};
-
-#define GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(...)                                        \
-	static const std::list<AttributeBase> &getClassAttributesNamesStatic()          \
-	{                                                                          \
-		return __getClassAttributesNamesStatic();                               \
-	};
-
 #define GENERATE_METADATA(...)          \
-PRO\
-	GENERATE_ATTRIBUTES_NAMES_STATIC(__VA_ARGS__);  \
 PUB                                 \
 	GENERATE_NAME_STATIC(__VA_ARGS__);  \
 	GENERATE_NAME_VIRTUAL(__VA_ARGS__); \
 	GENERATE_ID_STATIC(__VA_ARGS__);    \
 	GENERATE_ID_VIRTUAL(__VA_ARGS__);   \
-	GENERATE_ATTRIBUTES_NAMES_STATIC_CONST(__VA_ARGS__);  \
                                         \
 PRI // NOTE: notice the last blank space " "
 
@@ -150,20 +134,15 @@ PRI // NOTE: notice the last blank space " "
 #define GENERATE_SET(BaseName) \
 	PUB void set##BaseName(SETTER_TYPE_FROM_VAR(m##BaseName) new##BaseName) { m##BaseName = new##BaseName; };
 
-#define GET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GET(BaseName)
-#define GETREF(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF(BaseName)
-#define GETREF_CONST(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF_CONST(BaseName)
+#define GET(BaseName) GENERATE_GET(BaseName)
+#define GETREF(BaseName) GENERATE_GETREF(BaseName)
+#define GETREF_CONST(BaseName) GENERATE_GETREF_CONST(BaseName)
 
-#define SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_SET(BaseName)
+#define SET(BaseName) GENERATE_SET(BaseName)
 
-#define GET_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GET(BaseName) GENERATE_SET(BaseName)
-#define GETREF_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF(BaseName) GENERATE_SET(BaseName)
-#define GETREF_CONST_SET(BaseName) MEMBER_METADATA(BaseName) GENERATE_GETREF_CONST(BaseName) GENERATE_SET(BaseName)
-
-#define MEMBER_METADATA(BaseName) \
-	PRI \
-	inline static AttributeRegisterStatic __attributeRegisterStatic##BaseName = AttributeRegisterStatic(getClassNameStatic(), #BaseName, __getClassAttributesNamesStatic()); \
-	AttributeRegister __attributeRegister##BaseName = AttributeRegister(#BaseName, (void*) &m##BaseName, this); \
+#define GET_SET(BaseName) GENERATE_GET(BaseName) GENERATE_SET(BaseName)
+#define GETREF_SET(BaseName) GENERATE_GETREF(BaseName) GENERATE_SET(BaseName)
+#define GETREF_CONST_SET(BaseName) GENERATE_GETREF_CONST(BaseName) GENERATE_SET(BaseName)
 
 /*
 #define FUNCTION_MEMBER(ReturnClassName, FuncName, VirtualMacro, ModifiersMacro, Visibility, ...)\
