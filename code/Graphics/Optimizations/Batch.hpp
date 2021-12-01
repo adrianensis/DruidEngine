@@ -17,7 +17,7 @@ class Batch: public ObjectBase
 
 	PRI Material* mMaterial = nullptr; GET(Material)
 	PRI const Mesh* mMesh = nullptr; GET(Mesh)
-	PRI bool mIsInstanced = true; GET(IsInstanced)
+	PRI bool mIsInstanced = false; GET(IsInstanced)
 	PRI std::vector<f32> mMatrices;
 
 	PRI Mesh mMeshBuilder;
