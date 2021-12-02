@@ -1,8 +1,8 @@
-#include "Maths/Matrix4.hpp"
-#include "Maths/MathUtils.hpp"
-#include "Maths/Vector4.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/Quaternion.hpp"
+#include "Core/Maths/Matrix4.hpp"
+#include "Core/Maths/MathUtils.hpp"
+#include "Core/Maths/Vector4.hpp"
+#include "Core/Maths/Vector3.hpp"
+#include "Core/Maths/Quaternion.hpp"
 
 #include <cstring>
 

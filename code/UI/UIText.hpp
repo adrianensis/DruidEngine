@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UI/UIElement.hpp"
-#include "Maths/Maths.hpp"
 
 class UIPanel;
 

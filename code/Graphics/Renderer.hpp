@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Scene/Component.hpp"
-#include "Maths/Maths.hpp"
+
 #include "Graphics/Animation/Animation.hpp"
 #include "Scene/Transform.hpp"
 

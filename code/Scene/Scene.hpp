@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 class GameObject;
 
 class Scene: public ObjectBase

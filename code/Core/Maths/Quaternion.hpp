@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/ObjectBase.hpp"
-#include "Maths/Matrix4.hpp"
+#include "Core/Maths/Matrix4.hpp"
 
 class Quaternion: public ObjectBase
 {

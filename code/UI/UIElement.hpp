@@ -4,7 +4,6 @@
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIUtils.hpp"
-#include "Maths/Maths.hpp"
 
 class Renderer;
 class UIGroup;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/ObjectBase.hpp"
-#include "Maths/VectorDef.hpp"
+#include "Core/Maths/VectorDef.hpp"
 
 class Vector2;
 class Vector3;

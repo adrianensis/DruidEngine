@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Maths.hpp"
 #include "Graphics/Optimizations/BatchesMap.hpp"
 #include "Graphics/ShapeBatchRenderer.hpp"
 

@@ -2,7 +2,6 @@
 
 #include "Core/Core.hpp"
 
-
 class Scene;
 class Script;
 class GameObject;

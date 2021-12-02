@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Maths/Vector3.hpp"
-#include "Maths/Vector4.hpp"
+#include "Core/Maths/Vector3.hpp"
+#include "Core/Maths/Vector4.hpp"
 
 class Matrix4: public ObjectBase
 {

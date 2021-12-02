@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 #include "EditorUIElement.hpp"
 
 class MenuBar: public EditorUIElement

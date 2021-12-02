@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Core/BasicTypes.hpp"
-#include "Maths/Maths.hpp"
+#include "Core/Core.hpp"
 
 class UIUtils
 {

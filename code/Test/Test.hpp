@@ -6,7 +6,6 @@
 #include <cmath>
 #include <math.h> /* isnan */
 #include "Core/Core.hpp"
-
 #define test(theClass)                                                             \
     float __test__totaltime = 0;                                                   \
     std::chrono::duration<double, std::milli> elapsed;                             \

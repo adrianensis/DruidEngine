@@ -3,9 +3,9 @@
 #include <cmath> /* ceil, max */
 #include <algorithm>
 #include "Core/BasicTypes.hpp"
-#include "Maths/Vector2.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/Geometry.hpp"
+#include "Core/Maths/Vector2.hpp"
+#include "Core/Maths/Vector3.hpp"
+#include "Core/Maths/Geometry.hpp"
 #include <limits>
 
 class MathUtils

@@ -10,8 +10,6 @@
 #include "EditorUI/Sprites.hpp"
 #include "EditorUI/EditorStyles.hpp"
 
-#include "Maths/Maths.hpp"
-
 class Material;
 class GameObject;
 class Camera;

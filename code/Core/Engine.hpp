@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 class Engine: public ObjectBase, public Singleton<Engine>
 {
 	GENERATE_METADATA(Engine)

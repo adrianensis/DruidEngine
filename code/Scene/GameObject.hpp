@@ -3,7 +3,6 @@
 #include "Core/Core.hpp"
 #include "Scene/Component.hpp"
 
-
 class Transform;
 class Scene;
 

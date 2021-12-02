@@ -1,6 +1,6 @@
-#include "Maths/Geometry.hpp"
+#include "Core/Maths/Geometry.hpp"
 
-#include "Maths/MathUtils.hpp"
+#include "Core/Maths/MathUtils.hpp"
 
 bool Geometry::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &point, f32 eps)
 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 class UIElement;
 
 class UIGroup: public ObjectBase

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Maths.hpp"
 
 class Renderer;
 class BatchesMap;

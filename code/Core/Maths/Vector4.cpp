@@ -1,5 +1,5 @@
-#include "Maths/Vector4.hpp"
-#include "Maths/MathUtils.hpp"
+#include "Core/Maths/Vector4.hpp"
+#include "Core/Maths/MathUtils.hpp"
 
 #include <algorithm> // std::max
 

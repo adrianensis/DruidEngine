@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
 class CommandArgument: public ObjectBase
 {
     GENERATE_METADATA(CommandArgument)
