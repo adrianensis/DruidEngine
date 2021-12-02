@@ -1,15 +1,10 @@
 #include "EditorController.hpp"
 #include "EditorCommands.hpp"
 
-#include "Scene/GameObject.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scenes.hpp"
 #include "Graphics/Graphics.hpp"
 
-#include "Scene/Scene.hpp"
-#include "Scene/ScenesManager.hpp"
 
-#include "Core/ClassManager.hpp"
 void EditorController::init()
 {
     EditorCommands::registerEditorCommands(this);

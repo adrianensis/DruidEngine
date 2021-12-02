@@ -3,8 +3,8 @@
 #include "UI/UIBuilder.hpp"
 #include "UI/UIText.hpp"
 #include "Graphics/Graphics.hpp"
-#include "Scene/Transform.hpp"
-#include "Scene/Scene.hpp"
+#include "Scenes/Transform.hpp"
+#include "Scenes/Scene.hpp"
 
 UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback callback)
 {

@@ -2,8 +2,8 @@
 #include "Graphics/Graphics.hpp"
 #include "UI/UIManager.hpp"
 #include "UI/UIPanel.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scene.hpp"
+#include "Scenes/Transform.hpp"
 
 
 UIText::UIText()

@@ -1,7 +1,6 @@
 #include "Graphics/Camera/Frustum.hpp"
 
-#include "Scene/GameObject.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scenes.hpp"
 
 #include "Graphics/Camera/Camera.hpp"
 

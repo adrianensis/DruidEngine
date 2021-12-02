@@ -2,10 +2,7 @@
 #include "UI/UIGroup.hpp"
 #include "UI/UIStyle.hpp"
 #include "Graphics/Graphics.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/Transform.hpp"
-#include "Scene/GameObject.hpp"
+#include "Scenes/Scenes.hpp"
 
 Vector2 UIManager::smDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
 

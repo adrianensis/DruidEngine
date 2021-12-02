@@ -3,10 +3,7 @@
 
 #include "Graphics/Graphics.hpp"
 
-#include "Scene/GameObject.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/ScenesManager.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scenes.hpp"
 
 #include "EditorUIGroups.hpp"
 

@@ -1,6 +1,6 @@
-#include "Scene/Scene.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scene.hpp"
+#include "Scenes/GameObject.hpp"
+#include "Scenes/Transform.hpp"
 #include "Graphics/Graphics.hpp"
 #include "Core/EngineConfig.hpp"
 

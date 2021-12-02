@@ -8,10 +8,9 @@
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Transform.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
+#include "Scenes/Scenes.hpp"
 
 Batch::~Batch()
 {

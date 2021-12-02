@@ -2,8 +2,6 @@
 
 #include "Graphics/Animation/AnimationFrame.hpp"
 #include "Graphics/Material/Shader.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Transform.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Material/Texture.hpp"
@@ -13,6 +11,7 @@
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
 #include "Graphics/Optimizations/Batch.hpp"
+#include "Scenes/Scenes.hpp"
 
 Renderer::Renderer()
 {

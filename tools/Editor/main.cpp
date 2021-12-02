@@ -1,6 +1,5 @@
 #include "Core/Engine.hpp"
-#include "Scene/ScenesManager.hpp"
-#include "Scene/GameObject.hpp"
+#include "Scenes/Scenes.hpp"
 #include "Scripting/Script.hpp"
 
 #include "Editor.hpp"

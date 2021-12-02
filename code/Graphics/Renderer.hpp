@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Scene/Component.hpp"
+#include "Scenes/Component.hpp"
 
 #include "Graphics/Animation/Animation.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Transform.hpp"
 
 class Material;
 class Mesh;

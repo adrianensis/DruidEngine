@@ -1,12 +1,8 @@
 #include "UI/UIBuilder.hpp"
 #include "Graphics/Graphics.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/Transform.hpp"
-#include "Scene/ScenesManager.hpp"
+#include "Scenes/Scenes.hpp"
 #include "UI/UIManager.hpp"
 #include "UI/UIStyle.hpp"
-#include "Core/ClassManager.hpp"
 
 UIBuilder::UIBuilder()
 {

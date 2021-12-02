@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene/GameObject.hpp"
+#include "Scenes/Scenes.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIUtils.hpp"

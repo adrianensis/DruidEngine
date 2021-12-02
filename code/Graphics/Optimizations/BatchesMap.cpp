@@ -6,9 +6,8 @@
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Shader.hpp"
-#include "Scene/GameObject.hpp"
-#include "Scene/Transform.hpp"
 #include "Graphics/RenderEngine.hpp"
+#include "Scenes/Scenes.hpp"
 
 BatchesMap::~BatchesMap()
 {

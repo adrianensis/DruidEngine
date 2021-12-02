@@ -1,9 +1,7 @@
 #include "Scripting/ScriptEngine.hpp"
 
 #include "Scripting/Script.hpp"
-#include "Scene/ScenesManager.hpp"
-#include "Scene/GameObject.hpp"
-
+#include "Scenes/Scenes.hpp"
 
 void ScriptEngine::init()
 {

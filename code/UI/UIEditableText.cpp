@@ -1,8 +1,8 @@
 #include "UI/UIEditableText.hpp"
 #include "Graphics/Graphics.hpp"
 #include "UI/UIManager.hpp"
-#include "Scene/Scene.hpp"
-#include "Scene/Transform.hpp"
+#include "Scenes/Scene.hpp"
+#include "Scenes/Transform.hpp"
 
 void UIEditableText::init()
 {

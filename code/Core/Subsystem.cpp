@@ -1,5 +1,5 @@
 #include "Core/Subsystem.hpp"
-#include "Scene/Component.hpp"
+#include "Scenes/Component.hpp"
 
 void ISubsystem::init()
 {

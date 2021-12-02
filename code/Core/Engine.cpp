@@ -1,17 +1,11 @@
-#include "Core/ClassManager.hpp"
-#include "Core/Memory.hpp"
 #include "Core/Engine.hpp"
 #include "Core/EngineConfig.hpp"
-#include "Core/Singleton.hpp"
 #include "Graphics/Graphics.hpp"
 #include "Scripting/ScriptEngine.hpp"
 
-#include "Scene/Scene.hpp"
-#include "Scene/ScenesManager.hpp"
+#include "Scenes/Scene.hpp"
+#include "Scenes/ScenesManager.hpp"
 #include "UI/UI.hpp"
-
-#include <thread>
-#include <chrono>
 
 using namespace std::chrono_literals;
 
