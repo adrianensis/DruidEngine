@@ -1,5 +1,7 @@
-#include "Command/DefaultCommands.hpp"
-#include "Command/CommandLine.hpp"
+#include "Core/Command/DefaultCommands.hpp"
+#include "Core/Command/CommandLine.hpp"
+
+#include "Core/Log/Log.hpp"
 
 void DefaultCommands::registerDefaultCommands()
 {

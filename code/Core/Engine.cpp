@@ -9,7 +9,6 @@
 #include "Scene/Scene.hpp"
 #include "Scene/ScenesManager.hpp"
 #include "UI/UI.hpp"
-#include "Command/CommandLine.hpp"
 
 #include <thread>
 #include <chrono>

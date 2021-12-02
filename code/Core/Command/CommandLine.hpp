@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Core/Core.hpp"
-#include "Command/Command.hpp"
+#include "Core/ObjectBase.hpp"
+#include "Core/Singleton.hpp"
+#include "Core/Functor.hpp"
+#include "Core/Command/Command.hpp"
 
 class UIText;
 

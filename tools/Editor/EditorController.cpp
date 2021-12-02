@@ -7,11 +7,7 @@
 #include "Graphics/Graphics.hpp"
 
 #include "Scene/Scene.hpp"
-
-
 #include "Scene/ScenesManager.hpp"
-
-#include "Command/CommandLine.hpp"
 
 #include "Core/ClassManager.hpp"
 void EditorController::init()

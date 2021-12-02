@@ -1,6 +1,9 @@
-#include "Command/CommandLine.hpp"
+#include "Core/Command/CommandLine.hpp"
 
-#include "Command/DefaultCommands.hpp"
+#include "Core/Command/DefaultCommands.hpp"
+#include "Core/Log/Log.hpp"
+#include "Core/Events/EventsManager.hpp"
+#include "Core/Input/Input.hpp"
 
 #include <regex>
 

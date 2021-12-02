@@ -18,4 +18,5 @@
 #include "Core/Time/TimerManager.hpp"
 #include "Core/Events/EventsManager.hpp"
 #include "Core/Input/Input.hpp"
+#include "Core/Command/CommandLine.hpp"
 #include "Core/Profiler/Profiler.hpp"

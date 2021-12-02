@@ -1,6 +1,5 @@
 #include "EditorCommands.hpp"
 #include "EditorController.hpp"
-#include "Command/CommandLine.hpp"
 
 void EditorCommands::registerEditorCommands(EditorController* editorController)
 {
