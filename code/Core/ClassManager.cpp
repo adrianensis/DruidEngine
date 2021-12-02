@@ -1,5 +1,5 @@
 #include "ClassManager.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/Log/Log.hpp"
 
 std::map<std::string, ClassRegisterCallback> ClassManager::smRegisters;
 

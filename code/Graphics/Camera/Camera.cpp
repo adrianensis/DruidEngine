@@ -5,8 +5,6 @@
 #include "Graphics/Camera/Frustum.hpp"
 #include "Graphics/RenderContext.hpp"
 
-#include "Profiler/Profiler.hpp"
-
 Camera::Camera()
 {
 	mIsOrtho = true;

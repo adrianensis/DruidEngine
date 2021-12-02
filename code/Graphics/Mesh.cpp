@@ -1,6 +1,5 @@
 #include "Graphics/Mesh.hpp"
 #include "Core/Memory.hpp"
-#include "Maths/Vector3.hpp"
 
 #include <algorithm>
 

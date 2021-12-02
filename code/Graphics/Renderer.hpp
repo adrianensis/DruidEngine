@@ -1,12 +1,7 @@
 #pragma once
 
 #include "Scene/Component.hpp"
-#include "Maths/Vector2.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/Vector4.hpp"
-#include "Maths/Geometry.hpp"
-#include "Maths/MathUtils.hpp"
-#include "Maths/Matrix4.hpp"
+#include "Maths/Maths.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Scene/Transform.hpp"
 

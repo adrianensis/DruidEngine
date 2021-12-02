@@ -1,5 +1,5 @@
-#include "File/File.hpp"
-#include "Log/Log.hpp"
+#include "Core/File/File.hpp"
+#include "Core/Log/Log.hpp"
 
 void File::init()
 {

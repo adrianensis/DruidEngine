@@ -1,6 +1,6 @@
 #include "Core/Time/TimerManager.hpp"
-#include "Log/Log.hpp"
-#include "Profiler/Profiler.hpp"
+#include "Core/Profiler/Profiler.hpp"
+#include "Core/Log/Log.hpp"
 
 void Timer::init(f32 duration, TimerDurationType durationType, std::function<void()> callback)
 {

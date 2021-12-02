@@ -1,7 +1,5 @@
 #include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Maths/Matrix4.hpp"
-#include "Core/Memory.hpp"
 #include <fstream> // std::ifstream
 
 Shader *Shader::msShaderDefault = nullptr;

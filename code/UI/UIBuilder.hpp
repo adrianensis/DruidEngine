@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Core/Singleton.hpp"
-#include "Maths/Vector2.hpp"
-#include "Maths/Vector4.hpp"
+#include "Maths/Maths.hpp"
 #include "UI/UIElement.hpp"
 #include "UI/UIButton.hpp"
 #include "UI/UIEditableText.hpp"

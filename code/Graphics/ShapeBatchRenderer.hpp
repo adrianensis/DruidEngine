@@ -1,11 +1,9 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Geometry.hpp"
+#include "Maths/Maths.hpp"
 
 class Shader;
-class Vector3;
-class Vector4;
 
 class ShapeBatchRenderer: public ObjectBase
 {

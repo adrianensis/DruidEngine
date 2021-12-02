@@ -7,16 +7,12 @@
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Camera/Frustum.hpp"
 #include "Graphics/Renderer.hpp"
-#include "Log/Log.hpp"
 #include "Graphics/Material/Shader.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
 #include "Graphics/ShapeBatchRenderer.hpp"
-#include "Profiler/Profiler.hpp"
 
 void RenderEngine::init(f32 sceneSize)
 {

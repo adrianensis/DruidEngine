@@ -1,13 +1,10 @@
 #include "Scene/Scene.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Maths/Vector2.hpp"
-#include "Maths/Vector3.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Camera/Camera.hpp"
-#include "Maths/MathUtils.hpp"
 #include "Core/EngineConfig.hpp"
 #include <future> // std::async, std::future
 #include "Core/ClassManager.hpp"

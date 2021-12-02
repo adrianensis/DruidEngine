@@ -4,9 +4,6 @@
 #include "Scene/ScenesManager.hpp"
 #include "Scene/GameObject.hpp"
 
-#include "Log/Log.hpp"
-
-#include "Profiler/Profiler.hpp"
 
 void ScriptEngine::init()
 {

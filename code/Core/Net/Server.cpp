@@ -1,4 +1,4 @@
-#include "Net/Server.hpp"
+#include "Core/Net/Server.hpp"
 
 #include <unistd.h>
 #include <stdio.h>

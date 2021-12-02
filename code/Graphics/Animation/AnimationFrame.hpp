@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
-#include "Maths/Vector2.hpp"
+#include "Maths/Maths.hpp"
 
 class AnimationFrame: public ObjectBase
 {

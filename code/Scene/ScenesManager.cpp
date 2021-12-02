@@ -4,8 +4,6 @@
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Core/EngineConfig.hpp"
-//#include "Scripting/Script.hpp"
-#include "Profiler/Profiler.hpp"
 
 ScenesManager::ScenesManager()
 {

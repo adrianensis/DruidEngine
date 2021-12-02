@@ -11,8 +11,7 @@
 #include "EditorUI/EditorStyles.hpp"
 #include "Config/ConfigObject.hpp"
 
-#include "Maths/Vector2.hpp"
-#include "Maths/Geometry.hpp"
+#include "Maths/Maths.hpp"
 
 class Material;
 class GameObject;

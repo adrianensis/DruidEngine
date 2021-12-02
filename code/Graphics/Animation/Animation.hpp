@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Vector2.hpp"
+#include "Maths/Maths.hpp"
 #include "Graphics/Animation/AnimationFrame.hpp"
 
 class Animation: public ObjectBase

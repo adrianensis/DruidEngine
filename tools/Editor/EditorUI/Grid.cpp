@@ -1,8 +1,6 @@
 #include "Grid.hpp"
 #include "../EditorController.hpp"
 
-#include "Maths/MathUtils.hpp"
-
 void Grid::init(EditorController* editorController)
 {
     EditorUIElement::init(editorController);

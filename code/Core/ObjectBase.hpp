@@ -3,7 +3,6 @@
 #include "Core/BasicTypes.hpp"
 
 #include "Core/Macros.hpp"
-#include "Log/Log.hpp"
 #include "Core/Serialization.hpp"
 #include "Core/Proxy/ProxyOwner.hpp"
 

@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Scene/Component.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/Matrix4.hpp"
-#include "Maths/MathUtils.hpp"
+#include "Maths/Maths.hpp"
 
 class Transform;
 

@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Vector3.hpp"
-#include "Maths/Vector4.hpp"
-#include "Maths/Geometry.hpp"
+#include "Maths/Maths.hpp"
 #include "Graphics/Optimizations/BatchesMap.hpp"
 #include "Graphics/ShapeBatchRenderer.hpp"
 

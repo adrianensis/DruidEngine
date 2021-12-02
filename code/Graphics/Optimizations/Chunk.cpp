@@ -5,11 +5,9 @@
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Optimizations/BatchesMap.hpp"
-#include "Maths/MathUtils.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Graphics/RenderEngine.hpp"
-#include "Log/Log.hpp"
 
 Chunk::~Chunk()
 {

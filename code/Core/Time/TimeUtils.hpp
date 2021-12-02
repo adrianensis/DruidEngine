@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Core/Core.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/ObjectBase.hpp"
+#include "Core/Singleton.hpp"
 #include <chrono>
 
 class TimeMark: public ObjectBase

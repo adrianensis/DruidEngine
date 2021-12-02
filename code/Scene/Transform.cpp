@@ -1,7 +1,5 @@
 #include "Scene/Transform.hpp"
 #include "Scene/GameObject.hpp"
-#include "Maths/Quaternion.hpp"
-#include "Log/Log.hpp"
 
 TransformState::TransformState(const Transform& transform)
 {

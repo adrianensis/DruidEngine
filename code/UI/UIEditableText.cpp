@@ -2,7 +2,6 @@
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Material/Material.hpp"
-#include "Maths/Vector3.hpp"
 #include "UI/UI.hpp"
 #include "Scene/Scene.hpp"
 #include "Graphics/RenderContext.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Core.hpp"
-#include "Assert/Assert.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/ObjectBase.hpp"
 
 template <class T>
 class Functor: public ObjectBase

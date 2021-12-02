@@ -3,7 +3,6 @@
 #include "Command/DefaultCommands.hpp"
 
 #include "Input/Input.hpp"
-#include "Log/Log.hpp"
 #include "Events/EventsManager.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIText.hpp"

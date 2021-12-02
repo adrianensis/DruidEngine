@@ -2,7 +2,6 @@
 
 #include "Graphics/Animation/AnimationFrame.hpp"
 #include "Graphics/Material/Shader.hpp"
-#include "Log/Log.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
 #include "Config/ConfigObject.hpp"

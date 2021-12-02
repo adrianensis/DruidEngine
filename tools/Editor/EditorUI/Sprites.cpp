@@ -1,8 +1,6 @@
 #include "Sprites.hpp"
 #include "../EditorController.hpp"
 
-#include "Maths/Vector3.hpp"
-
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Mesh.hpp"
@@ -16,14 +14,11 @@
 #include "Scene/ScenesManager.hpp"
 #include "Scene/Transform.hpp"
 
-#include "File/File.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
 #include "UI/UIButton.hpp"
 #include "UI/UIText.hpp"
 #include "UI/UIPanel.hpp"
-
-#include "Core/Time/TimerManager.hpp"
 
 #include "Events/EventsManager.hpp"
 #include "Input/InputEvents.hpp"

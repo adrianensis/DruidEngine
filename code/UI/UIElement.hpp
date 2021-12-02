@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Scene/GameObject.hpp"
-#include "Core/Functor.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "UI/UIElementConfig.hpp"
 #include "UI/UIUtils.hpp"
-#include "Maths/Geometry.hpp"
+#include "Maths/Maths.hpp"
 
 class Renderer;
 class UIGroup;

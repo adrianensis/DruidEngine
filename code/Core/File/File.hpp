@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Core/Core.hpp"
-
+#include "Core/ObjectBase.hpp"
 
 class File: public ObjectBase
 {

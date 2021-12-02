@@ -1,5 +1,3 @@
-#include "Core/Time/TimeUtils.hpp"
-#include "Core/Time/TimerManager.hpp"
 #include "Core/ClassManager.hpp"
 #include "Core/Memory.hpp"
 #include "Core/Engine.hpp"
@@ -15,7 +13,6 @@
 #include "Scene/ScenesManager.hpp"
 #include "UI/UI.hpp"
 #include "Command/CommandLine.hpp"
-#include "Profiler/Profiler.hpp"
 
 #include <thread>
 #include <chrono>

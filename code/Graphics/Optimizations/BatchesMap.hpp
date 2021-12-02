@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
+#include "Maths/Maths.hpp"
 
 class Texture;
 class Material;

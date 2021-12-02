@@ -4,7 +4,7 @@
 #include "Core/Singleton.hpp"
 
 #include "Graphics/RenderContext.hpp"
-#include "Maths/Vector2.hpp"
+#include "Maths/Maths.hpp"
 
 #include "Input/InputEvents.hpp"
 

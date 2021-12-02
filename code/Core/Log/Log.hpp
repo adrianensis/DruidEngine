@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/BasicTypes.hpp"
-#include "Core/Macros.hpp"
 
 class Log
 {

@@ -1,4 +1,5 @@
 #include "Core/Memory.hpp"
+#include "Core/Log/Log.hpp"
 
 std::map<std::string, i32> Memory::mAllocationsCounter;
 

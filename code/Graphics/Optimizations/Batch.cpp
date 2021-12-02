@@ -1,5 +1,4 @@
 #include "Graphics/Optimizations/Batch.hpp"
-#include "Core/Time/TimeUtils.hpp"
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Material/Texture.hpp"
 #include "Graphics/Renderer.hpp"
@@ -9,13 +8,10 @@
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material/Shader.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Log/Log.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Maths/MathUtils.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
-#include "Profiler/Profiler.hpp"
 
 Batch::~Batch()
 {

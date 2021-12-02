@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-
-class Vector3;
-
+#include "Maths/Maths.hpp"
 
 class Mesh: public ObjectBase
 {

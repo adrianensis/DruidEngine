@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Core/Time/TimerManager.hpp"
-#include "Core/Core.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/ObjectBase.hpp"
+#include "Core/Singleton.hpp"
+#include "Core/Time/TimeUtils.hpp"
 
 #define PROFILER_TIMEMARK_START() Profiler::getInstance().timeMarkStart(__PRETTY_FUNCTION__);
 #define PROFILER_TIMEMARK_END() Profiler::getInstance().timeMarkEnd(__PRETTY_FUNCTION__);

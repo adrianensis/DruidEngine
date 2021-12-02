@@ -1,8 +1,6 @@
-#include "Core/Time/TimeUtils.hpp"
 #include "Graphics/Animation/Animation.hpp"
 
 #include "Graphics/Animation/AnimationFrame.hpp"
-#include "Log/Log.hpp"
 
 Animation::Animation()
 {

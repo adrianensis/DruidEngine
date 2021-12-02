@@ -4,7 +4,6 @@
 #include "Input/Input.hpp"
 #include "Input/InputEvents.hpp"
 #include "Events/EventsManager.hpp"
-#include "Maths/Vector3.hpp"
 
 #include "Graphics/Renderer.hpp"
 #include "Graphics/Camera/Camera.hpp"

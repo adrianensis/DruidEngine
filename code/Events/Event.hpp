@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Core/BasicTypes.hpp"
-#include "Core/Functor.hpp"
-#include "Core/Time/TimerManager.hpp"
 
 class Event: public ObjectBase
 {

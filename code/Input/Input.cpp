@@ -1,7 +1,5 @@
 #include "Input/Input.hpp"
-#include "Log/Log.hpp"
 #include "Events/EventsManager.hpp"
-#include "Profiler/Profiler.hpp"
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {

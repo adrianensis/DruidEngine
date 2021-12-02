@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Maths/Vector2.hpp"
-#include "Maths/Vector4.hpp"
-
+#include "Maths/Maths.hpp"
 
 class Material;
 class Scene;

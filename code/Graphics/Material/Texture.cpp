@@ -1,5 +1,4 @@
 #include "Graphics/Material/Texture.hpp"
-#include "Log/Log.hpp"
 #include "Graphics/RenderContext.hpp"
 //#include "SOIL/SOIL.h"
 #include "png.h"

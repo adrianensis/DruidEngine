@@ -4,8 +4,7 @@
 #include "GLFW/glfw3.h"
 
 #include "Core/Core.hpp"
-#include "Maths/Vector2.hpp"
-
+#include "Maths/Maths.hpp"
 
 class Camera;
 
