@@ -1,6 +1,6 @@
 #include "UI/UIText.hpp"
 #include "Graphics/Graphics.hpp"
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "UI/UIPanel.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
@@ -88,8 +88,8 @@ void UIText::setText(const std::string &text)
 				Renderer *renderer = nullptr;
 
 				char character = text.at(i);
-				Vector2 textureCoordinates = UI::getInstance().getCharTextureCoordinates(character);
-				Vector2 textureSize = UI::getInstance().getFontTileTextureSize();
+				Vector2 textureCoordinates = UIManager::getInstance().getCharTextureCoordinates(character);
+				Vector2 textureSize = UIManager::getInstance().getFontTileTextureSize();
 
 				if (!mFontRenderers.empty() && i < static_cast<i32>(mString.length()))
 				{
@@ -101,7 +101,7 @@ void UIText::setText(const std::string &text)
 					renderer->init();
 
 					renderer->setMesh(Mesh::getRectangle());
-					renderer->setMaterial(UI::getInstance().getFontMaterial());
+					renderer->setMaterial(UIManager::getInstance().getFontMaterial());
 					renderer->setDepth(mLayer);
 					
 					addComponent<Renderer>(renderer);

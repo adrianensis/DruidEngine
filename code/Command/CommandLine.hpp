@@ -41,8 +41,6 @@ class CommandLine: public ObjectBase, public Singleton<CommandLine>
 	PRI std::list<std::string> mHistory;
 	PRI std::list<std::string>::iterator mHistoryIterator;
 
-	PRI UIText* mUIText = nullptr;
-
     PRI bool mIsOpen = false;
 
     void log(const std::string& line, bool newLine = true) const;
@@ -56,7 +54,6 @@ PUB
     std::string autocomplete(const std::string &commandLine);
     void registerCommand(const std::string &commandName, CommandCallback callback);
 
-	// UI
 	void open();
 	void close();
     void toggle();

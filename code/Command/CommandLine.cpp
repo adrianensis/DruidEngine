@@ -2,8 +2,6 @@
 
 #include "Command/DefaultCommands.hpp"
 
-#include "UI/UI.hpp"
-#include "UI/UIText.hpp"
 #include <regex>
 
 void CommandLine::init()
@@ -101,10 +99,7 @@ void CommandLine::log(const std::string& line, bool newLine /*= true*/) const
 
 void CommandLine::update()
 {
-    if(mIsOpen)
-    {
-        //mUIText->setText("> " + mBuffer);
-    }
+
 }
 
 void CommandLine::terminate()
@@ -206,21 +201,6 @@ void CommandLine::open()
     mIsOpen = true;
     log("CMD Opened");
     log(mBuffer, false);
-    /*if(!mUIText)
-    {
-        mUIText = uiBuilder.
-        setLayout(UILayout::VERTICAL).
-        setPosition(Vector2(-1.0f, -0.96f)).
-        setDepth(0).
-        setAdjustSizeToText(false).
-        create<UIText>().
-        getUIElement<UIText>();
-    }
-
-    if(!mUIText->isActive())
-    {
-        mUIText->setIsActive(true);
-    }*/
 }
 
 void CommandLine::close()
@@ -228,10 +208,6 @@ void CommandLine::close()
     mIsOpen = false;
     log(mBuffer);
     log("CMD Closed");
-    /*if(mUIText && mUIText->isActive())
-    {
-        mUIText->setIsActive(false);
-    }*/
 }
 
 void CommandLine::toggle()

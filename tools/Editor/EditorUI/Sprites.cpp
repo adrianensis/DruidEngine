@@ -8,13 +8,6 @@
 #include "Scene/ScenesManager.hpp"
 #include "Scene/Transform.hpp"
 
-#include "UI/UI.hpp"
-#include "UI/UIStyle.hpp"
-#include "UI/UIButton.hpp"
-#include "UI/UIText.hpp"
-#include "UI/UIPanel.hpp"
-
-
 #include "EditorUIGroups.hpp"
 
 Sprites::Sprites()
@@ -46,11 +39,11 @@ void Sprites::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
 
-	UI::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
-	UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());
-    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).setVisibility(getIsVisible());
-    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).setVisibility(getIsVisible());
-    UI::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).setVisibility(getIsVisible());
+	UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).setVisibility(getIsVisible());
+	UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smSpritesSelector).setVisibility(getIsVisible());
+    UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).setVisibility(getIsVisible());
+    UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).setVisibility(getIsVisible());
+    UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).setVisibility(getIsVisible());
 }
 
 void Sprites::createAtlasSelectors()
@@ -79,7 +72,7 @@ void Sprites::createAtlasSelectors()
 		{
 			TimerManager::getInstance().setTimer(0.1f, TimerDurationType::TIME_AMOUNT, [&]()
 			{
-				UI::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).destroyAllUIElements();
+				UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smAtlas).destroyAllUIElements();
 				createAtlas(material);
 			});
 		});
@@ -269,7 +262,7 @@ void Sprites::refreshSpritePreview(GameObject* sprite)
 
     f32 tileSize = 0.3f;
 
-    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).destroyAllUIElements();
+    UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smSpritePreview).destroyAllUIElements();
 
     UIBuilder uiBuilder;
 
@@ -384,7 +377,7 @@ void Sprites::removeSprite()
 
 void Sprites::refreshSprites()
 {
-    UI::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).destroyAllUIElements();
+    UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smSprites).destroyAllUIElements();
 
     mCurrentAnimationName.clear();
 
@@ -460,7 +453,7 @@ void Sprites::refreshFrames()
 {
     if(mCurrentSprite)
     {   
-        UI::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).destroyAllUIElements();
+        UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smFrames).destroyAllUIElements();
 
         UIBuilder uiBuilder;
 

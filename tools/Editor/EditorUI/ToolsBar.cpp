@@ -2,10 +2,6 @@
 
 #include "EditorStyles.hpp"
 
-#include "UI/UI.hpp"
-#include "UI/UIDropdown.hpp"
-#include "UI/UIList.hpp"
-
 #include "Graphics/Graphics.hpp"
 
 #include "../EditorController.hpp"
@@ -62,5 +58,5 @@ void ToolsBar::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
 
-	UI::getInstance().getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
+	UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smToolsBar).setVisibility(visible);
 }

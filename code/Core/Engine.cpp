@@ -36,7 +36,7 @@ void Engine::init()
 	TimerManager::getInstance().init();
 	EventsManager::getInstance().init();
 	MaterialManager::getInstance().init();
-	UI::getInstance().init();
+	UIManager::getInstance().init();
 	ScenesManager::getInstance().init();
 
 	CommandLine::getInstance().init();
@@ -114,8 +114,8 @@ void Engine::terminate()
 
 	terminateSubSystems();
 
-	UI::getInstance().terminate();
-	UI::deleteInstance();
+	UIManager::getInstance().terminate();
+	UIManager::deleteInstance();
 
 	MaterialManager::deleteInstance();
 

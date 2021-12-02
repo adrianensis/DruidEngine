@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "UI/UIElement.hpp"
-
 #include "EditorUIElement.hpp"
 
 class LayersBar: public EditorUIElement

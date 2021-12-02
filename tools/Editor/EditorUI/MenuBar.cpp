@@ -1,10 +1,6 @@
 #include "MenuBar.hpp"
 #include "InfoBar.hpp"
 
-#include "UI/UI.hpp"
-#include "UI/UIDropdown.hpp"
-#include "UI/UIList.hpp"
-
 #include "../EditorController.hpp"
 
 void MenuBar::init(EditorController* editorController)

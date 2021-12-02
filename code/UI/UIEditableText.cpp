@@ -1,6 +1,6 @@
 #include "UI/UIEditableText.hpp"
 #include "Graphics/Graphics.hpp"
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
 

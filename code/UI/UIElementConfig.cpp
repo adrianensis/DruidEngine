@@ -1,5 +1,5 @@
 #include "UI/UIElementConfig.hpp"
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "UI/UIStyle.hpp"
 #include "Graphics/Graphics.hpp"
 
@@ -17,7 +17,7 @@ void UIElementConfig::init(const Vector2 &position, const Vector2 &size, i32 lay
 	mSize = size;
 	mText = text;
 	mLayer = layer;
-	mTextSize = UI::getDefaultFontSize(); // TODO : move to config?
+	mTextSize = UIManager::getDefaultFontSize(); // TODO : move to config?
 	mAdjustSizeToText = false;
 	mIsAffectedByLayout = true;
 	mMaterial = MaterialManager::getInstance().loadNoTextureMaterial();

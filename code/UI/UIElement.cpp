@@ -3,7 +3,7 @@
 #include "Graphics/Graphics.hpp"
 
 #include "Scene/Transform.hpp"
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "UI/UIStyle.hpp"
 #include "UI/UIGroup.hpp"
 
@@ -38,7 +38,7 @@ void UIElement::onDestroy()
 
 	if (hasFocus())
 	{
-		UI::getInstance().setFocusedElement(nullptr);
+		UIManager::getInstance().setFocusedElement(nullptr);
 	}
 }
 
@@ -152,7 +152,7 @@ void UIElement::subscribeToEscEvent()
 
 bool UIElement::hasFocus() const
 {
-	return this == UI::getInstance().getFocusedElement();
+	return this == UIManager::getInstance().getFocusedElement();
 }
 
 void UIElement::onChar(char character)
@@ -177,7 +177,7 @@ void UIElement::onFocusLost()
 {
 	if (hasFocus())
 	{
-		UI::getInstance().setFocusedElement(nullptr);
+		UIManager::getInstance().setFocusedElement(nullptr);
 		mOnFocusLostFunctor.execute();
 	}
 }
@@ -212,14 +212,14 @@ void UIElement::press()
 
 	if (!hasFocus())
 	{
-		UIElement *lastFocusedElement = UI::getInstance().getFocusedElement();
+		UIElement *lastFocusedElement = UIManager::getInstance().getFocusedElement();
 
 		if (lastFocusedElement && lastFocusedElement->isActive())
 		{
 			lastFocusedElement->onFocusLost();
 		}
 
-		UI::getInstance().setFocusedElement(this);
+		UIManager::getInstance().setFocusedElement(this);
 		onFocus();
 	}
 
@@ -267,7 +267,7 @@ void UIElement::executePressAndRelease(bool force /*= false*/)
 			if(mCanToggle)
 			{
 				// Release other UIToggleButtons
-				const UIGroup& group = UI::getInstance().getOrCreateGroup(mConfig.mGroup);
+				const UIGroup& group = UIManager::getInstance().getOrCreateGroup(mConfig.mGroup);
 				FOR_LIST(it, group.getUIElements())
 				{
 					UIElement* other = *it;

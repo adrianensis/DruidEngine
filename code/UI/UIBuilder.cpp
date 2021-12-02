@@ -4,7 +4,7 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/ScenesManager.hpp"
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "UI/UIStyle.hpp"
 #include "Core/ClassManager.hpp"
 
@@ -27,7 +27,7 @@ void UIBuilder::registerUIElement(UIElement *uiElement)
 
 	if (mConfig.mGroup.length() > 0)
 	{
-		UI::getInstance().getOrCreateGroup(mConfig.mGroup).addUIElement(mCurrentUIElement);
+		UIManager::getInstance().getOrCreateGroup(mConfig.mGroup).addUIElement(mCurrentUIElement);
 	}
 
 	if (mConfig.mIsAffectedByLayout)

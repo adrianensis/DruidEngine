@@ -1,4 +1,4 @@
-#include "UI/UI.hpp"
+#include "UI/UIManager.hpp"
 #include "UI/UIGroup.hpp"
 #include "UI/UIStyle.hpp"
 #include "Graphics/Graphics.hpp"
@@ -7,9 +7,9 @@
 #include "Scene/Transform.hpp"
 #include "Scene/GameObject.hpp"
 
-Vector2 UI::smDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
+Vector2 UIManager::smDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);
 
-Material *UI::getFontMaterial()
+Material *UIManager::getFontMaterial()
 {
 	if (!mFontMaterial)
 	{
@@ -18,7 +18,7 @@ Material *UI::getFontMaterial()
 	return mFontMaterial;
 };
 
-UIGroup& UI::getOrCreateGroup(const std::string & groupName)
+UIGroup& UIManager::getOrCreateGroup(const std::string & groupName)
 {
 	if (!MAP_CONTAINS(mGroups, groupName))
 	{
@@ -32,7 +32,7 @@ UIGroup& UI::getOrCreateGroup(const std::string & groupName)
 	return *(mGroups.at(groupName));
 }
 
-void UI::init()
+void UIManager::init()
 {
 	UIStyleManager::getInstance().init();
 
@@ -141,17 +141,17 @@ void UI::init()
 	MAP_INSERT(mCharMap, '~', Vector2(14 / mFontTilesCount.x, 0 / mFontTilesCount.y));
 }
 
-const Vector2 &UI::getCharTextureCoordinates(char character)
+const Vector2 &UIManager::getCharTextureCoordinates(char character)
 {
 	return mCharMap.at(character);
 }
 
-void UI::setFocusedElement(UIElement *focusedElement)
+void UIManager::setFocusedElement(UIElement *focusedElement)
 {
 	mFocusedElement = focusedElement;
 };
 
-void UI::terminate()
+void UIManager::terminate()
 {
 	TRACE()
 

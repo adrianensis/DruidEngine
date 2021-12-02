@@ -2,10 +2,6 @@
 
 #include "EditorStyles.hpp"
 
-#include "UI/UI.hpp"
-#include "UI/UIDropdown.hpp"
-#include "UI/UIList.hpp"
-
 #include "Graphics/Graphics.hpp"
 
 #include "../EditorController.hpp"
@@ -52,5 +48,5 @@ void LayersBar::init(EditorController* editorController)
 void LayersBar::setVisibility(bool visible)
 {
 	EditorUIElement::setVisibility(visible);
-	UI::getInstance().getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
+	UIManager::getInstance().getOrCreateGroup(EditorUIGroups::smLayersBar).setVisibility(getIsVisible());
 }

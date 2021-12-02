@@ -1,7 +1,5 @@
 #include "InfoBar.hpp"
 
-#include "UI/UI.hpp"
-
 #include "../EditorController.hpp"
 
 #define CREATE_INFO_FIELD(BaseName, builder)\

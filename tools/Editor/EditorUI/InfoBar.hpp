@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "UI/UIText.hpp"
-
 #include "EditorUIElement.hpp"
 
 class UIBuilder;
