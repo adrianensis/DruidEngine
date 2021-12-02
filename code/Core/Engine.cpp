@@ -1,10 +1,9 @@
 #include "Core/Engine.hpp"
 #include "Core/EngineConfig.hpp"
 #include "Graphics/Graphics.hpp"
-#include "Scripting/ScriptEngine.hpp"
+#include "Scripting/Scripting.hpp"
 
-#include "Scenes/Scene.hpp"
-#include "Scenes/ScenesManager.hpp"
+#include "Scenes/Scenes.hpp"
 #include "UI/UI.hpp"
 
 using namespace std::chrono_literals;
