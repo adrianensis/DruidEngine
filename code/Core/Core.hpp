@@ -12,6 +12,8 @@
 #include "Core/Functor.hpp"
 #include "Core/File/File.hpp"
 #include "Core/Log/Log.hpp"
+#include "Core/Config/ConfigObject.hpp"
 #include "Core/Time/TimeUtils.hpp"
 #include "Core/Time/TimerManager.hpp"
+#include "Core/Events/EventsManager.hpp"
 #include "Core/Profiler/Profiler.hpp"

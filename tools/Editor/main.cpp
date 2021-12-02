@@ -5,8 +5,6 @@
 
 #include "Editor.hpp"
 
-#include "Config/ConfigObject.hpp"
-
 #include "generated-code/Editor.generated.class.hpp"
 
 /*#include <ft2build.h>

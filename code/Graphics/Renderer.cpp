@@ -4,7 +4,6 @@
 #include "Graphics/Material/Shader.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Config/ConfigObject.hpp"
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera/Camera.hpp"
 #include "Graphics/Material/Texture.hpp"

@@ -1,4 +1,6 @@
-#include "Config/ConfigObject.hpp"
+#include "Core/Config/ConfigObject.hpp"
+
+#include "Core/File/File.hpp"
 
 void ConfigObject::readFromJsonFile(const std::string &path)
 {

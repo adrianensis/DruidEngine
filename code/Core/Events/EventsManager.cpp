@@ -1,4 +1,4 @@
-#include "Events/EventsManager.hpp"
+#include "Core/Events/EventsManager.hpp"
 
 void EventsManager::removeMapContent()
 {

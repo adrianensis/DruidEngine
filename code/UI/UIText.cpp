@@ -5,9 +5,9 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
 
-#include "Events/EventsManager.hpp"
+
 #include "Input/InputEvents.hpp"
-#include "Events/Event.hpp"
+
 
 UIText::UIText()
 {

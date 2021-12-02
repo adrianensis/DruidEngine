@@ -6,7 +6,7 @@
 #include "Input/Input.hpp"
 #include "Graphics/Graphics.hpp"
 #include "Scripting/ScriptEngine.hpp"
-#include "Events/EventsManager.hpp"
+
 #include "Scene/Scene.hpp"
 #include "Scene/ScenesManager.hpp"
 #include "UI/UI.hpp"

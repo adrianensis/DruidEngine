@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Config/ConfigObject.hpp"
+#include "Core/Config/ConfigObject.hpp"
+#include "Core/Singleton.hpp"
 
 class EngineConfig: public ObjectBase, public Singleton<EngineConfig>
 {

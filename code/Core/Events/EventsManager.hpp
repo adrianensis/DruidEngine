@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core/Core.hpp"
-#include "Events/Event.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/ObjectBase.hpp"
+#include "Core/Events/Event.hpp"
 #include "Core/Assert/Assert.hpp"
 #include "Core/Singleton.hpp"
-
 
 /*
   Macros for (un)susbscribing and sending events.

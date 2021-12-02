@@ -9,7 +9,6 @@
 #include "EditorUI/LayersBar.hpp"
 #include "EditorUI/Sprites.hpp"
 #include "EditorUI/EditorStyles.hpp"
-#include "Config/ConfigObject.hpp"
 
 #include "Maths/Maths.hpp"
 
