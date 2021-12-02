@@ -14,8 +14,8 @@
 #include <fstream>
 
 #include <type_traits>
-
 #include <functional>
+#include <future> // std::async, std::future
 
 #include "Core/Macros.hpp"
 

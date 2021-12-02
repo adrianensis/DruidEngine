@@ -1,8 +1,7 @@
 #include "ScenesManager.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/GameObject.hpp"
-#include "Graphics/Camera/Camera.hpp"
-#include "Graphics/RenderEngine.hpp"
+#include "Graphics/Graphics.hpp"
 #include "Core/EngineConfig.hpp"
 
 ScenesManager::ScenesManager()

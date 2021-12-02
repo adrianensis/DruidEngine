@@ -2,10 +2,8 @@
 
 #include "Core/Core.hpp"
 #include "Core/Singleton.hpp"
-
-
-class Material;
-class Texture;
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Material/Texture.hpp"
 
 class MaterialManager: public ObjectBase, public Singleton<MaterialManager>
 {

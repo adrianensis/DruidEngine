@@ -2,12 +2,10 @@
 #include "UI/UI.hpp"
 #include "UI/UIBuilder.hpp"
 #include "UI/UIText.hpp"
-#include "Graphics/Renderer.hpp"
-#include "Graphics/RenderContext.hpp"
+#include "Graphics/Graphics.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
 #include "Events/EventsManager.hpp"
-#include "Graphics/Mesh.hpp"
 
 void UIButton::init()
 {

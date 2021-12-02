@@ -1,10 +1,7 @@
 #include "UI/UIEditableText.hpp"
-#include "Graphics/Mesh.hpp"
-#include "Graphics/Renderer.hpp"
-#include "Graphics/Material/Material.hpp"
+#include "Graphics/Graphics.hpp"
 #include "UI/UI.hpp"
 #include "Scene/Scene.hpp"
-#include "Graphics/RenderContext.hpp"
 #include "Scene/Transform.hpp"
 
 void UIEditableText::init()

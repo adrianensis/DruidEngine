@@ -1,7 +1,7 @@
 #include "UI/UIElementConfig.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
-#include "Graphics/Material/MaterialManager.hpp"
+#include "Graphics/Graphics.hpp"
 
 UIElementConfig::UIElementConfig()
 {

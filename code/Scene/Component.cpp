@@ -1,5 +1,4 @@
 #include "Scene/Component.hpp"
-#include "Config/ConfigObject.hpp"
 #include "Scene/GameObject.hpp"
 
 Component::Component()

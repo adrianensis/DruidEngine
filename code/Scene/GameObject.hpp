@@ -3,8 +3,6 @@
 #include "Core/Core.hpp"
 #include "Scene/Component.hpp"
 #include "Events/Event.hpp"
-#include "Core/Serialization.hpp"
-
 
 class Transform;
 class Scene;

@@ -1,15 +1,13 @@
 #include "UI/UIElement.hpp"
 
-#include "Graphics/Renderer.hpp"
+#include "Graphics/Graphics.hpp"
 
 #include "Events/EventsManager.hpp"
 #include "Input/InputEvents.hpp"
 #include "Events/Event.hpp"
 
 #include "Input/Input.hpp"
-#include "Graphics/RenderEngine.hpp"
 #include "Scene/Transform.hpp"
-#include "Graphics/Camera/Camera.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIStyle.hpp"
 #include "UI/UIGroup.hpp"

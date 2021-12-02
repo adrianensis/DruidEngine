@@ -2,11 +2,9 @@
 #include "UI/UI.hpp"
 #include "UI/UIBuilder.hpp"
 #include "UI/UIText.hpp"
-#include "Graphics/Renderer.hpp"
-#include "Graphics/RenderContext.hpp"
+#include "Graphics/Graphics.hpp"
 #include "Scene/Transform.hpp"
 #include "Scene/Scene.hpp"
-#include "Graphics/Mesh.hpp"
 
 UIList::UIListEntry::UIListEntry(const std::string& label, UIElementCallback callback)
 {

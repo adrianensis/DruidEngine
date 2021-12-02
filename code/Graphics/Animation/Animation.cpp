@@ -1,7 +1,5 @@
 #include "Graphics/Animation/Animation.hpp"
 
-#include "Graphics/Animation/AnimationFrame.hpp"
-
 Animation::Animation()
 {
 	mCurrentFrameNumber = 0;

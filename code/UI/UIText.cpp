@@ -1,18 +1,13 @@
 #include "UI/UIText.hpp"
-#include "Graphics/Mesh.hpp"
-#include "Graphics/Renderer.hpp"
-#include "Graphics/Material/Material.hpp"
+#include "Graphics/Graphics.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIPanel.hpp"
 #include "Scene/Scene.hpp"
-#include "Graphics/RenderContext.hpp"
 #include "Scene/Transform.hpp"
 
 #include "Events/EventsManager.hpp"
 #include "Input/InputEvents.hpp"
 #include "Events/Event.hpp"
-
-#include "Graphics/RenderEngine.hpp"
 
 UIText::UIText()
 {

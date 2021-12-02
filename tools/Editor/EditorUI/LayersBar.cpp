@@ -6,7 +6,7 @@
 #include "UI/UIDropdown.hpp"
 #include "UI/UIList.hpp"
 
-#include "Graphics/Material/MaterialManager.hpp"
+#include "Graphics/Graphics.hpp"
 
 #include "../EditorController.hpp"
 

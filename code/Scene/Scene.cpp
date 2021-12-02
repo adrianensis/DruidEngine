@@ -1,13 +1,8 @@
 #include "Scene/Scene.hpp"
 #include "Scene/GameObject.hpp"
 #include "Scene/Transform.hpp"
-#include "Graphics/RenderContext.hpp"
-#include "Graphics/RenderEngine.hpp"
-#include "Graphics/Renderer.hpp"
-#include "Graphics/Camera/Camera.hpp"
+#include "Graphics/Graphics.hpp"
 #include "Core/EngineConfig.hpp"
-#include <future> // std::async, std::future
-#include "Core/ClassManager.hpp"
 
 Scene::Scene()
 {

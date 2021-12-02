@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Core.hpp"
-#include "Core/Serialization.hpp"
 
 /*
 	example for constant config object:

@@ -4,9 +4,6 @@
 #include "Scene/Transform.hpp"
 
 #include "Events/EventsManager.hpp"
-#include "Config/ConfigObject.hpp"
-#include "Core/ClassManager.hpp"
-#include "Graphics/Renderer.hpp"
 
 GameObject::GameObject()
 {

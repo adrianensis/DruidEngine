@@ -1,6 +1,5 @@
 #include "UI/UIUtils.hpp"
-#include "Graphics/RenderContext.hpp"
-#include <algorithm>
+#include "Graphics/Graphics.hpp"
 
 Vector2 UIUtils::correctAspectRatio_X(const Vector2& vector)
 {
