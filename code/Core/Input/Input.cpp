@@ -1,5 +1,4 @@
-#include "Input/Input.hpp"
-
+#include "Core/Input/Input.hpp"
 
 void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {

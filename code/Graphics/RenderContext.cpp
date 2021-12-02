@@ -2,11 +2,7 @@
 #include "Graphics/RenderEngine.hpp"
 #include "Graphics/Camera/Camera.hpp"
 
-//#include <gl/gl.h>
-//#include <gl/glext.h>
 #include <stddef.h>
-
-//#include "Input/Input.hpp"
 
 GLFWwindow *RenderContext::smWindow = nullptr;
 Vector2 RenderContext::smWindowSize;

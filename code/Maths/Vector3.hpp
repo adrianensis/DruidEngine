@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Core/Core.hpp"
-
-#include "Core/BasicTypes.hpp"
-#include "Core/Assert/Assert.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/VectorDef.hpp"
 
 class Vector2;

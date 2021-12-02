@@ -1,11 +1,6 @@
 #pragma once
 
-#include "Core/Core.hpp"
-
-
-#include "Core/BasicTypes.hpp"
-#include "Core/Assert/Assert.hpp"
-#include "Maths/Vector3.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Maths/Matrix4.hpp"
 
 class Quaternion: public ObjectBase

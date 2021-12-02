@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Core/Core.hpp"
+#include "Core/ObjectBase.hpp"
 #include "Core/Singleton.hpp"
 
 #include "Graphics/RenderContext.hpp"
-#include "Maths/Maths.hpp"
+#include "Maths/Vector2.hpp"
 
-#include "Input/InputEvents.hpp"
+#include "Core/Input/InputEvents.hpp"
 
 class Input: public ObjectBase, public Singleton<Input>
 {

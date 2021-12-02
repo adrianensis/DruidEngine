@@ -5,8 +5,6 @@
 #include "Scene/GameObject.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
-#include "Input/Input.hpp"
-
 #include "Scene/GameObject.hpp"
 
 Vector2 UI::smDefaultFontSize = Vector2(0.04f / 2.0f, 0.04f);

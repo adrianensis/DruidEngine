@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Core.hpp"
 #include "Maths/Vector3.hpp"
 #include "Maths/Vector4.hpp"
 

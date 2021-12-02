@@ -6,9 +6,6 @@
 #include "Scene/Transform.hpp"
 
 
-#include "Input/InputEvents.hpp"
-
-
 UIText::UIText()
 {
     mIsEditable = false;

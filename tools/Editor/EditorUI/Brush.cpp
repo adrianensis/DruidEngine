@@ -1,10 +1,5 @@
 #include "Brush.hpp"
 #include "../EditorController.hpp"
-
-#include "Input/Input.hpp"
-#include "Input/InputEvents.hpp"
-
-
 #include "Graphics/Graphics.hpp"
 
 #include "Scene/GameObject.hpp"

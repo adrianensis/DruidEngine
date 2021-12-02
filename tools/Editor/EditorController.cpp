@@ -5,7 +5,6 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Transform.hpp"
 #include "Graphics/Graphics.hpp"
-#include "Input/Input.hpp"
 #include "UI/UI.hpp"
 #include "UI/UIDropdown.hpp"
 #include "UI/UIList.hpp"
@@ -18,11 +17,6 @@
 #include "Command/CommandLine.hpp"
 
 #include "Core/ClassManager.hpp"
-
-#include "Input/Input.hpp"
-#include "Input/InputEvents.hpp"
-
-
 void EditorController::init()
 {
     EditorCommands::registerEditorCommands(this);
