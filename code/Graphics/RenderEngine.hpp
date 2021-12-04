@@ -41,6 +41,9 @@ PUB
 
 	virtual void addComponent(Component *component) override;
 	Chunk *assignChunk(Renderer * renderer);
-	void drawLine(const Line& line, f32 size = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
 	bool frustumTestSphere(const Vector3 &center, f32 radius);
+
+	void drawLine(const Line& line, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	void drawRectangle2D(const Rectangle2D& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	void drawRectangle(const Rectangle& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
 };

@@ -32,9 +32,9 @@ class Renderer: public Component
 	PRI mutable std::vector<Vector3> mVertices;
 	PRI std::array<f32, 4> mColor; GETREF_CONST(Color)
 	PRI Vector3 mPositionOffset; GET(PositionOffset)
-	PRI Rectangle mRegion; GETREF_CONST_SET(Region)
-	PRI Rectangle mClipRectangle; GETREF_CONST_SET(ClipRectangle)
-	PRI Mesh* mMesh = nullptr; GET_SET(Mesh)
+	PRI Rectangle2D mRegion; GETREF_CONST_SET(Region)
+	PRI Rectangle2D mClipRectangle; GETREF_CONST_SET(ClipRectangle)
+	PRI const Mesh* mMesh = nullptr; GET_SET(Mesh)
 	PRI Material* mMaterial = nullptr; GET_SET(Material)
 	PRI bool mInvertAxisX = false; GET_SET(InvertAxisX)
 	PRI bool mIsLineMode = false; GET_SET(IsLineMode)

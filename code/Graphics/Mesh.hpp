@@ -39,7 +39,4 @@ PUB
 	Mesh *copyFaces(const Mesh* other);
 
 	void clear();
-
-	static Mesh *getRectangle();
-	static void freeRectangle();
 };

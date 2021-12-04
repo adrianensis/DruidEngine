@@ -19,7 +19,7 @@ void EditorController::init()
     }
 
 	mBrush.init(this);
-	mBrush.setBrushSize(9);
+	mBrush.setBrushSize(20);
 	mInfoBar.init(this);
 	mToolsBar.init(this);
 	mLayersBar.init(this);
@@ -70,10 +70,13 @@ void EditorController::init()
 	getCameraGameObject()->getFirstComponent<Camera>();
 
 	mCameraSpeed = 1000;
+
+	//quadTree.init(50*100);
 }
 
 void EditorController::update()
 {
+	//quadTree.update();
 	drawGrid();
 	mInfoBar.setFPS(1.0f/Time::getInstance().getDeltaTimeSeconds());
 }
@@ -116,7 +119,7 @@ void EditorController::drawGrid()
 	}
 }
 
-GameObject* EditorController::createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region)
+GameObject* EditorController::createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle2D &region)
 {
 	GameObject *tile = NEW(GameObject);
 	tile->init();
@@ -130,7 +133,7 @@ GameObject* EditorController::createTile(const Vector2 &position, const Vector2 
 	Renderer *renderer = NEW(Renderer);
 	renderer->init();
 
-	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMesh(MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>());
 	renderer->setDepth(-1 * getLayer());
 
 	renderer->setMaterial(material);

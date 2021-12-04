@@ -20,7 +20,7 @@ void UIPanel::initFromConfig(const UIElementConfig& config)
 	Renderer *renderer = NEW(Renderer);
 	renderer->init();
 
-	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMesh(MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>());
 	renderer->setMaterial(mConfig.mMaterial);
 	renderer->setColor(mConfig.mStyle->mBackgroundColor);
 	renderer->setDepth(mConfig.mLayer);

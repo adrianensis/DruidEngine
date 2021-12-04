@@ -31,7 +31,6 @@ void Brush::init(EditorController* editorController)
 		onMouseMoved();
 	});
 
-	mMaxBrushSize = 10;
 	mBrushSize = 1;
 }
 
@@ -196,7 +195,7 @@ void Brush::createSelector()
 
 	Renderer *renderer = NEW(Renderer);
 	renderer->init();
-	renderer->setMesh(Mesh::getRectangle());
+	renderer->setMesh(MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>());
 	renderer->setMaterial(material);
 
 	selector->addComponent<Renderer>(renderer);
@@ -246,7 +245,7 @@ void Brush::createBrushPreviewOneTile(const Vector2 &brushPreviewIndex)
 
 		Renderer *renderer = NEW(Renderer);
 		renderer->init();
-		renderer->setMesh(Mesh::getRectangle());
+		renderer->setMesh(MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>());
 		renderer->setMaterial(mPaintData.mMaterial);
 		renderer->setRegion(mPaintData.mRegion);
 

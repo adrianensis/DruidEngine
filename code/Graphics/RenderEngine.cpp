@@ -139,8 +139,6 @@ void RenderEngine::terminate()
 	mShapeBatchRendererMapScreenSpace.terminate();
 
 	LIST_DELETE_CONTENT(mChunks);
-
-	Mesh::freeRectangle();
 }
 
 void RenderEngine::addComponent(Component *component)
@@ -203,15 +201,33 @@ Chunk *RenderEngine::assignChunk(Renderer *renderer)
 	return chunkFound;
 }
 
-void RenderEngine::drawLine(const Line& line, f32 size /*= 1*/,
-							bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
+void RenderEngine::drawLine(const Line& line, f32 thickness /*= 1*/, bool isWorldSpace /*= true*/, Vector4 color /* = Vector4(1,1,1,1)*/)
 {
 	if (isWorldSpace)
 	{
-		mShapeBatchRendererMap.add(line, size, color);
+		mShapeBatchRendererMap.add(line, thickness, color);
 	}
 	else
 	{
-		mShapeBatchRendererMapScreenSpace.add(line, size, color);
+		mShapeBatchRendererMapScreenSpace.add(line, thickness, color);
 	}
+}
+
+void RenderEngine::drawRectangle2D(const Rectangle2D& rectangle, f32 thickness, bool isWorldSpace, Vector4 color)
+{
+	Vector3 leftTop = rectangle.getLeftTop();
+	Vector3 size = rectangle.getSize();
+	drawLine(Line(Vector3(leftTop.x, leftTop.y,0), Vector3(leftTop.x, leftTop.y - size.y,0)), thickness, isWorldSpace, color);
+	drawLine(Line(Vector3(leftTop.x, leftTop.y - size.y,0), Vector3(leftTop.x + size.x, leftTop.y - size.y,0)), thickness, isWorldSpace, color);
+	drawLine(Line(Vector3(leftTop.x + size.x, leftTop.y - size.y,0), Vector3(leftTop.x + size.x, leftTop.y,0)), thickness, isWorldSpace, color);
+	drawLine(Line(Vector3(leftTop.x + size.x, leftTop.y,0), Vector3(leftTop.x, leftTop.y,0)), thickness, isWorldSpace, color);
+}
+
+void RenderEngine::drawRectangle(const Rectangle& rectangle, f32 thickness, bool isWorldSpace, Vector4 color)
+{
+	Vector3 leftTop = rectangle.getLeftTop();
+	Vector3 size = rectangle.getSize();
+	
+	drawRectangle2D(Rectangle2D(leftTop, size), thickness, isWorldSpace, color);
+	// TODO : draw 3D rectangle
 }

@@ -210,7 +210,7 @@ void Sprites::createAtlas(Material* material)
 				getUIElement<UIButton>();
 
 			Renderer* renderer = tile->getRenderer();
-			renderer->setRegion(Rectangle(j / spritesSize.x, (spritesSize.y - i - 1) / spritesSize.y, spritesTextureSize.x, spritesTextureSize.y));
+			renderer->setRegion(Rectangle2D(j / spritesSize.x, (spritesSize.y - i - 1) / spritesSize.y, spritesTextureSize.x, spritesTextureSize.y));
 
 			tile->setOnPressedCallback([&](UIElement* uiElement)
 			{
@@ -353,7 +353,7 @@ void Sprites::addSprite()
 
         Renderer* renderer = NEW(Renderer);
         renderer->init();
-        renderer->setMesh(Mesh::getRectangle());
+        renderer->setMesh(MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>());
         renderer->setMaterial(mCurrentAtlasMaterial);
 
         sprite->addComponent<Renderer>(renderer);

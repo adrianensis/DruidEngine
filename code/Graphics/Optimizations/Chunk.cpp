@@ -40,10 +40,7 @@ void Chunk::set(const Vector3 &leftTop, f32 size)
 
 void Chunk::update(BatchesMap *batchesMap)
 {
-	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y - mSize,0)));
-	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0)));
-	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x + mSize, mLeftTop.y - mSize,0), Vector3(mLeftTop.x + mSize, mLeftTop.y,0)));
-	RenderEngine::getInstance().drawLine(Line(Vector3(mLeftTop.x + mSize, mLeftTop.y,0), Vector3(mLeftTop.x, mLeftTop.y,0)));
+	//RenderEngine::getInstance().drawRectangle2D(Rectangle2D(mLeftTop, mSize, mSize));
 
 	FOR_LIST(it, *mRenderers)
 	{

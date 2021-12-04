@@ -21,7 +21,7 @@ enum class BrushPaintMode
 class BrushPaintData: public ObjectBase
 {
     GENERATE_METADATA(BrushPaintData)
-	PUB Rectangle mRegion;
+	PUB Rectangle2D mRegion;
 	PUB Material* mMaterial = nullptr;
 };
 
@@ -36,8 +36,8 @@ class Brush: public EditorUIElement
 
 	PRI BrushPaintData mPaintData; GETREF(PaintData)
 
-	PRI u32 mBrushSize = 0; GET(BrushSize)
-	PRI u32 mMaxBrushSize = 0;
+	PRI u32 mBrushSize = 1; GET(BrushSize)
+	PRI const u32 mMaxBrushSize = 20;
 
 PRI
 

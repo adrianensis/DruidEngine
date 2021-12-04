@@ -10,6 +10,8 @@
 #include "EditorUI/Sprites.hpp"
 #include "EditorUI/EditorStyles.hpp"
 
+#include "SpacePartition/KTree.hpp"
+
 class Material;
 class GameObject;
 class Camera;
@@ -39,6 +41,8 @@ class EditorController: public ObjectBase
 	PRI bool mCameraDragStarted = false;
 	PRI Vector3 mCameraDragLastPosition;
 
+	QuadTree quadTree;
+
 PUB
 
 	void init();
@@ -48,7 +52,7 @@ PUB
 
 	Grid& getGrid();
 
-	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle &region);
+	GameObject* createTile(const Vector2 &position, const Vector2 &size, Material *material, const Rectangle2D &region);
 
 	void forEachSelectedTile(TileCallback tileCallback);
 

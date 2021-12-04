@@ -16,11 +16,11 @@ class BatchesMap: public ObjectBase
 	// Simplifies the batch mapping by texture, mesh and shader
 	PRI class BatchKey
 	{
-		PUB Texture* mTexture = nullptr;
-		PUB Shader* mShader = nullptr;
-		PUB Mesh* mMesh = nullptr;
+		PUB const Texture* mTexture = nullptr;
+		PUB const Shader* mShader = nullptr;
+		PUB const Mesh* mMesh = nullptr;
 
-		PUB void init(Texture* texture, Shader* shader, Mesh* mesh)
+		PUB void init(const Texture* texture, const Shader* shader, const Mesh* mesh)
 		{
 			mTexture = texture;
 			mShader = shader;

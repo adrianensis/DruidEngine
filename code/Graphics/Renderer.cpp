@@ -8,6 +8,7 @@
 #include "Graphics/Material/MaterialManager.hpp"
 #include "Graphics/Material/Material.hpp"
 #include "Graphics/Mesh.hpp"
+#include "Graphics/MeshPrimitives.hpp"
 #include "Graphics/Animation/Animation.hpp"
 #include "Graphics/Optimizations/Chunk.hpp"
 #include "Graphics/Optimizations/Batch.hpp"
@@ -215,7 +216,7 @@ void Renderer::deserialize(const JSON &json)
 	DO_DESERIALIZE("region", mRegion)
 	DO_DESERIALIZE("depth", mDepth)
 
-	mMesh = Mesh::getRectangle();
+	mMesh = MeshPrimitives::getInstance().getOrCreatePrimitive<Rectangle2D>();
 
     std::list<Animation> tmpList;
     DO_DESERIALIZE_LIST("animations", tmpList, [](const JSON &json)

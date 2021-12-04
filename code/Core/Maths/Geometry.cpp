@@ -7,9 +7,15 @@ bool Geometry::testRectanglePoint(const Vector2 &leftTop, f32 width, f32 height,
 	return (leftTop.x - eps <= point.x && leftTop.y + eps >= point.y && leftTop.x + width + eps >= point.x && leftTop.y - height - eps <= point.y);
 }
 
-bool Geometry::testRectangleSphere(const Vector2 &leftTop, f32 width, f32 height, const Vector2 &center, f32 radius, f32 eps)
+bool Geometry::testRectangleSphere(const Vector3 &leftTop, f32 width, f32 height, f32 length, const Vector3 &center, f32 radius, f32 eps)
 {
-	return (leftTop.x - radius - eps <= center.x && leftTop.y + radius + eps >= center.y && leftTop.x + width + radius + eps >= center.x && leftTop.y - height - radius - eps <= center.y);
+	return
+		(leftTop.x - radius - eps) <= center.x &&
+		(leftTop.y + radius + eps) >= center.y &&
+		(leftTop.z + radius + eps) >= center.z &&
+		(leftTop.x + width + radius + eps) >= center.x &&
+		(leftTop.y - height - radius - eps) <= center.y &&
+		(leftTop.z - length - radius - eps) <= center.z;
 }
 
 bool Geometry::testSphereSphere(const Vector2 &centerA, const Vector2 &centerB, f32 radiusA, f32 radiusB, f32 eps)
