@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/ObjectBase.hpp"
+#include "Core/BasicTypes.hpp"
+#include "Core/Serialization.hpp"
 #include "Core/Maths/Matrix4.hpp"
 
 class Quaternion
