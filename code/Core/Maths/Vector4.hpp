@@ -6,12 +6,14 @@
 class Vector2;
 class Vector3;
 
-class Vector4: public ObjectBase
+class Vector4
 {
-	GENERATE_METADATA(Vector4)
 PUB
 
-	f32 x, y, z, w;
+	f32 x = 0;
+	f32 y = 0;
+	f32 z = 0;
+	f32 w = 0;
 
 	Vector4();
 	Vector4(f32 x, f32 y, f32 z, f32 w);
@@ -27,3 +29,5 @@ PUB
 
 	VECTOR_BASE_DEFINITION(4)
 };
+
+TEMPLATED_SERIALIZATION(Vector4)

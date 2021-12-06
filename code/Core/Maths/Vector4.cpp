@@ -221,18 +221,22 @@ Vector4 &Vector4::clamp(f32 maxLength)
 	return *this;
 }
 
-void Vector4::serialize(JSON &json) const
+template<>
+JSON SerializationUtils::serializeTemplated(Vector4 value)
 {
-	DO_SERIALIZE("x", x)
-	DO_SERIALIZE("y", y)
-	DO_SERIALIZE("z", z)
-	DO_SERIALIZE("w", w)
+	JSON json;
+	DO_SERIALIZE("x", value.x)
+	DO_SERIALIZE("y", value.y)
+	DO_SERIALIZE("z", value.z)
+	DO_SERIALIZE("w", value.w)
+	return json;
 }
 
-void Vector4::deserialize(const JSON &json)
+template<>
+void SerializationUtils::deserializeTemplated(Vector4& value, const JSON& json)
 {
-	DO_DESERIALIZE("x", x);
-	DO_DESERIALIZE("y", y);
-	DO_DESERIALIZE("z", z);
-	DO_DESERIALIZE("w", w);
+	DO_DESERIALIZE("x", value.x)
+	DO_DESERIALIZE("y", value.y)
+	DO_DESERIALIZE("z", value.z)
+	DO_DESERIALIZE("w", value.w)
 }

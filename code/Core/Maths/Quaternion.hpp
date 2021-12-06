@@ -3,16 +3,15 @@
 #include "Core/ObjectBase.hpp"
 #include "Core/Maths/Matrix4.hpp"
 
-class Quaternion: public ObjectBase
+class Quaternion
 {
-	GENERATE_METADATA(Quaternion)
 PUB
 	//-------------------------------------------------------------------
 	// MEMBERS
 	//-------------------------------------------------------------------
 
-	f32 w;
-	Vector3 v;
+	Vector3 v = Vector3(0,0,0);
+	f32 w = 0;
 
 	//-------------------------------------------------------------------
 	// CONSTRUCTORS/DESTRUCTOR
@@ -185,3 +184,5 @@ PUB
 		return v[index];
 	}
 };
+
+TEMPLATED_SERIALIZATION(Quaternion)

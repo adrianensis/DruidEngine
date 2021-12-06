@@ -43,7 +43,11 @@ PUB\
     f32 angle(const Vector##vectorLength &v) const;\
     Vector##vectorLength &clamp(f32 maxLength);\
     \
-    COPY(Vector##vectorLength){ set(*other); }\
+    Vector##vectorLength &operator=(const Vector##vectorLength &other)\
+	{\
+		set(other);\
+		return *this;\
+	}\
     \
     Vector##vectorLength &operator+=(const Vector##vectorLength &rhs) {return this->add(rhs); }\
     Vector##vectorLength &operator-=(const Vector##vectorLength &rhs) {return this->sub(rhs); }\
@@ -65,6 +69,4 @@ PUB\
     Vector##vectorLength operator*(f32 rhs) const {return Vector##vectorLength(*this) *= rhs; }\
     Vector##vectorLength operator/(f32 rhs) const {return Vector##vectorLength(*this) /= rhs; }\
     f32 &operator[](const size_t index) { return get(index); }\
-    f32 operator[](const size_t index) const { return get(index); }\
-    virtual void serialize(JSON &json) const override;\
-    virtual void deserialize(const JSON &json) override;
+    f32 operator[](const size_t index) const { return get(index); }

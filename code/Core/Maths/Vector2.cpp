@@ -190,14 +190,18 @@ Vector2 &Vector2::clamp(f32 maxLength)
 	return *this;
 }
 
-void Vector2::serialize(JSON &json) const
+template<>
+JSON SerializationUtils::serializeTemplated(Vector2 value)
 {
-	DO_SERIALIZE("x", x)
-	DO_SERIALIZE("y", y)
+	JSON json;
+	DO_SERIALIZE("x", value.x)
+	DO_SERIALIZE("y", value.y)
+	return json;
 }
 
-void Vector2::deserialize(const JSON &json)
+template<>
+void SerializationUtils::deserializeTemplated(Vector2& value, const JSON& json)
 {
-	DO_DESERIALIZE("x", x);
-	DO_DESERIALIZE("y", y);
+	DO_DESERIALIZE("x", value.x)
+	DO_DESERIALIZE("y", value.y)
 }

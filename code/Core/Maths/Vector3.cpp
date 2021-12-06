@@ -261,16 +261,20 @@ Vector3 &Vector3::clamp(f32 maxLength)
 	return *this;
 }
 
-void Vector3::serialize(JSON &json) const
+template<>
+JSON SerializationUtils::serializeTemplated(Vector3 value)
 {
-	DO_SERIALIZE("x", x)
-	DO_SERIALIZE("y", y)
-	DO_SERIALIZE("z", z)
+	JSON json;
+	DO_SERIALIZE("x", value.x)
+	DO_SERIALIZE("y", value.y)
+	DO_SERIALIZE("z", value.z)
+	return json;
 }
 
-void Vector3::deserialize(const JSON &json)
+template<>
+void SerializationUtils::deserializeTemplated(Vector3& value, const JSON& json)
 {
-	DO_DESERIALIZE("x", x);
-	DO_DESERIALIZE("y", y);
-	DO_DESERIALIZE("z", z);
+	DO_DESERIALIZE("x", value.x)
+	DO_DESERIALIZE("y", value.y)
+	DO_DESERIALIZE("z", value.z)
 }

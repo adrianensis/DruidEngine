@@ -6,13 +6,14 @@
 class Vector2;
 class Vector4;
 
-class Vector3: public ObjectBase
+class Vector3
 {
-    GENERATE_METADATA(Vector3)
 PUB
 
-	f32 x, y, z;
-
+	f32 x = 0;
+	f32 y = 0;
+	f32 z = 0;
+	
 	Vector3();
 	Vector3(f32 x, f32 y, f32 z);
 	Vector3(const Vector3 &other);
@@ -31,3 +32,5 @@ PUB
 
 	VECTOR_BASE_DEFINITION(3)
 };
+
+TEMPLATED_SERIALIZATION(Vector3)

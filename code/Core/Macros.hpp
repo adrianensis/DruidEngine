@@ -253,6 +253,15 @@ if(!json.empty() && json.contains(Name))\
 //     }
 // }
 
+// NO INTERFACE - SERIALIZATION MACROS
+// useful when you don't want to increase the class size with extra virtual methods from ISerializable
+
+#define TEMPLATED_SERIALIZATION(...)\
+template<>\
+JSON SerializationUtils::serializeTemplated(__VA_ARGS__ value);\
+template<>\
+void SerializationUtils::deserializeTemplated(__VA_ARGS__& value, const JSON& json);
+
 // --------------------------------------------------------
 // FOR LOOPS
 // --------------------------------------------------------

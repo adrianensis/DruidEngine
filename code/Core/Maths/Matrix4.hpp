@@ -3,10 +3,8 @@
 #include "Core/Maths/Vector3.hpp"
 #include "Core/Maths/Vector4.hpp"
 
-class Matrix4: public ObjectBase
+class Matrix4
 {
-    GENERATE_METADATA(Matrix4)
-
 	PUB const static u16 smColumnSize = 4;
 	PUB const static u16 smMatrixSize = smColumnSize * smColumnSize;
 	

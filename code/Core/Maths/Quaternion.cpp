@@ -3,7 +3,7 @@
 
 #include <algorithm> // std::max
 
-Quaternion::Quaternion() : v(), w(0)
+Quaternion::Quaternion()
 {
 }
 
@@ -327,4 +327,21 @@ void Quaternion::toMatrix(Matrix4 *outMatrix) const
 	outMatrix->set(2, 0, xz2 - wy2);
 	outMatrix->set(2, 1, yz2 + wx2);
 	outMatrix->set(2, 2, 1 - (xx2 + yy2));
+}
+
+
+template<>
+JSON SerializationUtils::serializeTemplated(Quaternion value)
+{
+	JSON json;
+	DO_SERIALIZE("v", value.v)
+	DO_SERIALIZE("w", value.w)
+	return json;
+}
+
+template<>
+void SerializationUtils::deserializeTemplated(Quaternion& value, const JSON& json)
+{
+	DO_DESERIALIZE("v", value.v)
+	DO_DESERIALIZE("w", value.w)
 }
