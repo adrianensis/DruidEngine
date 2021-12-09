@@ -4,7 +4,7 @@
 
 #include "Editor.hpp"
 
-#include "generated-code/Editor.generated.class.hpp"
+#include "generated-code/tools/Editor/generated.class.hpp"
 
 /*#include <ft2build.h>
 #include FT_FREETYPE_H */

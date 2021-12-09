@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import filecmp
+import pathlib
 
 from generateClassList import *
 
@@ -13,23 +14,32 @@ os.chdir(cwd)
 # folders to find classes
 foldersMap = {}
 
-foldersMap["code"] = "code"
+keyFolder_code = "code"
+
+foldersMap[keyFolder_code] = "code"
 foldersMap["Editor"] = "tools/Editor"
-foldersMap["EditorElectron"] = "tools/EditorElectron"
-foldersMap["games"] = "games"
+
+generated_code_dirname = "generated-code"
+generated_code_dirname_tmp = os.path.join(generated_code_dirname, "tmp")
+
+generated_code_path = os.path.join(cwd, generated_code_dirname)
+generated_code_path_tmp = os.path.join(generated_code_path, "tmp")
+
+if os.path.isdir(generated_code_path):
+    if os.path.isdir(generated_code_path_tmp):
+        shutil.rmtree(generated_code_dirname_tmp)
+
+os.mkdir(generated_code_dirname_tmp)
+
+for keyFolder, folder in foldersMap.items():
+    pathlib.Path(os.path.join(generated_code_dirname_tmp, folder)).mkdir(parents=True, exist_ok=True)
 
 for keyFolder, folder in foldersMap.items():
 
     class_map = getClassList(cwd, [folder])
 
-    generated_code_dirname = "generated-code"
-    generated_code_dirname_tmp = os.path.join(generated_code_dirname, "tmp")
-
-    generated_code_path = os.path.join(cwd, generated_code_dirname)
-    generated_code_path_tmp = os.path.join(generated_code_path, "tmp")
-
-    class_manager_generated = keyFolder.replace("/", ".") + ".generated"
-    class_manager_includes_generated = keyFolder.replace("/", ".") + ".includes.generated"
+    class_manager_generated = os.path.join(folder, "generated") # .replace("/", ".")
+    class_manager_includes_generated = os.path.join(folder, "includes.generated") # .replace("/", ".")
 
     class_manager_generated_file_path = os.path.join(generated_code_path, class_manager_generated)
     class_manager_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_generated)
@@ -40,12 +50,6 @@ for keyFolder, folder in foldersMap.items():
     class_manager_includes_generated_file_path = os.path.join(generated_code_path, class_manager_includes_generated)
     class_manager_includes_generated_file_path_tmp = os.path.join(generated_code_path_tmp, class_manager_includes_generated)
 
-    if os.path.isdir(generated_code_path):
-        if os.path.isdir(generated_code_path_tmp):
-            shutil.rmtree(generated_code_dirname_tmp)
-
-    os.mkdir(generated_code_dirname_tmp)
-
     with open(class_manager_generated_file_path_tmp, "w") as file:
         for _, class_def in class_map.items():
             file.write("REGISTER_CLASS_BY_NAME("+class_def.class_name+")\n")
@@ -54,24 +58,34 @@ for keyFolder, folder in foldersMap.items():
         for _, class_def in class_map.items():
             file.write("#include \""+class_def.include+"\"\n")
 
-    with open(class_manager_generated_class_tmp, "w") as file:
+    if keyFolder != keyFolder_code:
+        with open(class_manager_generated_class_tmp, "w") as file:
 
-        classManagerName = "ClassManager_"+ keyFolder.replace("/", "_")
+            classManagerName = "ModuleClassesRegister"
 
-        file.write("#pragma once\n")
-        relative_include = class_manager_includes_generated_file_path.replace(cwd+"/", '')
-        file.write("#include \""+relative_include+"\"\n")
-        file.write("class " + classManagerName +"\n")
-        file.write("{\n")
-        file.write("public:\n")
-        file.write(classManagerName +"()")
-        file.write("{\n")
-        relative_include = class_manager_generated_file_path.replace(cwd+"/", '')
-        file.write("#include \""+relative_include+"\"\n")
-        file.write("}\n")
-        file.write("};\n")
-        file.write("#define REGISTER_CLASSES_BY_NAME() " + classManagerName + "();")
-        file.write("\n")
+            file.write("#pragma once\n")
+            
+            # code dependencies
+            file.write("#include \""+os.path.join(generated_code_dirname, os.path.join(foldersMap[keyFolder_code], "includes.generated"))+"\"\n")
+            
+            relative_include = class_manager_includes_generated_file_path.replace(cwd+"/", '')
+            file.write("#include \""+relative_include+"\"\n")
+
+            file.write("class " + classManagerName +"\n")
+            file.write("{\n")
+            file.write("public:\n")
+            file.write(classManagerName +"()\n")
+            file.write("{\n")
+
+            # code dependencies
+            file.write("#include \""+os.path.join(generated_code_dirname, os.path.join(foldersMap[keyFolder_code], "generated"))+"\"\n")
+
+            relative_include = class_manager_generated_file_path.replace(cwd+"/", '')
+            file.write("#include \""+relative_include+"\"\n")
+
+            file.write("}\n")
+            file.write("};\n")
+            file.write("\n")
 
     overwrite = True
     if os.path.isfile(class_manager_generated_file_path) and os.path.isfile(class_manager_includes_generated_file_path):
@@ -82,6 +96,10 @@ for keyFolder, folder in foldersMap.items():
     if overwrite:
         print(class_manager_generated + " and " + class_manager_includes_generated_file_path + " have changes!")
 
-        shutil.move(class_manager_generated_file_path_tmp, class_manager_generated_file_path)
-        shutil.move(class_manager_includes_generated_file_path_tmp, class_manager_includes_generated_file_path)
-        shutil.move(class_manager_generated_class_tmp, class_manager_generated_class)
+        pathlib.Path(os.path.join(generated_code_dirname, folder)).mkdir(parents=True, exist_ok=True)
+
+        shutil.move(class_manager_generated_file_path_tmp, class_manager_generated_file_path, copy_function = shutil.copytree)
+        shutil.move(class_manager_includes_generated_file_path_tmp, class_manager_includes_generated_file_path, copy_function = shutil.copytree)
+        
+        if keyFolder != keyFolder_code:
+            shutil.move(class_manager_generated_class_tmp, class_manager_generated_class, copy_function = shutil.copytree)

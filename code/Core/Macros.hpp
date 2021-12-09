@@ -45,7 +45,7 @@ void __runMain()\
 }\
 int main()\
 {\
-	REGISTER_CLASSES_BY_NAME();\
+	ModuleClassesRegister(); /* This comes from generateInstanceByName.py */ \
 	__initMain();\
 	__customMain();\
 	__runMain();\
