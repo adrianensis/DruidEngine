@@ -17,7 +17,16 @@ foldersMap = {}
 keyFolder_code = "code"
 
 foldersMap[keyFolder_code] = "code"
-foldersMap["Editor"] = "tools/Editor"
+
+# add folders to foldersMap
+foldersToExplore = ["tools", "games"]
+
+for folder in foldersToExplore:
+    current_path = os.path.join(cwd, folder)
+    directory_contents = os.listdir(current_path)
+    for item in directory_contents:
+        if os.path.isdir(os.path.join(current_path, item)):
+            foldersMap[item] = os.path.join(folder, item) # foldersMap["Editor"] = "tools/Editor"
 
 generated_code_dirname = "generated-code"
 generated_code_dirname_tmp = os.path.join(generated_code_dirname, "tmp")
