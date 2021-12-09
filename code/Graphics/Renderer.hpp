@@ -2,11 +2,11 @@
 
 #include "Scenes/Component.hpp"
 
-#include "Graphics/Animation/Animation.hpp"
 #include "Scenes/Transform.hpp"
+#include "Graphics/Animation/Animation.hpp"
+#include "Graphics/Material/Material.hpp"
+#include "Graphics/Mesh.hpp"
 
-class Material;
-class Mesh;
 class Chunk;
 class Batch;
 
@@ -23,7 +23,6 @@ class Renderer: public Component
 	PUB void onComponentAdded() override;
 
 	PRI mutable TransformState mTransformState;
-
 
 	// Renderer Properties
 	PRI mutable Matrix4 mRenderereModelMatrix;
