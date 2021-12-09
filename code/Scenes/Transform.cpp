@@ -57,7 +57,15 @@ const Vector3 &Transform::getWorldPosition() const
 
 	if (mParent)
 	{
-		mWorldPosition = mParent->getModelMatrix().mulVector(Vector4(mWorldPosition, 1));
+		// TODO : take the whole model matrix? or ignore scale?
+		//mWorldPosition = mParent->getModelMatrix().mulVector(Vector4(mWorldPosition, 1));
+
+		mWorldPosition.add(mParent->getWorldPosition());
+
+		Matrix4 rotationMatrix;
+		rotationMatrix.init(mParent->getRotationMatrix());
+
+		mWorldPosition = Vector3(rotationMatrix.mulVector(Vector4(mWorldPosition, 1.0f)));
 	}
 
 	return mWorldPosition;
