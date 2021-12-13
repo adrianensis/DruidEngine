@@ -52,7 +52,7 @@ void Chunk::update(BatchesMap *batchesMap)
 		{
 			if (getIsLoaded() && !renderer->getBatch())
 			{
-				batchesMap->addRenderer(renderer);
+				batchesMap->addRenderer(*renderer);
 			}
 
 			if (!renderer->isStatic() && !containsRenderer(renderer))

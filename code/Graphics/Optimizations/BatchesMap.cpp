@@ -22,14 +22,14 @@ void BatchesMap::init()
 	//TRACE();
 }
 
-void BatchesMap::addRenderer(Renderer *renderer)
+void BatchesMap::addRenderer(Renderer& renderer)
 {
 	// Create a temporary key for searching purposes
 	BatchKey tmpBatchKey;
 	tmpBatchKey.init(
-		renderer->getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
-		renderer->getMaterial()->getShader(),
-		renderer->getMesh()
+		renderer.getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
+		renderer.getMaterial()->getShader(),
+		renderer.getMesh()
 	);
 
 	// Find if batch key already exists
@@ -45,13 +45,13 @@ void BatchesMap::addRenderer(Renderer *renderer)
 	{
 		foundBatchKey = &(mBatchKeys.emplace_back(tmpBatchKey));
 		foundBatchKey->init(
-			renderer->getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
-			renderer->getMaterial()->getShader(),
-			renderer->getMesh()
+			renderer.getMaterial()->getTexture(), // NOTE : Texture can be nullptr as a valid hash key.
+			renderer.getMaterial()->getShader(),
+			renderer.getMesh()
 		);
 	}
 
-	Transform* transform = renderer->getGameObject()->getTransform();
+	Transform* transform = renderer.getGameObject()->getTransform();
 
 	std::map<BatchKey*, Batch*>* batchesMap = nullptr;
 	
@@ -67,7 +67,7 @@ void BatchesMap::addRenderer(Renderer *renderer)
 	if (!MAP_CONTAINS(*batchesMap, foundBatchKey))
 	{
 		Batch *batch = NEW(Batch);
-		batch->init(renderer->getMesh(), renderer->getMaterial());
+		batch->init(renderer.getMesh(), renderer.getMaterial());
 		batch->setIsStatic(transform->isStatic());
 		batch->setIsWorldSpace(transform->getAffectedByProjection());
 

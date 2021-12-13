@@ -44,17 +44,17 @@ class Batch: public ObjectBase
 PRI
 	bool shouldRegenerateBuffers() const;
 
-	void addToVertexBuffer(Renderer * renderer);
+	void addToVertexBuffer(Renderer& renderer);
 
 	void generateFacesData(u32 meshesCount);
 	void invalidateAndReallocateBuffers();
 	void sendDataToBuffers();
 
-	void addToVertexBufferNotInstanced(Renderer * renderer);
-	void addToVertexBufferInstanced(Renderer * renderer);
+	void addToVertexBufferNotInstanced(Renderer& renderer);
+	void addToVertexBufferInstanced(Renderer& renderer);
 
 	void resizeBuffers();
-	bool isChunkOk(Renderer * renderer) const;
+	bool isChunkOk(Renderer& renderer) const;
 
 	bool processRenderers();
 
@@ -69,6 +69,6 @@ PUB
 
 	void render();
 
-	void addRenderer(Renderer * renderer);
+	void addRenderer(Renderer& renderer);
 	void forceRegenerateBuffers() { mForceRegenerateBuffers = true; }
 };

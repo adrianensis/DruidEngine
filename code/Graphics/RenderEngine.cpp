@@ -171,7 +171,7 @@ void RenderEngine::addComponent(Component *component)
 		else
 		{
 			// UI Case!
-			mBatchesMap.addRenderer(renderer);
+			mBatchesMap.addRenderer(*renderer);
 		}
 	}
 }

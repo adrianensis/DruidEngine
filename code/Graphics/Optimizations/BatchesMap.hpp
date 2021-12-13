@@ -47,7 +47,7 @@ PUB
 
 	void init();
 	void render();
-	void addRenderer(Renderer * renderer);
+	void addRenderer(Renderer& renderer);
 
 	void forceRegenerateBuffers();
 };

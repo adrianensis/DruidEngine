@@ -182,7 +182,7 @@ bool Batch::processRenderers()
 			Renderer *renderer = it->getObject();
 			if (renderer->isActive())
 			{
-				if (isChunkOk(renderer))
+				if (isChunkOk(*renderer))
 				{
 					/*Transform* transform = renderer->getGameObject()->getTransform();
 					const Vector3& position = transform->getWorldPosition();
@@ -211,7 +211,7 @@ bool Batch::processRenderers()
 					}
 					else
 					{
-						addToVertexBuffer(renderer);
+						addToVertexBuffer(*renderer);
 						pendingDrawCall = true;
 					}
 				}
@@ -244,9 +244,9 @@ bool Batch::processRenderers()
 	return pendingDrawCall;
 }
 
-bool Batch::isChunkOk(Renderer *renderer) const
+bool Batch::isChunkOk(Renderer& renderer) const
 {
-	const Chunk *chunk = renderer->getChunk();
+	const Chunk *chunk = renderer.getChunk();
 	return (!chunk) || (chunk && chunk->getIsLoaded()); // !chunk means -> Screen Space case
 }
 
@@ -267,15 +267,15 @@ void Batch::drawCall()
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::addRenderer(Renderer *renderer)
+void Batch::addRenderer(Renderer& renderer)
 {
 	ProxyObject<Renderer> proxy;
 
 	mProxyRenderers.push_back(proxy);
 
-	mProxyRenderers.back().init(renderer);
+	mProxyRenderers.back().init(&renderer);
 
-	renderer->setBatch(this);
+	renderer.setBatch(this);
 
 	mNewRendererAdded = true;
 }
@@ -308,9 +308,9 @@ void Batch::internalRemoveRendererFromList(std::list<ProxyObject<Renderer>>::ite
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::addToVertexBuffer(Renderer *renderer)
+void Batch::addToVertexBuffer(Renderer& renderer)
 {
-	renderer->updateAnimation();
+	renderer.updateAnimation();
 
 	if(getIsInstanced())
 	{
@@ -324,11 +324,11 @@ void Batch::addToVertexBuffer(Renderer *renderer)
 	mMeshesIndex++;
 }
 
-void Batch::addToVertexBufferNotInstanced(Renderer * renderer)
+void Batch::addToVertexBufferNotInstanced(Renderer& renderer)
 {
 	PROFILER_TIMEMARK_START()
 
-	const std::vector<Vector3> &vertexPositions = renderer->getVertices();
+	const std::vector<Vector3> &vertexPositions = renderer.getVertices();
 
 	FOR_RANGE(i, 0, mMesh->getVertexCount())
 	{
@@ -338,16 +338,16 @@ void Batch::addToVertexBufferNotInstanced(Renderer * renderer)
 			mMesh->getTextureCoordinates()[i * Mesh::smVertexTexCoordSize + 0],
 			mMesh->getTextureCoordinates()[i * Mesh::smVertexTexCoordSize + 1]);
 
-		Vector2 regionSize = renderer->getRegion().getSize();
-		Vector2 regionPosition = renderer->getRegion().getLeftTop();
+		Vector2 regionSize = renderer.getRegion().getSize();
+		Vector2 regionPosition = renderer.getRegion().getLeftTop();
 
 		Vector2 textureCoord(vertexTexture.x * regionSize.x + regionPosition.x, vertexTexture.y * regionSize.y + regionPosition.y);
 
-		if (renderer->getInvertAxisX())
+		if (renderer.getInvertAxisX())
 		{
 			textureCoord.x = 1.0f - textureCoord.x;
 
-			const Animation *animation = renderer->getCurrentAnimation();
+			const Animation *animation = renderer.getCurrentAnimation();
 
 			if (animation)
 			{
@@ -358,20 +358,20 @@ void Batch::addToVertexBufferNotInstanced(Renderer * renderer)
 		mMeshBuilder.addTexCoord(textureCoord.x, textureCoord.y);
 
 		mMeshBuilder.addColor(
-			renderer->getColor()[0],
-			renderer->getColor()[1],
-			renderer->getColor()[2],
-			renderer->getColor()[3]);
+			renderer.getColor()[0],
+			renderer.getColor()[1],
+			renderer.getColor()[2],
+			renderer.getColor()[3]);
 	}
 
 	PROFILER_TIMEMARK_END()
 }
 
-void Batch::addToVertexBufferInstanced(Renderer * renderer)
+void Batch::addToVertexBufferInstanced(Renderer& renderer)
 {
 	PROFILER_TIMEMARK_START()
 
-	const Matrix4& rendererModelMatrix = renderer->getRendererModelMatrix();
+	const Matrix4& rendererModelMatrix = renderer.getRendererModelMatrix();
 	std::copy(rendererModelMatrix.getData(), rendererModelMatrix.getData() + Matrix4::smMatrixSize, back_inserter(mMatrices));
 
 	PROFILER_TIMEMARK_END()
