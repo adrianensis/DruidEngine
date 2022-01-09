@@ -4,19 +4,13 @@
 #include "Graphics/Optimizations/BatchesMap.hpp"
 #include "Graphics/ShapeBatchRenderer.hpp"
 
-class Batch;
-class Texture;
-class RenderContext;
 class Camera;
 class Renderer;
-class Shader;
-class BatchesMap;
 class Chunk;
 class Vector3;
 
 class RenderEngine : public ISubsystem, public Singleton<RenderEngine>
 {
-PRI
 	GENERATE_METADATA(RenderEngine)
 
 	PRI BatchesMap mBatchesMap;
@@ -30,20 +24,19 @@ PRI
 	PRI f32 mMinChunkDrawDistance = 0.0f; GET(MinChunkDrawDistance)
 	PRI std::vector<Chunk *> mChunks;
 
-	void checkChunks();
-	void renderBatches();
-	void swap();
+	PRI void checkChunks();
+	PRI void renderBatches();
+	PRI void swap();
 
-PUB
-	void init(f32 sceneSize);
-	void update();	  // render
-	void terminate();
+	PUB void init(f32 sceneSize);
+	PUB void update();	  // render
+	PUB void terminate();
 
-	virtual void addComponent(Component *component) override;
-	Chunk *assignChunk(Renderer * renderer);
-	bool frustumTestSphere(const Vector3 &center, f32 radius);
+	PUB virtual void addComponent(Component *component) override;
+	PUB Chunk *assignChunk(Renderer * renderer);
+	PUB bool frustumTestSphere(const Vector3 &center, f32 radius);
 
-	void drawLine(const Line& line, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
-	void drawRectangle2D(const Rectangle2D& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
-	void drawRectangle(const Rectangle& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	PUB void drawLine(const Line& line, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	PUB void drawRectangle2D(const Rectangle2D& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
+	PUB void drawRectangle(const Rectangle& rectangle, f32 thickness = 1, bool isWorldSpace = true, Vector4 color = Vector4(1, 1, 1, 1));
 };

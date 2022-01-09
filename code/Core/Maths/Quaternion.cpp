@@ -331,7 +331,7 @@ void Quaternion::toMatrix(Matrix4 *outMatrix) const
 
 
 template<>
-JSON SerializationUtils::serializeTemplated(Quaternion value)
+JSON SerializationUtils::serializeTemplated(const Quaternion& value)
 {
 	JSON json;
 	DO_SERIALIZE("v", value.v)

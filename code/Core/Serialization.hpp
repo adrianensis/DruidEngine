@@ -23,7 +23,7 @@ class SerializationUtils
 {
 PUB
 	template<class T>
-	static JSON serializeTemplated(T value)
+	static JSON serializeTemplated(const T& value)
 	{
 		JSON json;
 		if constexpr (IS_BASE_OF(ISerializable, REMOVE_POINTER(REMOVE_REF(T))))

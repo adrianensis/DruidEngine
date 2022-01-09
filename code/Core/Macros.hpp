@@ -258,7 +258,7 @@ if(!json.empty() && json.contains(Name))\
 
 #define TEMPLATED_SERIALIZATION(...)\
 template<>\
-JSON SerializationUtils::serializeTemplated(__VA_ARGS__ value);\
+JSON SerializationUtils::serializeTemplated(const __VA_ARGS__& value);\
 template<>\
 void SerializationUtils::deserializeTemplated(__VA_ARGS__& value, const JSON& json);
 

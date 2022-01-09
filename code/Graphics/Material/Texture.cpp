@@ -3,12 +3,6 @@
 //#include "SOIL/SOIL.h"
 #include "png.h"
 
-Texture::Texture()
-{
-	mTextureId = -1;
-	mData = nullptr;
-}
-
 Texture::~Texture()
 {
 	delete[] mData;
@@ -164,14 +158,4 @@ byte *Texture::readPNG()
 	fclose(fp);
 
 	return image_data;
-}
-
-void Texture::serialize(JSON &json) const
-{
-	//DO_SERIALIZE("path", mPath)
-}
-
-void Texture::deserialize(const JSON &json)
-{
-	//mPath = json["path"];
 }

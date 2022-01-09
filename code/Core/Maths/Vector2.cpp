@@ -191,7 +191,7 @@ Vector2 &Vector2::clamp(f32 maxLength)
 }
 
 template<>
-JSON SerializationUtils::serializeTemplated(Vector2 value)
+JSON SerializationUtils::serializeTemplated(const Vector2& value)
 {
 	JSON json;
 	DO_SERIALIZE("x", value.x)
