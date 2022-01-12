@@ -61,40 +61,31 @@ void __customMain()
 	ClassName() = default;        \
 	~ClassName() override = default;
 
-#define GENERATE_ID_STATIC(...)                                  \
-	static ClassId getClassIdStatic()                            \
-	{                                                            \
-		static ClassId classId = Hash::hashString(#__VA_ARGS__); \
-		return classId;                                          \
-	};
-
-#define GENERATE_ID_VIRTUAL(...)                         \
-	ClassId getClassId() const override                  \
-	{                                                    \
-		return __VA_ARGS__::getClassIdStatic(); \
-	};
-
-#define GENERATE_NAME_STATIC(...)                                 \
-	static std::string getClassNameStatic()                       \
-	{                                                             \
-		static std::string className = std::string(#__VA_ARGS__); \
-		return className;                                         \
-	};
-
-#define GENERATE_NAME_VIRTUAL(...)                         \
-	std::string getClassName() const override              \
-	{                                                      \
-		return __VA_ARGS__::getClassNameStatic(); \
-	};
-
-#define GENERATE_METADATA(...)          \
-PUB                                 \
-	GENERATE_NAME_STATIC(__VA_ARGS__);  \
-	GENERATE_NAME_VIRTUAL(__VA_ARGS__); \
-	GENERATE_ID_STATIC(__VA_ARGS__);    \
-	GENERATE_ID_VIRTUAL(__VA_ARGS__);   \
-                                        \
-PRI // NOTE: notice the last blank space " "
+#define GENERATE_METADATA(...)                                                    \
+	PRI \
+		inline static std::string smClassName = std::string(#__VA_ARGS__);        \
+		inline static ClassId smClassId = Hash::hashString(__VA_ARGS__::smClassName); \
+	PUB \
+		static ClassId getClassIdStatic()                                             \
+		{                                                                             \
+			return smClassId;                                                         \
+		};                                                                            \
+																					\
+		ClassId getClassId() const override                                           \
+		{                                                                             \
+			return __VA_ARGS__::getClassIdStatic();                                   \
+		};                                                                            \
+																					\
+		static std::string getClassNameStatic()                                       \
+		{                                                                             \
+			return smClassName;                                                       \
+		};                                                                            \
+																					\
+		std::string getClassName() const override                                     \
+		{                                                                             \
+			return __VA_ARGS__::getClassNameStatic();                                 \
+		};                                                                            \
+	PRI // NOTE: notice the last blank space " "
 
 // --------------------------------------------------------
 // MEMBERS, GETTERS AND SETTERS

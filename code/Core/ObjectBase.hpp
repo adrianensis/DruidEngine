@@ -21,22 +21,14 @@ class ObjectBase: public ISerializable, public ProxyOwner
 PRI
 
 	ObjectId mObjectId = 0;
+	inline static std::string smClassName = "ObjectBase";
+	inline static ClassId smClassId = Hash::hashString(smClassName);
+
 
 PRO
 	inline static ObjectId smObjectIdCounter = 0;
 
 PUB
-	static std::string getClassNameStatic()
-	{
-		static std::string className = "ObjectBase";
-		return className;
-	}
-
-	static ClassId getClassIdStatic()
-	{
-		static ClassId classId = Hash::hashString("ObjectBase");
-		return classId;
-	}
 
 	ObjectBase()
 	{
@@ -54,6 +46,16 @@ PUB
 	ObjectId getObjectId()
 	{
 		return mObjectId;
+	}
+
+	static std::string getClassNameStatic()
+	{
+		return smClassName;
+	}
+
+	static ClassId getClassIdStatic()
+	{
+		return smClassId;
 	}
 
 	virtual ClassId getClassId() const
